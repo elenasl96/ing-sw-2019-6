@@ -1,0 +1,133 @@
+@startuml
+ skinparam classAttributeIconSize 0
+ class Tabellone{
+    - Campo: char[5][7]
+    - NumeroGiocatori: int
+    - NumeroTeschi: int
+    - TracciatoColpoMortale: int[NumeroTeschi]
+    - ArmiRestanti: Armi[21]
+    - MunizioniRestanti: Munizioni[36]
+    - ScartiMunizioni: Munizioni[36]
+    - PotenziamentiRestanti: Potenziamenti[24]
+    __
+    + CheckSkull(): Boolean
+ }
+ abstract Mazzo{
+    - NumeroCarte: int
+    __
+    + Shuffle(): void
+ }
+ class Munizioni
+ class Potenziamenti
+ class Armi
+ class Tabellone
+
+abstract Cubo{
+    - Coordinata: int[2]
+}
+
+class CuboNormale{
+    - Carta: Munizioni
+    __
+    +  RigeneraCarta(MunizioniRestanti): void
+}
+class CuboSpawn{
+    - ArmiCorrenti: Armi[3]
+    __
+    + Genera3Armi(ArmiRestanti): void
+    + RigerenaArma(ArmiRestanti): void
+}
+
+class Giocatore{
+    - Nome: String
+    - ID: int
+    - Personaggio: Personaggio
+    - PosizioneCorrente: int[2]
+    - FaseTurno: int
+    - Munizioni: int[3]
+    - Potenziamenti: int[3]
+    - Armi: Armi[3]
+    - Plancia: Plancia
+    - Punti: int
+    - FraseAdEffetto: String
+    - Adrenalina: int
+    - PilaPunti
+    __
+    + CheckAdrenalina(): void
+}
+
+class Plancia{
+    - Danni: int[12]
+    - Marchi: int[12]
+    - Morti: int
+    __
+    + Muori(): void
+}
+
+class Personaggio{
+    - Nome
+    - Pedina
+    //Una roba del genere
+}
+
+abstract Mossa{
+    - NumeroPassi
+    __
+    + Correre()
+    + Ricognizione()
+    + RicognizioneConAdrenalina()
+    + SparareConAdrenalina()
+    + Frenesia()
+    + Ricarica()
+}
+
+class Movimento{
+    - Direzione
+    __
+    + checkMossa(){Un passo alla volta}
+    + Muovi(): NuovaPosizione
+}
+
+class Ricarica{
+    __
+    + Ricarica()
+}
+
+class Raccolta{
+    __
+    + RaccoltaMunizioni(MunizioniRestanti, PotenziamentiRestanti)
+    + RaccoltaArmi(ArmiRestanti)
+}
+
+class PreparazioneFrenesia{
+    __
+    + Preparazione()
+    + Conteggio()
+}
+
+class Spara{
+    __
+    + Ricarica()
+    + Conteggio()
+    + Rimpiazzo()
+}
+
+class FineTurno{
+
+}
+
+ Giocatore "1" *-- Personaggio
+ Giocatore "1" *-- Plancia
+ Mazzo <|-- Munizioni
+ Mazzo <|-- Potenziamenti
+ Mazzo <|-- Armi
+
+ Cubo <|-- CuboNormale
+ Cubo <|-- CuboSpawn
+
+ Mossa <|-- Movimento
+ Mossa <|-- FineTurno
+ Mossa <|-- PreparazioneFrenesia
+ Mossa <|-- Ricarica
+ Mossa <|-- Spara
+@enduml
