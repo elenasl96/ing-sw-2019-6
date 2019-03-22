@@ -179,10 +179,32 @@ class FineTurno{
  Carta <|-- Munizioni
  Carta <|-- Potenziamenti
  Carta <|-- Armi
+ Potenziamenti <|-- Mirino
+ Potenziamenti <|-- RaggioCinetico
+ Potenziamenti <|-- GranataVenom
+ Potenziamenti <|-- Teletrasporto
+
+ Armi <|-- EffettoBase
+ Armi <|-- EffettoOpzionale
+ Armi <|-- EffettoAlternativo
+
+ Armi <-- Movimento
+ Armi <-- Ricarica
+ Armi <-- Spara
+ Armi <-- Marchia
+
+ Spara <-- Mirino
+ Movimento <-- RaggioCinetico
+ Marchia <-- GranataVenom
+ Giocatore <-- Teletrasporto
+
+
 
  Mossa <|-- Movimento
  Mossa <|-- FineTurno
  Mossa <|-- PreparazioneFrenesia
  Mossa <|-- Ricarica
  Mossa <|-- Spara
+ Mossa <|-- Marchia
+ Mossa <|-- Raccolta
 @enduml
