@@ -12,13 +12,47 @@
     __
     + CheckSkull(): Boolean
  }
- abstract Mazzo{
+ class Mazzo{
     - NumeroCarte: int
     __
     + Shuffle(): void
  }
- class Munizioni
- class Potenziamenti
+
+ abstract Carta{
+    - nome
+    __
+    + CheckTurno(): boolean
+ }
+
+ class Munizioni {
+    - contenuto: char[3]
+    __
+    + PescaPotenziamento(potenziamentirestanti)
+ }
+
+ class Potenziamenti{
+    - munizione: char
+    - Effetto: String
+
+ }
+
+ class Mirino{
+    __
+    + CheckMunizioni(): boolean
+    + CheckMarchiAvversario(): boolean
+    + PagaCubo(): void
+    + AttaccaConDannoAggiuntivo(planciaAvversario): void
+ }
+
+ class RaggioCinetico{
+
+ }
+
+ class GranataVenom{
+ __
+ + CheckVisibilità(): boolean
+ }
+
  class Armi
  class Tabellone
 
@@ -85,7 +119,7 @@ class Movimento{
     - Direzione
     __
     + checkMossa(){Un passo alla volta}
-    + Muovi(): NuovaPosizione
+    + Muovi(giocatore): NuovaPosizione
 }
 
 class Ricarica{
@@ -112,18 +146,22 @@ class Spara{
     + Rimpiazzo()
 }
 
+class Marchia{
+}
+
 class FineTurno{
 
 }
 
- Giocatore "1" *-- Personaggio
- Giocatore "1" *-- Plancia
- Mazzo <|-- Munizioni
- Mazzo <|-- Potenziamenti
- Mazzo <|-- Armi
-
  Cubo <|-- CuboNormale
  Cubo <|-- CuboSpawn
+
+ Giocatore "1" *-- Personaggio
+ Giocatore "1" *-- Plancia
+ Mazzo <|-- Carta
+ Carta <|-- Munizioni
+ Carta <|-- Potenziamenti
+ Carta <|-- Armi
 
  Mossa <|-- Movimento
  Mossa <|-- FineTurno
