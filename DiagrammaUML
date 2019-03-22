@@ -1,47 +1,48 @@
 @startuml
  skinparam classAttributeIconSize 0
  class Tabellone{
-    - Campo: char[5][7]
-    - NumeroGiocatori: int
-    - NumeroTeschi: int
-    - TracciatoColpoMortale: int[NumeroTeschi]
-    - ArmiRestanti: Armi[21]
-    - MunizioniRestanti: Munizioni[36]
-    - ScartiMunizioni: Munizioni[36]
-    - PotenziamentiRestanti: Potenziamenti[24]
+    - campo: char[5][7]
+    - numeroGiocatori: int
+    - numeroTeschi: int
+    - tracciatoColpoMortale: int[NumeroTeschi]
+    - armiRestanti: Armi[21]
+    - munizioniRestanti: Munizioni[36]
+    - scartiMunizioni: Munizioni[36]
+    - potenziamentiRestanti: Potenziamenti[24]
     __
-    + CheckSkull(): Boolean
+    + checkSkull(): Boolean
  }
+
  class Mazzo{
-    - NumeroCarte: int
+    - numeroCarte: int
     __
-    + Shuffle(): void
+    + shuffle(): void
  }
 
  abstract Carta{
     - nome
     __
-    + CheckTurno(): boolean
+    + checkTurno(): boolean
  }
 
  class Munizioni {
     - contenuto: char[3]
     __
-    + PescaPotenziamento(potenziamentirestanti)
+    + pescaPotenziamento(potenziamentirestanti)
  }
 
  class Potenziamenti{
     - munizione: char
-    - Effetto: String
+    - effetto: String
 
  }
 
  class Mirino{
     __
-    + CheckMunizioni(): boolean
-    + CheckMarchiAvversario(): boolean
-    + PagaCubo(): void
-    + AttaccaConDannoAggiuntivo(planciaAvversario): void
+    + checkMunizioni(): boolean
+    + checkMarchiAvversario(): boolean
+    + pagaCubo(): void
+    + attaccaConDannoAggiuntivo(planciaAvversario): void
  }
 
  class RaggioCinetico{
@@ -50,30 +51,46 @@
 
  class GranataVenom{
  __
- + CheckVisibilità(): boolean
+    + checkVisibilità(): boolean
+ }
+
+ class Teletrasporto{
+    __
+    + set(posizioneNuova): void
  }
 
  class Armi
+
+ class EffettoBase
+
+ class EffettoOpzionale {
+    - costo: Munizione
+ }
+
+ class EffettoAlternativo {
+    - costo: Munizione
+ }
+
  class Tabellone
 
 abstract Cubo{
-    - Coordinata: int[2]
+    - coordinata: int[2]
 }
 
 class CuboNormale{
-    - Carta: Munizioni
+    - carta: Munizioni
     __
-    +  RigeneraCarta(MunizioniRestanti): void
+    + rigeneraCarta(MunizioniRestanti): void
 }
 class CuboSpawn{
-    - ArmiCorrenti: Armi[3]
+    - armiCorrenti: Armi[3]
     __
-    + Genera3Armi(ArmiRestanti): void
-    + RigerenaArma(ArmiRestanti): void
+    + genera3Armi(ArmiRestanti): void
+    + rigerenaArma(ArmiRestanti): void
 }
 
 class Giocatore{
-    - Nome: String
+    - nome: String
     - ID: int
     - Personaggio: Personaggio
     - PosizioneCorrente: int[2]
