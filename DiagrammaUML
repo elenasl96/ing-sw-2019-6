@@ -208,3 +208,74 @@ class FineTurno{
  Mossa <|-- Marchia
  Mossa <|-- Raccolta
 @enduml
+ newpage
+@startuml *View Global Tabellone
+    /' Qui pensavo di riportare SOLO il tabellone e la propria plancia
+     e fare una view a parte per le plance degli altri giocatori
+     non SEMRPE visibile, ma visibile cliccando sugli altri giocatori'/
+    skinparam classAttributeIconSize 0
+    class Tabellone{
+        - campoDiGioco: char[5][7]
+
+    }
+@enduml
+newpage
+@startuml *View Giocatore
+    /' Cliccando sugli altri giocatori si vedranno le loro plance
+     e la loro pila di punti,
+     cliccando su se stessi solo i propri punti'/
+    skinparam classAttributeIconSize 0
+    class Giocatore{
+
+   }
+@enduml
+newpage
+@startuml *MVC Diagram
+    skinparam classAttributeIconSize 0
+    class Client{
+    }
+    class Model{
+    }
+    class ViewGiocatore{
+        /' Cliccando sugli altri giocatori si vedranno le loro plance
+         e la loro pila di punti'/
+        - nome: String
+        - personaggio: Personaggio
+        - plancia: Plancia
+        - armi: Armi[3]
+        - potenziamenti: Potenziamenti[3]
+        - munizioni: Munizioni[9] /'3 per tipo'/
+        - pilaPunti: int
+        __
+        /' Nessun metodo set: non posso modificare le plance
+         degli altri'/
+        + showView(): void
+    }
+
+    class ViewTabellone{
+        - punti: int /'I punti del giocatore'/
+        - campo: char[5][7]
+       /'In GUI in teoria sarebbe tutto integrato,
+       però magari per la CLI conviene mettere altre matrici
+       per indicare le carte munizioni presenti sul campo'/
+       - armiGiallo: Armi[3]
+       - armiBlu: Armi[3]
+       - armiRosso: Armi[3]
+       - tracciatoColpoMortale: int[NumeroTeschi]
+       - pilaPuntiAvversari: int[4]
+        __
+        + setPunti(int): void
+        + showPunti(): void
+    }
+
+    class Controller{
+
+    }
+
+    ViewTabellone "1" *-- Client
+    ViewGiocatore "0...5" o-- Client
+    Controller <--> ViewTabellone
+    Controller <--> ViewGiocatore
+    Model <--> Controller
+
+@enduml
