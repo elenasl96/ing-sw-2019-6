@@ -1,4 +1,4 @@
-package Model.Carte;
+package model.carte;
 
 public class Armi {
 }

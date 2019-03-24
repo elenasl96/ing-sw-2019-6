@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public enum Personaggio {
     PG1(":D-STRUTT-OR3"),

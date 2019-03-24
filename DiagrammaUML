@@ -234,7 +234,7 @@ newpage
     skinparam classAttributeIconSize 0
     class Client{
     }
-    class Model{
+    class model{
     }
     class ViewGiocatore{
         /' Cliccando sugli altri giocatori si vedranno le loro plance
@@ -276,6 +276,6 @@ newpage
     ViewGiocatore "0...5" o-- Client
     Controller <--> ViewTabellone
     Controller <--> ViewGiocatore
-    Model <--> Controller
+    model <--> Controller
 
 @enduml

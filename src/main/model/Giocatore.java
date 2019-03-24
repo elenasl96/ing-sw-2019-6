@@ -1,11 +1,11 @@
-package Model;
+package model;
 
-import Model.Carte.Armi;
-import Model.Carte.Potenziamenti;
+import model.carte.Armi;
+import model.carte.Potenziamenti;
 
 public class Giocatore {
     private String nome;
-    private int id; //
+    private int id;
     private Personaggio pg;
     private int[] posizioneCorrente;
     private int faseTurno;
@@ -17,12 +17,22 @@ public class Giocatore {
     private String fraseAdEffetto;
     private int adrenalinaLevel;
     private int pilaPunti;
+    private boolean primoGiocatore;
 
-
-    //Definisco la .equals
-    public boolean equals(Giocatore altroGiocatore) {
-        return (this.id == altroGiocatore.id);
-    }
+    //Costruttore
+    public Giocatore(Tabellone tab){
+        //aumento il numero di giocatori e gli do l'id
+        int temp = tab.getNumeroGiocatori();
+        temp++;
+        this.id = temp;
+        tab.setNumeroGiocatori(temp);
+        //Inizializzo la plancia col mio idGiocatore
+        this.plancia = new Plancia(this.id);
+        
+        //altra roba che forse non serve
+        this.adrenalinaLevel = 0;
+        this.pilaPunti = 0;
+    }//Costruttore Giocatore(Tabellone)
 
     //setter
     public void setPunti(int punti) {
@@ -77,6 +87,10 @@ public class Giocatore {
         this.adrenalinaLevel = adrenalinaLevel;
     }
 
+    public void setPrimoGiocatore(boolean primoGiocatore) {
+        this.primoGiocatore = primoGiocatore;
+    }
+
     //getter
     public String getNome() {
         return nome;
@@ -128,5 +142,9 @@ public class Giocatore {
 
     public Armi[] getArmi() {
         return armi;
+    }
+
+    public boolean isPrimoGiocatore() {
+        return primoGiocatore;
     }
 }
