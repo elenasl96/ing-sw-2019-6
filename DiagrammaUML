@@ -115,7 +115,7 @@ class Plancia{
     + Muori(): void
 }
 
-class Personaggio{
+enum Personaggio{
     - Nome
     - Pedina
     //Una roba del genere
