@@ -5,6 +5,7 @@ public class Plancia {
     private int[] marchi;
     private int morti;
     private int idGiocatore;
+    private boolean soloMarchi;
 
     //Costruttore
     public Plancia(int idGiocatore) {
@@ -37,7 +38,16 @@ public class Plancia {
         this.idGiocatore = idGiocatore;
     }
 
+    public void setSoloMarchi(boolean soloMarchi) {
+        this.soloMarchi = soloMarchi;
+    }
+
     //getters
+
+    public boolean isSoloMarchi() {
+        return soloMarchi;
+    }
+
     public int getIdGiocatore() {
         return idGiocatore;
     }
