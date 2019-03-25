@@ -1,4 +1,5 @@
 package model.carte;
 
-public class Munizioni {
+public class Munizioni extends Carta{
+    
 }
