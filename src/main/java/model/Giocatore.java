@@ -1,5 +1,6 @@
 package model;
 
+import eccezioni.ArmaNonTrovata;
 import eccezioni.EccezionePlanciaPiena;
 
 public class Giocatore {
@@ -20,6 +21,33 @@ public class Giocatore {
     private boolean primoGiocatore;
     private boolean morto;
     private boolean[] vedo;
+
+    public void giocaArma(int numArma, int effetto) throws ArmaNonTrovata {
+        //Controlla se l'arma è posseduta dal giocatore
+        int i=0;
+        while(numArma != armi[i] && i<3){
+            i++;
+        }
+        if(i==3) throw new ArmaNonTrovata();
+
+        //Controlla se il giocatore ha danni>=6 poichè avrebbe
+        // 1 movimento bonus prima di utilizzare l'arma
+        if(this.plancia.getDanni()[6]!=0){
+            //TODO richiede alla view del giocatore la scelta giocatore
+        }
+
+        //Esegue l'effetto scelto dal giocatore
+        switch (effetto){
+            case 1:
+                //TODO Esegue effetto base
+            case 2:
+                //TODO Esegue effetto opzionale
+            case 3:
+                //TODO Esegue effetto alternativo
+            default:
+                break;
+        }
+    }
 
     public void giocaPotenziamento(Giocatore g2, int numPotenziamento, int[] cubettoMirino, char direzione, int numeroPassi, int[] destinazione, Tabellone tab) throws EccezionePlanciaPiena{
         switch(numPotenziamento){
@@ -133,6 +161,10 @@ public class Giocatore {
         tab.setNumeroGiocatori(temp);
         //Inizializzo la plancia col mio idGiocatore
         this.plancia = new Plancia(this.id);
+
+        //Inizializzo le carte in mano al giocatore
+        this.munizioni = new int[]{1,1,1};
+        this.armi = new int[3];
         
         //altra roba che forse non serve
         this.adrenalinaLevel = 0;
