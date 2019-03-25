@@ -209,26 +209,6 @@ class FineTurno{
  Mossa <|-- Raccolta
 @enduml
  newpage
-@startuml *View Global Tabellone
-    /' Qui pensavo di riportare SOLO il tabellone e la propria plancia
-     e fare una view a parte per le plance degli altri giocatori
-     non SEMRPE visibile, ma visibile cliccando sugli altri giocatori'/
-    skinparam classAttributeIconSize 0
-    class Tabellone{
-        - campoDiGioco: char[5][7]
-
-    }
-@enduml
-newpage
-@startuml *View Giocatore
-    /' Cliccando sugli altri giocatori si vedranno le loro plance
-     e la loro pila di punti,
-     cliccando su se stessi solo i propri punti'/
-    skinparam classAttributeIconSize 0
-    class Giocatore{
-
-   }
-@enduml
 newpage
 @startuml *MVC Diagram
     skinparam classAttributeIconSize 0
