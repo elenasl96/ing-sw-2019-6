@@ -14,5 +14,6 @@ buildNumber.properties
 #ignore this directories and files
 .idea/
 ing-sw-2019-6.iml
+src/main/resources/
 
 
