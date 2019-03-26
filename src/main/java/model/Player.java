@@ -1,38 +1,38 @@
 package model;
 
 import eccezioni.ArmaNonTrovata;
-import eccezioni.EccezionePlanciaPiena;
+import eccezioni.FullPlayerBoardException;
 
-public class Giocatore {
-    private String nome;
-    private char colore;
+public class Player {
+    private String name;
+    private char color;
     private int id; //da 0 a numeroGiocatori-1
-    private Personaggio pg;
-    private int[] posizioneCorrente;
-    private int faseTurno;
-    private int[] munizioni;
-    private int[] potenziamenti;
-    private int[] armi;
-    private Plancia plancia;
-    private int punti;
-    private String fraseAdEffetto;
-    private int adrenalinaLevel;
+    private Character character;
+    private int[] currentPosition;
+    private int phase;
+    private int[] ammo;
+    private int[] powerup;
+    private int[] weapon;
+    private Plancia playerBoard;
+    private int points;
+    private String motto;
+    private int adrenalinelevel;
     private int pilaPunti;
-    private boolean primoGiocatore;
-    private boolean morto;
-    private boolean[] vedo;
+    private boolean firstPlayer;
+    private boolean dead;
+    private boolean[] shootable;
 
     public void giocaArma(int numArma, int effetto) throws ArmaNonTrovata {
         //Controlla se l'arma è posseduta dal giocatore
         int i=0;
-        while(numArma != armi[i] && i<3){
+        while(numArma != weapon[i] && i<3){
             i++;
         }
         if(i==3) throw new ArmaNonTrovata();
 
         //Controlla se il giocatore ha danni>=6 poichè avrebbe
         // 1 movimento bonus prima di utilizzare l'arma
-        if(this.plancia.getDanni()[6]!=0){
+        if(this.playerBoard.getDanni()[6]!=0){
             //TODO richiede alla view del giocatore la scelta giocatore
         }
 
@@ -49,14 +49,14 @@ public class Giocatore {
         }
     }
 
-    public void giocaPotenziamento(Giocatore g2, int numPotenziamento, int[] cubettoMirino, char direzione, int numeroPassi, int[] destinazione, Tabellone tab) throws EccezionePlanciaPiena{
+    public void giocaPotenziamento(Player g2, int numPotenziamento, int[] cubettoMirino, char direzione, int numeroPassi, int[] destinazione, Tabellone tab) throws FullPlayerBoardException {
         switch(numPotenziamento){
             case 1:
             case 2:
             case 3:
                 //effetto di Mirino
-                //Pago un cubetto di qualsiasi colore, do un danno extra all'avversario
-                if(this.haiColpi(cubettoMirino) && g2.getPlancia().isSoloMarchi())
+                //Pago un cubetto di qualsiasi color, do un danno extra all'avversario
+                if(this.haiColpi(cubettoMirino) && g2.getPlayerBoard().isSoloMarchi())
                     this.paga(cubettoMirino);
                     this.danno(1, g2);
                 break;
@@ -64,7 +64,7 @@ public class Giocatore {
             case 5:
             case 6:
                 //effetto di RaggioCinetico
-                int[] pos = g2.getPosizioneCorrente();
+                int[] pos = g2.getCurrentPosition();
                 //Aumenta di 1 o 2 la posizione del giocatore avversario nella stessa direzione
                 switch (direzione){
                     case 'n':
@@ -92,7 +92,7 @@ public class Giocatore {
             case 9:
                 //Effetto di Granata Venom
                 //Marchia un giocatore che POSSO VEDERE
-                if(this.vedo[g2.getId()]){
+                if(this.shootable[g2.getId()]){
                     this.marchia(1, g2);
                 }
                 break;
@@ -109,7 +109,7 @@ public class Giocatore {
         this.scartaPotenziamento(numPotenziamento, tab);
     }
 
-    public void marchia (int numeroMarchi, Giocatore g2) {
+    public void marchia (int numeroMarchi, Player g2) {
         //TODO
     }
 
@@ -130,20 +130,20 @@ public class Giocatore {
 
     public boolean haiColpi(int[] cubettiRichiesti) {
         for(int i=0; i<3; i++){
-            if(this.munizioni[i] < cubettiRichiesti[i]){
+            if(this.ammo[i] < cubettiRichiesti[i]){
                 return false;
             }
         }
         return true;
     }
 
-    public void danno(int numeroDanni, Giocatore colpito) throws EccezionePlanciaPiena {
+    public void danno(int numeroDanni, Player colpito) throws FullPlayerBoardException {
         //NON corrisponde allo sparare:
         //  aggiunge solo le goccioline di sangue, non controlla i marchi
-        if(colpito.getPlancia().getDanni()[11] != 0 ){
-            throw new EccezionePlanciaPiena();
+        if(colpito.getPlayerBoard().getDanni()[11] != 0 ){
+            throw new FullPlayerBoardException();
         }
-        colpito.getPlancia().setSoloMarchi(false);
+        colpito.getPlayerBoard().setSoloMarchi(false);
         for (int i = 0; i < numeroDanni; i++){
             //TODO
         }
@@ -153,136 +153,136 @@ public class Giocatore {
         //TODO
     }
     //Costruttore
-    public Giocatore(Tabellone tab){
+    public Player(Tabellone tab){
         //aumento il numero di giocatori e gli do l'id
         int temp = tab.getNumeroGiocatori();
         this.id = temp;
         temp++;
         tab.setNumeroGiocatori(temp);
-        //Inizializzo la plancia col mio idGiocatore
-        this.plancia = new Plancia(this.id);
+        //Inizializzo la playerBoard col mio idGiocatore
+        this.playerBoard = new Plancia(this.id);
 
         //Inizializzo le carte in mano al giocatore
-        this.munizioni = new int[]{1,1,1};
-        this.armi = new int[3];
+        this.ammo = new int[]{1,1,1};
+        this.weapon = new int[3];
         
         //altra roba che forse non serve
-        this.adrenalinaLevel = 0;
+        this.adrenalinelevel = 0;
         this.pilaPunti = 0;
-    }//Costruttore Giocatore(Tabellone)
+    }//Costruttore Player(Tabellone)
 
     //setter
-    public void setMorto(boolean morto) {
-        this.morto = morto;
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 
-    public void setColore(char colore) {
-        this.colore = colore;
+    public void setColor(char color) {
+        this.color = color;
     }
 
-    public void setVedo(boolean[] vedo) {
-        this.vedo = vedo;
+    public void setShootable(boolean[] shootable) {
+        this.shootable = shootable;
     }
 
-    public void setPunti(int punti) {
-        this.punti = punti;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
-    public void setPotenziamenti(int[] potenziamenti) {
-        this.potenziamenti = potenziamenti;
+    public void setPowerup(int[] powerup) {
+        this.powerup = powerup;
     }
 
-    public void setPosizioneCorrente(int[] posizioneCorrente) {
-        this.posizioneCorrente = posizioneCorrente;
+    public void setCurrentPosition(int[] currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
-    public void setPlancia(Plancia plancia) {
-        this.plancia = plancia;
+    public void setPlayerBoard(Plancia playerBoard) {
+        this.playerBoard = playerBoard;
     }
 
     public void setPilaPunti(int pilaPunti) {
         this.pilaPunti = pilaPunti;
     }
 
-    public void setPg(Personaggio pg) {
-        this.pg = pg;
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setMunizioni(int[] munizioni) {
-        this.munizioni = munizioni;
+    public void setAmmo(int[] ammo) {
+        this.ammo = ammo;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setFraseAdEffetto(String fraseAdEffetto) {
-        this.fraseAdEffetto = fraseAdEffetto;
+    public void setMotto(String motto) {
+        this.motto = motto;
     }
 
-    public void setFaseTurno(int faseTurno) {
-        this.faseTurno = faseTurno;
+    public void setPhase(int phase) {
+        this.phase = phase;
     }
 
-    public void setArmi(int[] armi) {
-        this.armi = armi;
+    public void setWeapon(int[] weapon) {
+        this.weapon = weapon;
     }
 
     public void setAdrenalinaLevel(int adrenalinaLevel) {
-        this.adrenalinaLevel = adrenalinaLevel;
+        this.adrenalinelevel = adrenalinaLevel;
     }
 
-    public void setPrimoGiocatore(boolean primoGiocatore) {
-        this.primoGiocatore = primoGiocatore;
+    public void setFirstPlayer(boolean firstPlayer) {
+        this.firstPlayer = firstPlayer;
     }
 
     //getter
-    public char getColore() {
-        return colore;
+    public char getColor() {
+        return color;
     }
 
-    public boolean[] getVedo() {
-        return vedo;
+    public boolean[] getShootable() {
+        return shootable;
     }
 
-    public boolean isMorto() {
-        return morto;
+    public boolean isDead() {
+        return dead;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public String getFraseAdEffetto() {
-        return fraseAdEffetto;
+    public String getMotto() {
+        return motto;
     }
 
-    public int[] getPotenziamenti() {
-        return potenziamenti;
+    public int[] getPowerup() {
+        return powerup;
     }
 
-    public Plancia getPlancia() {
-        return plancia;
+    public Plancia getPlayerBoard() {
+        return playerBoard;
     }
 
-    public Personaggio getPg() {
-        return pg;
+    public Character getCharacter() {
+        return character;
     }
 
-    public int[] getPosizioneCorrente() {
-        return posizioneCorrente;
+    public int[] getCurrentPosition() {
+        return currentPosition;
     }
 
-    public int[] getMunizioni() {
-        return munizioni;
+    public int[] getAmmo() {
+        return ammo;
     }
 
-    public int getPunti() {
-        return punti;
+    public int getPoints() {
+        return points;
     }
 
     public int getPilaPunti() {
@@ -293,19 +293,19 @@ public class Giocatore {
         return id;
     }
 
-    public int getFaseTurno() {
-        return faseTurno;
+    public int getPhase() {
+        return phase;
     }
 
     public int getAdrenalinaLevel() {
-        return adrenalinaLevel;
+        return adrenalinelevel;
     }
 
-    public int[] getArmi() {
-        return armi;
+    public int[] getWeapon() {
+        return weapon;
     }
 
-    public boolean isPrimoGiocatore() {
-        return primoGiocatore;
+    public boolean isFirstPlayer() {
+        return firstPlayer;
     }
 }

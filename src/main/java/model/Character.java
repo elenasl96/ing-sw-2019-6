@@ -1,6 +1,6 @@
 package model;
 
-public enum Personaggio {
+public enum Character {
     PG1(":D-STRUTT-OR3"),
     PG2("BANSHEE"),
     PG3("DOZER"),
@@ -13,7 +13,7 @@ public enum Personaggio {
     //private IMMAGINE tipoPlancia
     //private IMMAGINE pedina;
 
-    Personaggio(String nome){
+    Character(String nome){
         this.nome = nome;
     }
 }
