@@ -39,13 +39,14 @@
  }
 
  class Plancia{
-    - danni: int[12]
-    - marchi: int[12]
-    - morti: int
+    - damage: int[12]
+    - marks: int[12]
+    - deaths: int
     __
     + setAll()
     + getALl()
  }
+
 
  Player "1" *-- Plancia
  Board "3...5" o-- Player

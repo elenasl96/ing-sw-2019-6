@@ -19,7 +19,7 @@ public class Controller {
 
         //Controlla se il giocatore ha danni>=6 poichè avrebbe
         // 1 movimento bonus prima di utilizzare l'arma
-        if(pg.getPlayerBoard().getDanni()[6]!=0){
+        if(pg.getPlayerBoard().getDamage()[6]!=0){
             //TODO richiede alla view del giocatore la scelta giocatore
         }
 
@@ -44,7 +44,7 @@ public class Controller {
             case 3:
                 //effetto di Mirino
                 //Pago un cubetto di qualsiasi color, do un danno extra all'avversario
-                if(this.haiColpi(pg,cubettoMirino) && pg.getPlayerBoard().isSoloMarchi())
+                if(this.haiColpi(pg,cubettoMirino) && pg.getPlayerBoard().isMarksOnly())
                     this.paga(pg, cubettoMirino);
                 this.danno(1, pg);
                 break;
@@ -129,10 +129,10 @@ public class Controller {
     public void danno(int numeroDanni, Player colpito) throws FullPlayerBoardException {
         //NON corrisponde allo sparare:
         //  aggiunge solo le goccioline di sangue, non controlla i marchi
-        if(colpito.getPlayerBoard().getDanni()[11] != 0 ){
+        if(colpito.getPlayerBoard().getDamage()[11] != 0 ){
             throw new FullPlayerBoardException();
         }
-        colpito.getPlayerBoard().setSoloMarchi(false);
+        colpito.getPlayerBoard().setMarksOnly(false);
         for (int i = 0; i < numeroDanni; i++){
             //TODO
         }

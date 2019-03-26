@@ -1,8 +1,5 @@
 package model;
 
-import eccezioni.ArmaNonTrovata;
-import eccezioni.FullPlayerBoardException;
-
 public class Player {
     private String name;
     private char color;
@@ -13,7 +10,7 @@ public class Player {
     private int[] ammo;
     private int[] powerup;
     private int[] weapon;
-    private Plancia playerBoard;
+    private PlayerBoard playerBoard;
     private int points;
     private String motto;
     private int adrenalinelevel;
@@ -37,7 +34,7 @@ public class Player {
 
         tab.setPlayersNumber(temp);
         //Inizializzo la plancia col mio idGiocatore
-        this.playerBoard = new Plancia(this.id);
+        this.playerBoard = new PlayerBoard(this.id);
 
         //Inizializzo le carte in mano al giocatore
         this.ammo = new int[]{1,1,1};
@@ -74,7 +71,7 @@ public class Player {
         this.currentPosition = currentPosition;
     }
 
-    public void setPlayerBoard(Plancia playerBoard) {
+    public void setPlayerBoard(PlayerBoard playerBoard) {
         this.playerBoard = playerBoard;
     }
 
@@ -143,7 +140,7 @@ public class Player {
         return powerup;
     }
 
-    public Plancia getPlayerBoard() {
+    public PlayerBoard getPlayerBoard() {
         return playerBoard;
     }
 
