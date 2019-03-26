@@ -1,212 +1,54 @@
 @startuml
  skinparam classAttributeIconSize 0
  class Board{
-    - playersNumber: int;
-    - field: char[5][7];
-    - skullsNumber: int;
-    - killshotTrack: int[];
-    private int[] weaponsLeft;
-    private int[] ammosLeft;
-    private int[] ammosLeftover;
-    private int[] powerupsLeft;
-    private int[] powerupsLeftover;
-    private Random r;
+    - playersNumber: int
+    - field: char[5][7]
+    - skullsNumber: int
+    - killshotTrack: int[]
+    - weaponsLeft: int[]
+    - ammosLeft: int[]
+    - ammosLeftover: int[]
+    - powerupsLeft: int[]
+    - powerupsLeftover: int[]
+    - r: Random
+    __
+    + getAll()
+    + setAll()
  }
 
- class Mazzo{
-    - numeroCarte: int
-    __
-    + shuffle(): void
+ class Player{
+     - name: String
+     - id: int
+     - character: Character
+     - currentPosition: int[2]
+     - phase: int
+     - ammo: int[3]
+     - powerup: int[3]
+     - weapon: int[3]
+     - playerBoard: Plancia
+     - points: int
+     - motto: String
+     - adrenalineLevel: int
+     - pilaPunti: int
+     - firstPlayer: boolean
+     - dead: boolean
+     - shootable: boolean[]
+     __
+     + getAll()
+     + setAll()
  }
 
- abstract Carta{
-    - name
+ class Plancia{
+    - danni: int[12]
+    - marchi: int[12]
+    - morti: int
     __
-    + checkTurno(): boolean
+    + setAll()
+    + getALl()
  }
 
- class Munizioni {
-    - contenuto: char[3]
-    __
-    + pescaPotenziamento(potenziamentirestanti)
- }
-
- class Potenziamenti{
-    - munizione: char
-    - effetto: String
-
- }
-
- class Mirino{
-    __
-    + checkMunizioni(): boolean
-    + checkMarchiAvversario(): boolean
-    + pagaCubo(): void
-    + attaccaConDannoAggiuntivo(planciaAvversario): void
- }
-
- class RaggioCinetico{
-
- }
-
- class GranataVenom{
- __
-    + checkVisibilità(): boolean
- }
-
- class Teletrasporto{
-    __
-    + set(posizioneNuova): void
- }
-
- class Armi
-
- class EffettoBase
-
- class EffettoOpzionale {
-    - costo: Munizione
- }
-
- class EffettoAlternativo {
-    - costo: Munizione
- }
-
- class Tabellone
-
-abstract Cubo{
-    - coordinata: int[2]
-}
-
-class CuboNormale{
-    - carta: Munizioni
-    __
-    + rigeneraCarta(MunizioniRestanti): void
-}
-class CuboSpawn{
-    - armiCorrenti: Armi[3]
-    __
-    + genera3Armi(ArmiRestanti): void
-    + rigerenaArma(ArmiRestanti): void
-}
-
-class Giocatore{
-    - name: String
-    - ID: int
-    - Personaggio: Personaggio
-    - PosizioneCorrente: int[2]
-    - FaseTurno: int
-    - Munizioni: int[3]
-    - Potenziamenti: int[3]
-    - Armi: Armi[3]
-    - Plancia: Plancia
-    - Punti: int
-    - FraseAdEffetto: String
-    - Adrenalina: int
-    - PilaPunti
-    __
-    + CheckAdrenalina(): void
-}
-
-class Plancia{
-    - Danni: int[12]
-    - Marchi: int[12]
-    - Morti: int
-    __
-    + Muori(): void
-}
-
-enum Personaggio{
-    - Nome
-    - Pedina
-    //Una roba del genere
-}
-
-abstract Mossa{
-    - NumeroPassi
-    __
-    + Correre()
-    + Ricognizione()
-    + RicognizioneConAdrenalina()
-    + SparareConAdrenalina()
-    + Frenesia()
-    + Ricarica()
-}
-
-class Movimento{
-    - Direzione
-    __
-    + checkMossa(){Un passo alla volta}
-    + Muovi(giocatore): NuovaPosizione
-}
-
-class Ricarica{
-    __
-    + Ricarica()
-}
-
-class Raccolta{
-    __
-    + RaccoltaMunizioni(MunizioniRestanti, PotenziamentiRestanti)
-    + RaccoltaArmi(ArmiRestanti)
-}
-
-class PreparazioneFrenesia{
-    __
-    + Preparazione()
-    + Conteggio()
-}
-
-class Spara{
-    __
-    + Ricarica()
-    + Conteggio()
-    + Rimpiazzo()
-}
-
-class Marchia{
-}
-
-class FineTurno{
-
-}
-
- Cubo <|-- CuboNormale
- Cubo <|-- CuboSpawn
-
- Giocatore "1" *-- Personaggio
- Giocatore "1" *-- Plancia
- Mazzo <|-- Carta
- Carta <|-- Munizioni
- Carta <|-- Potenziamenti
- Carta <|-- Armi
- Potenziamenti <|-- Mirino
- Potenziamenti <|-- RaggioCinetico
- Potenziamenti <|-- GranataVenom
- Potenziamenti <|-- Teletrasporto
-
- Armi <|-- EffettoBase
- Armi <|-- EffettoOpzionale
- Armi <|-- EffettoAlternativo
-
- Armi <-- Movimento
- Armi <-- Ricarica
- Armi <-- Spara
- Armi <-- Marchia
-
- Spara <-- Mirino
- Movimento <-- RaggioCinetico
- Marchia <-- GranataVenom
- Giocatore <-- Teletrasporto
-
-
-
- Mossa <|-- Movimento
- Mossa <|-- FineTurno
- Mossa <|-- PreparazioneFrenesia
- Mossa <|-- Ricarica
- Mossa <|-- Spara
- Mossa <|-- Marchia
- Mossa <|-- Raccolta
+ Player "1" *-- Plancia
+ Board "3...5" o-- Player
 @enduml
  newpage
 newpage
