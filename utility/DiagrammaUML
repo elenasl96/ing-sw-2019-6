@@ -1,54 +1,67 @@
 @startuml
  skinparam classAttributeIconSize 0
 
- Board "4...6" o-- Room
- Board "3...5" o-- Player
- Board "1...2" *-- AmmoDeck: includes
- Board "1...2" *-- PowerupDeck: includes
- Board "1...1" *-- WeaponDeck: includes
- class Board{
-    - playersNumber: int
-    - field: char[5][7]
-    - skullsNumber: int
-    - killshotTrack: int[]
-    - weaponsLeft: int[]
-    - ammosLeft: int[]
-    - ammosLeftover: int[]
-    - powerupsLeft: int[]
-    - powerupsLeftover: int[]
-    - r: Random
-    __
-    + getAll()
-    + setAll()
- }
-
- Player "1" *-- Plancia
+ Player "1" *-- PlayerBoard
  class Player{
      - name: String
      - id: int
      - character: Character
      - currentPosition: int[2]
-     - phase: int
-     - ammo: int[3]
-     - powerup: int[3]
-     - weapon: int[3]
-     - playerBoard: Plancia
+     ''- phase: int
+     - ammo<AmmoCard>: List
+     - powerup<PowerupCard>: List
+     - weapon<WeaponCard>: List
      - points: int
      - motto: String
      - adrenalineLevel: int
      - pilaPunti: int
      - firstPlayer: boolean
      - dead: boolean
-     - shootable: boolean[]
+     - shootable<Player>: List
      __
      + getAll()
      + setAll()
  }
 
 
- class Plancia{
-    - damage: int[12]
-    - marks: int[12]
+  Game "3...5" - Player
+  class Game{
+
+  }
+
+ Board "1" - Game
+ Board "4...6" o-- Room
+ Board "1" *-- KillshotTrack: include
+ Board "1...2" *---- AmmoDeck: includes
+ Board "1...2" *---- PowerupDeck: includes
+ Board "1...1" *---- WeaponDeck: includes
+ class Board{
+    - playersNumber: int
+    - field: char[5][7]
+    '- skullsNumber: int
+    '- killshotTrack: int[]
+    '- weaponsLeft: int[]
+    '- ammosLeft: int[]
+    '- ammosLeftover: int[]
+    '- powerupsLeft: int[]
+    '- powerupsLeftover: int[]
+    '- r: Random
+    __
+    + getAll()
+    + setAll()
+ }
+
+
+
+
+
+ class KillshotTrack{
+
+ }
+
+ class PlayerBoard{
+    - damage<Player>: List[12]
+    - marks<Player>: List[12]
     - deaths: int
     __
     + setAll()
@@ -68,7 +81,7 @@
     - ammo3: Ammo
  }
 
- Ammo "1" *-- Color: has
+ 'Ammo "1" *-- Color: has
  class Ammo{
     - color: Color
  }
@@ -78,18 +91,15 @@
 
 
  enum Color{
-    - BLU
-    - GIALLO
-    - ROSSO
-    - WHITE
-    - GREEN
-    - PURPLE
+    BLU
+    GIALLO
+    ROSSO
+    WHITE
+    GREEN
+    PURPLE
  }
 
- AmmoDeck "36" *-- AmmoTiles: composed by
- class AmmoDeck<AmmoCard>{
 
- }
 
  WeaponDeck "21" *-- WeaponCard: composed by
  class WeaponDeck{
@@ -101,9 +111,12 @@
 
  }
 
+ AmmoDeck "36" *-- AmmoTiles: composed by
+ class AmmoDeck<AmmoCard>{
 
+ }
 
- PowerupCard "1" *-- Ammo: made of
+ PowerupCard "1" *--- Ammo: made of
  class PowerupCard{
     - name: String
     - ammo: Ammo
@@ -111,7 +124,7 @@
  }
 
  WeaponCard "1...3" *-- Ammo: made of
- WeaponCard "1" *-- WeaponStatus: has
+ 'WeaponCard "1" *- WeaponStatus: has
  class WeaponCard{
     - name: String
     - ammo<Ammo>: List
@@ -120,13 +133,13 @@
  }
 
  enum WeaponStatus{
-     - LOADED
-     - PARTIALLY_LOADED
-     - UNLOADED
+     LOADED
+     PARTIALLY_LOADED
+     UNLOADED
  }
 
  Room "1...4" *-- Square: composed by
- Room "1" *-- Color
+ 'Room "1" *-- Color
  class Room{
     - color: Color
  }
@@ -136,6 +149,13 @@
  abstract Square{
 
  }
+
+ AmmoSquare "1" *-- AmmoTiles
+ class AmmoSquare{
+
+ }
+
+ SpawnSquare "1" *-- WeaponCard
 
 
 @enduml
