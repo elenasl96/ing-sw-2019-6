@@ -1,5 +1,11 @@
 @startuml
  skinparam classAttributeIconSize 0
+
+ Board "4...6" o-- Room
+ Board "3...5" o-- Player
+ Board "1...2" *-- AmmoDeck: includes
+ Board "1...2" *-- PowerupDeck: includes
+ Board "1...1" *-- WeaponDeck: includes
  class Board{
     - playersNumber: int
     - field: char[5][7]
@@ -16,7 +22,7 @@
     + setAll()
  }
 
- Board "3...5" o-- Player
+ Player "1" *-- Plancia
  class Player{
      - name: String
      - id: int
@@ -39,7 +45,7 @@
      + setAll()
  }
 
- Player "1" *-- Plancia
+
  class Plancia{
     - damage: int[12]
     - marks: int[12]
@@ -49,30 +55,28 @@
     + getALl()
  }
 
- AmmoDeck "36" *-- AmmoTiles: composed by
+ AmmoTiles <|-- AmmoTilesWithAmmo
+ AmmoTiles "2" *-- Ammo: made of
+ AmmoTiles <|-- AmmoTilesWithPowerup
  abstract AmmoTiles{
     - ammo1: Ammo
     - ammo2: Ammo
  }
 
-
- AmmoTiles <|-- AmmoTilesWithAmmo
+ AmmoTilesWithAmmo "1" *-- Ammo: made of
  class AmmoTilesWithAmmo{
     - ammo3: Ammo
  }
 
- AmmoTiles "2" *-- Ammo: made of
- AmmoTilesWithAmmo "1" *-- Ammo: made of
- PowerupCard "1" *-- Ammo: made of
- WeaponCard "1...3" *-- Ammo: made of
+ Ammo "1" *-- Color: has
  class Ammo{
     - color: Color
  }
-  AmmoTiles <|-- AmmoTilesWithPowerup
-  class AmmoTilesWithPowerup{
+
+ class AmmoTilesWithPowerup{
  }
 
- Ammo "1" *-- Color: has
+
  enum Color{
     - BLU
     - GIALLO
@@ -82,18 +86,32 @@
     - PURPLE
  }
 
+ AmmoDeck "36" *-- AmmoTiles: composed by
  class AmmoDeck<AmmoCard>{
 
  }
 
+ WeaponDeck "21" *-- WeaponCard: composed by
+ class WeaponDeck{
+
+ }
+
  PowerupDeck "24" *-- PowerupCard: composed by
+ class PowerupDeck{
+
+ }
+
+
+
+ PowerupCard "1" *-- Ammo: made of
  class PowerupCard{
     - name: String
     - ammo: Ammo
     - effectDescription: String
  }
 
- WeaponDeck "21" *-- WeaponCard: composed by
+ WeaponCard "1...3" *-- Ammo: made of
+ WeaponCard "1" *-- WeaponStatus: has
  class WeaponCard{
     - name: String
     - ammo<Ammo>: List
@@ -101,25 +119,23 @@
     - status: WeaponStatus
  }
 
-
-WeaponCard "1" *-- WeaponStatus: has
  enum WeaponStatus{
-  - LOADED
-  - PARTIALLY_LOADED
-  - UNLOADED
+     - LOADED
+     - PARTIALLY_LOADED
+     - UNLOADED
  }
 
-
-Room "1...4" *-- Square: composed by
-Room "1" *-- Color
-class Room{
+ Room "1...4" *-- Square: composed by
+ Room "1" *-- Color
+ class Room{
     - color: Color
-}
+ }
 
-Square <|-- SpawnSquare
-Square <|-- AmmoSquare
-abstract Square{
-}
+ Square <|-- SpawnSquare
+ Square <|-- AmmoSquare
+ abstract Square{
+
+ }
 
 
 @enduml
