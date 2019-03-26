@@ -49,7 +49,8 @@ public class Player {
         }
     }
 
-    public void giocaPotenziamento(Player g2, int numPotenziamento, int[] cubettoMirino, char direzione, int numeroPassi, int[] destinazione, Tabellone tab) throws FullPlayerBoardException {
+    public void giocaPotenziamento(Player g2, int numPotenziamento, int[] cubettoMirino, char direzione, int numeroPassi, int[] destinazione, Board tab) throws FullPlayerBoardException {
+
         switch(numPotenziamento){
             case 1:
             case 2:
@@ -117,15 +118,15 @@ public class Player {
         //TODO
     }
 
-    public void scartaPotenziamento(int numPotenziamento, Tabellone tab){
+    public void scartaPotenziamento(int numPotenziamento, Board tab){
         int[] temp;
-        temp = tab.getScartiPotenziamenti();
+        temp = tab.getPowerupsLeftover();
         int i = 0;
         while (temp[i] != 0){
             i++;
         }
         temp[i] = numPotenziamento;
-        tab.setScartiPotenziamenti(temp);
+        tab.setPowerupsLeftover(temp);
     }
 
     public boolean haiColpi(int[] cubettiRichiesti) {
@@ -153,13 +154,17 @@ public class Player {
         //TODO
     }
     //Costruttore
-    public Player(Tabellone tab){
+
+    public Player(Board tab){
+
         //aumento il numero di giocatori e gli do l'id
-        int temp = tab.getNumeroGiocatori();
+        int temp = tab.getPlayersNumber();
         this.id = temp;
         temp++;
-        tab.setNumeroGiocatori(temp);
-        //Inizializzo la playerBoard col mio idGiocatore
+
+
+        tab.setPlayersNumber(temp);
+        //Inizializzo la plancia col mio idGiocatore
         this.playerBoard = new Plancia(this.id);
 
         //Inizializzo le carte in mano al giocatore
@@ -169,6 +174,7 @@ public class Player {
         //altra roba che forse non serve
         this.adrenalinelevel = 0;
         this.pilaPunti = 0;
+
     }//Costruttore Player(Tabellone)
 
     //setter

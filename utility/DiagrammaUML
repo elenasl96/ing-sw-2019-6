@@ -1,16 +1,16 @@
 @startuml
  skinparam classAttributeIconSize 0
- class Tabellone{
-    - campo: char[5][7]
-    - numeroGiocatori: int
-    - numeroTeschi: int
-    - tracciatoColpoMortale: int[NumeroTeschi]
-    - armiRestanti: Armi[21]
-    - munizioniRestanti: Munizioni[36]
-    - scartiMunizioni: Munizioni[36]
-    - potenziamentiRestanti: Potenziamenti[24]
-    __
-    + checkSkull(): Boolean
+ class Board{
+    - playersNumber: int;
+    - field: char[5][7];
+    - skullsNumber: int;
+    - killshotTrack: int[];
+    private int[] weaponsLeft;
+    private int[] ammosLeft;
+    private int[] ammosLeftover;
+    private int[] powerupsLeft;
+    private int[] powerupsLeftover;
+    private Random r;
  }
 
  class Mazzo{
@@ -234,14 +234,15 @@ newpage
 
     class ViewTabellone{
         - points: int /'I points del giocatore'/
-        - campo: char[5][7]
+        - field: char[5][7]
        /'In GUI in teoria sarebbe tutto integrato,
        però magari per la CLI conviene mettere altre matrici
-       per indicare le carte ammo presenti sul campo'/
+       per indicare le carte munizioni presenti sul field'/
+
        - armiGiallo: Armi[3]
        - armiBlu: Armi[3]
        - armiRosso: Armi[3]
-       - tracciatoColpoMortale: int[NumeroTeschi]
+       - killshotTrack: int[NumeroTeschi]
        - pilaPuntiAvversari: int[4]
         __
         + setPunti(int): void
