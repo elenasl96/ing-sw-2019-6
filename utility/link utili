@@ -1,3 +1,12 @@
 UML
    Relationships:
     https://creately.com/blog/diagrams/understanding-the-relationships-between-classes/
+
+PATTERN 101
+    OBSERVER PATTERN
+    https://www.youtube.com/watch?v=wiQdrH2YpT4
+    When you need many other objects to receive an update when another object changes
+
+    SINGLETON PATTERN
+    Ha lo scopo di garantire che di una determinata classe venga creata una e una sola istanza,
+    e di fornire un punto di accesso globale a tale istanza.
