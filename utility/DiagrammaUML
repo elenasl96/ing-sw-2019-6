@@ -2,12 +2,15 @@
  skinparam classAttributeIconSize 0
 
  Player "1" *-- PlayerBoard
+ Player "1..9" *-- AmmoTiles
+ Player "1..3" *----- WeaponCard
+ Player "1..3" *-- PowerupCard
  class Player{
      - name: String
      - id: int
      - character: Character
      - currentPosition: int[2]
-     ''- phase: int
+     '- phase: int
      - ammo<AmmoCard>: List
      - powerup<PowerupCard>: List
      - weapon<WeaponCard>: List
@@ -23,40 +26,33 @@
      + setAll()
  }
 
-
   Game "3...5" - Player
   class Game{
-
+    - numberPlayers: int
+    - board: Board
+    - players<Player>: List
+    - phase: int
   }
 
  Board "1" - Game
  Board "4...6" o-- Room
- Board "1" *-- KillshotTrack: include
  Board "1...2" *---- AmmoDeck: includes
  Board "1...2" *---- PowerupDeck: includes
  Board "1...1" *---- WeaponDeck: includes
  class Board{
-    - playersNumber: int
     - field: char[5][7]
     '- skullsNumber: int
-    '- killshotTrack: int[]
-    '- weaponsLeft: int[]
-    '- ammosLeft: int[]
-    '- ammosLeftover: int[]
-    '- powerupsLeft: int[]
-    '- powerupsLeftover: int[]
+    - field<Room>: Room[][]
+    - killshotTrack<Player>: List
+    - weaponsLeft: WeaponDeck
+    - ammosLeft: AmmoDeck
+    - ammosLeftover: AmmoDeck
+    - powerupsLeft: PowerupDeck
+    - powerupsLeftover: PowerupDeck
     '- r: Random
     __
     + getAll()
     + setAll()
- }
-
-
-
-
-
- class KillshotTrack{
-
  }
 
  class PlayerBoard{
@@ -67,6 +63,21 @@
     + setAll()
     + getALl()
  }
+
+  WeaponDeck "21" *-- WeaponCard: composed by
+  class WeaponDeck{
+    - WeaponCards<WeaponCard>: List
+  }
+
+  PowerupDeck "24" *-- PowerupCard: composed by
+  class PowerupDeck{
+    - PowerupCards<PowerupCard>:List
+  }
+
+  AmmoDeck "36" *-- AmmoTiles: composed by
+  class AmmoDeck<AmmoCard>{
+    - AmmoTiles<AmmoTiles>:List
+  }
 
  AmmoTiles <|-- AmmoTilesWithAmmo
  AmmoTiles "2" *-- Ammo: made of
@@ -89,7 +100,6 @@
  class AmmoTilesWithPowerup{
  }
 
-
  enum Color{
     BLU
     GIALLO
@@ -97,23 +107,6 @@
     WHITE
     GREEN
     PURPLE
- }
-
-
-
- WeaponDeck "21" *-- WeaponCard: composed by
- class WeaponDeck{
-
- }
-
- PowerupDeck "24" *-- PowerupCard: composed by
- class PowerupDeck{
-
- }
-
- AmmoDeck "36" *-- AmmoTiles: composed by
- class AmmoDeck<AmmoCard>{
-
  }
 
  PowerupCard "1" *--- Ammo: made of
@@ -142,12 +135,13 @@
  'Room "1" *-- Color
  class Room{
     - color: Color
+    - squares<Square>: List
  }
 
  Square <|-- SpawnSquare
  Square <|-- AmmoSquare
  abstract Square{
-
+    - color
  }
 
  AmmoSquare "1" *-- AmmoTiles
