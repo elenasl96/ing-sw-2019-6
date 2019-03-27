@@ -2,18 +2,18 @@
  skinparam classAttributeIconSize 0
 
  Player "1" *-- PlayerBoard
- Player "1..9" *-- AmmoTiles
- Player "1..3" *----- WeaponCard
- Player "1..3" *-- PowerupCard
+ Player "0..9" o-- Ammo
+ Player "0..3" o----- WeaponCard
+ Player "0..3" o-- PowerupCard
  class Player{
      - name: String
      - id: int
      - character: Character
-     - currentPosition: int[2]
-     '- phase: int
-     - ammo<AmmoCard>: List
-     - powerup<PowerupCard>: List
-     - weapon<WeaponCard>: List
+     - currentPosition: Square
+     - phase: int
+     - ammo: List<AmmoCard>
+     - powerup: List<PowerupCard>
+     - weapon: List<WeaponCard>
      - points: int
      - motto: String
      - adrenalineLevel: int
@@ -56,12 +56,12 @@
  }
 
  class PlayerBoard{
-    - damage<Player>: List[12]
-    - marks<Player>: List[12]
+    - damage: List<Player>
+    - marks: List<Player>
     - deaths: int
     __
     + setAll()
-    + getALl()
+    + getAll()
  }
 
   WeaponDeck "21" *-- WeaponCard: composed by
@@ -149,7 +149,7 @@
 
  }
 
- SpawnSquare "1" *-- WeaponCard
+ SpawnSquare "3" *-- WeaponCard
 
 
 @enduml
