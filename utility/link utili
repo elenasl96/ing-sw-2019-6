@@ -7,6 +7,9 @@ PATTERN 101
     https://www.youtube.com/watch?v=wiQdrH2YpT4
     When you need many other objects to receive an update when another object changes
 
+    https://dellabate.wordpress.com/2012/03/03/gof-patterns-observer/
+    Observer pattern with MVC
+
     SINGLETON PATTERN
     Ha lo scopo di garantire che di una determinata classe venga creata una e una sola istanza,
     e di fornire un punto di accesso globale a tale istanza.
