@@ -35,14 +35,13 @@
   }
 
  Board "1" - Game
- Board "4...6" o-- Room
  Board "1...2" *---- AmmoDeck: includes
  Board "1...2" *---- PowerupDeck: includes
  Board "1...1" *---- WeaponDeck: includes
- class Board{
+ class Board << (S,#FF7700) Singleton >>{
     - field: char[5][7]
     '- skullsNumber: int
-    - field<Room>: Room[][]
+    - field: List<List<Room>>
     - killshotTrack<Player>: List
     - weaponsLeft: WeaponDeck
     - ammosLeft: AmmoDeck
@@ -54,6 +53,14 @@
     + getAll()
     + setAll()
  }
+
+package GameField{
+ Room "1...4" *-- Square: composed by
+ Board "4...6" o-- Room
+ Square <|-- SpawnSquare
+ Square <|-- AmmoSquare
+
+}
 
  class PlayerBoard{
     - damage: List<Player>
@@ -131,15 +138,12 @@
      UNLOADED
  }
 
- Room "1...4" *-- Square: composed by
  'Room "1" *-- Color
  class Room{
     - color: Color
     - squares<Square>: List
  }
 
- Square <|-- SpawnSquare
- Square <|-- AmmoSquare
  abstract Square{
     - color
  }
@@ -153,8 +157,18 @@
 
 
 @enduml
-
-
+newpage
+@startuml
+ interface Observable <<Interface>>
+    Observable <|.. Model
+    Observable <|.. View
+ interface Observer <<Interface>>
+    Observer <|.. Controller
+    Observer <|.. View
+ Model <-- View: Observes
+ Controller <-- View: Observes
+ Controller -> Model: Update
+@enduml
 
 
 
@@ -163,51 +177,75 @@
  newpage
 @startuml *MVC Diagram
     skinparam classAttributeIconSize 0
-    class Client{
+package Client    {
+    class RealPlayer{
+    __
+    + sendData()
     }
-    class model{
+}
+package Model{
+    class GameModel{
+        - modelState<>
+        __
+
     }
-    class ViewGiocatore{
-        /' Cliccando sugli altri giocatori si vedranno le loro plance
-         e la loro pila di points'/
+}
+package View {
+    class ViewPlayer{
         - name: String
         - personaggio: Personaggio
         - playerBoard: Plancia
-        - weapon: Armi[3]
-        - powerup: Potenziamenti[3]
-        - ammo: Munizioni[9] /'3 per tipo'/
-        - pilaPunti: int
+        - weapon: List<Weapon>
+        - powerup: List<Powerup>
+        - ammo: List<Ammo>
+        - stackPoint: int
         __
-        /' Nessun metodo set: non posso modificare le plance
-         degli altri'/
         + showView(): void
     }
-
-    class ViewTabellone{
-        - points: int /'I points del giocatore'/
-        - field: char[5][7]
-       /'In GUI in teoria sarebbe tutto integrato,
-       però magari per la CLI conviene mettere altre matrici
-       per indicare le carte munizioni presenti sul field'/
-
-       - armiGiallo: Armi[3]
-       - armiBlu: Armi[3]
-       - armiRosso: Armi[3]
-       - killshotTrack: int[NumeroTeschi]
-       - pilaPuntiAvversari: int[4]
+    class ViewBoard{
+       - points: int
+       - field: List<List<Room>>
+       - yellowWeaponPoint: List<Weapon>
+       - blueWeaponPoint: List<Weapon>
+       - redWeaponPoint: List<Weapon>
+       - killshotTrack: int[skullNumber]
+       - stackPoint: int[4]
         __
-        + setPunti(int): void
-        + showPunti(): void
+       + showPoints(): void
     }
+}
 
-    class Controller{
+package Controller{
+    class GameController{
+        - game: Game
+        __
+        + move(Player): void
+        + grab(Player): void
+        + shoot(Player, Player): void
+        + mark(Player, Player): void
+        + overkill(Player, Player): void
+        + setPhase(Player): void
+        + recharge(Player): void
+        + respawnPlayer(Player): void
+        + update(Model): void
 
     }
+}
 
-    ViewTabellone "1" *-- Client
-    ViewGiocatore "0...5" o-- Client
-    Controller <--> ViewTabellone
-    Controller <--> ViewGiocatore
-    model <--> Controller
+interface Observable <<Interface>>
+    Observable <|.. Model
+    Observable <|.. View
+interface Observer <<Interface>>
+    Observer <|.. Controller
+    Observer <|.. View
+
+    ViewBoard "1" *-- Client
+    ViewPlayer "0...5" o-- Client
+    GameController -> View: observes
+    GameModel <-- View: observes
+    GameController <- GameModel: update
+
+
 
 @enduml
+
