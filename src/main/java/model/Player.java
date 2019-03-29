@@ -1,82 +1,99 @@
 package model;
 
+import model.carte.Ammo;
+import model.carte.Powerup;
+import model.carte.Weapon;
+import model.field.Square;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private String name;
-    private char color;
+    private Color color;
     private int id; //da 0 a numeroGiocatori-1
     private Character character;
-    private int[] currentPosition;
+    private Square currentPosition;
     private int phase;
-    private int[] ammo;
-    private int[] powerup;
-    private int[] weapon;
+    private ArrayList<Ammo> ammo;
+    private ArrayList<Powerup> powerup;
+    private ArrayList<Weapon> weapon;
     private PlayerBoard playerBoard;
     private int points;
     private String motto;
     private int adrenalinelevel;
-    private int pilaPunti;
+    private int stackPoint;
     private boolean firstPlayer;
     private boolean dead;
-    private boolean[] shootable;
+    private ArrayList<Player> shootable;
 
 
 
 
     //Costruttore
 
-    public Player(Board tab){
-
-        //aumento il numero di giocatori e gli do l'id
-        int temp = tab.getPlayersNumber();
-        this.id = temp;
-        temp++;
-
-
-        tab.setPlayersNumber(temp);
-        //Inizializzo la plancia col mio idGiocatore
-        this.playerBoard = new PlayerBoard(this.id);
-
-        //Inizializzo le carte in mano al giocatore
-        this.ammo = new int[]{1,1,1};
-        this.weapon = new int[3];
-        
-        //altra roba che forse non serve
-        this.adrenalinelevel = 0;
-        this.pilaPunti = 0;
-
-    }//Costruttore Player(Tabellone)
+    public Player(String name, Color color, int id, Character character, Square currentPosition, int phase, ArrayList<Ammo> ammo, ArrayList<Powerup> powerup, ArrayList<Weapon> weapon, PlayerBoard playerBoard, int points, String motto, int adrenalinelevel, int stackPoint, boolean firstPlayer, boolean dead, ArrayList<Player> shootable) {
+        this.name = name;
+        this.color = color;
+        this.id = id;
+        this.character = character;
+        this.currentPosition = currentPosition;
+        this.phase = phase;
+        this.ammo = ammo;
+        this.powerup = powerup;
+        this.weapon = weapon;
+        this.playerBoard = playerBoard;
+        this.points = points;
+        this.motto = motto;
+        this.adrenalinelevel = adrenalinelevel;
+        this.stackPoint = stackPoint;
+        this.firstPlayer = firstPlayer;
+        this.dead = dead;
+        this.shootable = shootable;
+    }
 
     //setter
     public void setDead(boolean dead) {
         this.dead = dead;
     }
 
-    public void setColor(char color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
-    public void setShootable(boolean[] shootable) {
-        this.shootable = shootable;
+    public void setWeapon(ArrayList<Weapon> weapon) {
+        this.weapon = weapon;
     }
 
     public void setPoints(int points) {
         this.points = points;
     }
 
-    public void setPowerup(int[] powerup) {
+    public void setCurrentPosition(Square currentPosition) {
+        this.currentPosition = currentPosition;
+    }
+
+    public void setAdrenalinelevel(int adrenalinelevel) {
+        this.adrenalinelevel = adrenalinelevel;
+    }
+
+    public void setAmmo(ArrayList<Ammo> ammo) {
+        this.ammo = ammo;
+    }
+
+    public void setPowerup(ArrayList<Powerup> powerup) {
         this.powerup = powerup;
     }
 
-    public void setCurrentPosition(int[] currentPosition) {
-        this.currentPosition = currentPosition;
+    public void setShootable(ArrayList<Player> shootable) {
+        this.shootable = shootable;
     }
 
     public void setPlayerBoard(PlayerBoard playerBoard) {
         this.playerBoard = playerBoard;
     }
 
-    public void setPilaPunti(int pilaPunti) {
-        this.pilaPunti = pilaPunti;
+    public void setStackPoint(int stackPoint) {
+        this.stackPoint = stackPoint;
     }
 
     public void setCharacter(Character character) {
@@ -85,10 +102,6 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setAmmo(int[] ammo) {
-        this.ammo = ammo;
     }
 
     public void setId(int id) {
@@ -103,10 +116,6 @@ public class Player {
         this.phase = phase;
     }
 
-    public void setWeapon(int[] weapon) {
-        this.weapon = weapon;
-    }
-
     public void setAdrenalinaLevel(int adrenalinaLevel) {
         this.adrenalinelevel = adrenalinaLevel;
     }
@@ -116,12 +125,8 @@ public class Player {
     }
 
     //getter
-    public char getColor() {
+    public Color getColor() {
         return color;
-    }
-
-    public boolean[] getShootable() {
-        return shootable;
     }
 
     public boolean isDead() {
@@ -136,10 +141,6 @@ public class Player {
         return motto;
     }
 
-    public int[] getPowerup() {
-        return powerup;
-    }
-
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
     }
@@ -148,20 +149,12 @@ public class Player {
         return character;
     }
 
-    public int[] getCurrentPosition() {
-        return currentPosition;
-    }
-
-    public int[] getAmmo() {
-        return ammo;
-    }
-
     public int getPoints() {
         return points;
     }
 
-    public int getPilaPunti() {
-        return pilaPunti;
+    public int getStackPoint() {
+        return stackPoint;
     }
 
     public int getId() {
@@ -172,15 +165,31 @@ public class Player {
         return phase;
     }
 
-    public int getAdrenalinaLevel() {
+    public boolean isFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public ArrayList<Ammo> getAmmo() {
+        return ammo;
+    }
+
+    public ArrayList<Player> getShootable() {
+        return shootable;
+    }
+
+    public Square getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public List<Powerup> getPowerup() {
+        return powerup;
+    }
+
+    public int getAdrenalinelevel() {
         return adrenalinelevel;
     }
 
-    public int[] getWeapon() {
+    public ArrayList<Weapon> getWeapon() {
         return weapon;
-    }
-
-    public boolean isFirstPlayer() {
-        return firstPlayer;
     }
 }

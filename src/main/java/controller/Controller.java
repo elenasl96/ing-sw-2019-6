@@ -1,12 +1,7 @@
-package Controller;
-
-import eccezioni.ArmaNonTrovata;
-import eccezioni.FullPlayerBoardException;
-import model.Board;
-import model.Player;
+package controller;
 
 public class Controller {
-
+/*
 
     //Begin player controller
     public void giocaArma(Player pg, int numArma, int effetto, int[] weapon) throws ArmaNonTrovata {
@@ -52,7 +47,7 @@ public class Controller {
             case 5:
             case 6:
                 //effetto di RaggioCinetico
-                int[] pos = pg.getCurrentPosition();
+                //int[] pos = pg.getCurrentPosition();
                 //Aumenta di 1 o 2 la posizione del giocatore avversario nella stessa direzione
                 switch (direzione){
                     case 'n':
@@ -148,5 +143,5 @@ public class Controller {
 
     }
 
-
+*/
 }

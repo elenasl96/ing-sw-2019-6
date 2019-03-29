@@ -17,7 +17,7 @@
      - points: int
      - motto: String
      - adrenalineLevel: int
-     - pilaPunti: int
+     - stackPoint: int
      - firstPlayer: boolean
      - dead: boolean
      - shootable<Player>: List

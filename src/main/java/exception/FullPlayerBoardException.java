@@ -1,4 +1,4 @@
-package eccezioni;
+package exception;
 
 public class FullPlayerBoardException extends Exception {
     public FullPlayerBoardException(){
