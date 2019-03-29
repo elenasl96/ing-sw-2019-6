@@ -1,8 +1,10 @@
 package model;
 
-import model.carte.Ammo;
-import model.carte.Powerup;
-import model.carte.Weapon;
+import model.decks.Ammo;
+import model.decks.Powerup;
+import model.decks.Weapon;
+import model.enums.Character;
+import model.enums.Color;
 import model.field.Square;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +27,6 @@ public class Player {
     private boolean firstPlayer;
     private boolean dead;
     private ArrayList<Player> shootable;
-
-
-
 
     //Costruttore
 

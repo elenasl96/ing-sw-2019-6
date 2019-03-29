@@ -1,66 +1,40 @@
 package model;
 
+import java.util.List;
+
 public class PlayerBoard {
-    private int[] damage;
-    private int[] marks;
+    private List<Player> damage;
+    private List<Player> marks;
     private int deaths;
-    private int playerId;
-    private boolean marksOnly;
+ // private int playerId; -- forse inutile
 
-    //Costruttore
-    public PlayerBoard(int idGiocatore) {
-        //Inizializzo a 0 damage e marks
-        this.damage = new int[12];
-        this.marks = new int[12];
-        for (int i=0; i<12; i++) {
-            this.damage[i] = 0;
-            this.marks[i] = 0;
-        }
-        this.deaths = 0;
-        this.playerId = idGiocatore;
-
-    }//Costruttore
-
-    //setters
-    public void setDeaths(int deaths) {
+    public PlayerBoard(List<Player> damage, List<Player> marks, int deaths) {
+        this.damage = damage;
+        this.marks = marks;
         this.deaths = deaths;
     }
 
-    public void setMarks(int[] marks) {
-        this.marks = marks;
+    public List<Player> getDamage() {
+        return damage;
     }
 
-    public void setDamage(int[] damage) {
+    public void setDamage(List<Player> damage) {
         this.damage = damage;
     }
 
-    public void setPlayerId(int playerId) {
-        this.playerId = playerId;
-    }
-
-    public void setMarksOnly(boolean marksOnly) {
-        this.marksOnly = marksOnly;
-    }
-
-    //getters
-
-    public boolean isMarksOnly() {
-        return marksOnly;
-    }
-
-    public int getPlayerId() {
-        return playerId;
-    }
-
-    public int[] getMarks() {
+    public List<Player> getMarks() {
         return marks;
     }
 
-    public int[] getDamage() {
-        return damage;
+    public void setMarks(List<Player> marks) {
+        this.marks = marks;
     }
 
     public int getDeaths() {
         return deaths;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
     }
 }

@@ -1,4 +1,4 @@
-package model.carte;
+package model.decks;
 
 public enum ListaArmi {
     DISTRUTTORE("Distruttore", 1),

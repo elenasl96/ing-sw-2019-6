@@ -1,4 +1,4 @@
-package model.carte;
+package model.decks;
 
 public enum ListaPotenziamenti {
     MIRINO_G("Mirino", 'g', 1),
