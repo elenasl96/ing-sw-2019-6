@@ -5,6 +5,7 @@ import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Character;
 import model.enums.Color;
+import model.enums.Phase;
 import model.field.Square;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Player {
     private int id; //da 0 a numeroGiocatori-1
     private Character character;
     private Square currentPosition;
-    private int phase;
+    private Phase phase;
     private ArrayList<Ammo> ammo;
     private ArrayList<Powerup> powerup;
     private ArrayList<Weapon> weapon;
@@ -30,7 +31,7 @@ public class Player {
 
     //Costruttore
 
-    public Player(String name, Color color, int id, Character character, Square currentPosition, int phase, ArrayList<Ammo> ammo, ArrayList<Powerup> powerup, ArrayList<Weapon> weapon, PlayerBoard playerBoard, int points, String motto, int adrenalinelevel, int stackPoint, boolean firstPlayer, boolean dead, ArrayList<Player> shootable) {
+    public Player(String name, Color color, int id, Character character, Square currentPosition, Phase phase, ArrayList<Ammo> ammo, ArrayList<Powerup> powerup, ArrayList<Weapon> weapon, PlayerBoard playerBoard, int points, String motto, int adrenalinelevel, int stackPoint, boolean firstPlayer, boolean dead, ArrayList<Player> shootable) {
         this.name = name;
         this.color = color;
         this.id = id;
@@ -111,7 +112,7 @@ public class Player {
         this.motto = motto;
     }
 
-    public void setPhase(int phase) {
+    public void setPhase(Phase phase) {
         this.phase = phase;
     }
 
@@ -160,7 +161,7 @@ public class Player {
         return id;
     }
 
-    public int getPhase() {
+    public Phase getPhase() {
         return phase;
     }
 

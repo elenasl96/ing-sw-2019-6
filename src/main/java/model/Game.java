@@ -7,14 +7,15 @@ public class Game {
     private int numberPlayers;
     private Board board;
     private List<Player> players;
-    private int phase;
+    private int turn;
     private int skullsNumber;
 
-    public Game(int numberPlayers, Board board, List<Player> players, int phase) {
-        this.numberPlayers = numberPlayers;
-        this.board = board;
-        this.players = players;
-        this.phase = phase;
+    public Game(){
+        //Default constructor
+        this.numberPlayers = 0;
+        this.board = new Board();
+        this.players = new ArrayList<Player>();
+        this.turn = 0;
     }
 
     public int getNumberPlayers() {
@@ -41,11 +42,11 @@ public class Game {
         this.players = players;
     }
 
-    public int getPhase() {
-        return phase;
+    public int getTurn() {
+        return turn;
     }
 
-    public void setPhase(int phase) {
-        this.phase = phase;
+    public void setTurn(int phase) {
+        this.turn = phase;
     }
 }

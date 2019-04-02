@@ -5,6 +5,7 @@ import model.decks.Powerup;
 import model.decks.Weapon;
 import model.field.Room;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
@@ -15,17 +16,17 @@ public class Board {
     private List<Ammo> ammosLeftover;
     private List<Powerup> powerupsLeft;
     private List<Powerup> powerupsLeftover;
-    //private Random r;
 
 
-    public Board(List<Room> field, List<Player> killshotTrack, List<Weapon> weaponsLeft, List<Ammo> ammosLeft, List<Ammo> ammosLeftover, List<Powerup> powerupsLeft, List<Powerup> powerupsLeftover) {
-        this.field = field;
-        this.killshotTrack = killshotTrack;
-        this.weaponsLeft = weaponsLeft;
-        this.ammosLeft = ammosLeft;
-        this.ammosLeftover = ammosLeftover;
-        this.powerupsLeft = powerupsLeft;
-        this.powerupsLeftover = powerupsLeftover;
+    public Board(){
+        //Default constructor
+        this.field = new ArrayList<Room>();
+        this.killshotTrack = new ArrayList<Player>();
+        this.weaponsLeft = new ArrayList<Weapon>();
+        this.ammosLeft = new ArrayList<Ammo>();
+        this.ammosLeftover = new ArrayList<Ammo>();
+        this.powerupsLeft = new ArrayList<Powerup>();
+        this.powerupsLeftover = new ArrayList<Powerup>();
     }
 
     public List<Room> getField() {
