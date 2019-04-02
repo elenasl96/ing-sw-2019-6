@@ -46,7 +46,7 @@
  Board "1...2" *---- AmmoDeck: includes
  Board "1...2" *---- PowerupDeck: includes
  Board "1...1" *---- WeaponDeck: includes
- class Board << (S,#FF7700) Singleton >>{
+ class Board {/' << (S,#FF7700) Singleton >>'/
     - field: char[5][7]
     '- skullsNumber: int
     - field: List<List<Room>>
