@@ -6,7 +6,7 @@ public class AmmoDeck {
     private List<AmmoTiles> ammoTiles;
 
     public AmmoDeck(List<AmmoTiles> ammoTiles) {
-        ammoTiles = ammoTiles;
+        this.ammoTiles = ammoTiles;
     }
 
     public List<AmmoTiles> getAmmoTiles() {
