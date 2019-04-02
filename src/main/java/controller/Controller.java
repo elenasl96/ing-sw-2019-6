@@ -4,13 +4,15 @@ import model.Board;
 import model.Game;
 import model.Player;
 import model.enums.Phase;
+
 import model.field.Square;
+
 import pattern.Observer;
 
 
 public class Controller implements Observer {
-
     private Square destination;
+
 
     public boolean isValid(Move move, Player player) {
         if (player.getPhase() != Phase.WAIT) {
@@ -23,7 +25,6 @@ public class Controller implements Observer {
                 case GRAB:
                     return isValidMove(1, player, destination) && isValidGrab();
                     break;
-                case
             }
         }
     }
@@ -34,4 +35,5 @@ public class Controller implements Observer {
 
     public void update(){
     }
+
 }

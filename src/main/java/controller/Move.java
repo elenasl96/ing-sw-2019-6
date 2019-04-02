@@ -6,6 +6,5 @@ public enum Move {
     GRAB(),
     MOVE_AND_GRAB();
 
-
     Move(){};
 }
