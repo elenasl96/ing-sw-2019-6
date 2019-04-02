@@ -1,6 +1,7 @@
 @startuml
  skinparam classAttributeIconSize 0
 
+ package enums{
  enum Character{
     :D-STRUCT-OR
     BANSHEE
@@ -8,11 +9,24 @@
     VIOLET
     SPROG
  }
+  enum Color{
+     BLUE
+     YELLOW
+     RED
+     WHITE
+     GREEN
+     PURPLE
+     GREY
+  }
+ enum WeaponStatus{
+     LOADED
+     PARTIALLY_LOADED
+     UNLOADED
+ }
 
- Player "1" *-- PlayerBoard
- Player "0..9" o-- Ammo
- Player "0..3" o----- Weapon
- Player "0..3" o-- Powerup
+ }
+
+ Player "1" *- PlayerBoard
  class Player{
      - name: String
      - id: int
@@ -43,9 +57,6 @@
   }
 
  Board "1" - Game
- Board "1...2" *---- AmmoDeck: includes
- Board "1...2" *---- PowerupDeck: includes
- Board "1...1" *---- WeaponDeck: includes
  class Board {/' << (S,#FF7700) Singleton >>'/
     - field: char[5][7]
     '- skullsNumber: int
@@ -61,6 +72,20 @@
     + getAll()
     + setAll()
  }
+
+
+  package decks{
+  AmmoDeck "36" *-- AmmoTiles: composed by
+  Player "0..9" o-- Ammo
+  Player "0..3" o----- Weapon
+  Player "0..3" o-- Powerup
+  Board "1...2" *---- AmmoDeck: includes
+  Board "1...2" *---- PowerupDeck: includes
+  Board "1...1" *---- WeaponDeck: includes
+  AmmoTiles <|-- AmmoTilesWithAmmo
+  AmmoTiles "2" *-- Ammo: made of
+  AmmoTiles <|-- AmmoTilesWithPowerup
+  }
 
 package GameField{
  Room "1...4" *-- Square: composed by
@@ -79,7 +104,7 @@ package GameField{
     + getAll()
  }
 
-  WeaponDeck "21" *-- Weapon: composed by
+  WeaponDeck "21" *--- Weapon: composed by
   class WeaponDeck{
     - weapons: List<Weapon>
   }
@@ -89,14 +114,12 @@ package GameField{
     - powerups: List<Powerup>
   }
 
-  AmmoDeck "36" *-- AmmoTiles: composed by
+
   class AmmoDeck{
     - ammos:List<AmmoTiles>
   }
 
- AmmoTiles <|-- AmmoTilesWithAmmo
- AmmoTiles "2" *-- Ammo: made of
- AmmoTiles <|-- AmmoTilesWithPowerup
+
  abstract AmmoTiles{
     - ammos: List<Ammo>
  }
@@ -114,15 +137,6 @@ package GameField{
  class AmmoTilesWithPowerup{
  }
 
- enum Color{
-    BLUE
-    YELLOW
-    RED
-    WHITE
-    GREEN
-    PURPLE
-    GREY
- }
 
  Powerup "1" *--- Ammo: made of
  class Powerup{
@@ -140,11 +154,6 @@ package GameField{
     - status: WeaponStatus
  }
 
- enum WeaponStatus{
-     LOADED
-     PARTIALLY_LOADED
-     UNLOADED
- }
 
  'Room "1" *-- Color
  class Room{
@@ -159,13 +168,18 @@ package GameField{
 
  AmmoSquare "1" *-- AmmoTiles
  class AmmoSquare{
-
  }
 
  SpawnSquare "3" *-- Weapon
 
-
 @enduml
+
+
+
+
+
+
+
 newpage
 @startuml
  interface Observable <<Interface>>
