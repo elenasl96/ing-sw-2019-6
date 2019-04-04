@@ -14,7 +14,7 @@ public class Controller implements Observer {
     private Square destination;
 
 
-    public boolean isValid(Move move, Player player) {
+    /*public boolean isValid(Move move, Player player) {
         if (player.getPhase() != Phase.WAIT) {
             switch (move) {
                 case RUN:
@@ -32,7 +32,7 @@ public class Controller implements Observer {
     public boolean isValidMove(int maxSteps, Player player, Square destination){
 
     }
-
+    */
     public void update(){
     }
 
