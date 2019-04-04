@@ -11,10 +11,19 @@ import pattern.Observer;
 
 
 public class Controller implements Observer {
-    private Square destination;
+    /**
+     * the current game
+     */
+    private Game game;
 
+    public Controller(){
+        this.game = new Game();
+    }
 
-    /*public boolean isValid(Move move, Player player) {
+    public void startGame(){
+
+    }
+    /*public boolean isValid(Movement move, Player player) {
         if (player.getPhase() != Phase.WAIT) {
             switch (move) {
                 case RUN:
@@ -33,7 +42,8 @@ public class Controller implements Observer {
 
     }
     */
-    public void update(){
+    public void update(String command){
+
     }
 
 }
