@@ -22,18 +22,8 @@ public class Pay implements Move {
      * @throws NotEnaughAmmoException   if p doesn't have enough ammo
      */
     public void execute(Player p) throws NotEnaughAmmoException {
-        ArrayList<Ammo> newAmmos = p.getAmmos();
-        //Dubbio: così quindi sto passando una copia o vado a modificare l'oggetto originale?
-        ammos.iterator().forEachRemaining(ammo -> {
-            newAmmos.iterator().forEachRemaining(playerAmmo -> {
-                if(playerAmmo.equals(ammo)){
-                    ammos.remove(ammo);
-                    newAmmos.remove(playerAmmo);
-                }
-            });
-        });
-        if (ammos.iterator().hasNext()) throw new NotEnaughAmmoException();
-        else p.setAmmos(newAmmos);
+        if(!p.getAmmos().containsAll(this.ammos))throw new NotEnaughAmmoException();
+        else p.getAmmos().removeAll(this.ammos);
     }
 
     public ArrayList<Ammo> getAmmos() {

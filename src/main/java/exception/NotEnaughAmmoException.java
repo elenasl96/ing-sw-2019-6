@@ -1,7 +1,13 @@
 package exception;
 
 public class NotEnaughAmmoException extends Exception {
-    public NotEnaughAmmoException(){
+    private String message;
 
+    public NotEnaughAmmoException(){
+        this.message = "Not Enaugh Ammo!";
+    }
+
+    public String getMessage(){
+        return this.message;
     }
 }
