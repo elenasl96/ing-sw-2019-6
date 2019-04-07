@@ -1,11 +1,7 @@
-import exception.NotEnaughAmmoException;
+import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;
 import model.enums.Color;
-import model.field.AmmoSquare;
-import model.field.Square;
-import model.moves.Move;
-import model.moves.Movement;
 import model.moves.Pay;
 import org.junit.Test;
 
@@ -39,7 +35,7 @@ public class MoveTest {
         assertFalse(player.getAmmos().isEmpty());
 
         player.setAmmos(ammoList);
-        //player.ammos is: <y,b,r>
+        //player.ammos is: <b,y,r>
 
         payment.getAmmos().add(blueAmmo);
         payment.getAmmos().add(redAmmo);
@@ -47,14 +43,17 @@ public class MoveTest {
         //payment.ammos is: <b,r,y>
 
         try {payment.execute(player);}
-        catch (NotEnaughAmmoException nea){
+        catch (NotEnoughAmmoException nea){
             System.out.println(nea.getMessage());
         }
+        assertTrue(player.getAmmos().isEmpty());
 
+        player.setAmmos(ammoList);
         payment.getAmmos().add(blueAmmo);
         try {payment.execute(player);}
-        catch (NotEnaughAmmoException nea){
+        catch (NotEnoughAmmoException nea){
             System.out.println(nea.getMessage());
         }
+        assertEquals(ammoList, player.getAmmos());
     }
 }

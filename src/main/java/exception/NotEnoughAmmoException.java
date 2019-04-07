@@ -1,9 +1,9 @@
 package exception;
 
-public class NotEnaughAmmoException extends Exception {
+public class NotEnoughAmmoException extends Exception {
     private String message;
 
-    public NotEnaughAmmoException(){
+    public NotEnoughAmmoException(){
         this.message = "Not Enaugh Ammo!";
     }
 

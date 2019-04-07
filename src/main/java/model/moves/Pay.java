@@ -1,6 +1,6 @@
 package model.moves;
 
-import exception.NotEnaughAmmoException;
+import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;
 
@@ -19,11 +19,13 @@ public class Pay implements Move {
      * The method, with a nested forEachRemaining() iteration, confronts the player's ammos
      *  with the Pay object's ammos and then removes them from the player's ammos pile.
      * @param p                         the Player that has to pay the ammos
-     * @throws NotEnaughAmmoException   if p doesn't have enough ammo
+     * @throws NotEnoughAmmoException   if p doesn't have enough ammo
      */
-    public void execute(Player p) throws NotEnaughAmmoException {
-        if(!p.getAmmos().containsAll(this.ammos))throw new NotEnaughAmmoException();
-        else p.getAmmos().removeAll(this.ammos);
+    public void execute(Player p) throws NotEnoughAmmoException {
+        if(!p.getAmmos().containsAll(this.ammos))throw new NotEnoughAmmoException();
+        else {
+            p.getAmmos().removeAll(this.ammos);
+        }
     }
 
     public ArrayList<Ammo> getAmmos() {
