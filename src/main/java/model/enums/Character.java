@@ -8,11 +8,11 @@ public enum Character {
     PG4("VIOLET", Color.PURPLE),
     PG5("SPROG", Color.GREEN);
 
-    private String nome;
+    private String name;
     private Color color;
 
-    Character(String nome, Color color){
-        this.nome = nome;
+    Character(String name, Color color){
+        this.name = name;
         this.color = color;
     }
 }

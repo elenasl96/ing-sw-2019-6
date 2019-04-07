@@ -13,9 +13,9 @@ public enum Color {
     private String color;
     private char abbr;
 
-    Color(String nome, char abbr){
+    Color(String name, char abbr){
         this.abbr = abbr;
-        this.color = nome;
+        this.color = name;
     }
 
 }

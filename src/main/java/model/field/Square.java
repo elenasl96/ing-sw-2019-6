@@ -2,9 +2,10 @@ package model.field;
 
 import model.enums.Color;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class Square {
+public abstract class Square implements Serializable {
     private Color color;
     private List<Square> adjacents;
 

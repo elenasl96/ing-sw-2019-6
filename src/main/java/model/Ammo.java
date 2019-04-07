@@ -8,4 +8,8 @@ public class Ammo {
     public Ammo(Color color){
         this.color = color;
     }
+
+    public Color getColor() {
+        return color;
+    }
 }
