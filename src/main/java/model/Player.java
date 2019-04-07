@@ -1,6 +1,5 @@
 package model;
 
-import model.decks.AmmoTile;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Character;
@@ -9,15 +8,16 @@ import model.enums.Phase;
 import model.field.Square;
 import model.moves.Move;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable {
     private String name;
     private int id; //da 0 a numeroGiocatori-1
     private Character character;
     private Square currentPosition;
     private Phase phase;
-    private ArrayList<Ammo> ammos = new ArrayList<Ammo>();
+    private ArrayList<Ammo> ammos = new ArrayList<>();
     private ArrayList<Powerup> powerups;
     private ArrayList<Weapon> weapons;
     private PlayerBoard playerBoard;
@@ -28,7 +28,7 @@ public class Player {
     private boolean firstPlayer;
     private boolean dead;
     private ArrayList<Player> shootable;
-    transient private ArrayList<Move> possibleMoves = new ArrayList<Move>();
+    private transient ArrayList<Move> possibleMoves = new ArrayList<>();
 
     //Costruttore
 
@@ -42,15 +42,15 @@ public class Player {
         this.ammos.add(new Ammo(Color.BLUE));
         this.ammos.add(new Ammo(Color.YELLOW));
         this.ammos.add(new Ammo(Color.RED));
-        this.powerups = new ArrayList<Powerup>();
-        this.weapons = new ArrayList<Weapon>();
+        this.powerups = new ArrayList<>();
+        this.weapons = new ArrayList<>();
         this.playerBoard = new PlayerBoard();
         this.points = 0;
         this.motto = null;
         this.adrenalinelevel = 0;
         this.stackPoint = 0;
         this.dead = false;
-        this.shootable = new ArrayList<Player>();
+        this.shootable = new ArrayList<>();
     }
 
 
