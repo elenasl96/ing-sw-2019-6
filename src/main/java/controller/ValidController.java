@@ -3,13 +3,13 @@ package controller;
 import model.Game;
 import model.Player;
 import model.enums.Phase;
+import model.field.Field;
 
 /**
  * It checks if a move is valid.
  */
 
 public class ValidController {
-
     /**
      *  Checks if it's player's turn
      * @param game      the current game
