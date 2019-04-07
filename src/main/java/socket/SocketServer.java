@@ -66,8 +66,8 @@ public class SocketServer implements Closeable{
 
     public void lifeCycle() throws IOException{
         init();
-
-        while(true){
+        boolean t = true;
+        while(t){
             final Socket socket = acceptConnection();
 
             pool.submit(() -> {
