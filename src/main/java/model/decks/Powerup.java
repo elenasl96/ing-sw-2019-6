@@ -1,22 +1,19 @@
 package model.decks;
 
 
-import model.Player;
-import model.field.Square;
+import model.Ammo;
 import model.moves.Move;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Powerup {
     private String name;
     private Ammo ammo;
-    private List<Move> moves;
+    private ArrayList<Move> moves = new ArrayList<Move>();
 
     public Powerup(String name, Ammo ammo){
         this.name = name;
         this.ammo = ammo;
-        this.moves = new ArrayList<>();
     }
 
     public void addMove(Move move){

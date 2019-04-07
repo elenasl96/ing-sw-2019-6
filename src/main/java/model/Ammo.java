@@ -1,4 +1,4 @@
-package model.decks;
+package model;
 
 import model.enums.Color;
 

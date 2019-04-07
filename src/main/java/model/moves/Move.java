@@ -1,5 +1,8 @@
 package model.moves;
 
-public interface Move {
+import exception.NotEnaughAmmoException;
+import model.Player;
 
+public interface Move {
+    void execute(Player p) throws NotEnaughAmmoException;
 }

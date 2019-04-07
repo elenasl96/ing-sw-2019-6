@@ -1,17 +1,19 @@
 package model.decks;
 
+import model.Ammo;
 import model.enums.Color;
 import model.moves.Damage;
 import model.moves.Pay;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PowerupDeck {
-    private List<Powerup> powerups;
+    private ArrayList<Powerup> powerups = new ArrayList<Powerup>();
 
     public PowerupDeck() {
-        this.powerups = new ArrayList<>();
+        this.powerups.add(new Powerup("targetingScope", new Ammo(Color.YELLOW)));
+        this.powerups.iterator().next().addMove(new Pay());
+        this.powerups.iterator().next().addMove(new Damage());
     }
 
     public void generateDeck(){
@@ -19,4 +21,5 @@ public class PowerupDeck {
         this.powerups.iterator().next().addMove(new Pay());
         this.powerups.iterator().next().addMove(new Damage());
     }
+
 }

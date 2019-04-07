@@ -33,9 +33,9 @@
      - character: Character
      - currentPosition: Square
      - phase: int
-     - ammo: List<Ammo>
-     - powerup: List<Powerup>
-     - weapon: List<Weapon>
+     - ammos: List<Ammo>
+     - powerups: List<Powerup>
+     - weapons: List<Weapon>
      - points: int
      - motto: String
      - adrenalineLevel: int
@@ -141,7 +141,7 @@ package GameField{
  Powerup "1" *--- Ammo: made of
  class Powerup{
     - name: String
-    - ammo: Ammo
+    - ammos: Ammo
     - effectDescription: String
  }
 
@@ -149,7 +149,7 @@ package GameField{
  'Weapon "1" *- WeaponStatus: has
  class Weapon{
     - name: String
-    - ammo<Ammo>: List
+    - ammos<Ammo>: List
     - effectsDescription: String
     - status: WeaponStatus
  }
@@ -218,9 +218,9 @@ package View {
         - name: String
         - personaggio: Personaggio
         - playerBoard: Plancia
-        - weapon: List<Weapon>
-        - powerup: List<Powerup>
-        - ammo: List<Ammo>
+        - weapons: List<Weapon>
+        - powerups: List<Powerup>
+        - ammos: List<Ammo>
         - stackPoint: int
         __
         + showView(): void

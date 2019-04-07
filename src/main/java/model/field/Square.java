@@ -8,9 +8,8 @@ public abstract class Square {
     private Color color;
     private List<Square> adjacents;
 
-    public Square(Color color, List<Square> adjacents) {
+    public Square(Color color) {
         this.color = color;
-        this.adjacents = adjacents;
     }
 
     public Color getColor() {

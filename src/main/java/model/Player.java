@@ -1,25 +1,25 @@
 package model;
 
-import model.decks.Ammo;
+import model.decks.AmmoTile;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Character;
 import model.enums.Color;
 import model.enums.Phase;
 import model.field.Square;
+import model.moves.Move;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class Player {
     private String name;
-    private Color color;
     private int id; //da 0 a numeroGiocatori-1
     private Character character;
     private Square currentPosition;
     private Phase phase;
-    private ArrayList<Ammo> ammo;
-    private ArrayList<Powerup> powerup;
-    private ArrayList<Weapon> weapon;
+    private ArrayList<Ammo> ammos = new ArrayList<Ammo>();
+    private ArrayList<Powerup> powerups;
+    private ArrayList<Weapon> weapons;
     private PlayerBoard playerBoard;
     private int points;
     private String motto;
@@ -28,168 +28,157 @@ public class Player {
     private boolean firstPlayer;
     private boolean dead;
     private ArrayList<Player> shootable;
+    transient private ArrayList<Move> possibleMoves = new ArrayList<Move>();
 
     //Costruttore
 
-    public Player(String name, Color color, int id, Character character, Square currentPosition, Phase phase, ArrayList<Ammo> ammo, ArrayList<Powerup> powerup, ArrayList<Weapon> weapon, PlayerBoard playerBoard, int points, String motto, int adrenalinelevel, int stackPoint, boolean firstPlayer, boolean dead, ArrayList<Player> shootable) {
-        this.name = name;
-        this.color = color;
+    public Player(int id, boolean firstPlayer) {
         this.id = id;
-        this.character = character;
-        this.currentPosition = currentPosition;
-        this.phase = phase;
-        this.ammo = ammo;
-        this.powerup = powerup;
-        this.weapon = weapon;
-        this.playerBoard = playerBoard;
-        this.points = points;
-        this.motto = motto;
-        this.adrenalinelevel = adrenalinelevel;
-        this.stackPoint = stackPoint;
         this.firstPlayer = firstPlayer;
-        this.dead = dead;
-        this.shootable = shootable;
+        this.name = null;
+        this.character = Character.NOT_ASSIGNED;
+        this.currentPosition = null;
+        this.phase = Phase.WAIT;
+        this.ammos.add(new Ammo(Color.BLUE));
+        this.ammos.add(new Ammo(Color.YELLOW));
+        this.ammos.add(new Ammo(Color.RED));
+        this.powerups = new ArrayList<Powerup>();
+        this.weapons = new ArrayList<Weapon>();
+        this.playerBoard = new PlayerBoard();
+        this.points = 0;
+        this.motto = null;
+        this.adrenalinelevel = 0;
+        this.stackPoint = 0;
+        this.dead = false;
+        this.shootable = new ArrayList<Player>();
     }
 
-    //setter
-    public void setDead(boolean dead) {
-        this.dead = dead;
-    }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public void setWeapon(ArrayList<Weapon> weapon) {
-        this.weapon = weapon;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public void setCurrentPosition(Square currentPosition) {
-        this.currentPosition = currentPosition;
-    }
-
-    public void setAdrenalinelevel(int adrenalinelevel) {
-        this.adrenalinelevel = adrenalinelevel;
-    }
-
-    public void setAmmo(ArrayList<Ammo> ammo) {
-        this.ammo = ammo;
-    }
-
-    public void setPowerup(ArrayList<Powerup> powerup) {
-        this.powerup = powerup;
-    }
-
-    public void setShootable(ArrayList<Player> shootable) {
-        this.shootable = shootable;
-    }
-
-    public void setPlayerBoard(PlayerBoard playerBoard) {
-        this.playerBoard = playerBoard;
-    }
-
-    public void setStackPoint(int stackPoint) {
-        this.stackPoint = stackPoint;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setMotto(String motto) {
-        this.motto = motto;
-    }
-
-    public void setPhase(Phase phase) {
-        this.phase = phase;
-    }
-
-    public void setAdrenalinaLevel(int adrenalinaLevel) {
-        this.adrenalinelevel = adrenalinaLevel;
-    }
-
-    public void setFirstPlayer(boolean firstPlayer) {
-        this.firstPlayer = firstPlayer;
-    }
-
-    //getter
-    public Color getColor() {
-        return color;
-    }
-
-    public boolean isDead() {
-        return dead;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getMotto() {
-        return motto;
-    }
-
-    public PlayerBoard getPlayerBoard() {
-        return playerBoard;
+    public int getId() {
+        return id;
     }
 
     public Character getCharacter() {
         return character;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public int getStackPoint() {
-        return stackPoint;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public Phase getPhase() {
-        return phase;
-    }
-
-    public boolean isFirstPlayer() {
-        return firstPlayer;
-    }
-
-    public ArrayList<Ammo> getAmmo() {
-        return ammo;
-    }
-
-    public ArrayList<Player> getShootable() {
-        return shootable;
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
     public Square getCurrentPosition() {
         return currentPosition;
     }
 
-    public List<Powerup> getPowerup() {
-        return powerup;
+    public void setCurrentPosition(Square destination) {
+        this.currentPosition = destination;
+    }
+
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public void setPhase(Phase phase) {
+        this.phase = phase;
+    }
+
+    /*
+    Some methods set for ArrayList types deleted ( method .add provided by ArrayList)
+     */
+
+    public void setAmmos(ArrayList<Ammo> ammos) {
+        this.ammos = ammos;
+    }
+
+    public ArrayList<Ammo> getAmmos() {
+        return ammos;
+    }
+
+    public ArrayList<Powerup> getPowerups() {
+        return powerups;
+    }
+
+    public ArrayList<Weapon> getWeapons() {
+        return weapons;
+    }
+
+    public PlayerBoard getPlayerBoard() {
+        return playerBoard;
+    }
+
+    /*
+    set PlayerBoard deleted as PlayerBoard not editable
+     */
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void addPoints(int points) {
+        this.points = this.points + points;
+    }
+
+    public String getMotto() {
+        return motto;
+    }
+
+    public void setMotto(String motto) {
+        this.motto = motto;
     }
 
     public int getAdrenalinelevel() {
         return adrenalinelevel;
     }
 
-    public ArrayList<Weapon> getWeapon() {
-        return weapon;
+    public void setAdrenalinelevel(int adrenalinelevel) {
+        this.adrenalinelevel = adrenalinelevel;
+    }
+
+    public int getStackPoint() {
+        return stackPoint;
+    }
+
+    public void addStackPoint(int stackPoint) {
+        this.stackPoint = this.stackPoint + stackPoint;
+    }
+
+    public boolean isFirstPlayer() {
+        return firstPlayer;
+    }
+
+    /*
+    SetFirstPlayer deleted as attribute not editable
+     */
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
+    public ArrayList<Player> getShootable() {
+        return shootable;
+    }
+
+    public void setShootable(ArrayList<Player> shootable) {
+        this.shootable = shootable;
+    }
+
+    public ArrayList<Move> getPossibleMoves() {
+        return possibleMoves;
+    }
+
+    public void setPossibleMoves(ArrayList<Move> possibleMoves) {
+        this.possibleMoves = possibleMoves;
     }
 }

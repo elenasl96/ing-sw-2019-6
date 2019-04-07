@@ -1,6 +1,7 @@
 package model.enums;
 
 public enum Character {
+    NOT_ASSIGNED("NOT_ASSIGNED", Color.NONE),
     PG1(":D-STRUCT-OR", Color.YELLOW),
     PG2("BANSHEE", Color.BLUE),
     PG3("DOZER", Color.GREY),

@@ -1,23 +1,20 @@
 package model.field;
 
-import model.decks.Ammo;
+import model.decks.AmmoTile;
 import model.enums.Color;
 
-import java.util.List;
-
 public class AmmoSquare extends Square{
-    private Ammo ammo;
+    private AmmoTile ammo;
 
-    public AmmoSquare(Color color, List<Square> adjacents, Ammo ammo) {
-        super(color, adjacents);
-        this.ammo = ammo;
+    public AmmoSquare(Color color) {
+        super(color);
     }
 
-    public Ammo getAmmo() {
+    public AmmoTile getAmmo() {
         return ammo;
     }
 
-    public void setAmmo(Ammo ammo) {
+    public void setAmmo(AmmoTile ammo) {
         this.ammo = ammo;
     }
 }

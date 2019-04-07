@@ -6,11 +6,11 @@ import java.util.List;
 
 public class Weapon {
     private String name;
-    private List<Ammo> ammos;
+    private List<AmmoTile> ammos;
     private String effectsDescription;
     private WeaponStatus status;
 
-    public Weapon(String name, List<Ammo> ammos, String effectsDescription, WeaponStatus status) {
+    public Weapon(String name, List<AmmoTile> ammos, String effectsDescription, WeaponStatus status) {
         this.name = name;
         this.ammos = ammos;
         this.effectsDescription = effectsDescription;
@@ -25,11 +25,11 @@ public class Weapon {
         this.name = name;
     }
 
-    public List<Ammo> getAmmos() {
+    public List<AmmoTile> getAmmos() {
         return ammos;
     }
 
-    public void setAmmos(List<Ammo> ammos) {
+    public void setAmmos(List<AmmoTile> ammos) {
         this.ammos = ammos;
     }
 

@@ -1,19 +1,9 @@
 package model.decks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AmmoDeck {
-    private List<AmmoTiles> ammoTiles;
+    private ArrayList<AmmoTile> ammoTiles = new ArrayList<>();
 
-    public AmmoDeck(List<AmmoTiles> ammoTiles) {
-        this.ammoTiles = ammoTiles;
-    }
-
-    public List<AmmoTiles> getAmmoTiles() {
-        return ammoTiles;
-    }
-
-    public void setAmmoTiles(List<AmmoTiles> ammoTiles) {
-        this.ammoTiles = ammoTiles;
-    }
 }
