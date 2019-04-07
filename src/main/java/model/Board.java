@@ -1,14 +1,25 @@
 package model;
 
 import model.decks.*;
+import model.enums.Color;
 import model.field.Room;
+import model.field.SpawnSquare;
+import model.field.Square;
 
-import java.lang.reflect.Array;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.lang.*;
+
+import static java.lang.Character.isUpperCase;
+import static model.enums.Color.found;
 
 public class Board {
-    private List<Room> field;
+    private ArrayList<Room> field;
     private List<Player> killshotTrack;
     private WeaponDeck weaponsLeft;
     private AmmoDeck ammosLeft;
@@ -17,6 +28,37 @@ public class Board {
     private List<Powerup> powerupsLeftover;
 
     public Board(){
+        String line;
+        Color cl;
+        int r=0, c=0;
+        char letter;
+        try {
+            BufferedReader lineReader = new BufferedReader(new FileReader("prova.txt"));
+            ;
+            while((line = lineReader.readLine())!=null){
+                Scanner charReader = new Scanner(lineReader);
+                while((letter = charReader.next().charAt(0)) != -1){
+                    cl = found(letter);
+                    if(cl!=null){
+                        if(isUpperCase(letter)){
+                            ;
+                            field.add(new SpawnSquare(cl));
+                        }
+
+                    }
+                }
+            }
+
+        } catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        } catch (IOException io){
+            System.out.println(io.getMessage());
+        }
+
+
+
+
+
         this.killshotTrack = new ArrayList<Player>();
         this.weaponsLeft = new WeaponDeck();
         this.ammosLeft = new AmmoDeck();

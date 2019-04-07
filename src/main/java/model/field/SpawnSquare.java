@@ -7,7 +7,7 @@ import java.util.List;
 public class SpawnSquare extends Square{
 
 
-    public SpawnSquare(Color color, List<Square> adjacents) {
+    public SpawnSquare(Color color) {
         super(color);
     }
 }

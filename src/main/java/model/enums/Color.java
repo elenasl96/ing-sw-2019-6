@@ -10,12 +10,26 @@ public enum Color {
     WHITE("bianco", 'w'),
     PURPLE("viola", 'p');
 
-    private String color;
-    private char abbr;
+    public String color;
+    public char abbr;
 
     Color(String name, char abbr){
         this.abbr = abbr;
         this.color = name;
+    }
+
+    /**
+     * Check if the given letter is in the collection
+     * @param letter
+     * @return
+     */
+    public static Color found(char letter) {
+        for (Color c : Color.values()) {
+            if (c.abbr == letter) {
+                return c;
+            }
+        }
+        return null;
     }
 
 }
