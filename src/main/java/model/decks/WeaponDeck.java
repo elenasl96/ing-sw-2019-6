@@ -9,8 +9,8 @@ public class WeaponDeck {
         //this.weapons.add(new Weapon("Distruttore", ));
     //}
 
-    public WeaponDeck(List<Weapon> weapons) {
-        this.weapons = weapons;
+    public WeaponDeck() {
+        //TODO initialization of weapon deck from static data
     }
 
     public List<Weapon> getWeapons() {
