@@ -36,12 +36,13 @@ public class SocketServer implements Closeable{
     public void handleConnection(Socket clientConnection) throws IOException{
         InputStream is = null;
         OutputStream os = null;
-        try{
+        try(
+            BufferedReader in = new BufferedReader(new InputStreamReader(is));
+            PrintWriter out = new PrintWriter(os, true);
+                ){
             is = clientConnection.getInputStream();
             os = clientConnection.getOutputStream();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(is));
-            PrintWriter out = new PrintWriter(os, true);
             String command;
 
             do {
@@ -90,7 +91,10 @@ public class SocketServer implements Closeable{
         int port = Integer.parseInt(args[0]);
 
         SocketServer server = new SocketServer(port);
-        server.lifeCycle();
+        try{
+            server.lifeCycle();} finally{
+            server.close();
+        }
     }
 
     @Override
