@@ -2,6 +2,6 @@ package exception;
 
 public class FullPlayerBoardException extends Exception {
     public FullPlayerBoardException(){
-        //TODO
+        super("No space for other players"); //TODO
     }
 }

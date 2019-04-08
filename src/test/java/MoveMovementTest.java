@@ -34,7 +34,7 @@ public class MoveMovementTest {
         field.getEdges().add(new Edge(field.getSquares().get(5), field.getSquares().get(6)));
     }
 
-    @Test
+    @Test//(expected = InvalidMoveException.class)
     public void test1(){
         Player p = new Player(1, true);
 
@@ -42,6 +42,9 @@ public class MoveMovementTest {
 
         Movement movement = new Movement(this.field);
         movement.setMaxSteps(1);
+        
+        assertEquals(movement.getField(),field);
+
 
         p.setCurrentPosition(field.getSquares().get(1));
         movement.setDestination(field.getSquares().get(0));
@@ -63,7 +66,7 @@ public class MoveMovementTest {
             System.out.println(ime.getMessage());
         }
 
-        assertEquals(field.getSquares().get(0), p.getCurrentPosition());
+        assertEquals(field.getSquares().get(3), p.getCurrentPosition());
 
         movement.setMaxSteps(3);
         movement.setDestination(field.getSquares().get(3));
@@ -75,6 +78,17 @@ public class MoveMovementTest {
         }
 
         assertEquals(field.getSquares().get(3), p.getCurrentPosition());
+
+        movement.setMaxSteps(1);
+        movement.setDestination(field.getSquares().get(6));
+
+        try{
+            movement.execute(p);
+            fail();
+        } catch (InvalidMoveException ime) {
+            System.out.println(ime.getMessage());
+        }
+
     }
 
 }
