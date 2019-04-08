@@ -27,25 +27,28 @@
  }
 
  Player "1" *- PlayerBoard
- class Player{
+ class Player implements Serializable{
      - name: String
      - id: int
      - character: Character
      - currentPosition: Square
-     - phase: int
-     - ammos: List<Ammo>
-     - powerups: List<Powerup>
-     - weapons: List<Weapon>
+     - phase: Phase
+     - ammos: ArrayList<Ammo>
+     - powerups: ArrayList<Powerup>
+     - weapons: ArayList<Weapon>
+     - playerBoard: PlayerBoard
      - points: int
      - motto: String
      - adrenalineLevel: int
      - stackPoint: int
      - firstPlayer: boolean
      - dead: boolean
-     - shootable<Player>: List
+     - shootable: ArrayList<Player>
+     - transient possibleMoves: ArrayList<Moves>
      __
+     + Player(int, boolean): constructor
      + getAll()
-     + setAll()
+     + setAll(): void
  }
 
   Game "3...5" - Player
@@ -172,6 +175,20 @@ package GameField{
 
  SpawnSquare "3" *-- Weapon
 
+package moves{
+    interface Move{
+        __
+        + execute(Player): void
+        --throws--
+        InvalidMoveException
+        NotEnoughAmmoException
+    }
+
+    class Pay implements Move{
+
+    }
+}
+
 @enduml
 
 
@@ -271,9 +288,3 @@ interface Observer <<Interface>>
 
 
 @enduml
-
-
-
-
-newpage
-@start
