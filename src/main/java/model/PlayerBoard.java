@@ -1,16 +1,15 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerBoard {
-    private List<Player> damage;
-    private List<Player> marks;
+public class PlayerBoard implements Serializable {
+    private List<Player> damage = new ArrayList<>();
+    private List<Player> marks = new ArrayList<>();
     private int deaths;
 
     public PlayerBoard() {
-        this.damage = new ArrayList<Player>();
-        this.marks = new ArrayList<>();
         this.deaths = 0;
     }
 

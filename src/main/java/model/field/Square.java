@@ -1,6 +1,7 @@
 package model.field;
 
 import model.enums.Color;
+import org.jetbrains.annotations.Contract;
 
 import java.io.Serializable;
 import java.util.List;

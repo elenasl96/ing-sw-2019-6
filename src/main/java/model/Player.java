@@ -10,6 +10,7 @@ import model.moves.Move;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player implements Serializable {
     private String name;
@@ -17,18 +18,18 @@ public class Player implements Serializable {
     private Character character;
     private Square currentPosition;
     private Phase phase;
-    private ArrayList<Ammo> ammos = new ArrayList<>();
-    private ArrayList<Powerup> powerups;
-    private ArrayList<Weapon> weapons;
-    private PlayerBoard playerBoard;
+    private List<Ammo> ammos = new ArrayList<>();
+    private List<Powerup> powerups = new ArrayList<>();
+    private List<Weapon> weapons = new ArrayList<>();
+    private PlayerBoard playerBoard = new PlayerBoard();
     private int points;
     private String motto;
-    private int adrenalinelevel;
+    private int adrenalineLevel;
     private int stackPoint;
     private boolean firstPlayer;
     private boolean dead;
-    private ArrayList<Player> shootable;
-    private transient ArrayList<Move> possibleMoves = new ArrayList<>();
+    private List<Player> shootable = new ArrayList<>();
+    private transient List<Move> possibleMoves = new ArrayList<>();
 
     //Costruttore
 
@@ -47,7 +48,7 @@ public class Player implements Serializable {
         this.playerBoard = new PlayerBoard();
         this.points = 0;
         this.motto = null;
-        this.adrenalinelevel = 0;
+        this.adrenalineLevel = 0;
         this.stackPoint = 0;
         this.dead = false;
         this.shootable = new ArrayList<>();
@@ -94,19 +95,19 @@ public class Player implements Serializable {
     Some methods set for ArrayList types deleted ( method .add provided by ArrayList)
      */
 
-    public void setAmmos(ArrayList<Ammo> ammos) {
+    public void setAmmos(List<Ammo> ammos) {
         this.ammos = ammos;
     }
 
-    public ArrayList<Ammo> getAmmos() {
+    public List<Ammo> getAmmos() {
         return ammos;
     }
 
-    public ArrayList<Powerup> getPowerups() {
+    public List<Powerup> getPowerups() {
         return powerups;
     }
 
-    public ArrayList<Weapon> getWeapons() {
+    public List<Weapon> getWeapons() {
         return weapons;
     }
 
@@ -134,12 +135,12 @@ public class Player implements Serializable {
         this.motto = motto;
     }
 
-    public int getAdrenalinelevel() {
-        return adrenalinelevel;
+    public int getAdrenalineLevel() {
+        return adrenalineLevel;
     }
 
-    public void setAdrenalinelevel(int adrenalinelevel) {
-        this.adrenalinelevel = adrenalinelevel;
+    public void setAdrenalineLevel(int adrenalineLevel) {
+        this.adrenalineLevel = adrenalineLevel;
     }
 
     public int getStackPoint() {
@@ -166,19 +167,19 @@ public class Player implements Serializable {
         this.dead = dead;
     }
 
-    public ArrayList<Player> getShootable() {
+    public List<Player> getShootable() {
         return shootable;
     }
 
-    public void setShootable(ArrayList<Player> shootable) {
+    public void setShootable(List<Player> shootable) {
         this.shootable = shootable;
     }
 
-    public ArrayList<Move> getPossibleMoves() {
+    public List<Move> getPossibleMoves() {
         return possibleMoves;
     }
 
-    public void setPossibleMoves(ArrayList<Move> possibleMoves) {
+    public void setPossibleMoves(List<Move> possibleMoves) {
         this.possibleMoves = possibleMoves;
     }
 }

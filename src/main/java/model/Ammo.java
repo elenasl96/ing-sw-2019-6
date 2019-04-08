@@ -2,7 +2,9 @@ package model;
 
 import model.enums.Color;
 
-public class Ammo {
+import java.io.Serializable;
+
+public class Ammo implements Serializable {
     private Color color;
 
     public Ammo(Color color){
