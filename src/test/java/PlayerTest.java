@@ -28,7 +28,7 @@ public class PlayerTest {
     public void nameTest() {
         Ammo a1 = new Ammo(Color.YELLOW);
         Player pg = new Player(1, true);
-        Square sq = new SpawnSquare(Color.YELLOW, null);
+        Square sq = new SpawnSquare(Color.YELLOW);
         Player pg2 = new Player (2, false);
         ArrayList<Player> sh = new ArrayList<>();
         sh.add(pg2);

@@ -3,16 +3,13 @@ package model;
 import model.decks.*;
 import model.enums.Color;
 import model.field.*;
-import org.graalvm.compiler.lir.amd64.AMD64Move;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.lang.*;
 
 import static java.lang.Character.isUpperCase;
 import static model.enums.Color.found;
@@ -27,6 +24,7 @@ public class Board {
     private List<Powerup> powerupsLeftover;
 
     public Board(){
+        /*
         String line;
         Color cl;
         int r=0, c=0;
@@ -48,14 +46,14 @@ public class Board {
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
+        */
 
-
-        this.killshotTrack = new ArrayList<Player>();
+        this.killshotTrack = new ArrayList<>();
         this.weaponsLeft = new WeaponDeck();
         this.ammosLeft = new AmmoDeck();
         this.powerupsLeft = new PowerupDeck();
-        this.ammosLeftover = new ArrayList<AmmoTile>();
-        this.powerupsLeftover = new ArrayList<Powerup>();
+        this.ammosLeftover = new ArrayList<>();
+        this.powerupsLeftover = new ArrayList<>();
 
     }
 
@@ -97,7 +95,7 @@ public class Board {
 
     /**
      * add the powerup in powerups leftovers
-     * @param powerupLeftover
+     * @param powerupLeftover   the leftover
      */
     public void addPowerupLeftover(Powerup powerupLeftover) {
         this.powerupsLeftover.add(powerupLeftover);
