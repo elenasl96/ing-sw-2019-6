@@ -3,9 +3,10 @@ package model.decks;
 import model.Ammo;
 import model.enums.Color;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class AmmoTile {
+public abstract class AmmoTile implements Serializable {
     private List<Ammo> ammos;
 
     public AmmoTile(Color color1, Color color2, Color color3){

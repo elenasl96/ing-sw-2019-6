@@ -1,9 +1,12 @@
 package model.moves;
 
+import exception.FullMarksException;
 import exception.InvalidMoveException;
 import exception.NotEnoughAmmoException;
 import model.Player;
 
-public interface Move {
-    void execute(Player p) throws NotEnoughAmmoException, InvalidMoveException;
+import java.io.Serializable;
+
+public interface Move extends Serializable{
+    void execute(Player p) throws FullMarksException, NotEnoughAmmoException, InvalidMoveException;
 }

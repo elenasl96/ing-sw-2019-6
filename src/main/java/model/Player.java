@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements Serializable {
+public class Player implements Serializable{
     private String name;
     private int id; //da 0 a numeroGiocatori-1
     private Character character;
@@ -29,7 +29,7 @@ public class Player implements Serializable {
     private boolean firstPlayer;
     private boolean dead;
     private List<Player> shootable = new ArrayList<>();
-    private transient List<Move> possibleMoves = new ArrayList<>();
+    private List<Move> possibleMoves = new ArrayList<>();
 
     //Costruttore
 
@@ -43,15 +43,11 @@ public class Player implements Serializable {
         this.ammos.add(new Ammo(Color.BLUE));
         this.ammos.add(new Ammo(Color.YELLOW));
         this.ammos.add(new Ammo(Color.RED));
-        this.powerups = new ArrayList<>();
-        this.weapons = new ArrayList<>();
-        this.playerBoard = new PlayerBoard();
         this.points = 0;
         this.motto = null;
         this.adrenalineLevel = 0;
         this.stackPoint = 0;
         this.dead = false;
-        this.shootable = new ArrayList<>();
     }
 
 

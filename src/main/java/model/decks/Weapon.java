@@ -2,9 +2,10 @@ package model.decks;
 
 import model.enums.WeaponStatus;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Weapon {
+public class Weapon implements Serializable {
     private String name;
     private List<AmmoTile> ammos;
     private String effectsDescription;

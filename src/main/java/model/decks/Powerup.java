@@ -4,9 +4,10 @@ package model.decks;
 import model.Ammo;
 import model.moves.Move;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Powerup {
+public class Powerup implements Serializable {
     private String name;
     private Ammo ammo;
     private ArrayList<Move> moves = new ArrayList<Move>();

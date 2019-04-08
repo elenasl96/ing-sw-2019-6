@@ -14,7 +14,7 @@ public class Game {
         //Default constructor
         this.numberPlayers = 0;
         this.board = new Board();
-        this.players = new ArrayList<Player>();
+        this.players = new ArrayList<>();
         this.turn = 0;
     }
 
