@@ -51,12 +51,12 @@
      + setAll(): void
  }
 
-  Game "3...5" - Player
+  Game "3...5" *- Player
   class Game{
     - numberPlayers: int
     - board: Board
-    - players<Player>: List
-    - phase: int
+    - players: ArrayList<Player>
+    - phase: Phase
   }
 
  Board "1" - Game
@@ -185,6 +185,21 @@ package moves{
     }
 
     class Pay implements Move{
+
+    }
+    class Movement implements Move{
+        - destination: Square
+        - field: Field
+        - reachList: ArrayList<Square>
+        - maxSteps: int
+        __
+        + execute(Player): void
+        + createReachList(Player, int, Square)
+    }
+    class Damage implements Move{
+
+    }
+    class Mark implements Move{
 
     }
 }

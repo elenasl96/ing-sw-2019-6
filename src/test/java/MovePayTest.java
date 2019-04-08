@@ -9,10 +9,9 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class MoveTest {
+public class MovePayTest {
     private Pay payment;
     private Player player;
-
 
     /**
      * tests the payment gone wright
@@ -34,8 +33,8 @@ public class MoveTest {
 
         //Checking if a new list from getPlayer modifies the player's list or its copy
         player.getAmmos().add(redAmmo);
-        ArrayList<Ammo> testList = new ArrayList<>();
-        testList = player.getAmmos();
+        ArrayList<Ammo> testList;
+        testList = (ArrayList<Ammo>) player.getAmmos();
         testList.remove(redAmmo);
         assertFalse(player.getAmmos().isEmpty());
 

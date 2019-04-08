@@ -35,6 +35,7 @@ public class Movement implements Move{
      * @throws InvalidMoveException if the destination is unreachable for the player
      */
     public void execute(Player p) throws InvalidMoveException {
+        if(!this.reachList.isEmpty()) this.reachList.clear();
         createReachList(p, maxSteps, p.getCurrentPosition());
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);

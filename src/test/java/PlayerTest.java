@@ -1,4 +1,3 @@
-import model.Ammo;
 import model.Player;
 import model.enums.Character;
 import model.enums.Color;
@@ -7,26 +6,14 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.Move;
 import model.moves.Pay;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class PlayerTest {
-    private Player john;
-
-    @Before
-    public void createPlayer(){
-
-    }
+class PlayerTest {
     @Test
-    public void nameTest() {
-        Ammo a1 = new Ammo(Color.YELLOW);
+    void nameTest() {
         Player pg = new Player(1, true);
         Square sq = new SpawnSquare(Color.YELLOW);
         Player pg2 = new Player (2, false);
@@ -49,7 +36,7 @@ public class PlayerTest {
         assertEquals(1, pg.getId());
         assertEquals("YELLOW", pg.getCurrentPosition().getColor().name());
         assertEquals(0, pg.getPoints());
-        assertEquals(0, pg.getAdrenalinelevel());
+        assertEquals(0, pg.getAdrenalineLevel());
         assertTrue(pg.isFirstPlayer());
         assertFalse(pg.isDead());
         assertTrue(pg.getShootable().isEmpty());
@@ -59,7 +46,7 @@ public class PlayerTest {
         pg.setPossibleMoves(mv);
         pg.setShootable(sh);
         pg.addStackPoint(2);
-        pg.setAdrenalinelevel(2);
+        pg.setAdrenalineLevel(2);
         pg.addPoints(2);
         pg.setPhase(Phase.FIRST);
         pg.setDead(true);
@@ -69,7 +56,7 @@ public class PlayerTest {
         assertEquals(2, pg.getShootable().get(0).getId());
         assertTrue(pg.isDead());
         assertEquals(2, pg.getStackPoint());
-        assertEquals(2, pg.getAdrenalinelevel());
+        assertEquals(2, pg.getAdrenalineLevel());
         assertEquals(2, pg.getPoints());
         assertEquals(Phase.FIRST, pg.getPhase());
         assertTrue( pg.getPowerups().isEmpty());
