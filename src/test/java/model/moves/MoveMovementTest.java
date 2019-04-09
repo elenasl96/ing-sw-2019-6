@@ -4,15 +4,13 @@ import exception.InvalidMoveException;
 import model.Player;
 import model.enums.Color;
 import model.field.*;
-import model.moves.Movement;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 
-public class MoveMovementTest {
+class MoveMovementTest {
     private Field field;
-    @Before
-    public void createField(){
+
+    void createField(){
         field = new Field();
 
         //Creating the field
@@ -37,7 +35,7 @@ public class MoveMovementTest {
     }
 
     @Test//(expected = InvalidMoveException.class)
-    public void test1(){
+    void test1(){
         Player p = new Player(1, true);
 
         createField();

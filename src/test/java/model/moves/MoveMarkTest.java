@@ -1,16 +1,15 @@
 package model.moves;
 
 import model.Player;
-import model.moves.Mark;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class MoveMarkTest {
+class MoveMarkTest {
 
     @Test
-    public void MarkTest(){
+    void MarkTest(){
         Player playerMarking = new Player(1, true);
         Player playerMarked = new Player(2, false);
         playerMarked.getPlayerBoard().addMarks(playerMarking, 3);
@@ -19,7 +18,7 @@ public class MoveMarkTest {
 
     }
     @Test
-    public void MarkExceptionTest(){
+    void MarkExceptionTest(){
         //TODO missing Exception Test
     }
 }

@@ -4,14 +4,11 @@ import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;
 import model.enums.Color;
-import model.moves.Pay;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
-public class MovePayTest {
+class MovePayTest {
     private Pay payment;
     private Player player;
 
@@ -19,7 +16,7 @@ public class MovePayTest {
      * tests the payment gone wright
      */
     @Test
-    public void paymentTest1(){
+    void paymentTest1(){
         payment = new Pay();
         player = new Player(1, true);
         Ammo yellowAmmo = new Ammo(Color.YELLOW);
@@ -48,19 +45,17 @@ public class MovePayTest {
         payment.getAmmos().add(yellowAmmo);
         //payment.ammos is: <b,r,y>
 
-        try {payment.execute(player);}
+        try {
+            System.out.println(payment.getAmmos());
+            System.out.println(player.getAmmos());
+            payment.execute(player);
+            System.out.println(payment.getAmmos());
+            System.out.println(player.getAmmos());
+        }
         catch (NotEnoughAmmoException nea){
             System.out.println(nea.getMessage());
         }
         assertTrue(player.getAmmos().isEmpty());
-
-        player.setAmmos(ammoList);
-        payment.getAmmos().add(blueAmmo);
-        try {payment.execute(player);}
-        catch (NotEnoughAmmoException nea){
-            System.out.println(nea.getMessage());
-        }
-        assertEquals(ammoList, player.getAmmos());
     }
 
     /**
@@ -68,7 +63,7 @@ public class MovePayTest {
      * should throw a new NotEnoughAmmoException
      */
     @Test
-    public void paymentTest2(){
+    void paymentTest2(){
         payment = new Pay();
         player = new Player(1, true);
         Ammo yellowAmmo = new Ammo(Color.YELLOW);
@@ -89,9 +84,15 @@ public class MovePayTest {
 
         player.setAmmos(ammoList);
         //player.ammos is: <b,y,r>
+        payment.getAmmos().add(new Ammo(Color.BLUE));
 
-        payment.getAmmos().add(blueAmmo);
-        try {payment.execute(player);}
+        try {
+            System.out.println(payment.getAmmos());
+            System.out.println(player.getAmmos());
+            payment.execute(player);
+            System.out.println(payment.getAmmos());
+            System.out.println(player.getAmmos());
+        }
         catch (NotEnoughAmmoException nea){
             System.out.println(nea.getMessage());
         }
