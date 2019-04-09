@@ -24,4 +24,12 @@ public abstract class AmmoTile extends Grabbable implements Serializable {
         ammos.add(ammoTemp1);
         ammos.add(ammoTemp2);
     }
+
+    public List<Ammo> getAmmos() {
+        return ammos;
+    }
+
+    public void setAmmos(List<Ammo> ammos) {
+        this.ammos = ammos;
+    }
 }

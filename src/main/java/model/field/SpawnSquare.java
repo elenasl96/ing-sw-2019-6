@@ -14,7 +14,6 @@ public class SpawnSquare extends Square{
         this.weapons=wp;
     }
 
-
     @Override
     public Grabbable getGrabbable() {
         return weapons;
