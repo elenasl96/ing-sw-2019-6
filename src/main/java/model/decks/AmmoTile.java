@@ -6,7 +6,7 @@ import model.enums.Color;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class AmmoTile implements Serializable {
+public abstract class AmmoTile extends Grabbable implements Serializable {
     private List<Ammo> ammos;
 
     public AmmoTile(Color color1, Color color2, Color color3){

@@ -10,7 +10,7 @@ public class AmmoSquare extends Square{
         super(color);
     }
 
-    public AmmoTile getAmmo() {
+    public AmmoTile getGrabbable() {
         return ammo;
     }
 

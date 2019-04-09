@@ -1,5 +1,6 @@
 package model.field;
 
+import model.decks.Grabbable;
 import model.enums.Color;
 import org.jetbrains.annotations.Contract;
 
@@ -29,4 +30,6 @@ public abstract class Square implements Serializable {
     public void setAdjacents(List<Square> adjacents) {
         this.adjacents = adjacents;
     }
+
+    public abstract Grabbable getGrabbable();
 }
