@@ -13,5 +13,7 @@ public class PlayerBoardTest {
         Player p = new Player(1, true);
         pb.addDamage(p, 1);
         assertEquals(p,pb.getDamage().get(0));
+        pb.addDeath();
+        assertEquals(1, pb.getDeaths());
     }
 }

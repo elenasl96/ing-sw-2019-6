@@ -6,7 +6,7 @@ import java.util.List;
 public class Game {
     private int numberPlayers;
     private Board board;
-    private List<Player> players;
+    private List<Player> players = new ArrayList<>();
     private int turn;
     private int skullsNumber;
 
@@ -14,9 +14,10 @@ public class Game {
         //Default constructor
         this.numberPlayers = 0;
         this.board = new Board();
-        this.players = new ArrayList<>();
         this.turn = 0;
     }
+
+    
 
     public int getNumberPlayers() {
         return numberPlayers;
@@ -48,5 +49,17 @@ public class Game {
 
     public void setTurn(int phase) {
         this.turn = phase;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public int getSkullsNumber() {
+        return skullsNumber;
+    }
+
+    public void setSkullsNumber(int skullsNumber) {
+        this.skullsNumber = skullsNumber;
     }
 }
