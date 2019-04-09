@@ -1,7 +1,10 @@
 package model.moves;
 
+import exception.FullMarksException;
 import model.Player;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,12 +12,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MoveMarkTest {
 
     @Test
-    void MarkTest(){
+    void MarkTest() throws FullMarksException {
         Player playerMarking = new Player(1, true);
         Player playerMarked = new Player(2, false);
-        playerMarked.getPlayerBoard().addMarks(playerMarking, 3);
+        Mark m = new Mark(playerMarked, 2);
+        /*add 3 marks of playermarking to playermarked */
+        m.execute(playerMarking);
+        assertEquals(2, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
 
-        assertEquals(1, playerMarked.getPlayerBoard().getMarks().get(0).getId());
+        /*add other 3 marks of playermarking to playermarked */
+        m.execute((playerMarking));
+        assertEquals(3, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
+
+        /*add other 3 marks --> this move will throw fullmarkexception*/
+        try{
+            m.execute((playerMarking));
+        } catch (FullMarksException e){
+            System.out.println(e.getMessage());
+        }
+
+        assertEquals(3, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
 
     }
     @Test

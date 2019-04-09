@@ -25,19 +25,4 @@ public class Mark implements Move{
         this.nMarks = nMarks;
     }
 
-    public Player getPlayerMarked() {
-        return playerMarked;
-    }
-
-    public void setPlayerMarked(Player playerMarked) {
-        this.playerMarked = playerMarked;
-    }
-
-    public int getnMarks() {
-        return nMarks;
-    }
-
-    public void setnMarks(int nMarks) {
-        this.nMarks = nMarks;
-    }
 }
