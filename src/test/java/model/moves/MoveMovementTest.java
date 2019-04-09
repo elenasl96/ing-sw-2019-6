@@ -33,7 +33,32 @@ class MoveMovementTest {
         field.getEdges().add(new Edge(field.getSquares().get(4), field.getSquares().get(5)));
         field.getEdges().add(new Edge(field.getSquares().get(5), field.getSquares().get(6)));
     }
+    @Test
+    void gettersAndSetters(){
+        createField();
+        Movement movement = new Movement(field);
+        assertEquals(field, movement.getField());
 
+        movement.setMaxSteps(3);
+        assertEquals(3, movement.getMaxSteps());
+
+        Square destination = new SpawnSquare(Color.BLUE);
+        movement.setDestination(destination);
+        assertEquals(destination, movement.getDestination());
+
+        Field field2 = new Field();
+        field.getSquares().add(new AmmoSquare(Color.BLUE));
+        field.getSquares().add(new AmmoSquare(Color.BLUE));
+        field.getSquares().add(new SpawnSquare(Color.BLUE));
+        field.getEdges().add(new Edge(field.getSquares().get(0), field.getSquares().get(1)));
+        field.getEdges().add(new Edge(field.getSquares().get(1), field.getSquares().get(2)));
+        movement.setField(field2);
+        assertEquals(field2, movement.getField());
+
+        movement.setReachList(field.getSquares());
+        assertEquals(field.getSquares(), movement.getReachList());
+
+    }
     @Test//(expected = InvalidMoveException.class)
     void test1(){
         Player p = new Player(1, true);
