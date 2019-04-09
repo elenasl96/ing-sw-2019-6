@@ -9,6 +9,11 @@ class AmmoTest {
         Ammo ammo1 = new Ammo(Color.BLUE);
         Ammo ammo2 = new Ammo(Color.BLUE);
 
+        assertEquals(ammo1, ammo1);
         assertEquals(ammo1, ammo2);
+
+        Player p = new Player(1, true);
+
+        assertNotEquals(ammo1,p);
     }
 }
