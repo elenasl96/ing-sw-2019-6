@@ -1,5 +1,7 @@
 package model;
 
+import model.decks.AmmoTile;
+import model.decks.AmmoTileWithAmmo;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Character;
@@ -193,5 +195,9 @@ public class Player implements Serializable{
 
     public void setPossibleMoves(List<Move> possibleMoves) {
         this.possibleMoves = possibleMoves;
+    }
+
+    public void refillAmmo(AmmoTile ammoTileWithAmmo) {
+
     }
 }

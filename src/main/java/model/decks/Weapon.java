@@ -1,6 +1,7 @@
 package model.decks;
 
 import model.Ammo;
+import model.Player;
 import model.enums.WeaponStatus;
 import model.moves.Move;
 
