@@ -20,6 +20,7 @@ public class Mark implements Move{
         }
     }
 
+    public Mark(){}
     public Mark(Player playerMarked, int nMarks) {
         this.playerMarked = playerMarked;
         this.nMarks = nMarks;
