@@ -1,8 +1,8 @@
 package exception;
 
-public class NotEnoughAmmoException extends Exception {
+public class NotEnoughAmmoException extends InvalidMoveException {
 
     public NotEnoughAmmoException(){
-        super("Not Enaugh Ammo!"); //TODO
+        super("Not enough ammos!");
     }
 }

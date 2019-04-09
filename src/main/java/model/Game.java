@@ -17,7 +17,7 @@ public class Game {
         this.turn = 0;
     }
 
-    
+
 
     public int getNumberPlayers() {
         return numberPlayers;
