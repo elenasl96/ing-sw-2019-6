@@ -50,7 +50,6 @@ public class MoveMovementTest {
         movement.setDestination(field.getSquares().get(0));
         try{
             movement.execute(p);
-            System.out.println(movement.getReachList());
         } catch (InvalidMoveException ime) {
             System.out.println(ime.getMessage());
         }
@@ -61,7 +60,6 @@ public class MoveMovementTest {
 
         try{
             movement.execute(p);
-            System.out.println(movement.getReachList());
         } catch (InvalidMoveException ime) {
             System.out.println(ime.getMessage());
         }
