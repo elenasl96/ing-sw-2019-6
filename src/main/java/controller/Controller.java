@@ -29,7 +29,7 @@ public class Controller implements Observer {
     public void startGame(){
         //todo Add number of skulls
         game.getBoard().getField().getSquares().forEach(square-> {
-            square.setGrabbable();
+            square.setGrabbable(game.getBoard());
         });
         chooseFirstPlayer();
     }
