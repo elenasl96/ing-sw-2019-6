@@ -32,4 +32,8 @@ public abstract class Square implements Serializable {
     }
 
     public abstract Grabbable getGrabbable();
+
+    public void setGrabbable(){
+
+    }
 }

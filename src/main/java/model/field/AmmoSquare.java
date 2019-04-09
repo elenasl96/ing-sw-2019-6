@@ -14,6 +14,10 @@ public class AmmoSquare extends Square{
         return ammo;
     }
 
+    public void setGrabbable(){
+
+    }
+
     public void setAmmo(AmmoTile ammo) {
         this.ammo = ammo;
     }

@@ -14,9 +14,22 @@ public class SpawnSquare extends Square{
         this.weapons=wp;
     }
 
+    public void setWeapons(WeaponTile weapons) {
+        this.weapons = weapons;
+    }
+
 
     @Override
     public Grabbable getGrabbable() {
         return weapons;
     }
+
+    @Override
+    public void setGrabbable(){
+        for(int i=0; i<3; i++){
+            weapons.addWeapon(pickRandomWeapon());
+        }
+
+    }
+
 }
