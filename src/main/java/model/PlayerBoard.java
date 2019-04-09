@@ -27,6 +27,14 @@ public class PlayerBoard implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return number of endured damages
+     */
+    public int getNumDamageLeft(){
+        return 12-this.damage.size();
+    }
+
     public List<Player> getMarks() {
         return marks;
     }
