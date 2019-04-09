@@ -1,5 +1,7 @@
 package model.decks;
 
-public abstract class Grabbable {
+import model.Player;
 
+public abstract class Grabbable {
+    public abstract void useGrabbable(Player player);
 }

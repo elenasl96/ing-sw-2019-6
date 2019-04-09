@@ -16,6 +16,7 @@ public class Grab implements Move{
     @Override
     public void execute(Player p) throws InvalidMoveException {
         Grabbable grabbable=p.getCurrentPosition().getGrabbable();
+        grabbable.useGrabbable(p);
     }
 
     public Field getField() {

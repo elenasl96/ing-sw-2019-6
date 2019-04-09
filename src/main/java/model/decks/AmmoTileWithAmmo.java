@@ -1,6 +1,7 @@
 package model.decks;
 
 import model.Ammo;
+import model.Player;
 import model.enums.Color;
 
 public class AmmoTileWithAmmo extends AmmoTile{
@@ -12,5 +13,10 @@ public class AmmoTileWithAmmo extends AmmoTile{
      */
     public AmmoTileWithAmmo(Color color1, Color color2, Color color3){
         super(color1, color2, color3);
+    }
+
+    @Override
+    public void useGrabbable(Player player) {
+        //TODO
     }
 }
