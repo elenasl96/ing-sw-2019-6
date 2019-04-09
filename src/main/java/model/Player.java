@@ -12,6 +12,8 @@ import model.moves.Move;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Player implements Serializable{
@@ -197,7 +199,15 @@ public class Player implements Serializable{
         this.possibleMoves = possibleMoves;
     }
 
-    public void refillAmmo(AmmoTile ammoTileWithAmmo) {
+    public void refillAmmo(AmmoTile ammotile) {
+        List<Ammo> refill=ammotile.getAmmos();
 
+        for(Ammo a: refill) {
+
+            if(Collections.frequency(ammos,a)<2)
+            {
+                ammos.add(a.clone());
+            }
+        }
     }
 }

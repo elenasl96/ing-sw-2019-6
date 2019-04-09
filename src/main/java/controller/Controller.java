@@ -58,4 +58,32 @@ public class Controller implements Observer {
 
     }
 
+    public void play(){
+        Player current;
+        for(int i=0; i < game.getNumberPlayers(); i++) {
+            if(game.getPlayers().get(i).isFirstPlayer()){
+                break;
+            }
+            game.getPlayers().iterator().next();
+        }
+
+        while(!game.isDone()) {
+            current = game.getPlayers().iterator().next();
+            current.setPhase(Phase.FIRST);
+            playPhase(current);
+            current.setPhase(Phase.SECOND);
+            playPhase(current);
+            current.setPhase(Phase.RELOAD);
+            endPhase(current);
+            current.setPhase(Phase.WAIT);
+        }
+    }
+
+    private void endPhase(Player player) {
+    }
+
+    private void playPhase(Player player) {
+
+    }
+
 }

@@ -1,20 +1,23 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
     private int numberPlayers;
     private Board board;
-    private List<Player> players = new ArrayList<>();
+    private List<Player> players = new LinkedList<>();
     private int turn;
     private int skullsNumber;
+    private boolean done;
 
     public Game(){
         //Default constructor
         this.numberPlayers = 0;
         this.board = new Board();
         this.turn = 0;
+        this.done = false;
     }
 
 
@@ -61,5 +64,9 @@ public class Game {
 
     public void setSkullsNumber(int skullsNumber) {
         this.skullsNumber = skullsNumber;
+    }
+
+    public boolean isDone() {
+        return done;
     }
 }
