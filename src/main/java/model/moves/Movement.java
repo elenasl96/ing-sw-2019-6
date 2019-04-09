@@ -1,6 +1,5 @@
 package model.moves;
-
-import exception.InvalidMoveException;
+import exception.InvalidMovementException;
 import model.Player;
 import model.field.Field;
 import model.field.Square;
@@ -32,14 +31,14 @@ public class Movement implements Move{
     /**
      * Implement the movement
      * @param p the player who wants to move
-     * @throws InvalidMoveException if the destination is unreachable for the player
+     * @throws InvalidMovementException if the destination is unreachable for the player
      */
-    public void execute(Player p) throws InvalidMoveException {
+    public void execute(Player p) throws InvalidMovementException {
         if(!this.reachList.isEmpty()) this.reachList.clear();
         createReachList(p, maxSteps, p.getCurrentPosition());
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);
-        }else throw new InvalidMoveException();
+        }else throw new InvalidMovementException();
     }
 
     /**
