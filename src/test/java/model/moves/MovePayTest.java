@@ -19,23 +19,17 @@ class MovePayTest {
     void paymentTest1(){
         payment = new Pay();
         player = new Player(1, true);
+        System.out.println(player.getAmmos());
         Ammo yellowAmmo = new Ammo(Color.YELLOW);
         Ammo blueAmmo = new Ammo(Color.BLUE);
         Ammo redAmmo = new Ammo(Color.RED);
 
         ArrayList<Ammo> ammoList = new ArrayList<>();
 
-        ammoList.add(yellowAmmo);
-        ammoList.add(blueAmmo);
-        ammoList.add(redAmmo);
+        ammoList.add(new Ammo(Color.YELLOW));
+        ammoList.add(new Ammo(Color.BLUE));
+        ammoList.add(new Ammo(Color.RED));
         //ammoList is: <y,b,r>
-
-        //Checking if a new list from getPlayer modifies the player's list or its copy
-        player.getAmmos().add(redAmmo);
-        ArrayList<Ammo> testList;
-        testList = (ArrayList<Ammo>) player.getAmmos();
-        testList.remove(redAmmo);
-        assertFalse(player.getAmmos().isEmpty());
 
         player.setAmmos(ammoList);
         //player.ammos is: <b,y,r>
@@ -82,20 +76,22 @@ class MovePayTest {
         payment.getAmmos().add(yellowAmmo);
         //payment.ammos is: <b,r,y>
 
-        player.setAmmos(ammoList);
+        player.setAmmos(new ArrayList<>(ammoList));
         //player.ammos is: <b,y,r>
         payment.getAmmos().add(new Ammo(Color.BLUE));
 
         try {
             System.out.println(payment.getAmmos());
             System.out.println(player.getAmmos());
+            System.out.println(player.getAmmos().containsAll(payment.getAmmos()));
             payment.execute(player);
-            System.out.println(payment.getAmmos());
             System.out.println(player.getAmmos());
         }
         catch (NotEnoughAmmoException nea){
             System.out.println(nea.getMessage());
         }
+        System.out.println(ammoList);
+        System.out.println(player.getAmmos());
         assertEquals(ammoList, player.getAmmos());
     }
 }
