@@ -1,7 +1,8 @@
 package socket.model;
 
-import chat.exceptions.DuplicateEntityException;
-import chat.exceptions.UserNotInGroupException;
+
+import socket.exceptions.DuplicateEntityException;
+import socket.exceptions.UserNotInGroupException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

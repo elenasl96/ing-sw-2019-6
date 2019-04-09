@@ -6,12 +6,7 @@ import model.Player;
 import model.decks.PowerupDeck;
 import model.enums.Phase;
 
-import model.field.Square;
-
-import pattern.Observer;
-
-
-public class Controller implements Observer {
+public class Controller{
     /**
      * the current game
      */

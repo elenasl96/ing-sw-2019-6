@@ -1,8 +1,9 @@
 package socket.network.commands;
 
-import chat.ClientContext;
-import chat.model.Group;
-import chat.model.User;
+
+import socket.ClientContext;
+import socket.model.Group;
+import socket.model.User;
 
 public class GroupChangeNotification implements Response {
     public final boolean inOut;

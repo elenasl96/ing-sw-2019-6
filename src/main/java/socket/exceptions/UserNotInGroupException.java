@@ -1,7 +1,8 @@
 package socket.exceptions;
 
-import chat.model.Group;
-import chat.model.User;
+
+import socket.model.Group;
+import socket.model.User;
 
 public class UserNotInGroupException extends RuntimeException {
 

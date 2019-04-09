@@ -1,8 +1,8 @@
 package socket;
 
-import chat.exceptions.InvalidUsernameException;
-import chat.model.Group;
-import chat.model.User;
+import socket.exceptions.InvalidUsernameException;
+import socket.model.Group;
+import socket.model.User;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,7 +1,7 @@
 package socket;
 
 
-import chat.network.ChatServer;
+import socket.network.ChatServer;
 
 import java.io.IOException;
 

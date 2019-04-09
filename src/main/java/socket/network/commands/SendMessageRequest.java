@@ -1,6 +1,6 @@
 package socket.network.commands;
 
-import chat.model.Message;
+import socket.model.Message;
 
 public class SendMessageRequest implements Request {
     public final Message message;

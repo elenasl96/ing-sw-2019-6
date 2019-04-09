@@ -1,6 +1,7 @@
 package socket;
 
-import chat.model.*;
+
+import socket.model.*;
 
 import java.util.Scanner;
 

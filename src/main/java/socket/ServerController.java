@@ -1,11 +1,12 @@
 package socket;
 
-import chat.exceptions.InvalidUsernameException;
-import chat.model.Group;
-import chat.model.Message;
-import chat.model.User;
-import chat.network.ClientHandler;
-import chat.network.commands.*;
+
+import socket.exceptions.InvalidUsernameException;
+import socket.model.Group;
+import socket.model.Message;
+import socket.model.User;
+import socket.network.ClientHandler;
+import socket.network.commands.*;
 
 public class ServerController implements RequestHandler {
     // reference to the networking layer

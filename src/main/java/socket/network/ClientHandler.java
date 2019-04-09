@@ -1,14 +1,14 @@
 package socket.network;
 
-import chat.ServerController;
-import chat.model.GroupChangeListener;
-import chat.model.Message;
-import chat.model.MessageReceivedObserver;
-import chat.model.User;
-import chat.network.commands.GroupChangeNotification;
-import chat.network.commands.MessageNotification;
-import chat.network.commands.Request;
-import chat.network.commands.Response;
+import socket.ServerController;
+import socket.model.GroupChangeListener;
+import socket.model.Message;
+import socket.model.MessageReceivedObserver;
+import socket.model.User;
+import socket.network.commands.GroupChangeNotification;
+import socket.network.commands.MessageNotification;
+import socket.network.commands.Request;
+import socket.network.commands.Response;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

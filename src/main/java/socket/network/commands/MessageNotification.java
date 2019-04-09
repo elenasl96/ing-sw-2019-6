@@ -1,8 +1,8 @@
 package socket.network.commands;
 
-import chat.ClientContext;
-import chat.model.Message;
-import chat.model.User;
+import socket.ClientContext;
+import socket.model.Message;
+import socket.model.User;
 
 public class MessageNotification implements Response {
     public final Message message;

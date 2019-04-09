@@ -1,6 +1,6 @@
 package socket.network.commands;
 
-import chat.model.Group;
+import socket.model.Group;
 
 public class JoinGroupResponse implements Response {
     public final Group group;

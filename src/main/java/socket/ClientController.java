@@ -1,10 +1,10 @@
 package socket;
 
-import chat.model.Group;
-import chat.model.Message;
-import chat.model.User;
-import chat.network.Client;
-import chat.network.commands.*;
+import socket.model.Group;
+import socket.model.Message;
+import socket.model.User;
+import socket.network.Client;
+import socket.network.commands.*;
 
 import java.io.IOException;
 

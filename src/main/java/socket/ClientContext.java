@@ -1,7 +1,8 @@
 package socket;
 
-import chat.model.Group;
-import chat.model.User;
+
+import socket.model.Group;
+import socket.model.User;
 
 /**
  * SINGLETON (CLIENT SIDE)

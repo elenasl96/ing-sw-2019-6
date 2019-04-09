@@ -1,6 +1,6 @@
 package socket.network.commands;
 
-import chat.model.User;
+import socket.model.User;
 
 public class UserCreatedResponse implements Response {
     public final User user;
