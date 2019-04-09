@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Character.isUpperCase;
-import static model.enums.Color.found;
 
 public class Board {
     private Field field;

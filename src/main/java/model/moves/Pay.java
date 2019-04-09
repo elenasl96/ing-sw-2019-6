@@ -5,6 +5,8 @@ import model.Ammo;
 import model.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,10 +25,12 @@ public class Pay implements Move {
      * @throws NotEnoughAmmoException   if p doesn't have enough ammo
      */
     public void execute(Player p) throws NotEnoughAmmoException {
-        if(!p.getAmmos().containsAll(this.ammos))throw new NotEnoughAmmoException();
-        else {
-            p.getAmmos().removeAll(this.ammos);
+        for(int i=0; i<this.ammos.size(); i++){
+            if(Collections.frequency(p.getAmmos(), this.ammos.get(i))<
+                    Collections.frequency(this.ammos, this.ammos.get(i)))
+                throw new NotEnoughAmmoException();
         }
+        p.getAmmos().removeAll(this.ammos);
     }
 
     public List<Ammo> getAmmos() {

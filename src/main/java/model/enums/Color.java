@@ -23,6 +23,7 @@ public enum Color {
      * @param letter
      * @return
      */
+    /*
     public static Color found(char letter) {
         for (Color c : Color.values()) {
             if (c.abbr == letter) {
@@ -31,5 +32,6 @@ public enum Color {
         }
         return null;
     }
+    */
 
 }
