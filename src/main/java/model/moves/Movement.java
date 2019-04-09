@@ -71,6 +71,7 @@ public class Movement implements Move{
         this.field = field;
     }
 
+    public Movement(int maxSteps) { this.maxSteps = maxSteps; }
     /**
      * Used getters and setters
      */
