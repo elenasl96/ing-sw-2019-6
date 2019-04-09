@@ -1,52 +1,51 @@
 package model.decks;
 
+import model.Ammo;
 import model.enums.WeaponStatus;
+import model.moves.Move;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Weapon implements Serializable {
     private String name;
-    private List<AmmoTile> ammos;
     private String effectsDescription;
     private WeaponStatus status;
+    private List<Move> basicEffect = new ArrayList<>();
+    private List<Ammo> ammoBasic = new ArrayList<>();
+    private List<Move> optionalEffect = new ArrayList<>();
+    private List<Ammo> ammoOptional = new ArrayList<>();
+    private List<Move> alternateFireEffect = new ArrayList<>();
+    private List<Ammo> ammoAlternateFire = new ArrayList<>();
 
-    public Weapon(String name, List<AmmoTile> ammos, String effectsDescription, WeaponStatus status) {
+    public Weapon(String name, String effectsDescription) {
         this.name = name;
-        this.ammos = ammos;
         this.effectsDescription = effectsDescription;
-        this.status = status;
+        this.status = WeaponStatus.PARTIALLY_LOADED;
     }
 
-    public String getName() {
-        return name;
+    public void setBasicEffect(List<Move> basicEffect) {
+        this.basicEffect = basicEffect;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAmmoBasic(List<Ammo> ammoBasic) {
+        this.ammoBasic = ammoBasic;
     }
 
-    public List<AmmoTile> getAmmos() {
-        return ammos;
+    public void setOptionalEffect(List<Move> optionalEffect) {
+        this.optionalEffect = optionalEffect;
     }
 
-    public void setAmmos(List<AmmoTile> ammos) {
-        this.ammos = ammos;
+    public void setAmmoOptional(List<Ammo> ammoOptional) {
+        this.ammoOptional = ammoOptional;
     }
 
-    public String getEffectsDescription() {
-        return effectsDescription;
+    public void setAlternateFireEffect(List<Move> alternateFireEffect) {
+        this.alternateFireEffect = alternateFireEffect;
     }
 
-    public void setEffectsDescription(String effectsDescription) {
-        this.effectsDescription = effectsDescription;
-    }
-
-    public WeaponStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(WeaponStatus status) {
-        this.status = status;
+    public void setAmmoAlternateFire(List<Ammo> ammoAlternateFire) {
+        this.ammoAlternateFire = ammoAlternateFire;
     }
 }
