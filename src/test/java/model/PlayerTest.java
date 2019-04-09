@@ -65,4 +65,20 @@ class PlayerTest {
         assertTrue(pg.getWeapons().isEmpty());
         assertEquals(0, pg.getPlayerBoard().getDeaths());
     }
+
+    @Test
+    void equalsTest(){
+        Player p1 = new Player(1, true);
+        Player p2 = new Player(2, false);
+
+        assertEquals(p1, p1);
+        assertNotEquals(null, p1);
+
+        assertNotEquals(p1, null);
+        assertEquals(p1, p2);
+
+        Ammo ammo = new Ammo(Color.BLUE);
+
+        assertNotEquals(p1,ammo);
+    }
 }

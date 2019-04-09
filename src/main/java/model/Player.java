@@ -50,6 +50,22 @@ public class Player implements Serializable{
         this.dead = false;
     }
 
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Player)) {
+            return false;
+        }
+        Player player = (Player) obj;
+        return player.id == this.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
     public String getName() {
         return name;
