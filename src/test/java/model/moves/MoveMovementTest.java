@@ -1,3 +1,5 @@
+package model.moves;
+
 import exception.InvalidMoveException;
 import model.Player;
 import model.enums.Color;

@@ -1,3 +1,5 @@
+package model.moves;
+
 import model.Player;
 import model.moves.Mark;
 import org.junit.Test;

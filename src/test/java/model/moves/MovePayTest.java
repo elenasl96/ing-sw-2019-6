@@ -1,3 +1,5 @@
+package model.moves;
+
 import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;

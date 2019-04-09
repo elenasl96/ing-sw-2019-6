@@ -1,3 +1,5 @@
+package model;
+
 import model.Player;
 import model.enums.Character;
 import model.enums.Color;
