@@ -46,7 +46,7 @@ public class PowerupDeck {
 
             this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.YELLOW)));
             //TODO
-            
+
             this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.BLUE)));
 
             this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.RED)));
