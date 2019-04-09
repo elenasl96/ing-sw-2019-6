@@ -1,15 +1,9 @@
 package model;
 
 import model.decks.*;
-import model.enums.Color;
 import model.field.*;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static java.lang.Character.isUpperCase;
 
@@ -23,37 +17,12 @@ public class Board {
     private List<Powerup> powerupsLeftover;
 
     public Board(){
-        /*
-        String line;
-        Color cl;
-        int r=0, c=0;
-        char letter;
-        try {
-            BufferedReader lineReader = new BufferedReader(new FileReader("prova.txt"));
-            while((line = lineReader.readLine())!=null){
-                Scanner charReader = new Scanner(lineReader);
-                while((letter = charReader.next().charAt(0)) != -1){
-                    cl = found(letter);
-                    if(cl!=null){
-                        if(isUpperCase(letter)){
-                            field.getSquares().add(new SpawnSquare(cl));
-                        } else field.getSquares().add(new AmmoSquare(cl));
-                    }
-                }
-            }
-
-        } catch (IOException e){
-            System.out.println(e.getMessage());
-        }
-        */
-
         this.killshotTrack = new ArrayList<>();
         this.weaponsLeft = new WeaponDeck();
         this.ammosLeft = new AmmoDeck();
         this.powerupsLeft = new PowerupDeck();
         this.ammosLeftover = new ArrayList<>();
         this.powerupsLeftover = new ArrayList<>();
-
     }
 
     public Field getField() {
