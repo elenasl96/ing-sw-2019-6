@@ -93,6 +93,10 @@ public class ClientController implements ResponseHandler {
     }
 
     @Override
+    public void handle(FullGroupResponse fullGroupResponse) {
+        //TODO
+    }
+    @Override
     public void handle(UserCreatedResponse userCreatedResponse) {
         ClientContext.get().setCurrentUser(userCreatedResponse.user);
     }

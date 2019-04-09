@@ -11,4 +11,6 @@ public interface ResponseHandler {
     void handle(UserCreatedResponse userCreatedResponse);
 
     void handle(SituationViewerResponse situationViewerResponse);
+
+    void handle(FullGroupResponse fullGroupResponse);
 }

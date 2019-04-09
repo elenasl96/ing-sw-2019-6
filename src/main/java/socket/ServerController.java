@@ -1,6 +1,7 @@
 package socket;
 
 
+import socket.exceptions.FullGroupException;
 import socket.exceptions.InvalidUsernameException;
 import socket.model.Group;
 import socket.model.Message;
@@ -54,12 +55,22 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(ChooseGroupRequest chooseGroupRequest) {
         currentGroup = manager.getDefaultGroup();
-        currentGroup.join(user);
+        try{
+            if(currentGroup.isFull()){
+                throw new FullGroupException();
+            }
+            else{
+                currentGroup.join(user);
+                currentGroup.observe(clientHandler);
 
-        currentGroup.observe(clientHandler);
+                System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
+                return new JoinGroupResponse(currentGroup);
 
-        System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
-        return new JoinGroupResponse(currentGroup);
+            }
+        } catch(FullGroupException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     @Override

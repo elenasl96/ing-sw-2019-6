@@ -44,6 +44,7 @@ public class Group implements Serializable {
         }
 
         users.add(user);
+        if(this.isFull()) this.full=true;
 
         for(GroupChangeListener listener : listeners)
             listener.onJoin(user);
@@ -92,7 +93,8 @@ public class Group implements Serializable {
     public boolean in(User user) {return users.contains(user);}
 
     public boolean isFull() {
-        return full;
+        if(this.size()>=5) return true;
+        else return false;
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
