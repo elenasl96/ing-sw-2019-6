@@ -69,7 +69,7 @@ class PlayerTest {
     @Test
     void equalsTest(){
         Player p1 = new Player(1, true);
-        Player p2 = new Player(2, false);
+        Player p2 = new Player(1, false);
 
         assertEquals(p1, p1);
         assertNotEquals(null, p1);
