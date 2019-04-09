@@ -1,5 +1,6 @@
 package model.field;
 
+import model.Board;
 import model.decks.Grabbable;
 import model.enums.Color;
 import org.jetbrains.annotations.Contract;
@@ -32,4 +33,8 @@ public abstract class Square implements Serializable {
     }
 
     public abstract Grabbable getGrabbable();
+
+    public void setGrabbable(Board board){
+
+    }
 }

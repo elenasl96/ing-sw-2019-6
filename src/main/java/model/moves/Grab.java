@@ -17,6 +17,7 @@ public class Grab implements Move{
     public void execute(Player p) throws InvalidMoveException {
         Grabbable grabbable=p.getCurrentPosition().getGrabbable();
         grabbable.useGrabbable(p);
+        //TODO togliere la carta dal terreno di giugo e metterla nel mazzo degli scarti
     }
 
     public Field getField() {

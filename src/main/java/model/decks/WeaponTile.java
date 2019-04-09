@@ -5,7 +5,6 @@ import model.Player;
 import java.util.List;
 
 public class WeaponTile extends Grabbable{
-
     private List<Weapon> weapons;
 
     public WeaponTile(Weapon weapon1, Weapon weapon2, Weapon weapon3) {

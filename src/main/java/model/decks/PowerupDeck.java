@@ -6,9 +6,11 @@ import model.moves.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PowerupDeck {
     private List<Powerup> powerups = new ArrayList<>();
+    private Random random = new Random();
 
     private static final String TARGETING_SCOPE = "targeting scope" ;
     private static final String NEWTON = "newton";
@@ -53,6 +55,15 @@ public class PowerupDeck {
 
 
         }
+    }
+
+    /**
+     * random.nextInt() generates a random int which is used to retrieve a
+     * random element from the deck
+     * @return a powerup card randomly
+     */
+    public Powerup pickRandomCard(){
+        return powerups.get(random.nextInt());
     }
 
     public List<Powerup> getPowerups(){return this.powerups;}

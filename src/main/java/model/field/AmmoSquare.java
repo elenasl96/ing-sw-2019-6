@@ -1,5 +1,6 @@
 package model.field;
 
+import model.Board;
 import model.decks.AmmoTile;
 import model.enums.Color;
 
@@ -14,7 +15,9 @@ public class AmmoSquare extends Square{
         return ammo;
     }
 
-    public void setAmmo(AmmoTile ammo) {
-        this.ammo = ammo;
+    @Override
+    public void setGrabbable(Board board){
+        this.ammo=board.getAmmosLeft().pickRandomCard();
     }
+
 }

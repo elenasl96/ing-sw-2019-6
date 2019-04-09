@@ -33,4 +33,8 @@ public class Ammo implements Serializable {
     public int hashCode() {
         return super.hashCode();
     }
+
+    public Ammo clone() {
+        return new Ammo(color);
+    }
 }

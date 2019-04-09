@@ -3,6 +3,7 @@ package controller;
 import model.Board;
 import model.Game;
 import model.Player;
+import model.decks.PowerupDeck;
 import model.enums.Phase;
 
 import model.field.Square;
@@ -20,9 +21,19 @@ public class Controller implements Observer {
         this.game = new Game();
     }
 
-    public void startGame(){
-
+    public Player chooseFirstPlayer() {
+        //Wait players for a common response
+        return null;
     }
+
+    public void startGame(){
+        //todo Add number of skulls
+        game.getBoard().getField().getSquares().forEach(square-> {
+            square.setGrabbable(game.getBoard());
+        });
+        chooseFirstPlayer();
+    }
+
     /*public boolean isValid(Movement move, Player player) {
         if (player.getPhase() != Phase.WAIT) {
             switch (move) {
@@ -42,6 +53,7 @@ public class Controller implements Observer {
 
     }
     */
+
     public void update(String command){
 
     }

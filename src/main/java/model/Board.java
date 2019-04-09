@@ -37,6 +37,18 @@ public class Board {
         return killshotTrack;
     }
 
+    public WeaponDeck getWeaponsLeft() {
+        return weaponsLeft;
+    }
+
+    public AmmoDeck getAmmosLeft() {
+        return ammosLeft;
+    }
+
+    public PowerupDeck getPowerupsLeft() {
+        return powerupsLeft;
+    }
+
     /**
      * Adds the player who killed on the kill shot track
      * @param pg player who killed
