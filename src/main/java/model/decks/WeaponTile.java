@@ -14,6 +14,10 @@ public class WeaponTile extends Grabbable{
         weapons.add(weapon3);
     }
 
+    public void addWeapon(Weapon weapon) {
+        weapons.add(weapon);
+    }
+
     @Override
     public void useGrabbable(Player player) {
         //TODO
