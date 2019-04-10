@@ -1,10 +1,9 @@
 package model.decks;
 
-import model.Ammo;
 import model.Player;
 import model.enums.Color;
 
-public class AmmoTileWithAmmo extends AmmoTile{
+public class AmmoTileWithAmmo extends AmmoTile implements Grabbable{
     /**
      * Calls the constructor of the superclass AmmoTile that creates a list of 3 ammos
      * @param color1

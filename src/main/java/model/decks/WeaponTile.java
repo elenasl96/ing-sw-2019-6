@@ -2,10 +2,11 @@ package model.decks;
 
 import model.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WeaponTile extends Grabbable{
-    private List<Weapon> weapons;
+public class WeaponTile implements Grabbable{
+    private List<Weapon> weapons = new ArrayList<>();
 
     public WeaponTile(Weapon weapon1, Weapon weapon2, Weapon weapon3) {
         weapons.add(weapon1);

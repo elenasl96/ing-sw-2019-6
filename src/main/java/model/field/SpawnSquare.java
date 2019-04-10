@@ -2,11 +2,8 @@ package model.field;
 
 import model.Board;
 import model.decks.Grabbable;
-import model.decks.WeaponDeck;
 import model.decks.WeaponTile;
 import model.enums.Color;
-
-import java.util.List;
 
 public class SpawnSquare extends Square{
     private WeaponTile weapons;

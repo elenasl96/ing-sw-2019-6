@@ -3,19 +3,19 @@ package model.decks;
 import model.Player;
 import model.enums.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AmmoTileWithPowerup extends AmmoTile{
+public class AmmoTileWithPowerup extends AmmoTile implements Grabbable{
+    List<Powerup> powerupsLeft = new ArrayList<>();
 
-    private Powerup powerup;
-
-    public AmmoTileWithPowerup(Color color1, Color color2, Color color3, Powerup powerup){
-        super(color1, color2, color3);
-        this.powerup=powerup;
+    public AmmoTileWithPowerup(Color color1, Color color2){
+        super(color1, color2);
     }
 
     @Override
     public void useGrabbable(Player player) {
-        //TODO
+        player.refillAmmo(this);
+
     }
 }

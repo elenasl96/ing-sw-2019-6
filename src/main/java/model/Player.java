@@ -201,9 +201,7 @@ public class Player implements Serializable{
 
     public void refillAmmo(AmmoTile ammotile) {
         List<Ammo> refill=ammotile.getAmmos();
-
         for(Ammo a: refill) {
-
             if(Collections.frequency(ammos,a)<2)
             {
                 ammos.add(a.clone());

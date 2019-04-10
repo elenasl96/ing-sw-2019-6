@@ -34,6 +34,7 @@ public class Ammo implements Serializable {
         return super.hashCode();
     }
 
+    @Override
     public Ammo clone() {
         return new Ammo(color);
     }
