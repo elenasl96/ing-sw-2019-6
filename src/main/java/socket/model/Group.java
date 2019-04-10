@@ -124,14 +124,11 @@ public class Group implements Serializable {
         if(this.users == null) return "";
         else if(this.full) situation = situation.concat("Group "+this.groupID+" full\n");
         else {
-            situation = situation.concat("\nGroup "+this.groupID+" has "+this.users().size()+" players:\n");
             situation = situation.concat("Group "+this.groupID+" has "+this.users().size()+" players:\n");
             for(User u: this.users)
                 situation = situation.concat(u.toString()+", ");
-        }
         } situation = situation.concat("\n");
         return situation;
     }
-
     public int getGroupID(){return this.groupID;}
 }
