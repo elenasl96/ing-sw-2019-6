@@ -2,10 +2,11 @@ package model.decks;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AmmoDeck {
     private SecureRandom random = new SecureRandom();
-    private ArrayList<AmmoTile> ammoTiles = new ArrayList<>();
+    private List<AmmoTile> ammoTiles = new ArrayList<>();
 
     public AmmoDeck(){
         //TODO Inizialization of AmmoDeck from static data
