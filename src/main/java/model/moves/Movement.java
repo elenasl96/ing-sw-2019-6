@@ -22,7 +22,7 @@ public class Movement implements Move{
     /**
      * The List of achievable Squares by the player
      */
-    private ArrayList<Square> reachList = new ArrayList<>();
+    private List<Square> reachList = new ArrayList<>();
     /**
      * The maximum number of steps the player can do
      */
@@ -95,7 +95,7 @@ public class Movement implements Move{
         return reachList;
     }
 
-    public void setReachList(ArrayList<Square> reachList) {
+    public void setReachList(List<Square> reachList) {
         this.reachList = reachList;
     }
 

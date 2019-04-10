@@ -20,7 +20,7 @@ public class WeaponDeck {
      * @return a weapon card randomly
      */
     public Weapon pickRandomCard(){
-        return weapons.get(random.nextInt());
+        return weapons.get(random.nextInt(this.weapons.size()));
     }
 
     public List<Weapon> getWeapons() {

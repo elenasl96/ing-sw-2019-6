@@ -63,7 +63,7 @@ public class PowerupDeck {
      * @return a powerup card randomly
      */
     public Powerup pickRandomCard(){
-        return powerups.get(random.nextInt());
+        return powerups.get(random.nextInt(this.powerups.size()));
     }
 
     public List<Powerup> getPowerups(){return this.powerups;}

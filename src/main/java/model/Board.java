@@ -29,6 +29,9 @@ public class Board {
         return field;
     }
 
+    public void setField(Field field) {
+        this.field = field;
+    }
     /*
      setfield deleted as field not editable
     */
