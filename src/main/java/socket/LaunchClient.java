@@ -19,6 +19,7 @@ public class LaunchClient {
         }
 
         String host = tokens[0];
+        System.out.println(host);
         int port = Integer.parseInt(tokens[1]);
 
         Client client = new Client(host, port);

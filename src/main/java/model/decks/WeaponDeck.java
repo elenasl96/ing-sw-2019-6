@@ -1,12 +1,13 @@
 package model.decks;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class WeaponDeck {
     private List<Weapon> weapons = new ArrayList<>();
-    private Random random = new Random();
+    private SecureRandom random = new SecureRandom();
 
 
     public WeaponDeck() {

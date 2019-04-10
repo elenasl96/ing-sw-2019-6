@@ -4,13 +4,13 @@ import model.Ammo;
 import model.enums.Color;
 import model.moves.*;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class PowerupDeck {
     private List<Powerup> powerups = new ArrayList<>();
-    private Random random = new Random();
+    private SecureRandom random = new SecureRandom();
 
     private static final String TARGETING_SCOPE = "targeting scope" ;
     private static final String NEWTON = "newton";
