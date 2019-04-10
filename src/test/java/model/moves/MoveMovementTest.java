@@ -1,6 +1,7 @@
 package model.moves;
 
 import exception.InvalidMoveException;
+import exception.NotExistingFieldException;
 import model.Player;
 import model.enums.Color;
 import model.field.*;
@@ -12,26 +13,11 @@ class MoveMovementTest {
 
     void createField(){
         field = new Field();
-
-        //Creating the field
-        //Model:
-        // b0 o b1 o B2
-        // p         p
-        // R3 o r4 o r5 p G6
-        field.getSquares().add(new AmmoSquare(Color.BLUE));
-        field.getSquares().add(new AmmoSquare(Color.BLUE));
-        field.getSquares().add(new SpawnSquare(Color.BLUE));
-        field.getSquares().add(new SpawnSquare(Color.RED));
-        field.getSquares().add(new AmmoSquare(Color.RED));
-        field.getSquares().add(new AmmoSquare(Color.RED));
-        field.getSquares().add(new SpawnSquare(Color.YELLOW));
-        field.getEdges().add(new Edge(field.getSquares().get(0), field.getSquares().get(1)));
-        field.getEdges().add(new Edge(field.getSquares().get(1), field.getSquares().get(2)));
-        field.getEdges().add(new Edge(field.getSquares().get(0), field.getSquares().get(3)));
-        field.getEdges().add(new Edge(field.getSquares().get(2), field.getSquares().get(5)));
-        field.getEdges().add(new Edge(field.getSquares().get(3), field.getSquares().get(4)));
-        field.getEdges().add(new Edge(field.getSquares().get(4), field.getSquares().get(5)));
-        field.getEdges().add(new Edge(field.getSquares().get(5), field.getSquares().get(6)));
+        try {
+            field.generateField(1);
+        } catch (NotExistingFieldException e) {
+            e.printStackTrace();
+        }
     }
     @Test
     void gettersAndSetters(){
@@ -42,14 +28,14 @@ class MoveMovementTest {
         movement.setMaxSteps(3);
         assertEquals(3, movement.getMaxSteps());
 
-        Square destination = new SpawnSquare(Color.BLUE);
+        Square destination = new SpawnSquare(Color.BLUE, new Coordinate('B',2));
         movement.setDestination(destination);
         assertEquals(destination, movement.getDestination());
 
         Field field2 = new Field();
-        field.getSquares().add(new AmmoSquare(Color.BLUE));
-        field.getSquares().add(new AmmoSquare(Color.BLUE));
-        field.getSquares().add(new SpawnSquare(Color.BLUE));
+        field.getSquares().add(new AmmoSquare(Color.BLUE, new Coordinate('B',2)));
+        field.getSquares().add(new AmmoSquare(Color.BLUE, new Coordinate('B',2)));
+        field.getSquares().add(new SpawnSquare(Color.BLUE, new Coordinate('B',2)));
         field.getEdges().add(new Edge(field.getSquares().get(0), field.getSquares().get(1)));
         field.getEdges().add(new Edge(field.getSquares().get(1), field.getSquares().get(2)));
         movement.setField(field2);

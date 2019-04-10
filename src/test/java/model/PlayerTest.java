@@ -4,6 +4,7 @@ import model.Player;
 import model.enums.Character;
 import model.enums.Color;
 import model.enums.Phase;
+import model.field.Coordinate;
 import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.Move;
@@ -17,7 +18,7 @@ class PlayerTest {
     @Test
     void nameTest() {
         Player pg = new Player(1, true);
-        Square sq = new SpawnSquare(Color.YELLOW);
+        Square sq = new SpawnSquare(Color.YELLOW, new Coordinate('B',2));
         Player pg2 = new Player (2, false);
         ArrayList<Player> sh = new ArrayList<>();
         sh.add(pg2);

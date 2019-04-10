@@ -11,8 +11,8 @@ import java.util.List;
 public class SpawnSquare extends Square{
     private WeaponTile weapons;
 
-    public SpawnSquare(Color color) {
-        super(color);
+    public SpawnSquare(Color color, Coordinate coord) {
+        super(color, coord);
     }
 
 
@@ -31,7 +31,6 @@ public class SpawnSquare extends Square{
         for(int i=0; i<3; i++){
             weapons.addWeapon(board.getWeaponsLeft().pickRandomCard());
         }
-
     }
 
 }

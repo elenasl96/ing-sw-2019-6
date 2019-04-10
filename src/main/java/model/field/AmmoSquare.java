@@ -7,8 +7,8 @@ import model.enums.Color;
 public class AmmoSquare extends Square{
     private AmmoTile ammo;
 
-    public AmmoSquare(Color color) {
-        super(color);
+    public AmmoSquare(Color color, Coordinate coord) {
+        super(color, coord);
     }
 
     public AmmoTile getGrabbable() {

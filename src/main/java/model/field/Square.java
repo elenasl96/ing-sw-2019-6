@@ -10,10 +10,11 @@ import java.util.List;
 
 public abstract class Square implements Serializable {
     private Color color;
-    private List<Square> adjacents;
+    private final Coordinate coord;
 
-    public Square(Color color) {
+    public Square(Color color, Coordinate coord) {
         this.color = color;
+        this.coord = coord;
     }
 
     public Color getColor() {
@@ -24,17 +25,11 @@ public abstract class Square implements Serializable {
         this.color = color;
     }
 
-    public List<Square> getAdjacents() {
-        return adjacents;
-    }
-
-    public void setAdjacents(List<Square> adjacents) {
-        this.adjacents = adjacents;
-    }
-
     public abstract Grabbable getGrabbable();
 
-    public void setGrabbable(Board board){
+    public void setGrabbable(Board board){ }
 
+    public Coordinate getCoord() {
+        return coord;
     }
 }
