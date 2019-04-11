@@ -1,4 +1,8 @@
-package socket.network.commands;
+package socket.network.commands.request;
+
+import socket.network.commands.Request;
+import socket.network.commands.RequestHandler;
+import socket.network.commands.Response;
 
 public class CreateUserRequest implements Request {
     public final String username;

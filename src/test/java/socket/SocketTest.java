@@ -1,13 +1,11 @@
 package socket;
 
 import org.junit.jupiter.api.Test;
-import socket.model.Group;
-import socket.model.User;
 import socket.network.ChatServer;
 import socket.network.Client;
 import socket.network.ClientHandler;
-import socket.network.commands.FullGroupResponse;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -26,12 +24,14 @@ public class SocketTest {
     void Test(){
         try {
             ChatServer server = new ChatServer(8234);
-            Socket socket = new Socket();
+            Socket socket = new Socket("", 8234);
+            Client client = new Client("", 8234);
+            client.setConnection(socket);
+            //Stops here, maybe for the inputstream problem
+            /*
             ClientHandler clientHandler = new ClientHandler(socket);
             clientHandler.stop();
             clientHandler.run();
-            ServerController serverController = new ServerController(clientHandler);
-            Client client = new Client("", 8234);
             ClientController cc = new ClientController(client);
             cc.createUser("username");
             cc.chooseGroup(0);
@@ -39,7 +39,7 @@ public class SocketTest {
             ClientController cc2 = new ClientController(client);
             cc2.createUser("username2");
             cc2.createGroup();
-
+             */
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -54,4 +54,9 @@ public class Client {
             System.err.println("Exception on network: " + e.getMessage());
         }
     }
+
+    //For test purposes
+    public void setConnection(Socket connection) {
+        this.connection = connection;
+    }
 }

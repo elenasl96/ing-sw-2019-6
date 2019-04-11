@@ -1,6 +1,8 @@
-package socket.network.commands;
+package socket.network.commands.response;
 
 import socket.model.User;
+import socket.network.commands.Response;
+import socket.network.commands.ResponseHandler;
 
 public class UserCreatedResponse implements Response {
     public final User user;

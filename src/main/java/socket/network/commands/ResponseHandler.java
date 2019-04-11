@@ -1,5 +1,10 @@
 package socket.network.commands;
 
+import socket.network.commands.response.FullGroupResponse;
+import socket.network.commands.response.JoinGroupResponse;
+import socket.network.commands.response.TextResponse;
+import socket.network.commands.response.UserCreatedResponse;
+
 /**
  * A method for every possible Response
  */

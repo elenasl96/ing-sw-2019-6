@@ -16,6 +16,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable, MessageReceivedObserver, GroupChangeListener {
+    private static final String ERROR = "Errors in closing - ";
+
     private Socket socket;
     private final ObjectInputStream in;
     private final ObjectOutputStream out;
@@ -23,7 +25,6 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
 
     private final ServerController controller;
 
-    private final String ERROR = "Errors in closing - ";
     public ClientHandler(Socket s) throws IOException {
         this.socket = s;
         this.out = new ObjectOutputStream(s.getOutputStream());

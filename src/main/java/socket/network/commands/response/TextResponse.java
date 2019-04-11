@@ -1,4 +1,8 @@
-package socket.network.commands;
+package socket.network.commands.response;
+
+import socket.network.commands.Response;
+import socket.network.commands.ResponseHandler;
+import socket.network.commands.StatusCode;
 
 public class TextResponse implements Response {
     public final String content;
