@@ -2,7 +2,7 @@ package socket.network.commands;
 
 public class ChooseGroupRequest implements Request {
 
-    private final int groupId;
+    public final int groupId;
 
     public ChooseGroupRequest(int id){
         this.groupId = id;

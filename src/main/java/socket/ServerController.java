@@ -54,7 +54,7 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(ChooseGroupRequest chooseGroupRequest) {
-        currentGroup = manager.getDefaultGroup();
+        currentGroup = manager.getGroup(chooseGroupRequest.groupId);
         try{
             if(currentGroup.isFull()){
                 throw new FullGroupException();

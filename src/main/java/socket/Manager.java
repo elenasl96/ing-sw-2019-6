@@ -30,6 +30,14 @@ public class Manager {
 
         return instance;
     }
+    public synchronized Group getGroup(int groupID){
+        for(Group g : groups){
+            if(g.getGroupID() == groupID){
+                return g;
+            }
+        }
+        return defaultGroup;
+    }
 
     public synchronized Group getDefaultGroup() {
         return defaultGroup;

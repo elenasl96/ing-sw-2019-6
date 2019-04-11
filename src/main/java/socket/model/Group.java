@@ -38,10 +38,11 @@ public class Group implements Serializable {
         }
     }
 
-    public void join(User user) throws DuplicateEntityException {
-        if (users.contains(user)) {
+    public void join(User user){// throws DuplicateEntityException {
+        /*if (users.contains(user)) {
             throw new DuplicateEntityException("User joined twice");
         }
+         */
 
         users.add(user);
         if(this.isFull()) this.full=true;
