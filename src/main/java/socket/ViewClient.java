@@ -40,12 +40,13 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         displayText("These are the groups at the moment:");
         displayText(controller.getSituation());
         displayText("Do you want to create a new game? [yes/no]");
-        if (userInput().equals("no")) {
+        String answer = userInput();
+        if (answer.equals("no")) {
             displayText("Which game do you want to join?");
             Group group = controller.chooseGroup(Integer.parseInt(userInput()));
             displayText("Welcome to " + group.getName());
             group.observe(this);
-        } else if(userInput().equals("yes")) {
+        } else if(answer.equals("yes")) {
             displayText("Creating a new group...");
             int groupNumber = controller.createGroup();
             Group group = controller.chooseGroup(groupNumber);
