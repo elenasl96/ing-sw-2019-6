@@ -23,6 +23,7 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
 
     private final ServerController controller;
 
+    private final String ERROR = "Errors in closing - ";
     public ClientHandler(Socket s) throws IOException {
         this.socket = s;
         this.out = new ObjectOutputStream(s.getOutputStream());
@@ -69,7 +70,7 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
             try {
                 in.close();
             } catch (IOException e) {
-                printError("Errors in closing - " + e.getMessage());
+                printError(ERROR + e.getMessage());
             }
         }
 
@@ -77,14 +78,14 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
             try {
                 out.close();
             } catch (IOException e) {
-                printError("Errors in closing - " + e.getMessage());
+                printError(ERROR + e.getMessage());
             }
         }
 
         try {
             socket.close();
         } catch (IOException e) {
-            printError("Errors in closing - " + e.getMessage());
+            printError(ERROR + e.getMessage());
         }
     }
 
