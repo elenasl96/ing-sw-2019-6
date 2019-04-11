@@ -11,21 +11,21 @@ import java.util.Set;
  * SINGLETON
  * It is still a piece of the model that traces the instances available.
  */
-public class ChatManager {
-    private static ChatManager instance;
+public class Manager {
+    private static Manager instance;
     private final Group defaultGroup;
     private Set<Group> groups = new HashSet<>();
     private Set<User> users = new HashSet<>();
     private String groupSituation;
 
-    private ChatManager() {
+    private Manager() {
         // create one group by default
         defaultGroup = createGroup();
     }
 
-    public static synchronized ChatManager get() {
+    public static synchronized Manager get() {
         if (instance == null) {
-            instance = new ChatManager();
+            instance = new Manager();
         }
 
         return instance;

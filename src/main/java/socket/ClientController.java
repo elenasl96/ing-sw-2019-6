@@ -39,7 +39,7 @@ public class ClientController implements ResponseHandler {
     }
 
     public Group chooseGroup(int groupNumber) {
-        client.request(new ChooseGroupRequest(groupNumber)); // dummy
+        client.request(new ChooseGroupRequest(groupNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup();
     }
@@ -48,6 +48,13 @@ public class ClientController implements ResponseHandler {
         client.request(new SituationViewerRequest());
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentSituation();
+    }
+
+
+    public int createGroup() {
+        client.request(new CreateGroupRequest());
+        client.nextResponse().handle(this);
+        return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
     public void startMessaging() {
@@ -95,6 +102,7 @@ public class ClientController implements ResponseHandler {
     @Override
     public void handle(FullGroupResponse fullGroupResponse) {
         //TODO
+        // @marti: io non penso serva un handler per questo
     }
     @Override
     public void handle(UserCreatedResponse userCreatedResponse) {

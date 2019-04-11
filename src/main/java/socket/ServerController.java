@@ -14,13 +14,13 @@ public class ServerController implements RequestHandler {
     private final ClientHandler clientHandler;
 
     // pieces of the model
-    private final ChatManager manager;
+    private final Manager manager;
     private User user;
     private Group currentGroup;
 
     public ServerController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
-        manager = ChatManager.get();
+        manager = Manager.get();
     }
 
     // ------ Request handling
@@ -77,5 +77,14 @@ public class ServerController implements RequestHandler {
     public Response handle(SituationViewerRequest situationViewerRequest){
         manager.updateGroupSituation();
         return new SituationViewerResponse(manager.getGroupSituation(), StatusCode.OK);
+    }
+
+    @Override
+    public Response handle(CreateGroupRequest createGroupRequest){
+        currentGroup = manager.createGroup();
+        currentGroup.join(user);
+        currentGroup.observe(clientHandler);
+        System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
+        return new JoinGroupResponse(currentGroup);
     }
 }

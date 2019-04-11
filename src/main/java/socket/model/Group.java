@@ -108,9 +108,9 @@ public class Group implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Group users = (Group) o;
+        Group groupCast = (Group) o;
 
-        return groupID == users.groupID;
+        return groupID == groupCast.groupID;
     }
 
     @Override

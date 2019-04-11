@@ -13,4 +13,4 @@ public class FullGroupResponse implements Response {
     public void handle(ResponseHandler handler) {
         handler.handle(this);
     }
-    }
+}
