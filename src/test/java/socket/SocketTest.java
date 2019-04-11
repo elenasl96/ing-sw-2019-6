@@ -1,62 +1,47 @@
 package socket;
+
 import org.junit.jupiter.api.Test;
+import socket.model.Group;
+import socket.model.User;
 import socket.network.ChatServer;
 import socket.network.Client;
+import socket.network.ClientHandler;
+import socket.network.commands.FullGroupResponse;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
 
-
 public class SocketTest {
-    /*
     @Test
-    public void SeverTest(){
-        try{ChatServer server = new ChatServer(8000);
-            server.run();}
-        catch (IOException io){System.out.print("IOException occurred");}
-
-    }
-
-    @Test
-    public void ClientTest() {
-        Client client = new Client("", 8000);
+    void ChatServer(){
         try {
-            Socket connection = new Socket("", 8000);
-            System.out.println("np1");
-            ObjectOutputStream out = new ObjectOutputStream(connection.getOutputStream());
-            System.out.println("np2");
-            InputStream test1 = new ByteArrayInputStream(("ciao").getBytes());
-            System.setIn(test1);
-            System.out.println(test1);
-            ObjectInputStream in = new ObjectInputStream(connection.getInputStream());
-            System.out.println("init finished");
-        }catch (IOException ioe){
-            System.out.println("An error occurred");
-        }
-        try{
-            ClientController controller = new ClientController(client);
-            controller.run();
-            String input = "marti";
-            System.out.println(input);
-            InputStream in = new ByteArrayInputStream(input.getBytes());
-            System.setIn(in);
-            input = "close";
-            InputStream close = new ByteArrayInputStream(input.getBytes());
-            System.setIn(close);
-            client.close();
-        }catch (IOException ioe){
-            System.out.println("An error occurred");
-        }
-    }
-
-    @Test
-    public void initTest(){
-        Client client = new Client("", 8000);
-        try {
-            client.init();
+            ChatServer server = new ChatServer(8234);
+            server.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    */
+
+    @Test
+    void Test(){
+        try {
+            ChatServer server = new ChatServer(8234);
+            Socket socket = new Socket();
+            ClientHandler clientHandler = new ClientHandler(socket);
+            clientHandler.stop();
+            clientHandler.run();
+            ServerController serverController = new ServerController(clientHandler);
+            Client client = new Client("", 8234);
+            ClientController cc = new ClientController(client);
+            cc.createUser("username");
+            cc.chooseGroup(0);
+            Client client2 = new Client("", 8234);
+            ClientController cc2 = new ClientController(client);
+            cc2.createUser("username2");
+            cc2.createGroup();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
