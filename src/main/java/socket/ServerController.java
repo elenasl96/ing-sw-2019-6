@@ -58,8 +58,8 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(ChooseGroupRequest chooseGroupRequest) {
-        currentGroup = manager.getGroup(chooseGroupRequest.groupId);
         try{
+            currentGroup = manager.getGroup(chooseGroupRequest.groupId);
             if(currentGroup.isFull()){
                 throw new FullGroupException();
             }

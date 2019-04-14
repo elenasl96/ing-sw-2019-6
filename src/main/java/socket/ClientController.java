@@ -18,6 +18,7 @@ import java.io.IOException;
  * It holds a reference to the view for sending sudden responses.
  * It holds a reference to the networking layer.
  */
+
 public class ClientController implements ResponseHandler {
     // reference to networking layer
     private final Client client;
@@ -53,7 +54,6 @@ public class ClientController implements ResponseHandler {
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentSituation();
     }
-
 
     public int createGroup() {
         client.request(new CreateGroupRequest());
