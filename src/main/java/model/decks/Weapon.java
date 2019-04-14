@@ -20,10 +20,18 @@ public class Weapon implements Serializable {
     private List<Move> alternateFireEffect = new ArrayList<>();
     private List<Ammo> ammoAlternateFire = new ArrayList<>();
 
-    public Weapon(String name, String effectsDescription) {
+    public Weapon(List<Move> basicEffect, List<Ammo> ammoBasic, List<Move> optionalEffect, List<Ammo> ammoOptional, List<Move> alternateFireEffect, List<Ammo> ammoAlternateFire) {
+        this.basicEffect = basicEffect;
+        this.ammoBasic = ammoBasic;
+        this.optionalEffect = optionalEffect;
+        this.ammoOptional = ammoOptional;
+        this.alternateFireEffect = alternateFireEffect;
+        this.ammoAlternateFire = ammoAlternateFire;
+    }
+
+    public void setNameAndDescription(String name, String effectsDescription) {
         this.name = name;
         this.effectsDescription = effectsDescription;
-        this.status = WeaponStatus.PARTIALLY_LOADED;
     }
 
     public void setBasicEffect(List<Move> basicEffect) {
