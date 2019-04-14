@@ -1,6 +1,5 @@
 package socket.network.commands;
 
-import socket.network.commands.response.FullGroupResponse;
 import socket.network.commands.response.JoinGroupResponse;
 import socket.network.commands.response.TextResponse;
 import socket.network.commands.response.UserCreatedResponse;
@@ -16,6 +15,4 @@ public interface ResponseHandler {
     void handle(UserCreatedResponse userCreatedResponse);
 
     void handle(SituationViewerResponse situationViewerResponse);
-
-    void handle(FullGroupResponse fullGroupResponse);
 }

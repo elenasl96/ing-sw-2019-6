@@ -72,9 +72,8 @@ public class ServerController implements RequestHandler {
 
             }
         } catch(FullGroupException e){
-            System.out.println(e.getMessage());
+            return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
         }
-        return null;
     }
 
     @Override
@@ -87,7 +86,8 @@ public class ServerController implements RequestHandler {
     public Response handle(CreateGroupRequest createGroupRequest){
         currentGroup = manager.createGroup();
         currentGroup.join(user);
-        currentGroup.observe(clientHandler);
+        //currentGroup.observe(clientHandler); --- deleting this will be fixed
+        //the duplicated responses in the first player bug
         System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
         return new JoinGroupResponse(currentGroup);
     }

@@ -6,7 +6,6 @@ import socket.model.User;
 import socket.network.Client;
 import socket.network.commands.*;
 import socket.network.commands.request.*;
-import socket.network.commands.response.FullGroupResponse;
 import socket.network.commands.response.JoinGroupResponse;
 import socket.network.commands.response.TextResponse;
 import socket.network.commands.response.UserCreatedResponse;
@@ -104,11 +103,6 @@ public class ClientController implements ResponseHandler {
         ClientContext.get().setCurrentGroup(joinGroupResponse.group);
     }
 
-    @Override
-    public void handle(FullGroupResponse fullGroupResponse) {
-        //TODO
-        // @marti: io non penso serva un handler per questo
-    }
     @Override
     public void handle(UserCreatedResponse userCreatedResponse) {
         ClientContext.get().setCurrentUser(userCreatedResponse.user);
