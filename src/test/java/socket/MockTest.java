@@ -1,37 +1,47 @@
 package socket;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.Rule;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import socket.network.ChatServer;
 import socket.network.Client;
+import socket.network.ClientHandler;
 
 import java.io.*;
 import java.net.Socket;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
+
 
 class MockTest {
-    //@Test Not working
-    void ClientServerTest() {
-        boolean done = false;
-        try{
-            ChatServer server = new ChatServer(8234);
-            while(!done) {
-                server.run();
-                Client client = new Client("", 8234);
-                client.init();
-                ClientController controller = new ClientController(client);
-                controller.run();
-                ByteArrayInputStream symName = new ByteArrayInputStream("username".getBytes());
-                System.setIn(symName);
-                ByteArrayInputStream yes = new ByteArrayInputStream("yes".getBytes());
-                System.setIn(yes);
-                ByteArrayInputStream quit = new ByteArrayInputStream(":q".getBytes());
-                System.setIn(quit);
-                client.close();
-                done = true;
-            }
 
-        }catch(IOException ioe){
-            ioe.getMessage();
+    @Mock
+    Client mockClient;
+
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+    @Test
+    public void MockitoTest() {
+        boolean done = false;
+        try {
+            Socket socket = new Socket("", 8234);
+            ChatServer server = new ChatServer(8234);
+            mockClient.setConnection(socket);
+            ClientHandler clientHandler = new ClientHandler(socket);
+            clientHandler.stop();
+            clientHandler.run();
+            ClientController cc = new ClientController(mockClient);
+            cc.createUser("username");
+            cc.chooseGroup(0);
+            ClientController cc2 = new ClientController(mockClient);
+            cc2.createUser("username2");
+            cc2.createGroup();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
