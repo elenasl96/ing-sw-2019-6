@@ -24,13 +24,15 @@ public enum Color {
      * @return
      */
     /*
+    /*
     public static Color found(char letter) {
         for (Color c : Color.values()) {
             if (c.abbr == letter) {
                 return c;
             }
         }
-        return null;
+        return nul
+    */l;
     }
     */
 

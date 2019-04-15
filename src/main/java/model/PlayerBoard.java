@@ -24,7 +24,15 @@ public class PlayerBoard implements Serializable {
     public void addDamage(Player pg, int numDamage) {
         for(int i=0; i<numDamage; i++){
             this.damage.add(pg);
-        }
+     /**
+     *
+     * @return number of endured damages
+     */
+    public int getNumDamageLeft(){
+        return 12-this.damage.size();
+    }
+
+       }
     }
 
     /**
