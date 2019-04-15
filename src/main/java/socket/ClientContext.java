@@ -7,7 +7,7 @@ import socket.model.User;
 /**
  * SINGLETON (CLIENT SIDE)
  *
- * Context used at any client to records current user and group
+ * Context used at any client to record current user and group
  */
 public class ClientContext {
 

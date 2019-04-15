@@ -60,8 +60,8 @@ public class Manager {
     public synchronized User createUser(String name) throws InvalidUsernameException {
         User user = new User(name);
 
-        if (users.contains(user)) {
-            throw new InvalidUsernameException("Username already in use: " + name);
+        if (users.contains(user) || user.getUsername().contains("Server")||user.getUsername().contains("server")) {
+            throw new InvalidUsernameException("Invalid username: " + name);
         }
 
         users.add(user);

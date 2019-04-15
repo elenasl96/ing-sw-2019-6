@@ -2,9 +2,6 @@ package socket.model;
 
 import socket.exceptions.UserNotInGroupException;
 
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -19,7 +16,6 @@ public class Group implements Serializable {
     private List<Message> messages = new LinkedList<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
-    private Timer timer;
 
     public Group() {
         super();
@@ -38,17 +34,10 @@ public class Group implements Serializable {
     }
 
     public void join(User user){
-
         users.add(user);
-        if(this.size() == 3){
-            timer = new Timer(60*1000, new StartGame());
-            timer.start();
-        }
         if(this.isFull()) this.full=true;
-
         for(GroupChangeListener listener : listeners)
             listener.onJoin(user);
-
     }
 
     public void leave(User user) throws UserNotInGroupException {
@@ -58,9 +47,6 @@ public class Group implements Serializable {
         for(GroupChangeListener listener : listeners)
             listener.onLeave(user);
 
-        if(timer.isRunning() && this.size() < 3){
-            timer.stop();
-        }
     }
 
     public void observe(GroupChangeListener listener) {
@@ -78,7 +64,7 @@ public class Group implements Serializable {
     }
 
     public int size() {
-        return users.size();
+        return users.size()-1;
     }
 
     public Set<User> users() {
@@ -140,11 +126,4 @@ public class Group implements Serializable {
     }
     public int getGroupID(){return this.groupID;}
 
-    public class StartGame implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            timer.stop();
-            setFull();
-        }
-    }
 }

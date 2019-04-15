@@ -1,6 +1,7 @@
 package socket;
 
 
+import controller.TimerController;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.InvalidUsernameException;
 import socket.model.Group;
@@ -12,6 +13,8 @@ import socket.network.commands.request.*;
 import socket.network.commands.response.JoinGroupResponse;
 import socket.network.commands.response.TextResponse;
 import socket.network.commands.response.UserCreatedResponse;
+
+import java.util.Timer;
 
 public class ServerController implements RequestHandler {
     // reference to the networking layer
@@ -85,7 +88,11 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
         currentGroup = manager.createGroup();
+        User serverUser = new User("Server"+currentGroup.getGroupID());
+        currentGroup.join(serverUser);
         currentGroup.join(user);
+        TimerController timerController = new TimerController(currentGroup, serverUser);
+
         //currentGroup.observe(clientHandler); --- deleting this will be fixed
         //the duplicated responses in the first player bug
         System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
