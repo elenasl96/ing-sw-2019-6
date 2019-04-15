@@ -1,6 +1,7 @@
 package socket;
 
 
+import socket.exceptions.InvalidGroupNumberException;
 import socket.model.*;
 
 import java.util.Scanner;
@@ -45,7 +46,11 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
             String answer = userInput();
             if (answer.equals("no")) {
                 displayText("Which game do you want to join?");
-                group = controller.chooseGroup(Integer.parseInt(userInput()));
+                try{
+                    group = controller.chooseGroup(Integer.parseInt(userInput()));
+                } catch (NullPointerException npe, InvalidGroupNumberException igne){
+                    displayText("Insert a valid number");
+                }
             } else if (answer.equals("yes")) {
                 displayText("Creating a new group...");
                 int groupNumber = controller.createGroup();
