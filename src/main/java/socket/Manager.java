@@ -6,8 +6,6 @@ import socket.exceptions.InvalidGroupNumberException;
 import socket.exceptions.InvalidUsernameException;
 import socket.model.Group;
 import socket.model.User;
-import socket.network.commands.StatusCode;
-import socket.network.commands.response.TextResponse;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -47,8 +47,9 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
             if (answer.equals("no")) {
                 displayText("Which game do you want to join?");
                 try {
-                    group = controller.chooseGroup(Integer.parseInt(userInput()));
-                } catch (NullPointerException | InvalidGroupNumberException e){
+                    int a = Integer.parseInt(userInput());
+                    group = controller.chooseGroup(a);
+                } catch (InvalidGroupNumberException|NumberFormatException e){
                     displayText("Insert a valid number");
                     group = null;
                 }
