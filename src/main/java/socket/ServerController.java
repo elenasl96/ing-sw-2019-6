@@ -3,6 +3,7 @@ package socket;
 
 import controller.TimerController;
 import socket.exceptions.FullGroupException;
+import socket.exceptions.InvalidGroupNumberException;
 import socket.exceptions.InvalidUsernameException;
 import socket.model.Group;
 import socket.model.Message;
@@ -60,7 +61,7 @@ public class ServerController implements RequestHandler {
     }
 
     @Override
-    public Response handle(ChooseGroupRequest chooseGroupRequest) {
+    public Response handle(ChooseGroupRequest chooseGroupRequest) throws InvalidGroupNumberException {
         try{
             currentGroup = manager.getGroup(chooseGroupRequest.groupId);
             currentGroup.join(user);

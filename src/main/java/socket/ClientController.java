@@ -1,5 +1,6 @@
 package socket;
 
+import socket.exceptions.InvalidGroupNumberException;
 import socket.model.Group;
 import socket.model.Message;
 import socket.model.User;
@@ -43,7 +44,7 @@ public class ClientController implements ResponseHandler {
         return ClientContext.get().getCurrentUser();
     }
 
-    public Group chooseGroup(int groupNumber) {
+    public Group chooseGroup(int groupNumber) throws InvalidGroupNumberException {
         client.request(new ChooseGroupRequest(groupNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup();

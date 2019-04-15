@@ -38,7 +38,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     }
 
     public void chooseGroupPhase() {
-        Group group;
+        Group group = null;
         do {
             displayText("These are the groups at the moment:");
             displayText(controller.getSituation());
@@ -46,21 +46,25 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
             String answer = userInput();
             if (answer.equals("no")) {
                 displayText("Which game do you want to join?");
-                try{
+                try {
                     group = controller.chooseGroup(Integer.parseInt(userInput()));
-                } catch (NullPointerException npe, InvalidGroupNumberException igne){
+                } catch (NullPointerException | InvalidGroupNumberException e){
                     displayText("Insert a valid number");
+                    group = null;
                 }
             } else if (answer.equals("yes")) {
                 displayText("Creating a new group...");
                 int groupNumber = controller.createGroup();
-                group = controller.chooseGroup(groupNumber);
+                try {
+                    group = controller.chooseGroup(groupNumber);
+                } catch (InvalidGroupNumberException e) {
+                    e.printStackTrace();
+                }
             } else {
                 displayText("I don't understand, let's try again");
                 group = null;
             }
-        }
-        while (group == null);
+        } while (group == null);
         displayText("Welcome to " + group.getName());
         group.observe(this);
     }

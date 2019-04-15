@@ -2,6 +2,7 @@ package socket;
 
 import controller.TimerController;
 import socket.exceptions.FullGroupException;
+import socket.exceptions.InvalidGroupNumberException;
 import socket.exceptions.InvalidUsernameException;
 import socket.model.Group;
 import socket.model.User;
@@ -34,13 +35,13 @@ public class Manager {
 
         return instance;
     }
-    public synchronized Group getGroup(int groupID){
+    public synchronized Group getGroup(int groupID) throws InvalidGroupNumberException {
         for(Group g : groups){
             if(g.getGroupID() == groupID){
                 return g;
             }
         }
-        return defaultGroup;
+        throw new InvalidGroupNumberException("There's no group"+groupID);
     }
 
     public synchronized Group getDefaultGroup() {
