@@ -1,5 +1,6 @@
 package socket;
 
+import controller.TimerController;
 import socket.exceptions.InvalidUsernameException;
 import socket.model.Group;
 import socket.model.User;
@@ -54,6 +55,9 @@ public class Manager {
     public synchronized Group createGroup() {
         Group group = new Group();
         groups.add(group);
+        User serverUser = new User("Server"+group.getGroupID());
+        group.join(serverUser);
+        TimerController timerController = new TimerController(group, serverUser);
         return group;
     }
 
