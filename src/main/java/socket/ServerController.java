@@ -61,14 +61,14 @@ public class ServerController implements RequestHandler {
     }
 
     @Override
-    public Response handle(ChooseGroupRequest chooseGroupRequest) throws InvalidGroupNumberException {
+    public Response handle(ChooseGroupRequest chooseGroupRequest) {
         try{
             currentGroup = manager.getGroup(chooseGroupRequest.groupId);
             currentGroup.join(user);
             currentGroup.observe(clientHandler);
             System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
             return new JoinGroupResponse(currentGroup);
-        } catch(FullGroupException e){
+        } catch(FullGroupException | InvalidGroupNumberException e){
             return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
         }
     }
