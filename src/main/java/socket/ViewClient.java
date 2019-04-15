@@ -70,6 +70,18 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         group.observe(this);
     }
 
+    public void gamingPhase(){
+        do {
+            //TODO
+        }while(false);
+        controller.startGame();
+        String command;
+        do {
+            command = userInput();
+            controller.sendCommand(command);
+        } while (!command.startsWith(":q"));
+    }
+
     public void messagingPhase() {
         controller.startMessaging();
         String content;

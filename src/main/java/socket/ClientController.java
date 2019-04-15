@@ -1,6 +1,7 @@
 package socket;
 
 import socket.exceptions.InvalidGroupNumberException;
+import socket.model.Command;
 import socket.model.Group;
 import socket.model.Message;
 import socket.model.User;
@@ -62,6 +63,21 @@ public class ClientController implements ResponseHandler {
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
+    public void startGame() {
+        receiver = new Thread(
+            () -> {
+                Response response;
+                do {
+                    response = client.nextResponse();
+                    if (response != null) {
+                        response.handle(this);
+                    }
+                } while (response != null);
+            }
+        );
+        receiver.start();
+    }
+
     public void startMessaging() {
         // start a receiver thread
         receiver = new Thread(
@@ -78,6 +94,22 @@ public class ClientController implements ResponseHandler {
         receiver.start();
     }
 
+    public void sendCommand(String content){
+        switch (content){
+            case "run":
+
+            case "grab":
+
+            case "shoot":
+
+            case "mark":
+        }
+        Command command = new Command(ClientContext.get().getCurrentGroup(),
+                ClientContext.get().getCurrentUser(), content);
+        client.request(new SendCommandRequest(command));
+
+    }
+
     public void sendMessage(String content) {
         Message m = new Message(ClientContext.get().getCurrentGroup(),
                 ClientContext.get().getCurrentUser(), content);
@@ -88,6 +120,7 @@ public class ClientController implements ResponseHandler {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         view.messagingPhase();
+        view.gamingPhase();
 
         receiver.interrupt();
     }

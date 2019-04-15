@@ -1,5 +1,7 @@
 package socket.model;
 
+import controller.GameController;
+import model.Game;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.UserNotInGroupException;
 
@@ -9,7 +11,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Group implements Serializable {
-
+    private Game gameGroup;
     private static int uniqueGroupID = 0;
     private int groupID;
     private String groupName;
@@ -23,6 +25,11 @@ public class Group implements Serializable {
         groupID = uniqueGroupID;
         groupName = "group" + groupID;
         uniqueGroupID++;
+    }
+
+    public void createGame(){
+        this.gameGroup = new Game();
+
     }
 
     public void sendMessage(Message message) throws UserNotInGroupException {

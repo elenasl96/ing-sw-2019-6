@@ -44,6 +44,7 @@ public class TimerController implements GroupChangeListener {
         }
         if(this.group.isFull()){
             timer.cancel();
+            this.group.createGame();
         }
     }
 

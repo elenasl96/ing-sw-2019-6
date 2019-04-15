@@ -15,4 +15,6 @@ public interface RequestHandler {
     Response handle(SituationViewerRequest situationViewerRequest);
 
     Response handle(CreateGroupRequest createGroupRequest);
+
+    Response handle(SendCommandRequest commandRequest);
 }

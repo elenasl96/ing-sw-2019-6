@@ -1,7 +1,5 @@
 package socket;
 
-
-import controller.TimerController;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.InvalidGroupNumberException;
 import socket.exceptions.InvalidUsernameException;
@@ -14,8 +12,6 @@ import socket.network.commands.request.*;
 import socket.network.commands.response.JoinGroupResponse;
 import socket.network.commands.response.TextResponse;
 import socket.network.commands.response.UserCreatedResponse;
-
-import java.util.Timer;
 
 public class ServerController implements RequestHandler {
     // reference to the networking layer
@@ -94,5 +90,11 @@ public class ServerController implements RequestHandler {
         } catch (FullGroupException e){
             return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
         }
+    }
+
+    @Override
+    public Response handle(SendCommandRequest commandRequest) {
+        //TODO command handling
+        return null;
     }
 }
