@@ -31,6 +31,10 @@ public class ServerController implements RequestHandler {
         manager = Manager.get();
     }
 
+    public void connectionLost(){
+        currentGroup.leave(user);
+    }
+
     // ------ Request handling
 
     @Override
@@ -54,7 +58,6 @@ public class ServerController implements RequestHandler {
         } catch (InvalidUsernameException e) {
             return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
         }
-
         // Listening to messages and sending them
         user.listenToMessages(clientHandler);
         return new UserCreatedResponse(user);
@@ -84,7 +87,7 @@ public class ServerController implements RequestHandler {
         try {
             currentGroup = manager.createGroup();
             currentGroup.join(user);
-            //currentGroup.observe(clientHandler); --- deleting this will be fixed
+            currentGroup.observe(clientHandler);// --- deleting this will be fixed
             //the duplicated responses in the first player bug
             System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
             return new JoinGroupResponse(currentGroup);

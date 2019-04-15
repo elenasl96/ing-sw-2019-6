@@ -56,6 +56,7 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
             } while (!stop);
         } catch (Exception e) {
             printError(e.getClass().getSimpleName() + " - " + e.getMessage());
+            controller.connectionLost();
         }
 
         close();

@@ -50,7 +50,7 @@ public class TimerController implements GroupChangeListener {
     @Override
     public void onLeave(User u) {
         if(this.group.size() == 2){
-            timerTask.cancel();
+            timer.cancel();
         }
     }
 }
