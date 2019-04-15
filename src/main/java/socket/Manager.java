@@ -55,15 +55,10 @@ public class Manager {
     }
 
     public synchronized Group createGroup() {
-
         Group group = new Group();
         groups.add(group);
         User serverUser = new User("Server" + group.getGroupID());
-        try {
-            group.join(serverUser);
-        } catch (FullGroupException e) {
-            e.printStackTrace();
-        }
+        group.join(serverUser);
         TimerController timerController = new TimerController(group, serverUser);
         return group;
     }
