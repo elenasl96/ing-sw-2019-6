@@ -23,12 +23,12 @@ public class Manager {
     private Set<User> users = new HashSet<>();
     private String groupSituation;
 
-    private Manager() throws FullGroupException {
+    private Manager() {
         // create one group by default
         defaultGroup = createGroup();
     }
 
-    public static synchronized Manager get() throws FullGroupException {
+    public static synchronized Manager get() {
         if (instance == null) {
             instance = new Manager();
         }
@@ -56,11 +56,16 @@ public class Manager {
         return new HashSet<>(users);
     }
 
-    public synchronized Group createGroup() throws FullGroupException{
+    public synchronized Group createGroup() {
+
         Group group = new Group();
         groups.add(group);
         User serverUser = new User("Server" + group.getGroupID());
-        group.join(serverUser);
+        try {
+            group.join(serverUser);
+        } catch (FullGroupException e) {
+            e.printStackTrace();
+        }
         TimerController timerController = new TimerController(group, serverUser);
         return group;
     }

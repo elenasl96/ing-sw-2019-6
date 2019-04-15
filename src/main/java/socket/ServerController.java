@@ -26,7 +26,7 @@ public class ServerController implements RequestHandler {
     private User user;
     private Group currentGroup;
 
-    public ServerController(ClientHandler clientHandler) throws FullGroupException {
+    public ServerController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         manager = Manager.get();
     }
@@ -81,7 +81,6 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
-
         try {
             currentGroup = manager.createGroup();
             currentGroup.join(user);

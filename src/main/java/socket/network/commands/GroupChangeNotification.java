@@ -2,6 +2,7 @@ package socket.network.commands;
 
 
 import socket.ClientContext;
+import socket.exceptions.FullGroupException;
 import socket.model.Group;
 import socket.model.User;
 
@@ -18,7 +19,11 @@ public class GroupChangeNotification implements Response {
     public void handle(ResponseHandler handler) {
         Group currentGroup = ClientContext.get().getCurrentGroup();
         if (inOut) {
-            currentGroup.join(user);
+            try {
+                currentGroup.join(user);
+            } catch (FullGroupException e) {
+                e.printStackTrace();
+            }
         } else {
             currentGroup.leave(user);
         }
