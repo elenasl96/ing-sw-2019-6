@@ -35,11 +35,11 @@ public class Group implements Serializable {
     }
 
     public void join(User user) throws FullGroupException {
-        users.add(user);
         if(this.isFull()) {
             this.full=true;
             throw new FullGroupException();
         }
+        users.add(user);
         for(GroupChangeListener listener : listeners)
             listener.onJoin(user);
     }
