@@ -25,7 +25,7 @@ public class ServerController implements RequestHandler {
     private User user;
     private Group currentGroup;
 
-    public ServerController(ClientHandler clientHandler) {
+    public ServerController(ClientHandler clientHandler) throws FullGroupException {
         this.clientHandler = clientHandler;
         manager = Manager.get();
     }
@@ -80,15 +80,16 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
-        currentGroup = manager.createGroup();
+
         try {
+            currentGroup = manager.createGroup();
             currentGroup.join(user);
+            //currentGroup.observe(clientHandler); --- deleting this will be fixed
+            //the duplicated responses in the first player bug
+            System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
+            return new JoinGroupResponse(currentGroup);
         } catch (FullGroupException e){
             return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
         }
-        //currentGroup.observe(clientHandler); --- deleting this will be fixed
-        //the duplicated responses in the first player bug
-        System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
-        return new JoinGroupResponse(currentGroup);
     }
 }

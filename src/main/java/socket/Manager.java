@@ -1,9 +1,12 @@
 package socket;
 
 import controller.TimerController;
+import socket.exceptions.FullGroupException;
 import socket.exceptions.InvalidUsernameException;
 import socket.model.Group;
 import socket.model.User;
+import socket.network.commands.StatusCode;
+import socket.network.commands.response.TextResponse;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,12 +22,12 @@ public class Manager {
     private Set<User> users = new HashSet<>();
     private String groupSituation;
 
-    private Manager() {
+    private Manager() throws FullGroupException {
         // create one group by default
         defaultGroup = createGroup();
     }
 
-    public static synchronized Manager get() {
+    public static synchronized Manager get() throws FullGroupException {
         if (instance == null) {
             instance = new Manager();
         }
@@ -52,10 +55,10 @@ public class Manager {
         return new HashSet<>(users);
     }
 
-    public synchronized Group createGroup() {
+    public synchronized Group createGroup() throws FullGroupException{
         Group group = new Group();
         groups.add(group);
-        User serverUser = new User("Server"+group.getGroupID());
+        User serverUser = new User("Server" + group.getGroupID());
         group.join(serverUser);
         TimerController timerController = new TimerController(group, serverUser);
         return group;
