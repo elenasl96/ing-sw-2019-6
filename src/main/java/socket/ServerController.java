@@ -63,17 +63,10 @@ public class ServerController implements RequestHandler {
     public Response handle(ChooseGroupRequest chooseGroupRequest) {
         try{
             currentGroup = manager.getGroup(chooseGroupRequest.groupId);
-            if(currentGroup.isFull()){
-                throw new FullGroupException();
-            }
-            else{
-                currentGroup.join(user);
-                currentGroup.observe(clientHandler);
-
-                System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
-                return new JoinGroupResponse(currentGroup);
-
-            }
+            currentGroup.join(user);
+            currentGroup.observe(clientHandler);
+            System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
+            return new JoinGroupResponse(currentGroup);
         } catch(FullGroupException e){
             return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
         }
@@ -88,7 +81,11 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
         currentGroup = manager.createGroup();
-        currentGroup.join(user);
+        try {
+            currentGroup.join(user);
+        } catch (FullGroupException e){
+            return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
+        }
         //currentGroup.observe(clientHandler); --- deleting this will be fixed
         //the duplicated responses in the first player bug
         System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());

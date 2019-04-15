@@ -1,5 +1,6 @@
 package socket.model;
 
+import socket.exceptions.FullGroupException;
 import socket.exceptions.UserNotInGroupException;
 
 import java.io.IOException;
@@ -33,9 +34,12 @@ public class Group implements Serializable {
         }
     }
 
-    public void join(User user){
+    public void join(User user) throws FullGroupException {
         users.add(user);
-        if(this.isFull()) this.full=true;
+        if(this.isFull()) {
+            this.full=true;
+            throw new FullGroupException();
+        }
         for(GroupChangeListener listener : listeners)
             listener.onJoin(user);
     }

@@ -15,11 +15,11 @@ public class TimerController implements GroupChangeListener {
         int seconds = 60;
         @Override
         public void run() {
-            if(seconds == 60){
+           /* if(seconds == 60){
                     group.sendMessage(new Message(group, serverUser, "Timer started: " + seconds + "seconds left..."));
             }else if(seconds == 10) {
                 group.sendMessage(new Message(group, serverUser, "Hurry, 10 seconds left!"));
-            } else if (seconds <= 5 && seconds > 0) {
+            } else */ if (seconds <= 60 && seconds > 0) {
                     group.sendMessage(new Message(group, serverUser, "Seconds remaining left: " + seconds + "..."));
             } else if (seconds == 0){
                 group.sendMessage(new Message(group, serverUser, "Game starting"));
