@@ -10,17 +10,20 @@ import java.util.TimerTask;
 
 public class TimerController implements GroupChangeListener {
     private Group group;
+    private Timer timer;
     private TimerTask timerTask = new TimerTask(){
         int seconds = 60;
         @Override
         public void run() {
             if(seconds == 60){
                     group.sendMessage(new Message(group, serverUser, "Timer started: " + seconds + "seconds left..."));
-            } else if (seconds <= 5) {
+            }else if(seconds == 10) {
+                group.sendMessage(new Message(group, serverUser, "Hurry, 10 seconds left!"));
+            } else if (seconds <= 5 && seconds > 0) {
                     group.sendMessage(new Message(group, serverUser, "Seconds remaining left: " + seconds + "..."));
             } else if (seconds == 0){
                 group.sendMessage(new Message(group, serverUser, "Game starting"));
-                timerTask.cancel();
+                timer.cancel();
             }
             seconds--;
         }
@@ -36,8 +39,11 @@ public class TimerController implements GroupChangeListener {
     @Override
     public void onJoin(User u) {
         if(this.group.size() == 3){
-            Timer timer = new Timer();
+            timer = new Timer();
             timer.schedule(timerTask, 0, 1000);
+        }
+        if(this.group.isFull()){
+            timer.cancel();
         }
     }
 
