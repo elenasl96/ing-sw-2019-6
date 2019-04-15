@@ -1,0 +1,17 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package view {
+    class ViewClient{
+        - from KeyBoard: Scanner
+        - final controller: ClientController
+        __
+        + ViewClient(ClientController): constructor
+        + displayText(String): void
+        --Phase--
+        + chooseUsernamePhase(): void
+        + chooseGroupPhase(): void
+
+    }
+}
+@enduml
