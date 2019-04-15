@@ -19,11 +19,7 @@ public class GroupChangeNotification implements Response {
     public void handle(ResponseHandler handler) {
         Group currentGroup = ClientContext.get().getCurrentGroup();
         if (inOut) {
-            try {
                 currentGroup.join(user);
-            } catch (FullGroupException e) {
-                e.printStackTrace();
-            }
         } else {
             currentGroup.leave(user);
         }
