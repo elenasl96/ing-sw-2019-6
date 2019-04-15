@@ -15,8 +15,6 @@ import socket.network.commands.response.JoinGroupResponse;
 import socket.network.commands.response.TextResponse;
 import socket.network.commands.response.UserCreatedResponse;
 
-import java.util.Timer;
-
 public class ServerController implements RequestHandler {
     // reference to the networking layer
     private final ClientHandler clientHandler;
