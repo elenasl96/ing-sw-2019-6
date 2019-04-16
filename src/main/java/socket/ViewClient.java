@@ -11,6 +11,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
     private final ClientController controller;
+    private boolean wait;
 
     public ViewClient(ClientController controller) {
         this.controller = controller;
@@ -104,14 +105,13 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
             }
         } while(!ok);
         displayText("Let's start!");
-        messagingPhase();
-        //do {
-
-        //} while (game == null);
+        do {
+            messagingPhase();
+        } while (wait);
     }
 
     public void gamingPhase(){
-
+        
     }
 
     public void messagingPhase() {
