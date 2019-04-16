@@ -24,6 +24,7 @@ public class TimerController implements GroupChangeListener {
                     group.sendMessage(new Message(group, serverUser, "Seconds remaining left: " + seconds + "..."));
             } else if (seconds == 0){
                 group.sendMessage(new Message(group, serverUser, "Game starting"));
+                group.createGame();
                 timer.cancel();
             }
             seconds--;

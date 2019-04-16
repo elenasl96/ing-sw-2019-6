@@ -57,28 +57,13 @@ public class ClientController implements ResponseHandler {
         return ClientContext.get().getCurrentSituation();
     }
 
-    public int createGroup() {
-        client.request(new CreateGroupRequest());
+    public int createGroup(int skullNumber) {
+        client.request(new CreateGroupRequest(skullNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
-    public void startGame() {
-        receiver = new Thread(
-            () -> {
-                Response response;
-                do {
-                    response = client.nextResponse();
-                    if (response != null) {
-                        response.handle(this);
-                    }
-                } while (response != null);
-            }
-        );
-        receiver.start();
-    }
-
-    public void startMessaging() {
+    public void startReceiverThread() {
         // start a receiver thread
         receiver = new Thread(
                 () -> {
@@ -119,9 +104,7 @@ public class ClientController implements ResponseHandler {
     public void run() throws IOException {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
-        view.messagingPhase();
         view.gamingPhase();
-
         receiver.interrupt();
     }
 

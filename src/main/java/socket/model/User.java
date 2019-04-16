@@ -1,5 +1,7 @@
 package socket.model;
 
+import model.enums.Character;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -10,11 +12,25 @@ public class User implements Serializable {
 
     private String username;
     private transient List<MessageReceivedObserver> observers;
+    private static int uniqueUserID = 0;
+    private int userID;
+    private UserPlayer userPlayer;
+    private Character character;
 
     public User(String username) {
         super();
+        userID = uniqueUserID;
         this.username = username;
         this.observers = new LinkedList<>();
+        uniqueUserID++;
+    }
+
+    public void createUserPlayer(){
+        this.userPlayer = new UserPlayer(this.character);
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
     public String getUsername() {
@@ -23,6 +39,10 @@ public class User implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getUserID(){
+        return this.userID;
     }
 
     public void listenToMessages(MessageReceivedObserver observer) {

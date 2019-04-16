@@ -81,7 +81,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
         try {
-            currentGroup = manager.createGroup();
+            currentGroup = manager.createGroup(createGroupRequest.getSkullNumber());
             currentGroup.join(user);
             currentGroup.observe(clientHandler);// --- deleting this will be fixed
             //the duplicated responses in the first player bug

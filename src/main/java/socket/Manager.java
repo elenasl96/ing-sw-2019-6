@@ -22,7 +22,7 @@ public class Manager {
 
     private Manager() {
         // create one group by default
-        defaultGroup = createGroup();
+        defaultGroup = createGroup(5);
     }
 
     public static synchronized Manager get() {
@@ -54,12 +54,12 @@ public class Manager {
         return new HashSet<>(users);
     }
 
-    public synchronized Group createGroup() {
-        Group group = new Group();
+    public synchronized Group createGroup(int skullNumber) {
+        Group group = new Group(skullNumber);
         groups.add(group);
         User serverUser = new User("Server" + group.getGroupID());
         group.join(serverUser);
-        TimerController timerController = new TimerController(group, serverUser);
+        new TimerController(group, serverUser);
         return group;
     }
 

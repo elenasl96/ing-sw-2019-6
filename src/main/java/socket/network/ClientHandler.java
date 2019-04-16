@@ -1,12 +1,14 @@
 package socket.network;
 
+import model.Game;
+import model.Player;
 import socket.ServerController;
 import socket.model.GroupChangeListener;
 import socket.model.Message;
 import socket.model.MessageReceivedObserver;
 import socket.model.User;
 import socket.network.commands.*;
-import socket.network.commands.response.TextResponse;
+import socket.network.commands.response.GameNotification;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

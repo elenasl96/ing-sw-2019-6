@@ -42,6 +42,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         do {
             displayText("These are the groups at the moment:");
             displayText(controller.getSituation());
+            displayText("Group0 has 5 skulls by default (starter mode)");
             displayText("Do you want to create a new game? [yes/no]");
             String answer = userInput();
             if (answer.equals("no")) {
@@ -54,12 +55,19 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
                     group = null;
                 }
             } else if (answer.equals("yes")) {
-                displayText("Creating a new group...");
-                int groupNumber = controller.createGroup();
+                displayText("How many number of Skulls do you want to use?");
                 try {
+                    int skullNumber = Integer.parseInt(userInput());
+                    while(skullNumber!=5 && skullNumber!=8){
+                        displayText("Games can only have 5 or 8 skulls");
+                        skullNumber = Integer.parseInt(userInput());
+                    }
+                    displayText("Creating a new group...");
+                    int groupNumber = controller.createGroup(skullNumber);
                     group = controller.chooseGroup(groupNumber);
-                } catch (InvalidGroupNumberException e) {
-                    e.printStackTrace();
+                } catch (InvalidGroupNumberException|NumberFormatException e){
+                    displayText("Insert a valid number");
+                    group = null;
                 }
             } else {
                 displayText("I don't understand, let's try again");
@@ -68,23 +76,25 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         } while (group == null);
         displayText("Welcome to " + group.getName());
         group.observe(this);
+        this.preGamingPhase();
     }
 
-    public void gamingPhase(){
-        displayText("YOU ARE IN A NEW GAME");
-        /*do {
-            //TODO
-        }while(false);
-        controller.startGame();
+    public void preGamingPhase(){
+        controller.startReceiverThread();
+
         String command;
         do {
             command = userInput();
             controller.sendCommand(command);
-        } while (!command.startsWith(":q"));*/
+        } while (!command.startsWith(":q"));
+    }
+
+    public void gamingPhase(){
+
     }
 
     public void messagingPhase() {
-        controller.startMessaging();
+        controller.startReceiverThread();
         String content;
         do {
             content = userInput();
@@ -111,7 +121,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
 
     @Override
     public void onStart() {
-        this.gamingPhase();
+        displayText("Get ready for A D R E N A L I N E");
     }
 
 }

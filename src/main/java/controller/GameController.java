@@ -3,19 +3,30 @@ package controller;
 import model.Game;
 import model.Player;
 import model.enums.Phase;
+import org.jetbrains.annotations.NotNull;
+import socket.model.User;
 
-public class Controller{
+import java.util.LinkedList;
+import java.util.List;
+
+public class GameController {
     /**
      * the current game
      */
     private Game game;
+    private final List<User> users = new LinkedList<>();
 
-    public Controller(){
-    }
+    public GameController(@NotNull List<User> groupUsers){
+        int firstPlayer = groupUsers.get(0).getUserID();
+        for(User u : groupUsers){
+            this.users.add(u);
+            u.createUserPlayer();
+            if(u.getUserID()<=firstPlayer){
+                firstPlayer = u.getUserID();
+            }
+        }
+        game.setNumberPlayers(groupUsers.size());
 
-    public Player chooseFirstPlayer() {
-        //Wait players for a common response
-        return null;
     }
 
     public void startGame(){
@@ -23,7 +34,7 @@ public class Controller{
         game.getBoard().getField().getSquares().forEach(square-> {
             square.setGrabbable(game.getBoard());
         });
-        chooseFirstPlayer();
+
     }
 
     public void update(String command){

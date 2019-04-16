@@ -11,14 +11,13 @@ public class Game {
     private int skullsNumber;
     private boolean done;
 
-    public Game(){
-        //Default constructor
+    public Game(int skullNumber) {
+        this.skullsNumber = skullNumber;
         this.numberPlayers = 0;
         this.board = new Board();
         this.turn = 0;
         this.done = false;
     }
-
 
 
     public int getNumberPlayers() {
