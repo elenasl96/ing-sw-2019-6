@@ -63,9 +63,10 @@ public class ClientController implements ResponseHandler {
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
-    public void setCharacter(int characterNumber){
+    public boolean setCharacter(int characterNumber){
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
+        return true;
     }
 
     public void startReceiverThread() {

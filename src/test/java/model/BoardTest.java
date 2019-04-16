@@ -8,8 +8,8 @@ public class BoardTest {
 
     @Test
     public void Constructor(){
-        Board board = new Board();
-        Field field = new Field();
+        Board board = new Board(1);
+        Field field = new Field(1);
         try{field.generateField(1);}
         catch (NotExistingFieldException nef){
             System.out.println(nef.getMessage());

@@ -12,7 +12,7 @@ class MoveMovementTest {
     private Field field;
 
     void createField(){
-        field = new Field();
+        field = new Field(1);
         try {
             field.generateField(1);
         } catch (NotExistingFieldException e) {
@@ -32,7 +32,7 @@ class MoveMovementTest {
         movement.setDestination(destination);
         assertEquals(destination, movement.getDestination());
 
-        Field field2 = new Field();
+        Field field2 = new Field(1);
         field.getSquares().add(new AmmoSquare(Color.BLUE, new Coordinate('B',2)));
         field.getSquares().add(new AmmoSquare(Color.BLUE, new Coordinate('B',2)));
         field.getSquares().add(new SpawnSquare(Color.BLUE, new Coordinate('B',2)));

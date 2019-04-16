@@ -8,7 +8,7 @@ public class SquareTest {
 
     @Test
     public void startSquareTest(){
-        Board board = new Board();
+        Board board = new Board(1);
         SpawnSquare spawnSquare = new SpawnSquare(Color.YELLOW, new Coordinate('B',1));
         //spawnSquare.setGrabbable(board);
 
