@@ -17,4 +17,6 @@ public interface RequestHandler {
     Response handle(CreateGroupRequest createGroupRequest);
 
     Response handle(SendCommandRequest commandRequest);
+
+    Response handle(SetCharacterRequest setCharacterRequest);
 }

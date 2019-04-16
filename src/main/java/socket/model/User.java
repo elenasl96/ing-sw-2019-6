@@ -33,6 +33,10 @@ public class User implements Serializable {
         this.character = character;
     }
 
+    public Character getCharacter() {
+        return character;
+    }
+
     public String getUsername() {
         return username;
     }

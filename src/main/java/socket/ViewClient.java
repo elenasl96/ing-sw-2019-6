@@ -83,18 +83,20 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         } while (group == null);
         displayText("Welcome to " + group.getName());
         group.observe(this);
-        this.preGamingPhase();
     }
 
     public void preGamingPhase(){
-        //TODO ask character
-        controller.startReceiverThread();
+        displayText("Which character do you want to be?");
+        //TODO display possible character and description
+        int character = Integer.parseInt(userInput());
+        while(character<1 || character>5) {
+            displayText("Choose between character from 1 to 5");
+            character = Integer.parseInt(userInput());
+        } controller.setCharacter(character);
 
-        String command;
-        do {
-            command = userInput();
-            controller.sendCommand(command);
-        } while (!command.startsWith(":q"));
+        //do {
+
+        //} while (game == null);
     }
 
     public void gamingPhase(){
@@ -131,5 +133,4 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
     }
-
 }

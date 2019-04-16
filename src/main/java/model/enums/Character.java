@@ -15,4 +15,21 @@ public enum Character {
         this.name = name;
         this.color = color;
     }
+
+    public static Character fromInteger(int x) {
+        switch(x) {
+            case 1:
+                return PG1;
+            case 2:
+                return PG2;
+            case 3:
+                return PG3;
+            case 4:
+                return PG4;
+            case 5:
+                return PG5;
+            default:
+                return NOT_ASSIGNED;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package socket;
 
+import model.enums.Character;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.InvalidGroupNumberException;
 import socket.exceptions.InvalidUsernameException;
@@ -90,6 +91,21 @@ public class ServerController implements RequestHandler {
         } catch (FullGroupException e){
             return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
         }
+    }
+
+    @Override
+    public Response handle(SetCharacterRequest setCharacterRequest){
+        Character character = Character.fromInteger(setCharacterRequest.characterNumber);
+        boolean taken = false;
+        for(User u: currentGroup.users()) {
+            if(u.getCharacter() == character){
+                taken = true;
+            }
+        }
+        if (taken){
+            return new TextResponse("Character taken!", StatusCode.KO);
+        }
+        return null;
     }
 
     @Override
