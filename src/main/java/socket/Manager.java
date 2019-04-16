@@ -59,7 +59,6 @@ public class Manager {
         groups.add(group);
         User serverUser = new User("Server" + group.getGroupID());
         group.join(serverUser);
-        group.setTimerController(new TimerController(serverUser));
         return group;
     }
 

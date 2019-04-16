@@ -11,6 +11,7 @@ import java.util.TimerTask;
 public class TimerController implements GroupChangeListener {
     private User serverUser;
     private Group group;
+
     private Timer timer;
     private TimerTask timerTask = new TimerTask(){
         int seconds = 60;
@@ -46,7 +47,6 @@ public class TimerController implements GroupChangeListener {
         if(this.group.isFull()){
             timer.cancel();
             this.group.createGame();
-
         }
     }
 

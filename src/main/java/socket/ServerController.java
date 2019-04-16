@@ -1,5 +1,6 @@
 package socket;
 
+import controller.GameController;
 import model.enums.Character;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.InvalidGroupNumberException;
@@ -15,6 +16,8 @@ import socket.network.commands.response.JoinGroupResponse;
 import socket.network.commands.response.TextResponse;
 import socket.network.commands.response.UserCreatedResponse;
 
+import java.util.LinkedList;
+
 public class ServerController implements RequestHandler {
     // reference to the networking layer
     private final ClientHandler clientHandler;
@@ -23,6 +26,7 @@ public class ServerController implements RequestHandler {
     private final Manager manager;
     private User user;
     private Group currentGroup;
+    private GameController gameController;
 
     public ServerController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
@@ -85,8 +89,8 @@ public class ServerController implements RequestHandler {
         try {
             currentGroup = manager.createGroup(createGroupRequest.getSkullNumber());
             currentGroup.join(user);
-            currentGroup.observe(clientHandler);// --- deleting this will be fixed
-            //the duplicated responses in the first player bug
+            currentGroup.observe(clientHandler);
+            this.gameController = new GameController(currentGroup, new LinkedList<>(currentGroup.users()));
             System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
             return new JoinGroupResponse(currentGroup);
         } catch (FullGroupException e){

@@ -4,6 +4,7 @@ import model.Game;
 import model.Player;
 import model.enums.Phase;
 import org.jetbrains.annotations.NotNull;
+import socket.model.Group;
 import socket.model.User;
 
 import java.util.LinkedList;
@@ -15,8 +16,21 @@ public class GameController {
      */
     private Game game;
     private final List<User> users = new LinkedList<>();
+    private Group group;
+    private User serverUser;
+    private TimerController timerController;
 
-    public GameController(@NotNull List<User> groupUsers){
+    public GameController(Group group){
+
+    }
+
+    public GameController(Group group, @NotNull List<User> groupUsers){
+        this.group = group;
+        this.serverUser = groupUsers.iterator().next();
+        this.timerController = new TimerController(this.group, serverUser);
+    }
+
+    public void firstPlayer(Group group, @NotNull List<User> groupUsers){
         int firstPlayer = groupUsers.get(0).getUserID();
         for(User u : groupUsers){
             this.users.add(u);

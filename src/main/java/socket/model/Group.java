@@ -35,7 +35,6 @@ public class Group implements Serializable {
     public void createGame(){
         this.setFull();
         this.gameGroup = new Game(skullNumber, fieldNumber);
-        new GameController(new LinkedList<>(users));
         for(GroupChangeListener listener : listeners) {
             listener.onStart();
         }
