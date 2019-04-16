@@ -1,6 +1,6 @@
 package exception;
 
-public class NotExistingFieldException extends Exception {
+public class NotExistingFieldException extends RuntimeException {
 
     public NotExistingFieldException(){
         super("This field doesn't exist yet");

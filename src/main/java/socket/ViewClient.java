@@ -1,6 +1,7 @@
 package socket;
 
 
+import exception.NotExistingFieldException;
 import socket.exceptions.InvalidGroupNumberException;
 import socket.model.*;
 
@@ -33,7 +34,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         } while (user == null);
 
         displayText("You are " + user.getUsername());
-
         user.listenToMessages(this);
     }
 
@@ -65,7 +65,14 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
                     displayText("Creating a new group...");
                     int groupNumber = controller.createGroup(skullNumber);
                     group = controller.chooseGroup(groupNumber);
-                } catch (InvalidGroupNumberException|NumberFormatException e){
+                    displayText("Which field do you want to use?");
+                    int fieldNumber = Integer.parseInt(userInput());
+                    while(fieldNumber<1 || fieldNumber>3) {
+                        displayText("Choose between field 1, 2 or 3");
+                        fieldNumber = Integer.parseInt(userInput());
+                    }
+                    group.setFieldNumber(fieldNumber);
+                } catch (InvalidGroupNumberException|NumberFormatException| NotExistingFieldException e){
                     displayText("Insert a valid number");
                     group = null;
                 }
@@ -80,6 +87,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     }
 
     public void preGamingPhase(){
+        //TODO ask character
         controller.startReceiverThread();
 
         String command;
