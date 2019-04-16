@@ -18,7 +18,7 @@ public class Movement implements Move{
     /**
      * The field of the current game
      */
-    private Field field = new Field();
+    private Field field;
     /**
      * The List of achievable Squares by the player
      */

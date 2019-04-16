@@ -83,17 +83,26 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         } while (group == null);
         displayText("Welcome to " + group.getName());
         group.observe(this);
+        this.preGamingPhase();
     }
 
     public void preGamingPhase(){
         displayText("Which character do you want to be?");
         //TODO display possible character and description
-        int character = Integer.parseInt(userInput());
-        while(character<1 || character>5) {
-            displayText("Choose between character from 1 to 5");
-            character = Integer.parseInt(userInput());
-        } controller.setCharacter(character);
-
+        boolean OK = false;
+        do {
+            try{
+                int character = Integer.parseInt(userInput());
+                while (character < 1 || character > 5) {
+                    displayText("Choose between character from 1 to 5");
+                    character = Integer.parseInt(userInput());
+                }
+                OK = controller.setCharacter(character);
+            }catch (NumberFormatException e){
+                OK = false;
+            }
+        } while(!OK);
+        displayText("tutto ok");
         //do {
 
         //} while (game == null);
