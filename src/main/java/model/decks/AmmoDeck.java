@@ -4,11 +4,13 @@ import model.enums.Color;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AmmoDeck {
-    private SecureRandom random = new SecureRandom();
+
     private List<AmmoTile> ammoTiles = new ArrayList<>();
+    private List<AmmoTile> discard = new ArrayList<>();
 
     public AmmoDeck(){
         for(int i=0; i<2 ; i++) {
@@ -28,6 +30,7 @@ public class AmmoDeck {
                 this.ammoTiles.add(new AmmoTileWithPowerup(Color.RED, Color.BLUE));
             }
         }
+
     }
 
     /**
@@ -35,8 +38,25 @@ public class AmmoDeck {
      * random element from the deck
      * @return an ammo card randomly
      */
-    public AmmoTile pickRandomCard(){
-        return ammoTiles.get(random.nextInt(ammoTiles.size()));
+    public AmmoTile pickCard(){
+        AmmoTile ammoCard = ammoTiles.get(0);
+        ammoTiles.remove(0);
+
+        if(ammoTiles.isEmpty()) {
+            ammoTiles=discard;
+            discard=new ArrayList<>();
+            shuffleDeck();
+        }
+
+        return ammoCard;
+    }
+
+    public void discardCard(AmmoTile card) {
+        discard.add(card);
+    }
+
+    public void shuffleDeck() {
+        Collections.shuffle(ammoTiles);
     }
 
 }
