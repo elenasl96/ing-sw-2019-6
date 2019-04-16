@@ -39,6 +39,7 @@ public class AmmoDeck {
      * @return an ammo card randomly
      */
     public AmmoTile pickCard(){
+
         AmmoTile ammoCard = ammoTiles.get(0);
         ammoTiles.remove(0);
 

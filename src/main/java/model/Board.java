@@ -14,16 +14,12 @@ public class Board {
     private WeaponDeck weaponsLeft;
     private AmmoDeck ammosLeft;
     private PowerupDeck powerupsLeft;
-    private List<AmmoTile> ammosLeftover;
-    private List<Powerup> powerupsLeftover;
 
     public Board(int fieldNumber){
         this.killshotTrack = new ArrayList<>();
         this.weaponsLeft = new WeaponDeck();
         this.ammosLeft = new AmmoDeck();
         this.powerupsLeft = new PowerupDeck();
-        this.ammosLeftover = new ArrayList<>();
-        this.powerupsLeftover = new ArrayList<>();
         this.field = new Field(fieldNumber);
     }
 
@@ -62,27 +58,8 @@ public class Board {
         this.killshotTrack.add(pg);
     }
 
-    public List<AmmoTile> getAmmosLeftover() {
-        return ammosLeftover;
-    }
-
-    /**
-     * add the ammo in ammos leftovers
-     * @param ammoTileLeftover ammo discarded
-     */
-    public void addAmmoLeftover(AmmoTile ammoTileLeftover) {
-        this.ammosLeftover.add(ammoTileLeftover);
-    }
-
-    public List<Powerup> getPowerupsLeftover() {
-        return powerupsLeftover;
-    }
-
-    /**
+     /**
      * add the powerup in powerups leftovers
      * @param powerupLeftover   the leftover
      */
-    public void addPowerupLeftover(Powerup powerupLeftover) {
-        this.powerupsLeftover.add(powerupLeftover);
-    }
 }

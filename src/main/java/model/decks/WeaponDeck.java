@@ -8,12 +8,11 @@ import model.moves.Move;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WeaponDeck {
     private List<Weapon> weapons = new ArrayList<>();
-    private SecureRandom random = new SecureRandom();
-
 
     public WeaponDeck() {
         List<Move> temp = new ArrayList<>();
@@ -55,13 +54,19 @@ public class WeaponDeck {
 
     }
 
-    /**
-     * random.nextInt() generates a random int which is used to retrieve a
-     * random element from the deck
-     * @return a weapon card randomly
-     */
-    public Weapon pickRandomCard(){
-        return weapons.get(random.nextInt(this.weapons.size()));
+    public void shuffleDeck () {
+        Collections.shuffle(weapons);
+    }
+
+    public Weapon pickCard(){
+
+        if(!weapons.isEmpty()) {
+            Weapon weaponCard=weapons.get(0);
+            weapons.remove(0);
+            return weaponCard;
+        }
+
+        return null;
     }
 
     public List<Weapon> getWeapons() {

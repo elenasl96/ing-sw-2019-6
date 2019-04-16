@@ -17,6 +17,5 @@ public class AmmoTileWithAmmo extends AmmoTile implements Grabbable{
     @Override
     public void useGrabbable(Player player) {
         player.refillAmmo(this);
-
     }
 }
