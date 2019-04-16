@@ -103,7 +103,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
                 ok = false;
             }
         } while(!ok);
-        displayText("tutto ok");
+        displayText("Let's start!");
         messagingPhase();
         //do {
 

@@ -68,7 +68,7 @@ public class ClientController implements ResponseHandler {
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
         if(!ClientContext.get().isStatus()){
-            view.displayText("Character already taken!");
+            view.displayText("Character already taken! Choose another one");
         }
         return ClientContext.get().isStatus();
     }
