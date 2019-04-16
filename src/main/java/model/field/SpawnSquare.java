@@ -26,7 +26,7 @@ public class SpawnSquare extends Square{
     @Override
     public void setGrabbable(Board board){
         for(int i=0; i<3; i++){
-            weapons.addWeapon(board.getWeaponsLeft().pickRandomCard());
+            weapons.addWeapon(board.getWeaponsLeft().pickCard());
         }
     }
 
