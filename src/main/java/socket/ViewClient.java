@@ -111,7 +111,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     }
 
     public void gamingPhase(){
-        
+
     }
 
     public void messagingPhase() {

@@ -1,6 +1,7 @@
 package socket.model;
 
 import controller.GameController;
+import controller.TimerController;
 import model.Game;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.UserNotInGroupException;
@@ -21,6 +22,7 @@ public class Group implements Serializable {
     private boolean full = false;
     private int skullNumber;
     private int fieldNumber;
+    private TimerController timerController;
 
     public Group(int skullNumber) {
         super();
@@ -151,4 +153,6 @@ public class Group implements Serializable {
     public void setFieldNumber(int field) {
         this.fieldNumber = field;
     }
+
+    public void setTimerController(TimerController timerController){this.timerController = timerController;}
 }
