@@ -71,7 +71,8 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     }
 
     public void gamingPhase(){
-        do {
+        displayText("YOU ARE IN A NEW GAME");
+        /*do {
             //TODO
         }while(false);
         controller.startGame();
@@ -79,7 +80,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         do {
             command = userInput();
             controller.sendCommand(command);
-        } while (!command.startsWith(":q"));
+        } while (!command.startsWith(":q"));*/
     }
 
     public void messagingPhase() {
@@ -107,4 +108,10 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     public void onLeave(User user) {
         displayText(user.getUsername() + " left the group");
     }
+
+    @Override
+    public void onStart() {
+        this.gamingPhase();
+    }
+
 }

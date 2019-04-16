@@ -1,9 +1,7 @@
 package controller;
 
-import model.Board;
 import model.Game;
 import model.Player;
-import model.decks.PowerupDeck;
 import model.enums.Phase;
 
 public class Controller{

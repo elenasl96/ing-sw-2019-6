@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 
 public class TimerController implements GroupChangeListener {
+    private User serverUser;
     private Group group;
     private Timer timer;
     private TimerTask timerTask = new TimerTask(){
@@ -28,7 +29,6 @@ public class TimerController implements GroupChangeListener {
             seconds--;
         }
     };
-    private User serverUser;
 
     public TimerController(Group group, User serverUser){
         this.group = group;
@@ -45,13 +45,20 @@ public class TimerController implements GroupChangeListener {
         if(this.group.isFull()){
             timer.cancel();
             this.group.createGame();
+
         }
     }
 
     @Override
     public void onLeave(User u) {
         if(this.group.size() == 2){
+            this.group.setNotFull();
             timer.cancel();
         }
+    }
+
+    @Override
+    public void onStart() {
+        this.group.createGame();
     }
 }

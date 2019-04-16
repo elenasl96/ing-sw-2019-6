@@ -5,10 +5,8 @@ import socket.model.GroupChangeListener;
 import socket.model.Message;
 import socket.model.MessageReceivedObserver;
 import socket.model.User;
-import socket.network.commands.GroupChangeNotification;
-import socket.network.commands.MessageNotification;
-import socket.network.commands.Request;
-import socket.network.commands.Response;
+import socket.network.commands.*;
+import socket.network.commands.response.TextResponse;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -101,10 +99,15 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
     @Override
     public void onJoin(User user) {
         respond(new GroupChangeNotification(true, user));
+
     }
 
     @Override
     public void onLeave(User user) {
         respond(new GroupChangeNotification(false, user));
+    }
+
+    @Override
+    public void onStart() {
     }
 }

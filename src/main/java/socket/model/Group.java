@@ -1,6 +1,5 @@
 package socket.model;
 
-import controller.GameController;
 import model.Game;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.UserNotInGroupException;
@@ -11,7 +10,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Group implements Serializable {
-    private Game gameGroup;
+    private transient Game gameGroup;
     private static int uniqueGroupID = 0;
     private int groupID;
     private String groupName;
@@ -29,6 +28,8 @@ public class Group implements Serializable {
 
     public void createGame(){
         this.gameGroup = new Game();
+        for(GroupChangeListener listener : listeners)
+            listener.onStart();
 
     }
 
@@ -43,7 +44,6 @@ public class Group implements Serializable {
 
     public void join(User user) throws FullGroupException {
         if(this.isFull()) {
-            this.full=true;
             throw new FullGroupException();
         }
         users.add(user);
@@ -97,9 +97,13 @@ public class Group implements Serializable {
         else return false;
     }
 
-
     public void setFull(){
         this.full = true;
+
+    }
+
+    public void setNotFull(){
+        this.full = false;
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {

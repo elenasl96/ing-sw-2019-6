@@ -41,7 +41,7 @@ public class ServerController implements RequestHandler {
         } else {
             currentGroup.leave(user);
             clientHandler.stop();
-            System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
+            System.out.println (">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
         }
 
         return null; // no response

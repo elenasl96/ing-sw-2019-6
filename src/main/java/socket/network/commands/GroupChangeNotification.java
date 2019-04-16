@@ -2,7 +2,6 @@ package socket.network.commands;
 
 
 import socket.ClientContext;
-import socket.exceptions.FullGroupException;
 import socket.model.Group;
 import socket.model.User;
 
