@@ -1,18 +1,16 @@
 package socket.network;
 
 import socket.ServerController;
-import socket.model.GroupChangeListener;
-import socket.model.Message;
-import socket.model.MessageReceivedObserver;
-import socket.model.User;
+import socket.model.*;
 import socket.network.commands.*;
+import socket.network.commands.response.TextResponse;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable, MessageReceivedObserver, GroupChangeListener {
+public class ClientHandler implements Runnable, MessageReceivedObserver, GroupChangeListener, GameUpdateObserver {
     private static final String ERROR = "Errors in closing - ";
 
     private Socket socket;
@@ -107,6 +105,12 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
     }
 
     @Override
+    public void onUpdate(Update update) {
+
+    }
+
+    @Override
     public void onStart() {
+        respond(new TextResponse("The game is starting" ));
     }
 }

@@ -1,5 +1,8 @@
 package model;
 
+import socket.model.GameUpdateObserver;
+import socket.model.User;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,6 +10,7 @@ public class Game {
     private int numberPlayers;
     private Board board;
     private List<Player> players = new LinkedList<>();
+    private transient List<GameUpdateObserver> observers = new LinkedList<>();
     private int turn;
     private int skullsNumber;
     private boolean done;
@@ -62,5 +66,15 @@ public class Game {
 
     public boolean isDone() {
         return done;
+    }
+
+    public void addObserverGame(GameUpdateObserver observer) {
+        this.observers.add(observer);
+    }
+
+    public void sendStartNotification() {
+        for (GameUpdateObserver observer : observers) {
+            observer.onStart();
+        }
     }
 }

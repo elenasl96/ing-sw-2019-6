@@ -25,7 +25,7 @@ public class TimerController implements GroupChangeListener {
                     group.sendMessage(new Message(group, serverUser, "Seconds remaining left: " + seconds + "..."));
             } else if (seconds == 0){
                 group.sendMessage(new Message(group, serverUser, "Game starting"));
-                group.createGame();
+                group.createGame(serverUser);
                 timer.cancel();
             }
             seconds--;
@@ -46,7 +46,7 @@ public class TimerController implements GroupChangeListener {
         }
         if(this.group.isFull()){
             timer.cancel();
-
+            group.createGame(serverUser);
         }
     }
 
@@ -56,10 +56,5 @@ public class TimerController implements GroupChangeListener {
             this.group.setNotFull();
             timer.cancel();
         }
-    }
-
-    @Override
-    public void onStart() {
-        //dummy
     }
 }

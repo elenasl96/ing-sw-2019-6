@@ -1,7 +1,6 @@
 package socket.model;
 
 import controller.GameController;
-import controller.TimerController;
 import model.Game;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.UserNotInGroupException;
@@ -15,6 +14,7 @@ public class Group implements Serializable {
     private static int uniqueGroupID = 0;
     private int groupID;
     private String groupName;
+    private Game game;
     private Set<User> users = new HashSet<>();
     private List<Message> messages = new LinkedList<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
@@ -28,13 +28,6 @@ public class Group implements Serializable {
         groupID = uniqueGroupID;
         groupName = "group" + groupID;
         uniqueGroupID++;
-    }
-
-    public void start(){
-        this.setFull();
-        for(GroupChangeListener listener : listeners) {
-            listener.onStart();
-        }
     }
 
     public void sendMessage(Message message) throws UserNotInGroupException {
@@ -63,6 +56,8 @@ public class Group implements Serializable {
             listener.onLeave(user);
 
     }
+
+    
 
     public void observe(GroupChangeListener listener) {
         listeners.add(listener);
@@ -150,5 +145,11 @@ public class Group implements Serializable {
         this.fieldNumber = field;
     }
 
-    public void setTimerController(TimerController timerController){this.timerController = timerController;}
+    public void createGame(User serverUser) {
+        this.game = new Game(this.skullNumber,this.fieldNumber);
+        for(GroupChangeListener listener : listeners){
+            game.addObserverGame((GameUpdateObserver) listener);
+        }
+        game.sendStartNotification();
+    }
 }

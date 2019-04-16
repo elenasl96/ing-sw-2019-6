@@ -20,10 +20,6 @@ public class GameController {
     private User serverUser;
     private TimerController timerController;
 
-    public GameController(Group group){
-
-    }
-
     public GameController(Group group, @NotNull List<User> groupUsers){
         this.group = group;
         this.serverUser = groupUsers.iterator().next();

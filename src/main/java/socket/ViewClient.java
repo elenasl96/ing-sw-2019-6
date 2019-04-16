@@ -7,7 +7,7 @@ import socket.model.*;
 
 import java.util.Scanner;
 
-public class ViewClient implements MessageReceivedObserver, GroupChangeListener {
+public class ViewClient implements MessageReceivedObserver, GroupChangeListener, GameUpdateObserver {
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
     private final ClientController controller;
@@ -144,6 +144,11 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     @Override
     public void onLeave(User user) {
         displayText(user.getUsername() + " left the group");
+    }
+
+    @Override
+    public void onUpdate(Update update) {
+
     }
 
     @Override

@@ -145,4 +145,5 @@ public class ClientController implements ResponseHandler {
     public void handle(GeneralResponse generalResponse) {
         ClientContext.get().setStatus(generalResponse.status);
     }
+
 }
