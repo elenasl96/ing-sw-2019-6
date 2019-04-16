@@ -59,7 +59,7 @@ public class Manager {
         groups.add(group);
         User serverUser = new User("Server" + group.getGroupID());
         group.join(serverUser);
-        new TimerController(group, serverUser);
+        //new TimerController(group, serverUser);
         return group;
     }
 

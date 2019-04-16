@@ -105,8 +105,10 @@ public class ServerController implements RequestHandler {
         }
         if (taken){
             return new GeneralResponse(false);
+        } else {
+            user.setCharacter(character);
+            return new GeneralResponse(true);
         }
-        return new GeneralResponse(true);
     }
 
     @Override
