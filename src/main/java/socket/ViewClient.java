@@ -89,7 +89,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     public void preGamingPhase(){
         displayText("Which character do you want to be?");
         //TODO display possible character and description
-        boolean OK = false;
+        boolean ok;
         do {
             try{
                 int character = Integer.parseInt(userInput());
@@ -97,12 +97,14 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
                     displayText("Choose between character from 1 to 5");
                     character = Integer.parseInt(userInput());
                 }
-                OK = controller.setCharacter(character);
+                ok = controller.setCharacter(character);
             }catch (NumberFormatException e){
-                OK = false;
+                displayText("Please insert a number");
+                ok = false;
             }
-        } while(!OK);
+        } while(!ok);
         displayText("tutto ok");
+        messagingPhase();
         //do {
 
         //} while (game == null);

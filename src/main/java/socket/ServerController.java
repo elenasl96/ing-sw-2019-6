@@ -10,6 +10,7 @@ import socket.model.User;
 import socket.network.ClientHandler;
 import socket.network.commands.*;
 import socket.network.commands.request.*;
+import socket.network.commands.response.GeneralResponse;
 import socket.network.commands.response.JoinGroupResponse;
 import socket.network.commands.response.TextResponse;
 import socket.network.commands.response.UserCreatedResponse;
@@ -103,9 +104,11 @@ public class ServerController implements RequestHandler {
             }
         }
         if (taken){
-            return new TextResponse("Character taken!", StatusCode.KO);
+            return new GeneralResponse(false);
+        } else {
+            user.setCharacter(character);
+            return new GeneralResponse(true);
         }
-        return null;
     }
 
     @Override

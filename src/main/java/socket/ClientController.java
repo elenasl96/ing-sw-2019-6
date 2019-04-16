@@ -8,6 +8,7 @@ import socket.model.User;
 import socket.network.Client;
 import socket.network.commands.*;
 import socket.network.commands.request.*;
+import socket.network.commands.response.GeneralResponse;
 import socket.network.commands.response.JoinGroupResponse;
 import socket.network.commands.response.TextResponse;
 import socket.network.commands.response.UserCreatedResponse;
@@ -66,7 +67,7 @@ public class ClientController implements ResponseHandler {
     public boolean setCharacter(int characterNumber){
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
-        return true;
+        return ClientContext.get().isStatus();
     }
 
     public void startReceiverThread() {
@@ -134,5 +135,10 @@ public class ClientController implements ResponseHandler {
     @Override
     public void handle(SituationViewerResponse situationViewerResponse){
         ClientContext.get().setCurrentSituation(situationViewerResponse.situation);
+    }
+
+    @Override
+    public void handle(GeneralResponse generalResponse) {
+        ClientContext.get().setStatus(generalResponse.status);
     }
 }
