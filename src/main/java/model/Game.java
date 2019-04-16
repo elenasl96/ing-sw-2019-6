@@ -11,10 +11,10 @@ public class Game {
     private int skullsNumber;
     private boolean done;
 
-    public Game(int skullNumber) {
+    public Game(int skullNumber, int fieldNumber) {
         this.skullsNumber = skullNumber;
         this.numberPlayers = 0;
-        this.board = new Board();
+        this.board = new Board(fieldNumber);
         this.turn = 0;
         this.done = false;
     }

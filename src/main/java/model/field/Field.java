@@ -18,6 +18,10 @@ public class Field {
         return squares;
     }
 
+    public Field(int fieldNumber){
+        generateField(fieldNumber);
+    }
+
     public void generateField(int fieldNumber) throws NotExistingFieldException{
         switch (fieldNumber) {
             case(1):

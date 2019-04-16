@@ -1,5 +1,6 @@
 package model;
 
+import exception.NotExistingFieldException;
 import model.decks.*;
 import model.field.*;
 import java.util.ArrayList;
@@ -16,13 +17,14 @@ public class Board {
     private List<AmmoTile> ammosLeftover;
     private List<Powerup> powerupsLeftover;
 
-    public Board(){
+    public Board(int fieldNumber){
         this.killshotTrack = new ArrayList<>();
         this.weaponsLeft = new WeaponDeck();
         this.ammosLeft = new AmmoDeck();
         this.powerupsLeft = new PowerupDeck();
         this.ammosLeftover = new ArrayList<>();
         this.powerupsLeftover = new ArrayList<>();
+        this.field = new Field(fieldNumber);
     }
 
     public Field getField() {
