@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Group implements Serializable {
-    private transient Game gameGroup;
     private static int uniqueGroupID = 0;
     private int groupID;
     private String groupName;
@@ -22,7 +21,6 @@ public class Group implements Serializable {
     private boolean full = false;
     private int skullNumber;
     private int fieldNumber;
-    private TimerController timerController;
 
     public Group(int skullNumber) {
         super();
@@ -32,9 +30,8 @@ public class Group implements Serializable {
         uniqueGroupID++;
     }
 
-    public void createGame(){
+    public void start(){
         this.setFull();
-        this.gameGroup = new Game(skullNumber, fieldNumber);
         for(GroupChangeListener listener : listeners) {
             listener.onStart();
         }

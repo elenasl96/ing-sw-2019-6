@@ -26,6 +26,10 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         System.out.println(">>> " + text);
     }
 
+    public void setWait(boolean wait) {
+        this.wait = wait;
+    }
+
     public void chooseUsernamePhase() {
         User user;
         do {
@@ -108,10 +112,11 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
         do {
             messagingPhase();
         } while (wait);
+        wait = true;
     }
 
     public void gamingPhase(){
-
+        displayText("Game starting");
     }
 
     public void messagingPhase() {
@@ -122,6 +127,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
             controller.sendMessage(content);
         } while (!content.startsWith(":q"));
     }
+
 
     // ----- The view observes the state and reacts (the observable pushes the pieces of interesting state)
 
@@ -143,5 +149,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
     @Override
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
+        wait = false;
     }
 }

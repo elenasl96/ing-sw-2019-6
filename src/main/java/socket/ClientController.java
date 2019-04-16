@@ -115,6 +115,7 @@ public class ClientController implements ResponseHandler {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         view.gamingPhase();
+
         receiver.interrupt();
     }
 

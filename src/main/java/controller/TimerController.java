@@ -46,7 +46,7 @@ public class TimerController implements GroupChangeListener {
         }
         if(this.group.isFull()){
             timer.cancel();
-            this.group.createGame();
+
         }
     }
 
@@ -60,6 +60,6 @@ public class TimerController implements GroupChangeListener {
 
     @Override
     public void onStart() {
-        this.group.createGame();
+        //dummy
     }
 }
