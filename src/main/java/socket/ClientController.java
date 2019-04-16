@@ -139,6 +139,6 @@ public class ClientController implements ResponseHandler {
 
     @Override
     public void handle(GeneralResponse generalResponse) {
-        ClientContext.get().setStatus(true);
+        ClientContext.get().setStatus(generalResponse.status);
     }
 }

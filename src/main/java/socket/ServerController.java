@@ -104,9 +104,9 @@ public class ServerController implements RequestHandler {
             }
         }
         if (taken){
-            return new TextResponse("Character taken!", StatusCode.KO);
+            return new GeneralResponse(false);
         }
-        return new GeneralResponse();
+        return new GeneralResponse(true);
     }
 
     @Override

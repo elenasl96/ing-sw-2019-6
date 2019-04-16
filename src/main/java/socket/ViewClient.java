@@ -104,6 +104,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener 
             }
         } while(!ok);
         displayText("tutto ok");
+        messagingPhase();
         //do {
 
         //} while (game == null);
