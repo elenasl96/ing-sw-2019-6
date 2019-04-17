@@ -39,7 +39,7 @@ class MockTest {
            // cc.chooseGroup(0);
             ClientController cc2 = new ClientController(mockClient);
             cc2.createUser("username2");
-            cc2.createGroup(5);
+           // cc2.createGroup(5);
         } catch (IOException e) {
             e.printStackTrace();
         }

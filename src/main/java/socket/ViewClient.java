@@ -60,23 +60,22 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
                     group = null;
                 }
             } else if (answer.equals("yes")) {
-                displayText("How many number of Skulls do you want to use?");
                 try {
+                    displayText("How many number of Skulls do you want to use?");
                     int skullNumber = Integer.parseInt(userInput());
                     while(skullNumber!=5 && skullNumber!=8){
                         displayText("Games can only have 5 or 8 skulls");
                         skullNumber = Integer.parseInt(userInput());
                     }
-                    displayText("Creating a new group...");
-                    int groupNumber = controller.createGroup(skullNumber);
-                    group = controller.chooseGroup(groupNumber);
                     displayText("Which field do you want to use?");
                     int fieldNumber = Integer.parseInt(userInput());
                     while(fieldNumber<1 || fieldNumber>3) {
                         displayText("Choose between field 1, 2 or 3");
                         fieldNumber = Integer.parseInt(userInput());
                     }
-                    group.setFieldNumber(fieldNumber);
+                    int groupNumber = controller.createGroup(skullNumber, fieldNumber);
+                    group = controller.chooseGroup(groupNumber);
+
                 } catch (InvalidGroupNumberException|NumberFormatException| NotExistingFieldException e){
                     displayText("Insert a valid number");
                     group = null;
@@ -88,7 +87,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         } while (group == null);
         displayText("Welcome to " + group.getName());
         group.observe(this);
-        this.preGamingPhase();
     }
 
     public void preGamingPhase(){
@@ -108,7 +106,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
                 ok = false;
             }
         } while(!ok);
-        displayText("Let's start!");
+        displayText("End pregaming phase");
         do {
             messagingPhase();
         } while (wait);

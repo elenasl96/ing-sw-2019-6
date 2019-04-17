@@ -22,7 +22,7 @@ public class Manager {
 
     private Manager() {
         // create one group by default
-        defaultGroup = createGroup(5);
+        defaultGroup = createGroup(5, 2);
     }
 
     public static synchronized Manager get() {
@@ -54,8 +54,8 @@ public class Manager {
         return new HashSet<>(users);
     }
 
-    public synchronized Group createGroup(int skullNumber) {
-        Group group = new Group(skullNumber);
+    public synchronized Group createGroup(int skullNumber, int fieldNumber) {
+        Group group = new Group(skullNumber, fieldNumber);
         groups.add(group);
         User serverUser = new User("Server" + group.getGroupID());
         group.join(serverUser);

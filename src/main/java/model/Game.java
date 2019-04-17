@@ -14,6 +14,27 @@ public class Game {
     private int turn;
     private int skullsNumber;
     private boolean done;
+    private int fieldNumber;
+
+    public List<GameUpdateObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<GameUpdateObserver> observers) {
+        this.observers = observers;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    public int getFieldNumber() {
+        return fieldNumber;
+    }
+
+    public void setFieldNumber(int fieldNumber) {
+        this.fieldNumber = fieldNumber;
+    }
 
     public Game(int skullNumber, int fieldNumber) {
         this.skullsNumber = skullNumber;
@@ -21,6 +42,7 @@ public class Game {
         this.board = new Board(fieldNumber);
         this.turn = 0;
         this.done = false;
+        this.fieldNumber = fieldNumber;
     }
 
 

@@ -19,15 +19,16 @@ public class Group implements Serializable {
     private List<Message> messages = new LinkedList<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
-    private int skullNumber;
     private int fieldNumber;
+    private int skullNumber;
 
-    public Group(int skullNumber) {
+    public Group(int skullNumber, int fieldNumber) {
         super();
-        this.skullNumber = skullNumber;
         groupID = uniqueGroupID;
         groupName = "group" + groupID;
         uniqueGroupID++;
+        this.skullNumber = skullNumber;
+        this.fieldNumber = fieldNumber;
     }
 
     public void sendMessage(Message message) throws UserNotInGroupException {
@@ -146,7 +147,7 @@ public class Group implements Serializable {
     }
 
     public void createGame(User serverUser) {
-        this.game = new Game(this.skullNumber,this.fieldNumber);
+        this.game = new Game(skullNumber, fieldNumber);
         for(GroupChangeListener listener : listeners){
             game.addObserverGame((GameUpdateObserver) listener);
         }

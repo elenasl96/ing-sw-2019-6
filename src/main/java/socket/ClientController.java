@@ -58,8 +58,8 @@ public class ClientController implements ResponseHandler {
         return ClientContext.get().getCurrentSituation();
     }
 
-    public int createGroup(int skullNumber) {
-        client.request(new CreateGroupRequest(skullNumber));
+    public int createGroup(int skullNumber, int fieldNumber) {
+        client.request(new CreateGroupRequest(skullNumber, fieldNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
@@ -114,6 +114,7 @@ public class ClientController implements ResponseHandler {
     public void run() throws IOException {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
+        view.preGamingPhase();
         view.gamingPhase();
 
         receiver.interrupt();
