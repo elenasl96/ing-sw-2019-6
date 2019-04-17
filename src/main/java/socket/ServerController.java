@@ -101,12 +101,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(SetCharacterRequest setCharacterRequest){
         Character character = Character.fromInteger(setCharacterRequest.characterNumber);
-        boolean taken = false;
-        for(User u: currentGroup.users()) {
-            if(u.getCharacter() == character){
-                taken = true;
-            }
-        }
+        Boolean taken = currentGroup.characterIsTaken(character);
         if (taken){
             return new GeneralResponse(false);
         } else {

@@ -2,6 +2,7 @@ package socket.model;
 
 import controller.GameController;
 import model.Game;
+import model.enums.Character;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.UserNotInGroupException;
 
@@ -81,6 +82,7 @@ public class Group implements Serializable {
     public Set<User> users() {
         return new HashSet<>(users);
     }
+    
 
     public String getName() {
         return groupName;
@@ -152,5 +154,14 @@ public class Group implements Serializable {
             game.addObserverGame((GameUpdateObserver) listener);
         }
         game.sendStartNotification();
+    }
+
+    public Boolean characterIsTaken(Character character) {
+        for(User u: users) {
+            if(u.getCharacter() == character){
+                return true;
+            }
+        }
+        return false;
     }
 }
