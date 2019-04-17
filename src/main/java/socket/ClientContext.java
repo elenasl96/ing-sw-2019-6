@@ -1,6 +1,7 @@
 package socket;
 
 
+import model.enums.Character;
 import socket.model.Group;
 import socket.model.User;
 

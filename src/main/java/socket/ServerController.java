@@ -11,10 +11,7 @@ import socket.model.User;
 import socket.network.ClientHandler;
 import socket.network.commands.*;
 import socket.network.commands.request.*;
-import socket.network.commands.response.GeneralResponse;
-import socket.network.commands.response.JoinGroupResponse;
-import socket.network.commands.response.TextResponse;
-import socket.network.commands.response.UserCreatedResponse;
+import socket.network.commands.response.*;
 
 import java.util.LinkedList;
 
@@ -103,10 +100,10 @@ public class ServerController implements RequestHandler {
         Character character = Character.fromInteger(setCharacterRequest.characterNumber);
         Boolean taken = currentGroup.characterIsTaken(character);
         if (taken){
-            return new GeneralResponse(false);
+            return new SetCharacterResponse(Character.NOT_ASSIGNED);
         } else {
             user.setCharacter(character);
-            return new GeneralResponse(true);
+            return new SetCharacterResponse(character);
         }
     }
 

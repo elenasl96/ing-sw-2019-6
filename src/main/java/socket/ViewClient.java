@@ -2,6 +2,7 @@ package socket;
 
 
 import exception.NotExistingFieldException;
+import model.enums.Character;
 import socket.exceptions.InvalidGroupNumberException;
 import socket.model.*;
 
@@ -92,20 +93,22 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     public void preGamingPhase(){
         displayText("Which character do you want to be?");
         //TODO display possible character and description
-        boolean ok;
-        do {
-            try{
+        Character response;
+
+        try{
+            do{
                 int character = Integer.parseInt(userInput());
                 while (character < 1 || character > 5) {
                     displayText("Choose between character from 1 to 5");
                     character = Integer.parseInt(userInput());
                 }
-                ok = controller.setCharacter(character);
-            }catch (NumberFormatException e){
-                displayText("Please insert a number");
-                ok = false;
-            }
-        } while(!ok);
+                response = controller.setCharacter(character);
+                if(response == Character.NOT_ASSIGNED) displayText("Character already taken, choose another one");
+            } while(response == Character.NOT_ASSIGNED);
+            displayText("You are" + response);
+        }catch (NumberFormatException e){
+            displayText("Please insert a number");
+        }
         displayText("End pregaming phase");
         do {
             messagingPhase();

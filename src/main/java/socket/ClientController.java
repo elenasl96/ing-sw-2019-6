@@ -1,5 +1,6 @@
 package socket;
 
+import model.enums.Character;
 import socket.exceptions.InvalidGroupNumberException;
 import socket.model.Command;
 import socket.model.Group;
@@ -8,10 +9,7 @@ import socket.model.User;
 import socket.network.Client;
 import socket.network.commands.*;
 import socket.network.commands.request.*;
-import socket.network.commands.response.GeneralResponse;
-import socket.network.commands.response.JoinGroupResponse;
-import socket.network.commands.response.TextResponse;
-import socket.network.commands.response.UserCreatedResponse;
+import socket.network.commands.response.*;
 
 import java.io.IOException;
 
@@ -64,13 +62,10 @@ public class ClientController implements ResponseHandler {
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
-    public boolean setCharacter(int characterNumber){
+    public Character setCharacter(int characterNumber){
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
-        if(!ClientContext.get().isStatus()){
-            view.displayText("Character already taken! Choose another one");
-        }
-        return ClientContext.get().isStatus();
+        return ClientContext.get().getCurrentUser().getCharacter();
     }
 
     public void startReceiverThread() {
@@ -145,6 +140,11 @@ public class ClientController implements ResponseHandler {
     @Override
     public void handle(GeneralResponse generalResponse) {
         ClientContext.get().setStatus(generalResponse.status);
+    }
+
+    @Override
+    public void handle(SetCharacterResponse setCharacterResponse) {
+        ClientContext.get().getCurrentUser().setCharacter(setCharacterResponse.character);
     }
 
 }

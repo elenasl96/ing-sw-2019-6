@@ -1,9 +1,6 @@
 package socket.network.commands;
 
-import socket.network.commands.response.GeneralResponse;
-import socket.network.commands.response.JoinGroupResponse;
-import socket.network.commands.response.TextResponse;
-import socket.network.commands.response.UserCreatedResponse;
+import socket.network.commands.response.*;
 
 /**
  * A method for every possible Response
@@ -18,4 +15,6 @@ public interface ResponseHandler {
     void handle(SituationViewerResponse situationViewerResponse);
 
     void handle(GeneralResponse generalResponse);
+
+    void handle(SetCharacterResponse setCharacterResponse);
 }
