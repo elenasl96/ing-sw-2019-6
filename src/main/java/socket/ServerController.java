@@ -25,6 +25,13 @@ public class ServerController implements RequestHandler {
     private Group currentGroup;
     private GameController gameController;
 
+    //constructor for tests
+    public ServerController(User user){
+        this.clientHandler = null;
+        this.manager = Manager.get();
+        this.user = user;
+    }
+
     public ServerController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         manager = Manager.get();

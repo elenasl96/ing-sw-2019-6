@@ -15,7 +15,7 @@ public class User implements Serializable {
     private static int uniqueUserID = 0;
     private int userID;
     private UserPlayer userPlayer;
-    private Character character = Character.PG1;
+    private Character character = Character.NOT_ASSIGNED;
 
     public User(String username) {
         super();

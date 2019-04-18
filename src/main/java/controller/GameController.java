@@ -23,7 +23,7 @@ public class GameController {
     public GameController(Group group, @NotNull List<User> groupUsers){
         this.group = group;
         this.serverUser = groupUsers.iterator().next();
-        this.timerController = new TimerController(this.group, serverUser);
+       // this.timerController = new TimerController(this.group, serverUser);
     }
 
     public void firstPlayer(Group group, @NotNull List<User> groupUsers){
