@@ -1,9 +1,7 @@
 package socket;
 
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Text;
 import socket.model.User;
-import socket.network.commands.Response;
 import socket.network.commands.request.CreateGroupRequest;
 import socket.network.commands.request.CreateUserRequest;
 import socket.network.commands.response.JoinGroupResponse;
