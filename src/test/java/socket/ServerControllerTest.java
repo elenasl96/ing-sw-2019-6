@@ -1,14 +1,13 @@
 package socket;
 
 import org.junit.jupiter.api.Test;
-import socket.model.User;
-import socket.network.commands.request.CreateGroupRequest;
-import socket.network.commands.request.CreateUserRequest;
-import socket.network.commands.request.SetCharacterRequest;
-import socket.network.commands.response.JoinGroupResponse;
-import socket.network.commands.response.SetCharacterResponse;
-import socket.network.commands.response.TextResponse;
-import socket.network.commands.response.UserCreatedResponse;
+import model.clientRoom.User;
+import network.socket.ServerController;
+import network.socket.commands.request.CreateGroupRequest;
+import network.socket.commands.request.CreateUserRequest;
+import network.socket.commands.response.JoinGroupResponse;
+import network.socket.commands.response.TextResponse;
+import network.socket.commands.response.UserCreatedResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

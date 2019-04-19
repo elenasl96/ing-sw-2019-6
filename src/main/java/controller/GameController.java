@@ -4,8 +4,8 @@ import model.Game;
 import model.Player;
 import model.enums.Phase;
 import org.jetbrains.annotations.NotNull;
-import socket.model.Group;
-import socket.model.User;
+import model.clientRoom.Group;
+import model.clientRoom.User;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +30,6 @@ public class GameController {
         int firstPlayer = groupUsers.get(0).getUserID();
         for(User u : groupUsers){
             this.users.add(u);
-            u.createUserPlayer();
             if(u.getUserID()<=firstPlayer){
                 firstPlayer = u.getUserID();
             }

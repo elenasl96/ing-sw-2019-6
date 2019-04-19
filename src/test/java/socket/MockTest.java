@@ -4,15 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import socket.network.ChatServer;
-import socket.network.Client;
-import socket.network.ClientHandler;
+import network.socket.ClientController;
+import network.socket.launch.ChatServer;
+import network.socket.launch.Client;
+import network.socket.ClientHandler;
 
 import java.io.*;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
 
 
 class MockTest {

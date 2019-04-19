@@ -1,0 +1,5 @@
+package model.clientRoom;
+
+public interface GameUpdateObserver {
+    void onUpdate(Update update);
+}

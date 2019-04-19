@@ -1,22 +1,14 @@
 package socket;
 
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import socket.network.ChatServer;
-import socket.network.Client;
-import socket.network.ClientHandler;
+import network.socket.launch.ChatServer;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Semaphore;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

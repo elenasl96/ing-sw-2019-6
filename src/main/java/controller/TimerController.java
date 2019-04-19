@@ -1,6 +1,6 @@
 package controller;
 
-import socket.model.*;
+import model.clientRoom.*;
 
 import java.util.Timer;
 import java.util.TimerTask;

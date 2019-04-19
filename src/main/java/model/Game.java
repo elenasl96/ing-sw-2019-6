@@ -1,7 +1,6 @@
 package model;
 
-import socket.model.GameUpdateObserver;
-import socket.model.User;
+import model.clientRoom.GameUpdateObserver;
 
 import java.util.LinkedList;
 import java.util.List;
