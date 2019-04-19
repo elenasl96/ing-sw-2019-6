@@ -35,7 +35,7 @@ public class ServerControllerTest {
         assertEquals(1, resp3.group.getGroupID());
         assertEquals(1, resp3.group.size());
         assertEquals("group1", resp3.group.getName());
-        assertEquals(1, serverController1.getCurrentGroup().getGroupID());
+        //assertEquals(1, serverController1.getCurrentGroup().getGroupID());
 
 
         //Choose character

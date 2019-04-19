@@ -73,6 +73,9 @@ public class ServerController implements RequestHandler {
     public Response handle(ChooseGroupRequest chooseGroupRequest) {
         try{
             currentGroup = manager.getGroup(chooseGroupRequest.groupId);
+            if(currentGroup.getGroupID()==0 && currentGroup.size()==0){
+                this.gameController = new GameController(currentGroup, new LinkedList<>(currentGroup.users()));
+            }
             currentGroup.join(user);
             currentGroup.observe(clientHandler);
             System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
@@ -91,8 +94,6 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
         currentGroup = manager.createGroup(createGroupRequest.getSkullNumber(), createGroupRequest.getFieldNumber() );
-        /*currentGroup.join(user);
-        currentGroup.observe(clientHandler);*/
         this.gameController = new GameController(currentGroup, new LinkedList<>(currentGroup.users()));
         System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
         return new JoinGroupResponse(currentGroup);
