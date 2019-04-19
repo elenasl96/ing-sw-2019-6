@@ -75,12 +75,12 @@ public class Manager {
         return user;
     }
 
-    public void updateGroupSituation(){
+    public synchronized void updateGroupSituation(){
         String situation = "";
         for(Group g : groups){
             situation = situation.concat(g.toString());
         }
         this.groupSituation = situation;
     }
-    public String getGroupSituation(){return this.groupSituation;}
+    public synchronized String getGroupSituation(){return this.groupSituation;}
 }

@@ -12,7 +12,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
 
     private Timer timer;
     private TimerTask timerTask = new TimerTask(){
-        int seconds = 60;
+        int seconds = 61;
         @Override
         public void run() {
             if(seconds == 60){
