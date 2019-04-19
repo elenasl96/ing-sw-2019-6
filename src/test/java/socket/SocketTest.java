@@ -1,47 +1,100 @@
 package socket;
 
-import org.junit.jupiter.api.Test;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import socket.network.ChatServer;
 import socket.network.Client;
 import socket.network.ClientHandler;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Semaphore;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+
+@Execution(ExecutionMode.CONCURRENT)
 public class SocketTest {
+    private static final int PORT = 8887;
+
+    private OutputStream serverOut;
+    private InputStream serverIn;
+
+    private Semaphore lock = new Semaphore(0);
+
+    private ChatServer server;
+    private Socket client;
+
     @Test
-    void ChatServer(){
+    public void testClientServer() throws IOException, InterruptedException {
+        server = new ChatServer(PORT);
+        //listen(server.getServerSocket());
+
+        client = new Socket("localhost", PORT);
+
+        //Client client2 = new Client(client);
+        //client2.testInit2();
+        //OutputStream clientOut = client2.getClientOut();
+        //InputStream clientIn = client2.getClientIn();
+
+        System.out.println("Client running");
+        lock.acquire();
+        System.out.println("Acquired lock");
+        //ClientController clientController = new ClientController(client2);
+        //clientController.run();
+    }
+
+    @BeforeEach
+    void test(){
+        ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
+        System.setIn(in);
+    }
+    @Test
+    void test1(){
+        ByteArrayInputStream in = new ByteArrayInputStream("2".getBytes());
+        System.setIn(in);
+    }
+    @Test
+    void test3(){
+        ByteArrayInputStream in = new ByteArrayInputStream("3".getBytes());
+        System.setIn(in);
+    }
+
+    private void listen(ServerSocket server) {
+        new Thread(() -> {
+            try {
+                Socket socket = server.accept();
+                System.out.println("Incoming connection: " + socket);
+
+                serverOut = new ObjectOutputStream(socket.getOutputStream());
+                serverIn = new ObjectInputStream(socket.getInputStream());
+
+                lock.release();
+                System.out.println("Released lock");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    @Disabled
+    void closeAll(){
         try {
-            ChatServer server = new ChatServer(8234);
+            client.close();
             server.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    @Test
-    void Test(){
-        try {
-            ChatServer server = new ChatServer(8234);
-            Socket socket = new Socket("", 8234);
-            Client client = new Client("", 8234);
-            client.setConnection(socket);
-            //Stops here, maybe for the inputstream problem
-            /*
-            ClientHandler clientHandler = new ClientHandler(socket);
-            clientHandler.stop();
-            clientHandler.run();
-            ClientController cc = new ClientController(client);
-            cc.createUser("username");
-            cc.chooseGroup(0);
-            Client client2 = new Client("", 8234);
-            ClientController cc2 = new ClientController(client);
-            cc2.createUser("username2");
-            cc2.createGroup();
-             */
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

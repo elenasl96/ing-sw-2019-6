@@ -116,4 +116,8 @@ public class ServerController implements RequestHandler {
         //TODO command handling
         return null;
     }
+
+    public Group getCurrentGroup() {
+        return this.currentGroup;
+    }
 }
