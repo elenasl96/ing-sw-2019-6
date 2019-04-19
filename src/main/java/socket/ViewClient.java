@@ -76,7 +76,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
                     }
                     int groupNumber = controller.createGroup(skullNumber, fieldNumber);
                     group = controller.chooseGroup(groupNumber);
-
                 } catch (InvalidGroupNumberException|NumberFormatException| NotExistingFieldException e){
                     displayText("Insert a valid number");
                     group = null;
@@ -88,6 +87,10 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         } while (group == null);
         displayText("Welcome to " + group.getName());
         group.observe(this);
+        wait = false;
+        do {
+            messagingPhase();
+        } while (wait);
     }
 
     public void preGamingPhase(){
