@@ -41,7 +41,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
         if(this.group.size() == 3){
             timer = new Timer();
             timer.schedule(timerTask, 0, 1000);
-         }
+        }
         if(this.group.isFull()){
             timer.cancel();
             group.createGame(serverUser);
@@ -51,8 +51,9 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
     @Override
     public void onLeave(User u) {
         if(this.group.size() == 2){
-            this.group.setNotFull();
             timer.cancel();
+            this.group.setNotFull();
+            group.sendMessage(new Message(group, serverUser, "Timer stopped. Waiting for players..."));
         }
     }
 

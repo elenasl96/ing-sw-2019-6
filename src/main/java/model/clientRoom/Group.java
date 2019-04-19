@@ -140,7 +140,7 @@ public class Group implements Serializable {
             for(User u: this.users)
                 if(!u.getUsername().contains("Server"))
                     situation = situation.concat(u.toString()+", ");
-        } situation = situation.concat("\n");
+        }
         return situation;
     }
     public int getGroupID(){return this.groupID;}
