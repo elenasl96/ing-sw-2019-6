@@ -1,14 +1,12 @@
 package controller;
 
-import socket.model.Group;
-import socket.model.GroupChangeListener;
-import socket.model.Message;
-import socket.model.User;
+import socket.model.*;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class TimerController implements GroupChangeListener {
+public class TimerController implements GroupChangeListener, GameUpdateObserver {
     private User serverUser;
     private Group group;
 
@@ -18,7 +16,7 @@ public class TimerController implements GroupChangeListener {
         @Override
         public void run() {
             if(seconds == 60){
-                    group.sendMessage(new Message(group, serverUser, "Timer started: " + seconds + "seconds left..."));
+                group.sendMessage(new Message(group, serverUser, "Timer started: " + seconds + "seconds left..."));
             }else if(seconds == 10) {
                 group.sendMessage(new Message(group, serverUser, "Hurry, 1                                                                                                                                                                                                                                                                                                                                0 seconds left!"));
             } else if (seconds <= 5 && seconds > 0) {
@@ -56,5 +54,15 @@ public class TimerController implements GroupChangeListener {
             this.group.setNotFull();
             timer.cancel();
         }
+    }
+
+    @Override
+    public void onUpdate(Update update) {
+
+    }
+
+    @Override
+    public void onStart() {
+
     }
 }
