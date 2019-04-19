@@ -12,9 +12,6 @@ import network.networkExceptions.FullGroupException;
 import network.networkExceptions.InvalidGroupNumberException;
 import model.clientRoom.Group;
 import model.clientRoom.Message;
-import socket.socket.commands.*;
-import socket.socket.commands.request.*;
-import socket.socket.commands.response.*;
 
 public class ServerController implements RequestHandler {
     // reference to the networking layer

@@ -4,8 +4,6 @@ import model.clientRoom.*;
 import network.socket.commands.Request;
 import network.socket.commands.response.StartGameResponse;
 import network.socket.commands.Response;
-import socket.model.*;
-import socket.socket.commands.*;
 import network.socket.commands.response.GroupChangeNotification;
 import network.socket.commands.response.MessageNotification;
 

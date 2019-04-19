@@ -5,7 +5,6 @@ import exception.NotExistingFieldException;
 import model.clientRoom.*;
 import model.enums.Character;
 import network.networkExceptions.InvalidGroupNumberException;
-import socket.model.*;
 
 import java.util.Scanner;
 

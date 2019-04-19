@@ -11,9 +11,6 @@ import model.clientRoom.Group;
 import model.clientRoom.Message;
 import model.clientRoom.User;
 import network.socket.launch.Client;
-import socket.socket.commands.*;
-import socket.socket.commands.request.*;
-import socket.socket.commands.response.*;
 
 import java.io.IOException;
 

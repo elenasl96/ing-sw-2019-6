@@ -1,7 +1,6 @@
 package network.socket.commands;
 
 import network.socket.commands.request.*;
-import socket.socket.commands.request.*;
 
 /**
  * A method for every possible Request
