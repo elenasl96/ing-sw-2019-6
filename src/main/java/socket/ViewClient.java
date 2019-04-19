@@ -88,6 +88,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         displayText("Welcome to " + group.getName());
         group.observe(this);
         wait = false;
+        controller.startReceiverThread();
         do {
             messagingPhase();
         } while (wait);
@@ -124,7 +125,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     public void messagingPhase() {
-        controller.startReceiverThread();
         String content;
         do {
             content = userInput();
