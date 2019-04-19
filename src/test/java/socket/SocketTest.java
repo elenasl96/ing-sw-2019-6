@@ -38,20 +38,20 @@ public class SocketTest {
     @Test
     public void testClientServer() throws IOException, InterruptedException {
         server = new ChatServer(PORT);
-        listen(server.getServerSocket());
+        //listen(server.getServerSocket());
 
         client = new Socket("localhost", PORT);
 
-        Client client2 = new Client(client);
-        client2.testInit2();
-        OutputStream clientOut = client2.getClientOut();
-        InputStream clientIn = client2.getClientIn();
+        //Client client2 = new Client(client);
+        //client2.testInit2();
+        //OutputStream clientOut = client2.getClientOut();
+        //InputStream clientIn = client2.getClientIn();
 
         System.out.println("Client running");
         lock.acquire();
         System.out.println("Acquired lock");
-        ClientController clientController = new ClientController(client2);
-        clientController.run();
+        //ClientController clientController = new ClientController(client2);
+        //clientController.run();
     }
 
     @BeforeEach
