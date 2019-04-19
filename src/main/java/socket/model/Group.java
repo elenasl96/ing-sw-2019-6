@@ -1,6 +1,5 @@
 package socket.model;
 
-import controller.GameController;
 import model.Game;
 import model.enums.Character;
 import socket.exceptions.FullGroupException;
