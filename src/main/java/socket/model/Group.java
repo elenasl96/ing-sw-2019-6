@@ -148,6 +148,7 @@ public class Group implements Serializable {
     }
 
     public void createGame(User serverUser) {
+        this.setFull();
         this.game = new Game(skullNumber, fieldNumber);
         for(GroupChangeListener listener : listeners){
             game.addObserverGame((GameUpdateObserver) listener);

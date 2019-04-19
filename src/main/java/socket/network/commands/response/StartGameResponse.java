@@ -9,6 +9,7 @@ public class StartGameResponse implements Response {
     @Override
     public void handle(ResponseHandler handler) {
         Group currentGroup = ClientContext.get().getCurrentGroup();
+        currentGroup.setFull();
         currentGroup.sendStartNotification();
     }
 }
