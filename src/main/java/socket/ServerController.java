@@ -90,16 +90,12 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
-        try {
-            currentGroup = manager.createGroup(createGroupRequest.getSkullNumber(), createGroupRequest.getFieldNumber() );
-            currentGroup.join(user);
-            currentGroup.observe(clientHandler);
-            this.gameController = new GameController(currentGroup, new LinkedList<>(currentGroup.users()));
-            System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
-            return new JoinGroupResponse(currentGroup);
-        } catch (FullGroupException e){
-            return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
-        }
+        currentGroup = manager.createGroup(createGroupRequest.getSkullNumber(), createGroupRequest.getFieldNumber() );
+        /*currentGroup.join(user);
+        currentGroup.observe(clientHandler);*/
+        this.gameController = new GameController(currentGroup, new LinkedList<>(currentGroup.users()));
+        System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
+        return new JoinGroupResponse(currentGroup);
     }
 
     @Override
