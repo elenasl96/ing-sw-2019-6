@@ -41,6 +41,9 @@ public class Group implements Serializable {
     }
 
     public void join(User user) throws FullGroupException {
+        if(this.size()==5){
+            this.setFull();
+        }
         if(this.isFull()) {
             throw new FullGroupException();
         }
@@ -94,8 +97,7 @@ public class Group implements Serializable {
     public boolean in(User user) {return users.contains(user);}
 
     public boolean isFull() {
-        if (this.size() >= 5) return true;
-        else return false;
+        return full;
     }
 
     public void setFull(){
