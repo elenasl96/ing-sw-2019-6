@@ -25,6 +25,6 @@ public class TextResponse implements Response {
 
     @Override
     public String toString() {
-        return ">>> " + content;
+        return content;
     }
 }

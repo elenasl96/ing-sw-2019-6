@@ -5,6 +5,7 @@ import socket.exceptions.InvalidGroupNumberException;
 import socket.exceptions.InvalidUsernameException;
 import socket.model.Group;
 import socket.model.User;
+import socket.model.UserManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -57,8 +58,9 @@ public class Manager {
     public synchronized Group createGroup(int skullNumber, int fieldNumber) {
         Group group = new Group(skullNumber, fieldNumber);
         groups.add(group);
-        User serverUser = new User("Server" + group.getGroupID());
+        UserManager serverUser = new UserManager("Server" + group.getGroupID());
         group.join(serverUser);
+        serverUser.createTimerController(group);
         return group;
     }
 

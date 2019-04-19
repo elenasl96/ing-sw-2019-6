@@ -3,6 +3,7 @@ package socket.network;
 import socket.ServerController;
 import socket.model.*;
 import socket.network.commands.*;
+import socket.network.commands.response.StartGameResponse;
 import socket.network.commands.response.TextResponse;
 
 import java.io.IOException;
@@ -96,7 +97,6 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
     @Override
     public void onJoin(User user) {
         respond(new GroupChangeNotification(true, user));
-
     }
 
     @Override
@@ -111,6 +111,7 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
 
     @Override
     public void onStart() {
-        respond(new TextResponse("The game is starting" ));
+        respond(new StartGameResponse());
+
     }
 }

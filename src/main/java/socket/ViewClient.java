@@ -98,7 +98,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         displayText("Which character do you want to be?");
         //TODO display possible character and description
         Character response;
-
         try{
             do{
                 int character = Integer.parseInt(userInput());

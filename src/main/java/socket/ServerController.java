@@ -1,6 +1,5 @@
 package socket;
 
-import controller.GameController;
 import model.enums.Character;
 import socket.exceptions.FullGroupException;
 import socket.exceptions.InvalidGroupNumberException;
@@ -13,8 +12,6 @@ import socket.network.commands.*;
 import socket.network.commands.request.*;
 import socket.network.commands.response.*;
 
-import java.util.LinkedList;
-
 public class ServerController implements RequestHandler {
     // reference to the networking layer
     private final ClientHandler clientHandler;
@@ -23,7 +20,6 @@ public class ServerController implements RequestHandler {
     private final Manager manager;
     private User user;
     private Group currentGroup;
-    private GameController gameController;
 
     //constructor for tests
     public ServerController(User user){
@@ -73,9 +69,6 @@ public class ServerController implements RequestHandler {
     public Response handle(ChooseGroupRequest chooseGroupRequest) {
         try{
             currentGroup = manager.getGroup(chooseGroupRequest.groupId);
-            if(currentGroup.getGroupID()==0 && currentGroup.size()==0){
-                this.gameController = new GameController(currentGroup, new LinkedList<>(currentGroup.users()));
-            }
             currentGroup.join(user);
             currentGroup.observe(clientHandler);
             System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
@@ -94,7 +87,6 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
         currentGroup = manager.createGroup(createGroupRequest.getSkullNumber(), createGroupRequest.getFieldNumber() );
-        this.gameController = new GameController(currentGroup, new LinkedList<>(currentGroup.users()));
         System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
         return new JoinGroupResponse(currentGroup);
     }

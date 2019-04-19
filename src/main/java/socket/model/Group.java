@@ -14,7 +14,7 @@ public class Group implements Serializable {
     private static int uniqueGroupID = 0;
     private int groupID;
     private String groupName;
-    private Game game;
+    private transient Game game;
     private Set<User> users = new HashSet<>();
     private List<Message> messages = new LinkedList<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
@@ -152,7 +152,7 @@ public class Group implements Serializable {
         for(GroupChangeListener listener : listeners){
             game.addObserverGame((GameUpdateObserver) listener);
         }
-        game.sendStartNotification();
+        this.sendStartNotification();
     }
 
     public Boolean characterIsTaken(Character character) {
@@ -162,5 +162,11 @@ public class Group implements Serializable {
             }
         }
         return false;
+    }
+
+    public void sendStartNotification() {
+        for (GroupChangeListener listener : listeners) {
+            listener.onStart();
+        }
     }
 }

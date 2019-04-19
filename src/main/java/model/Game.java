@@ -93,10 +93,4 @@ public class Game {
     public void addObserverGame(GameUpdateObserver observer) {
         this.observers.add(observer);
     }
-
-    public void sendStartNotification() {
-        for (GameUpdateObserver observer : observers) {
-            observer.onStart();
-        }
-    }
 }
