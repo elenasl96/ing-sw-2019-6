@@ -89,9 +89,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         group.observe(this);
         wait = false;
         controller.startReceiverThread();
-        do {
-            messagingPhase();
-        } while (wait);
+        messagingPhase();
     }
 
     public void preGamingPhase(){
@@ -113,10 +111,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
             displayText("Please insert a number");
         }
         displayText("End pregaming phase");
-        do {
-            messagingPhase();
-        } while (wait);
-        wait = true;
+        messagingPhase();
     }
 
     public void gamingPhase(){
@@ -128,7 +123,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         do {
             content = userInput();
             controller.sendMessage(content);
-        } while (!content.startsWith(":q"));
+        } while (!content.startsWith(":q") || wait);
     }
 
 

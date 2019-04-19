@@ -107,6 +107,7 @@ public class ClientController implements ResponseHandler {
         client.request(new SendMessageRequest(m));
     }
 
+
     public void run() throws IOException {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
@@ -116,6 +117,16 @@ public class ClientController implements ResponseHandler {
         receiver.interrupt();
     }
 
+    public void mockRun(String userName, int groupID) throws IOException{
+        User user = createUser(userName);
+        user.listenToMessages(view);
+
+        Group group = chooseGroup(groupID);
+        group.observe(view);
+        view.setWait(false);
+        view.messagingPhase();
+        view.preGamingPhase();
+    }
     // -------------------------- Response handling
 
     @Override
