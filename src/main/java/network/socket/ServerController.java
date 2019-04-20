@@ -14,13 +14,21 @@ import model.clientRoom.Group;
 import model.clientRoom.Message;
 
 public class ServerController implements RequestHandler {
-    // reference to the networking layer
+    /**
+     * reference to the networking layer
+     */
     private final ClientHandler clientHandler;
 
-    // pieces of the model
-    private final Manager manager;
+    /**
+     * the user and group the ServerController is related to
+     */
     private User user;
     private Group currentGroup;
+
+    /**
+     * the only connection with the MANAGER is here in ServerController
+     */
+    private final Manager manager;
 
     //constructor for tests
     public ServerController(User user){
@@ -29,40 +37,60 @@ public class ServerController implements RequestHandler {
         this.user = user;
     }
 
-    public ServerController(ClientHandler clientHandler) {
+
+    ServerController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
         manager = Manager.get();
     }
 
-    public void connectionLost(){
+    /**
+     * in case of connectionLost, the ServerController notifies the leaving of the user
+     * @see ClientHandler#run()  for usage
+     */
+    void connectionLost(){
         currentGroup.leave(user);
     }
 
     // ------ Request handling
 
+    /**
+     *
+     * @param request   SendMessageRequest
+     * @return no Response
+     *         not void to Override interface method
+     * @see network.socket.commands.ResponseHandler
+     */
     @Override
     public Response handle(SendMessageRequest request) {
         Message message = request.message;
         if (!message.getContent().startsWith(":q")) {
             currentGroup.sendMessage(message);
+            System.out.println(">>> Message: " + message.toString());
         } else {
             currentGroup.leave(user);
             clientHandler.stop();
-            System.out.println (">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
+            System.out.println (">>> " + currentGroup.getName() + " updated: " + currentGroup.users());
         }
-
-        return null; // no response
+        return null;
     }
 
+    /**
+     * Creates a new User
+     * @see Manager#createUser(String)
+     * @param request   CreateUserRequest
+     * @return
+     */
     @Override
     public Response handle(CreateUserRequest request) {
         try {
             user = manager.createUser(request.username);
+            System.out.println(">>> Created user: " + user.getUsername());
         } catch (InvalidUsernameException e) {
             return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
         }
         // Listening to messages and sending them
         user.listenToMessages(clientHandler);
+        System.out.println(">>> Returning new UserCreatedResponse");
         return new UserCreatedResponse(user);
     }
 
@@ -72,7 +100,8 @@ public class ServerController implements RequestHandler {
             currentGroup = manager.getGroup(chooseGroupRequest.groupId);
             currentGroup.join(user);
             currentGroup.observe(clientHandler);
-            System.out.println(">>> Group " + currentGroup.getName() + " updated: " + currentGroup.users());
+            System.out.println(">>> " + currentGroup.getName() + " updated: " + currentGroup.users());
+            System.out.println(">>> Returning new JoinGroupResponse");
             return new JoinGroupResponse(currentGroup);
         } catch(FullGroupException | InvalidGroupNumberException e){
             return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
@@ -88,7 +117,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
         currentGroup = manager.createGroup(createGroupRequest.getSkullNumber(), createGroupRequest.getFieldNumber() );
-        System.out.println(">>> Group " + currentGroup.getName() + " created: " + currentGroup.users());
+        System.out.println(">>> " + currentGroup.getName() + " created: " + currentGroup.users());
         return new JoinGroupResponse(currentGroup);
     }
 
@@ -108,9 +137,5 @@ public class ServerController implements RequestHandler {
     public Response handle(SendCommandRequest commandRequest) {
         //TODO command handling
         return null;
-    }
-
-    public Group getCurrentGroup() {
-        return this.currentGroup;
     }
 }
