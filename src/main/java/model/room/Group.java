@@ -16,7 +16,6 @@ public class Group implements Serializable {
     private String groupName;
     private transient Game game;
     private Set<User> users = new HashSet<>();
-    private List<Message> messages = new LinkedList<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
     private int fieldNumber;
@@ -33,7 +32,6 @@ public class Group implements Serializable {
 
     public void sendMessage(Message message){
         checkUserInGroup(message.getSender());
-        messages.add(message);
 
         for(User user: users) {
             user.receiveMessage(message);
