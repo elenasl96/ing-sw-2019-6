@@ -1,6 +1,8 @@
 package model.enums;
 
-public enum Character {
+import java.io.Serializable;
+
+public enum Character implements Serializable {
     NOT_ASSIGNED("NOT_ASSIGNED", Color.NONE),
     PG1(":D-STRUCT-OR", Color.YELLOW),
     PG2("BANSHEE", Color.BLUE),
