@@ -79,7 +79,9 @@ class ClientControllerTest {
     @Test
     @Order(4)
     void setCharacterTest(){
-        clientController.setCharacter(4);
+        clientController.startReceiverThread();
+        assertThrows(java.lang.ClassCastException.class, () -> clientController.setCharacter(4));
+        
     }
 
     @AfterAll
