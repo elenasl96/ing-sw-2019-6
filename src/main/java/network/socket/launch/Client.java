@@ -26,7 +26,7 @@ public class Client {
         in = new ObjectInputStream(connection.getInputStream());
     }
 
-    void close() throws IOException {
+    public void close() throws IOException {
         in.close();
         out.close();
         connection.close();

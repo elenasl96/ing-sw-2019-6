@@ -27,7 +27,7 @@ public class SocketTest {
     private ChatServer server;
     private Socket client;
 
-    @Test
+    @Disabled
     public void testClientServer() throws IOException, InterruptedException {
         server = new ChatServer(PORT);
         //listen(server.getServerSocket());
@@ -46,17 +46,17 @@ public class SocketTest {
         //clientController.run();
     }
 
-    @BeforeEach
+    @Disabled
     void test(){
         ByteArrayInputStream in = new ByteArrayInputStream("1".getBytes());
         System.setIn(in);
     }
-    @Test
+    @Disabled
     void test1(){
         ByteArrayInputStream in = new ByteArrayInputStream("2".getBytes());
         System.setIn(in);
     }
-    @Test
+    @Disabled
     void test3(){
         ByteArrayInputStream in = new ByteArrayInputStream("3".getBytes());
         System.setIn(in);

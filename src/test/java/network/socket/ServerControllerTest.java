@@ -1,5 +1,6 @@
 package network.socket;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import model.room.User;
 import network.socket.commands.request.CreateGroupRequest;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ServerControllerTest {
 
-    @Test
+    @Disabled
     void userCreatedTest(){
         User user1 = new User("1");
         User user2 = new User("2");
