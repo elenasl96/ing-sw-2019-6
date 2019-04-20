@@ -70,7 +70,7 @@ class ClientControllerTest {
     }
 
     @AfterAll
-    void CloseAllTest(){
+    static void CloseAllTest(){
         try {
             client.close();
         } catch (IOException e) {
