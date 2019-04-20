@@ -25,19 +25,19 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         return "";
     }
 
-    public void displayText(String text) {
+    void displayText(String text) {
         System.out.println(">>> " + text);
     }
 
-    public void setWait(boolean wait) {
+    void setWait(boolean wait) {
         this.wait = wait;
     }
 
-    public boolean isWait(){
+    boolean isWait(){
         return this.wait;
     }
 
-    public void chooseUsernamePhase() {
+    void chooseUsernamePhase() {
         User user;
         do {
             displayText("Provide username:");
@@ -49,7 +49,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         user.listenToMessages(this);
     }
 
-    public void chooseGroupPhase() {
+    void chooseGroupPhase() {
         Group group;
         do {
             displayText("These are the groups at the moment:");
@@ -67,40 +67,16 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
                     group = null;
                 }
             } else if (answer.equals("yes")) {
-                try {
-                    displayText("How many number of Skulls do you want to use?");
-                    int skullNumber = Integer.parseInt(userInput());
-                    while(skullNumber!=5 && skullNumber!=8){
-                        displayText("Games can only have 5 or 8 skulls");
-                        skullNumber = Integer.parseInt(userInput());
-                    }
-                    displayText("Which field do you want to use?");
-                    int fieldNumber = Integer.parseInt(userInput());
-                    while(fieldNumber<1 || fieldNumber>3) {
-                        displayText("Choose between field 1, 2 or 3");
-                        fieldNumber = Integer.parseInt(userInput());
-                    }
-                    int groupNumber = controller.createGroup(skullNumber, fieldNumber);
-                    group = controller.chooseGroup(groupNumber);
-                } catch (InvalidGroupNumberException|NumberFormatException| NotExistingFieldException e){
-                    displayText("Insert a valid number");
-                    group = null;
-                }
+                group = this.yesCreateGame();
             } else {
                 displayText("I don't understand, let's try again");
                 group = null;
             }
         } while (group == null);
         displayText("Welcome to " + group.getName());
-        group.observe(this);
-
-        controller.startReceiverThread();
-        while(wait){
-            //Do nothing
-        }
     }
 
-    public void preGamingPhase(){
+    public void chooseCharacterPhase(){
         displayText("Which character do you want to be?");
         //TODO display possible character and description
         Character response;
@@ -118,9 +94,10 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         }catch (NumberFormatException e){
             displayText("Please insert a number");
         }
-        displayText("End pregaming phase");
+        ClientContext.get().getCurrentGroup().observe(this);
+        controller.startReceiverThread();
         while(wait){
-            //do nothing
+            //Do nothing
         }
     }
 
@@ -137,6 +114,27 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         }
     }
 
+    private Group yesCreateGame(){
+        try {
+            displayText("How many number of Skulls do you want to use?");
+            int skullNumber = Integer.parseInt(userInput());
+            while(skullNumber!=5 && skullNumber!=8){
+                displayText("Games can only have 5 or 8 skulls");
+                skullNumber = Integer.parseInt(userInput());
+            }
+            displayText("Which field do you want to use?");
+            int fieldNumber = Integer.parseInt(userInput());
+            while(fieldNumber<1 || fieldNumber>3) {
+                displayText("Choose between field 1, 2 or 3");
+                fieldNumber = Integer.parseInt(userInput());
+            }
+            int groupNumber = controller.createGroup(skullNumber, fieldNumber);
+            return controller.chooseGroup(groupNumber);
+        } catch (InvalidGroupNumberException|NumberFormatException| NotExistingFieldException e){
+            displayText("Insert a valid number");
+            return null;
+        }
+    }
 
     // ----- The view observes the state and reacts (the observable pushes the pieces of interesting state)
 
@@ -164,6 +162,5 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
-        //this.preGamingPhase();
     }
 }

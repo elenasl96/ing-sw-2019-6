@@ -4,6 +4,7 @@ import model.room.Group;
 import model.room.Message;
 import model.room.User;
 import network.socket.launch.Client;
+import network.socket.launch.LaunchServer;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;

@@ -129,7 +129,6 @@ public class ServerController implements RequestHandler {
         try{
             currentGroup = manager.getGroup(chooseGroupRequest.groupId);
             currentGroup.join(user);
-            currentGroup.observe(clientHandler);
             System.out.println(">>> " + currentGroup.getName() + " updated: " + currentGroup.users());
             System.out.println(">>> Returning new JoinGroupResponse");
             return new JoinGroupResponse(currentGroup);
@@ -168,6 +167,7 @@ public class ServerController implements RequestHandler {
             return new SetCharacterResponse(Character.NOT_ASSIGNED);
         } else {
             user.setCharacter(character);
+            currentGroup.observe(clientHandler);
             return new SetCharacterResponse(character);
         }
     }

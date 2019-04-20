@@ -26,7 +26,6 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
         this.socket = s;
         this.out = new ObjectOutputStream(s.getOutputStream());
         this.in = new ObjectInputStream(s.getInputStream());
-
         this.controller = new ServerController(this);
     }
 
