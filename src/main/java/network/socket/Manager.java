@@ -82,4 +82,8 @@ public class Manager {
         this.groupSituation = situation;
     }
     public synchronized String getGroupSituation(){return this.groupSituation;}
+
+    public synchronized void setTimer(Group group){
+        group.getServerUser().playTimer();
+    }
 }

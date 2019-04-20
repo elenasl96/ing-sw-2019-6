@@ -168,6 +168,7 @@ public class ServerController implements RequestHandler {
         } else {
             user.setCharacter(character);
             currentGroup.observe(clientHandler);
+            manager.setTimer(currentGroup);
             return new SetCharacterResponse(character);
         }
     }

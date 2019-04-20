@@ -23,13 +23,13 @@ public class ClientController implements ResponseHandler {
     /**
      * reference to networking layer
      */
-    protected final Client client; //made protected to extend class in tests
-    protected Thread receiver;
+    final Client client; //made protected to extend class in tests
+    private Thread receiver;
 
     /**
      * the view
      */
-    protected final ViewClient view;
+    final ViewClient view;
 
     public ClientController(Client client) {
         this.client = client;

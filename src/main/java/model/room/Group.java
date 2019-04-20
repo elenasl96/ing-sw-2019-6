@@ -154,4 +154,13 @@ public class Group implements Serializable {
             listener.onStart();
         }
     }
+
+    public UserManager getServerUser(){
+        for(User u: users){
+            if(u.getUsername().contains("Server")){
+                return (UserManager) u;
+            }
+        }
+        return null;
+    }
 }

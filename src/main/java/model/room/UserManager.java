@@ -12,4 +12,18 @@ public class UserManager extends User {
     public void createTimerController(Group group){
         this.timerController = new TimerController(group, this);
     }
+
+    public void playTimer(){
+        this.timerController.startTimer();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
