@@ -108,16 +108,18 @@ public class ClientController implements ResponseHandler {
     }
 
 
-    public void run() throws IOException {
+    public void run(){
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
+        view.messagingPhase();
         view.preGamingPhase();
         view.gamingPhase();
 
         receiver.interrupt();
     }
 
-    public void mockRun(String userName, int groupID) throws IOException{
+    //Fot test purposes
+    public void mockRun(String userName, int groupID){
         User user = createUser(userName);
         user.listenToMessages(view);
 

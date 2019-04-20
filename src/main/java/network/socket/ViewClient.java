@@ -20,7 +20,9 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     private String userInput() {
-        return fromKeyBoard.nextLine();
+        if(fromKeyBoard.hasNextLine())
+            return fromKeyBoard.nextLine();
+        return "";
     }
 
     public void displayText(String text) {
@@ -44,7 +46,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     public void chooseGroupPhase() {
-        Group group = null;
+        Group group;
         do {
             displayText("These are the groups at the moment:");
             displayText(controller.getSituation());
@@ -87,9 +89,8 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         } while (group == null);
         displayText("Welcome to " + group.getName());
         group.observe(this);
-        wait = false;
         controller.startReceiverThread();
-        messagingPhase();
+        wait = true;
     }
 
     public void preGamingPhase(){
@@ -119,11 +120,11 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     public void messagingPhase() {
-        String content;
-        do {
+        String content = "";
+        while (wait) {
             content = userInput();
             controller.sendMessage(content);
-        } while (!content.startsWith(":q") || wait);
+        }
     }
 
 
@@ -152,6 +153,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     @Override
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
-        wait = true;
+        wait = false;
+        this.preGamingPhase();
     }
 }
