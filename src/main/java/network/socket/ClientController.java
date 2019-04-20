@@ -73,7 +73,7 @@ public class ClientController implements ResponseHandler {
 
     Character setCharacter(int characterNumber){
         client.request(new SetCharacterRequest(characterNumber));
-        client.nextResponse().handle(this);
+        //client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser().getCharacter();
     }
 
@@ -81,11 +81,16 @@ public class ClientController implements ResponseHandler {
         receiver = new Thread(
                 () -> {
                     Response response;
+
                     do {
+                        if(Thread.interrupted()){
+                            return;
+                        }
                         response = client.nextResponse();
                         if (response != null) {
                             response.handle(this);
                         }
+
                     } while (response != null);
                 }
         );
