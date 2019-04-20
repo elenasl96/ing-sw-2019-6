@@ -81,11 +81,16 @@ public class ClientController implements ResponseHandler {
         receiver = new Thread(
                 () -> {
                     Response response;
+
                     do {
+                        if(Thread.interrupted()){
+                            return;
+                        }
                         response = client.nextResponse();
                         if (response != null) {
                             response.handle(this);
                         }
+
                     } while (response != null);
                 }
         );
@@ -121,7 +126,7 @@ public class ClientController implements ResponseHandler {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         //view.messagingPhase();
-        //this.receiver.interrupt();
+        this.receiver.interrupt();
         view.preGamingPhase();
         view.gamingPhase();
 
