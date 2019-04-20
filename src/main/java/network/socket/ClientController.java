@@ -73,7 +73,7 @@ public class ClientController implements ResponseHandler {
 
     Character setCharacter(int characterNumber){
         client.request(new SetCharacterRequest(characterNumber));
-        client.nextResponse().handle(this);
+        //client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser().getCharacter();
     }
 
@@ -121,7 +121,7 @@ public class ClientController implements ResponseHandler {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         //view.messagingPhase();
-        this.receiver.interrupt();
+        //this.receiver.interrupt();
         view.preGamingPhase();
         view.gamingPhase();
 
