@@ -1,16 +1,11 @@
 package network.socket;
 
-import model.room.Group;
-import model.room.User;
 import network.socket.launch.Client;
 import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.Socket;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SocketTest {
@@ -21,12 +16,14 @@ class SocketTest {
     private static Client client3;
     private static Client client4;
     private static Client client5;
+    private static Client client6;
 
     private static ClientController clientController1;
     private static ClientController clientController2;
     private static ClientController clientController3;
     private static ClientController clientController4;
     private static ClientController clientController5;
+    private static ClientController clientController6;
 
     @BeforeAll
     static void Constructor(){
@@ -74,16 +71,30 @@ class SocketTest {
             e.printStackTrace();
         }
         clientController5 = new ClientController(client5);
+
+        //Client 6
+        client6 = new Client("", 8234);
+        try {
+            client6.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        clientController6 = new ClientController(client6);
     }
 
     @Test
     @Order(1)
     void createUserTest(){
         clientController1.createUser("user1");
+        clientController2.createUser("user1");
+            //Not performed because the username is taken
         clientController2.createUser("user2");
         clientController3.createUser("user3");
         clientController4.createUser("user4");
         clientController5.createUser("user5");
+        clientController6.createUser("Server");
+            //Not performed because name contains Server
+        clientController6.createUser("user6");
     }
 
     @Test
@@ -94,6 +105,15 @@ class SocketTest {
         clientController3.chooseGroup(0);
         clientController4.chooseGroup(0);
         clientController5.chooseGroup(0);
+        clientController6.chooseGroup(0);
+            //Not performed because Group0 is full
+    }
+
+    @Test
+    @Order(3)
+    void createGroupTest(){
+        int newGroupID = clientController6.createGroup(8,1);
+        clientController6.chooseGroup(newGroupID);
     }
 
     @AfterAll
@@ -104,6 +124,7 @@ class SocketTest {
             client3.close();
             client4.close();
             client5.close();
+            client6.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
