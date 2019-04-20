@@ -71,7 +71,7 @@ public class ClientController implements ResponseHandler {
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
-    synchronized Character setCharacter(int characterNumber){
+    synchronized Character setCharacter(int characterNumber) {
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser().getCharacter();
@@ -120,7 +120,6 @@ public class ClientController implements ResponseHandler {
     public void run(){
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
-        view.preGamingPhase();
         view.setWait(true);
         view.gamingPhase();
     }
