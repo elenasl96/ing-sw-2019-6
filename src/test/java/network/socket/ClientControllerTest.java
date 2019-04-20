@@ -61,8 +61,6 @@ class ClientControllerTest {
     @Order(2)
     void createGroupTest(){
         groupCreatedID = clientController.createGroup(5,1);
-        //assertEquals(serverController.manager.getGroup(groupCreatedID), ClientContext.get().getCurrentGroup());
-        //assertEquals not working
     }
 
     @Test

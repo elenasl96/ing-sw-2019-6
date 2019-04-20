@@ -159,7 +159,7 @@ class SocketTest {
     @Test
     @Order(4)
     void sendMessageTest() {
-        clientController1.sendMessage("message1");
+        clientController7.sendMessage("message1");
     }
 
     @Test
