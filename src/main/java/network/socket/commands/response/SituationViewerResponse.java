@@ -6,7 +6,7 @@ import model.enums.StatusCode;
 
 public class SituationViewerResponse implements Response {
     public final String situation;
-    public final StatusCode status;
+    private final StatusCode status;
 
     public SituationViewerResponse(String situation, StatusCode status) {
         this.situation = situation;
