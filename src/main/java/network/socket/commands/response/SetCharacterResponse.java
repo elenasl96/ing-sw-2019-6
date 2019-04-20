@@ -6,6 +6,7 @@ import network.socket.commands.Response;
 
 public class SetCharacterResponse implements Response {
     public final Character character;
+
     public SetCharacterResponse(Character character) {
         this.character = character;
     }
