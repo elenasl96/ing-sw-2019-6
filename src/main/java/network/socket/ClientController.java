@@ -82,7 +82,6 @@ public class ClientController implements ResponseHandler {
                 () -> {
                     while (view.isWait()) {
                         Response response = client.nextResponse();
-                        view.displayText("Thread says: Handling...");
                         if (response != null) {
                             response.handle(this);
                         }
