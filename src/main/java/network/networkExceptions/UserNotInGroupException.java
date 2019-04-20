@@ -1,8 +1,8 @@
 package network.networkExceptions;
 
 
-import model.clientRoom.User;
-import model.clientRoom.Group;
+import model.room.User;
+import model.room.Group;
 
 public class UserNotInGroupException extends RuntimeException {
 

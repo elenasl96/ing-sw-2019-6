@@ -4,8 +4,8 @@ import model.Game;
 import model.Player;
 import model.enums.Phase;
 import org.jetbrains.annotations.NotNull;
-import model.clientRoom.Group;
-import model.clientRoom.User;
+import model.room.Group;
+import model.room.User;
 
 import java.util.LinkedList;
 import java.util.List;

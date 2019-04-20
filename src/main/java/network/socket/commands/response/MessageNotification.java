@@ -1,8 +1,8 @@
 package network.socket.commands.response;
 
-import model.clientRoom.User;
+import model.room.User;
 import network.socket.ClientContext;
-import model.clientRoom.Message;
+import model.room.Message;
 import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 

@@ -1,4 +1,4 @@
-package model.clientRoom;
+package model.room;
 
 public interface GroupChangeListener {
 

@@ -1,6 +1,6 @@
 package controller;
 
-import model.clientRoom.*;
+import model.room.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,7 +34,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
                         group.sendMessage(new Message(group, serverUser, "Seconds remaining left: " + seconds + "..."));
                     } else if (seconds == 0){
                         group.sendMessage(new Message(group, serverUser, "Game starting"));
-                        group.createGame(serverUser);
+                        group.createGame();
                         timer.cancel();
                     }
                     seconds--;
@@ -44,7 +44,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
         }
         if(this.group.isFull()){
             timer.cancel();
-            group.createGame(serverUser);
+            group.createGame();
         }
     }
 

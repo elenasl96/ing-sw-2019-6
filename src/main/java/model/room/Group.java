@@ -1,4 +1,4 @@
-package model.clientRoom;
+package model.room;
 
 import model.Game;
 import model.enums.Character;
@@ -31,7 +31,7 @@ public class Group implements Serializable {
         this.fieldNumber = fieldNumber;
     }
 
-    public void sendMessage(Message message) throws UserNotInGroupException {
+    public void sendMessage(Message message){
         checkUserInGroup(message.getSender());
         messages.add(message);
 
@@ -40,7 +40,7 @@ public class Group implements Serializable {
         }
     }
 
-    public void join(User user) throws FullGroupException {
+    public void join(User user){
         if(this.size()==5){
             this.setFull();
         }
@@ -52,7 +52,7 @@ public class Group implements Serializable {
             listener.onJoin(user);
     }
 
-    public void leave(User user) throws UserNotInGroupException {
+    public void leave(User user){
         checkUserInGroup(user);
         users.remove(user);
 
@@ -67,14 +67,10 @@ public class Group implements Serializable {
         listeners.add(listener);
     }
 
-    private void checkUserInGroup(User user) throws UserNotInGroupException {
+    private void checkUserInGroup(User user){
         if (!users.contains(user)) {
             throw new UserNotInGroupException(user, this);
         }
-    }
-
-    public List<Message> messages() {
-        return new LinkedList<>(messages);
     }
 
     public int size() {
@@ -90,10 +86,6 @@ public class Group implements Serializable {
         return groupName;
     }
 
-    public void setName(String name) {
-        this.groupName = name;
-    }
-
     public boolean in(User user) {return users.contains(user);}
 
     public boolean isFull() {
@@ -103,10 +95,6 @@ public class Group implements Serializable {
     public void setFull(){
         this.full = true;
 
-    }
-
-    public void setNotFull(){
-        this.full = false;
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
@@ -145,11 +133,7 @@ public class Group implements Serializable {
     }
     public int getGroupID(){return this.groupID;}
 
-    public void setFieldNumber(int field) {
-        this.fieldNumber = field;
-    }
-
-    public void createGame(User serverUser) {
+    public void createGame() {
         this.setFull();
         this.game = new Game(skullNumber, fieldNumber);
         for(GroupChangeListener listener : listeners){

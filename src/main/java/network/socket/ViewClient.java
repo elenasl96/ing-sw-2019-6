@@ -2,7 +2,7 @@ package network.socket;
 
 
 import exception.NotExistingFieldException;
-import model.clientRoom.*;
+import model.room.*;
 import model.enums.Character;
 import network.networkExceptions.InvalidGroupNumberException;
 

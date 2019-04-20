@@ -1,6 +1,6 @@
 package network.socket.commands.request;
 
-import model.clientRoom.Message;
+import model.room.Message;
 import network.socket.commands.Request;
 import network.socket.commands.RequestHandler;
 import network.socket.commands.Response;

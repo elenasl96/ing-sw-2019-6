@@ -1,10 +1,10 @@
 package network.socket;
 
-import model.clientRoom.UserManager;
+import model.room.UserManager;
 import network.networkExceptions.InvalidUsernameException;
 import network.networkExceptions.InvalidGroupNumberException;
-import model.clientRoom.Group;
-import model.clientRoom.User;
+import model.room.Group;
+import model.room.User;
 
 import java.util.HashSet;
 import java.util.Set;

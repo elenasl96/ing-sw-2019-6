@@ -1,4 +1,4 @@
-package model.clientRoom;
+package model.room;
 
 import java.io.Serializable;
 

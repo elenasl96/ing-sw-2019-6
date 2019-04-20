@@ -6,13 +6,11 @@ import network.socket.commands.response.*;
 import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 import network.networkExceptions.InvalidGroupNumberException;
-import model.clientRoom.Command;
-import model.clientRoom.Group;
-import model.clientRoom.Message;
-import model.clientRoom.User;
+import model.room.Command;
+import model.room.Group;
+import model.room.Message;
+import model.room.User;
 import network.socket.launch.Client;
-
-import java.io.IOException;
 
 /**
  * CLIENT-SIDE controller

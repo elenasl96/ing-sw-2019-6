@@ -1,7 +1,7 @@
 package socket;
 
 import org.junit.jupiter.api.Test;
-import model.clientRoom.User;
+import model.room.User;
 import network.socket.ServerController;
 import network.socket.commands.request.CreateGroupRequest;
 import network.socket.commands.request.CreateUserRequest;

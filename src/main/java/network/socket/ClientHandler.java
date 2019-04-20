@@ -1,6 +1,6 @@
 package network.socket;
 
-import model.clientRoom.*;
+import model.room.*;
 import network.socket.commands.Request;
 import network.socket.commands.response.StartGameResponse;
 import network.socket.commands.Response;

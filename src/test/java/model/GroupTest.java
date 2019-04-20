@@ -2,8 +2,8 @@ package model;
 
 import model.enums.Character;
 import org.junit.jupiter.api.Test;
-import model.clientRoom.Group;
-import model.clientRoom.User;
+import model.room.Group;
+import model.room.User;
 
 import static org.junit.jupiter.api.Assertions.*;
 

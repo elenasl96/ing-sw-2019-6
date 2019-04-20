@@ -1,6 +1,6 @@
 package network.socket;
 
-import model.clientRoom.*;
+import model.room.*;
 import model.enums.Character;
 import model.enums.StatusCode;
 import network.socket.commands.request.*;
