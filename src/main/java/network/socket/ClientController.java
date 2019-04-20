@@ -24,7 +24,7 @@ public class ClientController implements ResponseHandler {
      * reference to networking layer
      */
     protected final Client client; //made protected to extend class in tests
-    private Thread receiver;
+    protected Thread receiver;
 
     /**
      * the view
@@ -121,6 +121,7 @@ public class ClientController implements ResponseHandler {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         //view.messagingPhase();
+        this.receiver.interrupt();
         view.preGamingPhase();
         view.gamingPhase();
 
