@@ -120,7 +120,7 @@ public class ClientController implements ResponseHandler {
     public void run(){
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
-        view.messagingPhase();
+        //view.messagingPhase();
         view.preGamingPhase();
         view.gamingPhase();
 

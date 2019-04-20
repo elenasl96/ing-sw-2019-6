@@ -23,10 +23,10 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
         if(this.group.size() == 3){
             timer = new Timer();
             TimerTask timerTask = new TimerTask(){
-                int seconds = 61;
+                int seconds = 16;
                 @Override
                 public void run() {
-                    if(seconds == 60){
+                    if(seconds == 15){
                         group.sendMessage(new Message(group, serverUser, "Timer started: " + seconds + "seconds left..."));
                     }else if(seconds == 10) {
                         group.sendMessage(new Message(group, serverUser, "Hurry, 10 seconds left!"));
