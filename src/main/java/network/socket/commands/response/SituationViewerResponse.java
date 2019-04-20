@@ -2,15 +2,12 @@ package network.socket.commands.response;
 
 import network.socket.commands.ResponseHandler;
 import network.socket.commands.Response;
-import model.enums.StatusCode;
 
 public class SituationViewerResponse implements Response {
     public final String situation;
-    private final StatusCode status;
 
-    public SituationViewerResponse(String situation, StatusCode status) {
+    public SituationViewerResponse(String situation) {
         this.situation = situation;
-        this.status = status;
     }
 
 

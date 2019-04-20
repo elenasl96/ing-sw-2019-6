@@ -2,7 +2,6 @@ package network.socket;
 
 import model.room.*;
 import model.enums.Character;
-import model.enums.StatusCode;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
 import network.exceptions.InvalidUsernameException;
@@ -39,10 +38,10 @@ public class ServerController implements RequestHandler {
     /**
      * the only connection with the MANAGER is here in ServerController
      */
-    protected final Manager manager;
+    private final Manager manager;
 
     //constructor for tests
-    public ServerController(User user){
+    ServerController(User user){
         this.clientHandler = null;
         this.manager = Manager.get();
         this.user = user;
@@ -105,7 +104,7 @@ public class ServerController implements RequestHandler {
             user = manager.createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
         } catch (InvalidUsernameException e) {
-            return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
+            return new TextResponse("ERROR: " + e.getMessage());
         }
         // Listening to messages and sending them
         user.listenToMessages(clientHandler);
@@ -133,7 +132,7 @@ public class ServerController implements RequestHandler {
             System.out.println(">>> Returning new JoinGroupResponse");
             return new JoinGroupResponse(currentGroup);
         } catch(FullGroupException | InvalidGroupNumberException e){
-            return new TextResponse("ERROR: " + e.getMessage(), StatusCode.KO);
+            return new TextResponse("ERROR: " + e.getMessage());
         }
     }
 
@@ -149,7 +148,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(SituationViewerRequest situationViewerRequest){
         manager.updateGroupSituation();
-        return new SituationViewerResponse(manager.getGroupSituation(), StatusCode.OK);
+        return new SituationViewerResponse(manager.getGroupSituation());
     }
 
     @Override
@@ -175,7 +174,7 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SendCommandRequest commandRequest) {
-        //TODO command handling
+        //I haven't programmed that path yet
         return null;
     }
 }

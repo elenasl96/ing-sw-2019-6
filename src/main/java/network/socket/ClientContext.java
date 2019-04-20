@@ -15,7 +15,6 @@ public class ClientContext {
     private User currentUser;
     private Group currentGroup;
     private String currentSituation;
-    private boolean status;
     private ClientContext() {
     }
 
@@ -31,7 +30,7 @@ public class ClientContext {
         return currentUser;
     }
 
-    public synchronized void setCurrentUser(User currentUser) {
+    synchronized void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
 
@@ -39,23 +38,15 @@ public class ClientContext {
         return currentGroup;
     }
 
-    public synchronized void setCurrentGroup(Group currentGroup) {
+    synchronized void setCurrentGroup(Group currentGroup) {
         this.currentGroup = currentGroup;
     }
 
-    public synchronized String getCurrentSituation() {
+    synchronized String getCurrentSituation() {
         return currentSituation;
     }
 
-    public synchronized void setCurrentSituation(String currentSituation) {
+    synchronized void setCurrentSituation(String currentSituation) {
         this.currentSituation = currentSituation;
-    }
-
-    public synchronized boolean isStatus(){
-        return status;
-    }
-
-    public synchronized void setStatus(boolean status) {
-        this.status = status;
     }
 }

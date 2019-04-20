@@ -8,7 +8,7 @@ import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 
 public class GroupChangeNotification implements Response {
-    public final boolean inOut;
+    private final boolean inOut;
     public final User user;
 
     public GroupChangeNotification(boolean inOut, User user) {

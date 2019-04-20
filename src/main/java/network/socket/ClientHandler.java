@@ -33,7 +33,7 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
         System.err.println(">>> ERROR@" + socket.getRemoteSocketAddress() + ": " + message);
     }
 
-    public void respond(Response response) {
+    private void respond(Response response) {
         try {
             out.writeObject(response);
         } catch (IOException e) {
@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
         close();
     }
 
-    public void stop() {
+    void stop() {
         stop = true;
     }
 
@@ -106,12 +106,11 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
 
     @Override
     public void onUpdate(Update update) {
-        //TODO
+        //I haven't programmed that path yet
     }
 
     @Override
     public void onStart() {
         respond(new StartGameResponse());
-
     }
 }

@@ -26,7 +26,7 @@ public class ChatServer {
         } this.close();
     }
 
-    public void close() throws IOException {
+    void close() throws IOException {
         serverSocket.close();
         pool.shutdown();
     }

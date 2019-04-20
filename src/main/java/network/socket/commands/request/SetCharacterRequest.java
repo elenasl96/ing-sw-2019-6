@@ -5,7 +5,7 @@ import network.socket.commands.RequestHandler;
 import network.socket.commands.Response;
 
 public class SetCharacterRequest implements Request {
-    public int characterNumber;
+    public final int characterNumber;
 
     public SetCharacterRequest(int characterNumber){
         this.characterNumber = characterNumber;

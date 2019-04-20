@@ -76,7 +76,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         displayText("Welcome to " + group.getName());
     }
 
-    public void chooseCharacterPhase(){
+    void chooseCharacterPhase(){
         displayText("Which character do you want to be?");
         //TODO display possible character and description
         Character response;
@@ -96,19 +96,17 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         }
         ClientContext.get().getCurrentGroup().observe(this);
         controller.startReceiverThread();
-        while(wait){
-            //Do nothing
-        }
+        while(wait); //blocked until the game can start
     }
 
-    public void gamingPhase(){
+    void gamingPhase(){
         displayText("Game starting");
+        controller.sendCommand("move");
     }
 
     public void messagingPhase() {
-        String content = "";
         while (wait) {
-            content = userInput();
+            String content = userInput();
             if(content != null)
                 controller.sendMessage(content);
         }
@@ -155,7 +153,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
 
     @Override
     public void onUpdate(Update update) {
-        //TODO
+        //I haven't programmed that path yet
     }
 
     @Override

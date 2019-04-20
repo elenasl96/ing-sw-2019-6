@@ -24,7 +24,7 @@ public class ClientController implements ResponseHandler {
      * reference to networking layer
      */
     final Client client; //made protected to extend class in tests
-    private Thread receiver;
+    //Removed the Thread since it can be local
 
     /**
      * the view
@@ -78,7 +78,7 @@ public class ClientController implements ResponseHandler {
     }
 
     void startReceiverThread() {
-        receiver = new Thread(
+        Thread receiver = new Thread(
                 () -> {
                     while (view.isWait()) {
                         Response response = client.nextResponse();
@@ -92,7 +92,7 @@ public class ClientController implements ResponseHandler {
         receiver.start();
     }
 
-    public void sendCommand(String content){
+    void sendCommand(String content){
         switch (content){
             case "run":
 
@@ -144,11 +144,6 @@ public class ClientController implements ResponseHandler {
     @Override
     public void handle(SituationViewerResponse situationViewerResponse){
         ClientContext.get().setCurrentSituation(situationViewerResponse.situation);
-    }
-
-    @Override
-    public void handle(GeneralResponse generalResponse) {
-        ClientContext.get().setStatus(generalResponse.status);
     }
 
     @Override

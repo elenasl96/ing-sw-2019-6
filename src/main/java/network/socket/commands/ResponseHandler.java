@@ -14,7 +14,5 @@ public interface ResponseHandler {
 
     void handle(SituationViewerResponse situationViewerResponse);
 
-    void handle(GeneralResponse generalResponse);
-
     void handle(SetCharacterResponse setCharacterResponse);
 }
