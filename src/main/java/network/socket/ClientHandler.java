@@ -107,7 +107,7 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
 
     @Override
     public void onUpdate(Update update) {
-
+        //TODO
     }
 
     @Override

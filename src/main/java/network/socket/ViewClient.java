@@ -157,13 +157,12 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
 
     @Override
     public void onUpdate(Update update) {
-
+        //TODO
     }
 
     @Override
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
-        //this.preGamingPhase();
     }
 }

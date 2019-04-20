@@ -1,6 +1,5 @@
 package network.socket;
 
-import model.room.Group;
 import model.room.User;
 import network.socket.launch.Client;
 import org.junit.jupiter.api.*;

@@ -50,7 +50,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
 
     @Override
     public void onLeave(User u) {
-        if(this.group.size() == 2){
+        if(this.group.size() == 2 && !this.group.isFull()){
             timer.cancel();
             group.sendMessage(new Message(group, serverUser, "Timer stopped. Waiting for players..."));
         }
