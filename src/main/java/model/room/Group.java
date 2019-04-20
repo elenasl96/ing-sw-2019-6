@@ -18,8 +18,8 @@ public class Group implements Serializable {
     private Set<User> users = new HashSet<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
-    private int fieldNumber;
-    private int skullNumber;
+    protected int fieldNumber;
+    protected int skullNumber;
 
     public Group(int skullNumber, int fieldNumber) {
         super();

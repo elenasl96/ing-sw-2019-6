@@ -33,7 +33,7 @@ public class Manager {
         return instance;
     }
 
-    public synchronized Group getGroup(int groupID) throws InvalidGroupNumberException {
+    public synchronized Group getGroup(int groupID) {
         for(Group g : groups){
             if(g.getGroupID() == groupID){
                 return g;

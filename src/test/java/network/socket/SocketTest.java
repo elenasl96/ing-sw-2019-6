@@ -1,4 +1,4 @@
-package socket;
+package network.socket;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Execution;

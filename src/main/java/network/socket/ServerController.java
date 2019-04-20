@@ -13,7 +13,7 @@ import network.exceptions.InvalidGroupNumberException;
 
 /**
  * Handles the Requests coming from the ClientHandler via Socket
- * chain ViewClient -> ClientController -> Client --socket--> ClientHandler -> ServerController
+ * chain ViewClient -> ClientController -> Client --network.socket--> ClientHandler -> ServerController
  * and sends the Response back to the ClientHandler
  * @see ClientHandler
  * @see RequestHandler
@@ -39,7 +39,7 @@ public class ServerController implements RequestHandler {
     /**
      * the only connection with the MANAGER is here in ServerController
      */
-    private final Manager manager;
+    protected final Manager manager;
 
     //constructor for tests
     public ServerController(User user){

@@ -20,7 +20,7 @@ public class Client {
         this.port = port;
     }
 
-    void init() throws IOException {
+    public void init() throws IOException {
         connection = new Socket(host, port);
         out = new ObjectOutputStream(connection.getOutputStream());
         in = new ObjectInputStream(connection.getInputStream());
@@ -40,7 +40,7 @@ public class Client {
         try {
             return ((Response) in.readObject());
         } catch (IOException e) {
-            System.err.println("Exception on socket: " + e.getMessage());
+            System.err.println("Exception on network.socket: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             throw new WrongDeserializationException("Wrong deserialization: " + e.getMessage());
         }
@@ -51,12 +51,7 @@ public class Client {
         try {
             out.writeObject(request);
         } catch (IOException e) {
-            System.err.println("Exception on socket: " + e.getMessage());
+            System.err.println("Exception on network.socket: " + e.getMessage());
         }
-    }
-
-    //For test purposes
-    public void setConnection(Socket connection) {
-        this.connection = connection;
     }
 }
