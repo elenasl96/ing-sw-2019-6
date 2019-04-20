@@ -1,4 +1,4 @@
-package network.networkExceptions;
+package network.exceptions;
 
 public class DuplicateEntityException extends IllegalArgumentException {
     public DuplicateEntityException(String s) {

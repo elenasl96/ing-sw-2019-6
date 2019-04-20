@@ -4,7 +4,7 @@ package network.socket;
 import exception.NotExistingFieldException;
 import model.room.*;
 import model.enums.Character;
-import network.networkExceptions.InvalidGroupNumberException;
+import network.exceptions.InvalidGroupNumberException;
 
 import java.util.Scanner;
 

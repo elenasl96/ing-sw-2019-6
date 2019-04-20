@@ -18,7 +18,7 @@ public class ChatServer {
         System.out.println(">>> Listening on " + port);
     }
 
-    public void run() throws IOException {
+    void run() throws IOException {
         while (!this.pool.isShutdown()) {
             Socket clientSocket = serverSocket.accept();
             System.out.println(">>> New connection " + clientSocket.getRemoteSocketAddress());

@@ -5,11 +5,11 @@ import model.enums.Character;
 import model.enums.StatusCode;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
-import network.networkExceptions.InvalidUsernameException;
+import network.exceptions.InvalidUsernameException;
 import network.socket.commands.RequestHandler;
 import network.socket.commands.Response;
-import network.networkExceptions.FullGroupException;
-import network.networkExceptions.InvalidGroupNumberException;
+import network.exceptions.FullGroupException;
+import network.exceptions.InvalidGroupNumberException;
 
 /**
  * Handles the Requests coming from the ClientHandler via Socket

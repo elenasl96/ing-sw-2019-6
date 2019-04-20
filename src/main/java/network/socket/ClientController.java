@@ -5,7 +5,7 @@ import network.socket.commands.request.*;
 import network.socket.commands.response.*;
 import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
-import network.networkExceptions.InvalidGroupNumberException;
+import network.exceptions.InvalidGroupNumberException;
 import model.room.Command;
 import model.room.Group;
 import model.room.Message;

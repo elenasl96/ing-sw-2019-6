@@ -1,4 +1,4 @@
-package network.networkExceptions;
+package network.exceptions;
 
 
 import model.room.User;

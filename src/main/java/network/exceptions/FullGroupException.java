@@ -1,4 +1,4 @@
-package network.networkExceptions;
+package network.exceptions;
 
 public class FullGroupException extends RuntimeException {
     public FullGroupException(){

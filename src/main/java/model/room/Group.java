@@ -2,8 +2,8 @@ package model.room;
 
 import model.Game;
 import model.enums.Character;
-import network.networkExceptions.UserNotInGroupException;
-import network.networkExceptions.FullGroupException;
+import network.exceptions.UserNotInGroupException;
+import network.exceptions.FullGroupException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

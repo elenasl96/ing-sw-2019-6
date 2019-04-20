@@ -1,8 +1,8 @@
 package network.socket;
 
 import model.room.UserManager;
-import network.networkExceptions.InvalidUsernameException;
-import network.networkExceptions.InvalidGroupNumberException;
+import network.exceptions.InvalidUsernameException;
+import network.exceptions.InvalidGroupNumberException;
 import model.room.Group;
 import model.room.User;
 

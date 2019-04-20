@@ -1,4 +1,5 @@
 package network.socket.launch;
+import network.exceptions.WrongDeserializationException;
 import network.socket.commands.Request;
 import network.socket.commands.Response;
 
@@ -19,13 +20,13 @@ public class Client {
         this.port = port;
     }
 
-    public void init() throws IOException {
+    void init() throws IOException {
         connection = new Socket(host, port);
         out = new ObjectOutputStream(connection.getOutputStream());
         in = new ObjectInputStream(connection.getInputStream());
     }
 
-    public void close() throws IOException {
+    void close() throws IOException {
         in.close();
         out.close();
         connection.close();
@@ -41,7 +42,7 @@ public class Client {
         } catch (IOException e) {
             System.err.println("Exception on socket: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Wrong deserialization: " + e.getMessage());
+            throw new WrongDeserializationException("Wrong deserialization: " + e.getMessage());
         }
         return null;
     }

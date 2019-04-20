@@ -1,4 +1,4 @@
-package network.networkExceptions;
+package network.exceptions;
 
 public class InvalidUsernameException extends Exception {
     public InvalidUsernameException(String message) {
