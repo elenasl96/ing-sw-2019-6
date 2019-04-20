@@ -6,7 +6,7 @@ import network.socket.ClientController;
 import java.io.IOException;
 
 public class LaunchClient {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException{
         if (args.length == 0) {
             System.err.println("Provide host:port please");
             return;
