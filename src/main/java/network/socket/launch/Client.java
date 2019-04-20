@@ -43,7 +43,6 @@ public class Client {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Wrong deserialization: " + e.getMessage());
         }
-
         return null;
     }
 
