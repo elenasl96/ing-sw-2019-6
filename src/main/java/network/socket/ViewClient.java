@@ -12,7 +12,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
     private final ClientController controller;
-    private boolean wait;
+    private volatile boolean wait=true;
 
     public ViewClient(ClientController controller) {
         this.controller = controller;
@@ -89,8 +89,12 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         } while (group == null);
         displayText("Welcome to " + group.getName());
         group.observe(this);
+
         controller.startReceiverThread();
-        wait = true;
+        while(wait){
+
+        }
+        //messagingPhase();
     }
 
     public void preGamingPhase(){
@@ -112,7 +116,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
             displayText("Please insert a number");
         }
         displayText("End pregaming phase");
-        messagingPhase();
+
     }
 
     public void gamingPhase(){
@@ -123,7 +127,8 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         String content = "";
         while (wait) {
             content = userInput();
-            controller.sendMessage(content);
+            if(content != null)
+                controller.sendMessage(content);
         }
     }
 
@@ -154,6 +159,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
-        this.preGamingPhase();
+        //this.preGamingPhase();
     }
 }
