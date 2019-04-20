@@ -33,6 +33,10 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         this.wait = wait;
     }
 
+    public boolean isWait(){
+        return this.wait;
+    }
+
     public void chooseUsernamePhase() {
         User user;
         do {
@@ -92,9 +96,8 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
 
         controller.startReceiverThread();
         while(wait){
-
+            //Do nothing
         }
-        //messagingPhase();
     }
 
     public void preGamingPhase(){
@@ -116,7 +119,9 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
             displayText("Please insert a number");
         }
         displayText("End pregaming phase");
-
+        while(wait){
+            //do nothing
+        }
     }
 
     public void gamingPhase(){

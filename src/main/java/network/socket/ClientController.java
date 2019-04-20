@@ -71,7 +71,7 @@ public class ClientController implements ResponseHandler {
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
-    Character setCharacter(int characterNumber){
+    synchronized Character setCharacter(int characterNumber){
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser().getCharacter();
@@ -80,18 +80,14 @@ public class ClientController implements ResponseHandler {
     void startReceiverThread() {
         receiver = new Thread(
                 () -> {
-                    Response response;
-
-                    do {
-                        if(Thread.interrupted()){
-                            return;
-                        }
-                        response = client.nextResponse();
+                    while (view.isWait()) {
+                        Response response = client.nextResponse();
+                        view.displayText("Thread says: Handling...");
                         if (response != null) {
                             response.handle(this);
                         }
-
-                    } while (response != null);
+                    }
+                    Thread.currentThread().interrupt();
                 }
         );
         receiver.start();
@@ -125,24 +121,9 @@ public class ClientController implements ResponseHandler {
     public void run(){
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
-        //view.messagingPhase();
-        this.receiver.interrupt();
         view.preGamingPhase();
+        view.setWait(true);
         view.gamingPhase();
-
-        receiver.interrupt();
-    }
-
-    //Fot test purposes: skips the userInput phases
-    public void mockRun(String userName, int groupID){
-        User user = createUser(userName);
-        user.listenToMessages(view);
-
-        Group group = chooseGroup(groupID);
-        group.observe(view);
-        view.setWait(false);
-        view.messagingPhase();
-        view.preGamingPhase();
     }
     // -------------------------- Response handling
 
