@@ -1,8 +1,8 @@
 package network.socket;
 
+import model.clientRoom.*;
 import model.enums.Character;
 import model.enums.StatusCode;
-import model.clientRoom.User;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
 import network.networkExceptions.InvalidUsernameException;
@@ -10,8 +10,19 @@ import network.socket.commands.RequestHandler;
 import network.socket.commands.Response;
 import network.networkExceptions.FullGroupException;
 import network.networkExceptions.InvalidGroupNumberException;
-import model.clientRoom.Group;
-import model.clientRoom.Message;
+
+/**
+ * Handles the Requests coming from the ClientHandler via Socket
+ * chain ViewClient -> ClientController -> Client --socket--> ClientHandler -> ServerController
+ * and sends the Response back to the ClientHandler
+ * @see ClientHandler
+ * @see RequestHandler
+ * @see Group
+ * @see User
+ * @see Manager
+ * @see network.socket.commands.Request
+ * @see Response
+ */
 
 public class ServerController implements RequestHandler {
     /**
@@ -54,11 +65,14 @@ public class ServerController implements RequestHandler {
     // ------ Request handling
 
     /**
-     *
-     * @param request   SendMessageRequest
-     * @return no Response
-     *         not void to Override interface method
-     * @see network.socket.commands.ResponseHandler
+     * Provides sending a message to the Group
+     * if the message starts with ":q" deletes the user and stops the connection
+     * @param request   the SendMessageRequest
+     * @return  no Response
+     *          not void to Override interface method
+     * @see SendMessageRequest
+     * @see Group#leave(User)
+     * @see ClientHandler#stop()
      */
     @Override
     public Response handle(SendMessageRequest request) {
@@ -76,9 +90,14 @@ public class ServerController implements RequestHandler {
 
     /**
      * Creates a new User
-     * @see Manager#createUser(String)
      * @param request   CreateUserRequest
-     * @return
+     * @return  new UserCreatedResponse if the creation is successful
+     *          new TextResponse if the username is invalid
+     * @see Manager#createUser(String)
+     * @see User#listenToMessages(MessageReceivedObserver)
+     * @see UserCreatedResponse
+     * @see TextResponse
+     * @see CreateUserRequest
      */
     @Override
     public Response handle(CreateUserRequest request) {
@@ -94,6 +113,17 @@ public class ServerController implements RequestHandler {
         return new UserCreatedResponse(user);
     }
 
+    /**
+     * Makes the User created join the group he chose
+     * @param chooseGroupRequest the ChooseGroupRequest
+     * @return  new JoinGroupResponse if the join is successful
+     *          new TextResponse
+     * @see Group#join(User)
+     * @see Group#observe(GroupChangeListener)
+     * @see JoinGroupResponse
+     * @see TextResponse
+     * @see ChooseGroupRequest
+     */
     @Override
     public Response handle(ChooseGroupRequest chooseGroupRequest) {
         try{
@@ -108,6 +138,15 @@ public class ServerController implements RequestHandler {
         }
     }
 
+    /**
+     * Is the first action performed by the ServerController when a Client connects
+     * Sends the situation via Response, since it is inaccessible to the Client
+     * @param situationViewerRequest    sent by the clientHandler
+     * @return  new SituationViewerRequest with the updated situation to be displayed
+     * @see SituationViewerRequest
+     * @see Manager#updateGroupSituation()  called to get the current groups situation
+     * @see SituationViewerResponse
+     */
     @Override
     public Response handle(SituationViewerRequest situationViewerRequest){
         manager.updateGroupSituation();
