@@ -9,8 +9,6 @@ public class SituationViewerResponse implements Response {
     public SituationViewerResponse(String situation) {
         this.situation = situation;
     }
-
-
     @Override
     public void handle(ResponseHandler handler) {
         handler.handle(this);
