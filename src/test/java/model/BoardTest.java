@@ -4,10 +4,12 @@ import exception.NotExistingFieldException;
 import model.field.Field;
 import org.junit.jupiter.api.Test;
 
-public class BoardTest {
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class BoardTest {
 
     @Test
-    public void Constructor(){
+    void Constructor(){
         Board board = new Board(1);
         Field field = new Field(1);
         try{field.generateField(1);}
@@ -15,6 +17,10 @@ public class BoardTest {
             System.out.println(nef.getMessage());
         }
         board.setField(field);
+    }
 
+    @Test
+    void ExceptionTest(){
+        assertThrows(NotExistingFieldException.class, () -> new Board(4));
     }
 }

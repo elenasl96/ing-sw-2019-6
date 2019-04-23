@@ -1,6 +1,5 @@
 package model;
 
-import exception.NotExistingFieldException;
 import model.decks.*;
 import model.field.*;
 import java.util.ArrayList;

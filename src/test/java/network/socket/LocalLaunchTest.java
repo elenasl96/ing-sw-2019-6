@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Execution(ExecutionMode.CONCURRENT)
 class LocalLaunchTest {
+    private ChatServer chatServer;
 
     @Test
     void LaunchingServer(){
-        ChatServer chatServer;
         try {
             chatServer = new ChatServer(8500, true);
             chatServer.run();
@@ -156,7 +156,6 @@ class LocalLaunchTest {
         clientController2.startReceiverThread();
         clientController3.chooseGroup(0);
         clientController3.startReceiverThread();
-        //Timer Starting
         clientController4.chooseGroup(0);
         clientController4.startReceiverThread();
         clientController5.chooseGroup(0);
@@ -170,9 +169,9 @@ class LocalLaunchTest {
         clientController7.startReceiverThread();
         clientController7.sendMessage("message1");
 
+        //PoisonPill
         try {
             Client poisonClient = new Client("", 8500);
-            System.out.println("ready a avvelenare");
             poisonClient.setPoisonous();
             System.out.println("avvelenato");
         } catch (IOException e) {
