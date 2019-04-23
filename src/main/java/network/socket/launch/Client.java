@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class Client {
     private final String host;
@@ -24,6 +25,13 @@ public class Client {
         connection = new Socket(host, port);
         out = new ObjectOutputStream(connection.getOutputStream());
         in = new ObjectInputStream(connection.getInputStream());
+    }
+
+    public void setPoisonous() throws IOException {
+        connection = new Socket(host, port,null, 6000);
+        System.out.println(connection.getInetAddress());
+        out = new ObjectOutputStream(connection.getOutputStream());
+        out.writeBoolean(true);
     }
 
     public void close() throws IOException {

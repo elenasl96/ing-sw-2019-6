@@ -1,61 +1,86 @@
 package network.socket;
 
 import model.room.Group;
-import model.room.Message;
 import model.room.User;
+import network.socket.launch.ChatServer;
 import network.socket.launch.Client;
-import network.socket.launch.LaunchServer;
 import org.junit.jupiter.api.*;
-
-import java.io.ByteArrayOutputStream;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SocketTest {
-    //NOTE: a new Server needs to be running every time
 
-    private static Client client1;
-    private static Client client2;
-    private static Client client3;
-    private static Client client4;
-    private static Client client5;
-    private static Client client6;
-    private static Client client7;
+@Execution(ExecutionMode.CONCURRENT)
+class LocalLaunchTest {
 
-    private static ClientController clientController1;
-    private static ClientController clientController2;
-    private static ClientController clientController3;
-    private static ClientController clientController4;
-    private static ClientController clientController5;
-    private static ClientController clientController6;
-    private static ClientController clientController7;
+    @Test
+    void LaunchingServer(){
+        ChatServer chatServer;
+        try {
+            chatServer = new ChatServer(8500, true);
+            chatServer.run();
+        } catch (IOException e) {
+            //nothing
+        }
 
-    private User user1;
-    private User user2;
-    private User user3;
-    private User user4;
-    private User user5;
-    private User user6;
+    }
 
-    private Group group0;
-    private Group group1;
+    @Test
+    void LaunchConcurrentTests(){
+        Timer timer = new Timer();
+        TimerTask dummyTask = new TimerTask() {
+            int seconds = 5;
+            @Override
+            public void run() {
+                if(seconds == 0){
+                    timer.cancel();
+                }
+                else seconds--;
+            }
+        };
+        timer.schedule(dummyTask, 1000);
 
-    @BeforeAll
-    static void Constructor(){
+        Client client1;
+        Client client2;
+        Client client3;
+        Client client4;
+        Client client5;
+        Client client6;
+        Client client7;
+
+        ClientController clientController1;
+        ClientController clientController2;
+        ClientController clientController3;
+        ClientController clientController4;
+        ClientController clientController5;
+        ClientController clientController6;
+        ClientController clientController7;
+
+        User user1;
+        User user2;
+        User user3;
+        User user4;
+        User user5;
+        User user6;
+
+        Group group0;
+        Group group1;
+
         //Client 1
-        client1 = new Client("", 8234);
+        client1 = new Client("", 8500);
         try {
             client1.init();
-        } catch (IOException e) {
+            } catch (IOException e) {
             e.printStackTrace();
         }
         clientController1 = new ClientController(client1);
 
         //Client 2
-        client2 = new Client("", 8234);
+        client2 = new Client("", 8500);
         try {
             client2.init();
         } catch (IOException e) {
@@ -64,7 +89,7 @@ class SocketTest {
         clientController2 = new ClientController(client2);
 
         //Client 3
-        client3 = new Client("", 8234);
+        client3 = new Client("", 8500);
         try {
             client3.init();
         } catch (IOException e) {
@@ -73,7 +98,7 @@ class SocketTest {
         clientController3 = new ClientController(client3);
 
         //Client 4
-        client4 = new Client("", 8234);
+        client4 = new Client("", 8500);
         try {
             client4.init();
         } catch (IOException e) {
@@ -82,7 +107,7 @@ class SocketTest {
         clientController4 = new ClientController(client4);
 
         //Client 5
-        client5 = new Client("", 8234);
+        client5 = new Client("", 8500);
         try {
             client5.init();
         } catch (IOException e) {
@@ -91,7 +116,7 @@ class SocketTest {
         clientController5 = new ClientController(client5);
 
         //Client 6
-        client6 = new Client("", 8234);
+        client6 = new Client("", 8500);
         try {
             client6.init();
         } catch (IOException e) {
@@ -100,36 +125,30 @@ class SocketTest {
         clientController6 = new ClientController(client6);
 
         //Client 7
-        client7 = new Client("", 8234);
+        client7 = new Client("", 8500);
         try {
             client7.init();
         } catch (IOException e) {
             e.printStackTrace();
         }
         clientController7 = new ClientController(client7);
-    }
 
-    @Test
-    @Order(1)
-    void createUserTest(){
+        assertSame(client1, clientController1.client);
+        assertNotNull(clientController1.view);
+
         user1 = clientController1.createUser("user1");
         assertEquals("user1", user1.getUsername());
         user2 = clientController2.createUser("user1");
-            //Not performed because the username is taken
+        //Not performed because the username is taken
         user2 = clientController2.createUser("user2");
         assertEquals("user2", user2.getUsername());
         user3 = clientController3.createUser("user3");
         user4 = clientController4.createUser("user4");
         user5 = clientController5.createUser("user5");
         clientController6.createUser("Server");
-            //Not performed because name contains Server
+        //Not performed because name contains Server
         user6 = clientController6.createUser("user6");
         clientController7.createUser("user7");
-    }
-
-    @Test
-    @Order(2)
-    void chooseGroupTest(){
         group0 = clientController1.chooseGroup(0);
         group1 = clientController2.chooseGroup(0);
         assertEquals(group0, group1);
@@ -143,65 +162,21 @@ class SocketTest {
         clientController5.chooseGroup(0);
         clientController5.startReceiverThread();
         clientController7.chooseGroup(0);
-        //Not performed because group is full
-    }
-
-    @Test
-    @Order(3)
-    void createGroupTest(){
         int newGroupID = clientController6.createGroup(8,1);
         group1 = clientController6.chooseGroup(newGroupID);
         clientController6.startReceiverThread();
         assertNotEquals(group0, group1);
         clientController7.chooseGroup(1);
         clientController7.startReceiverThread();
-    }
-
-    @Test
-    @Order(4)
-    void sendMessageTest() {
         clientController7.sendMessage("message1");
-    }
 
-    @Test
-    @Order(5)
-    void characterSelectionTest(){
-        //clientController6.setCharacter(1);
-    }
-
-
-    @AfterAll
-    static void CloseAllTest(){
         try {
-            client1.close();
-            client2.close();
-            client3.close();
-            client4.close();
-            client5.close();
-            client6.close();
+            Client poisonClient = new Client("", 8500);
+            System.out.println("ready a avvelenare");
+            poisonClient.setPoisonous();
+            System.out.println("avvelenato");
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    //Setup to easily check what's displayed
-    //Check via assertEquals("ExpectedOutput", outContent.toString());
-    //          assertEquals("ExpectedOutput", errContent.toString());
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
-
-    @BeforeEach
-    void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
-    }
-
-    @AfterEach
-    void restoreStreams() {
-        System.setOut(originalOut);
-        System.setErr(originalErr);
     }
 }
