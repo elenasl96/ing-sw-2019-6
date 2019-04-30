@@ -4,34 +4,26 @@ import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
 import model.Player;
 import model.field.Coordinate;
-import model.field.Field;
-import model.room.Update;
 import network.socket.commands.Response;
-import network.socket.commands.response.MoveUpdateResponse;
 
-public class Run implements Move {
+public class MoveAndGrab implements Move {
     private Movement movement;
+    private Grab grab;
 
-    public Run(Coordinate destination){
+    public MoveAndGrab(Coordinate destination){
         this.movement = new Movement(destination);
+        this.grab = new Grab();
     }
 
     public void setMaxSteps(int maxSteps){
         movement.setMaxSteps(maxSteps);
     }
 
-    public void setField(Field field){
-        this.movement.setField(field);
-    }
-
-    public Movement getMovement() {
-        return movement;
-    }
-
     @Override
     public Response execute(Player p) throws InvalidMoveException {
         this.movement.execute(p);
-        return new MoveUpdateResponse(new Update(p));
+        this.grab.execute(p);
+        return null;
     }
 
     @Override
@@ -39,5 +31,7 @@ public class Run implements Move {
         moveRequestHandler.handle(this);
     }
 
-
+    public Movement getMovement() {
+        return movement;
+    }
 }

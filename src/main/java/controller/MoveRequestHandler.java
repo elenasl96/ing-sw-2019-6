@@ -1,10 +1,7 @@
 package controller;
 
 import exception.InvalidMoveException;
-import model.moves.Damage;
-import model.moves.Grab;
-import model.moves.Movement;
-import model.moves.Run;
+import model.moves.*;
 
 public interface MoveRequestHandler {
     void handle(Movement movement) throws InvalidMoveException;
@@ -12,4 +9,6 @@ public interface MoveRequestHandler {
     void handle(Grab grab) throws InvalidMoveException;
 
     void handle(Run run) throws InvalidMoveException;
+
+    void handle(MoveAndGrab moveAndGrab) throws InvalidMoveException;
 }

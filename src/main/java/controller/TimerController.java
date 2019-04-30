@@ -62,7 +62,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
     }
 
     @Override
-    public void onUpdate(Update update) {
+    public void onUpdate(String update) {
         //I haven't programmed that path yet
     }
 

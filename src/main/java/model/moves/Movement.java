@@ -16,6 +16,7 @@ import java.util.List;
  * @see Move
  */
 public class Movement implements Move{
+    private Coordinate coordinate;
     /**
      * The square where the player wants to move
      */
@@ -32,6 +33,7 @@ public class Movement implements Move{
      * The maximum number of steps the player can do
      */
     private int maxSteps;
+    private int maxStepsFrenzy;
     /**
      * Implement the movement
      * @param p the player who wants to move
@@ -82,8 +84,9 @@ public class Movement implements Move{
         this.field = field;
     }
 
-    public Movement(int maxSteps) { this.maxSteps = maxSteps; }
-
+    public Movement(Coordinate coordinate){
+        this.coordinate = coordinate;
+    }
     /**
      * Used getters and setters
      */
@@ -111,11 +114,27 @@ public class Movement implements Move{
         this.reachList = reachList;
     }
 
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
+
     public int getMaxSteps() {
         return maxSteps;
     }
 
     public void setMaxSteps(int maxSteps) {
         this.maxSteps = maxSteps;
+    }
+
+    public int getMaxStepsFrenzy() {
+        return maxStepsFrenzy;
+    }
+
+    public void setMaxStepsFrenzy(int maxStepsFrenzy) {
+        this.maxStepsFrenzy = maxStepsFrenzy;
     }
 }

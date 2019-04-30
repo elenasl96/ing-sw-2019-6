@@ -5,10 +5,7 @@ import exception.InvalidMovementException;
 import model.Game;
 import model.Player;
 import model.field.Square;
-import model.moves.Damage;
-import model.moves.Grab;
-import model.moves.Movement;
-import model.moves.Run;
+import model.moves.*;
 
 public class GameController implements MoveRequestHandler{
     /**
@@ -26,27 +23,38 @@ public class GameController implements MoveRequestHandler{
     }
 
     @Override
-    public void handle(Run run) throws InvalidMovementException{
+    public void handle(Run run) throws InvalidMoveException{
+        run.setMaxSteps(3);
+        if(game.isFinalFrenzy() && !currentPlayer.isFirstPlayer()){
+            run.setMaxSteps(4);
+        }
+        handle(run.getMovement());
+    }
+
+    @Override
+    public void handle(MoveAndGrab moveAndGrab) throws InvalidMoveException {
+        moveAndGrab.setMaxSteps(1);
+        if(game.isFinalFrenzy() && !currentPlayer.isFirstPlayer()){
+            moveAndGrab.setMaxSteps(4);
+        }
+        handle(moveAndGrab.getMovement());
+    }
+
+    @Override
+    public void handle(Movement movement) throws InvalidMoveException {
         Square destination = null;
+        //Check if the coordinate is valid
         for(Square square: game.getBoard().getField().getSquares()) {
-            if (square.getCoord().equals(run.getCoordinate())){
+            if (square.getCoord().equals(movement.getCoordinate())){
                 destination = square;
                 break;
             }
         } if(destination == null){
             throw new InvalidMovementException();
         } else {
-            run.setDestination(destination);
-            if(game.isFinalFrenzy() && !currentPlayer.isFirstPlayer()){
-                run.finalFrenzy();
-            }
-            run.setField(game.getBoard().getField());
+            movement.setDestination(destination);
+            movement.setField(game.getBoard().getField());
         }
-    }
-
-    @Override
-    public void handle(Movement movement) throws InvalidMoveException {
-
     }
 
     @Override
