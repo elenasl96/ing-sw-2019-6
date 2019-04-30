@@ -38,9 +38,15 @@ public class Game implements Serializable {
     }
 
     public void addPlayer(User user){
-        if(this.numberPlayers == 0)
-            this.players.add(new Player(this.numberPlayers, true, user.getUsername(), user.getCharacter()));
-        else this.players.add(new Player(this.numberPlayers, false, user.getUsername(), user.getCharacter()));
+        Player player;
+        if(this.numberPlayers == 0){
+            player = new Player(this.numberPlayers, true, user.getUsername(), user.getCharacter());
+        }
+        else {
+            player = new Player(this.numberPlayers, false, user.getUsername(), user.getCharacter());
+        }
+        this.players.add(player);
+        user.setPlayer(player);
         this.numberPlayers++;
     }
 

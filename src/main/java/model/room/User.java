@@ -1,5 +1,6 @@
 package model.room;
 
+import model.Player;
 import model.enums.Character;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,8 @@ public class User implements Serializable, Comparable<User> {
     private static int uniqueUserID = 0;
     private int userID;
     private Character character = Character.NOT_ASSIGNED;
+
+    private Player player;
 
     public User(String username) {
         super();
@@ -84,5 +87,9 @@ public class User implements Serializable, Comparable<User> {
     @Override
     public int compareTo(@NotNull User u) {
         return Integer.compare(this.getUserID(), u.getUserID());
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

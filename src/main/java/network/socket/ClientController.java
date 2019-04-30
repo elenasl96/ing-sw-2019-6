@@ -118,7 +118,7 @@ public class ClientController implements ResponseHandler {
     }
 
     void askPossibleMoves(){
-        //client.request(new PossibleMovesRequest());
+        client.request(new PossibleMovesRequest());
         client.nextResponse().handle(this);
 
     }

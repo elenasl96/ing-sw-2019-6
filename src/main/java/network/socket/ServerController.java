@@ -181,6 +181,11 @@ public class ServerController implements RequestHandler {
     }
 
     @Override
+    public Response handle(PossibleMovesRequest possibleMovesRequest) {
+        return null;
+    }
+
+    @Override
     public Response handle(SendCommandRequest commandRequest) {
         //I haven't programmed that path yet
         return null;

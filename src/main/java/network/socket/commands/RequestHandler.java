@@ -19,4 +19,6 @@ public interface RequestHandler {
     Response handle(SendCommandRequest commandRequest);
 
     Response handle(SetCharacterRequest setCharacterRequest);
+
+    Response handle(PossibleMovesRequest possibleMovesRequest);
 }
