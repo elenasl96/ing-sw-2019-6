@@ -2,7 +2,9 @@ package model.room;
 
 import controller.GameController;
 import model.Game;
+import model.Player;
 import model.enums.Character;
+import model.enums.Phase;
 import network.exceptions.UserNotInGroupException;
 import network.exceptions.FullGroupException;
 
@@ -17,7 +19,7 @@ public class Group implements Serializable {
     private int groupID;
     private String groupName;
 
-    private Set<User> users = new HashSet<>();
+    public List<User> users = new ArrayList<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
     int fieldNumber;
@@ -139,13 +141,14 @@ public class Group implements Serializable {
     public void createGame() {
         this.setFull();
         this.game = new Game(skullNumber, fieldNumber);
-        ArrayList<User> orderedUsers = new ArrayList<>(this.users);
-        Collections.sort(orderedUsers);
         //Creates a Player for every user
         //Sending them in ascending userID order
-        for(User u: orderedUsers){
+        for(User u: users){
             this.game.addPlayer(u);
         }
+        //Set first player phase start
+        users.get(1).getPlayer().setPhase(Phase.FIRST);
+        this.game.setCurrentPlayer(users.get(1).getPlayer());
         //Fill the squares
         this.game.getBoard().getField().getSquares().forEach(square-> {
             square.setGrabbable(game.getBoard());
@@ -188,4 +191,5 @@ public class Group implements Serializable {
     }
 
     public void sendUpdate(String content){this.game.sendUpdate(content);}
+
 }

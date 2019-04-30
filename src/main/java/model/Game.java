@@ -115,4 +115,12 @@ public class Game implements Serializable {
             o.onUpdate(content);
         }
     }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void setFinalFrenzy(boolean finalFrenzy) {
+        this.finalFrenzy = finalFrenzy;
+    }
 }

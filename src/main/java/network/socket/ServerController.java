@@ -108,7 +108,7 @@ public class ServerController implements RequestHandler {
             user = manager.createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
         } catch (InvalidUsernameException e) {
-            return new TextResponse("ERROR: " + e.getMessage());
+            return new TextResponse("ERROR: " + e.getMessage(), null);
         }
         // Listening to messages and sending them
         user.listenToMessages(clientHandler);
@@ -136,7 +136,7 @@ public class ServerController implements RequestHandler {
             System.out.println(">>> Returning new JoinGroupResponse");
             return new JoinGroupResponse(currentGroup);
         } catch(FullGroupException | InvalidGroupNumberException e){
-            return new TextResponse("ERROR: " + e.getMessage());
+            return new TextResponse("ERROR: " + e.getMessage(), null);
         }
     }
 
@@ -187,27 +187,27 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
         if(!user.isMyTurn()){
-            return new TextResponse("It's "+currentGroup.getGame().getCurrentPlayer().getName()+" turn");
+            return new TextResponse("It's "+currentGroup.getGame().getCurrentPlayer().getName()+" turn", false);
         } else {
-            StringBuilder content = new StringBuilder();
+            StringBuilder content = new StringBuilder("These are the moves you can choose:");
             if(!currentGroup.getGame().isFinalFrenzy()){
-                content.append("run\n" +
-                        "grab\n" +
-                        "shoot");
+                content.append("\nrun" +
+                        "\ngrab" +
+                        "\nshoot");
             } else {
                 if(user.getPlayer().isFirstPlayer()){
-                    content.append("shoot (move up to 2 squares, reload, shoot)\n" +
-                            "grab (move up to 3 squares, grab)");
+                    content.append("\nshoot (move up to 2 squares, reload, shoot)" +
+                            "\ngrab (move up to 3 squares, grab)");
                 } else {
-                    content.append("shoot (move up to 1 squares, reload, shoot)\n" +
-                            "run (move up to 4 squares)\n" +
-                            "grab (move up to 2 squares, grab)");
+                    content.append("\nshoot (move up to 1 squares, reload, shoot)" +
+                            "\nrun (move up to 4 squares)" +
+                            "\ngrab (move up to 2 squares, grab)");
                 }
             }
             if(!user.getPlayer().getPowerups().isEmpty()){
                 content.append("\npowerup");
             }
-            return new TextResponse(content.toString());
+            return new TextResponse(content.toString(), true);
         }
     }
 
