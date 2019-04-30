@@ -21,4 +21,8 @@ public interface RequestHandler {
     Response handle(SetCharacterRequest setCharacterRequest);
 
     Response handle(PossibleMovesRequest possibleMovesRequest);
+
+    Response handle(MovementRequest movementRequest);
+
+    Response handle(MoveRequest moveRequest);
 }

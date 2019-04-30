@@ -2,6 +2,7 @@ package network.socket;
 
 
 import exception.NotExistingFieldException;
+import model.field.Coordinate;
 import model.room.*;
 import model.enums.Character;
 import network.exceptions.InvalidGroupNumberException;
@@ -97,16 +98,45 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         ClientContext.get().getCurrentGroup().observe(this);
         controller.startReceiverThread();
         while(wait);
-         displayText("wait stop");
         //blocked until the game can start
     }
 
     void gamingPhase(){
         controller.askPossibleMoves();
-        displayText("Asking possible moves...");
+        if(!ClientContext.get().getCurrentUser().isMyTurn()){
+            controller.startReceiverThread();
+        } else {
+             {
+                String command = userInput();
+                controller.sendCommand(command);
+            }
+        }
     }
 
-
+    Coordinate getCoordinate(){
+        displayText("Insert coordinates in format <X 0>");
+        char letter;
+        int number;
+        Coordinate coordinate = null;
+        while(coordinate == null){
+            String[] input = userInput().split(" ");
+            try {
+                if(input.length !=2 || input[0].length()!=1 || input[1].length()!=1){
+                    throw new NumberFormatException();
+                } else {
+                    letter = input[0].toUpperCase().charAt(0);
+                    if (!java.lang.Character.isLetter(letter)){
+                        throw new NumberFormatException();
+                    }
+                    number = Integer.parseInt(input[1]);
+                    coordinate = new Coordinate(letter, number);
+                }
+            } catch (NumberFormatException e){
+                displayText("Not a valid format! Examples\n A 4\nB 7\nF 5");
+            }
+        }
+        return coordinate;
+    }
 
     public void messagingPhase() {
         while (wait) {

@@ -1,81 +1,61 @@
 package controller;
 
+import exception.InvalidMoveException;
+import exception.InvalidMovementException;
 import model.Game;
 import model.Player;
-import model.enums.Phase;
-import org.jetbrains.annotations.NotNull;
-import model.room.Group;
-import model.room.User;
+import model.field.Square;
+import model.moves.Damage;
+import model.moves.Grab;
+import model.moves.Movement;
+import model.moves.Run;
 
-import java.util.LinkedList;
-import java.util.List;
-
-public class GameController {
+public class GameController implements MoveRequestHandler{
     /**
      * the current game
      */
     private Game game;
-    private final List<User> users = new LinkedList<>();
-    private Group group;
-    private User serverUser;
-    private TimerController timerController;
+    private Player currentPlayer;
 
-    public GameController(Group group, @NotNull List<User> groupUsers){
-        this.group = group;
-        this.serverUser = groupUsers.iterator().next();
-        this.timerController = new TimerController(this.group, serverUser);
+    public GameController(Game game){
+        this.game = game;
     }
 
-    public void firstPlayer(Group group, @NotNull List<User> groupUsers){
-        int firstPlayer = groupUsers.get(0).getUserID();
-        for(User u : groupUsers){
-            this.users.add(u);
-            if(u.getUserID()<=firstPlayer){
-                firstPlayer = u.getUserID();
-            }
-        }
-        game.setNumberPlayers(groupUsers.size());
-
+    public void setCurrentPlayer(Player player){
+        this.currentPlayer = player;
     }
 
-    public void startGame(){
-        //todo Add number of skulls
-        game.getBoard().getField().getSquares().forEach(square-> {
-            square.setGrabbable(game.getBoard());
-        });
-
-    }
-
-    public void update(String command){
-
-    }
-
-    public void play(){
-        Player current;
-        for(int i=0; i < game.getNumberPlayers(); i++) {
-            if(game.getPlayers().get(i).isFirstPlayer()){
+    @Override
+    public void handle(Run run) throws InvalidMovementException{
+        Square destination = null;
+        for(Square square: game.getBoard().getField().getSquares()) {
+            if (square.getCoord().equals(run.getCoordinate())){
+                destination = square;
                 break;
             }
-            game.getPlayers().iterator().next();
-        }
-
-        while(!game.isDone()) {
-            current = game.getPlayers().iterator().next();
-            current.setPhase(Phase.FIRST);
-            playPhase(current);
-            current.setPhase(Phase.SECOND);
-            playPhase(current);
-            current.setPhase(Phase.RELOAD);
-            endPhase(current);
-            current.setPhase(Phase.WAIT);
+        } if(destination == null){
+            throw new InvalidMovementException();
+        } else {
+            run.setDestination(destination);
+            if(game.isFinalFrenzy() && !currentPlayer.isFirstPlayer()){
+                run.finalFrenzy();
+            }
+            run.setField(game.getBoard().getField());
         }
     }
 
-    private void endPhase(Player player) {
-    }
-
-    private void playPhase(Player player) {
+    @Override
+    public void handle(Movement movement) throws InvalidMoveException {
 
     }
 
+    @Override
+    public void handle(Damage damage) throws InvalidMoveException{
+
+    }
+
+    @Override
+    public void handle(Grab grab) throws InvalidMoveException{
+
+    }
 }

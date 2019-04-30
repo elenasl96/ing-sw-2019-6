@@ -1,5 +1,6 @@
 package model.room;
 
+import controller.GameController;
 import model.Game;
 import model.enums.Character;
 import network.exceptions.UserNotInGroupException;
@@ -19,8 +20,9 @@ public class Group implements Serializable {
     private Set<User> users = new HashSet<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
-    protected int fieldNumber;
-    protected int skullNumber;
+    int fieldNumber;
+    int skullNumber;
+    public transient GameController gameController;
 
     //Game variables
     private transient Game game;
@@ -144,12 +146,17 @@ public class Group implements Serializable {
         for(User u: orderedUsers){
             this.game.addPlayer(u);
         }
+        //Fill the squares
+        this.game.getBoard().getField().getSquares().forEach(square-> {
+            square.setGrabbable(game.getBoard());
+        });
         //Makes every listener of this group an Observer of the game
         for(GroupChangeListener listener : listeners){
             game.addObserverGame((GameUpdateObserver) listener);
         }
         //Triggers onStart in the GroupChangeListeners
         this.sendStartNotification();
+        this.gameController = new GameController(this.game);
     }
 
     public Boolean characterIsTaken(Character character) {
@@ -174,5 +181,9 @@ public class Group implements Serializable {
             }
         }
         return null;
+    }
+
+    public Game getGame(){
+        return this.game;
     }
 }

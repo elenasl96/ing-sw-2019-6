@@ -1,6 +1,9 @@
 package network.socket;
 
 import model.enums.Character;
+import model.field.Coordinate;
+import model.moves.Movement;
+import model.moves.Run;
 import network.socket.commands.Request;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
@@ -95,20 +98,24 @@ public class ClientController implements ResponseHandler {
     }
 
     void sendCommand(String content){
+        MoveRequest moveRequest = new MoveRequest();
         switch (content){
             case "run":
-
+                Coordinate coordinate = view.getCoordinate();
+                moveRequest.addMove(new Run(coordinate));
+                break;
             case "grab":
 
             case "shoot":
 
-            case "mark":
+            case "powerup":
 
-            default: break;
+            default:
+                view.displayText("Insert a valid move");
+                return;
         }
-        Command command = new Command(ClientContext.get().getCurrentGroup(),
-                ClientContext.get().getCurrentUser(), content);
-        client.request(new SendCommandRequest(command));
+        client.request(moveRequest);
+        client.nextResponse().handle(this);
     }
 
     void sendMessage(String content) {
@@ -120,17 +127,12 @@ public class ClientController implements ResponseHandler {
     void askPossibleMoves(){
         client.request(new PossibleMovesRequest());
         client.nextResponse().handle(this);
-
     }
 
     public void run(){
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         view.chooseCharacterPhase();
-        //Setting wait to false
-        //view.setWait(false);
-        //Stopping the receiver thread
-        //receiver.interrupt();
         view.gamingPhase();
     }
     // -------------------------- Response handling

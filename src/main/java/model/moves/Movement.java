@@ -1,8 +1,13 @@
 package model.moves;
+import controller.MoveRequestHandler;
+import exception.InvalidMoveException;
 import exception.InvalidMovementException;
 import model.Player;
+import model.field.Coordinate;
 import model.field.Field;
 import model.field.Square;
+import network.socket.commands.Response;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,18 +32,24 @@ public class Movement implements Move{
      * The maximum number of steps the player can do
      */
     private int maxSteps;
-
     /**
      * Implement the movement
      * @param p the player who wants to move
      * @throws InvalidMovementException if the destination is unreachable for the player
      */
-    public void execute(Player p) throws InvalidMovementException {
+    public Response execute(Player p) throws InvalidMovementException {
         if(!this.reachList.isEmpty()) this.reachList.clear();
         createReachList(p, maxSteps, p.getCurrentPosition());
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);
         }else throw new InvalidMovementException();
+        //TODO il return
+        return null;
+    }
+
+    @Override
+    public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
+        moveRequestHandler.handle(this);
     }
 
     /**
@@ -72,6 +83,7 @@ public class Movement implements Move{
     }
 
     public Movement(int maxSteps) { this.maxSteps = maxSteps; }
+
     /**
      * Used getters and setters
      */

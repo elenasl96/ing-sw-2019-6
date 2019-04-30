@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LocalLaunchTest {
     private ChatServer chatServer;
 
-    @Test
+    @Disabled
     void LaunchingServer(){
         try {
             chatServer = new ChatServer(8500, true);
@@ -29,7 +29,7 @@ class LocalLaunchTest {
 
     }
 
-    @Test
+    @Disabled
     void LaunchConcurrentTests(){
         Timer timer = new Timer();
         TimerTask dummyTask = new TimerTask() {

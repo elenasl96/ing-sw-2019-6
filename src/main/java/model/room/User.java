@@ -2,6 +2,7 @@ package model.room;
 
 import model.Player;
 import model.enums.Character;
+import model.enums.Phase;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -91,5 +92,13 @@ public class User implements Serializable, Comparable<User> {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public Player getPlayer(){
+        return this.player;
+    }
+
+    public boolean isMyTurn(){
+        return !this.player.getPhase().equals(Phase.WAIT);
     }
 }

@@ -1,5 +1,9 @@
 package network.socket;
 
+import controller.GameController;
+import exception.InvalidMoveException;
+import model.decks.Powerup;
+import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
 import network.socket.commands.request.*;
@@ -182,6 +186,47 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
+        if(!user.isMyTurn()){
+            return new TextResponse("It's "+currentGroup.getGame().getCurrentPlayer().getName()+" turn");
+        } else {
+            StringBuilder content = new StringBuilder();
+            if(!currentGroup.getGame().isFinalFrenzy()){
+                content.append("run\n" +
+                        "grab\n" +
+                        "shoot");
+            } else {
+                if(user.getPlayer().isFirstPlayer()){
+                    content.append("shoot (move up to 2 squares, reload, shoot)\n" +
+                            "grab (move up to 3 squares, grab)");
+                } else {
+                    content.append("shoot (move up to 1 squares, reload, shoot)\n" +
+                            "run (move up to 4 squares)\n" +
+                            "grab (move up to 2 squares, grab)");
+                }
+            }
+            if(!user.getPlayer().getPowerups().isEmpty()){
+                content.append("\npowerup");
+            }
+            return new TextResponse(content.toString());
+        }
+    }
+
+    @Override
+    public Response handle(MovementRequest movementRequest) {
+        return null;
+    }
+
+    @Override
+    public Response handle(MoveRequest moveRequest) {
+        this.currentGroup.gameController.setCurrentPlayer(user.getPlayer());
+        try {
+            for(Move move: moveRequest.getMoves()){
+                move.handle(currentGroup.gameController);
+                move.execute(user.getPlayer());
+            }
+        } catch (InvalidMoveException e){
+            return null;
+        }
         return null;
     }
 

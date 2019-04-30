@@ -9,6 +9,7 @@ import network.socket.commands.request.CreateUserRequest;
 import network.socket.commands.response.JoinGroupResponse;
 import network.socket.commands.response.TextResponse;
 import network.socket.commands.response.UserCreatedResponse;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
@@ -17,9 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ServerControllerTest {
 
-    //Creating the LocalLaunchTest updates all the groups and users
-    //making this test not independent
-    @Disabled
+    @Test
     void userCreatedTest(){
         User user1 = new User("1");
         User user2 = new User("2");

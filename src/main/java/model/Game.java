@@ -12,10 +12,12 @@ public class Game implements Serializable {
     private Board board;
 
     private List<Player> players = new LinkedList<>();
+    private Player currentPlayer;
     private transient List<GameUpdateObserver> observers = new LinkedList<>();
-    private int turn;
+    private transient int turn;
     private int skullsNumber;
-    private boolean done;
+    private transient boolean done;
+    private transient boolean finalFrenzy;
 
     public List<GameUpdateObserver> getObservers() {
         return observers;
@@ -35,6 +37,7 @@ public class Game implements Serializable {
         this.board = new Board(fieldNumber);
         this.turn = 0;
         this.done = false;
+        this.finalFrenzy = false;
     }
 
     public void addPlayer(User user){
@@ -46,12 +49,17 @@ public class Game implements Serializable {
             player = new Player(this.numberPlayers, false, user.getUsername(), user.getCharacter());
         }
         this.players.add(player);
+        this.currentPlayer = players.get(0);
         user.setPlayer(player);
         this.numberPlayers++;
     }
 
     public int getNumberPlayers() {
         return numberPlayers;
+    }
+
+    public Player getCurrentPlayer(){
+        return this.currentPlayer;
     }
 
     public void setNumberPlayers(int numberPlayers) {
@@ -92,6 +100,10 @@ public class Game implements Serializable {
 
     public boolean isDone() {
         return done;
+    }
+
+    public boolean isFinalFrenzy(){
+        return this.finalFrenzy;
     }
 
     public void addObserverGame(GameUpdateObserver observer) {
