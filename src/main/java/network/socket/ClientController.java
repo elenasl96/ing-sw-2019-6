@@ -128,9 +128,9 @@ public class ClientController implements ResponseHandler {
         view.chooseGroupPhase();
         view.chooseCharacterPhase();
         //Setting wait to false
-        view.setWait(false);
+        //view.setWait(false);
         //Stopping the receiver thread
-        receiver.interrupt();
+        //receiver.interrupt();
         view.gamingPhase();
     }
     // -------------------------- Response handling

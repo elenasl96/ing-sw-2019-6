@@ -96,11 +96,14 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         }
         ClientContext.get().getCurrentGroup().observe(this);
         controller.startReceiverThread();
-        while(wait); //blocked until the game can start
+        while(wait);
+         displayText("wait stop");
+        //blocked until the game can start
     }
 
     void gamingPhase(){
         controller.askPossibleMoves();
+        displayText("Asking possible moves...");
     }
 
 
