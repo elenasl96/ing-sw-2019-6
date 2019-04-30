@@ -17,9 +17,9 @@ import static org.junit.Assert.*;
 class PlayerTest {
     @Test
     void nameTest() {
-        Player pg = new Player(1, true);
-        Square sq = new SpawnSquare(Color.YELLOW, new Coordinate('B',2));
-        Player pg2 = new Player (2, false);
+        Player pg = new Player(1, true, "pippo", Character.PG2);
+        Square sq = new SpawnSquare(Color.YELLOW, new Coordinate('B',2), new Board(2));
+        Player pg2 = new Player (2, false, "ciao", Character.PG3);
         ArrayList<Player> sh = new ArrayList<>();
         sh.add(pg2);
         ArrayList<Move> mv = new ArrayList<>();
@@ -69,8 +69,8 @@ class PlayerTest {
 
     @Test
     void equalsTest(){
-        Player p1 = new Player(1, true);
-        Player p2 = new Player(1, false);
+        Player p1 = new Player(1, true, "pippo", Character.PG3);
+        Player p2 = new Player(1, false, "pippo", Character.PG3);
 
         assertEquals(p1, p1);
         assertNotEquals(null, p1);

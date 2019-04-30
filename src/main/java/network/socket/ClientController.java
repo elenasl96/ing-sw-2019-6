@@ -117,6 +117,11 @@ public class ClientController implements ResponseHandler {
         client.request(new SendMessageRequest(m));
     }
 
+    void askPossibleMoves(){
+        //client.request(new PossibleMovesRequest());
+        client.nextResponse().handle(this);
+
+    }
 
     public void run(){
         view.chooseUsernamePhase();

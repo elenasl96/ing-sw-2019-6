@@ -3,6 +3,7 @@ package model.moves;
 import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;
+import model.enums.Character;
 import model.enums.Color;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ class MovePayTest {
     @Test
     void paymentTest1(){
         payment = new Pay();
-        player = new Player(1, true);
+        player = new Player(1, true, "pippo", Character.PG3);
         System.out.println(player.getAmmos());
         Ammo yellowAmmo = new Ammo(Color.YELLOW);
         Ammo blueAmmo = new Ammo(Color.BLUE);
@@ -59,7 +60,7 @@ class MovePayTest {
     @Test
     void paymentTest2(){
         payment = new Pay();
-        player = new Player(1, true);
+        player = new Player(1, true, "paperino", Character.PG2);
         Ammo yellowAmmo = new Ammo(Color.YELLOW);
         Ammo blueAmmo = new Ammo(Color.BLUE);
         Ammo redAmmo = new Ammo(Color.RED);

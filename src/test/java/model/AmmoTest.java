@@ -1,4 +1,5 @@
 package model;
+import model.enums.Character;
 import model.enums.Color;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
@@ -15,7 +16,7 @@ class AmmoTest {
         assertNotEquals(ammo1, null);
         assertEquals(ammo1, ammo2);
 
-        Player p = new Player(1, true);
+        Player p = new Player(1, true, "pippo", Character.PG3);
 
         assertNotEquals(ammo1,p);
     }
