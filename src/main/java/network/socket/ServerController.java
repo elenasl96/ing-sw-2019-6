@@ -166,8 +166,15 @@ public class ServerController implements RequestHandler {
             return new SetCharacterResponse(Character.NOT_ASSIGNED);
         } else {
             user.setCharacter(character);
-            currentGroup.observe(clientHandler);
-            manager.setTimer(currentGroup);
+            int count = 0;
+            for(User u: currentGroup.users()){
+                if (u.getCharacter()!= Character.NOT_ASSIGNED) {
+                    count++;
+                }
+            }
+            if(count==3) {
+                manager.setTimer(currentGroup);
+            }
             return new SetCharacterResponse(character);
         }
     }
