@@ -101,6 +101,10 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
 
     void gamingPhase(){
         displayText("Game starting");
+        //Choosing the initial tile
+
+        //In realtà sostanzialmente basta così, da qui poi conviene fare due fasi diverse:
+        // waitPhase e yourTurnPhase, dove il controller ti manda se è il tuo turno o se devi aspettare
         controller.sendCommand("move");
     }
 

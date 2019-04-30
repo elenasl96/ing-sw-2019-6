@@ -31,6 +31,8 @@ public class ClientController implements ResponseHandler {
      */
     final ViewClient view;
 
+    private Thread receiver;
+
     public ClientController(Client client) {
         this.client = client;
         this.view = new ViewClient(this);
@@ -78,7 +80,7 @@ public class ClientController implements ResponseHandler {
     }
 
     void startReceiverThread() {
-        Thread receiver = new Thread(
+        receiver = new Thread(
                 () -> {
                     while (view.isWait()) {
                         Response response = client.nextResponse();
@@ -107,7 +109,6 @@ public class ClientController implements ResponseHandler {
         Command command = new Command(ClientContext.get().getCurrentGroup(),
                 ClientContext.get().getCurrentUser(), content);
         client.request(new SendCommandRequest(command));
-
     }
 
     void sendMessage(String content) {
@@ -121,7 +122,10 @@ public class ClientController implements ResponseHandler {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         view.chooseCharacterPhase();
-        view.setWait(true);
+        //Setting wait to false
+        view.setWait(false);
+        //Stopping the receiver thread
+        receiver.interrupt();
         view.gamingPhase();
     }
     // -------------------------- Response handling
