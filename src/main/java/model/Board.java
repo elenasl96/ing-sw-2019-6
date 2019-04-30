@@ -2,24 +2,25 @@ package model;
 
 import model.decks.*;
 import model.field.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Character.isUpperCase;
+public class Board implements Serializable {
 
-public class Board {
     private Field field;
     private List<Player> killshotTrack;
-    private WeaponDeck weaponsLeft;
-    private AmmoDeck ammosLeft;
-    private PowerupDeck powerupsLeft;
+    private transient WeaponDeck weaponsLeft;
+    private transient AmmoDeck ammosLeft;
+    private transient PowerupDeck powerupsLeft;
 
     public Board(int fieldNumber){
         this.killshotTrack = new ArrayList<>();
         this.weaponsLeft = new WeaponDeck();
         this.ammosLeft = new AmmoDeck();
         this.powerupsLeft = new PowerupDeck();
-        this.field = new Field(fieldNumber);
+        this.field = new Field(fieldNumber, this);
     }
 
     public Field getField() {

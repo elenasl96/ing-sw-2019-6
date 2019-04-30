@@ -8,15 +8,11 @@ import model.enums.Color;
 public class SpawnSquare extends Square{
     private WeaponTile weapons;
 
-    public SpawnSquare(Color color, Coordinate coord) {
-        super(color, coord);
+    public SpawnSquare(Color color, Coordinate coordinate, Board board) {
+        super(color, coordinate);
+        this.weapons = new WeaponTile();
+        this.setGrabbable(board);
     }
-
-
-    public void setWeapons(WeaponTile weapons) {
-        this.weapons = weapons;
-    }
-
 
     @Override
     public Grabbable getGrabbable() {

@@ -2,16 +2,16 @@ package model.decks;
 
 import model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeaponTile implements Grabbable{
-    private List<Weapon> weapons = new ArrayList<>();
+public class WeaponTile implements Grabbable, Serializable {
+    private List<Weapon> weapons;
 
-    public WeaponTile(Weapon weapon1, Weapon weapon2, Weapon weapon3) {
-        weapons.add(weapon1);
-        weapons.add(weapon2);
-        weapons.add(weapon3);
+
+    public WeaponTile() {
+        weapons = new ArrayList<>();
     }
 
     public void addWeapon(Weapon weapon) {

@@ -1,6 +1,7 @@
 package model.room;
 
 import model.enums.Character;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
 
     private String username;
     private transient List<MessageReceivedObserver> observers;
@@ -80,4 +81,8 @@ public class User implements Serializable {
         return "@" + username;
     }
 
+    @Override
+    public int compareTo(@NotNull User u) {
+        return Integer.compare(this.getUserID(), u.getUserID());
+    }
 }

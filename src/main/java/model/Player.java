@@ -36,12 +36,11 @@ public class Player implements Serializable{
     private List<Move> possibleMoves = new ArrayList<>();
 
     //Costruttore
-
-    public Player(int id, boolean firstPlayer) {
+    public Player(int id, boolean firstPlayer, String name, Character character) {
+        this.name = name;
         this.id = id;
         this.firstPlayer = firstPlayer;
-        this.name = null;
-        this.character = Character.NOT_ASSIGNED;
+        this.character = character;
         this.currentPosition = null;
         this.phase = Phase.WAIT;
         this.ammos.add(new Ammo(Color.BLUE));

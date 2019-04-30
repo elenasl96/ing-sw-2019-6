@@ -11,15 +11,19 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Group implements Serializable {
+    //Group variables
     private static int uniqueGroupID = 0;
     private int groupID;
     private String groupName;
-    private transient Game game;
+
     private Set<User> users = new HashSet<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
     protected int fieldNumber;
     protected int skullNumber;
+
+    //Game variables
+    private transient Game game;
 
     public Group(int skullNumber, int fieldNumber) {
         super();
@@ -92,7 +96,6 @@ public class Group implements Serializable {
 
     public void setFull(){
         this.full = true;
-
     }
 
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
@@ -134,9 +137,18 @@ public class Group implements Serializable {
     public void createGame() {
         this.setFull();
         this.game = new Game(skullNumber, fieldNumber);
+        ArrayList<User> orderedUsers = new ArrayList<>(this.users);
+        Collections.sort(orderedUsers);
+        //Creates a Player for every user
+        //Sending them in ascending userID order
+        for(User u: orderedUsers){
+            this.game.addPlayer(u);
+        }
+        //Makes every listener of this group an Observer of the game
         for(GroupChangeListener listener : listeners){
             game.addObserverGame((GameUpdateObserver) listener);
         }
+        //Triggers onStart in the GroupChangeListeners
         this.sendStartNotification();
     }
 

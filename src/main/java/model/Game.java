@@ -1,19 +1,21 @@
 package model;
 
 import model.room.GameUpdateObserver;
+import model.room.User;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Game {
+public class Game implements Serializable {
     private int numberPlayers;
     private Board board;
+
     private List<Player> players = new LinkedList<>();
     private transient List<GameUpdateObserver> observers = new LinkedList<>();
     private int turn;
     private int skullsNumber;
     private boolean done;
-    private int fieldNumber;
 
     public List<GameUpdateObserver> getObservers() {
         return observers;
@@ -27,23 +29,20 @@ public class Game {
         this.done = done;
     }
 
-    public int getFieldNumber() {
-        return fieldNumber;
-    }
-
-    public void setFieldNumber(int fieldNumber) {
-        this.fieldNumber = fieldNumber;
-    }
-
     public Game(int skullNumber, int fieldNumber) {
         this.skullsNumber = skullNumber;
         this.numberPlayers = 0;
         this.board = new Board(fieldNumber);
         this.turn = 0;
         this.done = false;
-        this.fieldNumber = fieldNumber;
     }
 
+    public void addPlayer(User user){
+        if(this.numberPlayers == 0)
+            this.players.add(new Player(this.numberPlayers, true, user.getUsername(), user.getCharacter()));
+        else this.players.add(new Player(this.numberPlayers, false, user.getUsername(), user.getCharacter()));
+        this.numberPlayers++;
+    }
 
     public int getNumberPlayers() {
         return numberPlayers;

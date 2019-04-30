@@ -1,6 +1,8 @@
 package model.field;
 
-public class Edge {
+import java.io.Serializable;
+
+public class Edge implements Serializable {
     private Square sq1;
     private Square sq2;
 
