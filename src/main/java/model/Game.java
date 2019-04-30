@@ -109,4 +109,10 @@ public class Game implements Serializable {
     public void addObserverGame(GameUpdateObserver observer) {
         this.observers.add(observer);
     }
+
+    public void sendUpdate(String content) {
+        for(GameUpdateObserver o: observers ){
+            o.onUpdate(content);
+        }
+    }
 }

@@ -19,7 +19,7 @@ public class Pay implements Move {
     /**
      * The Ammos that are up for payment
      */
-    private List<Ammo> ammos = new ArrayList<Ammo>();
+    private List<Ammo> ammos = new ArrayList<>();
 
     /**
      * The method, with a nested forEachRemaining() iteration, confronts the player's ammos

@@ -220,14 +220,15 @@ public class ServerController implements RequestHandler {
     public Response handle(MoveRequest moveRequest) {
         this.currentGroup.gameController.setCurrentPlayer(user.getPlayer());
         try {
-            for(Move move: moveRequest.getMoves()){
-                move.handle(currentGroup.gameController);
-                move.execute(user.getPlayer());
-            }
+            Move move = moveRequest.getMove();
+            move.handle(currentGroup.gameController);
+            Response response = move.execute(user.getPlayer());
+            currentGroup.sendUpdate(response.toString());
+            return response;
         } catch (InvalidMoveException e){
+            //TODO
             return null;
         }
-        return null;
     }
 
     @Override

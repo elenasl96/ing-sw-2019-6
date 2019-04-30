@@ -1,28 +1,17 @@
 package model.room;
 
+import model.Player;
+
 import java.io.Serializable;
 
 public class Update implements Serializable {
-    private final String content;
-    private final User user;
-    private final Group group;
+    private Player player;
 
-    public Update(Group group, User sender, String content) {
-        this.group = group;
-        this.content = content;
-        this.user = sender;
+    public Update(Player player){
+        this.player = player;
     }
 
-    public User getSender() {
-        return user;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    @Override
-    public String toString() {
-        return user.getUsername() + "@" + group.getName() + ": " + content;
+    public Player getPlayer(){
+        return this.player;
     }
 }

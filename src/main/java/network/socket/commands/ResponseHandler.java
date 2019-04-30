@@ -15,4 +15,6 @@ public interface ResponseHandler {
     void handle(SituationViewerResponse situationViewerResponse);
 
     void handle(SetCharacterResponse setCharacterResponse);
+
+    void handle(MoveUpdateResponse moveUpdateResponse);
 }

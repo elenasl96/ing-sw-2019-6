@@ -162,4 +162,8 @@ public class ClientController implements ResponseHandler {
         ClientContext.get().getCurrentUser().setCharacter(setCharacterResponse.character);
     }
 
+    @Override
+    public void handle(MoveUpdateResponse moveUpdateResponse) {
+        ClientContext.get().getCurrentUser().setPlayer(moveUpdateResponse.getUpdatedPlayer());
+    }
 }

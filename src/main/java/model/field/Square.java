@@ -32,4 +32,9 @@ public abstract class Square implements Serializable {
     public Coordinate getCoord() {
         return coord;
     }
+
+    @Override
+    public String toString() {
+        return this.coord.toString();
+    }
 }

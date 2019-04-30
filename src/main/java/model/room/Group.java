@@ -186,4 +186,6 @@ public class Group implements Serializable {
     public Game getGame(){
         return this.game;
     }
+
+    public void sendUpdate(String content){this.game.sendUpdate(content);}
 }
