@@ -76,28 +76,22 @@ public class Manager {
     }
 
     void reset(){
-        //Restoring default values
-        this.groups = null;
-        this.groups = new HashSet<>();
-        Group.resetGroupID();
-        createGroup(5, 2);
-        this.users = null;
-        this.users = new HashSet<>();
+        if(instance!=null) {
+            //Restoring default values
+            this.groups = null;
+            this.groups = new HashSet<>();
+            Group.resetGroupID();
+            createGroup(5, 2);
+            this.users = null;
+            this.users = new HashSet<>();
+        }
     }
 
     Set<Group> getGroups() {
         return groups;
     }
 
-    public void setGroups(Set<Group> groups) {
-        this.groups = groups;
-    }
-
-    public Set<User> getUsers() {
+    Set<User> getUsers() {
         return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 }

@@ -28,7 +28,7 @@ public class ClientContext {
         return instance;
     }
 
-    public synchronized void createPlayer(){
+    synchronized void createPlayer(){
         this.currentPlayer = new Player();
     }
 
@@ -60,7 +60,16 @@ public class ClientContext {
         this.currentPlayer = player;
     }
 
-    public Player getCurrentPlayer() {
+    Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    void reset(){
+        if(instance!= null){
+            this.currentPlayer = null;
+            this.currentGroup = null;
+            this.currentSituation = null;
+            this.currentUser = null;
+        }
     }
 }
