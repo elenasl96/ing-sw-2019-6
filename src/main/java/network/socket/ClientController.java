@@ -2,6 +2,7 @@ package network.socket;
 
 import model.Player;
 import model.enums.Character;
+import model.enums.Phase;
 import model.field.Coordinate;
 import model.moves.Run;
 import network.socket.commands.Request;
@@ -140,7 +141,16 @@ public class ClientController implements ResponseHandler {
         while(gameNotDone) {
             view.setWait(true);
             view.waitingPhase();
-            view.gamingPhase();
+            for(int i=0;
+                i<=1 &&
+                    ClientContext.get().getCurrentPlayer().getPhase() == Phase.FIRST ||
+                    ClientContext.get().getCurrentPlayer().getPhase() == Phase.SECOND;
+                i++) {
+                view.gamingPhase();
+            }
+            if(ClientContext.get().getCurrentPlayer().getPhase() == Phase.RELOAD){
+                view.reloadPhase();
+            }
         }
     }
     // -------------------------- Response handling

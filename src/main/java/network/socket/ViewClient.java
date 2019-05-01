@@ -198,4 +198,8 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
     }
+
+    public void reloadPhase() {
+        //TODO Reload
+    }
 }
