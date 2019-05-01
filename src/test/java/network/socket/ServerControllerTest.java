@@ -1,5 +1,6 @@
 package network.socket;
 
+import model.Game;
 import model.room.Group;
 import network.socket.commands.Response;
 import network.socket.commands.request.*;
@@ -87,10 +88,12 @@ class ServerControllerTest {
         assertEquals("NOT_ASSIGNED", response5.character.name());
         assertEquals("PG2", response6.character.name());
         assertEquals("PG3", response7.character.name());
+        Game game = new Game(5,1,users);
 
-        assertEquals("PG1", group1.users.get(1).getCharacter().name());
-        assertEquals("PG2", group1.users.get(2).getCharacter().name());
-        assertEquals("PG3", group1.users.get(3).getCharacter().name());
+        System.out.println(user1.getCharacter());
+        assertEquals("PG1", game.getPlayers().get(0).getUser().getCharacter().name());
+        assertEquals("PG2", game.getPlayers().get(1).getUser().getCharacter().name());
+        assertEquals("PG3", game.getPlayers().get(2).getUser().getCharacter().name());
 
         //Possible moves request
         //TextResponse response8 = (TextResponse) serverController1.handle(new PossibleMovesRequest());
