@@ -1,6 +1,6 @@
 package model.enums;
 
-public enum Phase {
+public enum Phase{
     WAIT(0),
     FIRST(1),
     SECOND(2),

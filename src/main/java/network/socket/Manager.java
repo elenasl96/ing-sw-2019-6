@@ -100,8 +100,4 @@ public class Manager {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
-
-    public void setGroupSituation(String groupSituation) {
-        this.groupSituation = groupSituation;
-    }
 }
