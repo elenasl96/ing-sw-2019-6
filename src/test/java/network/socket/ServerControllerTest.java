@@ -91,9 +91,9 @@ class ServerControllerTest {
         assertEquals("PG3", response7.character.name());
         Game game = new Game(5,1,users);
 
-        assertEquals("PG1", game.getPlayers().get(0).getUser().getCharacter().name());
-        assertEquals("PG2", game.getPlayers().get(1).getUser().getCharacter().name());
-        assertEquals("PG3", game.getPlayers().get(2).getUser().getCharacter().name());
+        assertEquals("PG1", serverController1.user.getCharacter().name());
+        assertEquals("PG2", serverController2.user.getCharacter().name());
+        assertEquals("PG3", serverController3.user.getCharacter().name());
 
         //Possible moves request
         //TextResponse response8 = (TextResponse) serverController1.handle(new PossibleMovesRequest());
