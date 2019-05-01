@@ -140,7 +140,8 @@ public class Group implements Serializable {
 
     public void createGame() {
         this.setFull();
-        this.game = new Game(skullNumber, fieldNumber, users);
+        ArrayList<User> clients = new ArrayList<>(users.subList(1,users.size()));
+        this.game = new Game(skullNumber, fieldNumber, clients);
         //Fill the squares
         this.game.getBoard().getField().getSquares().forEach(square-> {
             square.setGrabbable(game.getBoard());
