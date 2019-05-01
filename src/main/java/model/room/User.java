@@ -71,6 +71,7 @@ public class User implements Serializable, Comparable<User> {
         ois.defaultReadObject();
         // upon deserialization, observers are reset
         observers = new LinkedList<>();
+        updateObservers = new LinkedList<>();
     }
 
     @Override

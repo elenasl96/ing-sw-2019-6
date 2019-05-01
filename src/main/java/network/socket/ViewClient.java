@@ -188,6 +188,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     public void onUpdate(Update update) {
         displayText(update.toString());
         if (update.playerChanges) {
+            controller.updatePlayer(update.getPlayer());
             wait = false;
         }
     }

@@ -131,7 +131,9 @@ public class ClientController implements ResponseHandler {
 
     void askPossibleMoves(){
         client.request(new PossibleMovesRequest());
-        client.nextResponse().handle(this);
+    }
+
+    public void updatePlayer(Player player) {
     }
 
     public void run(){
