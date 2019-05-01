@@ -10,7 +10,7 @@ import network.socket.commands.ResponseHandler;
  * during his turn.
  */
 public class GameUpdateNotification implements Response {
-    public Update update;
+    private Update update;
 
     public GameUpdateNotification(Update update) {
         this.update = update;

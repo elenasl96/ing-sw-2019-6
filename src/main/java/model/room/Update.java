@@ -5,9 +5,9 @@ import model.Player;
 import java.io.Serializable;
 
 public class Update implements Serializable {
-    public boolean playerChanges;
+    private boolean playerChanges;
     private Player player;
-    public String string;
+    private String string;
 
     public Update(Player player){
         this.player = player;

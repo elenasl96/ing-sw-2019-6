@@ -106,7 +106,7 @@ public class ServerController implements RequestHandler {
             user = manager.createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
         } catch (InvalidUsernameException e) {
-            return new TextResponse("ERROR: " + e.getMessage(), null);
+            return new TextResponse("ERROR: " + e.getMessage());
         }
         // Listening to messages and sending them
         user.listenToMessages(clientHandler);
@@ -134,7 +134,7 @@ public class ServerController implements RequestHandler {
             System.out.println(">>> Returning new JoinGroupResponse");
             return new JoinGroupResponse(currentGroup);
         } catch(FullGroupException | InvalidGroupNumberException e){
-            return new TextResponse("ERROR: " + e.getMessage(), null);
+            return new TextResponse("ERROR: " + e.getMessage());
         }
     }
 

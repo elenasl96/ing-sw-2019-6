@@ -4,12 +4,10 @@ import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 
 public class TextResponse implements Response {
-    public Boolean status;
     public final String content;
 
-    public TextResponse(String content, Boolean status) {
+    public TextResponse(String content) {
         this.content = content;
-        this.status = status;
     }
 
     @Override
