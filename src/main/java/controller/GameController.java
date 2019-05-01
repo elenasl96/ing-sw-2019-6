@@ -74,6 +74,7 @@ public class GameController implements MoveRequestHandler{
 
     @Override
     public void handle(Movement movement) throws InvalidMoveException {
+        System.out.println("Il square ora is "+movement.getCoordinate());
         Square destination = null;
         //Check if the coordinate is valid
         for(Square square: game.getBoard().getField().getSquares()) {

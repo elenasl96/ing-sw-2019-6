@@ -9,6 +9,15 @@ public class Coordinate {
         this.y = y;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coordinate coordinateCast = (Coordinate) o;
+
+        return (coordinateCast.x == this.x && coordinateCast.y == this.y);
+    }
 
 
     @Override
