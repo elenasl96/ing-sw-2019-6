@@ -18,6 +18,6 @@ public class GameUpdateNotification implements Response {
 
     @Override
     public void handle(ResponseHandler handler) {
-        ClientContext.get().getCurrentGroup().getGame().sendUpdate(update);
+        ClientContext.get().getCurrentUser().receiveUpdate(update);
     }
 }
