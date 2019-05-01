@@ -18,6 +18,7 @@ public class GameUpdateNotification implements Response {
 
     @Override
     public void handle(ResponseHandler handler) {
+        System.out.println(">>> Starting a receiveUpdate from "+ClientContext.get().getCurrentUser());
         ClientContext.get().getCurrentUser().receiveUpdate(update);
     }
 }

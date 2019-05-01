@@ -74,6 +74,9 @@ public class User implements Serializable, Comparable<User> {
         updateObservers = new LinkedList<>();
     }
 
+    public List<GameUpdateObserver> getUpdateObservers(){
+        return this.updateObservers;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -87,7 +87,7 @@ public class ClientController implements ResponseHandler {
     void startReceiverThread() {
         receiver = new Thread(
                 () -> {
-                    while (view.isWait()) {
+                    while (gameNotDone) {
                         Response response = client.nextResponse();
                         if (response != null) {
                             response.handle(this);

@@ -104,9 +104,13 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
 
     @Override
     public void onUpdate(Update update) {
+        System.out.print(">>> I'm "+controller.user.getUsername()+" clientHandler sending: ");
         if(update.isPlayerChanges()){
+            System.out.print("a MoveUpdateResponse modifying player "+update.getPlayer()+" username "+update.getPlayer().getName()+
+                    " of user "+update.getPlayer().getUser()+"\n");
             respond(new MoveUpdateResponse(update.getPlayer()));
         } else {
+            System.out.print("a GameUpdateNotification saying string "+ update.toString()+"\n");
             respond(new GameUpdateNotification(update));
         }
     }

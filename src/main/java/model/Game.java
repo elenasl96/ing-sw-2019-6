@@ -47,7 +47,8 @@ public class Game implements Serializable {
             //adds a new player for user u to the list
             this.players.add(new Player(this.numberPlayers, u));
             //sends it to the ClientContext
-            u.receiveUpdate(new Update(this.players.get(numberPlayers)));
+            System.out.println(">>> It's Game sending "+this.players.get(numberPlayers)+" to "+u.getUsername());
+            u.receiveUpdate(new Update(this.players.get(numberPlayers), true));
             this.numberPlayers++;
         }
         this.players.get(0).setFirstPlayer(true);
@@ -116,6 +117,7 @@ public class Game implements Serializable {
      */
     public void sendUpdate(Update update) {
         for(GameUpdateObserver o: observers ){
+            System.out.println(">>> It's Game here sending an update to "+o);
             o.onUpdate(update);
         }
     }
