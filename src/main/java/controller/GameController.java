@@ -14,7 +14,7 @@ public class GameController implements MoveRequestHandler{
      * the current game
      */
     private Game game;
-    private Player currentPlayer;
+    Player currentPlayer;
 
     public GameController(Game game){
         this.game = game;
@@ -24,7 +24,7 @@ public class GameController implements MoveRequestHandler{
         Update update = new Update("It's "+currentPlayer.getName()+"'s turn");
         System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
         game.sendUpdate(update);
-        System.out.println("CurrentPlayer:" + currentPlayer.getUser().getUserID());
+        System.out.println(">>> CurrentPlayer:" + currentPlayer.getUser().getUserID());
         currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
     }
 
