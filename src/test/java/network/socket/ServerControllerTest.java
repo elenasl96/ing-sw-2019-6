@@ -32,6 +32,7 @@ class ServerControllerTest {
         ServerController serverController6 = new ServerController(user6);
 
         UserCreatedResponse userResp1 = (UserCreatedResponse) serverController1.handle(new CreateUserRequest("1"));
+        assertEquals(user1, serverController1.user);
         assertEquals("1", userResp1.user.getUsername());
         TextResponse userRespError = (TextResponse) serverController2.handle(new CreateUserRequest("1"));
         assertEquals("ERROR: Invalid username: 1", userRespError.content);
@@ -90,7 +91,6 @@ class ServerControllerTest {
         assertEquals("PG3", response7.character.name());
         Game game = new Game(5,1,users);
 
-        System.out.println(user1.getCharacter());
         assertEquals("PG1", game.getPlayers().get(0).getUser().getCharacter().name());
         assertEquals("PG2", game.getPlayers().get(1).getUser().getCharacter().name());
         assertEquals("PG3", game.getPlayers().get(2).getUser().getCharacter().name());
