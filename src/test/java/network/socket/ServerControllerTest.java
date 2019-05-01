@@ -1,25 +1,22 @@
 package network.socket;
 
 import model.room.Group;
-import network.socket.commands.request.ChooseGroupRequest;
+import network.socket.commands.Response;
+import network.socket.commands.request.*;
+import network.socket.commands.response.*;
 import org.junit.jupiter.api.Disabled;
 import model.room.User;
-import network.socket.commands.request.CreateGroupRequest;
-import network.socket.commands.request.CreateUserRequest;
-import network.socket.commands.response.JoinGroupResponse;
-import network.socket.commands.response.TextResponse;
-import network.socket.commands.response.UserCreatedResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ServerControllerTest {
 
     @Test
     void userCreatedTest(){
+        //Creating users and server controllers
         User user1 = new User("1");
         User user2 = new User("2");
         User user3 = new User("3");
@@ -33,7 +30,6 @@ class ServerControllerTest {
         ServerController serverController5 = new ServerController(user5);
         ServerController serverController6 = new ServerController(user6);
 
-
         UserCreatedResponse userResp1 = (UserCreatedResponse) serverController1.handle(new CreateUserRequest("1"));
         assertEquals("1", userResp1.user.getUsername());
         TextResponse userRespError = (TextResponse) serverController2.handle(new CreateUserRequest("1"));
@@ -45,7 +41,6 @@ class ServerControllerTest {
         serverController6.handle(new CreateUserRequest("6"));
 
         //Create group
-
         JoinGroupResponse createResp = (JoinGroupResponse) serverController1.handle(new CreateGroupRequest(5, 2));
         assertEquals(1, createResp.group.size()+1);
         Group group1 = createResp.group;
@@ -56,6 +51,12 @@ class ServerControllerTest {
 
         serverController1.handle(new ChooseGroupRequest(1));
         serverController2.handle(new ChooseGroupRequest(1));
+
+        SituationViewerResponse response2 = (SituationViewerResponse) serverController1.handle(new SituationViewerRequest());
+        assertEquals("Group 0 has 0 players:\n" +
+                "Group 1 has 2 players:\n" +
+                "@1, @2, ", response2.situation.toString());
+
         serverController3.handle(new ChooseGroupRequest(1));
         serverController4.handle(new ChooseGroupRequest(1));
         serverController5.handle(new ChooseGroupRequest(1));
@@ -67,7 +68,32 @@ class ServerControllerTest {
         users.add(user4);
         users.add(user5);
         assertTrue(group1.users().containsAll(users));
-        serverController6.handle(new ChooseGroupRequest(1));
 
+        //User join in full group
+        TextResponse response = (TextResponse) serverController6.handle(new ChooseGroupRequest(1));
+        assertEquals("ERROR: The group is full", response.toString());
+
+        SituationViewerResponse response3 = (SituationViewerResponse) serverController1.handle(new SituationViewerRequest());
+        assertEquals("Group 0 has 0 players:\n" +
+                "Group 1 full\n", response3.situation.toString());
+
+        //Set Character Request
+        SetCharacterResponse response4 = (SetCharacterResponse) serverController1.handle(new SetCharacterRequest(1));
+        SetCharacterResponse response5 = (SetCharacterResponse) serverController2.handle(new SetCharacterRequest(1));
+        SetCharacterResponse response6 = (SetCharacterResponse) serverController2.handle(new SetCharacterRequest(2));
+        SetCharacterResponse response7 = (SetCharacterResponse) serverController3.handle(new SetCharacterRequest(3));
+
+        assertEquals("PG1", response4.character.name());
+        assertEquals("NOT_ASSIGNED", response5.character.name());
+        assertEquals("PG2", response6.character.name());
+        assertEquals("PG3", response7.character.name());
+
+        assertEquals("PG1", group1.users.get(1).getCharacter().name());
+        assertEquals("PG2", group1.users.get(2).getCharacter().name());
+        assertEquals("PG3", group1.users.get(3).getCharacter().name());
+
+        //Possible moves request
+        //TextResponse response8 = (TextResponse) serverController1.handle(new PossibleMovesRequest());
+        //assertEquals("", response8.content.toString());
     }
 }
