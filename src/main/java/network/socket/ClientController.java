@@ -2,16 +2,13 @@ package network.socket;
 
 import model.Player;
 import model.enums.Character;
-import model.enums.Phase;
 import model.field.Coordinate;
-import model.moves.Movement;
 import model.moves.Run;
 import network.socket.commands.Request;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
 import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
-import model.room.Command;
 import model.room.Group;
 import model.room.Message;
 import model.room.User;

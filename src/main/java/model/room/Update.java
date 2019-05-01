@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Update implements Serializable {
     public boolean playerChanges;
     private Player player;
-    public StringBuilder string;
+    public String string;
 
     public Update(Player player){
         this.player = player;
@@ -27,8 +27,12 @@ public class Update implements Serializable {
         return this.player;
     }
 
+    public void setString(String string){
+        this.string = string;
+    }
+
     @Override
     public String toString() {
-        return string.toString();
+        return string;
     }
 }

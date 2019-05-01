@@ -22,7 +22,7 @@ public class GameController implements MoveRequestHandler{
         //Setting the first player phase to FIRST move
         currentPlayer.setPhase(Phase.FIRST);
         Update update = new Update(currentPlayer, false);
-        update.string.append("It's "+currentPlayer.getName()+" turn");
+        update.setString("It's "+currentPlayer.getName()+" turn");
         game.sendUpdate(update);
         currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
     }

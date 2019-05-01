@@ -152,6 +152,7 @@ public class Group implements Serializable {
         }
         //Triggers onStart in the GroupChangeListeners
         this.sendStartNotification();
+
         this.gameController = new GameController(this.game);
     }
 
