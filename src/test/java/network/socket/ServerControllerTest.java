@@ -5,6 +5,8 @@ import model.room.Group;
 import network.socket.commands.Response;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import model.room.User;
 import org.junit.jupiter.api.Test;
@@ -14,23 +16,40 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServerControllerTest {
+    private User user1;
+    private User user2;
+    private User user3;
+    private User user4;
+    private User user5;
+    private User user6;
+    private ServerController serverController1;
+    private ServerController serverController2;
+    private ServerController serverController3;
+    private ServerController serverController4;
+    private ServerController serverController5;
+    private ServerController serverController6;
+
+    @BeforeEach
+    void creating(){
+        //Resetting the Manager
+        Manager.get().reset();
+        //Creating users and server controllers
+        user1 = new User("1");
+        user2 = new User("2");
+        user3 = new User("3");
+        user4 = new User("4");
+        user5 = new User("5");
+        user6 = new User("6");
+        serverController1 = new ServerController(user1);
+        serverController2 = new ServerController(user2);
+        serverController3 = new ServerController(user3);
+        serverController4 = new ServerController(user4);
+        serverController5 = new ServerController(user5);
+        serverController6 = new ServerController(user6);
+    }
 
     @Test
     void userCreatedTest(){
-        //Creating users and server controllers
-        User user1 = new User("1");
-        User user2 = new User("2");
-        User user3 = new User("3");
-        User user4 = new User("4");
-        User user5 = new User("5");
-        User user6 = new User("6");
-        ServerController serverController1 = new ServerController(user1);
-        ServerController serverController2 = new ServerController(user2);
-        ServerController serverController3 = new ServerController(user3);
-        ServerController serverController4 = new ServerController(user4);
-        ServerController serverController5 = new ServerController(user5);
-        ServerController serverController6 = new ServerController(user6);
-
         UserCreatedResponse userResp1 = (UserCreatedResponse) serverController1.handle(new CreateUserRequest("1"));
         assertEquals(user1, serverController1.user);
         assertEquals("1", userResp1.user.getUsername());
@@ -94,6 +113,7 @@ class ServerControllerTest {
         assertEquals("PG1", serverController1.user.getCharacter().name());
         assertEquals("PG2", serverController2.user.getCharacter().name());
         assertEquals("PG3", serverController3.user.getCharacter().name());
+
 
         //Possible moves request
         //TextResponse response8 = (TextResponse) serverController1.handle(new PossibleMovesRequest());

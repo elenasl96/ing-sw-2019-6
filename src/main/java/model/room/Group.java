@@ -38,6 +38,10 @@ public class Group implements Serializable {
         this.fieldNumber = fieldNumber;
     }
 
+    public static void resetGroupID() {
+        uniqueGroupID = 0;
+    }
+
     public void sendMessage(Message message){
         checkUserInGroup(message.getSender());
 
