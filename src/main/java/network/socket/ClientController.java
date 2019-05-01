@@ -15,6 +15,8 @@ import model.room.Message;
 import model.room.User;
 import network.socket.launch.Client;
 
+import static model.enums.Phase.fromInteger;
+
 /**
  * CLIENT-SIDE controller
  *
@@ -91,6 +93,12 @@ public class ClientController implements ResponseHandler {
                     while (gameNotDone) {
                         Response response = client.nextResponse();
                         if (response != null) {
+                            try{
+                                MoveUpdateResponse moveResponse = (MoveUpdateResponse) response;
+                                System.out.println(moveResponse.getPlayer().getPhase());
+                            } catch (ClassCastException e){
+                                //niente
+                            }
                             response.handle(this);
                         }
                     }
@@ -183,6 +191,13 @@ public class ClientController implements ResponseHandler {
 
     @Override
     public void handle(MoveUpdateResponse moveUpdateResponse) {
+        System.out.println("phase Id" + moveUpdateResponse.getPhaseId());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
+        ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
+        System.out.println(ClientContext.get().getCurrentPlayer().getPhase());
+        if(ClientContext.get().getCurrentPlayer().getPhase()!=Phase.WAIT){
+            System.out.println("WAIT SET A FALSE");
+            view.setWait(false);
+        }
     }
 }

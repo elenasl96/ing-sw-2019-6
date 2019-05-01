@@ -6,27 +6,29 @@ import network.socket.commands.ResponseHandler;
 
 public class MoveUpdateResponse implements Response {
     private Player player;
+    int phaseId;
 
-    private boolean yourPlayer;
-
-    public MoveUpdateResponse(Player player){
+    public MoveUpdateResponse(Player player, int phaseId){
         this.player = player;
-        this.yourPlayer = false;
+        this.phaseId = phaseId;
     }
 
     public Player getPlayer(){
         return this.player;
     }
+
+    public int getPhaseId() {
+        return phaseId;
+    }
+
+    public void setPhaseId(int phaseId) {
+        this.phaseId = phaseId;
+    }
+
     @Override
     public void handle(ResponseHandler handler) {
         handler.handle(this);
     }
 
-    public boolean isYourPlayer() {
-        return this.yourPlayer;
-    }
 
-    public void setYourPlayer(boolean yourPlayer){
-        this.yourPlayer = yourPlayer;
-    }
 }

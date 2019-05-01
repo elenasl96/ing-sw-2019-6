@@ -102,6 +102,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     void gamingPhase(){
+        displayText("gamingPhase");
         controller.askPossibleMoves();
         String command = userInput();
         controller.sendCommand(command);
@@ -187,10 +188,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     @Override
     public void onUpdate(Update update) {
         displayText(update.toString());
-        if (update.playerChanges) {
-            controller.updatePlayer(update.getPlayer());
-            wait = false;
-        }
+        System.out.println("NOT CHANGE");
     }
 
     @Override
