@@ -24,7 +24,7 @@ public class Group implements Serializable {
     private boolean full = false;
     int fieldNumber;
     int skullNumber;
-    public transient GameController gameController;
+    transient GameController gameController;
 
     //Game variables
     private transient Game game;
@@ -189,5 +189,9 @@ public class Group implements Serializable {
     }
 
     public void sendUpdate(Update update){this.game.sendUpdate(update);}
+
+    public GameController getGameController(){
+        return this.gameController;
+    }
 
 }
