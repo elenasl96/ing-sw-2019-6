@@ -19,6 +19,10 @@ public class Coordinate {
         return (coordinateCast.x == this.x && coordinateCast.y == this.y);
     }
 
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 
     @Override
     public String toString() {
