@@ -2,10 +2,8 @@ package network.socket;
 
 import model.room.*;
 import network.socket.commands.Request;
-import network.socket.commands.response.StartGameResponse;
+import network.socket.commands.response.*;
 import network.socket.commands.Response;
-import network.socket.commands.response.GroupChangeNotification;
-import network.socket.commands.response.MessageNotification;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -105,8 +103,12 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
     }
 
     @Override
-    public void onUpdate(String update) {
-        //I haven't programmed that path yet
+    public void onUpdate(Update update) {
+        if(update.isPlayerChanges()){
+            respond(new MoveUpdateResponse(update.getPlayer()));
+        } else {
+            respond(new GameUpdateNotification(update));
+        }
     }
 
     @Override

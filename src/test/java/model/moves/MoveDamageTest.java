@@ -3,6 +3,7 @@ package model.moves;
 
 import model.Player;
 import model.enums.Character;
+import model.room.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

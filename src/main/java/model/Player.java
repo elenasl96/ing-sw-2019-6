@@ -9,6 +9,7 @@ import model.enums.Color;
 import model.enums.Phase;
 import model.field.Square;
 import model.moves.Move;
+import model.room.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,9 +18,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Player implements Serializable{
+    private User user;
     private String name;
     private int id; //da 0 a numeroGiocatori-1
-    private Character character;
+    private Character character = Character.NOT_ASSIGNED;
     private Square currentPosition;
     private Phase phase;
     private List<Ammo> ammos = new ArrayList<>();
@@ -36,11 +38,11 @@ public class Player implements Serializable{
     private List<Move> possibleMoves = new ArrayList<>();
 
     //Costruttore
-    public Player(int id, boolean firstPlayer, String name, Character character) {
-        this.name = name;
+    public Player(int id, User user) {
+        this.user = user;
+        this.name = user.getUsername();
         this.id = id;
-        this.firstPlayer = firstPlayer;
-        this.character = character;
+        this.character = user.getCharacter();
         this.currentPosition = null;
         this.phase = Phase.WAIT;
         this.ammos.add(new Ammo(Color.BLUE));
@@ -52,7 +54,13 @@ public class Player implements Serializable{
         this.stackPoint = 0;
         this.dead = false;
     }
+    public Player(){
+        super();
+    }
 
+    public User getUser(){
+        return this.user;
+    }
     public boolean equals(Object obj) {
         if(obj == null) return false;
         if (obj == this) {
@@ -170,9 +178,9 @@ public class Player implements Serializable{
         return firstPlayer;
     }
 
-    /*
-    SetFirstPlayer deleted as attribute not editable
-     */
+    public void setFirstPlayer(boolean flag){
+        this.firstPlayer = flag;
+    }
 
     public boolean isDead() {
         return dead;
@@ -206,5 +214,23 @@ public class Player implements Serializable{
                 ammos.add(a.clone());
             }
         }
+    }
+
+    //Costruttore per i test
+    public Player(int id, boolean firstPlayer, String name, Character character) {
+        this.name = name;
+        this.id = id;
+        this.character = character;
+        this.currentPosition = null;
+        this.phase = Phase.WAIT;
+        this.ammos.add(new Ammo(Color.BLUE));
+        this.ammos.add(new Ammo(Color.YELLOW));
+        this.ammos.add(new Ammo(Color.RED));
+        this.points = 0;
+        this.motto = null;
+        this.adrenalineLevel = 0;
+        this.stackPoint = 0;
+        this.dead = false;
+        this.firstPlayer = firstPlayer;
     }
 }

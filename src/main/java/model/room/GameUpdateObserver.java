@@ -1,5 +1,7 @@
 package model.room;
 
+import model.Player;
+
 public interface GameUpdateObserver {
-    void onUpdate(String update);
+    void onUpdate(Update update);
 }

@@ -1,9 +1,11 @@
 package model;
 
 import model.room.GameUpdateObserver;
+import model.room.Update;
 import model.room.User;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,27 +33,25 @@ public class Game implements Serializable {
         this.done = done;
     }
 
-    public Game(int skullNumber, int fieldNumber) {
+    public Game(int skullNumber, int fieldNumber, List<User> users) {
         this.skullsNumber = skullNumber;
-        this.numberPlayers = 0;
         this.board = new Board(fieldNumber);
         this.turn = 0;
         this.done = false;
         this.finalFrenzy = false;
-    }
 
-    public void addPlayer(User user){
-        Player player;
-        if(this.numberPlayers == 0){
-            player = new Player(this.numberPlayers, true, user.getUsername(), user.getCharacter());
+        //TODO test if sort works
+        Collections.sort(users);
+        this.numberPlayers = 0;
+        for (User u: users){
+            //adds a new player for user u to the list
+            this.players.add(new Player(this.numberPlayers, u));
+            //sends it to the ClientContext
+            u.receiveUpdate(new Update(this.players.get(numberPlayers)));
+            this.numberPlayers++;
         }
-        else {
-            player = new Player(this.numberPlayers, false, user.getUsername(), user.getCharacter());
-        }
-        this.players.add(player);
-        this.currentPlayer = players.get(0);
-        user.setPlayer(player);
-        this.numberPlayers++;
+        this.players.get(0).setFirstPlayer(true);
+        this.currentPlayer = this.players.get(0);
     }
 
     public int getNumberPlayers() {
@@ -110,9 +110,13 @@ public class Game implements Serializable {
         this.observers.add(observer);
     }
 
-    public void sendUpdate(String content) {
+    /**
+     * Sends to every observer (all the players) an update
+     * @param update  assigned by the GameController for each and every move
+     */
+    public void sendUpdate(Update update) {
         for(GameUpdateObserver o: observers ){
-            o.onUpdate(content);
+            o.onUpdate(update);
         }
     }
 

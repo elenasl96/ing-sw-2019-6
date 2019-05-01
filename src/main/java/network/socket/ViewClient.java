@@ -103,14 +103,13 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
 
     void gamingPhase(){
         controller.askPossibleMoves();
-        if(!ClientContext.get().getCurrentUser().isMyTurn()){
-            controller.startReceiverThread();
-        } else {
-             {
-                String command = userInput();
-                controller.sendCommand(command);
-            }
-        }
+        String command = userInput();
+        controller.sendCommand(command);
+    }
+
+    void waitingPhase(){
+        //You can't do anything, it's another player's turn
+        while(wait);
     }
 
     Coordinate getCoordinate(){
@@ -186,8 +185,11 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     @Override
-    public void onUpdate(String update) {
-        //I haven't programmed that path yet
+    public void onUpdate(Update update) {
+        displayText(update.toString());
+        if (update.playerChanges) {
+            wait = false;
+        }
     }
 
     @Override

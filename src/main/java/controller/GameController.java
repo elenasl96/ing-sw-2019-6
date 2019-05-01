@@ -4,8 +4,10 @@ import exception.InvalidMoveException;
 import exception.InvalidMovementException;
 import model.Game;
 import model.Player;
+import model.enums.Phase;
 import model.field.Square;
 import model.moves.*;
+import model.room.Update;
 
 public class GameController implements MoveRequestHandler{
     /**
@@ -16,12 +18,41 @@ public class GameController implements MoveRequestHandler{
 
     public GameController(Game game){
         this.game = game;
+        currentPlayer = game.getCurrentPlayer();
+        //Setting the first player phase to FIRST move
+        currentPlayer.setPhase(Phase.FIRST);
+        Update update = new Update(currentPlayer, false);
+        update.string.append("It's "+currentPlayer.getName()+" turn");
+        game.sendUpdate(update);
+        currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
+    }
+
+    public void lifeCycle(){
+        while(!game.isDone()){
+            switch(currentPlayer.getPhase()){
+                case WAIT:
+                    //The currentPlayer must have been just updated,
+                    //Triggers him to FirstPhase and send a "it's your turn notification" to the user
+                    currentPlayer.setPhase(Phase.FIRST);
+                    game.sendUpdate(new Update(currentPlayer));
+                    break;
+                case FIRST:
+
+                case SECOND:
+
+                case RELOAD:
+
+                default:
+                    break;
+            }
+        }
     }
 
     public void setCurrentPlayer(Player player){
         this.currentPlayer = player;
     }
 
+    // Moves handling
     @Override
     public void handle(Run run) throws InvalidMoveException{
         run.setMaxSteps(3);

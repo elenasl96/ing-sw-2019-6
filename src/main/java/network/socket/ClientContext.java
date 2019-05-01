@@ -1,6 +1,7 @@
 package network.socket;
 
 
+import model.Player;
 import model.room.Group;
 import model.room.User;
 
@@ -15,6 +16,7 @@ public class ClientContext {
     private User currentUser;
     private Group currentGroup;
     private String currentSituation;
+    private Player currentPlayer;
     private ClientContext() {
     }
 
@@ -24,6 +26,10 @@ public class ClientContext {
         }
 
         return instance;
+    }
+
+    public synchronized void createPlayer(){
+        this.currentPlayer = new Player();
     }
 
     public synchronized User getCurrentUser() {
@@ -48,5 +54,9 @@ public class ClientContext {
 
     synchronized void setCurrentSituation(String currentSituation) {
         this.currentSituation = currentSituation;
+    }
+
+    public void setPlayer(Player player) {
+        this.currentPlayer = player;
     }
 }

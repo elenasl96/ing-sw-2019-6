@@ -1,5 +1,6 @@
 package network.socket;
 
+import model.Player;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
@@ -37,9 +38,12 @@ public class ClientController implements ResponseHandler {
 
     private Thread receiver;
 
+    private boolean gameNotDone;
+
     public ClientController(Client client) {
         this.client = client;
         this.view = new ViewClient(this);
+        this.gameNotDone = true;
     }
 
     /**
@@ -134,15 +138,17 @@ public class ClientController implements ResponseHandler {
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         view.chooseCharacterPhase();
-        view.gamingPhase();
+        while(gameNotDone) {
+            view.setWait(true);
+            view.waitingPhase();
+            view.gamingPhase();
+        }
     }
     // -------------------------- Response handling
 
     @Override
     public void handle(TextResponse textResponse) {
         view.displayText(textResponse.toString());
-        if(textResponse.status) ClientContext.get().getCurrentUser().getPlayer().setPhase(Phase.FIRST);
-        //Qui dà una null pointer poichè credo il player nel context non venga mai settato
     }
 
     @Override
@@ -163,11 +169,11 @@ public class ClientController implements ResponseHandler {
     @Override
     public void handle(SetCharacterResponse setCharacterResponse) {
         ClientContext.get().getCurrentUser().setCharacter(setCharacterResponse.character);
+        ClientContext.get().createPlayer();
     }
 
     @Override
     public void handle(MoveUpdateResponse moveUpdateResponse) {
-        ClientContext.get().getCurrentUser().setPlayer(moveUpdateResponse.getUpdatedPlayer());
+        ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
     }
-
 }

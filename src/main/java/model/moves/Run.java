@@ -31,7 +31,7 @@ public class Run implements Move {
     @Override
     public Response execute(Player p) throws InvalidMoveException {
         this.movement.execute(p);
-        return new MoveUpdateResponse(new Update(p));
+        return new MoveUpdateResponse(p);
     }
 
     @Override

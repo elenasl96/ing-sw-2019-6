@@ -1,27 +1,32 @@
 package network.socket.commands.response;
 
 import model.Player;
-import model.room.Update;
 import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 
 public class MoveUpdateResponse implements Response {
-    private Update update;
+    private Player player;
 
-    public MoveUpdateResponse(Update update){
-        this.update = update;
+    private boolean yourPlayer;
+
+    public MoveUpdateResponse(Player player){
+        this.player = player;
+        this.yourPlayer = false;
     }
 
-    public Player getUpdatedPlayer(){
-        return update.getPlayer();
+    public Player getPlayer(){
+        return this.player;
     }
     @Override
     public void handle(ResponseHandler handler) {
         handler.handle(this);
     }
 
-    @Override
-    public String toString(){
-        return update.getPlayer().getName()+" moved to square "+update.getPlayer().getCurrentPosition().toString();
+    public boolean isYourPlayer() {
+        return this.yourPlayer;
+    }
+
+    public void setYourPlayer(boolean yourPlayer){
+        this.yourPlayer = yourPlayer;
     }
 }

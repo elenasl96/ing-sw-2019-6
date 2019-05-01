@@ -19,7 +19,7 @@ public class Group implements Serializable {
     private int groupID;
     private String groupName;
 
-    public List<User> users = new ArrayList<>();
+    List<User> users = new ArrayList<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
     int fieldNumber;
@@ -83,8 +83,8 @@ public class Group implements Serializable {
         return users.size()-1;
     }
 
-    public Set<User> users() {
-        return new HashSet<>(users);
+    public List<User> users() {
+        return this.users;
     }
     
 
@@ -140,15 +140,7 @@ public class Group implements Serializable {
 
     public void createGame() {
         this.setFull();
-        this.game = new Game(skullNumber, fieldNumber);
-        //Creates a Player for every user
-        //Sending them in ascending userID order
-        for(User u: users){
-            this.game.addPlayer(u);
-        }
-        //Set first player phase start
-        users.get(1).getPlayer().setPhase(Phase.FIRST);
-        this.game.setCurrentPlayer(users.get(1).getPlayer());
+        this.game = new Game(skullNumber, fieldNumber, users);
         //Fill the squares
         this.game.getBoard().getField().getSquares().forEach(square-> {
             square.setGrabbable(game.getBoard());
@@ -190,6 +182,6 @@ public class Group implements Serializable {
         return this.game;
     }
 
-    public void sendUpdate(String content){this.game.sendUpdate(content);}
+    public void sendUpdate(Update update){this.game.sendUpdate(update);}
 
 }

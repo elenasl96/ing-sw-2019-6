@@ -1,8 +1,6 @@
 package network.socket;
 
-import controller.GameController;
 import exception.InvalidMoveException;
-import model.decks.Powerup;
 import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
@@ -186,29 +184,9 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
-        if(!user.isMyTurn()){
-            return new TextResponse("It's "+currentGroup.getGame().getCurrentPlayer().getName()+" turn", false);
-        } else {
-            StringBuilder content = new StringBuilder("These are the moves you can choose:");
-            if(!currentGroup.getGame().isFinalFrenzy()){
-                content.append("\nrun" +
-                        "\ngrab" +
-                        "\nshoot");
-            } else {
-                if(user.getPlayer().isFirstPlayer()){
-                    content.append("\nshoot (move up to 2 squares, reload, shoot)" +
-                            "\ngrab (move up to 3 squares, grab)");
-                } else {
-                    content.append("\nshoot (move up to 1 squares, reload, shoot)" +
-                            "\nrun (move up to 4 squares)" +
-                            "\ngrab (move up to 2 squares, grab)");
-                }
-            }
-            if(!user.getPlayer().getPowerups().isEmpty()){
-                content.append("\npowerup");
-            }
-            return new TextResponse(content.toString(), true);
-        }
+        StringBuilder content = new StringBuilder("These are the moves you can choose:");
+        //TODO
+        return null;
     }
 
     @Override
@@ -218,14 +196,15 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(MoveRequest moveRequest) {
-        this.currentGroup.gameController.setCurrentPlayer(user.getPlayer());
         try {
             Move move = moveRequest.getMove();
             move.handle(currentGroup.gameController);
-            Response response = move.execute(user.getPlayer());
-            currentGroup.sendUpdate(response.toString());
+            Response response = move.execute(currentGroup.getGame().getCurrentPlayer());
+            Update update = new Update(currentGroup.getGame().getCurrentPlayer());
+            update.string.append(response.toString());
+            currentGroup.getGame().sendUpdate(update);
             return response;
-        } catch (InvalidMoveException e){
+        } catch (InvalidMoveException e) {
             //TODO
             return null;
         }

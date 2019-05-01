@@ -15,17 +15,17 @@ public class User implements Serializable, Comparable<User> {
 
     private String username;
     private transient List<MessageReceivedObserver> observers;
+    private transient List<GameUpdateObserver> updateObservers;
     private static int uniqueUserID = 0;
     private int userID;
     private Character character = Character.NOT_ASSIGNED;
-
-    private Player player;
 
     public User(String username) {
         super();
         userID = uniqueUserID;
         this.username = username;
         this.observers = new LinkedList<>();
+        this.updateObservers = new LinkedList<>();
         uniqueUserID++;
     }
 
@@ -51,11 +51,19 @@ public class User implements Serializable, Comparable<User> {
 
     public void listenToMessages(MessageReceivedObserver observer) {
         observers.add(observer);
+        updateObservers.add((GameUpdateObserver) observer);
     }
 
     public void receiveMessage(Message message) {
         for (MessageReceivedObserver observer : observers) {
             observer.onMessage(message);
+        }
+    }
+
+    public void receiveUpdate(Update update){
+        //The user's observers are only his specific ClientHandler and ViewClient
+        for (GameUpdateObserver observer : updateObservers) {
+            observer.onUpdate(update);
         }
     }
 
@@ -88,17 +96,5 @@ public class User implements Serializable, Comparable<User> {
     @Override
     public int compareTo(@NotNull User u) {
         return Integer.compare(this.getUserID(), u.getUserID());
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public Player getPlayer(){
-        return this.player;
-    }
-
-    public boolean isMyTurn(){
-        return !this.player.getPhase().equals(Phase.WAIT);
-    }
+    } //TODO testing
 }

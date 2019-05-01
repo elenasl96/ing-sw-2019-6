@@ -1,5 +1,6 @@
 package controller;
 
+import model.Player;
 import model.room.*;
 
 import java.util.Timer;
@@ -62,7 +63,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
     }
 
     @Override
-    public void onUpdate(String update) {
+    public void onUpdate(Update update) {
         //I haven't programmed that path yet
     }
 
