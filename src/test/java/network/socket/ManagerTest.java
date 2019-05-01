@@ -1,7 +1,5 @@
 package network.socket;
 
-import model.room.Group;
-import model.room.User;
 import network.exceptions.InvalidUsernameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ManagerTest {
+class ManagerTest {
 
     @BeforeEach
     void reset(){
