@@ -139,9 +139,6 @@ public class ClientController implements ResponseHandler {
         client.request(new PossibleMovesRequest());
     }
 
-    public void updatePlayer(Player player) {
-    }
-
     public void run(){
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
@@ -191,12 +188,9 @@ public class ClientController implements ResponseHandler {
 
     @Override
     public void handle(MoveUpdateResponse moveUpdateResponse) {
-        System.out.println("phase Id" + moveUpdateResponse.getPhaseId());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
-        System.out.println(ClientContext.get().getCurrentPlayer().getPhase());
         if(ClientContext.get().getCurrentPlayer().getPhase()!=Phase.WAIT){
-            System.out.println("WAIT SET A FALSE");
             view.setWait(false);
         }
     }

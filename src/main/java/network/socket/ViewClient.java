@@ -188,7 +188,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     @Override
     public void onUpdate(Update update) {
         displayText(update.toString());
-        System.out.println("NOT CHANGE");
     }
 
     @Override
