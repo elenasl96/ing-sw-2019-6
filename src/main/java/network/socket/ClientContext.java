@@ -59,4 +59,8 @@ public class ClientContext {
     public void setPlayer(Player player) {
         this.currentPlayer = player;
     }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 }
