@@ -1,8 +1,7 @@
 package model.enums;
 
-import java.io.Serializable;
+public enum Phase{
 
-public enum Phase implements Serializable {
     WAIT(0),
     FIRST(1),
     SECOND(2),
