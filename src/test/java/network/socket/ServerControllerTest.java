@@ -52,7 +52,7 @@ class ServerControllerTest {
 
         //Choose Group
         TextResponse joinRespError = (TextResponse) serverController1.handle(new ChooseGroupRequest(2));
-        assertEquals("ERROR: There's no group2", joinRespError.content);
+        assertEquals("ERROR: There's no group2", joinRespError.toString());
 
         serverController1.handle(new ChooseGroupRequest(1));
         serverController2.handle(new ChooseGroupRequest(1));
