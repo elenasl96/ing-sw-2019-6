@@ -20,10 +20,6 @@ public class createGameTest {
         group.join(user1);
         group.join(user2);
         group.join(user3);
-        group.createGame();
-        assertEquals("1", group.users.get(0).getUsername());
-        assertEquals(group.users.get(0),group.getGame().getPlayers().get(0).getUser());
-        assertEquals("FIRST", group.getGame().getPlayers().get(0).getPhase().name());
-        assertEquals("WAIT", group.getGame().getPlayers().get(1).getPhase().name());
+
     }
 }
