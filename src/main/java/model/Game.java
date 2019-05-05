@@ -45,7 +45,10 @@ public class Game implements Serializable {
         this.numberPlayers = 0;
         for (User u: users){
             //adds a new player for user u to the list
-            this.players.add(new Player(this.numberPlayers, u));
+            Player player = new Player(this.numberPlayers, u);
+            this.players.add(player);
+            u.setPlayer(player);
+
             //sends it to the ClientContext
             System.out.println(">>> It's Game sending "+this.players.get(numberPlayers)+" to "+u.getUsername());
             u.receiveUpdate(new Update(this.players.get(numberPlayers), true));

@@ -18,6 +18,7 @@ public class User implements Serializable, Comparable<User> {
     private transient List<GameUpdateObserver> updateObservers;
     private static int uniqueUserID = 0;
     private int userID;
+    private Player player = null;
     private Character character = Character.NOT_ASSIGNED;
 
     public User(String username) {
@@ -101,4 +102,12 @@ public class User implements Serializable, Comparable<User> {
     public int compareTo(@NotNull User u) {
         return Integer.compare(this.getUserID(), u.getUserID());
     } //TODO testing
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
