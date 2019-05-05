@@ -53,6 +53,11 @@ public class GameController implements MoveRequestHandler{
         this.currentPlayer = player;
     }
 
+    public boolean isMyTurn (Player player){
+        if(player == currentPlayer) return true;
+        else return false;
+    }
+
     // Moves handling
     @Override
     public void handle(Run run) throws InvalidMoveException{
@@ -98,5 +103,27 @@ public class GameController implements MoveRequestHandler{
     @Override
     public void handle(Grab grab) throws InvalidMoveException{
 
+    }
+
+    public Update possibleMoves(Player player) {
+        StringBuilder content = new StringBuilder("These are the moves you can choose:");
+        if(!this.game.isFinalFrenzy()){
+            content.append("run\n" +
+                    "grab\n" +
+                    "shoot");
+        } else {
+            if(player.isFirstPlayer()){
+                content.append("shoot (move up to 2 squares, reload, shoot)\n" +
+                        "grab (move up to 3 squares, grab)");
+            } else {
+                content.append("shoot (move up to 1 squares, reload, shoot)\n" +
+                        "run (move up to 4 squares)\n" +
+                        "grab (move up to 2 squares, grab)");
+            }
+        }
+        if(!player.getPowerups().isEmpty()){
+            content.append("\npowerup");
+        }
+        return new Update(content.toString());
     }
 }

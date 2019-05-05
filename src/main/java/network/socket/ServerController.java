@@ -184,9 +184,9 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
-        StringBuilder content = new StringBuilder("These are the moves you can choose:");
+        Update update = this.currentGroup.getGameController().possibleMoves(user.getPlayer());
         //TODO
-        return null;
+        return new GameUpdateNotification(update);
     }
 
     @Override

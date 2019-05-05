@@ -21,6 +21,7 @@ public class Update implements Serializable {
 
     public Update(Player player, boolean playerChanges){
         this.player = player;
+        this.string = string;
         this.playerChanges = playerChanges;
     }
 
