@@ -20,4 +20,8 @@ public class Powerup implements Serializable {
     public void addMove(Move move){
         this.moves.add(move);
     }
+
+    public Ammo getAmmo() {
+        return ammo;
+    }
 }

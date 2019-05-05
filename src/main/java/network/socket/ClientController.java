@@ -15,6 +15,7 @@ import model.room.Message;
 import model.room.User;
 import network.socket.launch.Client;
 
+import static model.enums.Phase.SPAWN;
 import static model.enums.Phase.fromInteger;
 
 /**
@@ -111,6 +112,9 @@ public class ClientController implements ResponseHandler {
     void sendCommand(String content){
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
+            case "yellow": case "blue": case "red":
+                client.request(new spawnRequest(content));
+                break;
             case "run":
                 Coordinate coordinate = view.getCoordinate();
                 moveRequest.addMove(new Run(coordinate));
@@ -146,6 +150,7 @@ public class ClientController implements ResponseHandler {
         while(gameNotDone) {
             view.setWait(true);
             view.waitingPhase();
+            if(ClientContext.get().getCurrentPlayer().getPhase() == Phase.SPAWN) view.gamingPhase();
             for(int i=0;
                 i<=1 &&
                     ClientContext.get().getCurrentPlayer().getPhase() == Phase.FIRST ||
@@ -153,9 +158,8 @@ public class ClientController implements ResponseHandler {
                 i++) {
                 view.gamingPhase();
             }
-            if(ClientContext.get().getCurrentPlayer().getPhase() == Phase.RELOAD){
-                view.reloadPhase();
-            }
+            if(ClientContext.get().getCurrentPlayer().getPhase() == Phase.RELOAD) view.reloadPhase();
+
         }
     }
     // -------------------------- Response handling
@@ -194,4 +198,6 @@ public class ClientController implements ResponseHandler {
             view.setWait(false);
         }
     }
+
+
 }

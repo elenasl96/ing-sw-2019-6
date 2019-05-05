@@ -4,6 +4,7 @@ import exception.InvalidMoveException;
 import exception.InvalidMovementException;
 import model.Game;
 import model.Player;
+import model.decks.Powerup;
 import model.enums.Phase;
 import model.field.Square;
 import model.moves.*;
@@ -20,7 +21,7 @@ public class GameController implements MoveRequestHandler{
         this.game = game;
         currentPlayer = game.getCurrentPlayer();
         //Setting the first player phase to FIRST move
-        currentPlayer.setPhase(Phase.FIRST);
+        currentPlayer.setPhase(Phase.SPAWN);
         Update update = new Update("It's "+currentPlayer.getName()+"'s turn");
         System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
         game.sendUpdate(update);
@@ -79,7 +80,7 @@ public class GameController implements MoveRequestHandler{
 
     @Override
     public void handle(Movement movement) throws InvalidMoveException {
-        System.out.println("Il square ora is "+movement.getCoordinate());
+        System.out.println("The new square is "+movement.getCoordinate());
         Square destination = null;
         //Check if the coordinate is valid
         for(Square square: game.getBoard().getField().getSquares()) {
@@ -106,23 +107,35 @@ public class GameController implements MoveRequestHandler{
     }
 
     public Update possibleMoves(Player player) {
-        StringBuilder content = new StringBuilder("These are the moves you can choose:");
-        if(!this.game.isFinalFrenzy()){
-            content.append("run\n" +
-                    "grab\n" +
-                    "shoot");
-        } else {
-            if(player.isFirstPlayer()){
-                content.append("shoot (move up to 2 squares, reload, shoot)\n" +
-                        "grab (move up to 3 squares, grab)");
-            } else {
-                content.append("shoot (move up to 1 squares, reload, shoot)\n" +
-                        "run (move up to 4 squares)\n" +
-                        "grab (move up to 2 squares, grab)");
-            }
-        }
-        if(!player.getPowerups().isEmpty()){
-            content.append("\npowerup");
+        StringBuilder content = new StringBuilder("");
+        switch (player.getPhase()){
+            case SPAWN:
+                player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+                player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+                content.append("Choose spawn from:" + player.getPowerups().get(0).getAmmo().getColor() + "," + player.getPowerups().get(1).getAmmo().getColor() );
+                break;
+            case FIRST: case SECOND:
+                content.append("These are the moves you can choose\n");
+                if(!this.game.isFinalFrenzy()){
+                    content.append("run\n" +
+                            "grab\n" +
+                            "shoot");
+                } else {
+                    if(player.isFirstPlayer()){
+                        content.append("shoot (move up to 2 squares, reload, shoot)\n" +
+                                "grab (move up to 3 squares, grab)");
+                    } else {
+                        content.append("shoot (move up to 1 squares, reload, shoot)\n" +
+                                "run (move up to 4 squares)\n" +
+                                "grab (move up to 2 squares, grab)");
+                    }
+                }
+                if(!player.getPowerups().isEmpty()){
+                    content.append("\npowerup");
+                }
+                break;
+            default:
+                break;
         }
         return new Update(content.toString());
     }
