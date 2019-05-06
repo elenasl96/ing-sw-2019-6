@@ -117,7 +117,7 @@ public class GameController implements MoveRequestHandler{
             case SPAWN:
                 player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
                 player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-                content.append("Choose spawn from:" + player.getPowerups().get(0).getAmmo().getColor() + "," + player.getPowerups().get(1).getAmmo().getColor() );
+                content.append("Choose spawn from:\n" + player.getPowerups().get(0).toString() + "==\n" + player.getPowerups().get(1).toString() );
                 break;
             case FIRST: case SECOND:
                 content.append("These are the moves you can choose\n");
@@ -145,11 +145,14 @@ public class GameController implements MoveRequestHandler{
         return new Update(content.toString());
     }
 
-    public void setSpawn(Command command) {
+    public Update setSpawn(Command command) {
         if(command.getSender() == this.currentPlayer &&
                 this.currentPlayer.getPhase() == Phase.SPAWN &&
                 !command.getSender().getPowerups().stream().filter( p -> p.getAmmo().getColor().getName().equals(command.getContent())).collect(Collectors.toList()).isEmpty()){
             command.getSender().setCurrentPosition(this.game.getBoard().getField().getSpawnSquares().stream().filter( ss -> ss.getColor().getName().equals(command.getContent())).findFirst().get());
+            command.getSender().setPhase(Phase.FIRST);
+            return new Update(command.getSender(), true,"You spawn is set in " + command.getSender().getCurrentPosition().toString());
         }
+    return new Update(command.getSender(), false, "not working spawn");
     }
 }
