@@ -185,7 +185,6 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
         Update update = this.currentGroup.getGameController().possibleMoves(user.getPlayer());
-        //TODO
         return new GameUpdateNotification(update);
     }
 
@@ -197,13 +196,18 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(MoveRequest moveRequest) {
         try {
+            System.out.println("moveresponse1");
             Move move = moveRequest.getMove();
+            System.out.println("moveresponse2");
             move.handle(currentGroup.getGameController());
+            System.out.println("moveresponse3");
             Response response = move.execute(currentGroup.getGame().getCurrentPlayer());
+            System.out.println("moveresponse4");
             Update update = new Update(currentGroup.getGame().getCurrentPlayer());
             update.setString(response.toString());
+            System.out.println("moveresponse5" + update.toString());
             currentGroup.getGame().sendUpdate(update);
-            return response;
+            return null;
         } catch (InvalidMoveException e) {
             //TODO
             return null;
@@ -212,7 +216,12 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SendCommandRequest commandRequest) {
-        //I haven't programmed that path yet
+        Command command = commandRequest.command;
+        switch (command.getContent()){
+            case "yellow": case "red": case "blue":
+                this.currentGroup.getGameController().setSpawn(command);
+                break;
+        }
         return null;
     }
 }
