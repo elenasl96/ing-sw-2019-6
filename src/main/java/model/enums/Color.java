@@ -10,5 +10,15 @@ public enum Color {
     WHITE("bianco", 'w'),
     PURPLE("viola", 'p');
 
-    Color(String name, char abbr){ }
+    private String name;
+    private char abbr;
+
+    Color(String name, char abbr){
+        this.name = name;
+        this.abbr = abbr;
+    }
+
+    public String getName(){
+        return name;
+    }
 }

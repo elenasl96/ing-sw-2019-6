@@ -5,10 +5,15 @@ import exception.InvalidMovementException;
 import model.Game;
 import model.Player;
 import model.decks.Powerup;
+import model.enums.Color;
 import model.enums.Phase;
 import model.field.Square;
 import model.moves.*;
+import model.room.Command;
 import model.room.Update;
+
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class GameController implements MoveRequestHandler{
     /**
@@ -138,5 +143,13 @@ public class GameController implements MoveRequestHandler{
                 break;
         }
         return new Update(content.toString());
+    }
+
+    public void setSpawn(Command command) {
+        if(command.getSender() == this.currentPlayer &&
+                this.currentPlayer.getPhase() == Phase.SPAWN &&
+                !command.getSender().getPowerups().stream().filter( p -> p.getAmmo().getColor().getName().equals(command.getContent())).collect(Collectors.toList()).isEmpty()){
+            command.getSender().setCurrentPosition(this.game.getBoard().getField().getSpawnSquares().stream().filter( ss -> ss.getColor().getName().equals(command.getContent())).findFirst().get());
+        }
     }
 }
