@@ -3,12 +3,12 @@ package model.enums;
 public enum Color {
     NONE ("none", 'n'),
     GREY("grey",'l'),
-    YELLOW("giallo", 'y'),
-    RED("rosso", 'r'),
-    BLUE("blu", 'b'),
-    GREEN("verde", 'g'),
-    WHITE("bianco", 'w'),
-    PURPLE("viola", 'p');
+    YELLOW("yellow", 'y'),
+    RED("red", 'r'),
+    BLUE("blue", 'b'),
+    GREEN("green", 'g'),
+    WHITE("white", 'w'),
+    PURPLE("purple", 'p');
 
     private String name;
     private char abbr;
