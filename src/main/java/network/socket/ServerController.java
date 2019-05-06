@@ -219,8 +219,8 @@ public class ServerController implements RequestHandler {
         Command command = commandRequest.command;
         switch (command.getContent()){
             case "yellow": case "red": case "blue":
-                this.currentGroup.getGameController().setSpawn(command);
-                break;
+                Update update = this.currentGroup.getGameController().setSpawn(command);
+                return new GameUpdateNotification(update);
         }
         return null;
     }

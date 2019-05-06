@@ -119,6 +119,8 @@ public class ClientController implements ResponseHandler {
             case "run":
                 Coordinate coordinate = view.getCoordinate();
                 moveRequest.addMove(new Run(coordinate));
+                client.request(moveRequest);
+                client.nextResponse().handle(this);
                 break;
             case "grab":
 
@@ -130,8 +132,6 @@ public class ClientController implements ResponseHandler {
                 view.displayText("Insert a valid move");
                 return;
         }
-        client.request(moveRequest);
-        client.nextResponse().handle(this);
     }
 
     void sendMessage(String content) {

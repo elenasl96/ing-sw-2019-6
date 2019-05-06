@@ -102,11 +102,14 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     void gamingPhase(){
+        //TODO creare una SpawnPhase dedicata al solo spawn
         displayText("gamingPhase");
         controller.askPossibleMoves();
         String command = userInput();
         controller.sendCommand(command);
     }
+
+
 
     void waitingPhase(){
         //You can't do anything, it's another player's turn
