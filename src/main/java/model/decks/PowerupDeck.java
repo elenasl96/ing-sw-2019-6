@@ -40,13 +40,13 @@ public class PowerupDeck {
             this.powerups.add(new Powerup(NEWTON, new Ammo(Color.RED)));
 
             this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.YELLOW)));
-            this.powerups.get(i).addMove(new Mark());
+            this.powerups.get(6 + i).addMove(new Mark());
 
             this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.BLUE)));
-            this.powerups.get(1 + i).addMove(new Mark());
+            this.powerups.get(7 + i).addMove(new Mark());
 
             this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.RED)));
-            this.powerups.get(2 + i).addMove(new Mark());
+            this.powerups.get(8 + i).addMove(new Mark());
 
             this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.YELLOW)));
             //TODO
@@ -54,9 +54,8 @@ public class PowerupDeck {
             this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.BLUE)));
 
             this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.RED)));
-
-
         }
+        shuffleDeck();
     }
 
     /**

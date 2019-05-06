@@ -1,7 +1,6 @@
 package model;
 
 import model.decks.AmmoTile;
-import model.decks.AmmoTileWithAmmo;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Character;
@@ -13,7 +12,6 @@ import model.room.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,6 +52,7 @@ public class Player implements Serializable{
         this.stackPoint = 0;
         this.dead = false;
     }
+
     public Player(){
         super();
     }
