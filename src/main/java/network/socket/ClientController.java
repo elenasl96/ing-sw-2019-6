@@ -5,6 +5,7 @@ import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
 import model.moves.Run;
+import model.room.Command;
 import network.socket.commands.Request;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
@@ -113,7 +114,7 @@ public class ClientController implements ResponseHandler {
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
             case "yellow": case "blue": case "red":
-                client.request(new spawnRequest(content));
+                client.request(new SendCommandRequest(new Command(ClientContext.get().getCurrentPlayer(), content)));
                 break;
             case "run":
                 Coordinate coordinate = view.getCoordinate();

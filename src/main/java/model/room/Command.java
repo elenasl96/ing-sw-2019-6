@@ -1,21 +1,23 @@
 package model.room;
 
+import model.Player;
 import model.moves.Move;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Command implements Serializable {
-    private User user;
+    private Player player;
     private String content;
     private ArrayList<Move> moves = new ArrayList<>();
 
-    public Command(Group currentGroup, User currentUser, String command){
-        this.user = currentUser;
+    public Command(Player player, String command){
+        this.player = player;
         this.content = command;
     }
 
-    public ArrayList<Move> getMoves() {
+    public List<Move> getMoves() {
         return moves;
     }
 
@@ -23,8 +25,8 @@ public class Command implements Serializable {
         this.moves.add(move);
     }
 
-    public User getSender() {
-        return user;
+    public Player getSender() {
+        return player;
     }
 
     public String getContent() {
