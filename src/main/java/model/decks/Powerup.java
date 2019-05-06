@@ -27,6 +27,6 @@ public class Powerup implements Serializable {
 
     @Override
     public String toString(){
-        return "Name: " + name + "\nAmmo: " + ammo.getColor().getName() + "\nMosse:\n";
+        return "Name: " + name + "\nAmmo: " + ammo.getColor().getName() + "\n";
     }
 }
