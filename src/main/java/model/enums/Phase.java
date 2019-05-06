@@ -35,4 +35,8 @@ public enum Phase{
                 return WAIT;
         }
     }
+
+    public boolean equalsTo(Phase phase){
+        return this.id == phase.id;
+    }
 }

@@ -232,4 +232,17 @@ public class Player implements Serializable{
         this.dead = false;
         this.firstPlayer = firstPlayer;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", character=" + character.name() +
+                ", phase=" + phase.toString() +
+                ", points=" + points +
+                ", firstPlayer=" + firstPlayer +
+                ", dead=" + dead +
+                '}';
+    }
 }
