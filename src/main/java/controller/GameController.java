@@ -32,33 +32,77 @@ public class GameController implements MoveRequestHandler{
         currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
     }
 
-    public void lifeCycle(){
-        while(!game.isDone()){
-            switch(currentPlayer.getPhase()){
-                case WAIT:
-                    //The currentPlayer must have been just updated,
-                    //Triggers him to FirstPhase and send a "it's your turn notification" to the user
-                    currentPlayer.setPhase(Phase.FIRST);
-                    game.sendUpdate(new Update(currentPlayer));
-                    break;
-                case FIRST:
-
-                case SECOND:
-
-                case RELOAD:
-
-                default:
-                    break;
-            }
-        }
-    }
-
     public void setCurrentPlayer(Player player){
         this.currentPlayer = player;
     }
 
     public boolean isMyTurn (Player player){
         return player.equals(currentPlayer);
+    }
+
+
+    public Update possibleMoves(Player player) {
+        StringBuilder content = new StringBuilder();
+        switch (player.getPhase()){
+            case FIRST: case SECOND:
+                content.append("These are the moves you can choose\n");
+                if(!this.game.isFinalFrenzy()){
+                    content.append("run\n" +
+                            "grab\n" +
+                            "shoot");
+                } else {
+                    if(player.isFirstPlayer()){
+                        content.append("shoot (move up to 2 squares, reload, shoot)\n" +
+                                "grab (move up to 3 squares, grab)");
+                    } else {
+                        content.append("shoot (move up to 1 squares, reload, shoot)\n" +
+                                "run (move up to 4 squares)\n" +
+                                "grab (move up to 2 squares, grab)");
+                    }
+                }
+                if(!player.getPowerups().isEmpty()){
+                    content.append("\nPowerups:\n").append(player.getPowerups());
+                }
+                break;
+            case RELOAD:
+                content.append("You can reload:\n").append(player.getWeapons());
+                break;
+            default:
+                break;
+        }
+        return new Update(content.toString());
+    }
+
+    public void setSpawn(Player player, int spawn) {
+        Powerup discarded;
+        if(isMyTurn(player) &&
+                currentPlayer.getPhase().equals(Phase.SPAWN) &&
+                player.getPowerups().get(spawn)!=null){
+            Optional<SpawnSquare> optional = this.game.getBoard().getField().getSpawnSquares().stream()
+                    .filter(ss -> ss.getColor().equals(currentPlayer.getPowerups().get(spawn).getAmmo().getColor()))
+                    .findFirst();
+            optional.ifPresent(currentPlayer::setCurrentPosition);
+            discarded = currentPlayer.getPowerups().remove(spawn);
+            //set phase wait to current player and send update
+            currentPlayer.setPhase(Phase.WAIT);
+            currentPlayer.getUser().receiveUpdate(new Update(player, true));
+            //go to next player and set phase
+            this.currentPlayer = this.game.getPlayers().next();
+            System.out.println("CURRENT PLAYER" + currentPlayer);
+            if(currentPlayer.equals(game.getPlayers().get(0))) currentPlayer.setPhase(Phase.FIRST);
+            else currentPlayer.setPhase(Phase.SPAWN);
+            //send updates
+            game.sendUpdate(new Update(player.getName()+ " discarded "+ discarded.toString()+"\n"
+                    + player.getName() + " spawn is set in " + player.getCurrentPosition().toString()));
+            currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
+        } else player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString()));
+    }
+
+    public Update getSpawn(Player player) {
+        player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+        player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+        System.out.println(player.getPowerups().toString());
+        return new Update("Choose spawn point from: " + player.getPowerups().toString());
     }
 
     // Moves handling
@@ -108,68 +152,4 @@ public class GameController implements MoveRequestHandler{
         //TODO
     }
 
-    public Update possibleMoves(Player player) {
-        StringBuilder content = new StringBuilder();
-        switch (player.getPhase()){
-            case FIRST: case SECOND:
-                content.append("These are the moves you can choose\n");
-                if(!this.game.isFinalFrenzy()){
-                    content.append("run\n" +
-                            "grab\n" +
-                            "shoot");
-                } else {
-                    if(player.isFirstPlayer()){
-                        content.append("shoot (move up to 2 squares, reload, shoot)\n" +
-                                "grab (move up to 3 squares, grab)");
-                    } else {
-                        content.append("shoot (move up to 1 squares, reload, shoot)\n" +
-                                "run (move up to 4 squares)\n" +
-                                "grab (move up to 2 squares, grab)");
-                    }
-                }
-                if(!player.getPowerups().isEmpty()){
-                    content.append("\nPowerups:\n").append(player.getPowerups());
-                }
-                break;
-            case RELOAD:
-                content.append("You can reload:\n").append(player.getWeapons());
-                break;
-            default:
-                break;
-        }
-        return new Update(content.toString());
-    }
-
-    public void setSpawn(Player player, int spawn) {
-        Powerup discarded;
-        if(isMyTurn(player) &&
-                currentPlayer.getPhase().equals(Phase.SPAWN) &&
-                player.getPowerups().get(spawn)!=null){
-            Optional<SpawnSquare> optional = this.game.getBoard().getField().getSpawnSquares().stream()
-                    .filter(ss -> ss.getColor().equals(currentPlayer.getPowerups().get(spawn).getAmmo().getColor()))
-                    .findFirst();
-            optional.ifPresent(currentPlayer::setCurrentPosition);
-            discarded = currentPlayer.getPowerups().remove(spawn);
-            //set phase wait to current player and send update
-            currentPlayer.setPhase(Phase.WAIT);
-            currentPlayer.getUser().receiveUpdate(new Update(player, true));
-            //go to next player and set phase
-            this.game.getPlayers().iterator().next();
-            this.currentPlayer = this.game.getPlayers().iterator().next();
-            System.out.println("CURRENT PLAYER" + currentPlayer);
-            if(currentPlayer == game.getPlayers().get(0)) currentPlayer.setPhase(Phase.FIRST);
-            else currentPlayer.setPhase(Phase.SPAWN);
-            //send updates
-            game.sendUpdate(new Update(player.getName()+ " discarded "+ discarded.toString()+"\n"
-                    + player.getName() + " spawn is set in " + player.getCurrentPosition().toString()));
-            currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
-        } else player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString()));
-    }
-
-    public Update getSpawn(Player player) {
-        player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        System.out.println(player.getPowerups().toString());
-        return new Update("Choose spawn point from: " + player.getPowerups().toString());
-    }
 }
