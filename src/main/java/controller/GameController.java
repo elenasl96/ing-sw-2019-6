@@ -4,16 +4,14 @@ import exception.InvalidMoveException;
 import exception.InvalidMovementException;
 import model.Game;
 import model.Player;
-import model.decks.Powerup;
-import model.enums.Color;
 import model.enums.Phase;
+import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
 import model.room.Command;
 import model.room.Update;
 
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class GameController implements MoveRequestHandler{
     /**
@@ -150,13 +148,19 @@ public class GameController implements MoveRequestHandler{
         Dovremmo presentare all'utente le carte numerate
         Magari creare una classe card astratta per poter creare un metodo chooseCard da inserire in più fasi */
 
-        if(command.getSender().getName().equals(this.currentPlayer.getName()) &&
-                this.currentPlayer.getPhase().equalsTo(Phase.SPAWN) &&
-                command.getSender().getPowerups().stream().filter( p -> p.getAmmo().getColor().getName().equals(command.getContent())).count()>0){
-            command.getSender().setCurrentPosition(this.game.getBoard().getField().getSpawnSquares().stream().filter( ss -> ss.getColor().getName().equals(command.getContent())).findFirst().get());
-            command.getSender().setPhase(Phase.FIRST);
-            return new Update(command.getSender(), true,"You spawn is set in " + command.getSender().getCurrentPosition().toString());
+        Player sender = command.getSender();
+
+        if(sender.equals(currentPlayer) &&
+                currentPlayer.getPhase().equals(Phase.SPAWN) && //Prima era "equalsTo" e non ho capito la differenza
+                sender.getPowerups().stream().anyMatch(p -> p.getAmmo().getColor().getName().equals(command.getContent()))){
+
+            Optional<SpawnSquare> optional = this.game.getBoard().getField().getSpawnSquares().stream()
+                    .filter(ss -> ss.getColor().getName().equals(command.getContent()))
+                    .findFirst();
+            optional.ifPresent(sender::setCurrentPosition);
+            sender.setPhase(Phase.FIRST);
+            return new Update(sender, true,"You spawn is set in " + sender.getCurrentPosition().toString());
         }
-    return new Update(command.getSender(), false, "not working spawn:" + command.getSender().toString()+ "," + this.currentPlayer.toString());
+    return new Update(sender, false, "not working spawn:" + sender.toString()+ "," + this.currentPlayer.toString());
     }
 }
