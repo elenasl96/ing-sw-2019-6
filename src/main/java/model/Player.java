@@ -220,8 +220,9 @@ public class Player implements Serializable{
     public String powerupsToString(List<Powerup> powerups){
         StringBuilder string = new StringBuilder();
         int nCard = 0;
+        string.append("\n========Powerups=========");
         for(Powerup p : powerups){
-            string.append("\nNumber: " + nCard +"\n").append(p).append("=====================");
+            string.append("\nNumber: " + nCard +"\n").append(p);
             nCard++;
         }
         return string.toString();

@@ -45,7 +45,7 @@ public class GameController implements MoveRequestHandler{
         StringBuilder content = new StringBuilder();
         switch (player.getPhase()){
             case FIRST: case SECOND:
-                content.append("These are the moves you can choose\n");
+                content.append("\nThese are the moves you can choose\n");
                 if(!this.game.isFinalFrenzy()){
                     content.append("run\n" +
                             "grab\n" +
@@ -61,7 +61,7 @@ public class GameController implements MoveRequestHandler{
                     }
                 }
                 if(!player.getPowerups().isEmpty()){
-                    content.append("\nPowerups:\n").append(player.getPowerups());
+                    content.append(player.powerupsToString(player.getPowerups()));
                 }
                 break;
             case RELOAD:
@@ -92,8 +92,11 @@ public class GameController implements MoveRequestHandler{
             if(currentPlayer.equals(game.getPlayers().get(0))) currentPlayer.setPhase(Phase.FIRST);
             else currentPlayer.setPhase(Phase.SPAWN);
             //send updates
-            game.sendUpdate(new Update(player.getName()+ " discarded "+ discarded.toString()+"\n"
-                    + player.getName() + " spawn is set in " + player.getCurrentPosition().toString()));
+            game.sendUpdate(new Update(
+                    "\nPlayer " + player.getName()+ " discarded:\n" +
+                        "==========Powerup========\n"
+                        + discarded.toString()
+                        +"\nPlayer " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
             currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
         } else player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString()));
     }
