@@ -74,7 +74,6 @@ public class PowerupDeck {
             discard = new ArrayList<>();
             shuffleDeck();
         }
-
         return powerupCard;
     }
 

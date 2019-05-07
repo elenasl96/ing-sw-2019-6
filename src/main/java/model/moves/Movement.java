@@ -34,6 +34,11 @@ public class Movement implements Move{
      */
     private int maxSteps;
     private int maxStepsFrenzy;
+
+    public Movement(int maxSteps){
+        this.maxSteps = maxSteps;
+    }
+
     /**
      * Implement the movement
      * @param p the player who wants to move
