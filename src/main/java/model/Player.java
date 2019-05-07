@@ -11,6 +11,7 @@ import model.moves.Move;
 import model.room.User;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -214,6 +215,16 @@ public class Player implements Serializable{
                 ammos.add(a.clone());
             }
         }
+    }
+
+    public String powerupsToString(List<Powerup> powerups){
+        StringBuilder string = new StringBuilder();
+        int nCard = 0;
+        for(Powerup p : powerups){
+            string.append("\nNumber: " + nCard +"\n").append(p).append("=====================");
+            nCard++;
+        }
+        return string.toString();
     }
 
     //Costruttore per i test

@@ -102,7 +102,7 @@ public class GameController implements MoveRequestHandler{
         player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
         player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
         System.out.println(player.getPowerups().toString());
-        return new Update("Choose spawn point from: " + player.getPowerups().toString());
+        return new Update("Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
     }
 
     // Moves handling
