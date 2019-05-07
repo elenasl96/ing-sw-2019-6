@@ -4,12 +4,14 @@ import exception.InvalidMoveException;
 import exception.InvalidMovementException;
 import model.Game;
 import model.Player;
+import model.decks.Powerup;
 import model.enums.Phase;
 import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
 import model.room.Command;
 import model.room.Update;
+import network.socket.commands.response.GameUpdateNotification;
 
 import java.util.Optional;
 
@@ -112,11 +114,6 @@ public class GameController implements MoveRequestHandler{
     public Update possibleMoves(Player player) {
         StringBuilder content = new StringBuilder("");
         switch (player.getPhase()){
-            case SPAWN:
-                player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-                player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-                content.append("Choose spawn from:\n" + player.getPowerups().get(0).toString() + "==\n" + player.getPowerups().get(1).toString() );
-                break;
             case FIRST: case SECOND:
                 content.append("These are the moves you can choose\n");
                 if(!this.game.isFinalFrenzy()){
@@ -143,24 +140,28 @@ public class GameController implements MoveRequestHandler{
         return new Update(content.toString());
     }
 
-    public Update setSpawn(Command command) {
-        /*TODO Lo spawn dovrebbe essere gestito in modo diverso poichè non si sa che carta scartare
-        Dovremmo presentare all'utente le carte numerate
-        Magari creare una classe card astratta per poter creare un metodo chooseCard da inserire in più fasi */
-
-        Player sender = command.getSender();
-
-        if(sender.equals(currentPlayer) &&
-                currentPlayer.getPhase().equals(Phase.SPAWN) && //Prima era "equalsTo" e non ho capito la differenza
-                sender.getPowerups().stream().anyMatch(p -> p.getAmmo().getColor().getName().equals(command.getContent()))){
-
+    public Update setSpawn(Player player, int spawn) {
+        Powerup discarded;
+        if(player.equals(currentPlayer) &&
+                currentPlayer.getPhase().equals(Phase.SPAWN) &&
+                player.getPowerups().get(spawn)!=null){
             Optional<SpawnSquare> optional = this.game.getBoard().getField().getSpawnSquares().stream()
-                    .filter(ss -> ss.getColor().getName().equals(command.getContent()))
+                    .filter(ss -> ss.getColor().equals(player.getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
-            optional.ifPresent(sender::setCurrentPosition);
-            sender.setPhase(Phase.FIRST);
-            return new Update(sender, true,"You spawn is set in " + sender.getCurrentPosition().toString());
+            optional.ifPresent(player::setCurrentPosition);
+            discarded = player.getPowerups().remove(spawn);
+            player.setPhase(Phase.WAIT);
+            game.sendUpdate(new Update(player.getName()+ " discarded "+ discarded.toString()+"\n"
+                    + player.getName() + " spawn is set in " + player.getCurrentPosition().toString()));
+            return null;
         }
-    return new Update(sender, false, "not working spawn:" + sender.toString()+ "," + this.currentPlayer.toString());
+    return new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString());
+    }
+
+    public Update getSpawn(Player player) {
+        player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+        player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+        System.out.println(player.getPowerups().toString());
+        return new Update("Choose spawn point from: " + player.getPowerups().toString());
     }
 }

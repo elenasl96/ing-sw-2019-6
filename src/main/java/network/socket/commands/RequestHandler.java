@@ -25,4 +25,6 @@ public interface RequestHandler {
     Response handle(MovementRequest movementRequest);
 
     Response handle(MoveRequest moveRequest);
+
+    Response handle(SpawnRequest spawnRequest);
 }

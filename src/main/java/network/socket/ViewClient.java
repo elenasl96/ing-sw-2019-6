@@ -101,14 +101,25 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         //blocked until the game can start
     }
 
+    void spawnPhase(){
+        Integer spawnNumber = null;
+        controller.chooseSpawn(spawnNumber);
+        while(ClientContext.get().getCurrentPlayer().getCurrentPosition() == null){
+            try{
+                spawnNumber = Integer.parseInt(userInput());
+            }catch (NumberFormatException e){
+                displayText("Please insert a number");
+            }
+            controller.chooseSpawn(spawnNumber);
+        }
+    }
+
     void gamingPhase(){
-        //TODO creare una SpawnPhase dedicata al solo spawn
         displayText("gamingPhase");
         controller.askPossibleMoves();
         String command = userInput();
         controller.sendCommand(command);
     }
-
 
 
     void waitingPhase(){

@@ -48,4 +48,12 @@ class GameControllerTest {
                 game.getBoard().getField().getSquares().get(0));
         assertDoesNotThrow(() -> gameController.handle(run) );
     }
+
+    @Test
+    void spawnTest(){
+        assertTrue(users.get(0).getPlayer().getPowerups().isEmpty());
+        users.get(0).getPlayer().getPowerups().add(this.game.getBoard().getPowerupsLeft().pickCard());
+        assertFalse(users.get(0).getPlayer().getPowerups().isEmpty());
+        System.out.println(users.get(0).getPlayer().getPowerups().toString());
+    }
 }

@@ -1,6 +1,7 @@
 package network.socket;
 
 import model.Player;
+import model.decks.Powerup;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
@@ -16,8 +17,9 @@ import model.room.Message;
 import model.room.User;
 import network.socket.launch.Client;
 
-import static model.enums.Phase.SPAWN;
-import static model.enums.Phase.fromInteger;
+import java.util.List;
+
+import static model.enums.Phase.*;
 
 /**
  * CLIENT-SIDE controller
@@ -110,6 +112,10 @@ public class ClientController implements ResponseHandler {
         receiver.start();
     }
 
+    void chooseSpawn(Integer spawn) {
+        client.request(new SpawnRequest(ClientContext.get().getCurrentPlayer(), spawn));
+    }
+
     void sendCommand(String content){
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
@@ -151,16 +157,23 @@ public class ClientController implements ResponseHandler {
         while(gameNotDone) {
             view.setWait(true);
             view.waitingPhase();
-            if(ClientContext.get().getCurrentPlayer().getPhase() == Phase.SPAWN) view.gamingPhase();
-            for(int i=0;
-                i<=1 &&
-                    ClientContext.get().getCurrentPlayer().getPhase() == Phase.FIRST ||
-                    ClientContext.get().getCurrentPlayer().getPhase() == Phase.SECOND;
-                i++) {
-                view.gamingPhase();
+            while(ClientContext.get().getCurrentPlayer().getPhase()!=WAIT){
+                switch(ClientContext.get().getCurrentPlayer().getPhase()){
+                    case SPAWN:
+                        view.spawnPhase();
+                        break;
+                    case FIRST:
+                        for(int i=0; i<=1; i++) {
+                            view.gamingPhase();
+                        }
+                        break;
+                    case RELOAD:
+                        view.reloadPhase();
+                        break;
+                    default:
+                        break;
+                }
             }
-            if(ClientContext.get().getCurrentPlayer().getPhase() == Phase.RELOAD) view.reloadPhase();
-
         }
     }
     // -------------------------- Response handling
@@ -199,6 +212,5 @@ public class ClientController implements ResponseHandler {
             view.setWait(false);
         }
     }
-
 
 }
