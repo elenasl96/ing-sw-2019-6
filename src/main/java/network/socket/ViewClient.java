@@ -2,6 +2,7 @@ package network.socket;
 
 
 import exception.NotExistingFieldException;
+import model.enums.Phase;
 import model.field.Coordinate;
 import model.room.*;
 import model.enums.Character;
@@ -9,6 +10,8 @@ import network.exceptions.InvalidGroupNumberException;
 
 import javax.naming.Context;
 import java.util.Scanner;
+
+import static model.enums.Phase.WAIT;
 
 public class ViewClient implements MessageReceivedObserver, GroupChangeListener, GameUpdateObserver {
     private Scanner fromKeyBoard;
@@ -102,20 +105,44 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         //blocked until the game can start
     }
 
-    void spawnPhase(){
+    void gamingPhase(){
+        while(!ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
+            switch(ClientContext.get().getCurrentPlayer().getPhase()){
+                case SPAWN:
+                    spawnPhase();
+                    break;
+                case FIRST: case SECOND:
+                    movePhase();
+                    break;
+                case RELOAD:
+                    reloadPhase();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    synchronized void spawnPhase(){
         Integer spawnNumber = null;
         controller.chooseSpawn(spawnNumber);
-        while(!wait){
+        while(!ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT)){
             try{
                 spawnNumber = Integer.parseInt(userInput());
             }catch (NumberFormatException e){
                 displayText("Please insert a number");
             }
             controller.chooseSpawn(spawnNumber);
+            try {
+                wait(10);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
+            }
         }
     }
 
-    void gamingPhase(){
+    void movePhase(){
         displayText("gamingPhase");
         controller.askPossibleMoves();
         String command = userInput();
