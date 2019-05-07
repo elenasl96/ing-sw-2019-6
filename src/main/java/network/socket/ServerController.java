@@ -199,6 +199,11 @@ public class ServerController implements RequestHandler {
     }
 
     @Override
+    public Response handle(CardRequest cardRequest) {
+        return null;
+    }
+
+    @Override
     public Response handle(MovementRequest movementRequest) {
         return null;
     }

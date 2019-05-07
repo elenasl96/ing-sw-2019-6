@@ -1,12 +1,11 @@
 package network.socket;
 
-import model.Player;
-import model.decks.Powerup;
+import model.decks.Weapon;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
+import model.moves.MoveAndGrab;
 import model.moves.Run;
-import model.room.Command;
 import network.socket.commands.Request;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
@@ -16,8 +15,6 @@ import model.room.Group;
 import model.room.Message;
 import model.room.User;
 import network.socket.launch.Client;
-
-import java.util.List;
 
 import static model.enums.Phase.*;
 
@@ -118,9 +115,6 @@ public class ClientController implements ResponseHandler {
     void sendCommand(String content){
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
-            case "yellow": case "blue": case "red":
-                client.request(new SendCommandRequest(new Command(ClientContext.get().getCurrentPlayer(), content)));
-                break;
             case "run":
                 Coordinate coordinate = view.getCoordinate();
                 moveRequest.addMove(new Run(coordinate));
@@ -128,9 +122,14 @@ public class ClientController implements ResponseHandler {
                 client.nextResponse().handle(this);
                 break;
             case "grab":
-
+                coordinate = view.getCoordinate();
+                moveRequest.addMove(new MoveAndGrab(coordinate));
+                client.request(moveRequest);
+                client.nextResponse().handle(this);
+                break;
             case "shoot":
-
+                client.request(new CardRequest("weapon"));
+                break;
             case "powerup":
 
             default:
@@ -156,21 +155,7 @@ public class ClientController implements ResponseHandler {
         while(gameNotDone) {
             view.setWait(true);
             view.waitingPhase();
-            while(ClientContext.get().getCurrentPlayer().getPhase()!=WAIT){
-                switch(ClientContext.get().getCurrentPlayer().getPhase()){
-                    case SPAWN:
-                        view.spawnPhase();
-                        break;
-                    case FIRST: case SECOND:
-                        view.gamingPhase();
-                        break;
-                    case RELOAD:
-                        view.reloadPhase();
-                        break;
-                    default:
-                        break;
-                }
-            }
+            view.gamingPhase();
         }
     }
     // -------------------------- Response handling
@@ -208,6 +193,8 @@ public class ClientController implements ResponseHandler {
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
         if(ClientContext.get().getCurrentPlayer().getPhase()!=Phase.WAIT){
             view.setWait(false);
+        }else{
+            view.setWait(true);
         }
     }
 

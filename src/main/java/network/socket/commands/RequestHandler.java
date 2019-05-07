@@ -27,4 +27,6 @@ public interface RequestHandler {
     Response handle(MoveRequest moveRequest);
 
     Response handle(SpawnRequest spawnRequest);
+
+    Response handle(CardRequest cardRequest);
 }
