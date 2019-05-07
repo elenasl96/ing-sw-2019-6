@@ -14,7 +14,7 @@ public class Game implements Serializable {
     private int numberPlayers;
     private Board board;
 
-    private List<Player> players = new ArrayList<>();
+    private PlayerList players = new PlayerList();
     private Player currentPlayer;
     private transient List<GameUpdateObserver> observers = new LinkedList<>();
     private transient int turn;
@@ -79,7 +79,7 @@ public class Game implements Serializable {
         this.board = board;
     }
 
-    public List<Player> getPlayers() {
+    public PlayerList getPlayers() {
         return players;
     }
 
@@ -91,7 +91,7 @@ public class Game implements Serializable {
         this.turn = phase;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(PlayerList players) {
         this.players = players;
     }
 
