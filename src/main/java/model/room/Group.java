@@ -19,12 +19,12 @@ public class Group implements Serializable {
     private int groupID;
     private String groupName;
 
-    List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
     private transient List<GroupChangeListener> listeners = new LinkedList<>();
     private boolean full = false;
-    int fieldNumber;
-    int skullNumber;
-    transient GameController gameController;
+    private int fieldNumber;
+    private int skullNumber;
+    private transient GameController gameController;
 
     //Game variables
     private transient Game game;
