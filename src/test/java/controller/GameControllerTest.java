@@ -34,7 +34,7 @@ class GameControllerTest {
     @Test
     void constructorTest(){
         assertEquals(users.get(0), gameController.currentPlayer.getUser());
-        assertEquals(Phase.FIRST, gameController.currentPlayer.getPhase());
+        assertEquals(Phase.SPAWN, gameController.currentPlayer.getPhase());
     }
 
     @Test
