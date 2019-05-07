@@ -190,13 +190,11 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SpawnRequest spawnRequest) {
-        Update update;
         if(spawnRequest.getSpawn()==null) {
             return new GameUpdateNotification(this.currentGroup.getGameController().getSpawn(this.user.getPlayer()));
         }else {
-            update = this.currentGroup.getGameController().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn());
-            if (update != null) return new GameUpdateNotification(update);
-            else return null;
+            this.currentGroup.getGameController().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn());
+            return null;
         }
     }
 

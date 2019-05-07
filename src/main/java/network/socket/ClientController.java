@@ -99,7 +99,6 @@ public class ClientController implements ResponseHandler {
                         if (response != null) {
                             try{
                                 MoveUpdateResponse moveResponse = (MoveUpdateResponse) response;
-                                System.out.println(moveResponse.getPlayer().getPhase());
                             } catch (ClassCastException e){
                                 //niente
                             }
@@ -162,10 +161,8 @@ public class ClientController implements ResponseHandler {
                     case SPAWN:
                         view.spawnPhase();
                         break;
-                    case FIRST:
-                        for(int i=0; i<=1; i++) {
-                            view.gamingPhase();
-                        }
+                    case FIRST: case SECOND:
+                        view.gamingPhase();
                         break;
                     case RELOAD:
                         view.reloadPhase();
@@ -206,6 +203,7 @@ public class ClientController implements ResponseHandler {
 
     @Override
     public void handle(MoveUpdateResponse moveUpdateResponse) {
+        view.displayText("moveupdateplayer"+ moveUpdateResponse.getPlayer());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
         if(ClientContext.get().getCurrentPlayer().getPhase()!=Phase.WAIT){

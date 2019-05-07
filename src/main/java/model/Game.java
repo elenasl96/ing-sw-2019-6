@@ -5,6 +5,7 @@ import model.room.Update;
 import model.room.User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Game implements Serializable {
     private int numberPlayers;
     private Board board;
 
-    private List<Player> players = new LinkedList<>();
+    private List<Player> players = new ArrayList<>();
     private Player currentPlayer;
     private transient List<GameUpdateObserver> observers = new LinkedList<>();
     private transient int turn;

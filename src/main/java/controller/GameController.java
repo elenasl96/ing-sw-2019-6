@@ -9,9 +9,7 @@ import model.enums.Phase;
 import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
-import model.room.Command;
 import model.room.Update;
-import network.socket.commands.response.GameUpdateNotification;
 
 import java.util.Optional;
 
@@ -60,8 +58,7 @@ public class GameController implements MoveRequestHandler{
     }
 
     public boolean isMyTurn (Player player){
-        if(player == currentPlayer) return true;
-        else return false;
+        return player.equals(currentPlayer);
     }
 
     // Moves handling
@@ -103,16 +100,16 @@ public class GameController implements MoveRequestHandler{
 
     @Override
     public void handle(Damage damage) throws InvalidMoveException{
-
+        //TODO
     }
 
     @Override
     public void handle(Grab grab) throws InvalidMoveException{
-
+        //TODO
     }
 
     public Update possibleMoves(Player player) {
-        StringBuilder content = new StringBuilder("");
+        StringBuilder content = new StringBuilder();
         switch (player.getPhase()){
             case FIRST: case SECOND:
                 content.append("These are the moves you can choose\n");
@@ -131,8 +128,11 @@ public class GameController implements MoveRequestHandler{
                     }
                 }
                 if(!player.getPowerups().isEmpty()){
-                    content.append("\npowerup");
+                    content.append("\nPowerups:\n").append(player.getPowerups());
                 }
+                break;
+            case RELOAD:
+                content.append("You can reload:\n").append(player.getWeapons());
                 break;
             default:
                 break;
@@ -140,22 +140,30 @@ public class GameController implements MoveRequestHandler{
         return new Update(content.toString());
     }
 
-    public Update setSpawn(Player player, int spawn) {
+    public void setSpawn(Player player, int spawn) {
         Powerup discarded;
-        if(player.equals(currentPlayer) &&
+        if(isMyTurn(player) &&
                 currentPlayer.getPhase().equals(Phase.SPAWN) &&
                 player.getPowerups().get(spawn)!=null){
             Optional<SpawnSquare> optional = this.game.getBoard().getField().getSpawnSquares().stream()
-                    .filter(ss -> ss.getColor().equals(player.getPowerups().get(spawn).getAmmo().getColor()))
+                    .filter(ss -> ss.getColor().equals(currentPlayer.getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
-            optional.ifPresent(player::setCurrentPosition);
-            discarded = player.getPowerups().remove(spawn);
-            player.setPhase(Phase.WAIT);
+            optional.ifPresent(currentPlayer::setCurrentPosition);
+            discarded = currentPlayer.getPowerups().remove(spawn);
+            //set phase wait to current player and send update
+            currentPlayer.setPhase(Phase.WAIT);
+            currentPlayer.getUser().receiveUpdate(new Update(player, true));
+            //go to next player and set phase
+            this.game.getPlayers().iterator().next();
+            this.currentPlayer = this.game.getPlayers().iterator().next();
+            System.out.println("CURRENT PLAYER" + currentPlayer);
+            if(currentPlayer == game.getPlayers().get(0)) currentPlayer.setPhase(Phase.FIRST);
+            else currentPlayer.setPhase(Phase.SPAWN);
+            //send updates
             game.sendUpdate(new Update(player.getName()+ " discarded "+ discarded.toString()+"\n"
                     + player.getName() + " spawn is set in " + player.getCurrentPosition().toString()));
-            return null;
-        }
-    return new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString());
+            currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
+        } else player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString()));
     }
 
     public Update getSpawn(Player player) {

@@ -7,6 +7,7 @@ import model.room.*;
 import model.enums.Character;
 import network.exceptions.InvalidGroupNumberException;
 
+import javax.naming.Context;
 import java.util.Scanner;
 
 public class ViewClient implements MessageReceivedObserver, GroupChangeListener, GameUpdateObserver {
@@ -104,7 +105,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     void spawnPhase(){
         Integer spawnNumber = null;
         controller.chooseSpawn(spawnNumber);
-        while(ClientContext.get().getCurrentPlayer().getCurrentPosition() == null){
+        while(!wait){
             try{
                 spawnNumber = Integer.parseInt(userInput());
             }catch (NumberFormatException e){
@@ -201,7 +202,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
 
     @Override
     public void onUpdate(Update update) {
-        displayText(update.toString());
+        displayText("Update:" + update.toString());
     }
 
     @Override

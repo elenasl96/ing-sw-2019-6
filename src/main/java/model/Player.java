@@ -60,6 +60,7 @@ public class Player implements Serializable{
     public User getUser(){
         return this.user;
     }
+
     public boolean equals(Object obj) {
         if(obj == null) return false;
         if (obj == this) {
