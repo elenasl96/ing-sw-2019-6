@@ -1,6 +1,7 @@
 package network.socket;
 
 import model.Game;
+import model.Player;
 import model.room.Group;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
@@ -140,6 +141,15 @@ class ServerControllerTest {
         assertEquals("PG1", serverController1.user.getCharacter().name());
         assertEquals("PG2", serverController2.user.getCharacter().name());
         assertEquals("PG3", serverController3.user.getCharacter().name());
+    }
+
+    @Test
+    void handleRequests(){
+        SituationViewerRequest situationViewerRequest = new SituationViewerRequest();
+        situationViewerRequest.handle(serverController1);
+
+        CreateUserRequest createUserRequest = new CreateUserRequest("2");
+        createUserRequest.handle(serverController1);
     }
 
 }
