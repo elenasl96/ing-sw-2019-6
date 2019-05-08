@@ -14,12 +14,6 @@ public class WeaponDeck {
     private List<Weapon> weapons = new ArrayList<>();
 
     public WeaponDeck() {
-        List<Move> temp = new ArrayList<>();
-        List<Ammo> temp2 = new ArrayList<>();
-        List<Move> temp3 = new ArrayList<>();
-        List<Ammo> temp4 = new ArrayList<>();
-        List<Move> temp5 = new ArrayList<>();
-        List<Ammo> temp6 = new ArrayList<>();
 
         //Lock rifle
         this.weapons.add(new Weapon("Lock rifle",
@@ -41,12 +35,12 @@ public class WeaponDeck {
                         "on your square.\n" +
                         "in reaper mode: Deal 2 damage to every other player\n" +
                         "on your square", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage());
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
+        this.weapons.get(1).getBasicEffect().add(new Damage());
+        this.weapons.get(1).getAmmoBasic().add(new Ammo(Color.BLUE));
 
-        this.weapons.get(0).getAlternateFireEffect().add(new Damage()); //2
-        this.weapons.get(0).getAmmoAlternateFire().add(new Ammo(Color.BLUE));
-        this.weapons.get(0).getAmmoAlternateFire().add(new Ammo(Color.RED));
+        this.weapons.get(1).getAlternateFireEffect().add(new Damage()); //2
+        this.weapons.get(1).getAmmoAlternateFire().add(new Ammo(Color.BLUE));
+        this.weapons.get(1).getAmmoAlternateFire().add(new Ammo(Color.RED));
         //Valid for EVERY OTHER PLAYER ON YOUR SQUARE
 
         //Machine Gun
@@ -63,15 +57,15 @@ public class WeaponDeck {
                         "2 targets, you deal 2 to each if you use both optional\n" +
                         "effects. If you use the basic effect on only 1 target, you can\n" +
                         "still use the the turret tripod to give it 1 additional damage", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //to 1 o 2 targets you can see
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(2).getBasicEffect().add(new Damage()); //to 1 o 2 targets you can see
+        this.weapons.get(2).getAmmoBasic().add(new Ammo(Color.BLUE));
+        this.weapons.get(2).getAmmoBasic().add(new Ammo(Color.RED));
 
-        this.weapons.get(0).getOptionalEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.YELLOW));
+        this.weapons.get(2).getOptionalEffect().add(new Damage());
+        this.weapons.get(2).getAmmoOptional().add(new Ammo(Color.YELLOW));
 
-        this.weapons.get(0).getOptionalEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.BLUE));
+        this.weapons.get(2).getOptionalEffect().add(new Damage());
+        this.weapons.get(2).getAmmoOptional().add(new Ammo(Color.BLUE));
 
         //Tractor Beam
         this.weapons.add(new Weapon("TRACTOR BEAM",
@@ -84,12 +78,12 @@ public class WeaponDeck {
                         "The target ends up in a place where you can see and\n" +
                         "damage it. The moves do not have to be in the same\n" +
                         "direction.", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Movement(2));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //to 1 o 2 targets you can see
+        this.weapons.get(3).getBasicEffect().add(new Movement(2));
+        this.weapons.get(3).getBasicEffect().add(new Damage()); //to 1 o 2 targets you can see
 
-        this.weapons.get(0).getAlternateFireEffect().add(new Damage());
-        this.weapons.get(0).getAmmoAlternateFire().add(new Ammo(Color.RED));
-        this.weapons.get(0).getAmmoAlternateFire().add(new Ammo(Color.YELLOW));
+        this.weapons.get(3).getAlternateFireEffect().add(new Damage());
+        this.weapons.get(3).getAmmoAlternateFire().add(new Ammo(Color.RED));
+        this.weapons.get(3).getAmmoAlternateFire().add(new Ammo(Color.YELLOW));
 
         //T.H.O.R.
         this.weapons.add(new Weapon("T.H.O.R.",
@@ -102,15 +96,15 @@ public class WeaponDeck {
                         "Notes: This card constrains the order in which you can use\n" +
                         "its effects. (Most cards don't.) Also note that each target\n" +
                         "must be a different player", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //2
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(4).getBasicEffect().add(new Damage()); //2
+        this.weapons.get(4).getAmmoBasic().add(new Ammo(Color.BLUE));
+        this.weapons.get(4).getAmmoBasic().add(new Ammo(Color.RED));
 
-        this.weapons.get(0).getOptionalEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.BLUE));
+        this.weapons.get(4).getOptionalEffect().add(new Damage());
+        this.weapons.get(4).getAmmoOptional().add(new Ammo(Color.BLUE));
 
-        this.weapons.get(0).getOptionalEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.BLUE));
+        this.weapons.get(4).getOptionalEffect().add(new Damage());
+        this.weapons.get(4).getAmmoOptional().add(new Ammo(Color.BLUE));
 
         //Plasma Gun
         this.weapons.add(new Weapon("Plasma Gun",
@@ -124,14 +118,14 @@ public class WeaponDeck {
                         "For example, you can move 2 squares and shoot a target\n" +
                         "you now see. You cannot use 1 move before shooting and\n" +
                         "1 move after", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //2
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.YELLOW));
+        this.weapons.get(5).getBasicEffect().add(new Damage()); //2
+        this.weapons.get(5).getAmmoBasic().add(new Ammo(Color.BLUE));
+        this.weapons.get(5).getAmmoBasic().add(new Ammo(Color.YELLOW));
 
-        this.weapons.get(0).getOptionalEffect().add(new Movement(2));
+        this.weapons.get(5).getOptionalEffect().add(new Movement(2));
 
-        this.weapons.get(0).getOptionalEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.BLUE));
+        this.weapons.get(5).getOptionalEffect().add(new Damage());
+        this.weapons.get(5).getAmmoOptional().add(new Ammo(Color.BLUE));
 
         //Whisper
         this.weapons.add(new Weapon("Whisper",
@@ -142,11 +136,11 @@ public class WeaponDeck {
                         "on the diagonal. If you are beside a door, you can't shoot\n" +
                         "a target on the other side of the door, but you can shoot\n" +
                         "a target on a different square of that room.", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //3
-        this.weapons.get(0).getBasicEffect().add(new Mark());
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.YELLOW));
+        this.weapons.get(6).getBasicEffect().add(new Damage()); //3
+        this.weapons.get(6).getBasicEffect().add(new Mark());
+        this.weapons.get(6).getAmmoBasic().add(new Ammo(Color.BLUE));
+        this.weapons.get(6).getAmmoBasic().add(new Ammo(Color.BLUE));
+        this.weapons.get(6).getAmmoBasic().add(new Ammo(Color.YELLOW));
 
         //Vortex cannon
         this.weapons.add(new Weapon("Vortex cannon",
@@ -161,14 +155,14 @@ public class WeaponDeck {
                         "start on the same square. It is legal to choose targets on\n" +
                         "your square, on the vortex, or even on squares you can't\n" +
                         "see. They all end up on the vortex", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Movement(5));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //2
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
+        this.weapons.get(7).getBasicEffect().add(new Movement(5));
+        this.weapons.get(7).getBasicEffect().add(new Damage()); //2
+        this.weapons.get(7).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(7).getAmmoBasic().add(new Ammo(Color.BLUE));
 
-        this.weapons.get(0).getBasicEffect().add(new Movement(1));
-        this.weapons.get(0).getOptionalEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.BLUE));
+        this.weapons.get(7).getBasicEffect().add(new Movement(1));
+        this.weapons.get(7).getOptionalEffect().add(new Damage());
+        this.weapons.get(7).getAmmoOptional().add(new Ammo(Color.BLUE));
 
         //Furnace
         this.weapons.add(new Weapon("Furnace",
@@ -177,22 +171,22 @@ public class WeaponDeck {
                         "in cozy fire mode: Choose a square exactly one move\n" +
                         "away. Deal 1 damage and 1 mark to everyone on that\n" +
                         "square.", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //to all room different from yours
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
+        this.weapons.get(8).getBasicEffect().add(new Damage()); //to all room different from yours
+        this.weapons.get(8).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(8).getAmmoBasic().add(new Ammo(Color.BLUE));
 
-        this.weapons.get(0).getAlternateFireEffect().add(new Damage());
-        this.weapons.get(0).getAlternateFireEffect().add(new Mark());
+        this.weapons.get(8).getAlternateFireEffect().add(new Damage());
+        this.weapons.get(8).getAlternateFireEffect().add(new Mark());
 
         //Heatseeker
         this.weapons.add(new Weapon("Heatseeker",
                 "effect: Choose 1 target you cannot see and deal 3 damage\n" +
                         "to it.\n" +
                         "Notes: Yes, this can only hit targets you cannot see", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //3 to targets you cannot see
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.YELLOW));
+        this.weapons.get(9).getBasicEffect().add(new Damage()); //3 to targets you cannot see
+        this.weapons.get(9).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(9).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(9).getAmmoBasic().add(new Ammo(Color.YELLOW));
 
         //Hellion
         this.weapons.add(new Weapon("Hellion",
@@ -202,14 +196,14 @@ public class WeaponDeck {
                         "in nano-tracer mode: Deal 1 damage to 1 target you can\n" +
                         "see at least 1 move away. Then give 2 marks to that target\n" +
                         "and everyone else on that square", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //2
-        this.weapons.get(0).getBasicEffect().add(new Mark());
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.YELLOW));
+        this.weapons.get(10).getBasicEffect().add(new Damage()); //2
+        this.weapons.get(10).getBasicEffect().add(new Mark());
+        this.weapons.get(10).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(10).getAmmoBasic().add(new Ammo(Color.YELLOW));
 
-        this.weapons.get(0).getAlternateFireEffect().add(new Damage());
-        this.weapons.get(0).getAlternateFireEffect().add(new Mark());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.RED));
+        this.weapons.get(10).getAlternateFireEffect().add(new Damage());
+        this.weapons.get(10).getAlternateFireEffect().add(new Mark());
+        this.weapons.get(10).getAmmoOptional().add(new Ammo(Color.RED));
 
         //Flamethrowner
         this.weapons.add(new Weapon("Flamethrowner",
@@ -223,12 +217,12 @@ public class WeaponDeck {
                         "it can sometimes damage a target you can't see – the flame won't go\n" +
                         "through walls, but it will go through doors. Think of it as a straight-line\n" +
                         "blast of flame that can travel 2 squares in a cardinal direction", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //2
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(11).getBasicEffect().add(new Damage()); //2
+        this.weapons.get(11).getAmmoBasic().add(new Ammo(Color.RED));
 
-        this.weapons.get(0).getAlternateFireEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.RED));
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.YELLOW));
+        this.weapons.get(11).getAlternateFireEffect().add(new Damage());
+        this.weapons.get(11).getAmmoOptional().add(new Ammo(Color.RED));
+        this.weapons.get(11).getAmmoOptional().add(new Ammo(Color.YELLOW));
 
         //Grenade Launcher
         this.weapons.add(new Weapon("Grenade Launcher",
@@ -242,11 +236,11 @@ public class WeaponDeck {
                         "then move the main target. Or you can deal 1 to an isolated target and\n" +
                         "1 to everyone on a different square. If you target your own square,\n" +
                         "you will not be moved or damaged.", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage());
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(12).getBasicEffect().add(new Damage());
+        this.weapons.get(12).getAmmoBasic().add(new Ammo(Color.RED));
 
-        this.weapons.get(0).getOptionalEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.RED));
+        this.weapons.get(12).getOptionalEffect().add(new Damage());
+        this.weapons.get(12).getAmmoOptional().add(new Ammo(Color.RED));
 
         //Rocket Launcher
         this.weapons.add(new Weapon("Rocket Launcher",
@@ -262,14 +256,14 @@ public class WeaponDeck {
                         "even move off a square so you can shoot someone on it. If you use the\n" +
                         "fragmenting warhead, you deal damage to everyone on the target's\n" +
                         "square before you move the target – your target will take 3 damage total", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //2
-        this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.RED));
+        this.weapons.get(13).getBasicEffect().add(new Damage()); //2
+        this.weapons.get(13).getAmmoBasic().add(new Ammo(Color.RED));
 
-        this.weapons.get(0).getOptionalEffect().add(new Movement(2));
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.BLUE));
+        this.weapons.get(13).getOptionalEffect().add(new Movement(2));
+        this.weapons.get(13).getAmmoOptional().add(new Ammo(Color.BLUE));
 
-        this.weapons.get(0).getOptionalEffect().add(new Damage());
-        this.weapons.get(0).getAmmoOptional().add(new Ammo(Color.YELLOW));
+        this.weapons.get(13).getOptionalEffect().add(new Damage());
+        this.weapons.get(13).getAmmoOptional().add(new Ammo(Color.YELLOW));
     }
 
     public void shuffleDeck () {
