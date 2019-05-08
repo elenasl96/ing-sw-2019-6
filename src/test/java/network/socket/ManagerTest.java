@@ -4,6 +4,8 @@ import model.room.Group;
 import model.room.User;
 import model.room.UserManager;
 import network.exceptions.InvalidUsernameException;
+import network.exceptions.UserNotInGroupException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,5 +61,26 @@ class ManagerTest {
         User user = new User("4");
         group.join(user);
         group.leave(user);
+    }
+
+    @Test
+    void exceptionTest(){
+        Group group = Manager.get().createGroup(8,1);
+
+        group.join(new User("1"));
+        group.join(new User("2"));
+        group.join(new User("3"));
+
+        User user = new User("4");
+
+        assertThrows(UserNotInGroupException.class, () -> {
+            group.leave(user);
+        });
+
+        try{
+            group.leave(user);
+        } catch (UserNotInGroupException u){
+            Assertions.assertEquals("User not in group: 4 <> group1",u.getMessage());
+        }
     }
 }
