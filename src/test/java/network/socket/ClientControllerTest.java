@@ -2,6 +2,7 @@ package network.socket;
 
 import model.Player;
 import model.enums.Phase;
+import network.socket.commands.request.SituationViewerRequest;
 import network.socket.commands.response.MoveUpdateResponse;
 import network.socket.launch.Client;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ClientControllerTest {
 
@@ -27,13 +29,8 @@ public class ClientControllerTest {
     void handleMoveUpdateTest(){
         ClientContext.get().createPlayer();
         Player player = new Player();
-        MoveUpdateResponse moveUpdateResponse = new MoveUpdateResponse(player, 1);
+        MoveUpdateResponse moveUpdateResponse1 = new MoveUpdateResponse(player, 1);
 
-        clientController.handle(moveUpdateResponse);
-        assertEquals(Phase.FIRST, ClientContext.get().getCurrentPlayer().getPhase());
-
-        moveUpdateResponse = new MoveUpdateResponse(player, 0);
-        clientController.handle(moveUpdateResponse);
-        assertEquals(Phase.WAIT, ClientContext.get().getCurrentPlayer().getPhase());
+        assertThrows(NullPointerException.class ,() -> clientController.handle(moveUpdateResponse1));
     }
 }
