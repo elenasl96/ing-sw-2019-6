@@ -1,6 +1,5 @@
 package controller;
 
-import model.Player;
 import model.room.*;
 
 import java.util.Timer;
