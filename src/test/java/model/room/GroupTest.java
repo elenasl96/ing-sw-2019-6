@@ -4,6 +4,7 @@ import network.exceptions.UserNotInGroupException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GroupTest {
@@ -23,5 +24,11 @@ class GroupTest {
         assertThrows(UserNotInGroupException.class, () -> {
             group.leave(user3);
         });
+
+        try{
+            group.leave(user3);
+        } catch (UserNotInGroupException u){
+            assertEquals("User not in group: 3 <> group0",u.getMessage());
+        }
     }
 }
