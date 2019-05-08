@@ -1,5 +1,8 @@
 package network.socket;
 
+import model.room.Group;
+import model.room.User;
+import model.room.UserManager;
 import network.exceptions.InvalidUsernameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,5 +44,20 @@ class ManagerTest {
         assertFalse(Manager.get().getUsers().isEmpty());
         assertEquals("1",Manager.get().getUsers().iterator().next().getUsername());
         assertThrows(InvalidUsernameException.class, () -> Manager.get().createUser("1"));
+    }
+
+    @Test
+    void TimerControllerTest(){
+
+        Group group = Manager.get().createGroup(8,1);
+        assertEquals(new UserManager("Server1"),group.getServerUser());
+
+        group.join(new User("1"));
+        group.join(new User("2"));
+        group.join(new User("3"));
+
+        User user = new User("4");
+        group.join(user);
+        group.leave(user);
     }
 }
