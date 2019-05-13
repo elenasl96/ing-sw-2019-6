@@ -6,7 +6,7 @@ import network.socket.commands.ResponseHandler;
 
 public class MoveUpdateResponse implements Response {
     private Player player;
-    int phaseId;
+    private int phaseId;
 
     public MoveUpdateResponse(Player player){
         this.player = player;
