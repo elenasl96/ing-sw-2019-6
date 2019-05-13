@@ -10,9 +10,6 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
 import model.room.Update;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class GameController implements MoveRequestHandler{
