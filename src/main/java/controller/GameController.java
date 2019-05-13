@@ -25,11 +25,11 @@ public class GameController implements MoveRequestHandler{
         currentPlayer = game.getCurrentPlayer();
         //Setting the first player phase to FIRST move
         currentPlayer.setPhase(Phase.SPAWN);
+        System.out.println(">>> Sending Update to currentPlayer:" + currentPlayer.getUser().getUserID());
+        currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
         Update update = new Update("It's "+currentPlayer.getName()+"'s turn");
         System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
         game.sendUpdate(update);
-        System.out.println(">>> CurrentPlayer:" + currentPlayer.getUser().getUserID());
-        currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
     }
 
     public void setCurrentPlayer(Player player){
