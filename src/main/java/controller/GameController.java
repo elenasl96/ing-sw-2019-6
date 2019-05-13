@@ -10,7 +10,6 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
 import model.room.Update;
-
 import java.util.Optional;
 
 public class GameController implements MoveRequestHandler{
@@ -32,11 +31,7 @@ public class GameController implements MoveRequestHandler{
         game.sendUpdate(update);
     }
 
-    public void setCurrentPlayer(Player player){
-        this.currentPlayer = player;
-    }
-
-    public boolean isMyTurn (Player player){
+    private boolean isMyTurn (Player player){
         return player.equals(currentPlayer);
     }
 
