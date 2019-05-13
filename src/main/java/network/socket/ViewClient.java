@@ -105,24 +105,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         //blocked until the game can start
     }
 
-    void gamingPhase(){
-        while(!ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
-            switch(ClientContext.get().getCurrentPlayer().getPhase()){
-                case SPAWN:
-                    spawnPhase();
-                    break;
-                case FIRST: case SECOND:
-                    movePhase();
-                    break;
-                case RELOAD:
-                    reloadPhase();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     synchronized void spawnPhase(){
         Integer spawnNumber = null;
         controller.chooseSpawn(spawnNumber);
@@ -133,12 +115,14 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
                 displayText("Please insert a number");
             }
             controller.chooseSpawn(spawnNumber);
-            try {
+            /*try {
                 wait(10);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 e.printStackTrace();
             }
+            */
+
         }
     }
 

@@ -155,7 +155,25 @@ public class ClientController implements ResponseHandler {
         while(gameNotDone) {
             view.setWait(true);
             view.waitingPhase();
-            view.gamingPhase();
+            gamingPhase();
+        }
+    }
+
+    void gamingPhase(){
+        while(!ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
+            switch(ClientContext.get().getCurrentPlayer().getPhase()){
+                case SPAWN:
+                    view.spawnPhase();
+                    break;
+                case FIRST: case SECOND:
+                    view.movePhase();
+                    break;
+                case RELOAD:
+                    view.reloadPhase();
+                    break;
+                default:
+                    break;
+            }
         }
     }
     // -------------------------- Response handling
