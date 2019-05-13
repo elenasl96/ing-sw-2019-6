@@ -248,14 +248,26 @@ public class Player implements Serializable{
 
     @Override
     public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", character=" + character.name() +
-                ", phase=" + phase.toString() +
-                ", points=" + points +
-                ", firstPlayer=" + firstPlayer +
-                ", dead=" + dead +
-                '}';
+        try {
+            return "Player{" +
+                    "name='" + name + '\'' +
+                    ", id=" + id +
+                    ", character=" + character.name() +
+                    ", phase=" + phase.toString() +
+                    ", points=" + points +
+                    ", firstPlayer=" + firstPlayer +
+                    ", dead=" + dead +
+                    '}';
+        }catch (NullPointerException e){
+            return "Player{" +
+                    "name='" + name + '\'' +
+                    ", id=" + id +
+                    ", character=" + character.name() +
+                    ", phase= null" +
+                    ", points=" + points +
+                    ", firstPlayer=" + firstPlayer +
+                    ", dead=" + dead +
+                    '}';
+        }
     }
 }

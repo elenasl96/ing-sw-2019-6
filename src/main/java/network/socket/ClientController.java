@@ -144,7 +144,7 @@ public class ClientController implements ResponseHandler {
         view.chooseGroupPhase();
         view.chooseCharacterPhase();
         while(gameNotDone) {
-            view.setWait(true);
+            view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT));
             view.waitingPhase();
             gamingPhase();
         }
