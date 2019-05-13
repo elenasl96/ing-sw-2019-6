@@ -11,6 +11,8 @@ import model.field.Square;
 import model.moves.*;
 import model.room.Update;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class GameController implements MoveRequestHandler{
@@ -77,7 +79,9 @@ public class GameController implements MoveRequestHandler{
         Powerup discarded;
         if(isMyTurn(player) &&
                 currentPlayer.getPhase().equals(Phase.SPAWN) &&
-                player.getPowerups().get(spawn)!=null){
+                spawn >= 0 &&
+                spawn < player.getPowerups().size()
+        ){
             Optional<SpawnSquare> optional = this.game.getBoard().getField().getSpawnSquares().stream()
                     .filter(ss -> ss.getColor().equals(currentPlayer.getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
@@ -98,13 +102,18 @@ public class GameController implements MoveRequestHandler{
                         + discarded.toString()
                         +"\nPlayer " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
             currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
-        } else player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString()));
+        } else {
+            player.getUser().receiveUpdate(new Update(player, true));
+            player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString()));
+        }
     }
 
-    public Update getSpawn(Player player) {
-        player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        System.out.println(player.getPowerups().toString());
+    public Update getFirstTimeSpawn(Player player) {
+        if(player.getPowerups().isEmpty()){
+            player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+            player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+            System.out.println(player.getPowerups().toString());
+        }
         return new Update("Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
     }
 
