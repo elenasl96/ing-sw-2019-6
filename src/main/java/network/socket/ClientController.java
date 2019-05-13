@@ -1,6 +1,5 @@
 package network.socket;
 
-import model.decks.Weapon;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
