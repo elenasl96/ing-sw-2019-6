@@ -1,0 +1,20 @@
+@startuml
+class Weapon{
+    List<Effect> Effects
+}
+
+enum EffectType{
+    Basic
+    Optional
+    Alternative
+}
+
+interface Effect{
+    EffectType effectType
+}
+Weapon <-- Effect
+Effect <.. DamageEffect
+Effect <.. MovementEffect
+Effect <.. MarkEffect
+EffectType -> Effect
+@enduml
