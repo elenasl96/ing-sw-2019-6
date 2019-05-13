@@ -155,6 +155,7 @@ public class ClientController implements ResponseHandler {
             case SPAWN:
                 this.chooseSpawn(null);
                 view.spawnPhase();
+                ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case FIRST: case SECOND:
                 view.movePhase();
