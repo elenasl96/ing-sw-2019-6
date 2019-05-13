@@ -31,11 +31,7 @@ public class GameController implements MoveRequestHandler{
         game.sendUpdate(update);
     }
 
-    public void setCurrentPlayer(Player player){
-        this.currentPlayer = player;
-    }
-
-    public boolean isMyTurn (Player player){
+    private boolean isMyTurn (Player player){
         return player.equals(currentPlayer);
     }
 
