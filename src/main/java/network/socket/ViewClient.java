@@ -115,14 +115,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
                 displayText("Please insert a number");
             }
             controller.chooseSpawn(spawnNumber);
-            /*try {
-                wait(10);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                e.printStackTrace();
-            }
-            */
-
         }
     }
 

@@ -151,20 +151,19 @@ public class ClientController implements ResponseHandler {
     }
 
     private void gamingPhase(){
-        while(!ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
-            switch(ClientContext.get().getCurrentPlayer().getPhase()){
-                case SPAWN:
-                    view.spawnPhase();
-                    break;
-                case FIRST: case SECOND:
-                    view.movePhase();
-                    break;
-                case RELOAD:
-                    view.reloadPhase();
-                    break;
-                default:
-                    break;
-            }
+        switch(ClientContext.get().getCurrentPlayer().getPhase()){
+            case SPAWN:
+                view.spawnPhase();
+                break;
+            case FIRST: case SECOND:
+                view.movePhase();
+                break;
+            case RELOAD:
+                view.reloadPhase();
+                break;
+            default: //case WAIT:
+                view.waitingPhase();
+                break;
         }
     }
     // -------------------------- Response handling
