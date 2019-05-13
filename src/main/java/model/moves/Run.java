@@ -5,7 +5,6 @@ import exception.InvalidMoveException;
 import model.Player;
 import model.field.Coordinate;
 import model.field.Field;
-import model.room.Update;
 import network.socket.commands.Response;
 import network.socket.commands.response.MoveUpdateResponse;
 

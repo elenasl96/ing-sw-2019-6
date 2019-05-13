@@ -23,6 +23,7 @@ public class Damage implements Move{
     }
 
     public Damage(){
+        //TODO
     }
 
     public Damage(Player playerDamaged, int numDamage){

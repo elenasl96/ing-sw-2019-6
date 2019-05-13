@@ -1,12 +1,10 @@
 package model.decks;
 
 import model.Ammo;
-import model.Player;
 import model.enums.WeaponStatus;
 import model.moves.Move;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +12,17 @@ public class Weapon implements Serializable {
     private String name;
     private String effectsDescription;
     private WeaponStatus status;
-    private ArrayList<Move> basicEffect = new ArrayList<>();
-    private ArrayList<Ammo> ammoBasic = new ArrayList<>();
-    private ArrayList<Move> optionalEffect = new ArrayList<>();
-    private ArrayList<Ammo> ammoOptional = new ArrayList<>();
-    private ArrayList<Move> alternateFireEffect = new ArrayList<>();
-    private ArrayList<Ammo> ammoAlternateFire = new ArrayList<>();
+    private List<Move> basicEffect = new ArrayList<>();
+    private List<Ammo> ammoBasic = new ArrayList<>();
+    private List<Move> optionalEffect = new ArrayList<>();
+    private List<Ammo> ammoOptional = new ArrayList<>();
+    private List<Move> alternateFireEffect = new ArrayList<>();
+    private List<Ammo> ammoAlternateFire = new ArrayList<>();
 
     public Weapon(String name, String effectsDescription, WeaponStatus status) {
+        this.name = name;
+        this.effectsDescription = effectsDescription;
+        this. status = status;
     }
 
     public void setNameAndDescription(String name, String effectsDescription) {
@@ -29,51 +30,63 @@ public class Weapon implements Serializable {
         this.effectsDescription = effectsDescription;
     }
 
-    public void setBasicEffect(ArrayList<Move> basicEffect) {
+    public void setBasicEffect(List<Move> basicEffect) {
         this.basicEffect = basicEffect;
     }
 
-    public ArrayList<Move> getBasicEffect() {
+    public List<Move> getBasicEffect() {
         return basicEffect;
     }
 
-    public ArrayList<Ammo> getAmmoBasic() {
+    public List<Ammo> getAmmoBasic() {
         return ammoBasic;
     }
 
-    public ArrayList<Move> getOptionalEffect() {
+    public List<Move> getOptionalEffect() {
         return optionalEffect;
     }
 
-    public ArrayList<Ammo> getAmmoOptional() {
+    public List<Ammo> getAmmoOptional() {
         return ammoOptional;
     }
 
-    public ArrayList<Move> getAlternateFireEffect() {
+    public List<Move> getAlternateFireEffect() {
         return alternateFireEffect;
     }
 
-    public ArrayList<Ammo> getAmmoAlternateFire() {
+    public List<Ammo> getAmmoAlternateFire() {
         return ammoAlternateFire;
     }
 
-    public void setAmmoBasic(ArrayList<Ammo> ammoBasic) {
+    public String getName() {
+        return name;
+    }
+
+    public String getEffectsDescription() {
+        return effectsDescription;
+    }
+
+    public WeaponStatus getStatus() {
+        return status;
+    }
+
+    public void setAmmoBasic(List<Ammo> ammoBasic) {
         this.ammoBasic = ammoBasic;
     }
 
-    public void setOptionalEffect(ArrayList<Move> optionalEffect) {
+    public void setOptionalEffect(List<Move> optionalEffect) {
         this.optionalEffect = optionalEffect;
     }
 
-    public void setAmmoOptional(ArrayList<Ammo> ammoOptional) {
+    public void setAmmoOptional(List<Ammo> ammoOptional) {
         this.ammoOptional = ammoOptional;
     }
 
-    public void setAlternateFireEffect(ArrayList<Move> alternateFireEffect) {
+    public void setAlternateFireEffect(List<Move> alternateFireEffect) {
         this.alternateFireEffect = alternateFireEffect;
     }
 
-    public void setAmmoAlternateFire(ArrayList<Ammo> ammoAlternateFire) {
+    public void setAmmoAlternateFire(List<Ammo> ammoAlternateFire) {
         this.ammoAlternateFire = ammoAlternateFire;
     }
 }

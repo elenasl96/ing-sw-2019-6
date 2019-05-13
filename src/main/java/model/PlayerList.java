@@ -12,4 +12,13 @@ public class PlayerList extends ArrayList<Player> {
         return super.get(counter);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

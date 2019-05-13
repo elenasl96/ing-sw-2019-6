@@ -29,8 +29,9 @@ public class ClientControllerTest {
     void handleMoveUpdateTest(){
         ClientContext.get().createPlayer();
         Player player = new Player();
+        player.setPhase(Phase.WAIT);
         MoveUpdateResponse moveUpdateResponse1 = new MoveUpdateResponse(player);
 
-        assertThrows(NullPointerException.class ,() -> clientController.handle(moveUpdateResponse1));
+        assertEquals(Phase.WAIT , Phase.fromInteger(moveUpdateResponse1.getPhaseId()));
     }
 }

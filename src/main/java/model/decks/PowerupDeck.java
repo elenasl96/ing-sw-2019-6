@@ -4,7 +4,6 @@ import model.Ammo;
 import model.enums.Color;
 import model.moves.*;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

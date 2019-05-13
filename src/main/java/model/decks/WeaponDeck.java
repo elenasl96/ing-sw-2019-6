@@ -5,7 +5,6 @@ import model.enums.Color;
 import model.enums.WeaponStatus;
 import model.moves.*;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

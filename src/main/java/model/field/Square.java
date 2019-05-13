@@ -3,10 +3,8 @@ package model.field;
 import model.Board;
 import model.decks.Grabbable;
 import model.enums.Color;
-import org.jetbrains.annotations.Contract;
 
 import java.io.Serializable;
-import java.util.List;
 
 public abstract class Square implements Serializable {
     private Color color;

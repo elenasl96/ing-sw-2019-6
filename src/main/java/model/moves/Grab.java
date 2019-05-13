@@ -6,9 +6,7 @@ import exception.NothingGrabbableException;
 import model.Player;
 import model.decks.Grabbable;
 import model.decks.Weapon;
-import model.field.AmmoSquare;
 import model.field.Field;
-import model.field.Square;
 import network.socket.commands.Response;
 
 public class Grab implements Move{
@@ -29,7 +27,7 @@ public class Grab implements Move{
 
     @Override
     public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
-
+        //TODO
     }
 
     public Field getField() {

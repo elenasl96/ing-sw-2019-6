@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Powerup implements Serializable {
     private String name;
     private Ammo ammo;
-    private ArrayList<Move> moves = new ArrayList<Move>();
+    private ArrayList<Move> moves = new ArrayList<>();
 
     public Powerup(String name, Ammo ammo){
         this.name = name;

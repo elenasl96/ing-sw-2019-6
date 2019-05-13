@@ -8,7 +8,6 @@ import model.Player;
 import network.socket.commands.Response;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class Pay implements Move {
 
     @Override
     public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
-
+        //TODO
     }
 
     public List<Ammo> getAmmos() {

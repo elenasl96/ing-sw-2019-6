@@ -42,16 +42,6 @@ public class Player implements Serializable{
         this.name = user.getUsername();
         this.id = id;
         this.character = user.getCharacter();
-        this.currentPosition = null;
-        this.phase = Phase.WAIT;
-        this.ammos.add(new Ammo(Color.BLUE));
-        this.ammos.add(new Ammo(Color.YELLOW));
-        this.ammos.add(new Ammo(Color.RED));
-        this.points = 0;
-        this.motto = null;
-        this.adrenalineLevel = 0;
-        this.stackPoint = 0;
-        this.dead = false;
     }
 
     public Player(){
@@ -212,7 +202,7 @@ public class Player implements Serializable{
         for(Ammo a: refill) {
             if(Collections.frequency(ammos,a)<3)
             {
-                ammos.add(a.clone());
+                ammos.add(a.cloneAmmo());
             }
         }
     }
@@ -222,7 +212,7 @@ public class Player implements Serializable{
         int nCard = 0;
         string.append("\n========Powerups=========");
         for(Powerup p : powerups){
-            string.append("\nNumber: " + nCard +"\n").append(p);
+            string.append("\nNumber").append(nCard).append("\n").append(p);
             nCard++;
         }
         return string.toString();
@@ -233,6 +223,11 @@ public class Player implements Serializable{
         this.name = name;
         this.id = id;
         this.character = character;
+        initializePlayer();
+        this.firstPlayer = firstPlayer;
+    }
+
+    private void initializePlayer() {
         this.currentPosition = null;
         this.phase = Phase.WAIT;
         this.ammos.add(new Ammo(Color.BLUE));
@@ -243,7 +238,6 @@ public class Player implements Serializable{
         this.adrenalineLevel = 0;
         this.stackPoint = 0;
         this.dead = false;
-        this.firstPlayer = firstPlayer;
     }
 
     @Override

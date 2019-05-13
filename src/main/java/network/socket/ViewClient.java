@@ -2,13 +2,11 @@ package network.socket;
 
 
 import exception.NotExistingFieldException;
-import model.enums.Phase;
 import model.field.Coordinate;
 import model.room.*;
 import model.enums.Character;
 import network.exceptions.InvalidGroupNumberException;
 
-import javax.naming.Context;
 import java.util.Scanner;
 
 import static model.enums.Phase.WAIT;
