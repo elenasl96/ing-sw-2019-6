@@ -29,7 +29,7 @@ public class ClientControllerTest {
     void handleMoveUpdateTest(){
         ClientContext.get().createPlayer();
         Player player = new Player();
-        MoveUpdateResponse moveUpdateResponse1 = new MoveUpdateResponse(player, 1);
+        MoveUpdateResponse moveUpdateResponse1 = new MoveUpdateResponse(player);
 
         assertThrows(NullPointerException.class ,() -> clientController.handle(moveUpdateResponse1));
     }

@@ -22,7 +22,7 @@ public class Player implements Serializable{
     private int id; //da 0 a numeroGiocatori-1
     private Character character = Character.NOT_ASSIGNED;
     private Square currentPosition;
-    private Phase phase;
+    private transient Phase phase;
     private List<Ammo> ammos = new ArrayList<>();
     private List<Powerup> powerups = new ArrayList<>();
     private List<Weapon> weapons = new ArrayList<>();

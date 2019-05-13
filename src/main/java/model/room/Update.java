@@ -7,10 +7,12 @@ import java.io.Serializable;
 public class Update implements Serializable {
     private boolean playerChanges;
     private Player player;
+    private int phaseID;
     private String string;
 
     public Update(Player player){
         this.player = player;
+        this.phaseID = player.getPhase().getId();
         this.playerChanges = false;
     }
 
@@ -26,6 +28,7 @@ public class Update implements Serializable {
 
     public Update(Player player, boolean playerChanges, String string){
         this.player = player;
+        this.phaseID = player.getPhase().getId();
         this.string = string;
         this.playerChanges = playerChanges;
     }

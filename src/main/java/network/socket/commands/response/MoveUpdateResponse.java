@@ -8,9 +8,9 @@ public class MoveUpdateResponse implements Response {
     private Player player;
     int phaseId;
 
-    public MoveUpdateResponse(Player player, int phaseId){
+    public MoveUpdateResponse(Player player){
         this.player = player;
-        this.phaseId = phaseId;
+        this.phaseId = player.getPhase().getId();
     }
 
     public Player getPlayer(){

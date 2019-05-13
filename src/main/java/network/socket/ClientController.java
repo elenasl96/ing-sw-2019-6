@@ -200,7 +200,7 @@ public class ClientController implements ResponseHandler {
         view.displayText("moveupdateplayer"+ moveUpdateResponse.getPlayer());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
+        view.displayText("phase: "+ ClientContext.get().getCurrentPlayer().getPhase());
         view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT));
     }
-
 }
