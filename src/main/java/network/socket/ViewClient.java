@@ -105,17 +105,14 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         //blocked until the game can start
     }
 
-    synchronized void spawnPhase(){
+    void spawnPhase(){
         Integer spawnNumber = null;
-        controller.chooseSpawn(spawnNumber);
-        while(!ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT)){
-            try{
-                spawnNumber = Integer.parseInt(userInput());
-            }catch (NumberFormatException e){
-                displayText("Please insert a number");
-            }
-            controller.chooseSpawn(spawnNumber);
+        try{
+            spawnNumber = Integer.parseInt(userInput());
+        }catch (NumberFormatException e){
+            displayText("Please insert a number");
         }
+        controller.chooseSpawn(spawnNumber);
     }
 
     void movePhase(){

@@ -153,6 +153,7 @@ public class ClientController implements ResponseHandler {
     private void gamingPhase(){
         switch(ClientContext.get().getCurrentPlayer().getPhase()){
             case SPAWN:
+                this.chooseSpawn(null);
                 view.spawnPhase();
                 break;
             case FIRST: case SECOND:
@@ -161,8 +162,7 @@ public class ClientController implements ResponseHandler {
             case RELOAD:
                 view.reloadPhase();
                 break;
-            default: //case WAIT:
-                view.waitingPhase();
+            default:
                 break;
         }
     }
