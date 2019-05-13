@@ -37,8 +37,6 @@ public class ClientController implements ResponseHandler {
      */
     final ViewClient view;
 
-    private Thread receiver;
-
     private boolean gameNotDone;
 
     public ClientController(Client client) {
@@ -89,16 +87,11 @@ public class ClientController implements ResponseHandler {
     }
 
     void startReceiverThread() {
-        receiver = new Thread(
+        Thread receiver = new Thread(
                 () -> {
                     while (gameNotDone) {
                         Response response = client.nextResponse();
                         if (response != null) {
-                            try{
-                                MoveUpdateResponse moveResponse = (MoveUpdateResponse) response;
-                            } catch (ClassCastException e){
-                                //niente
-                            }
                             response.handle(this);
                         }
                     }
@@ -134,7 +127,6 @@ public class ClientController implements ResponseHandler {
 
             default:
                 view.displayText("Insert a valid move");
-                return;
         }
     }
 
@@ -159,7 +151,7 @@ public class ClientController implements ResponseHandler {
         }
     }
 
-    void gamingPhase(){
+    private void gamingPhase(){
         while(!ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
             switch(ClientContext.get().getCurrentPlayer().getPhase()){
                 case SPAWN:
@@ -209,11 +201,10 @@ public class ClientController implements ResponseHandler {
         view.displayText("moveupdateplayer"+ moveUpdateResponse.getPlayer());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
-        if(ClientContext.get().getCurrentPlayer().getPhase()!=Phase.WAIT){
+        if(!ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT)){
             view.setWait(false);
-        }else{
-            view.setWait(true);
         }
+        view.setWait(true);
     }
 
 }
