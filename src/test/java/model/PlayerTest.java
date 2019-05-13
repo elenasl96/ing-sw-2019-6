@@ -1,6 +1,9 @@
 package model;
 
-import model.Player;
+import model.decks.AmmoTile;
+import model.decks.AmmoTileWithAmmo;
+import model.decks.Powerup;
+import model.decks.PowerupDeck;
 import model.enums.Character;
 import model.enums.Color;
 import model.enums.Phase;
@@ -9,15 +12,18 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.Move;
 import model.moves.Pay;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 class PlayerTest {
+    Player pg = new Player(1, true, "pippo", Character.PG2);
+
+
     @Test
     void nameTest() {
-        Player pg = new Player(1, true, "pippo", Character.PG2);
         Square sq = new SpawnSquare(Color.YELLOW, new Coordinate('B',2), new Board(2));
         Player pg2 = new Player (2, false, "ciao", Character.PG3);
         ArrayList<Player> sh = new ArrayList<>();
@@ -68,6 +74,13 @@ class PlayerTest {
     }
 
     @Test
+    void powerUpsTest(){
+        PowerupDeck d = new PowerupDeck();
+        pg.getPowerups().add(d.pickCard());
+        pg.powerupsToString(pg.getPowerups());
+    }
+
+    @Test
     void equalsTest(){
         Player p1 = new Player(1, true, "pippo", Character.PG3);
         Player p2 = new Player(1, false, "pippo", Character.PG3);
@@ -81,5 +94,14 @@ class PlayerTest {
         Ammo ammo = new Ammo(Color.BLUE);
 
         assertNotEquals(p1,ammo);
+    }
+
+    @Test
+    void ammoTest(){
+        Player p1 = new Player(1, true, "pippo", Character.PG1);
+        AmmoTile a1 = new AmmoTileWithAmmo(Color.BLUE, Color.RED, Color.YELLOW);
+
+        p1.fillAmmoFromTile(a1);
+        assertEquals(Color.BLUE, p1.getAmmos().get(0).getColor());
     }
 }
