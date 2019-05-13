@@ -64,11 +64,6 @@ public class Player implements Serializable{
         return player.id == this.id;
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
     public String getName() {
         return name;
     }
@@ -197,7 +192,7 @@ public class Player implements Serializable{
         this.possibleMoves = possibleMoves;
     }
 
-    public void refillAmmo(AmmoTile ammotile) {
+    public void fillAmmoFromTile(AmmoTile ammotile) {
         List<Ammo> refill=ammotile.getAmmos();
         for(Ammo a: refill) {
             if(Collections.frequency(ammos,a)<3)

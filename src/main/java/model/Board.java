@@ -57,9 +57,5 @@ public class Board implements Serializable {
     public void addKillshot(Player pg) {
         this.killshotTrack.add(pg);
     }
-
-     /**
-     * add the powerup in powerups leftovers
-     * @param powerupLeftover   the leftover
-     */
+    
 }

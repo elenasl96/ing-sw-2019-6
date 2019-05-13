@@ -12,7 +12,6 @@ import java.util.List;
 public class Game implements Serializable {
     private int numberPlayers;
     private Board board;
-
     private PlayerList players = new PlayerList();
     private Player currentPlayer;
     private transient List<GameUpdateObserver> observers = new LinkedList<>();

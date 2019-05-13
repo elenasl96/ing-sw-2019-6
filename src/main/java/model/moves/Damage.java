@@ -19,7 +19,7 @@ public class Damage implements Move{
 
     @Override
     public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
-
+        //TODO
     }
 
     public Damage(){

@@ -4,6 +4,7 @@ import exception.NotExistingFieldException;
 import model.field.Field;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BoardTest {
@@ -17,6 +18,15 @@ class BoardTest {
             System.out.println(nef.getMessage());
         }
         board.setField(field);
+    }
+
+    @Test
+    void killShotTrackTest(){
+        Player p1 = new Player();
+        p1.setName("pippo");
+        Board b1 = new Board(2);
+        b1.addKillshot(p1);
+        assertEquals(p1, b1.getKillshotTrack().get(0));
     }
 
     @Test

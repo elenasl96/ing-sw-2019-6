@@ -12,7 +12,7 @@ public class AmmoTileWithPowerup extends AmmoTile implements Grabbable{
 
     @Override
     public void useGrabbable(Player player) {
-        player.refillAmmo(this);
+        player.fillAmmoFromTile(this);
 
     }
 }
