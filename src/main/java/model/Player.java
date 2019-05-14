@@ -10,9 +10,7 @@ import model.field.Square;
 import model.moves.Move;
 import model.moves.Target;
 import model.room.User;
-
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +18,6 @@ import java.util.List;
 public class Player extends Target implements Serializable{
     private User user;
     private String name;
-    private int id; //da 0 a numeroGiocatori-1
     private Character character = Character.NOT_ASSIGNED;
     private Square currentPosition;
     private transient Phase phase;
@@ -38,10 +35,9 @@ public class Player extends Target implements Serializable{
     private List<Move> possibleMoves = new ArrayList<>();
 
     //Costruttore
-    public Player(int id, User user) {
+    public Player(User user) {
         this.user = user;
         this.name = user.getUsername();
-        this.id = id;
         this.character = user.getCharacter();
     }
 
@@ -53,6 +49,7 @@ public class Player extends Target implements Serializable{
         return this.user;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
         if (obj == this) {
@@ -62,7 +59,12 @@ public class Player extends Target implements Serializable{
             return false;
         }
         Player player = (Player) obj;
-        return player.id == this.id;
+        return player.name.equals(this.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     public String getName() {
@@ -71,10 +73,6 @@ public class Player extends Target implements Serializable{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Character getCharacter() {
@@ -101,10 +99,6 @@ public class Player extends Target implements Serializable{
         this.phase = phase;
     }
 
-    /*
-    Some methods set for ArrayList types deleted ( method .add provided by ArrayList)
-     */
-
     public void setAmmos(List<Ammo> ammos) {
         this.ammos = ammos;
     }
@@ -123,12 +117,12 @@ public class Player extends Target implements Serializable{
 
     @Override
     public void addDamage() {
-
+        //TODO
     }
 
     @Override
     public void addMarks() {
-
+        //TODO
     }
 
     @Override
@@ -177,31 +171,31 @@ public class Player extends Target implements Serializable{
         return firstPlayer;
     }
 
-    public void setFirstPlayer(boolean flag){
+    void setFirstPlayer(boolean flag){
         this.firstPlayer = flag;
     }
 
-    public boolean isDead() {
+    boolean isDead() {
         return dead;
     }
 
-    public void setDead(boolean dead) {
+    void setDead(boolean dead) {
         this.dead = dead;
     }
 
-    public List<Player> getShootable() {
+    List<Player> getShootable() {
         return shootable;
     }
 
-    public void setShootable(List<Player> shootable) {
+    void setShootable(List<Player> shootable) {
         this.shootable = shootable;
     }
 
-    public List<Move> getPossibleMoves() {
+    List<Move> getPossibleMoves() {
         return possibleMoves;
     }
 
-    public void setPossibleMoves(List<Move> possibleMoves) {
+    void setPossibleMoves(List<Move> possibleMoves) {
         this.possibleMoves = possibleMoves;
     }
 
@@ -229,13 +223,7 @@ public class Player extends Target implements Serializable{
     //Costruttore per i test
     public Player(int id, boolean firstPlayer, String name, Character character) {
         this.name = name;
-        this.id = id;
         this.character = character;
-        initializePlayer();
-        this.firstPlayer = firstPlayer;
-    }
-
-    private void initializePlayer() {
         this.currentPosition = null;
         this.phase = Phase.WAIT;
         this.ammos.add(new Ammo(Color.BLUE));
@@ -246,30 +234,22 @@ public class Player extends Target implements Serializable{
         this.adrenalineLevel = 0;
         this.stackPoint = 0;
         this.dead = false;
+        this.firstPlayer = firstPlayer;
     }
 
     @Override
     public String toString() {
+        StringBuilder toString = new StringBuilder();
+        toString.append("Player{ name = ").append(name)
+                .append(", character = ").append(character.name())
+                .append(", points = ").append(points)
+                .append(", firstPlayer = ").append(firstPlayer)
+                .append(", dead = ").append(dead);
         try {
-            return "Player{" +
-                    "name='" + name + '\'' +
-                    ", id=" + id +
-                    ", character=" + character.name() +
-                    ", phase=" + phase.toString() +
-                    ", points=" + points +
-                    ", firstPlayer=" + firstPlayer +
-                    ", dead=" + dead +
-                    '}';
-        }catch (NullPointerException e){
-            return "Player{" +
-                    "name='" + name + '\'' +
-                    ", id=" + id +
-                    ", character=" + character.name() +
-                    ", phase= null" +
-                    ", points=" + points +
-                    ", firstPlayer=" + firstPlayer +
-                    ", dead=" + dead +
-                    '}';
+            toString.append(", phase = ").append(phase.toString()).append('}');
+        }catch(NullPointerException e ) {
+            toString.append(", phase = null }");
         }
+        return toString.toString();
     }
 }
