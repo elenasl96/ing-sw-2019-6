@@ -1,11 +1,13 @@
 package controller;
 
 import exception.InvalidMoveException;
-import model.Game;
+import model.GameContext;
 import model.enums.Phase;
 import model.field.Coordinate;
 import model.moves.Run;
+import model.room.Group;
 import model.room.User;
+import network.socket.Manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +16,6 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest {
-
-    private GameController gameController;
-    private Game game;
     private ArrayList<User> users;
 
     @BeforeEach
@@ -26,33 +25,29 @@ class GameControllerTest {
         users.add(new User("user2"));
         users.add(new User("user3"));
         users.add(new User("user4"));
-
-        game = new Game(5,1, users);
-        gameController = new GameController(game);
     }
 
     @Test
     void constructorTest(){
-        assertEquals(users.get(0), gameController.currentPlayer.getUser());
-        assertEquals(Phase.SPAWN, gameController.currentPlayer.getPhase());
+        assertEquals(users.get(0), GameContext.get().getGame(0).getCurrentPlayer().getUser());
+        assertEquals(Phase.SPAWN, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
     }
 
     @Test
     void runMoveHandleTest(){
-        gameController.currentPlayer.setFirstPlayer(false);
         Run invalidRun = new Run(new Coordinate('D', 4));
         assertThrows(InvalidMoveException.class, () ->
-                gameController.handle(invalidRun) );
+                GameController.get().handle(invalidRun, 0) );
         Run run = new Run(new Coordinate('A', 2));
-        gameController.currentPlayer.setCurrentPosition(
-                game.getBoard().getField().getSquares().get(0));
-        assertDoesNotThrow(() -> gameController.handle(run) );
+        GameContext.get().getGame(0).getCurrentPlayer().setCurrentPosition(
+                GameContext.get().getGame(0).getBoard().getField().getSquares().get(0));
+        assertDoesNotThrow(() -> GameController.get().handle(run, 0) );
     }
 
     @Test
     void spawnTest(){
         assertTrue(users.get(0).getPlayer().getPowerups().isEmpty());
-        users.get(0).getPlayer().getPowerups().add(this.game.getBoard().getPowerupsLeft().pickCard());
+        users.get(0).getPlayer().getPowerups().add(GameContext.get().getGame(0).getBoard().getPowerupsLeft().pickCard());
         assertFalse(users.get(0).getPlayer().getPowerups().isEmpty());
         System.out.println(users.get(0).getPlayer().getPowerups().toString());
     }

@@ -11,14 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
     ArrayList<User> users = new ArrayList<>();
-    Game g = new Game(5, 1, users);
-    GameController gc = new GameController(g);
 
     @Disabled
     void numberPlayers() {
-        assertEquals(0, g.getNumberPlayers());
-        g.setNumberPlayers(1);
-        assertEquals(1, g.getNumberPlayers());
+        assertEquals(0, GameContext.get().getGame(0).getNumberPlayers());
+        GameContext.get().getGame(0).setNumberPlayers(1);
+        assertEquals(1, GameContext.get().getGame(0).getNumberPlayers());
     }
 
     @Disabled

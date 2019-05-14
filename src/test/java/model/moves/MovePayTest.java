@@ -12,12 +12,14 @@ import static org.junit.Assert.*;
 class MovePayTest {
     private Pay payment;
     private Player player;
+    int groupId = 0;
 
     /**
      * tests the payment gone wright
      */
     @Test
     void paymentTest1(){
+
         payment = new Pay();
         player = new Player(1, true, "pippo", Character.PG3);
         System.out.println(player.getAmmos());
@@ -43,7 +45,7 @@ class MovePayTest {
         try {
             System.out.println(payment.getAmmos());
             System.out.println(player.getAmmos());
-            payment.execute(player);
+            payment.execute(player, groupId);
             System.out.println(payment.getAmmos());
             System.out.println(player.getAmmos());
         }
@@ -85,7 +87,7 @@ class MovePayTest {
             System.out.println(payment.getAmmos());
             System.out.println(player.getAmmos());
             System.out.println(player.getAmmos().containsAll(payment.getAmmos()));
-            payment.execute(player);
+            payment.execute(player, groupId);
             System.out.println(player.getAmmos());
         }
         catch (NotEnoughAmmoException nea){

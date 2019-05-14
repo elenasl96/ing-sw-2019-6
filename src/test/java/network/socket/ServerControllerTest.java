@@ -136,7 +136,6 @@ class ServerControllerTest {
         assertEquals("NOT_ASSIGNED", response5.character.name());
         assertEquals("PG2", response6.character.name());
         assertEquals("PG3", response7.character.name());
-        Game game = new Game(5,1,users);
 
         assertEquals("PG1", serverController1.user.getCharacter().name());
         assertEquals("PG2", serverController2.user.getCharacter().name());

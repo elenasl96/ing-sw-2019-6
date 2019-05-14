@@ -184,16 +184,16 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
-        Update update = this.currentGroup.getGameController().possibleMoves(user.getPlayer());
+        Update update = this.currentGroup.getGameController().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
         return new GameUpdateNotification(update);
     }
 
     @Override
     public Response handle(SpawnRequest spawnRequest) {
         if(spawnRequest.getSpawn()==null) {
-            return new GameUpdateNotification(this.currentGroup.getGameController().getFirstTimeSpawn(this.user.getPlayer()));
+            return new GameUpdateNotification(this.currentGroup.getGameController().getFirstTimeSpawn(this.user.getPlayer(), currentGroup.getGroupID()));
         }else {
-            this.currentGroup.getGameController().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn());
+            this.currentGroup.getGameController().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
             return null;
         }
     }
@@ -212,8 +212,8 @@ public class ServerController implements RequestHandler {
     public Response handle(MoveRequest moveRequest) {
         try {
             Move move = moveRequest.getMove();
-            move.handle(currentGroup.getGameController());
-            Response response = move.execute(currentGroup.getGame().getCurrentPlayer());
+            move.handle(currentGroup.getGameController(), currentGroup.getGroupID());
+            Response response = move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
             Update update = new Update(currentGroup.getGame().getCurrentPlayer());
             update.setString(response.toString());
             currentGroup.getGame().sendUpdate(update);

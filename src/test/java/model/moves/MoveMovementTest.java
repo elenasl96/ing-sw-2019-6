@@ -64,7 +64,7 @@ class MoveMovementTest {
         p.setCurrentPosition(field.getSquares().get(1));
         movement.setDestination(field.getSquares().get(0));
         try{
-            movement.execute(p);
+            movement.execute(p, 0);
         } catch (InvalidMoveException ime) {
             System.out.println(ime.getMessage());
         }
@@ -74,7 +74,7 @@ class MoveMovementTest {
         movement.setDestination(field.getSquares().get(3));
 
         try{
-            movement.execute(p);
+            movement.execute(p, 0);
         } catch (InvalidMoveException ime) {
             System.out.println(ime.getMessage());
         }
@@ -85,7 +85,7 @@ class MoveMovementTest {
         movement.setDestination(field.getSquares().get(3));
 
         try{
-            movement.execute(p);
+            movement.execute(p, 0);
         } catch (InvalidMoveException ime) {
             System.out.println(ime.getMessage());
         }
@@ -96,7 +96,7 @@ class MoveMovementTest {
         movement.setDestination(field.getSquares().get(6));
 
         try{
-            movement.execute(p);
+            movement.execute(p, 0);
             fail();
         } catch (InvalidMoveException ime) {
             System.out.println(ime.getMessage());

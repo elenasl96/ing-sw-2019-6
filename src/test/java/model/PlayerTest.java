@@ -42,7 +42,6 @@ class PlayerTest {
         assertEquals("ullallà", pg.getMotto());
         assertEquals("PG1", pg.getCharacter().name());
         assertEquals("BLUE", pg.getAmmos().get(0).getColor().name());
-        assertEquals(1, pg.getId());
         assertEquals("YELLOW", pg.getCurrentPosition().getColor().name());
         assertEquals(0, pg.getPoints());
         assertEquals(0, pg.getAdrenalineLevel());
@@ -62,7 +61,6 @@ class PlayerTest {
 
 
         assertTrue(pg.getPossibleMoves().get(0) instanceof Pay);
-        assertEquals(2, pg.getShootable().get(0).getId());
         assertTrue(pg.isDead());
         assertEquals(2, pg.getStackPoint());
         assertEquals(2, pg.getAdrenalineLevel());
@@ -70,7 +68,7 @@ class PlayerTest {
         assertEquals(Phase.FIRST, pg.getPhase());
         assertTrue( pg.getPowerups().isEmpty());
         assertTrue(pg.getWeapons().isEmpty());
-        assertEquals(0, pg.getPlayerBoard().getDeaths());
+        assertEquals(0, pg.getPlayerBoard(0).get(0).getDeaths());
     }
 
     @Test

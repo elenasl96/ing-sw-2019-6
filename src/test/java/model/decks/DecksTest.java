@@ -1,6 +1,7 @@
 package model.decks;
 
 import model.Game;
+import model.GameContext;
 import model.Player;
 import model.enums.Color;
 import model.room.User;
@@ -13,16 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DecksTest {
     @Test
     void PickTest(){
+        int groupId=0;
         ArrayList<User> users = new ArrayList<>();
         users.add(new User("1"));
-        Game game = new Game(5,2, users);
         Player pg1 = new Player();
-        pg1.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        pg1.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        pg1.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        pg1.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        pg1.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-        pg1.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+        pg1.getPowerups().add(GameContext.get().getGame(groupId).getBoard().getPowerupsLeft().pickCard());
+        pg1.getPowerups().add(GameContext.get().getGame(groupId).getBoard().getPowerupsLeft().pickCard());
+        pg1.getPowerups().add(GameContext.get().getGame(groupId).getBoard().getPowerupsLeft().pickCard());
+        pg1.getPowerups().add(GameContext.get().getGame(groupId).getBoard().getPowerupsLeft().pickCard());
+        pg1.getPowerups().add(GameContext.get().getGame(groupId).getBoard().getPowerupsLeft().pickCard());
+        pg1.getPowerups().add(GameContext.get().getGame(groupId).getBoard().getPowerupsLeft().pickCard());
         System.out.println(pg1.getPowerups().get(0).getAmmo().getColor());
         System.out.println(pg1.getPowerups().get(1).getAmmo().getColor());
         System.out.println(pg1.getPowerups().get(2).getAmmo().getColor());

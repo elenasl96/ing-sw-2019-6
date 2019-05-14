@@ -14,7 +14,7 @@ public class WeaponDeck {
     private List<Weapon> weapons = new ArrayList<>();
 
     public WeaponDeck() {
-
+    /*TODO
         //Lock rifle
         this.weapons.add(new Weapon("Lock rifle",
                 "basic effect: Deal 2 damage and 1 mark to 1 target\n" +
@@ -264,6 +264,8 @@ public class WeaponDeck {
 
         this.weapons.get(13).getOptionalEffect().add(new Damage());
         this.weapons.get(13).getAmmoOptional().add(new Ammo(Color.YELLOW));
+
+     */
     }
 
     public void shuffleDeck () {
