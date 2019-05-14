@@ -65,7 +65,7 @@ public class Movement implements Move{
      * @param maxSteps  the player who want to move
      * @param newCurrentPosition the Square you take in exam every round of the recursion
      */
-    public void createReachList(Player p, int maxSteps, Square newCurrentPosition) {
+    private void createReachList(Player p, int maxSteps, Square newCurrentPosition) {
         if (maxSteps != 0) {
             for (int i = 0; i < maxSteps; i++) {
                 field.getEdges().forEach(edge -> {
@@ -95,7 +95,7 @@ public class Movement implements Move{
     /**
      * Used getters and setters
      */
-    public Square getDestination() {
+    Square getDestination() {
         return destination;
     }
 
@@ -111,11 +111,11 @@ public class Movement implements Move{
         this.field = field;
     }
 
-    public List<Square> getReachList() {
+    List<Square> getReachList() {
         return reachList;
     }
 
-    public void setReachList(List<Square> reachList) {
+    void setReachList(List<Square> reachList) {
         this.reachList = reachList;
     }
 
@@ -127,11 +127,11 @@ public class Movement implements Move{
         this.coordinate = coordinate;
     }
 
-    public int getMaxSteps() {
+    int getMaxSteps() {
         return maxSteps;
     }
 
-    public void setMaxSteps(int maxSteps) {
+    void setMaxSteps(int maxSteps) {
         this.maxSteps = maxSteps;
     }
 
