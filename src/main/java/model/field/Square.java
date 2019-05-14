@@ -1,14 +1,17 @@
 package model.field;
 
 import model.Board;
+import model.PlayerBoard;
 import model.decks.Grabbable;
 import model.enums.Color;
+import model.moves.Target;
 
 import java.io.Serializable;
 
-public abstract class Square implements Serializable {
+public abstract class Square extends Target implements Serializable {
     private Color color;
     private final Coordinate coord;
+
 
     public Square(Color color, Coordinate coord) {
         this.color = color;
@@ -34,5 +37,10 @@ public abstract class Square implements Serializable {
     @Override
     public String toString() {
         return this.coord.toString();
+    }
+
+    public PlayerBoard getPlayerBoard(){
+
+        return null;
     }
 }
