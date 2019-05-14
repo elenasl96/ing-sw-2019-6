@@ -2,6 +2,7 @@ package model.room;
 
 import controller.GameController;
 import model.Game;
+import model.GameContext;
 import model.enums.Character;
 import network.exceptions.UserNotInGroupException;
 import network.exceptions.FullGroupException;
@@ -143,7 +144,7 @@ public class Group implements Serializable {
     public void createGame() {
         this.setFull();
         ArrayList<User> clients = new ArrayList<>(users.subList(1,users.size()));
-        this.game = new Game(skullNumber, fieldNumber, clients);
+        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, clients);
         //Fill the squares
         this.game.getBoard().getField().getSquares().forEach(square->
             square.setGrabbable(game.getBoard())

@@ -7,4 +7,7 @@ public abstract class Target{
     private boolean cardinal;
     private int minDistance;
     private int maxDistance;
+
+    public abstract void addDamage();
+    public abstract void addMarks();
 }
