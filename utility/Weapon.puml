@@ -7,14 +7,51 @@ enum EffectType{
     Basic
     Optional
     Alternative
+    BeforeAfterBasic
+}
+interface Move{
+__
+void execute()
+}
+abstract Effect{
+    effectType: EffectType
+    target: Target
+    optionality: Boolean
+    optionalTarget: Boolean
+    cascade: Boolean
+    __
+    void askForInput()
 }
 
-interface Effect{
-    EffectType effectType
+class DamageEffect{
+    damages: int
 }
-Weapon <-- Effect
+class MarkEffect{
+    marks: int
+}
+class MovementEffect{
+    Square Destination
+    movement: Movement
+}
+
+Move <..Effect
+EffectType -> Effect
+Weapon "1...n" *-- Effect
 Effect <.. DamageEffect
 Effect <.. MovementEffect
 Effect <.. MarkEffect
-EffectType -> Effect
+
+
+abstract Target{
+    canSee: Boolean
+    cardinal: Boolean
+    minDistance: int
+    maxDistance: int
+}
+
+Target <.. Player
+Target <.. Square
+Target <.. Room
+
+Effect "1...n" *-- Target
 @enduml
