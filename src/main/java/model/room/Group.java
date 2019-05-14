@@ -24,7 +24,7 @@ public class Group implements Serializable {
     private int skullNumber;
     private transient GameController gameController;
 
-    //Game variables
+    //setGame variables
     private transient Game game;
 
     public Group(int skullNumber, int fieldNumber) {

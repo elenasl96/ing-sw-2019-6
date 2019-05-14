@@ -28,7 +28,7 @@ public class GameContext {
 
     /**
      *  a New game is added to the gameList:
-     *      when the group is created, it adds a new Game to the list, being in the situation that
+     *      when the group is created, it adds a new setGame to the list, being in the situation that
      *      get(groupID) gets its specific game.
      */
     public synchronized void createGame(){

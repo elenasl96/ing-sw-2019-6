@@ -10,8 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Game implements Serializable {
-    private static int GameID;
-    public static Game game;
     private int numberPlayers;
     private Board board;
     private PlayerList players = new PlayerList();
@@ -21,12 +19,6 @@ public class Game implements Serializable {
     private int skullsNumber;
     private transient boolean done;
     private transient boolean finalFrenzy;
-
-    public static Game get(int groupNumber) {
-        if(GameID != groupNumber){
-            return Game.get(groupNumber);
-        } else return ;
-    }
 
     public List<GameUpdateObserver> getObservers() {
         return observers;
@@ -40,18 +32,20 @@ public class Game implements Serializable {
         this.done = done;
     }
 
-    public Game(int skullNumber, int fieldNumber, List<User> users, int groupID) {
-        GameID = groupID;
-
-        this.skullsNumber = skullNumber;
-        this.board = new Board(fieldNumber);
-        this.turn = 0;
+    public Game(){
+        this.skullsNumber = 0;
+        this.board = null;
         this.done = false;
         this.finalFrenzy = false;
-
-        //TODO test if sort works
-        Collections.sort(users);
+        this.turn = 0;
         this.numberPlayers = 0;
+        this.currentPlayer = null;
+    }
+
+    public void setGame(int skullNumber, int fieldNumber, List<User> users) {
+        this.skullsNumber = skullNumber;
+        this.board = new Board(fieldNumber);
+        Collections.sort(users);
         for (User u: users){
             //adds a new player for user u to the list
             Player player = new Player(this.numberPlayers, u);
@@ -59,7 +53,7 @@ public class Game implements Serializable {
             u.setPlayer(player);
 
             //sends it to the ClientContext
-            System.out.println(">>> It's Game sending "+this.players.get(numberPlayers)+" to "+u.getUsername());
+            System.out.println(">>> It's setGame sending "+this.players.get(numberPlayers)+" to "+u.getUsername());
             u.receiveUpdate(new Update(this.players.get(numberPlayers), true));
             this.numberPlayers++;
         }
@@ -129,7 +123,7 @@ public class Game implements Serializable {
      */
     public void sendUpdate(Update update) {
         for(GameUpdateObserver o: observers ){
-            System.out.println(">>> It's Game here sending an update to "+o);
+            System.out.println(">>> It's setGame here sending an update to "+o);
             o.onUpdate(update);
         }
     }
