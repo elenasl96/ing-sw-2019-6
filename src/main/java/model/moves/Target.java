@@ -2,7 +2,6 @@ package model.moves;
 
 import model.PlayerBoard;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public abstract class Target{
@@ -11,8 +10,8 @@ public abstract class Target{
     private int minDistance;
     private int maxDistance;
 
-    public abstract void addDamage();
+    public abstract void addDamages();
     public abstract void addMarks();
 
-    public abstract ArrayList<PlayerBoard> getPlayerBoard();
+    public abstract ArrayList<PlayerBoard> getPlayerBoard(int groupId);
 }

@@ -28,7 +28,7 @@ public class DamageEffect extends Effect implements Move{
     }
 
     public Response execute(Player playerDamaging){
-        target.addDamage(playerDamaging, min(damages, target.getPlayerBoard().getNumDamageLeft()));
+        target.addDamages(playerDamaging, min(damages, target.getPlayerBoard(groupId).getNumDamageLeft()));
         //TODO
         return null;
     }
