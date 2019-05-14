@@ -1,17 +1,50 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-package view {
-    class ViewClient{
-        - from KeyBoard: Scanner
-        - final controller: ClientController
-        __
-        + ViewClient(ClientController): constructor
-        + displayText(String): void
-        --Phase--
-        + chooseUsernamePhase(): void
-        + chooseGroupPhase(): void
+package server{
+    class ClientHandler
+    class ServerController
+    interface RequestHandler
+    class Manager  << (S,#FF7700) Singleton >>
 
-    }
+    ClientHandler <--> ServerController
+    ServerController ..|> RequestHandler
+    ServerController --> Manager : get()
 }
+package client{
+    class Client
+    class ClientController implements ResponseHandler
+    class ViewClient
+    class ClientContext  << (S,#FF7700) Singleton >>
+
+
+    ViewClient <--> ClientController
+    ClientController <--> Client
+    ClientContext <- ClientController : get()
+}
+
+package controller{
+    class GameController << (S,#FF7700) Singleton >>
+}
+
+package model{
+    class Game
+}
+
+Client <.> ClientHandler : Socket Connection
+Client -> ClientHandler : Request
+Client <- ClientHandler : Response
+
+ServerController -> GameController
+
+model <-- GameController
+
+interface Observer
+Observer <|.. ClientHandler
+Observer <|..ViewClient
+interface Observable
+Observable <|.. Game
+
+ClientHandler -> model : Observes
+
 @enduml
