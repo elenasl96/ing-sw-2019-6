@@ -23,8 +23,18 @@ package model{
         }
 
         Game "1" *-- Board
+        Game "3...5" *-- Player
 
         class Board{
+            field: Field
+            killshotTrack: ArrayList<Player>
+            weaponsLeft: WeaponDeck
+            ammosLeft: AmmoDeck
+            powerupsLeft: PowerupDeck
+            __
+        }
+
+        class Player{
 
         }
     }
