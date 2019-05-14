@@ -1,12 +1,16 @@
 package model.field;
 
 import model.Board;
+import model.GameContext;
+import model.Player;
 import model.PlayerBoard;
 import model.decks.Grabbable;
 import model.enums.Color;
 import model.moves.Target;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public abstract class Square extends Target implements Serializable {
     private Color color;
@@ -34,13 +38,18 @@ public abstract class Square extends Target implements Serializable {
         return coord;
     }
 
+    public ArrayList<PlayerBoard> getPlayerBoard(int groupId){
+        ArrayList<PlayerBoard> boards = new ArrayList<>();
+        for(Player p : GameContext.get().getGame(groupId).getPlayers().stream()
+                .filter(p -> p.getCurrentPosition().coord.equals(this.coord))
+                .collect(Collectors.toList())){
+            boards.add(p.getPlayerBoard());
+        }
+        return boards;
+    }
+
     @Override
     public String toString() {
         return this.coord.toString();
-    }
-
-    public PlayerBoard getPlayerBoard(){
-
-        return null;
     }
 }
