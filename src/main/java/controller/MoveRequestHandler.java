@@ -4,11 +4,11 @@ import exception.InvalidMoveException;
 import model.moves.*;
 
 public interface MoveRequestHandler {
-    void handle(Movement movement) throws InvalidMoveException;
-    void handle(Damage damage) throws InvalidMoveException;
-    void handle(Grab grab) throws InvalidMoveException;
+    void handle(Movement movement, int groupID) throws InvalidMoveException;
+    void handle(DamageEffect damage, int groupID) throws InvalidMoveException;
+    void handle(Grab grab, int groupID) throws InvalidMoveException;
 
-    void handle(Run run) throws InvalidMoveException;
+    void handle(Run run, int groupID) throws InvalidMoveException;
 
-    void handle(MoveAndGrab moveAndGrab) throws InvalidMoveException;
+    void handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException;
 }
