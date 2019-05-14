@@ -20,15 +20,15 @@ public class MoveAndGrab implements Move {
     }
 
     @Override
-    public Response execute(Player p) throws InvalidMoveException {
-        this.movement.execute(p);
-        this.grab.execute(p);
+    public Response execute(Player p, int groupId) throws InvalidMoveException {
+        this.movement.execute(p, groupId);
+        this.grab.execute(p, groupId);
         return null;
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
-        moveRequestHandler.handle(this);
+    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+        moveRequestHandler.handle(this, groupId);
     }
 
     public Movement getMovement() {

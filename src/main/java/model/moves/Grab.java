@@ -15,7 +15,7 @@ public class Grab implements Move{
     private Weapon weapon;
 
     @Override
-    public Response execute(Player p) throws InvalidMoveException {
+    public Response execute(Player p, int gorupId) throws InvalidMoveException {
         Grabbable grabbable=p.getCurrentPosition().getGrabbable();
 
         if(grabbable==null) { throw new NothingGrabbableException(); }
@@ -26,7 +26,7 @@ public class Grab implements Move{
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
+    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
         //TODO
     }
 

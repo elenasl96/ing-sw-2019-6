@@ -1,6 +1,7 @@
 package model.decks;
 
 import model.Ammo;
+import model.Player;
 import model.enums.Color;
 import model.moves.*;
 
@@ -21,15 +22,15 @@ public class PowerupDeck {
         for (int i = 0; i == 0 || i == 12; i = i + 12) {
             this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.YELLOW)));
             this.powerups.get(i).addMove(new Pay());
-            this.powerups.get(i).addMove(new Damage());
+            this.powerups.get(i).addMove(new DamageEffect(new Player(), 0));
 
             this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.BLUE)));
             this.powerups.get(1 + i).addMove(new Pay());
-            this.powerups.get(1 + i).addMove(new Damage());
+            this.powerups.get(1 + i).addMove(new DamageEffect(new Player(), 0));
 
             this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.RED)));
             this.powerups.get(2 + i).addMove(new Pay());
-            this.powerups.get(2 + i).addMove(new Damage());
+            this.powerups.get(2 + i).addMove(new DamageEffect(new Player(), 0));
 
             this.powerups.add(new Powerup(NEWTON, new Ammo(Color.YELLOW)));
             //TODO

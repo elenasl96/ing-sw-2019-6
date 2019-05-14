@@ -28,14 +28,14 @@ public class Run implements Move {
     }
 
     @Override
-    public Response execute(Player p) throws InvalidMoveException {
-        this.movement.execute(p);
+    public Response execute(Player p, int groupId) throws InvalidMoveException {
+        this.movement.execute(p, groupId);
         return new MoveUpdateResponse(p);
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
-        moveRequestHandler.handle(this);
+    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+        moveRequestHandler.handle(this, groupId);
     }
 
 

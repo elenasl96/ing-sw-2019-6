@@ -26,7 +26,7 @@ public class Pay implements Move {
      * @param p                         the Player that has to pay the ammos
      * @throws NotEnoughAmmoException   if p doesn't have enough ammo
      */
-    public Response execute(Player p) throws NotEnoughAmmoException {
+    public Response execute(Player p, int groupId) throws NotEnoughAmmoException {
         for(int i=0; i<this.ammos.size(); i++){
             if(Collections.frequency(p.getAmmos(), this.ammos.get(i))<
                     Collections.frequency(this.ammos, this.ammos.get(i)))
@@ -37,7 +37,7 @@ public class Pay implements Move {
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
+    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
         //TODO
     }
 

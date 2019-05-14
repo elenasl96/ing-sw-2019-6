@@ -48,7 +48,7 @@ public class Game implements Serializable {
         Collections.sort(users);
         for (User u: users){
             //adds a new player for user u to the list
-            Player player = new Player(this.numberPlayers, u);
+            Player player = new Player(u);
             this.players.add(player);
             u.setPlayer(player);
 

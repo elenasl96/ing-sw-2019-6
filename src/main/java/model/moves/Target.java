@@ -10,8 +10,5 @@ public abstract class Target{
     private int minDistance;
     private int maxDistance;
 
-    public abstract void addDamages();
-    public abstract void addMarks();
-
     public abstract ArrayList<PlayerBoard> getPlayerBoard(int groupId);
 }

@@ -27,14 +27,18 @@ public class DamageEffect extends Effect implements Move{
         this.damages = damages;
     }
 
-    public Response execute(Player playerDamaging){
-        target.addDamages(playerDamaging, min(damages, target.getPlayerBoard(groupId).getNumDamageLeft()));
+    public void addDamages(Player playerDamaging, int damages){
+        //TODO
+    }
+
+    public Response execute(Player playerDamaging, int groupId){
+        this.addDamages(playerDamaging, damages);
         //TODO
         return null;
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
+    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
         //TODO
     }
 

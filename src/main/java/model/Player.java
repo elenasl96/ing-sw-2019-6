@@ -116,17 +116,7 @@ public class Player extends Target implements Serializable{
     }
 
     @Override
-    public void addDamage() {
-        //TODO
-    }
-
-    @Override
-    public void addMarks() {
-        //TODO
-    }
-
-    @Override
-    public ArrayList<PlayerBoard> getPlayerBoard() {
+    public ArrayList<PlayerBoard> getPlayerBoard(int groupId) {
         ArrayList<PlayerBoard> returns = new ArrayList<>();
         returns.add(playerBoard);
         return returns;

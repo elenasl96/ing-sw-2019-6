@@ -1,8 +1,10 @@
 package model.field;
 
+import model.PlayerBoard;
 import model.enums.Color;
 import model.moves.Target;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Room extends Target {
@@ -28,5 +30,11 @@ public class Room extends Target {
 
     public void setSquares(List<Square> squares) {
         this.squares = squares;
+    }
+
+    @Override
+    public ArrayList<PlayerBoard> getPlayerBoard(int groupId) {
+        //TODO
+        return null;
     }
 }

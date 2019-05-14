@@ -7,6 +7,6 @@ import network.socket.commands.Response;
 import java.io.Serializable;
 
 public interface Move extends Serializable{
-    Response execute(Player p) throws InvalidMoveException;
-    void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException;
+    Response execute(Player p, int groupId) throws InvalidMoveException;
+    void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException;
 }

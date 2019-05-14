@@ -1,6 +1,7 @@
 package model.decks;
 
 import model.Ammo;
+import model.Player;
 import model.enums.Color;
 import model.enums.WeaponStatus;
 import model.moves.*;
@@ -34,10 +35,10 @@ public class WeaponDeck {
                         "on your square.\n" +
                         "in reaper mode: Deal 2 damage to every other player\n" +
                         "on your square", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(1).getBasicEffect().add(new Damage());
+        this.weapons.get(1).getBasicEffect().add(new DamageEffect(new Player(), 0));
         this.weapons.get(1).getAmmoBasic().add(new Ammo(Color.BLUE));
 
-        this.weapons.get(1).getAlternateFireEffect().add(new Damage()); //2
+        this.weapons.get(1).getAlternateFireEffect().add(new DamageEffect(new Player(),2)); //2
         this.weapons.get(1).getAmmoAlternateFire().add(new Ammo(Color.BLUE));
         this.weapons.get(1).getAmmoAlternateFire().add(new Ammo(Color.RED));
         //Valid for EVERY OTHER PLAYER ON YOUR SQUARE
@@ -56,14 +57,14 @@ public class WeaponDeck {
                         "2 targets, you deal 2 to each if you use both optional\n" +
                         "effects. If you use the basic effect on only 1 target, you can\n" +
                         "still use the the turret tripod to give it 1 additional damage", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(2).getBasicEffect().add(new Damage()); //to 1 o 2 targets you can see
+        this.weapons.get(2).getBasicEffect().add(null); //to 1 o 2 targets you can see
         this.weapons.get(2).getAmmoBasic().add(new Ammo(Color.BLUE));
         this.weapons.get(2).getAmmoBasic().add(new Ammo(Color.RED));
 
-        this.weapons.get(2).getOptionalEffect().add(new Damage());
+        this.weapons.get(2).getOptionalEffect().add(null);
         this.weapons.get(2).getAmmoOptional().add(new Ammo(Color.YELLOW));
 
-        this.weapons.get(2).getOptionalEffect().add(new Damage());
+        this.weapons.get(2).getOptionalEffect().add(null);
         this.weapons.get(2).getAmmoOptional().add(new Ammo(Color.BLUE));
 
         //Tractor Beam
@@ -78,9 +79,9 @@ public class WeaponDeck {
                         "damage it. The moves do not have to be in the same\n" +
                         "direction.", WeaponStatus.PARTIALLY_LOADED));
         this.weapons.get(3).getBasicEffect().add(new Movement(2));
-        this.weapons.get(3).getBasicEffect().add(new Damage()); //to 1 o 2 targets you can see
+        this.weapons.get(3).getBasicEffect().add(null); //to 1 o 2 targets you can see
 
-        this.weapons.get(3).getAlternateFireEffect().add(new Damage());
+        this.weapons.get(3).getAlternateFireEffect().add(null);
         this.weapons.get(3).getAmmoAlternateFire().add(new Ammo(Color.RED));
         this.weapons.get(3).getAmmoAlternateFire().add(new Ammo(Color.YELLOW));
 

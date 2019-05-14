@@ -44,7 +44,7 @@ public class Movement implements Move{
      * @param p the player who wants to move
      * @throws InvalidMovementException if the destination is unreachable for the player
      */
-    public Response execute(Player p) throws InvalidMovementException {
+    public Response execute(Player p, int groupId) throws InvalidMovementException {
         if(!this.reachList.isEmpty()) this.reachList.clear();
         createReachList(p, maxSteps, p.getCurrentPosition());
         if(reachList.contains(this.destination)){
@@ -55,8 +55,8 @@ public class Movement implements Move{
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler) throws InvalidMoveException {
-        moveRequestHandler.handle(this);
+    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+        moveRequestHandler.handle(this, groupId);
     }
 
     /**
