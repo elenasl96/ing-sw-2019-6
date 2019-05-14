@@ -1,13 +1,15 @@
 package network.socket;
 
+import model.Game;
+import model.GameContext;
 import model.room.UserManager;
 import network.exceptions.InvalidUsernameException;
 import network.exceptions.InvalidGroupNumberException;
 import model.room.Group;
 import model.room.User;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SINGLETON
@@ -15,8 +17,8 @@ import java.util.Set;
  */
 public class Manager {
     private static Manager instance;
-    private Set<Group> groups = new HashSet<>();
-    private Set<User> users = new HashSet<>();
+    private List<Group> groups = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
     private String groupSituation;
 
     private Manager() {
@@ -43,6 +45,7 @@ public class Manager {
 
     synchronized Group createGroup(int skullNumber, int fieldNumber) {
         Group group = new Group(skullNumber, fieldNumber);
+        GameContext.get().getGames().add(new Game());
         groups.add(group);
         UserManager serverUser = new UserManager("Server" + group.getGroupID());
         group.join(serverUser);
@@ -79,19 +82,19 @@ public class Manager {
         if(instance!=null) {
             //Restoring default values
             this.groups = null;
-            this.groups = new HashSet<>();
+            this.groups = new ArrayList<>();
             Group.resetGroupID();
             createGroup(5, 2);
             this.users = null;
-            this.users = new HashSet<>();
+            this.users = new ArrayList<>();
         }
     }
 
-    Set<Group> getGroups() {
+    List<Group> getGroups() {
         return groups;
     }
 
-    Set<User> getUsers() {
+    List<User> getUsers() {
         return users;
     }
 }

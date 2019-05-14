@@ -2,8 +2,9 @@ package model.moves;
 
 import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
-import model.Game;
 import model.Player;
+import model.field.Room;
+import model.field.Square;
 import network.socket.commands.Response;
 
 import static java.lang.Math.min;
@@ -11,9 +12,23 @@ import static java.lang.Math.min;
 public class DamageEffect extends Effect implements Move{
     private int damages;
 
+    public DamageEffect(Player player, int damages){
+        this.target = player;
+        this.damages = damages;
+    }
+
+    public DamageEffect(Square square, int damages){
+        this.target = square;
+        this.damages = damages;
+    }
+
+    public DamageEffect(Room room, int damages){
+        this.target = room;
+        this.damages = damages;
+    }
+
     public Response execute(Player playerDamaging){
-        Game.get().
-        playerDamaged.getPlayerBoard().addDamage(playerDamaging, min(damages, playerDamaged.getPlayerBoard().getNumDamageLeft()));
+        target.addDamage(playerDamaging, min(damages, playerDamaged.getPlayerBoard().getNumDamageLeft()));
         //TODO
         return null;
     }
@@ -27,8 +42,5 @@ public class DamageEffect extends Effect implements Move{
         this.damages = damages;
     }
 
-    public Damage(Player playerDamaged, int numDamage){
-        this.playerDamaged = playerDamaged;
-        this.numDamage = numDamage;
-    }
+
 }
