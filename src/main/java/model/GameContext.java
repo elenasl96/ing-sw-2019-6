@@ -1,15 +1,12 @@
 package model;
 
 
-import model.room.Group;
-import model.room.User;
-
 import java.util.ArrayList;
 
 /**
- * SINGLETON (CLIENT SIDE)
+ * SINGLETON (SERVER SIDE)
  *
- * Context used at any client to record current user and group
+ * Context used to record the games and access them in every group, server side (for protection)
  */
 public class GameContext {
 
@@ -25,52 +22,22 @@ public class GameContext {
         return instance;
     }
 
-    synchronized Game getGame(int groupID){
+    public synchronized Game getGame(int groupID){
         return games.get(groupID);
     }
 
-    synchronized void createGame(){
+    /**
+     *  a New game is added to the gameList:
+     *      when the group is created, it adds a new Game to the list, being in the situation that
+     *      get(groupID) gets its specific game.
+     */
+    public synchronized void createGame(){
         this.games.add(new Game());
-    }
-
-    public synchronized User getCurrentUser() {
-        return currentUser;
-    }
-
-    synchronized void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public synchronized Group getCurrentGroup() {
-        return currentGroup;
-    }
-
-    synchronized void setCurrentGroup(Group currentGroup) {
-        this.currentGroup = currentGroup;
-    }
-
-    synchronized String getCurrentSituation() {
-        return currentSituation;
-    }
-
-    synchronized void setCurrentSituation(String currentSituation) {
-        this.currentSituation = currentSituation;
-    }
-
-    public void setPlayer(Player player) {
-        this.currentPlayer = player;
-    }
-
-    Player getCurrentPlayer() {
-        return currentPlayer;
     }
 
     void reset(){
         if(instance!= null){
-            this.currentPlayer = null;
-            this.currentGroup = null;
-            this.currentSituation = null;
-            this.currentUser = null;
+            this.games = null;
         }
     }
 }
