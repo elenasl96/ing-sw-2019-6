@@ -30,16 +30,25 @@ package model{
     }
     package chat{
             class Manager  << (S,#FF7700) Singleton >> {
-        }
+            }
     }
 }
 
 package controller{
-    class GameController  << (S,#FF7700) Singleton >> {
+    class GameController  << (S,#FF7700) Singleton >> implements MoveRequestHandler {
         instance: GameController
         __
         possibleMoves(Player, int): Update
-        
+        setSpawn(Player, int, int): void
+        getFirstTimeSpawn(Player, int): Update
+    }
+    interface MoveRequestHandler{
+        handle(int, Movement):void
+        handle(int, Movement):void
+        handle(int, DamageEffect):void
+        handle(int, Grab):void
+        handle(int, Run):void
+        handle(int, MoveAndGrab):void
     }
 }
 @enduml
