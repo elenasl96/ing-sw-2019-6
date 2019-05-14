@@ -10,6 +10,7 @@ package server{
     ClientHandler <--> ServerController
     ServerController ..|> RequestHandler
     ServerController --> Manager : get()
+    ChatServer --> ClientHandler : start socket
 }
 package client{
     class Client
