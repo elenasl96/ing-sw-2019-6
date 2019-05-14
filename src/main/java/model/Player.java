@@ -121,10 +121,22 @@ public class Player extends Target implements Serializable{
         return weapons;
     }
 
-    public PlayerBoard getPlayerBoard() {
-        return playerBoard;
+    @Override
+    public void addDamage() {
+
     }
 
+    @Override
+    public void addMarks() {
+
+    }
+
+    @Override
+    public ArrayList<PlayerBoard> getPlayerBoard() {
+        ArrayList<PlayerBoard> returns = new ArrayList<>();
+        returns.add(playerBoard);
+        return returns;
+    }
     /*
     set PlayerBoard deleted as PlayerBoard not editable
      */
