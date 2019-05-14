@@ -1,0 +1,45 @@
+@startuml
+package model{
+    package game{
+        class GameContext  << (S,#FF7700) Singleton >> {
+            games: ArrayList<Game>
+            __
+            get()
+            getGame(): Game
+        }
+
+        GameContext "1...n" *-- Game
+
+        class Game{
+            numberPlayers: int
+            board: Board
+            players: ArrayList<Player>
+            currentPlayer: Player
+            done: boolean
+            finalFrenzy: boolean
+            turn: int
+            __
+            setGame(int, int, List<Player>): void
+        }
+
+        Game "1" *-- Board
+
+        class Board{
+
+        }
+    }
+    package chat{
+            class Manager  << (S,#FF7700) Singleton >> {
+        }
+    }
+}
+
+package controller{
+    class GameController  << (S,#FF7700) Singleton >> {
+        instance: GameController
+        __
+        possibleMoves(Player, int): Update
+        
+    }
+}
+@enduml

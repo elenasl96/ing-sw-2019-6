@@ -3,6 +3,7 @@ package controller;
 import exception.InvalidMoveException;
 import exception.InvalidMovementException;
 import model.Game;
+import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
 import model.enums.Phase;
@@ -12,36 +13,35 @@ import model.moves.*;
 import model.room.Update;
 import java.util.Optional;
 
+/**
+ * SINGLETON (SERVER SIDE)
+ * Elaborates the ServerController requests
+ * Every method is called receiving the game groupID, to call it from the GameContext
+ */
+
 public class GameController implements MoveRequestHandler{
-    /**
-     * the current game
-     */
-    private Game game;
-    Player currentPlayer;
-
-    public GameController(Game game){
-        this.game = game;
-        currentPlayer = game.getCurrentPlayer();
-        //Setting the first player phase to FIRST move
-        currentPlayer.setPhase(Phase.SPAWN);
-        System.out.println(">>> Sending Update to currentPlayer:" + currentPlayer.getUser().getUserID());
-        currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
-        Update update = new Update("It's "+currentPlayer.getName()+"'s turn");
-        System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
-        game.sendUpdate(update);
+    private static GameController instance;
+    private GameController() {
     }
 
-    private boolean isMyTurn (Player player){
-        return player.equals(currentPlayer);
+    public static synchronized GameController get() {
+        if (instance == null) {
+            instance = new GameController();
+        }
+        return instance;
+    }
+
+    private boolean isMyTurn (Player player, int groupID){
+        return player.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
     }
 
 
-    public Update possibleMoves(Player player) {
+    synchronized public Update possibleMoves(Player player, int groupID) {
         StringBuilder content = new StringBuilder();
         switch (player.getPhase()){
             case FIRST: case SECOND:
                 content.append("\nThese are the moves you can choose\n");
-                if(!this.game.isFinalFrenzy()){
+                if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
                     content.append("run\n" +
                             "grab\n" +
                             "shoot");
@@ -68,43 +68,43 @@ public class GameController implements MoveRequestHandler{
         return new Update(content.toString());
     }
 
-    public void setSpawn(Player player, int spawn) {
+    public void setSpawn(Player player, int spawn, int groupID) {
         Powerup discarded;
-        if(isMyTurn(player) &&
-                currentPlayer.getPhase().equals(Phase.SPAWN) &&
+        if(isMyTurn(player, groupID) &&
+                GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(Phase.SPAWN) &&
                 spawn >= 0 &&
                 spawn < player.getPowerups().size()
         ){
-            Optional<SpawnSquare> optional = this.game.getBoard().getField().getSpawnSquares().stream()
-                    .filter(ss -> ss.getColor().equals(currentPlayer.getPowerups().get(spawn).getAmmo().getColor()))
+            Optional<SpawnSquare> optional = GameContext.get().getGame(groupID).getBoard().getField().getSpawnSquares().stream()
+                    .filter(ss -> ss.getColor().equals(GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
-            optional.ifPresent(currentPlayer::setCurrentPosition);
-            discarded = currentPlayer.getPowerups().remove(spawn);
+            optional.ifPresent(GameContext.get().getGame(groupID).getCurrentPlayer()::setCurrentPosition);
+            discarded = GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups().remove(spawn);
             //set phase wait to current player and send update
-            currentPlayer.setPhase(Phase.WAIT);
-            currentPlayer.getUser().receiveUpdate(new Update(player, true));
+            GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.WAIT);
+            GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(player, true));
             //go to next player and set phase
-            this.currentPlayer = this.game.getPlayers().next();
-            System.out.println("CURRENT PLAYER" + currentPlayer);
-            if(currentPlayer.equals(game.getPlayers().get(0))) currentPlayer.setPhase(Phase.FIRST);
-            else currentPlayer.setPhase(Phase.SPAWN);
+            GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
+            System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
+            if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.FIRST);
+            else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.SPAWN);
             //send updates
-            game.sendUpdate(new Update(
+            GameContext.get().getGame(groupID).sendUpdate(new Update(
                     "\nPlayer " + player.getName()+ " discarded:\n" +
                         "==========Powerup========\n"
                         + discarded.toString()
                         +"\nPlayer " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
-            currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
+            GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer(), true));
         } else {
             player.getUser().receiveUpdate(new Update(player, true));
-            player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + this.currentPlayer.toString()));
+            player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + GameContext.get().getGame(groupID).getCurrentPlayer().toString()));
         }
     }
 
-    public Update getFirstTimeSpawn(Player player) {
+    public Update getFirstTimeSpawn(Player player, int groupID) {
         if(player.getPowerups().isEmpty()){
-            player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
-            player.getPowerups().add(game.getBoard().getPowerupsLeft().pickCard());
+            player.getPowerups().add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
+            player.getPowerups().add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
             System.out.println(player.getPowerups().toString());
         }
         return new Update("Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
@@ -112,29 +112,29 @@ public class GameController implements MoveRequestHandler{
 
     // Moves handling
     @Override
-    public void handle(Run run) throws InvalidMoveException{
+    public void handle(Run run, int groupID) throws InvalidMoveException{
         run.setMaxSteps(3);
-        if(game.isFinalFrenzy() && !currentPlayer.isFirstPlayer()){
+        if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             run.setMaxSteps(4);
         }
-        handle(run.getMovement());
+        handle(run.getMovement(), groupID);
     }
 
     @Override
-    public void handle(MoveAndGrab moveAndGrab) throws InvalidMoveException {
+    public void handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
         moveAndGrab.setMaxSteps(1);
-        if(game.isFinalFrenzy() && !currentPlayer.isFirstPlayer()){
+        if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             moveAndGrab.setMaxSteps(4);
         }
-        handle(moveAndGrab.getMovement());
+        handle(moveAndGrab.getMovement(), groupID);
     }
 
     @Override
-    public void handle(Movement movement) throws InvalidMoveException {
+    public void handle(Movement movement, int groupID) throws InvalidMoveException {
         System.out.println("The new square is "+movement.getCoordinate());
         Square destination = null;
         //Check if the coordinate is valid
-        for(Square square: game.getBoard().getField().getSquares()) {
+        for(Square square: GameContext.get().getGame(groupID).getBoard().getField().getSquares()) {
             if (square.getCoord().equals(movement.getCoordinate())){
                 destination = square;
                 break;
@@ -143,17 +143,17 @@ public class GameController implements MoveRequestHandler{
             throw new InvalidMovementException();
         } else {
             movement.setDestination(destination);
-            movement.setField(game.getBoard().getField());
+            movement.setField(GameContext.get().getGame(groupID).getBoard().getField());
         }
     }
 
     @Override
-    public void handle(Damage damage) throws InvalidMoveException{
+    public void handle(DamageEffect damage, int groupID) throws InvalidMoveException{
         //TODO
     }
 
     @Override
-    public void handle(Grab grab) throws InvalidMoveException{
+    public void handle(Grab grab, int groupID) throws InvalidMoveException{
         //TODO
     }
 
