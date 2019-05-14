@@ -19,4 +19,5 @@ public class AmmoSquare extends Square{
     public void setGrabbable(Board board){
         this.ammo=board.getAmmosLeft().pickCard();
     }
+
 }
