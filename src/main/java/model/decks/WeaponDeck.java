@@ -20,7 +20,7 @@ public class WeaponDeck {
                 "you can see.\n" +
                 "with second lock: Deal 1 mark to a different target\n" +
                 "you can see.", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(0).getBasicEffect().add(new Damage()); //2
+        this.weapons.get(0).getBasicEffect().add(new DamageEffect(2)); //2
         this.weapons.get(0).getBasicEffect().add(new Mark());
         this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));
         this.weapons.get(0).getAmmoBasic().add(new Ammo(Color.BLUE));

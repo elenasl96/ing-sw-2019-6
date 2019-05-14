@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Game implements Serializable {
+    private static int GameID;
+    public static Game game;
     private int numberPlayers;
     private Board board;
     private PlayerList players = new PlayerList();
@@ -19,6 +21,12 @@ public class Game implements Serializable {
     private int skullsNumber;
     private transient boolean done;
     private transient boolean finalFrenzy;
+
+    public static Game get(int groupNumber) {
+        if(GameID != groupNumber){
+            return Game.get(groupNumber);
+        } else return ;
+    }
 
     public List<GameUpdateObserver> getObservers() {
         return observers;
@@ -32,7 +40,9 @@ public class Game implements Serializable {
         this.done = done;
     }
 
-    public Game(int skullNumber, int fieldNumber, List<User> users) {
+    public Game(int skullNumber, int fieldNumber, List<User> users, int groupID) {
+        GameID = groupID;
+
         this.skullsNumber = skullNumber;
         this.board = new Board(fieldNumber);
         this.turn = 0;

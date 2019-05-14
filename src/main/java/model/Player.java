@@ -8,6 +8,7 @@ import model.enums.Color;
 import model.enums.Phase;
 import model.field.Square;
 import model.moves.Move;
+import model.moves.Target;
 import model.room.User;
 
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Player implements Serializable{
+public class Player extends Target implements Serializable{
     private User user;
     private String name;
     private int id; //da 0 a numeroGiocatori-1

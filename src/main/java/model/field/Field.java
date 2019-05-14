@@ -7,11 +7,13 @@ import model.enums.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Field implements Serializable {
     private List<Edge> edges = new ArrayList<>();
     private List<Square> squares = new ArrayList<>();
     private List<SpawnSquare> spawnSquares = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
 
     public List<Edge> getEdges() {
         return edges;
@@ -60,6 +62,23 @@ public class Field implements Serializable {
                 this.edges.add(new Edge(this.squares.get(4),this.squares.get(7)));
                 this.edges.add(new Edge(this.squares.get(7),this.squares.get(8)));
                 this.edges.add(new Edge(this.squares.get(8),this.squares.get(9)));
+
+                this.rooms.add(new Room(Color.RED,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.RED))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.BLUE,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.BLUE))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.YELLOW,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.YELLOW))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.WHITE,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.WHITE))
+                                .collect(Collectors.toList())));
                 break;
             case(2):
                 /*     A   B   C   D         A   B   C   D
@@ -99,6 +118,26 @@ public class Field implements Serializable {
                 this.edges.add(new Edge(this.squares.get(2),this.squares.get(6)));
                 this.edges.add(new Edge(this.squares.get(3),this.squares.get(7)));
 
+                this.rooms.add(new Room(Color.RED,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.RED))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.BLUE,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.BLUE))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.YELLOW,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.YELLOW))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.WHITE,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.WHITE))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.GREEN,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.GREEN))
+                                .collect(Collectors.toList())));
                 break;
             case(3):
                 /*     A   B   C   D         A   B   C   D
@@ -139,6 +178,31 @@ public class Field implements Serializable {
                 this.edges.add(new Edge(this.squares.get(9),this.squares.get(11)));
                 this.edges.add(new Edge(this.squares.get(7),this.squares.get(8)));
                 this.edges.add(new Edge(this.squares.get(8),this.squares.get(11)));
+
+                this.rooms.add(new Room(Color.RED,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.RED))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.BLUE,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.BLUE))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.YELLOW,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.YELLOW))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.WHITE,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.WHITE))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.GREEN,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.GREEN))
+                                .collect(Collectors.toList())));
+                this.rooms.add(new Room(Color.PURPLE,
+                        this.squares.stream()
+                                .filter(square -> square.getColor().equals(Color.PURPLE))
+                                .collect(Collectors.toList())));
                 break;
             default: throw new NotExistingFieldException();
 

@@ -1,9 +1,11 @@
 package model.field;
 
 import model.enums.Color;
+import model.moves.Target;
+
 import java.util.List;
 
-public class Room {
+public class Room extends Target {
     private Color color;
     private List<Square> squares;
 

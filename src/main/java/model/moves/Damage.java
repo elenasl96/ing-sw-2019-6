@@ -2,17 +2,18 @@ package model.moves;
 
 import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
+import model.Game;
 import model.Player;
 import network.socket.commands.Response;
 
 import static java.lang.Math.min;
 
-public class Damage implements Move{
-    private Player playerDamaged;
-    private int numDamage;
+public class DamageEffect extends Effect implements Move{
+    private int damages;
 
     public Response execute(Player playerDamaging){
-        playerDamaged.getPlayerBoard().addDamage(playerDamaging, min(numDamage, playerDamaged.getPlayerBoard().getNumDamageLeft()));
+        Game.get().
+        playerDamaged.getPlayerBoard().addDamage(playerDamaging, min(damages, playerDamaged.getPlayerBoard().getNumDamageLeft()));
         //TODO
         return null;
     }
@@ -22,8 +23,8 @@ public class Damage implements Move{
         //TODO
     }
 
-    public Damage(){
-        //TODO
+    public DamageEffect(int damages){
+        this.damages = damages;
     }
 
     public Damage(Player playerDamaged, int numDamage){
