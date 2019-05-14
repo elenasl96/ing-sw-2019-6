@@ -2,7 +2,6 @@ package controller;
 
 import exception.InvalidMoveException;
 import exception.InvalidMovementException;
-import model.Game;
 import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
@@ -36,7 +35,7 @@ public class GameController implements MoveRequestHandler{
     }
 
 
-    synchronized public Update possibleMoves(Player player, int groupID) {
+    public synchronized Update possibleMoves(Player player, int groupID) {
         StringBuilder content = new StringBuilder();
         switch (player.getPhase()){
             case FIRST: case SECOND:
@@ -68,7 +67,7 @@ public class GameController implements MoveRequestHandler{
         return new Update(content.toString());
     }
 
-    public void setSpawn(Player player, int spawn, int groupID) {
+    public synchronized void setSpawn(Player player, int spawn, int groupID) {
         Powerup discarded;
         if(isMyTurn(player, groupID) &&
                 GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(Phase.SPAWN) &&
@@ -101,7 +100,7 @@ public class GameController implements MoveRequestHandler{
         }
     }
 
-    public Update getFirstTimeSpawn(Player player, int groupID) {
+    public synchronized Update getFirstTimeSpawn(Player player, int groupID) {
         if(player.getPowerups().isEmpty()){
             player.getPowerups().add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
             player.getPowerups().add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
@@ -112,7 +111,7 @@ public class GameController implements MoveRequestHandler{
 
     // Moves handling
     @Override
-    public void handle(Run run, int groupID) throws InvalidMoveException{
+    public synchronized void handle(Run run, int groupID) throws InvalidMoveException{
         run.setMaxSteps(3);
         if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             run.setMaxSteps(4);
@@ -121,7 +120,7 @@ public class GameController implements MoveRequestHandler{
     }
 
     @Override
-    public void handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
+    public synchronized void handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
         moveAndGrab.setMaxSteps(1);
         if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             moveAndGrab.setMaxSteps(4);
@@ -130,7 +129,7 @@ public class GameController implements MoveRequestHandler{
     }
 
     @Override
-    public void handle(Movement movement, int groupID) throws InvalidMoveException {
+    public synchronized void handle(Movement movement, int groupID) throws InvalidMoveException {
         System.out.println("The new square is "+movement.getCoordinate());
         Square destination = null;
         //Check if the coordinate is valid
@@ -148,12 +147,12 @@ public class GameController implements MoveRequestHandler{
     }
 
     @Override
-    public void handle(DamageEffect damage, int groupID) throws InvalidMoveException{
+    public synchronized void handle(DamageEffect damage, int groupID) throws InvalidMoveException{
         //TODO
     }
 
     @Override
-    public void handle(Grab grab, int groupID) throws InvalidMoveException{
+    public synchronized void handle(Grab grab, int groupID) throws InvalidMoveException{
         //TODO
     }
 
