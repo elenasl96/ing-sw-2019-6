@@ -7,7 +7,6 @@ import model.Player;
 import model.decks.Grabbable;
 import model.decks.Weapon;
 import model.field.Field;
-import network.socket.commands.Response;
 
 public class Grab implements Move{
 

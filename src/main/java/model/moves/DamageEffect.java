@@ -14,9 +14,8 @@ public class DamageEffect extends Effect implements Move{
         this.damages = damages;
     }
 
-    public Response execute(Player playerDamaging, int groupId){
+    public void execute(Player playerDamaging, int groupId){
         target.addDamages(playerDamaging, damages, groupId);
-        return null;
     }
 
     @Override

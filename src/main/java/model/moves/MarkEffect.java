@@ -20,14 +20,13 @@ public class MarkEffect extends Effect implements Move{
         this.nMarks = nMarks;
     }
 
-    public Response execute(Player p, int groupId) throws FullMarksException {
+    public void execute(Player p, int groupId) throws FullMarksException {
         int occurrences = Collections.frequency(target.getPlayerBoard(groupId).get(0).getMarks(), p);
         if(occurrences<3){
             target.getPlayerBoard(groupId).get(0).addMarks(p, min(3-occurrences, nMarks));
         } else{
             throw new FullMarksException();
         }
-        return null;
     }
 
     @Override

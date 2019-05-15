@@ -2,10 +2,12 @@ package model.moves;
 import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
 import exception.InvalidMovementException;
+import model.GameContext;
 import model.Player;
 import model.field.Coordinate;
 import model.field.Field;
 import model.field.Square;
+import model.room.Update;
 import network.socket.commands.Response;
 
 import java.util.ArrayList;
@@ -44,14 +46,14 @@ public class Movement implements Move{
      * @param p the player who wants to move
      * @throws InvalidMovementException if the destination is unreachable for the player
      */
-    public Response execute(Player p, int groupId) throws InvalidMovementException {
+    public void execute(Player p, int groupId) throws InvalidMovementException {
         if(!this.reachList.isEmpty()) this.reachList.clear();
         createReachList(p, maxSteps, p.getCurrentPosition());
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);
         }else throw new InvalidMovementException();
-        //TODO il return
-        return null;
+        GameContext.get().getGame(groupId)
+                .sendUpdate(new Update(p.getName()+" moved to "+p.getCurrentPosition()));
     }
 
     @Override
