@@ -1,8 +1,7 @@
 package model.moves;
 
 import model.PlayerBoard;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Target{
     private boolean canSee;
@@ -10,5 +9,5 @@ public abstract class Target{
     private int minDistance;
     private int maxDistance;
 
-    public abstract ArrayList<PlayerBoard> getPlayerBoard(int groupId);
+    public abstract List<PlayerBoard> getPlayerBoard(int groupId);
 }
