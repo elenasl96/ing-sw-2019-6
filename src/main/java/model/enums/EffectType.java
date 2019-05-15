@@ -4,7 +4,9 @@ public enum EffectType {
     BASIC(1),
     OPTIONAL(2),
     ALTERNATIVE(3),
-    BEFORE_AFTER_BASIC(4);
+    BEFORE_AFTER_BASIC(4),
+    POWERUP(5),
+    MOVE(6);
 
     private int number;
 

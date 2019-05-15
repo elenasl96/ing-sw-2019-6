@@ -10,6 +10,10 @@ public abstract class Effect {
     protected Target target;
     protected ArrayList<Ammo> cost = new ArrayList<>();
 
+    public Effect(){
+
+    }
+
     public Effect(EffectType type, Target target){
         this.type = type;
         this.target = target;

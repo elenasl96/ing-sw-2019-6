@@ -4,13 +4,14 @@ import controller.MoveRequestHandler;
 import exception.FullMarksException;
 import exception.InvalidMoveException;
 import model.Player;
+import model.enums.EffectType;
 import network.socket.commands.Response;
 
 import java.util.Collections;
 
 import static java.lang.Math.min;
 
-public class MarkEffect implements Move{
+public class MarkEffect extends Effect implements Move{
     private Player playerMarked;
     private int nMarks;
 
@@ -24,15 +25,19 @@ public class MarkEffect implements Move{
         return null;
     }
 
+    public MarkEffect(){
+
+    }
+
+    public MarkEffect(EffectType type, Player playerMarked, int nMarks) {
+        super(type, playerMarked);
+        this.playerMarked = playerMarked;
+        this.nMarks = nMarks;
+    }
+
     @Override
     public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
         //TODO
-    }
-
-    public MarkEffect(){}
-    public MarkEffect(Player playerMarked, int nMarks) {
-        this.playerMarked = playerMarked;
-        this.nMarks = nMarks;
     }
 
 }
