@@ -33,13 +33,11 @@ class PlayerTest {
 
         pg.setName("ugo");
         pg.setCharacter(Character.PG1);
-        pg.setMotto("ullallà");
         pg.setCurrentPosition(sq);
 
         assertEquals(0, pg.getStackPoint());
         assertEquals(Phase.WAIT, pg.getPhase());
         assertEquals("ugo", pg.getName());
-        assertEquals("ullallà", pg.getMotto());
         assertEquals("PG1", pg.getCharacter().name());
         assertEquals("BLUE", pg.getAmmos().get(0).getColor().name());
         assertEquals("YELLOW", pg.getCurrentPosition().getColor().name());
