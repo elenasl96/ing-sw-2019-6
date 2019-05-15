@@ -51,7 +51,9 @@ public class Movement implements Move{
         createReachList(p, maxSteps, p.getCurrentPosition());
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);
-        }else throw new InvalidMovementException();
+        }else {
+            throw new InvalidMovementException();
+        }
         GameContext.get().getGame(groupId)
                 .sendUpdate(new Update(p.getName()+" moved to "+p.getCurrentPosition()));
     }
