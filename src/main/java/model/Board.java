@@ -34,7 +34,7 @@ public class Board implements Serializable {
      setfield deleted as field not editable
     */
 
-    public List<Player> getKillshotTrack() {
+    List<Player> getKillshotTrack() {
         return killshotTrack;
     }
 
@@ -54,7 +54,7 @@ public class Board implements Serializable {
      * Adds the player who killed on the kill shot track
      * @param pg player who killed
      */
-    public void addKillshot(Player pg) {
+    void addKillshot(Player pg) {
         this.killshotTrack.add(pg);
     }
     
