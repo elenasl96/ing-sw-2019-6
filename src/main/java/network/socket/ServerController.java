@@ -210,7 +210,7 @@ public class ServerController implements RequestHandler {
     }
 
     @Override
-    public Response handle(MoveRequest moveRequest) {
+    public void handle(MoveRequest moveRequest) {
         try {
             Move move = moveRequest.getMove();
             move.handle(GameController.get(), currentGroup.getGroupID());
@@ -218,10 +218,8 @@ public class ServerController implements RequestHandler {
             Update update = new Update(currentGroup.getGame().getCurrentPlayer());
             update.setString(response.toString());
             currentGroup.getGame().sendUpdate(update);
-            return null;
         } catch (InvalidMoveException e) {
-            //TODO
-            return null;
+            user.receiveUpdate(new Update("You can't reach that spot"));
         }
     }
 

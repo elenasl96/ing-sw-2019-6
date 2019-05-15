@@ -1,11 +1,15 @@
 package controller;
 
 import exception.InvalidMoveException;
+import model.Ammo;
 import model.GameContext;
+import model.decks.Powerup;
+import model.enums.Color;
 import model.enums.Phase;
 import model.field.Coordinate;
 import model.moves.Run;
 import model.room.Group;
+import model.room.Update;
 import model.room.User;
 import network.exceptions.InvalidUsernameException;
 import network.socket.Manager;
@@ -61,5 +65,21 @@ class GameControllerTest {
         GameContext.get().getGame(0).getCurrentPlayer().setCurrentPosition(
                 GameContext.get().getGame(0).getBoard().getField().getSquares().get(0));
         assertDoesNotThrow(() -> GameController.get().handle(run, 0) );
+    }
+
+    @Test
+    void isMyTurnTest(){
+        assertTrue(GameController.get().isMyTurn(GameContext.get().getGame(0).getCurrentPlayer(), 0));
+    }
+
+    @Test
+    void possibleMovesTest(){
+        GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
+        Update possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
+        GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
+        GameContext.get().getGame(0).getCurrentPlayer().getPowerups().add(new Powerup("dummy", new Ammo(Color.BLUE)));
+        possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
+        GameContext.get().getGame(0).setFinalFrenzy(true);
+        possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
     }
 }

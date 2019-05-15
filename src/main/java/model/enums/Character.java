@@ -10,13 +10,7 @@ public enum Character implements Serializable {
     PG4("VIOLET", Color.PURPLE),
     PG5("SPROG", Color.GREEN);
 
-    private String name;
-    private Color color;
-
-    Character(String name, Color color){
-        this.name = name;
-        this.color = color;
-    }
+    Character(String name, Color color){}
 
     public static Character fromInteger(int x) {
         switch(x) {

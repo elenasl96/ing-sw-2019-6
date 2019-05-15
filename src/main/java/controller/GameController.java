@@ -30,7 +30,7 @@ public class GameController implements MoveRequestHandler{
         return instance;
     }
 
-    private boolean isMyTurn (Player player, int groupID){
+    boolean isMyTurn (Player player, int groupID){
         return player.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
     }
 
