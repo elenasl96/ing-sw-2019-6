@@ -8,7 +8,6 @@ import model.field.Coordinate;
 import model.field.Field;
 import model.field.Square;
 import model.room.Update;
-import network.socket.commands.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
  * Implements the movement of the player of any steps on the board
  * @see Move
  */
-public class Movement implements Move{
+public class Movement extends Effect implements Move{
     private Coordinate coordinate;
     /**
      * The square where the player wants to move
@@ -48,7 +47,7 @@ public class Movement implements Move{
      */
     public void execute(Player p, int groupId) throws InvalidMovementException {
         if(!this.reachList.isEmpty()) this.reachList.clear();
-        createReachList(p, maxSteps, p.getCurrentPosition());
+        createReachList(maxSteps, p.getCurrentPosition());
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);
         }else {
@@ -65,20 +64,19 @@ public class Movement implements Move{
 
     /**
      * Creates the List of reachable Squares p can do in maxSteps
-     * @param p The maximum number of steps the player can do
      * @param maxSteps  the player who want to move
      * @param newCurrentPosition the Square you take in exam every round of the recursion
      */
-    private void createReachList(Player p, int maxSteps, Square newCurrentPosition) {
+    private void createReachList(int maxSteps, Square newCurrentPosition) {
         if (maxSteps != 0) {
             for (int i = 0; i < maxSteps; i++) {
                 field.getEdges().forEach(edge -> {
                     if (edge.getSq1().equals(newCurrentPosition)){
                         this.reachList.add(edge.getSq2());
-                        createReachList(p, maxSteps-1, edge.getSq2());
+                        createReachList(maxSteps-1, edge.getSq2());
                     } else if (edge.getSq2().equals(newCurrentPosition)){
                         this.reachList.add(edge.getSq1());
-                        createReachList(p, maxSteps-1, edge.getSq1());
+                        createReachList(maxSteps-1, edge.getSq1());
                     }
                 });
             }

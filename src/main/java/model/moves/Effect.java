@@ -8,15 +8,17 @@ import java.util.List;
 
 public abstract class Effect {
     protected EffectType type;
+    protected Boolean optionality;
     protected Target target;
     protected List<Ammo> cost = new ArrayList<>();
 
     public Effect(){
     }
 
-    public Effect(EffectType type, Target target){
+    public Effect(EffectType type, Target target, Boolean optionality){
         this.type = type;
         this.target = target;
+        this.optionality = optionality;
     }
 
     public void setCost(List<Ammo> cost) {

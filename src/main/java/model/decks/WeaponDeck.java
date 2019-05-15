@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
-import static model.enums.EffectType.BASIC;
+import static model.enums.EffectType.*;
 
 public class WeaponDeck {
     private List<Weapon> weapons = new ArrayList<>();
@@ -32,14 +32,14 @@ public class WeaponDeck {
                         "you can see.", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
         Player p1 = new Player(true, null, null, null);
-        this.weapons.get(0).getEffects().add(new DamageEffect(BASIC, p1,2));
-        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p1, 1));
+        this.weapons.get(0).getEffects().add(new DamageEffect(BASIC, p1,2, false));
+        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p1, 1, false));
         this.weapons.get(0).getEffects().get(0).setCost(Stream
                 .of(new Ammo(Color.BLUE), new Ammo(Color.BLUE))
                 .collect(Collectors.toCollection(ArrayList::new)));
         //Optional effect
         Player p2 = new Player(true, false, null, null);
-        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p2,1)); //2
+        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p2,1, false)); //2
         this.weapons.get(0).getEffects().get(2).setCost(Stream
                 .of(new Ammo(Color.RED))
                 .collect(Collectors.toCollection(ArrayList::new)));
@@ -52,20 +52,20 @@ public class WeaponDeck {
                         "in reaper mode: Deal 2 damage to every other player\n" +
                         "on your square", WeaponStatus.PARTIALLY_LOADED));
         //Basic effect
-        this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, new AmmoSquare(),1));
+        this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, new AmmoSquare(),1, false));
         this.weapons.get(1).getEffects().get(0).setCost(Stream
                 .of(new Ammo(Color.BLUE))
                 .collect(Collectors.toCollection(ArrayList::new)));
         //Alternative
-        this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, new AmmoSquare(),1));
-        this.weapons.get(1).getEffects().get(0).setCost(Stream
-                .of(new Ammo(Color.BLUE))
+        this.weapons.get(1).getEffects().add(new DamageEffect(ALTERNATIVE, new AmmoSquare(),2, false));
+        this.weapons.get(1).getEffects().get(1).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
                 .collect(Collectors.toCollection(ArrayList::new)));
-        //Valid for EVERY OTHER PLAYER ON YOUR SQUARE
+        //TODO Valid for EVERY OTHER PLAYER ON YOUR SQUARE -- edit constructor Ammosquare
 
-        /*
+
         //Machine Gun
-        this.weapons.add(new Weapon("ELECTROSCYTHE",
+        this.weapons.add(new Weapon("MACHINE GUN",
                 "basic effect: Choose 1 or 2 targets you can see and deal\n" +
                         "1 damage to each.\n" +
                         "with focus shot: Deal 1 additional damage to one of those\n" +
@@ -78,15 +78,34 @@ public class WeaponDeck {
                         "2 targets, you deal 2 to each if you use both optional\n" +
                         "effects. If you use the basic effect on only 1 target, you can\n" +
                         "still use the the turret tripod to give it 1 additional damage", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(2).getEffects().add(null); //to 1 o 2 targets you can see
-        this.weapons.get(2).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(2).getAmmoBasic().add(new Ammo(Color.RED));
+        //Basic effect
+        this.weapons.get(2).getEffects().add(
+                new DamageEffect(BASIC,
+                        new Player(true, null, null, null),1, false));
+        this.weapons.get(2).getEffects().add(
+                new DamageEffect(BASIC,
+                        new Player(true, null, null, null), 1,true));
+        this.weapons.get(2).getEffects().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
+                .collect(Collectors.toCollection(ArrayList::new)));
 
-        this.weapons.get(2).getOptionalEffect().add(null);
-        this.weapons.get(2).getAmmoOptional().add(new Ammo(Color.YELLOW));
+        //Optional effect 1
+        this.weapons.get(2).getEffects().add(
+                new DamageEffect(OPTIONAL,
+                        new Player(true, null, null, null),1, false));
+        this.weapons.get(2).getEffects().get(2).setCost(Stream
+                .of(new Ammo(Color.YELLOW))
+                .collect(Collectors.toCollection(ArrayList::new)));
 
-        this.weapons.get(2).getOptionalEffect().add(null);
-        this.weapons.get(2).getAmmoOptional().add(new Ammo(Color.BLUE));
+        //Optional effect 2
+        this.weapons.get(2).getEffects().add(
+                new DamageEffect(OPTIONAL,
+                        new Player(true, null, null, null),1, false));
+        this.weapons.get(2).getEffects().get(3).setCost(Stream
+                .of(new Ammo(Color.BLUE))
+                .collect(Collectors.toCollection(ArrayList::new)));
+        //TODO 3 different player targets
+
 
         //Tractor Beam
         this.weapons.add(new Weapon("TRACTOR BEAM",
@@ -102,10 +121,12 @@ public class WeaponDeck {
         this.weapons.get(3).getEffects().add(new Movement(2));
         this.weapons.get(3).getEffects().add(null); //to 1 o 2 targets you can see
 
-        this.weapons.get(3).getAlternateFireEffect().add(null);
-        this.weapons.get(3).getAmmoAlternateFire().add(new Ammo(Color.RED));
-        this.weapons.get(3).getAmmoAlternateFire().add(new Ammo(Color.YELLOW));
 
+        this.weapons.get(2).getEffects().get(3).setCost(Stream
+                .of(new Ammo(Color.RED), new Ammo(Color.YELLOW))
+                .collect(Collectors.toCollection(ArrayList::new)));
+
+        /*
         //T.H.O.R.
         this.weapons.add(new Weapon("T.H.O.R.",
                 "basic effect: Deal 2 damage to 1 target you can see.\n" +
