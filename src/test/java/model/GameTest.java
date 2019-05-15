@@ -1,49 +1,39 @@
 package model;
-
-import controller.GameController;
-import model.room.User;
-import org.junit.jupiter.api.Disabled;
+import model.room.Group;
+import network.exceptions.InvalidUsernameException;
+import network.socket.Manager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
-    ArrayList<User> users = new ArrayList<>();
+    private Group group0 = Manager.get().getGroup(0);
 
-    @Disabled
-    void numberPlayers() {
-        assertEquals(0, GameContext.get().getGame(0).getNumberPlayers());
-        GameContext.get().getGame(0).setNumberPlayers(1);
-        assertEquals(1, GameContext.get().getGame(0).getNumberPlayers());
-    }
+    @BeforeEach
+    void reset(){
+        Manager.get().reset();
+        GameContext.get().reset();
+        GameContext.get().createGame();
+        try {
+            Manager.get().createUser("user1");
+            Manager.get().createUser("user2");
+            Manager.get().createUser("user3");
+            Manager.get().createUser("user4");
+        } catch (InvalidUsernameException e) {
+            e.printStackTrace();
+        }
+        for(int i = 0; i<4; i++) {
+            group0.join(Manager.get().getUsers().get(i));
+        }
+        group0.createGame();
 
-    @Disabled
-    void CurrentPlayer() {
-    }
 
-    @Disabled
-    void Board() {
-    }
-
-    @Disabled
-    void Players() {
-    }
-
-    @Disabled
-    void turn() {
-    }
-
-    @Disabled
-    void skullsNumber() {
-    }
-
-    @Disabled
-    void isDone() {
     }
 
     @Test
-    void isFinalFrenzy() {
+    void numberPlayers() {
+        assertEquals(4, GameContext.get().getGame(0).getNumberPlayers());
     }
 }

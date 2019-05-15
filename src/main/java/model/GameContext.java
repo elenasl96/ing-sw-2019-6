@@ -2,6 +2,7 @@ package model;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SINGLETON (SERVER SIDE)
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class GameContext {
 
     private static GameContext instance;
-    private ArrayList<Game> games;
+    private List<Game> games;
     private GameContext() {
         this.games = new ArrayList<>();
     }
@@ -36,17 +37,14 @@ public class GameContext {
         this.games.add(new Game());
     }
 
-    void reset(){
+    public void reset(){
         if(instance!= null){
             this.games = null;
+            this.games = new ArrayList<>();
         }
     }
 
-    public ArrayList<Game> getGames() {
+    public List<Game> getGames() {
         return games;
-    }
-
-    public void setGames(ArrayList<Game> games) {
-        this.games = games;
     }
 }

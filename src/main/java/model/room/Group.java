@@ -1,6 +1,5 @@
 package model.room;
 
-import controller.GameController;
 import model.Game;
 import model.GameContext;
 import model.enums.Character;
@@ -23,10 +22,6 @@ public class Group implements Serializable {
     private boolean full = false;
     private int fieldNumber;
     private int skullNumber;
-    private transient GameController gameController;
-
-    //setGame variables
-    private transient Game game;
 
     public Group(int skullNumber, int fieldNumber) {
         super();
@@ -146,12 +141,12 @@ public class Group implements Serializable {
         ArrayList<User> clients = new ArrayList<>(users.subList(1,users.size()));
         GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, clients);
         //Fill the squares
-        this.game.getBoard().getField().getSquares().forEach(square->
-            square.setGrabbable(game.getBoard())
+        GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares().forEach(square->
+            square.setGrabbable(GameContext.get().getGame(this.getGroupID()).getBoard())
         );
         //Makes every listener of this group an Observer of the game
         for(GroupChangeListener listener : listeners){
-            game.addObserverGame((GameUpdateObserver) listener);
+            GameContext.get().getGame(this.getGroupID()).addObserverGame((GameUpdateObserver) listener);
         }
         //Triggers onStart in the GroupChangeListeners
         this.sendStartNotification();
@@ -182,13 +177,7 @@ public class Group implements Serializable {
     }
 
     public Game getGame(){
-        return this.game;
-    }
-
-    public void sendUpdate(Update update){this.game.sendUpdate(update);}
-
-    public GameController getGameController(){
-        return this.gameController;
+        return GameContext.get().getGame(this.getGroupID());
     }
 
 }

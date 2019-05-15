@@ -1,5 +1,6 @@
 package model;
 
+import model.enums.Phase;
 import model.room.GameUpdateObserver;
 import model.room.Update;
 import model.room.User;
@@ -33,13 +34,7 @@ public class Game implements Serializable {
     }
 
     public Game(){
-        this.skullsNumber = 0;
-        this.board = null;
-        this.done = false;
-        this.finalFrenzy = false;
-        this.turn = 0;
-        this.numberPlayers = 0;
-        this.currentPlayer = null;
+        //no need to initiate any variable
     }
 
     public void setGame(int skullNumber, int fieldNumber, List<User> users) {
@@ -59,18 +54,20 @@ public class Game implements Serializable {
         }
         this.players.get(0).setFirstPlayer(true);
         this.currentPlayer = this.players.get(0);
+        currentPlayer.setPhase(Phase.SPAWN);
+        System.out.println(">>> Sending Update to currentPlayer:" + currentPlayer.getUser().getUserID());
+        currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
+        Update update = new Update("It's "+currentPlayer.getName()+"'s turn");
+        System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
+        this.sendUpdate(update);
     }
 
-    public int getNumberPlayers() {
+    int getNumberPlayers() {
         return numberPlayers;
     }
 
     public Player getCurrentPlayer(){
         return this.currentPlayer;
-    }
-
-    public void setNumberPlayers(int numberPlayers) {
-        this.numberPlayers = numberPlayers;
     }
 
     public Board getBoard() {

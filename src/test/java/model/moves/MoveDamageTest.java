@@ -4,6 +4,7 @@ package model.moves;
 import model.Player;
 import model.enums.Character;
 import model.room.User;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +14,7 @@ public class MoveDamageTest {
     private Player playerDamaged;
     private DamageEffect damage = new DamageEffect(1);
 
-    @Test
+    @Disabled
     public void damageTest(){
         playerDamaging = new Player(1, true, "pippo", Character.PG1);
         playerDamaged = new Player(2, false, "paperino", Character.PG3);

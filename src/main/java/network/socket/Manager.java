@@ -53,7 +53,7 @@ public class Manager {
         return group;
     }
 
-    synchronized User createUser(String name) throws InvalidUsernameException {
+    public synchronized User createUser(String name) throws InvalidUsernameException {
         User user = new User(name);
 
         if (users.contains(user) || user.getUsername().contains("Server")||user.getUsername().contains("server")) {
@@ -78,7 +78,7 @@ public class Manager {
         group.getServerUser().playTimer();
     }
 
-    void reset(){
+    public void reset(){
         if(instance!=null) {
             //Restoring default values
             this.groups = null;
@@ -94,7 +94,7 @@ public class Manager {
         return groups;
     }
 
-    List<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 }

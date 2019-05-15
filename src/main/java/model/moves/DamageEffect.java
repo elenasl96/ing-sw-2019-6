@@ -28,12 +28,10 @@ public class DamageEffect extends Effect implements Move{
     }
 
     public void addDamages(Player playerDamaging, int damages){
-        //TODO
     }
 
     public Response execute(Player playerDamaging, int groupId){
         this.addDamages(playerDamaging, damages);
-        //TODO
         return null;
     }
 

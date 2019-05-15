@@ -38,6 +38,7 @@ public class Player extends Target implements Serializable{
         this.user = user;
         this.name = user.getUsername();
         this.character = user.getCharacter();
+        this.phase = Phase.WAIT;
     }
 
     public Player(){
