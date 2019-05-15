@@ -9,7 +9,7 @@ import java.util.List;
 public abstract class Effect {
     protected EffectType type;
     protected Target target;
-    protected ArrayList<Ammo> cost = new ArrayList<>();
+    protected List<Ammo> cost = new ArrayList<>();
 
     public Effect(){
     }
@@ -19,8 +19,8 @@ public abstract class Effect {
         this.target = target;
     }
 
-    public List<Ammo> getCost() {
-        return cost;
+    public void setCost(List<Ammo> cost) {
+        this.cost = cost;
     }
 
     public void addCost(Ammo ammo) {

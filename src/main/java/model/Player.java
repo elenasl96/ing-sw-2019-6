@@ -34,6 +34,10 @@ public class Player extends Target implements Serializable{
     private List<Move> possibleMoves = new ArrayList<>();
 
     //Costruttore
+    public Player(boolean canSee, boolean cardinal, Integer minDistance, Integer maxDistance){
+        super(canSee, cardinal, minDistance, maxDistance);
+    }
+
     public Player(User user) {
         this.user = user;
         this.name = user.getUsername();

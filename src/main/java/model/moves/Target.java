@@ -7,8 +7,19 @@ import java.util.List;
 public abstract class Target{
     private boolean canSee;
     private boolean cardinal;
-    private int minDistance;
-    private int maxDistance;
+    private Integer minDistance;
+    private Integer maxDistance;
+
+    public Target(){
+
+    }
+
+    public Target(boolean canSee, boolean cardinal, int minDistance, int maxDistance){
+        this.canSee = canSee;
+        this.cardinal = cardinal;
+        this.minDistance = minDistance;
+        this.maxDistance = maxDistance;
+    }
 
     public abstract List<PlayerBoard> getPlayerBoard(int groupId);
 

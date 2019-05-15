@@ -7,9 +7,13 @@ import model.enums.WeaponStatus;
 import model.moves.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static java.util.Arrays.asList;
 import static model.enums.EffectType.BASIC;
 
 public class WeaponDeck {
@@ -18,17 +22,25 @@ public class WeaponDeck {
     public WeaponDeck() {
 
         //Lock rifle
-        this.weapons.add(new Weapon("Lock rifle",
+        this.weapons.add(new Weapon(
+                "Lock rifle",
                 "basic effect: Deal 2 damage and 1 mark to 1 target\n" +
                 "you can see.\n" +
                 "with second lock: Deal 1 mark to a different target\n" +
                 "you can see.", WeaponStatus.PARTIALLY_LOADED));
-        Player p1 = new Player();
-        this.weapons.get(0).getEffects().add(new DamageEffect(BASIC, p1,2)); //2
+        //Basic Effect
+        Player p1 = new Player(true, false, null, null);
+        this.weapons.get(0).getEffects().add(new DamageEffect(BASIC, p1,2));
         this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p1, 1));
-        this.weapons.get(0).getEffects().get(0).addCost(new Ammo(Color.BLUE));
-        this.weapons.get(0).getEffects().get(0).addCost(new Ammo(Color.BLUE));
-        this.weapons.get(0).getEffects().get(1).addCost(new Ammo(Color.RED));
+        this.weapons.get(0).getEffects().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.BLUE))
+                .collect(Collectors.toCollection(ArrayList::new)));
+        //Optional effect
+        Player p2 = new Player(true, false, null, null);
+        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p2,1)); //2
+        this.weapons.get(0).getEffects().get(2).setCost(Stream
+                .of(new Ammo(Color.RED))
+                .collect(Collectors.toCollection(ArrayList::new)));
         //to a target you can see
 
         /*

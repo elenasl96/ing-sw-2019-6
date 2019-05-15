@@ -12,7 +12,7 @@ public class Grab implements Move{
 
     private Field field;
     private Weapon weapon;
-
+    
     @Override
     public void execute(Player p, int gorupId) throws InvalidMoveException {
         Grabbable grabbable=p.getCurrentPosition().getGrabbable();
