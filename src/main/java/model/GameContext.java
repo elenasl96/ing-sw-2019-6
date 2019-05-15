@@ -13,6 +13,7 @@ public class GameContext {
     private static GameContext instance;
     private ArrayList<Game> games;
     private GameContext() {
+        this.games = new ArrayList<>();
     }
 
     public static synchronized GameContext get() {
