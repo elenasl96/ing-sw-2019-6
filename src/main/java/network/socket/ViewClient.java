@@ -125,7 +125,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     Coordinate getCoordinate(){
-        displayText("Insert coordinates in format <X 0>");
+        displayText("Insert coordinates in format \'X 0\'");
         char letter;
         int number;
         Coordinate coordinate = null;
