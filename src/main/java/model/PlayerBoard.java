@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.min;
+
 public class PlayerBoard implements Serializable {
     private List<Player> damage = new ArrayList<>();
     private List<Player> marks = new ArrayList<>();
@@ -22,7 +24,7 @@ public class PlayerBoard implements Serializable {
      * @param numDamage number of damages
      */
     public void addDamage(Player pg, int numDamage) {
-        for(int i=0; i<numDamage; i++){
+        for(int i=0; i<min(numDamage, this.getNumDamageLeft()); i++){
             this.damage.add(pg);
         }
     }

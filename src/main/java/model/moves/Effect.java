@@ -4,6 +4,7 @@ import model.Ammo;
 import model.enums.EffectType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Effect {
     protected EffectType type;
@@ -11,7 +12,6 @@ public abstract class Effect {
     protected ArrayList<Ammo> cost = new ArrayList<>();
 
     public Effect(){
-
     }
 
     public Effect(EffectType type, Target target){
@@ -19,7 +19,7 @@ public abstract class Effect {
         this.target = target;
     }
 
-    public ArrayList<Ammo> getCost() {
+    public List<Ammo> getCost() {
         return cost;
     }
 

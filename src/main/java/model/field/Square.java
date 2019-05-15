@@ -10,6 +10,7 @@ import model.moves.Target;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Square extends Target implements Serializable {
@@ -38,7 +39,7 @@ public abstract class Square extends Target implements Serializable {
         return coord;
     }
 
-    public ArrayList<PlayerBoard> getPlayerBoard(int groupId){
+    public List<PlayerBoard> getPlayerBoard(int groupId){
         ArrayList<PlayerBoard> boards = new ArrayList<>();
         for(Player p : GameContext.get().getGame(groupId).getPlayers().stream()
                 .filter(p -> p.getCurrentPosition().coord.equals(this.coord))
