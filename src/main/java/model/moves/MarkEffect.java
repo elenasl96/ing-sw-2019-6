@@ -10,7 +10,7 @@ import java.util.Collections;
 
 import static java.lang.Math.min;
 
-public class Mark implements Move{
+public class MarkEffect implements Move{
     private Player playerMarked;
     private int nMarks;
 
@@ -29,8 +29,8 @@ public class Mark implements Move{
         //TODO
     }
 
-    public Mark(){}
-    public Mark(Player playerMarked, int nMarks) {
+    public MarkEffect(){}
+    public MarkEffect(Player playerMarked, int nMarks) {
         this.playerMarked = playerMarked;
         this.nMarks = nMarks;
     }
