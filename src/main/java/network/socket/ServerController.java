@@ -2,6 +2,7 @@ package network.socket;
 
 import controller.GameController;
 import exception.InvalidMoveException;
+import model.GameContext;
 import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
@@ -216,8 +217,8 @@ public class ServerController implements RequestHandler {
             move.handle(GameController.get(), currentGroup.getGroupID());
             move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
         } catch (InvalidMoveException e) {
-            user.receiveUpdate(new Update(e.toString()));
-
+            user.receiveUpdate(new Update(e.getMessage()));
+            user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
         }
     }
 

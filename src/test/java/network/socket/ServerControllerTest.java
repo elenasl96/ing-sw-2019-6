@@ -20,7 +20,6 @@ class ServerControllerTest {
     private User user3;
     private User user4;
     private User user5;
-    private User user6;
     private ServerController serverController1;
     private ServerController serverController2;
     private ServerController serverController3;
@@ -39,7 +38,7 @@ class ServerControllerTest {
         user3 = new User("3");
         user4 = new User("4");
         user5 = new User("5");
-        user6 = new User("6");
+        User user6 = new User("6");
         serverController1 = new ServerController(user1);
         serverController2 = new ServerController(user2);
         serverController3 = new ServerController(user3);
@@ -118,13 +117,6 @@ class ServerControllerTest {
         serverController3.handle(new ChooseGroupRequest(1));
         serverController4.handle(new ChooseGroupRequest(1));
         serverController5.handle(new ChooseGroupRequest(1));
-
-        ArrayList<User> users = new ArrayList<>();
-        users.add(user1);
-        users.add(user2);
-        users.add(user3);
-        users.add(user4);
-        users.add(user5);
 
         //Set Character Request
         SetCharacterResponse response4 = (SetCharacterResponse) serverController1.handle(new SetCharacterRequest(1));
