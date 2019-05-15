@@ -85,7 +85,16 @@ public class PowerupDeck {
         return this.powerups;
     }
 
-    public void shuffleDeck() {
+    private void shuffleDeck() {
         Collections.shuffle(powerups);
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder toString = new StringBuilder();
+        for(int i = 1; i <= powerups.size(); i++) {
+            toString.append(i).append(".\t").append(this.powerups.get(i).toString()).append("\n");
+        }
+        return toString.toString();
     }
 }

@@ -2,7 +2,7 @@ package model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerListTest {
     @Test
@@ -13,5 +13,10 @@ public class PlayerListTest {
         list.next().setName("1");
 
         assertEquals("1",list.next().getName());
+
+        int hash = list.hashCode();
+        assertEquals(hash, list.hashCode());
+
+        assertNotEquals(list, new PlayerList());
     }
 }
