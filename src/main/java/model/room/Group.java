@@ -139,15 +139,16 @@ public class Group implements Serializable {
     public void createGame() {
         this.setFull();
         ArrayList<User> clients = new ArrayList<>(users.subList(1,users.size()));
-        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, clients);
-        //Fill the squares
-        GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares().forEach(square->
-            square.setGrabbable(GameContext.get().getGame(this.getGroupID()).getBoard())
-        );
         //Makes every listener of this group an Observer of the game
         for(GroupChangeListener listener : listeners){
             GameContext.get().getGame(this.getGroupID()).addObserverGame((GameUpdateObserver) listener);
         }
+        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, clients);
+        //Fill the squares
+        GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares()
+                .forEach(square->
+                    square.setGrabbable(GameContext.get().getGame(this.getGroupID()).getBoard())
+        );
         //Triggers onStart in the GroupChangeListeners
         this.sendStartNotification();
     }

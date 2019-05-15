@@ -111,13 +111,11 @@ public class ClientController implements ResponseHandler {
                 Coordinate coordinate = view.getCoordinate();
                 moveRequest.addMove(new Run(coordinate));
                 client.request(moveRequest);
-                client.nextResponse().handle(this);
                 break;
             case "grab":
                 coordinate = view.getCoordinate();
                 moveRequest.addMove(new MoveAndGrab(coordinate));
                 client.request(moveRequest);
-                client.nextResponse().handle(this);
                 break;
             case "shoot":
                 client.request(new CardRequest("weapon"));
@@ -200,7 +198,6 @@ public class ClientController implements ResponseHandler {
         view.displayText("moveupdateplayer"+ moveUpdateResponse.getPlayer());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
-        view.displayText("phase: "+ ClientContext.get().getCurrentPlayer().getPhase());
         view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT));
     }
 }

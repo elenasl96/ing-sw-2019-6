@@ -102,9 +102,11 @@ public class GameController implements MoveRequestHandler{
 
     public synchronized Update getFirstTimeSpawn(Player player, int groupID) {
         if(player.getPowerups().isEmpty()){
-            player.getPowerups().add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
-            player.getPowerups().add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
-            System.out.println(player.getPowerups().toString());
+            player.getPowerups().add(GameContext.get().getGame(groupID)
+                    .getBoard().getPowerupsLeft().pickCard());
+            player.getPowerups().add(GameContext.get().getGame(groupID)
+                    .getBoard().getPowerupsLeft().pickCard());
+            System.out.println(">>> "+player.getPowerups().toString());
         }
         return new Update("Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
     }
