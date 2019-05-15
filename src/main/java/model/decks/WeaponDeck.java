@@ -54,11 +54,11 @@ public class WeaponDeck {
                 .of(new Ammo(Color.BLUE))
                 .collect(Collectors.toCollection(ArrayList::new)));
         //Alternative
-        this.weapons.get(1).getEffects().add(new DamageEffect(ALTERNATIVE, new AmmoSquare(),2, false));
+        this.weapons.get(1).getEffects().add(new DamageEffect(ALTERNATIVE, null,2, false));
         this.weapons.get(1).getEffects().get(1).setCost(Stream
                 .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
                 .collect(Collectors.toCollection(ArrayList::new)));
-        //TODO Valid for EVERY OTHER PLAYER ON YOUR SQUARE -- edit constructor Ammosquare
+        //TODO square = null -> my.square
 
 
         //Machine Gun
