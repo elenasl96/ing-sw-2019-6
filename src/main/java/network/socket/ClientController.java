@@ -121,9 +121,10 @@ public class ClientController implements ResponseHandler {
                 client.request(new CardRequest("weapon"));
                 break;
             case "powerup":
-
+                client.request(new CardRequest("powerup"));
+                break;
             default:
-                view.displayText("Insert a valid move");
+                break;
         }
     }
 

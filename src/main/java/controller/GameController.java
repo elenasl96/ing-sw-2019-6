@@ -43,7 +43,8 @@ public class GameController implements MoveRequestHandler{
                 if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
                     content.append("run\n" +
                             "grab\n" +
-                            "shoot");
+                            "shoot\n");
+                    content.append("If you want to play a powerup, write \"powerup\"");
                 } else {
                     if(player.isFirstPlayer()){
                         content.append("shoot (move up to 2 squares, reload, shoot)\n" +

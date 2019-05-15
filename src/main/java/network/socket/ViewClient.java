@@ -115,7 +115,13 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     String movePhase(){
-        return userInput();
+        String move = userInput();
+        while(!(move.equals("run")||
+                move.equals("grab")||
+                move.equals("shoot")||
+                move.equals("powerup"))){
+            displayText("Insert a valid move");
+        } return move;
     }
 
 
