@@ -26,7 +26,6 @@ public class Player extends Target implements Serializable{
     private List<Weapon> weapons = new ArrayList<>();
     private PlayerBoard playerBoard = new PlayerBoard();
     private int points;
-    private String motto;
     private int adrenalineLevel;
     private int stackPoint;
     private boolean firstPlayer;
@@ -116,44 +115,33 @@ public class Player extends Target implements Serializable{
     }
 
     @Override
-    public ArrayList<PlayerBoard> getPlayerBoard(int groupId) {
+    public List<PlayerBoard> getPlayerBoard(int groupId) {
         ArrayList<PlayerBoard> returns = new ArrayList<>();
         returns.add(playerBoard);
         return returns;
     }
-    /*
-    set PlayerBoard deleted as PlayerBoard not editable
-     */
 
-    public int getPoints() {
+    int getPoints() {
         return points;
     }
 
-    public void addPoints(int points) {
+    void addPoints(int points) {
         this.points = this.points + points;
     }
 
-    public String getMotto() {
-        return motto;
-    }
-
-    public void setMotto(String motto) {
-        this.motto = motto;
-    }
-
-    public int getAdrenalineLevel() {
+    int getAdrenalineLevel() {
         return adrenalineLevel;
     }
 
-    public void setAdrenalineLevel(int adrenalineLevel) {
+    void setAdrenalineLevel(int adrenalineLevel) {
         this.adrenalineLevel = adrenalineLevel;
     }
 
-    public int getStackPoint() {
+    int getStackPoint() {
         return stackPoint;
     }
 
-    public void addStackPoint(int stackPoint) {
+    void addStackPoint(int stackPoint) {
         this.stackPoint = this.stackPoint + stackPoint;
     }
 
@@ -220,7 +208,6 @@ public class Player extends Target implements Serializable{
         this.ammos.add(new Ammo(Color.YELLOW));
         this.ammos.add(new Ammo(Color.RED));
         this.points = 0;
-        this.motto = null;
         this.adrenalineLevel = 0;
         this.stackPoint = 0;
         this.dead = false;
