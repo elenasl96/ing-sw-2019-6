@@ -9,8 +9,6 @@ import network.exceptions.InvalidGroupNumberException;
 
 import java.util.Scanner;
 
-import static model.enums.Phase.WAIT;
-
 public class ViewClient implements MessageReceivedObserver, GroupChangeListener, GameUpdateObserver {
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
@@ -34,10 +32,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
 
     void setWait(boolean wait) {
         this.wait = wait;
-    }
-
-    boolean isWait(){
-        return this.wait;
     }
 
     void chooseUsernamePhase() {
@@ -103,27 +97,30 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         }
         ClientContext.get().getCurrentGroup().observe(this);
         controller.startReceiverThread();
+        //noinspection StatementWithEmptyBody
         while(wait);
         //blocked until the game can start
     }
 
     Integer spawnPhase(){
         Integer spawnNumber = null;
-        try{
-            spawnNumber = Integer.parseInt(userInput());
-        }catch (NumberFormatException e){
-            displayText("Please insert a number");
+        while (spawnNumber == null){
+            try{
+                spawnNumber = Integer.parseInt(userInput());
+            }catch (NumberFormatException e){
+                displayText("Please insert a number");
+                spawnNumber = null;
+            }
         } return spawnNumber;
     }
 
     String movePhase(){
-        String command = userInput();
-        return command;
+        return userInput();
     }
 
 
     void waitingPhase(){
-        //You can't do anything, it's another player's turn
+        //noinspection StatementWithEmptyBody
         while(wait);
     }
 
@@ -182,6 +179,10 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         }
     }
 
+    void reloadPhase() {
+        //TODO Reload
+    }
+
     // ----- The view observes the state and reacts (the observable pushes the pieces of interesting state)
 
     @Override
@@ -210,7 +211,4 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         wait = false;
     }
 
-    public void reloadPhase() {
-        //TODO Reload
-    }
 }
