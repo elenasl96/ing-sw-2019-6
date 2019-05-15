@@ -12,27 +12,22 @@ import java.util.Collections;
 import static java.lang.Math.min;
 
 public class MarkEffect extends Effect implements Move{
-    private Player playerMarked;
     private int nMarks;
 
+    public MarkEffect(EffectType type, Player playerMarked, int nMarks) {
+        super(type, playerMarked);
+        this.target = playerMarked;
+        this.nMarks = nMarks;
+    }
+
     public Response execute(Player p, int groupId) throws FullMarksException {
-        int occurrences = Collections.frequency(playerMarked.getPlayerBoard(groupId).get(0).getMarks(), p);
+        int occurrences = Collections.frequency(target.getPlayerBoard(groupId).get(0).getMarks(), p);
         if(occurrences<3){
-                playerMarked.getPlayerBoard(groupId).get(0).addMarks(p, min(3-occurrences, nMarks));
+            target.getPlayerBoard(groupId).get(0).addMarks(p, min(3-occurrences, nMarks));
         } else{
             throw new FullMarksException();
         }
         return null;
-    }
-
-    public MarkEffect(){
-
-    }
-
-    public MarkEffect(EffectType type, Player playerMarked, int nMarks) {
-        super(type, playerMarked);
-        this.playerMarked = playerMarked;
-        this.nMarks = nMarks;
     }
 
     @Override
