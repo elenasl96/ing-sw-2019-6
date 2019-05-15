@@ -30,10 +30,7 @@ public class Board implements Serializable {
     public void setField(Field field) {
         this.field = field;
     }
-    /*
-     setfield deleted as field not editable
-    */
-
+    
     List<Player> getKillshotTrack() {
         return killshotTrack;
     }
