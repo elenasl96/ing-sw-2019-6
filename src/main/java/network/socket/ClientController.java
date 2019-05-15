@@ -132,11 +132,6 @@ public class ClientController implements ResponseHandler {
                 ClientContext.get().getCurrentUser(), content);
         client.request(new SendMessageRequest(m));
     }
-
-    void askPossibleMoves(){
-        client.request(new PossibleMovesRequest());
-    }
-
     public void run(){
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
@@ -151,15 +146,18 @@ public class ClientController implements ResponseHandler {
     private void gamingPhase(){
         switch(ClientContext.get().getCurrentPlayer().getPhase()){
             case SPAWN:
-                this.chooseSpawn(null);
-                view.spawnPhase();
+                client.request(new SpawnRequest(ClientContext.get().getCurrentPlayer(), null));
+                client.request(new SpawnRequest(ClientContext.get().getCurrentPlayer(), view.spawnPhase()));
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case FIRST: case SECOND:
-                view.movePhase();
+                client.request(new PossibleMovesRequest());
+                this.sendCommand(view.movePhase());
+                ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case RELOAD:
                 view.reloadPhase();
+                ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             default:
                 break;
