@@ -215,7 +215,6 @@ public class ServerController implements RequestHandler {
             Move move = moveRequest.getMove();
             move.handle(GameController.get(), currentGroup.getGroupID());
             move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
-            Update update = new Update(currentGroup.getGame().getCurrentPlayer());
         } catch (InvalidMoveException e) {
             user.receiveUpdate(new Update(e.toString()));
 
