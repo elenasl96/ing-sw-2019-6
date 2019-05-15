@@ -34,7 +34,7 @@ public class Manager {
         return instance;
     }
 
-    synchronized Group getGroup(int groupID) {
+    public synchronized Group getGroup(int groupID) {
         for(Group g : groups){
             if(g.getGroupID() == groupID){
                 return g;
