@@ -1,7 +1,7 @@
 package model.decks;
 
-import model.Ammo;
 import model.enums.WeaponStatus;
+import model.moves.Effect;
 import model.moves.Move;
 
 import java.io.Serializable;
@@ -12,12 +12,7 @@ public class Weapon implements Serializable {
     private String name;
     private String effectsDescription;
     private WeaponStatus status;
-    private List<Move> basicEffect = new ArrayList<>();
-    private List<Ammo> ammoBasic = new ArrayList<>();
-    private List<Move> optionalEffect = new ArrayList<>();
-    private List<Ammo> ammoOptional = new ArrayList<>();
-    private List<Move> alternateFireEffect = new ArrayList<>();
-    private List<Ammo> ammoAlternateFire = new ArrayList<>();
+    private List<Effect> effects = new ArrayList<>();
 
     public Weapon(String name, String effectsDescription, WeaponStatus status) {
         this.name = name;
@@ -30,32 +25,12 @@ public class Weapon implements Serializable {
         this.effectsDescription = effectsDescription;
     }
 
-    public void setBasicEffect(List<Move> basicEffect) {
-        this.basicEffect = basicEffect;
+    public void setEffects(List<Effect> effects) {
+        this.effects = effects;
     }
 
-    public List<Move> getBasicEffect() {
-        return basicEffect;
-    }
-
-    public List<Ammo> getAmmoBasic() {
-        return ammoBasic;
-    }
-
-    public List<Move> getOptionalEffect() {
-        return optionalEffect;
-    }
-
-    public List<Ammo> getAmmoOptional() {
-        return ammoOptional;
-    }
-
-    public List<Move> getAlternateFireEffect() {
-        return alternateFireEffect;
-    }
-
-    public List<Ammo> getAmmoAlternateFire() {
-        return ammoAlternateFire;
+    public List<Effect> getEffects() {
+        return effects;
     }
 
     public String getName() {
@@ -68,25 +43,5 @@ public class Weapon implements Serializable {
 
     public WeaponStatus getStatus() {
         return status;
-    }
-
-    public void setAmmoBasic(List<Ammo> ammoBasic) {
-        this.ammoBasic = ammoBasic;
-    }
-
-    public void setOptionalEffect(List<Move> optionalEffect) {
-        this.optionalEffect = optionalEffect;
-    }
-
-    public void setAmmoOptional(List<Ammo> ammoOptional) {
-        this.ammoOptional = ammoOptional;
-    }
-
-    public void setAlternateFireEffect(List<Move> alternateFireEffect) {
-        this.alternateFireEffect = alternateFireEffect;
-    }
-
-    public void setAmmoAlternateFire(List<Ammo> ammoAlternateFire) {
-        this.ammoAlternateFire = ammoAlternateFire;
     }
 }

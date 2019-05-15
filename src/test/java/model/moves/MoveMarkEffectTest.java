@@ -7,17 +7,18 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
+import static model.enums.EffectType.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class MoveMarkTest {
+class MoveMarkEffectTest {
 
     @Test
     void MarkTest() throws FullMarksException {
         int groupId = 0;
         Player playerMarking = new Player(1, true, "pippo", Character.PG3);
         Player playerMarked = new Player(2, false, "paperino", Character.PG1);
-        Mark m = new Mark(playerMarked, 2);
+        MarkEffect m = new MarkEffect(MOVE, playerMarked, 2);
         /*add 3 marks of playermarking to playermarked */
         m.execute(playerMarking, groupId);
         assertEquals(2, Collections.frequency(playerMarked.getPlayerBoard(groupId).get(0).getMarks(), playerMarking));

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static model.enums.EffectType.POWERUP;
+
 public class PowerupDeck {
     private List<Powerup> powerups = new ArrayList<>();
     private List<Powerup> discard = new ArrayList<>();
@@ -22,15 +24,15 @@ public class PowerupDeck {
         for (int i = 0; i == 0 || i == 12; i = i + 12) {
             this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.YELLOW)));
             this.powerups.get(i).addMove(new Pay());
-            this.powerups.get(i).addMove(new DamageEffect(new Player(), 0));
+            this.powerups.get(i).addMove(new DamageEffect(POWERUP, new Player(), 0));
 
             this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.BLUE)));
             this.powerups.get(1 + i).addMove(new Pay());
-            this.powerups.get(1 + i).addMove(new DamageEffect(new Player(), 0));
+            this.powerups.get(1 + i).addMove(new DamageEffect(POWERUP, new Player(), 0));
 
             this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.RED)));
             this.powerups.get(2 + i).addMove(new Pay());
-            this.powerups.get(2 + i).addMove(new DamageEffect(new Player(), 0));
+            this.powerups.get(2 + i).addMove(new DamageEffect(POWERUP, new Player(), 0));
 
             this.powerups.add(new Powerup(NEWTON, new Ammo(Color.YELLOW)));
             //TODO
@@ -40,13 +42,13 @@ public class PowerupDeck {
             this.powerups.add(new Powerup(NEWTON, new Ammo(Color.RED)));
 
             this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.YELLOW)));
-            this.powerups.get(6 + i).addMove(new Mark());
+            this.powerups.get(6 + i).addMove(new MarkEffect(POWERUP, new Player(), 1));
 
             this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.BLUE)));
-            this.powerups.get(7 + i).addMove(new Mark());
+            this.powerups.get(7 + i).addMove(new MarkEffect(POWERUP, new Player(), 1));
 
             this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.RED)));
-            this.powerups.get(8 + i).addMove(new Mark());
+            this.powerups.get(8 + i).addMove(new MarkEffect(POWERUP, new Player(), 1));
 
             this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.YELLOW)));
             //TODO
