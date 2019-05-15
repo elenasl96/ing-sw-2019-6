@@ -5,17 +5,14 @@ import model.Player;
 import model.enums.Color;
 import model.enums.WeaponStatus;
 import model.field.AmmoSquare;
-import model.field.Square;
 import model.moves.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Arrays.asList;
 import static model.enums.EffectType.*;
 
 public class WeaponDeck {
@@ -82,24 +79,24 @@ public class WeaponDeck {
         this.weapons.get(2).getEffects().add(
                 new DamageEffect(BASIC,
                         new Player(true, null, null, null),1, false));
-        this.weapons.get(2).getEffects().add(
-                new DamageEffect(BASIC,
+        this.weapons.get(2).getEffects()
+                .add(new DamageEffect(BASIC,
                         new Player(true, null, null, null), 1,true));
         this.weapons.get(2).getEffects().get(0).setCost(Stream
                 .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
                 .collect(Collectors.toCollection(ArrayList::new)));
 
         //Optional effect 1
-        this.weapons.get(2).getEffects().add(
-                new DamageEffect(OPTIONAL,
+        this.weapons.get(2).getEffects()
+                .add(new DamageEffect(OPTIONAL,
                         new Player(true, null, null, null),1, false));
         this.weapons.get(2).getEffects().get(2).setCost(Stream
                 .of(new Ammo(Color.YELLOW))
                 .collect(Collectors.toCollection(ArrayList::new)));
 
         //Optional effect 2
-        this.weapons.get(2).getEffects().add(
-                new DamageEffect(OPTIONAL,
+        this.weapons.get(2).getEffects()
+                .add(new DamageEffect(OPTIONAL,
                         new Player(true, null, null, null),1, false));
         this.weapons.get(2).getEffects().get(3).setCost(Stream
                 .of(new Ammo(Color.BLUE))
@@ -118,15 +115,28 @@ public class WeaponDeck {
                         "The target ends up in a place where you can see and\n" +
                         "damage it. The moves do not have to be in the same\n" +
                         "direction.", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(3).getEffects().add(new Movement(2));
-        this.weapons.get(3).getEffects().add(null); //to 1 o 2 targets you can see
-
-
-        this.weapons.get(2).getEffects().get(3).setCost(Stream
+        //Basic Effect
+        Player p3 = new Player(null, null, null, null);
+        this.weapons.get(3).getEffects()
+                .add(new Movement(BASIC, p3, new AmmoSquare(true, null, 0, 2), false));
+        this.weapons.get(3).getEffects()
+                .add(new DamageEffect(BASIC,
+                        p3,1, false));
+        this.weapons.get(3).getEffects().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE))
+                .collect(Collectors.toCollection(ArrayList::new)));
+        //ALternative Effect
+        //TODO square destination = mySquare
+        this.weapons.get(3).getEffects().add(new Movement(ALTERNATIVE, p3, new AmmoSquare(null, null, 0,2), false));
+        this.weapons.get(3).getEffects()
+                .add(new Movement(ALTERNATIVE,
+                        new Player(true, null, null, null),
+                        new AmmoSquare(null, null, 0, 0),
+                        false));
+        this.weapons.get(2).getEffects().get(2).setCost(Stream
                 .of(new Ammo(Color.RED), new Ammo(Color.YELLOW))
                 .collect(Collectors.toCollection(ArrayList::new)));
 
-        /*
         //T.H.O.R.
         this.weapons.add(new Weapon("T.H.O.R.",
                 "basic effect: Deal 2 damage to 1 target you can see.\n" +
@@ -138,15 +148,32 @@ public class WeaponDeck {
                         "Notes: This card constrains the order in which you can use\n" +
                         "its effects. (Most cards don't.) Also note that each target\n" +
                         "must be a different player", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(4).getEffects().add(new Damage()); //2
-        this.weapons.get(4).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(4).getAmmoBasic().add(new Ammo(Color.RED));
+        //Basic Effect
+        this.weapons.get(4).getEffects()
+                .add(new DamageEffect(BASIC,
+                        new Player(true, false, null, null), 2, false));
+        this.weapons.get(4).getEffects().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
+                .collect(Collectors.toCollection(ArrayList::new)));
 
-        this.weapons.get(4).getOptionalEffect().add(new Damage());
-        this.weapons.get(4).getAmmoOptional().add(new Ammo(Color.BLUE));
+        //Optional Effect 1
+        //TODO add "player1.cansee"
+        this.weapons.get(4).getEffects()
+                .add(new DamageEffect(OPTIONAL,
+                        new Player(true, false, null, null), 1, false));
+        this.weapons.get(4).getEffects().get(1).setCost(Stream
+                .of(new Ammo(Color.BLUE))
+                .collect(Collectors.toCollection(ArrayList::new)));
 
-        this.weapons.get(4).getOptionalEffect().add(new Damage());
-        this.weapons.get(4).getAmmoOptional().add(new Ammo(Color.BLUE));
+
+        //Optional Effect 2
+        //TODO add "player2.cansee
+        this.weapons.get(4).getEffects()
+                .add(new DamageEffect(OPTIONAL,
+                        new Player(true, false, null, null), 1, false));
+        this.weapons.get(4).getEffects().get(2).setCost(Stream
+                .of(new Ammo(Color.BLUE))
+                .collect(Collectors.toCollection(ArrayList::new)));
 
         //Plasma Gun
         this.weapons.add(new Weapon("Plasma Gun",
@@ -160,15 +187,28 @@ public class WeaponDeck {
                         "For example, you can move 2 squares and shoot a target\n" +
                         "you now see. You cannot use 1 move before shooting and\n" +
                         "1 move after", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(5).getEffects().add(new Damage()); //2
-        this.weapons.get(5).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(5).getAmmoBasic().add(new Ammo(Color.YELLOW));
+        //Basic Effect
+        Player p5 = new Player (true, null, null, null);
+        this.weapons.get(5).getEffects()
+                .add(new DamageEffect(BASIC, p5, 2, false));
+        this.weapons.get(5).getEffects().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.YELLOW))
+                .collect(Collectors.toCollection(ArrayList::new)));
 
-        this.weapons.get(5).getOptionalEffect().add(new Movement(2));
+        //Optional Effect 1
+        //if target == null -> is me
+        this.weapons.get(5).getEffects()
+                .add(new Movement(BEFORE_AFTER_BASIC, null,
+                        new AmmoSquare(null, null, 1,2), false));
 
-        this.weapons.get(5).getOptionalEffect().add(new Damage());
-        this.weapons.get(5).getAmmoOptional().add(new Ammo(Color.BLUE));
+        //Optional Effect 2
+        this.weapons.get(5).getEffects()
+                .add(new DamageEffect(OPTIONAL, p5, 1, false));
+        this.weapons.get(5).getEffects().get(2).setCost(Stream
+                .of(new Ammo(Color.BLUE))
+                .collect(Collectors.toCollection(ArrayList::new)));
 
+        /*
         //Whisper
         this.weapons.add(new Weapon("Whisper",
                 "effect: Deal 3 damage and 1 mark to 1 target you can see.\n" +

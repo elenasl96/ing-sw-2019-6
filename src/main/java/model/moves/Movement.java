@@ -4,6 +4,7 @@ import exception.InvalidMoveException;
 import exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
+import model.enums.EffectType;
 import model.field.Coordinate;
 import model.field.Field;
 import model.field.Square;
@@ -35,6 +36,11 @@ public class Movement extends Effect implements Move{
      */
     private int maxSteps;
     private int maxStepsFrenzy;
+
+    public Movement (EffectType type, Target target, Square destination, Boolean optionality){
+        super(type, target, optionality);
+        this.destination = destination;
+    }
 
     public Movement(int maxSteps){
         this.maxSteps = maxSteps;
