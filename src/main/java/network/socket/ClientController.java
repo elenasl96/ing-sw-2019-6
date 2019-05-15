@@ -104,7 +104,7 @@ public class ClientController implements ResponseHandler {
         client.request(new SpawnRequest(ClientContext.get().getCurrentPlayer(), spawn));
     }
 
-    void sendCommand(String content){
+    private void sendCommand(String content){
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
             case "run":

@@ -15,14 +15,13 @@ public class Grab implements Move{
     private Weapon weapon;
 
     @Override
-    public Response execute(Player p, int gorupId) throws InvalidMoveException {
+    public void execute(Player p, int gorupId) throws InvalidMoveException {
         Grabbable grabbable=p.getCurrentPosition().getGrabbable();
 
         if(grabbable==null) { throw new NothingGrabbableException(); }
 
         grabbable.useGrabbable(p);
         //TODO togliere la carta dal terreno di giugo e metterla nel mazzo degli scarti
-        return null;
     }
 
     @Override

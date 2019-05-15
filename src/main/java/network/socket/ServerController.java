@@ -214,12 +214,13 @@ public class ServerController implements RequestHandler {
         try {
             Move move = moveRequest.getMove();
             move.handle(GameController.get(), currentGroup.getGroupID());
-            Response response = move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
+            move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
             Update update = new Update(currentGroup.getGame().getCurrentPlayer());
-            update.setString(response.toString());
+            //update.setString(response.toString());
             currentGroup.getGame().sendUpdate(update);
         } catch (InvalidMoveException e) {
             user.receiveUpdate(new Update("You can't reach that spot"));
+
         }
     }
 
