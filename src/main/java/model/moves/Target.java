@@ -5,8 +5,8 @@ import model.PlayerBoard;
 import java.util.List;
 
 public abstract class Target{
-    private boolean canSee;
-    private boolean cardinal;
+    private Boolean canSee;
+    private Boolean cardinal;
     private Integer minDistance;
     private Integer maxDistance;
 
@@ -14,7 +14,7 @@ public abstract class Target{
 
     }
 
-    public Target(boolean canSee, boolean cardinal, int minDistance, int maxDistance){
+    public Target(Boolean canSee, Boolean cardinal, Integer minDistance, Integer maxDistance){
         this.canSee = canSee;
         this.cardinal = cardinal;
         this.minDistance = minDistance;

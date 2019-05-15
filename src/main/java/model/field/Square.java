@@ -17,6 +17,9 @@ public abstract class Square extends Target implements Serializable {
     private Color color;
     private final Coordinate coord;
 
+    public Square(){
+
+    }
 
     public Square(Color color, Coordinate coord) {
         this.color = color;

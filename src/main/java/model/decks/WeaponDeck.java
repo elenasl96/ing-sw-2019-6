@@ -4,6 +4,8 @@ import model.Ammo;
 import model.Player;
 import model.enums.Color;
 import model.enums.WeaponStatus;
+import model.field.AmmoSquare;
+import model.field.Square;
 import model.moves.*;
 
 import java.util.ArrayList;
@@ -25,11 +27,11 @@ public class WeaponDeck {
         this.weapons.add(new Weapon(
                 "Lock rifle",
                 "basic effect: Deal 2 damage and 1 mark to 1 target\n" +
-                "you can see.\n" +
-                "with second lock: Deal 1 mark to a different target\n" +
-                "you can see.", WeaponStatus.PARTIALLY_LOADED));
+                        "you can see.\n" +
+                        "with second lock: Deal 1 mark to a different target\n" +
+                        "you can see.", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
-        Player p1 = new Player(true, false, null, null);
+        Player p1 = new Player(true, null, null, null);
         this.weapons.get(0).getEffects().add(new DamageEffect(BASIC, p1,2));
         this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p1, 1));
         this.weapons.get(0).getEffects().get(0).setCost(Stream
@@ -41,23 +43,27 @@ public class WeaponDeck {
         this.weapons.get(0).getEffects().get(2).setCost(Stream
                 .of(new Ammo(Color.RED))
                 .collect(Collectors.toCollection(ArrayList::new)));
-        //to a target you can see
 
-        /*
         //Electroscythe
-        this.weapons.add(new Weapon("ELECTROSCYTHE",
+        this.weapons.add(new Weapon(
+                "ELECTROSCYTHE",
                 "basic mode: Deal 1 damage to every other player\n" +
                         "on your square.\n" +
                         "in reaper mode: Deal 2 damage to every other player\n" +
                         "on your square", WeaponStatus.PARTIALLY_LOADED));
-        this.weapons.get(1).getEffects().add(new DamageEffect(new Player(), 0));
-        this.weapons.get(1).getAmmoBasic().add(new Ammo(Color.BLUE));
+        //Basic effect
+        this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, new AmmoSquare(),1));
+        this.weapons.get(1).getEffects().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE))
+                .collect(Collectors.toCollection(ArrayList::new)));
 
-        this.weapons.get(1).getAlternateFireEffect().add(new DamageEffect(new Player(),2)); //2
-        this.weapons.get(1).getAmmoAlternateFire().add(new Ammo(Color.BLUE));
-        this.weapons.get(1).getAmmoAlternateFire().add(new Ammo(Color.RED));
+        this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, new AmmoSquare(),1));
+        this.weapons.get(1).getEffects().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE))
+                .collect(Collectors.toCollection(ArrayList::new)));
         //Valid for EVERY OTHER PLAYER ON YOUR SQUARE
 
+        /*
         //Machine Gun
         this.weapons.add(new Weapon("ELECTROSCYTHE",
                 "basic effect: Choose 1 or 2 targets you can see and deal\n" +
