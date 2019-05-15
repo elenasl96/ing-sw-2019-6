@@ -81,7 +81,11 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
 
     void chooseCharacterPhase(){
         displayText("Which character do you want to be?");
-        //TODO display possible character and description
+        displayText("Insert 1 for :D-STRUCT-OR");
+        displayText("Insert 2 for BANSHEE");
+        displayText("Insert 3 for DOZER");
+        displayText("Insert 4 for VIOLET");
+        displayText("Insert 5 for SPROG");
         Character response;
         try{
             do{
