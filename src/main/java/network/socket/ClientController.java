@@ -152,7 +152,8 @@ public class ClientController implements ResponseHandler {
                 break;
             case FIRST: case SECOND:
                 client.request(new PossibleMovesRequest());
-                this.sendCommand(view.movePhase());
+                String command = view.movePhase();
+                this.sendCommand(command);
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case RELOAD:
