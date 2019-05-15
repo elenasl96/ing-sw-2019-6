@@ -15,10 +15,11 @@ import java.util.stream.Collectors;
 
 public abstract class Square extends Target implements Serializable {
     private Color color;
-    private final Coordinate coord;
+    private Coordinate coord;
 
     public Square(){
-
+        this.color = null;
+        this.coord = null;
     }
 
     public Square(Color color, Coordinate coord) {

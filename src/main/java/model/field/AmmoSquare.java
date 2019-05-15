@@ -7,7 +7,14 @@ import model.enums.Color;
 public class AmmoSquare extends Square{
     private AmmoTile ammo;
 
-    public AmmoSquare(){}
+    public AmmoSquare() {
+        super();
+        this.ammo = null;
+    }
+
+    public AmmoSquare(Boolean canSee, Boolean cardinal, Integer minDistance, Integer maxDistance){
+
+    }
 
     public AmmoSquare(Color color, Coordinate coord) {
         super(color, coord);

@@ -56,7 +56,7 @@ public class WeaponDeck {
         this.weapons.get(1).getEffects().get(0).setCost(Stream
                 .of(new Ammo(Color.BLUE))
                 .collect(Collectors.toCollection(ArrayList::new)));
-
+        //Alternative
         this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, new AmmoSquare(),1));
         this.weapons.get(1).getEffects().get(0).setCost(Stream
                 .of(new Ammo(Color.BLUE))
