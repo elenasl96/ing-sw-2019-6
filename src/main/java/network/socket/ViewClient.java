@@ -121,6 +121,7 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
                 move.equals("shoot")||
                 move.equals("powerup"))){
             displayText("Insert a valid move");
+            move = userInput();
         } return move;
     }
 

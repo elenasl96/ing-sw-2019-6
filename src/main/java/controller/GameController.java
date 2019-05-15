@@ -86,14 +86,15 @@ public class GameController implements MoveRequestHandler{
             //go to next player and set phase
             GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
             System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
+            GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn"));
             if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.FIRST);
             else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.SPAWN);
             //send updates
             GameContext.get().getGame(groupID).sendUpdate(new Update(
-                    "\nPlayer " + player.getName()+ " discarded:\n" +
+                    "\n>>> Player " + player.getName()+ " discarded:\n" +
                         "==========Powerup========\n"
                         + discarded.toString()
-                        +"\nPlayer " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
+                        +"\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer(), true));
         } else {
             player.getUser().receiveUpdate(new Update(player, true));
@@ -109,7 +110,7 @@ public class GameController implements MoveRequestHandler{
                     .getBoard().getPowerupsLeft().pickCard());
             System.out.println(">>> "+player.getPowerups().toString());
         }
-        return new Update("Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
+        return new Update(">>> Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
     }
 
     // Moves handling
@@ -133,7 +134,7 @@ public class GameController implements MoveRequestHandler{
 
     @Override
     public synchronized void handle(Movement movement, int groupID) throws InvalidMoveException {
-        System.out.println("The new square is "+movement.getCoordinate());
+        System.out.println("The square inserted is: "+movement.getCoordinate());
         Square destination = null;
         //Check if the coordinate is valid
         for(Square square: GameContext.get().getGame(groupID).getBoard().getField().getSquares()) {
