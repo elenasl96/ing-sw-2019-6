@@ -85,6 +85,11 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
         }
     }
 
+    @Override
+    public String toString(){
+        return this.controller.user.getUsername()+"'s Client Handler";
+    }
+
     // --- Directly forward notifications to clients
 
     @Override
