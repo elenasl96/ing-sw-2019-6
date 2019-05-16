@@ -1,13 +1,9 @@
 package network.socket;
 
-import controller.MoveRequestHandler;
-import exception.InvalidMoveException;
-import model.Player;
 import model.moves.Move;
 import model.room.Command;
 import model.room.Message;
 import network.socket.commands.request.MoveRequest;
-import network.socket.commands.request.SendCommandRequest;
 import network.socket.commands.request.SendMessageRequest;
 import network.socket.commands.request.SpawnRequest;
 import org.junit.jupiter.api.Test;
@@ -36,11 +32,6 @@ class CommandsTest {
     @Test
     void SendMessageRequestTest(){
         SendMessageRequest request = new SendMessageRequest(message);
-    }
-
-    @Test
-    void CommandRequestTest(){
-        SendCommandRequest sendCommandRequest = new SendCommandRequest(command);
     }
 
     @Test

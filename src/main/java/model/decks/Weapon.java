@@ -3,10 +3,11 @@ package model.decks;
 import model.enums.WeaponStatus;
 import model.moves.Effect;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Weapon {
+public class Weapon implements Serializable {
     private String name;
     private String effectsDescription;
     private WeaponStatus status;

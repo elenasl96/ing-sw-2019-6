@@ -4,7 +4,6 @@ import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
 import model.Player;
 import model.enums.EffectType;
-import network.socket.commands.Response;
 
 public class DamageEffect extends Effect implements Move{
     private int damages;
@@ -14,12 +13,17 @@ public class DamageEffect extends Effect implements Move{
         this.damages = damages;
     }
 
+    public int getDamages(){
+        return this.damages;
+    }
+
+    @Override
     public void execute(Player playerDamaging, int groupId){
         target.addDamages(playerDamaging, damages, groupId);
     }
 
     @Override
     public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        //TODO
+        moveRequestHandler.handle(this, groupId);
     }
 }

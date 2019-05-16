@@ -2,9 +2,11 @@ package model.moves;
 
 import model.Player;
 import model.PlayerBoard;
+
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class Target{
+public abstract class Target implements Serializable {
     private Boolean canSee;
     private Boolean cardinal;
     private Integer minDistance;
@@ -23,7 +25,7 @@ public abstract class Target{
 
     public abstract List<PlayerBoard> getPlayerBoard(int groupId);
 
-    public void addDamages(Player playerDamaging, int damages, int groupId){
+    void addDamages(Player playerDamaging, int damages, int groupId){
         for(PlayerBoard b : this.getPlayerBoard(groupId)){
             b.addDamage(playerDamaging, damages);
         }

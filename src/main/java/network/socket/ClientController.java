@@ -200,4 +200,12 @@ public class ClientController implements ResponseHandler {
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
         view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT));
     }
+
+    @Override
+    public void handle(AskInput askInput) {
+        view.displayText(askInput.toString());
+        while(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
+
+        }
+    }
 }

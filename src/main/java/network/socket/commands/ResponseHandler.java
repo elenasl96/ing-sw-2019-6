@@ -17,4 +17,6 @@ public interface ResponseHandler {
     void handle(SetCharacterResponse setCharacterResponse);
 
     void handle(MoveUpdateResponse moveUpdateResponse);
+
+    void handle(AskInput askInput);
 }

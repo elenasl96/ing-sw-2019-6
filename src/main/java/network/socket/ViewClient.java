@@ -125,6 +125,9 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         } return move;
     }
 
+    String askInput(){
+        return userInput();
+    }
 
     void waitingPhase(){
         //noinspection StatementWithEmptyBody
