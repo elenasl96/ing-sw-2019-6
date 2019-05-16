@@ -14,15 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ClientControllerTest {
 
-    private ClientController clientController;
-
     @Mock
     private Client client;
 
     @BeforeEach
     void start(){
         ClientContext.get().reset();
-        clientController = new ClientController(client);
+        ClientController clientController = new ClientController(client);
     }
 
     @Test
@@ -34,4 +32,6 @@ public class ClientControllerTest {
 
         assertEquals(Phase.WAIT , Phase.fromInteger(moveUpdateResponse1.getPhaseId()));
     }
+
+
 }
