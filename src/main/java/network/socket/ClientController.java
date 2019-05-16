@@ -101,7 +101,7 @@ public class ClientController implements ResponseHandler {
     }
 
     void chooseSpawn(Integer spawn) {
-        client.request(new SpawnRequest(ClientContext.get().getCurrentPlayer(), spawn));
+        client.request(new SpawnRequest(spawn));
     }
 
     private void sendCommand(String content){
@@ -147,8 +147,8 @@ public class ClientController implements ResponseHandler {
     private void gamingPhase(){
         switch(ClientContext.get().getCurrentPlayer().getPhase()){
             case SPAWN:
-                client.request(new SpawnRequest(ClientContext.get().getCurrentPlayer(), null));
-                client.request(new SpawnRequest(ClientContext.get().getCurrentPlayer(), view.spawnPhase()));
+                client.request(new SpawnRequest(null));
+                client.request(new SpawnRequest(view.spawnPhase()));
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case FIRST: case SECOND:

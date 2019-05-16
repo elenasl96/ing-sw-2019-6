@@ -1,25 +1,18 @@
 package network.socket.commands.request;
 
-import model.Player;
 import network.socket.commands.Request;
 import network.socket.commands.RequestHandler;
 import network.socket.commands.Response;
 
 public class SpawnRequest implements Request {
-    private Player sender;
     private Integer spawn;
 
-    public SpawnRequest(Player sender, Integer spawn) {
-        this.sender = sender;
+    public SpawnRequest(Integer spawn) {
         this.spawn = spawn;
     }
 
     public Integer getSpawn() {
         return spawn;
-    }
-
-    public Player getSender() {
-        return sender;
     }
 
     @Override
