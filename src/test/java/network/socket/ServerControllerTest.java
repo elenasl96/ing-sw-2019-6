@@ -119,7 +119,8 @@ class ServerControllerTest {
         serverController5.handle(new ChooseGroupRequest(1));
 
         //Set Character Request
-        SetCharacterResponse response4 = (SetCharacterResponse) serverController1.handle(new SetCharacterRequest(1));
+        SetCharacterRequest setCharacterRequest = new SetCharacterRequest(1);
+        SetCharacterResponse response4 = (SetCharacterResponse) setCharacterRequest.handle(serverController1);
         SetCharacterResponse response5 = (SetCharacterResponse) serverController2.handle(new SetCharacterRequest(1));
         SetCharacterResponse response6 = (SetCharacterResponse) serverController2.handle(new SetCharacterRequest(2));
         SetCharacterResponse response7 = (SetCharacterResponse) serverController3.handle(new SetCharacterRequest(3));
