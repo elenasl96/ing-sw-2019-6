@@ -28,7 +28,8 @@ public class Room extends Target {
 
     /**
      * Returns all the playerBoards of every player in every square of the room.
-     * with a for loop over the squares in this room, it looks for the players who are
+     * with a for loop over the squares in this room, it looks for the players who are in
+     * any of the squares of the room and then gets their player boards.
      * @param groupId the current group ID, the key to get to the Game via the GameContext
      * @return a list of player boards
      */
