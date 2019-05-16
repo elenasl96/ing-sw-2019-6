@@ -21,14 +21,6 @@ public class Game implements Serializable {
     private transient boolean done;
     private transient boolean finalFrenzy;
 
-    public List<GameUpdateObserver> getObservers() {
-        return observers;
-    }
-
-    public void setObservers(List<GameUpdateObserver> observers) {
-        this.observers = observers;
-    }
-
     public void setDone(boolean done) {
         this.done = done;
     }
