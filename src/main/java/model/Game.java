@@ -74,32 +74,8 @@ public class Game implements Serializable {
         return board;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
     public PlayerList getPlayers() {
         return players;
-    }
-
-    public int getTurn() {
-        return turn;
-    }
-
-    public void setTurn(int phase) {
-        this.turn = phase;
-    }
-
-    public void setPlayers(PlayerList players) {
-        this.players = players;
-    }
-
-    public int getSkullsNumber() {
-        return skullsNumber;
-    }
-
-    public void setSkullsNumber(int skullsNumber) {
-        this.skullsNumber = skullsNumber;
     }
 
     public boolean isDone() {
