@@ -10,7 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable, MessageReceivedObserver, GroupChangeListener, GameUpdateObserver {
+public class ClientHandler implements Runnable, GroupChangeListener, GameUpdateObserver {
     private static final String ERROR = "Errors in closing - ";
 
     private Socket socket;
@@ -91,11 +91,6 @@ public class ClientHandler implements Runnable, MessageReceivedObserver, GroupCh
     }
 
     // --- Directly forward notifications to clients
-
-    @Override
-    public void onMessage(Message message) {
-        respond(new MessageNotification(message));
-    }
 
     @Override
     public void onJoin(User user) {

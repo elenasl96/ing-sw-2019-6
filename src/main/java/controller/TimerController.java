@@ -36,18 +36,21 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
 
     public synchronized void startTimer(int groupID){
         this.timers.add(groupID, new Timer());
+        System.out.println("sono qui");
+        System.out.println(timers);
+        System.out.println(timers.get(groupID));
         TimerTask timerTask = new TimerTask(){
-            int seconds = 61;
+            int seconds = 2;
             @Override
             public void run() {
                 if(seconds == 60){
-                    GameContext.get().getGame(groupID).sendUpdate(new Update("Timer started: " + seconds + "seconds left..."));
+                    Manager.get().getGroup(groupID).sendUpdate(new Update("Timer started: " + seconds + "seconds left..."));
                  }else if(seconds == 10) {
-                    GameContext.get().getGame(groupID).sendUpdate(new Update("Hurry, 10 seconds left!"));
+                    Manager.get().getGroup(groupID).sendUpdate(new Update("Hurry, 10 seconds left!"));
                 } else if (seconds <= 5 && seconds > 0) {
-                    GameContext.get().getGame(groupID).sendUpdate(new Update("Seconds remaining: " + seconds + "..."));
+                    Manager.get().getGroup(groupID).sendUpdate(new Update("Seconds remaining: " + seconds + "..."));
                 } else if (seconds == 0){
-                    GameContext.get().getGame(groupID).sendUpdate(new Update("Game starting"));
+                    Manager.get().getGroup(groupID).sendUpdate(new Update("Game starting"));
                     Manager.get().getGroup(groupID).createGame();
                     timers.get(groupID).cancel();
                 }

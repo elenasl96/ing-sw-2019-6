@@ -67,7 +67,6 @@ public class ServerController implements RequestHandler {
      * @return  new UserCreatedResponse if the creation is successful
      *          new TextResponse if the username is invalid
      * @see Manager#createUser(String)
-     * @see User#listenToMessages(MessageReceivedObserver)
      * @see UserCreatedResponse
      * @see TextResponse
      * @see CreateUserRequest
