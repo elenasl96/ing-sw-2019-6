@@ -6,6 +6,7 @@ import model.enums.Color;
 import model.enums.WeaponStatus;
 import model.field.AmmoSquare;
 import model.moves.*;
+import model.moves.Target.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,14 +30,15 @@ public class WeaponDeck {
                         "you can see.", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
         Player p1 = new Player(true, null, null, null);
-        this.weapons.get(0).getEffects().add(new DamageEffect(BASIC, p1,2, false));
-        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p1, 1, false));
+        List<Target> t1 = Target.addTargetList(p1);
+        this.weapons.get(0).getEffects().add(new DamageEffect(BASIC, t1 ,2, false));
+        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, t1, 1, false));
         this.weapons.get(0).getEffects().get(0).setCost(Stream
                 .of(new Ammo(Color.BLUE), new Ammo(Color.BLUE))
                 .collect(Collectors.toCollection(ArrayList::new)));
         //Optional effect -- p2 is different from p1
         Player p2 = new Player(true, false, null, null);
-        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p2,1, false)); //2
+        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, Target.addTargetList(p2),1, false)); //2
         this.weapons.get(0).getEffects().get(2).setCost(Stream
                 .of(new Ammo(Color.RED))
                 .collect(Collectors.toCollection(ArrayList::new)));
@@ -76,7 +78,8 @@ public class WeaponDeck {
         //Basic effect
         this.weapons.get(2).getEffects().add(
                 new DamageEffect(BASIC,
-                        new Player(true, null, null, null),1, false));
+                        Target.addTargetList(new Player(true, null, null, null))
+                        ,1, false));
         this.weapons.get(2).getEffects()
                 .add(new DamageEffect(BASIC,
                         new Player(true, null, null, null), 1,true));

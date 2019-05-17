@@ -4,7 +4,10 @@ import model.Player;
 import model.PlayerBoard;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class Target implements Serializable {
     private Boolean canSee;
@@ -29,5 +32,9 @@ public abstract class Target implements Serializable {
         for(PlayerBoard b : this.getPlayerBoard(groupId)){
             b.addDamage(playerDamaging, damages);
         }
+    }
+
+    public static List<Target> addTargetList(Target targets){
+        return Stream.of(targets).collect(Collectors.toCollection(ArrayList::new));
     }
 }
