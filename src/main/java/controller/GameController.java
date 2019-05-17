@@ -5,6 +5,7 @@ import exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
+import model.decks.Weapon;
 import model.enums.Phase;
 import model.field.SpawnSquare;
 import model.field.Square;
@@ -146,6 +147,14 @@ public class GameController implements MoveRequestHandler{
                 break;
         }
         player.getUser().receiveUpdate(new Update(player, true));
+    }
+
+    public void playWeapon(int groupId, Player player, Weapon weapon){
+        //TODO
+    }
+
+    public void playPowerup(int groupId, Player player, Powerup powerup){
+        //TODO
     }
 
     public int receiveInput(int input){

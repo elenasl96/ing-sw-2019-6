@@ -107,6 +107,12 @@ public class ClientController implements ResponseHandler {
     private void sendCommand(String content){
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
+            case "0": case "1": case "2":
+                client.request(new CardRequest("powerup", content));
+                break;
+            case "3": case "4": case "5":
+                client.request(new CardRequest("weapon", content));
+                break;
             case "run":
                 Coordinate coordinate = view.getCoordinate();
                 moveRequest.addMove(new Run(coordinate));
@@ -117,13 +123,8 @@ public class ClientController implements ResponseHandler {
                 moveRequest.addMove(new MoveAndGrab(coordinate));
                 client.request(moveRequest);
                 break;
-            case "shoot":
-                client.request(new CardRequest("weapon"));
-                break;
-            case "powerup":
-                client.request(new CardRequest("powerup"));
-                break;
             default:
+
                 break;
         }
     }

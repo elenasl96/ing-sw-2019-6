@@ -171,8 +171,11 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(CardRequest cardRequest){
-        GameController.get().handle();
-        return new AskInput(cardRequest.cardType);
+        if(cardRequest.cardType.equals("weapon"))
+            GameController.get().playWeapon(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getWeapons().get(cardRequest.number-3));
+        if(cardRequest.cardType.equals("powerup"))
+            GameController.get().playPowerup(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getPowerups().get(cardRequest.number));
+        return null;
     }
 
     @Override
