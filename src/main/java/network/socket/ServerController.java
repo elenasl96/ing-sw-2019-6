@@ -36,7 +36,7 @@ public class ServerController implements RequestHandler {
     /**
      * the user and group the ServerController is related to
      */
-    User user;
+    private User user;
     private Group currentGroup;
 
     /**
@@ -177,8 +177,9 @@ public class ServerController implements RequestHandler {
     }
 
     @Override
-    public Response handle(CardRequest cardRequest) {
-        return null;
+    public Response handle(CardRequest cardRequest){
+        GameController.get().handle(cardRequest, currentGroup.getGroupID(), user);
+        return new AskInput(cardRequest.cardType);
     }
 
     @Override

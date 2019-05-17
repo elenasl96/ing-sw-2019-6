@@ -5,8 +5,10 @@ import network.socket.commands.RequestHandler;
 import network.socket.commands.Response;
 
 public class CardRequest implements Request {
+    public String cardType;
 
     public CardRequest(String cardType) {
+        this.cardType = cardType;
     }
 
     @Override

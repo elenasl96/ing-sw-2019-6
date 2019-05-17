@@ -10,7 +10,9 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
 import model.room.Update;
+import model.room.User;
 import network.socket.commands.Response;
+import network.socket.commands.request.CardRequest;
 import network.socket.commands.response.AskInput;
 
 import java.util.Optional;
@@ -116,10 +118,30 @@ public class GameController implements MoveRequestHandler{
         return new Update(">>> Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
     }
 
+
+
+
     public int receiveInput(int input){
         return input;
     }
     // Moves handling
+
+    public synchronized void handle(CardRequest cardRequest, int groupId, User user) {
+        if(isMyTurn(user.getPlayer(), groupId)){
+            switch(cardRequest.cardType){
+                case "powerup":
+                    user.receiveUpdate(new Update(user.getPlayer().getPowerups().toString()));
+                    break;
+                case "weapon":
+                    user.receiveUpdate(new Update(user.getPlayer().getWeapons().toString()));
+                    break;
+            }
+        }
+        else{
+            user.receiveUpdate(new Update("Is not your Turn!!!"));
+        }
+    }
+
     @Override
     public synchronized void handle(Run run, int groupID) throws InvalidMoveException{
         run.setMaxSteps(3);
@@ -137,7 +159,7 @@ public class GameController implements MoveRequestHandler{
         }
         handle(moveAndGrab.getMovement(), groupID);
 
-        return new AskInput();
+        return new AskInput("moveAndGrab");
     }
 
     @Override
@@ -160,7 +182,7 @@ public class GameController implements MoveRequestHandler{
 
     @Override
     public synchronized Response handle(DamageEffect damage, int groupID) throws InvalidMoveException{
-        AskInput toAsk = new AskInput();
+        AskInput toAsk = new AskInput("damage");
         toAsk.append("Who do you want to shoot to?");
         return toAsk;
 
