@@ -162,7 +162,7 @@ public class Player extends Target implements Serializable{
         return dead;
     }
 
-    void setDead(boolean dead) {
+    public void setDead(boolean dead) {
         this.dead = dead;
     }
 

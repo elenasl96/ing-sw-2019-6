@@ -195,6 +195,8 @@ public class ServerController implements RequestHandler {
                return response;
             }
             move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
+            //go to next player and set phase
+            GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (InvalidMoveException e) {
             user.receiveUpdate(new Update(e.getMessage()));
             user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));

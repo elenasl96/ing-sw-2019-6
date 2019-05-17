@@ -4,10 +4,7 @@ import model.GameContext;
 import model.room.*;
 import network.socket.Manager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * SINGLETON (SERVER SIDE)
@@ -35,10 +32,10 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
     }
 
     public synchronized void startTimer(int groupID){
+        while(timers.size()<groupID+1){
+            timers.add(null);
+        }
         this.timers.add(groupID, new Timer());
-        System.out.println("sono qui");
-        System.out.println(timers);
-        System.out.println(timers.get(groupID));
         TimerTask timerTask = new TimerTask(){
             int seconds = 2;
             @Override

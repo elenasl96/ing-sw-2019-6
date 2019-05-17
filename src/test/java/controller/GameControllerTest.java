@@ -3,6 +3,7 @@ package controller;
 import exception.InvalidMoveException;
 import model.Ammo;
 import model.GameContext;
+import model.Player;
 import model.decks.Powerup;
 import model.enums.Color;
 import model.enums.Phase;
@@ -75,11 +76,48 @@ class GameControllerTest {
     @Test
     void possibleMovesTest(){
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
-        Update possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
+        Update possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
         GameContext.get().getGame(0).getCurrentPlayer().getPowerups().add(new Powerup("dummy", new Ammo(Color.BLUE)));
         possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
         GameContext.get().getGame(0).setFinalFrenzy(true);
-        possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
+        possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
+        GameContext.get().getGame(0).setCurrentPlayer(GameContext.get().getGame(0).getPlayers().next());
+        GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
+        possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
+
+    }
+
+    @Test
+    void SpawnTest(){
+        //getFirstTimeSpawn
+        Update possibleMovesUpdate = GameController.get().getFirstTimeSpawn(
+                GameContext.get().getGame(0).getCurrentPlayer(), 0);
+        assertFalse(possibleMovesUpdate.isPlayerChanges());
+        assertFalse(GameContext.get().getGame(0).getCurrentPlayer().getPowerups().isEmpty());
+        //Not working Spawn
+        GameController.get().setSpawn(
+                GameContext.get().getGame(0).getCurrentPlayer(),
+                5, 0);
+
+        //Working spawn
+        GameController.get().setSpawn(
+                GameContext.get().getGame(0).getCurrentPlayer(),
+                0, 0);
+    }
+
+    @Test
+    void UpdatePhaseTest() {
+        GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
+        GameController.get().updatePhase(0);
+        assertEquals(Phase.SECOND, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
+        GameController.get().updatePhase(0);
+        assertEquals(Phase.RELOAD, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
+        GameController.get().updatePhase(0);
+        assertEquals(Phase.FIRST, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
+        GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
+        GameContext.get().getGame(0).getCurrentPlayer().setDead(true);
+        GameController.get().updatePhase(0);
+        assertEquals(Phase.SPAWN, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
     }
 }
