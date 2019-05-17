@@ -37,7 +37,7 @@ public class ServerController implements RequestHandler {
     /**
      * the user and group the ServerController is related to
      */
-    private User user;
+    User user;
     private Group currentGroup;
 
     //constructor for tests
