@@ -68,30 +68,6 @@ public class ServerController implements RequestHandler {
     // ------ Request handling
 
     /**
-     * Provides sending a message to the Group
-     * if the message starts with ":q" deletes the user and stops the connection
-     * @param request   the SendMessageRequest
-     * @return  no Response
-     *          not void to Override interface method
-     * @see SendMessageRequest
-     * @see Group#leave(User)
-     * @see ClientHandler#stop()
-     */
-    @Override
-    public Response handle(SendMessageRequest request) {
-        Message message = request.message;
-        if (!message.getContent().startsWith(":q")) {
-            currentGroup.sendMessage(message);
-            System.out.println(">>> Message: " + message.toString());
-        } else {
-            currentGroup.leave(user);
-            clientHandler.stop();
-            System.out.println (">>> " + currentGroup.getName() + " updated: " + currentGroup.users());
-        }
-        return null;
-    }
-
-    /**
      * Creates a new User
      * @param request   CreateUserRequest
      * @return  new UserCreatedResponse if the creation is successful
@@ -202,6 +178,12 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(CardRequest cardRequest) {
+        return null;
+    }
+
+    @Override
+    public Response handle(SendInput sendInput) {
+        GameController.get().receiveInput
         return null;
     }
 

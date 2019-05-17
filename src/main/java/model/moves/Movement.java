@@ -41,6 +41,7 @@ public class Movement extends Effect implements Move{
     public Movement (EffectType type, List<Target> target, Square destination, Boolean optionality){
         super(type, target, optionality);
         this.destination = destination;
+        this.maxSteps = -1; //Default (by Marti)
     }
 
     public Movement(int maxSteps){
@@ -137,7 +138,7 @@ public class Movement extends Effect implements Move{
         this.coordinate = coordinate;
     }
 
-    int getMaxSteps() {
+    public int getMaxSteps() {
         return maxSteps;
     }
 

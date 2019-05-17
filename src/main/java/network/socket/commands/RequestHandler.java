@@ -6,7 +6,6 @@ import network.socket.commands.request.*;
  * A method for every possible Request
  */
 public interface RequestHandler {
-    Response handle(SendMessageRequest request);
 
     Response handle(CreateUserRequest request);
 
@@ -27,4 +26,6 @@ public interface RequestHandler {
     Response handle(SpawnRequest spawnRequest);
 
     Response handle(CardRequest cardRequest);
+
+    Response handle(SendInput sendInput);
 }

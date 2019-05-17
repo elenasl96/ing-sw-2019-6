@@ -128,11 +128,6 @@ public class ClientController implements ResponseHandler {
         }
     }
 
-    void sendMessage(String content) {
-        Message m = new Message(ClientContext.get().getCurrentGroup(),
-                ClientContext.get().getCurrentUser(), content);
-        client.request(new SendMessageRequest(m));
-    }
     public void run(){
         view.chooseUsernamePhase();
         view.chooseGroupPhase();

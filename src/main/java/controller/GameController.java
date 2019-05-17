@@ -127,12 +127,15 @@ public class GameController implements MoveRequestHandler{
     }
 
     @Override
-    public synchronized void handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
-        moveAndGrab.setMaxSteps(1);
+    public synchronized Response handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
+        if(moveAndGrab.getMovement().getMaxSteps()==-1) {
+            return new AskInput();
+        } moveAndGrab.setMaxSteps(1);
         if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             moveAndGrab.setMaxSteps(4);
         }
         handle(moveAndGrab.getMovement(), groupID);
+        return null; //TODO
     }
 
     @Override
@@ -162,8 +165,9 @@ public class GameController implements MoveRequestHandler{
     }
 
     @Override
-    public synchronized void handle(Grab grab, int groupID) throws InvalidMoveException{
+    public synchronized Response handle(Grab grab, int groupID) throws InvalidMoveException{
         //TODO
+        return null;
     }
 
 }

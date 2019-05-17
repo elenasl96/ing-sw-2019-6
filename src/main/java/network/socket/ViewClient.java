@@ -159,14 +159,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
         return coordinate;
     }
 
-    public void messagingPhase() {
-        while (wait) {
-            String content = userInput();
-            if(content != null)
-                controller.sendMessage(content);
-        }
-    }
-
     private Group yesCreateGame(){
         try {
             displayText("How many number of Skulls do you want to use?");

@@ -4,7 +4,6 @@ import model.moves.Move;
 import model.room.Command;
 import model.room.Message;
 import network.socket.commands.request.MoveRequest;
-import network.socket.commands.request.SendMessageRequest;
 import network.socket.commands.request.SpawnRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -27,11 +26,6 @@ class CommandsTest {
         assertNull(spawnRequest.getSpawn());
         spawnRequest = new SpawnRequest(0);
         assertEquals(0, spawnRequest.getSpawn());
-    }
-
-    @Test
-    void SendMessageRequestTest(){
-        SendMessageRequest request = new SendMessageRequest(message);
     }
 
     @Test
