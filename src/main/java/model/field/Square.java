@@ -57,4 +57,8 @@ public abstract class Square extends Target implements Serializable {
     public String toString() {
         return this.coord.toString();
     }
+
+    public boolean isEmpty() {
+        return this.getGrabbable()==null;
+    }
 }

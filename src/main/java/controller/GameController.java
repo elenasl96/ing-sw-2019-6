@@ -46,12 +46,13 @@ public class GameController implements MoveRequestHandler{
         StringBuilder content = new StringBuilder();
         switch (player.getPhase()){
             case FIRST: case SECOND:
-                content.append("\nThese are the moves you can choose\n");
+                content.append("\nThese are the moves you can choose");
                 if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
-                    content.append("run\n" +
-                            "grab\n" +
-                            "shoot\n");
-                    content.append("If you want to play a powerup, write \"powerup\"");
+                    content.append("\n||RUN||");
+                    if(!player.getCurrentPosition().isEmpty())
+                        content.append("\n||GRAB||");
+                    if(!player.getWeapons().isEmpty())
+                        content.append("\n||SHOOT||").append(player.weaponsToString());
                 } else {
                     if(player.isFirstPlayer()){
                         content.append("shoot (move up to 2 squares, reload, shoot)\n" +
@@ -62,9 +63,8 @@ public class GameController implements MoveRequestHandler{
                                 "grab (move up to 2 squares, grab)");
                     }
                 }
-                if(!player.getPowerups().isEmpty()){
-                    content.append(player.powerupsToString());
-                }
+                if(!player.getPowerups().isEmpty())
+                    content.append("\n||POWERUPS||").append(player.powerupsToString());
                 break;
             case RELOAD:
                 content.append("You can reload:\n").append(player.getWeapons());
@@ -153,28 +153,8 @@ public class GameController implements MoveRequestHandler{
     }
     // Moves handling
 
-    public synchronized void handle(CardRequest cardRequest, int groupId, User user) {
-        if(isMyTurn(user.getPlayer(), groupId)){
-            switch(cardRequest.cardType){
-                case "powerup":
-                    if(user.getPlayer().getPowerups().isEmpty())
-                        user.receiveUpdate(new Update(user.getPlayer(),
-                                true, "You have no powerups!!!"));
-                    else
-                        user.receiveUpdate(new Update(user.getPlayer().powerupsToString()));
-                    break;
-                case "weapon":
-                    if(user.getPlayer().getWeapons().isEmpty())
-                        user.receiveUpdate(new Update(user.getPlayer(),
-                                true, "You have no weapons!!!"));
-                    else
-                        user.receiveUpdate(new Update(user.getPlayer().weaponsToString()));
-                    break;
-            }
-        }
-        else{
-            user.receiveUpdate(new Update("Is not your Turn!!!"));
-        }
+    public synchronized void handle() {
+        //TODO
     }
 
     @Override

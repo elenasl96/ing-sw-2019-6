@@ -171,7 +171,7 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(CardRequest cardRequest){
-        GameController.get().handle(cardRequest, currentGroup.getGroupID(), user);
+        GameController.get().handle();
         return new AskInput(cardRequest.cardType);
     }
 
