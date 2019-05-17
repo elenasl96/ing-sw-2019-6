@@ -116,8 +116,8 @@ class GameControllerTest {
         GameController.get().updatePhase(0);
         assertEquals(Phase.FIRST, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
-        GameContext.get().getGame(0).getCurrentPlayer().isDead();
+        GameContext.get().getGame(0).getCurrentPlayer().setDead(true);
         GameController.get().updatePhase(0);
-
+        assertEquals(Phase.SPAWN, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
     }
 }
