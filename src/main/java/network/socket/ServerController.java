@@ -195,7 +195,8 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(MoveRequest moveRequest) {
         try {
-            Response response = moveRequest.getMove().handle(GameController.get(), currentGroup.getGroupID());
+            Move move = moveRequest.getMove();
+            Response response = move.handle(GameController.get(), currentGroup.getGroupID());
             if(response != null){
                return response;
             }
