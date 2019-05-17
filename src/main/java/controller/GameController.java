@@ -116,6 +116,9 @@ public class GameController implements MoveRequestHandler{
         return new Update(">>> Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
     }
 
+    public int receiveInput(int input){
+        return input;
+    }
     // Moves handling
     @Override
     public synchronized void handle(Run run, int groupID) throws InvalidMoveException{
@@ -128,18 +131,15 @@ public class GameController implements MoveRequestHandler{
 
     @Override
     public synchronized Response handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
-        if(moveAndGrab.getMovement().getMaxSteps()==-1) {
-            return new AskInput();
-        } moveAndGrab.setMaxSteps(1);
+        moveAndGrab.setMaxSteps(1);
         if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             moveAndGrab.setMaxSteps(4);
         }
-        handle(moveAndGrab.getMovement(), groupID);
-        return null; //TODO
+        return handle(moveAndGrab.getMovement(), groupID);
     }
 
     @Override
-    public synchronized void handle(Movement movement, int groupID) throws InvalidMoveException {
+    public synchronized Response handle(Movement movement, int groupID) throws InvalidMoveException {
         System.out.println("The square inserted is: "+movement.getCoordinate());
         Square destination = null;
         //Check if the coordinate is valid
@@ -154,6 +154,7 @@ public class GameController implements MoveRequestHandler{
             movement.setDestination(destination);
             movement.setField(GameContext.get().getGame(groupID).getBoard().getField());
         }
+        return null;
     }
 
     @Override

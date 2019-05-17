@@ -183,7 +183,7 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SendInput sendInput) {
-        GameController.get().receiveInput
+        GameController.get().receiveInput(sendInput.getInput());
         return null;
     }
 
@@ -195,8 +195,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(MoveRequest moveRequest) {
         try {
-            Move move = moveRequest.getMove();
-            Response response = move.handle(GameController.get(), currentGroup.getGroupID());
+            Response response = moveRequest.getMove().handle(GameController.get(), currentGroup.getGroupID());
             if(response != null){
                return response;
             }

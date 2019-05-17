@@ -5,7 +5,7 @@ import model.moves.*;
 import network.socket.commands.Response;
 
 public interface MoveRequestHandler {
-    void handle(Movement movement, int groupID) throws InvalidMoveException;
+    Response handle(Movement movement, int groupID) throws InvalidMoveException;
 
     void handle(Run run, int groupID) throws InvalidMoveException;
 
