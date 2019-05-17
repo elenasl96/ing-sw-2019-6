@@ -27,7 +27,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
         return instance;
     }
 
-    public TimerController(Group group){
+    public void addGroup(Group group){
         //Observer of every group, starts the timer when called
         group.observe(this);
     }
@@ -56,7 +56,16 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
 
     @Override
     public void onJoin(User u) {
-
+        //Finding the user's group
+        int groupID = 0;
+        for(Group group: Manager.get().getGroups()){
+            for(User user: group.getUsers()){
+                if(u.equals(user)){
+                    groupID = group.getGroupID();
+                    break;
+                }
+            }
+        }
         if(Manager.get().getGroup(groupID).size() == 3){
             timer = new Timer();
 
@@ -69,6 +78,16 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
 
     @Override
     public void onLeave(User u) {
+        //Finding the user's group
+        int groupID = 0;
+        for(Group group: Manager.get().getGroups()){
+            for(User user: group.getUsers()){
+                if(u.equals(user)){
+                    groupID = group.getGroupID();
+                    break;
+                }
+            }
+        }
         if(Manager.get().getGroup(groupID).size() == 2 && !Manager.get().getGroup(groupID).isFull()){
             timer.cancel();
             GameContext.get().getGame(groupID).sendUpdate(new Update("Timer stopped. Waiting for players..."));

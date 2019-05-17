@@ -65,8 +65,6 @@ public class Group implements Serializable {
 
     }
 
-    
-
     public void observe(GroupChangeListener listener) {
         listeners.add(listener);
     }
@@ -129,8 +127,7 @@ public class Group implements Serializable {
         else {
             situation = situation.concat("Group "+this.groupID+" has "+this.size()+" players:\n");
             for(User u: this.users)
-                if(!u.getUsername().contains("Server"))
-                    situation = situation.concat(u.toString()+", ");
+                situation = situation.concat(u.toString()+", ");
         }
         return situation;
     }
@@ -168,17 +165,11 @@ public class Group implements Serializable {
         }
     }
 
-    public UserManager getServerUser(){
-        for(User u: users){
-            if(u.getUsername().contains("Server")){
-                return (UserManager) u;
-            }
-        }
-        return null;
-    }
-
     public Game getGame(){
         return GameContext.get().getGame(this.getGroupID());
     }
 
+    public List<User> getUsers(){
+        return this.users;
+    }
 }
