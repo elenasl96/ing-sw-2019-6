@@ -38,8 +38,8 @@ public class Movement extends Effect implements Move{
     private int maxSteps;
     private int maxStepsFrenzy;
 
-    public Movement (EffectType type, List<Target> target, Square destination, Boolean optionality){
-        super(type, target, optionality);
+    public Movement (EffectType type, List<Target> target, Square destination, Boolean optionality, Boolean different){
+        super(type, target, optionality, different);
         this.destination = destination;
         this.maxSteps = -1; //Default (by Marti)
     }

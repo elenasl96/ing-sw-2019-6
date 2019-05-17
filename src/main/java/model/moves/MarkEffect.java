@@ -15,8 +15,8 @@ import static java.lang.Math.min;
 public class MarkEffect extends Effect implements Move{
     private int nMarks;
 
-    public MarkEffect(EffectType type, List<Target> playerMarked, int nMarks, Boolean optionality) {
-        super(type, playerMarked, optionality);
+    public MarkEffect(EffectType type, List<Target> playerMarked, int nMarks, Boolean optionality, Boolean different) {
+        super(type, playerMarked, optionality, different);
         this.targets = playerMarked;
         this.nMarks = nMarks;
     }
