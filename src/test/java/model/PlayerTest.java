@@ -73,7 +73,7 @@ class PlayerTest {
     void powerUpsTest(){
         PowerupDeck d = new PowerupDeck();
         pg.getPowerups().add(d.pickCard());
-        pg.powerupsToString(pg.getPowerups());
+        pg.powerupsToString();
     }
 
     @Test

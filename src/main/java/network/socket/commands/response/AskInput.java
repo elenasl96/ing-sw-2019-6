@@ -5,11 +5,12 @@ import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 
 public class AskInput implements Response {
-
+    String inputType;
     private StringBuilder display;
     Effect effect;
 
-    public AskInput(){
+    public AskInput(String inputType){
+        this.inputType = inputType;
         this.display = new StringBuilder();
     }
 

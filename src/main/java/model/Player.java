@@ -192,7 +192,7 @@ public class Player extends Target implements Serializable{
         }
     }
 
-    public String powerupsToString(List<Powerup> powerups){
+    public String powerupsToString(){
         StringBuilder string = new StringBuilder();
         int nCard = 0;
         string.append("\n========Powerups=========");

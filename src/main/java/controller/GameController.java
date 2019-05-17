@@ -63,7 +63,7 @@ public class GameController implements MoveRequestHandler{
                     }
                 }
                 if(!player.getPowerups().isEmpty()){
-                    content.append(player.powerupsToString(player.getPowerups()));
+                    content.append(player.powerupsToString());
                 }
                 break;
             case RELOAD:
@@ -117,7 +117,7 @@ public class GameController implements MoveRequestHandler{
                     .getBoard().getPowerupsLeft().pickCard());
             System.out.println(">>> "+player.getPowerups().toString());
         }
-        return new Update(">>> Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
+        return new Update(">>> Choose spawn point from:" + player.powerupsToString());
     }
 
     public void updatePhase(int groupID){
@@ -143,6 +143,7 @@ public class GameController implements MoveRequestHandler{
             default:
                 break;
         }
+        player.getUser().receiveUpdate(new Update(player, true));
     }
 
     public int receiveInput(int input){
@@ -154,7 +155,7 @@ public class GameController implements MoveRequestHandler{
         if(isMyTurn(user.getPlayer(), groupId)){
             switch(cardRequest.cardType){
                 case "powerup":
-                    user.receiveUpdate(new Update(user.getPlayer().getPowerups().toString()));
+                    user.receiveUpdate(new Update(user.getPlayer().powerupsToString()));
                     break;
                 case "weapon":
                     user.receiveUpdate(new Update(user.getPlayer().getWeapons().toString()));
@@ -174,7 +175,6 @@ public class GameController implements MoveRequestHandler{
         }
         handle(run.getMovement(), groupID);
         //go to next player and set phase
-        this.updatePhase(groupID);
     }
 
     @Override
