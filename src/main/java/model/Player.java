@@ -158,7 +158,7 @@ public class Player extends Target implements Serializable{
         this.firstPlayer = flag;
     }
 
-    boolean isDead() {
+    public boolean isDead() {
         return dead;
     }
 

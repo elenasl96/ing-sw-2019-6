@@ -9,7 +9,7 @@ import network.exceptions.InvalidGroupNumberException;
 
 import java.util.Scanner;
 
-public class ViewClient implements MessageReceivedObserver, GroupChangeListener, GameUpdateObserver {
+public class ViewClient implements GroupChangeListener, GameUpdateObserver {
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
     private final ClientController controller;
@@ -186,11 +186,6 @@ public class ViewClient implements MessageReceivedObserver, GroupChangeListener,
     }
 
     // ----- The view observes the state and reacts (the observable pushes the pieces of interesting state)
-
-    @Override
-    public void onMessage(Message message) {
-        displayText(message.toString());
-    }
 
     @Override
     public void onJoin(User user) {

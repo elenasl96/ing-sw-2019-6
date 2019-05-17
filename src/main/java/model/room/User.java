@@ -13,7 +13,6 @@ import java.util.List;
 public class User implements Serializable, Comparable<User> {
 
     private String username;
-    private transient List<MessageReceivedObserver> observers;
     private transient List<GameUpdateObserver> updateObservers;
     private static int uniqueUserID = 0;
     private int userID;
@@ -24,7 +23,6 @@ public class User implements Serializable, Comparable<User> {
         super();
         userID = uniqueUserID;
         this.username = username;
-        this.observers = new LinkedList<>();
         this.updateObservers = new LinkedList<>();
         uniqueUserID++;
     }
@@ -45,15 +43,8 @@ public class User implements Serializable, Comparable<User> {
         return this.userID;
     }
 
-    public void listenToMessages(MessageReceivedObserver observer) {
-        observers.add(observer);
-        updateObservers.add((GameUpdateObserver) observer);
-    }
-
-    public void receiveMessage(Message message) {
-        for (MessageReceivedObserver observer : observers) {
-            observer.onMessage(message);
-        }
+    public void listenToMessages(GameUpdateObserver observer) {
+        updateObservers.add(observer);
     }
 
     public void receiveUpdate(Update update){
@@ -66,7 +57,6 @@ public class User implements Serializable, Comparable<User> {
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         // upon deserialization, observers are reset
-        observers = new LinkedList<>();
         updateObservers = new LinkedList<>();
     }
 

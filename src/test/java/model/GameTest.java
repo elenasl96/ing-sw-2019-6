@@ -15,7 +15,7 @@ class GameTest {
     void reset(){
         Manager.get().reset();
         GameContext.get().reset();
-        GameContext.get().createGame();
+        GameContext.get().createGame(0);
         try {
             Manager.get().createUser("user1");
             Manager.get().createUser("user2");

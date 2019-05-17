@@ -28,13 +28,8 @@ public class GameContext {
         return games.get(groupID);
     }
 
-    /**
-     *  a New game is added to the gameList:
-     *      when the group is created, it adds a new setGame to the list, being in the situation that
-     *      get(groupID) gets its specific game.
-     */
-    public synchronized void createGame(){
-        this.games.add(new Game());
+    public synchronized void createGame(int groupID){
+        this.games.add(groupID, new Game());
     }
 
     public void reset(){

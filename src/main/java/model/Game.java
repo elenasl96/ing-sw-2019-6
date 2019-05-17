@@ -88,7 +88,7 @@ public class Game implements Serializable {
      */
     public void sendUpdate(Update update) {
         for(GameUpdateObserver o: observers ){
-            System.out.println(">>> It's setGame here sending an update to "+o);
+            System.out.println(">>> It's Game here sending an update to "+o);
             o.onUpdate(update);
         }
     }

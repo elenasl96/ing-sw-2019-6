@@ -36,11 +36,9 @@ public class Group implements Serializable {
         uniqueGroupID = 0;
     }
 
-    public void sendMessage(Message message){
-        checkUserInGroup(message.getSender());
-
+    public void sendUpdate(Update update){
         for(User user: users) {
-            user.receiveMessage(message);
+            user.receiveUpdate(update);
         }
     }
 
@@ -76,7 +74,7 @@ public class Group implements Serializable {
     }
 
     public int size() {
-        return users.size()-1;
+        return users.size();
     }
 
     public List<User> users() {
@@ -135,12 +133,12 @@ public class Group implements Serializable {
 
     public void createGame() {
         this.setFull();
-        ArrayList<User> clients = new ArrayList<>(users.subList(1,users.size()));
         //Makes every listener of this group an Observer of the game
+        GameContext.get().createGame(this.groupID);
         for(GroupChangeListener listener : listeners){
             GameContext.get().getGame(this.getGroupID()).addObserverGame((GameUpdateObserver) listener);
         }
-        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, clients);
+        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, users);
         //Fill the squares
         GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares()
                 .forEach(square->

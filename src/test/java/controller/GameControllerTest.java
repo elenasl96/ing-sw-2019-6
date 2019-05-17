@@ -28,7 +28,7 @@ class GameControllerTest {
     void start(){
         Manager.get().reset();
         GameContext.get().reset();
-        GameContext.get().createGame();
+        GameContext.get().createGame(0);
         users = new ArrayList<>();
         users.add(new User("user1"));
         users.add(new User("user2"));
