@@ -1,40 +1,50 @@
 package controller;
 
+import model.GameContext;
 import model.room.*;
 import network.socket.Manager;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * SINGLETON (SERVER SIDE)
+ * Handles the timers of all the games
+ */
 
 public class TimerController implements GroupChangeListener, GameUpdateObserver {
-    private User serverUser;
-    private int groupID;
     private Timer timer;
 
-    public TimerController(Group group, User serverUser){
-        groupID = group.getGroupID();
-        group.observe(this);
-        this.serverUser = serverUser;
+    private static TimerController instance;
+    private TimerController(){
+        //Singleton default constructor
     }
 
-    public void startTimer(){
+    public static synchronized TimerController get() {
+        if (instance == null) {
+            instance = new TimerController();
+        }
+        return instance;
+    }
+
+    public TimerController(Group group){
+        //Observer of every group, starts the timer when called
+        group.observe(this);
+    }
+
+    public void startTimer(int groupID){
         TimerTask timerTask = new TimerTask(){
-            int seconds = 2;
+            int seconds = 61;
             @Override
             public void run() {
                 if(seconds == 60){
-                    Manager.get().getGroup(groupID).sendMessage(new Message(
-                            Manager.get().getGroup(groupID), serverUser, "Timer started: " + seconds + "seconds left..."));
-                }else if(seconds == 10) {
-                    Manager.get().getGroup(groupID).sendMessage(new Message(
-                            Manager.get().getGroup(groupID), serverUser, "Hurry, 10 seconds left!"));
+                    GameContext.get().getGame(groupID).sendUpdate(new Update("Timer started: " + seconds + "seconds left..."));
+                 }else if(seconds == 10) {
+                    GameContext.get().getGame(groupID).sendUpdate(new Update("Hurry, 10 seconds left!"));
                 } else if (seconds <= 5 && seconds > 0) {
-                    Manager.get().getGroup(groupID).sendMessage(new Message(
-                            Manager.get().getGroup(groupID), serverUser, "Seconds remaining left: " + seconds + "..."));
+                    GameContext.get().getGame(groupID).sendUpdate(new Update("Seconds remaining: " + seconds + "..."));
                 } else if (seconds == 0){
-                    Manager.get().getGroup(groupID).sendMessage(new Message(
-                            Manager.get().getGroup(groupID), serverUser, "Game starting"));
+                    GameContext.get().getGame(groupID).sendUpdate(new Update("Game starting"));
                     Manager.get().getGroup(groupID).createGame();
                     timer.cancel();
                 }
@@ -46,6 +56,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
 
     @Override
     public void onJoin(User u) {
+
         if(Manager.get().getGroup(groupID).size() == 3){
             timer = new Timer();
 
@@ -60,8 +71,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
     public void onLeave(User u) {
         if(Manager.get().getGroup(groupID).size() == 2 && !Manager.get().getGroup(groupID).isFull()){
             timer.cancel();
-
-            Manager.get().getGroup(groupID).sendMessage(new Message(Manager.get().getGroup(groupID), serverUser, "Timer stopped. Waiting for players..."));
+            GameContext.get().getGame(groupID).sendUpdate(new Update("Timer stopped. Waiting for players..."));
         }
     }
 

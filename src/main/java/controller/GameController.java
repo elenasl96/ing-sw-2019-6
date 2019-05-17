@@ -10,6 +10,7 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
 import model.room.Update;
+import network.socket.commands.Response;
 import network.socket.commands.response.AskInput;
 
 import java.util.Optional;
@@ -153,9 +154,10 @@ public class GameController implements MoveRequestHandler{
     }
 
     @Override
-    public synchronized void handle(DamageEffect damage, int groupID) throws InvalidMoveException{
+    public synchronized Response handle(DamageEffect damage, int groupID) throws InvalidMoveException{
         AskInput toAsk = new AskInput();
         toAsk.append("Who do you want to shoot to?");
+        return toAsk;
 
     }
 

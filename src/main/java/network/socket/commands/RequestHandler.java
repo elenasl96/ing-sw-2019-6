@@ -22,7 +22,7 @@ public interface RequestHandler {
 
     Response handle(MovementRequest movementRequest);
 
-    void handle(MoveRequest moveRequest);
+    Response handle(MoveRequest moveRequest);
 
     Response handle(SpawnRequest spawnRequest);
 

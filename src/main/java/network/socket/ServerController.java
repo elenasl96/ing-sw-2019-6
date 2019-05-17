@@ -211,15 +211,18 @@ public class ServerController implements RequestHandler {
     }
 
     @Override
-    public void handle(MoveRequest moveRequest) {
+    public Response handle(MoveRequest moveRequest) {
         try {
             Move move = moveRequest.getMove();
-
-            move.handle(GameController.get(), currentGroup.getGroupID());
+            Response response = move.handle(GameController.get(), currentGroup.getGroupID());
+            if(response != null){
+               return response;
+            }
             move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
         } catch (InvalidMoveException e) {
             user.receiveUpdate(new Update(e.getMessage()));
             user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
         }
+        return null;
     }
 }
