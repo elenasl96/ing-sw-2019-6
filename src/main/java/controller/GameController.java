@@ -135,11 +135,13 @@ public class GameController implements MoveRequestHandler{
         if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             moveAndGrab.setMaxSteps(4);
         }
-        return handle(moveAndGrab.getMovement(), groupID);
+        handle(moveAndGrab.getMovement(), groupID);
+
+        return new AskInput();
     }
 
     @Override
-    public synchronized Response handle(Movement movement, int groupID) throws InvalidMoveException {
+    public synchronized void handle(Movement movement, int groupID) throws InvalidMoveException {
         System.out.println("The square inserted is: "+movement.getCoordinate());
         Square destination = null;
         //Check if the coordinate is valid
@@ -154,7 +156,6 @@ public class GameController implements MoveRequestHandler{
             movement.setDestination(destination);
             movement.setField(GameContext.get().getGame(groupID).getBoard().getField());
         }
-        return null;
     }
 
     @Override

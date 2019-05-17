@@ -27,11 +27,13 @@ public class MoveAndGrab implements Move {
 
     @Override
     public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        moveRequestHandler.handle(this, groupId);
-        return null; //TODO
+        return moveRequestHandler.handle(this, groupId);
     }
 
     public Movement getMovement() {
         return movement;
+    }
+    public Grab getGrab(){
+        return this.grab;
     }
 }
