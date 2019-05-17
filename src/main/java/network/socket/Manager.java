@@ -1,8 +1,8 @@
 package network.socket;
 
+import controller.TimerController;
 import model.Game;
 import model.GameContext;
-import model.room.UserManager;
 import network.exceptions.InvalidUsernameException;
 import network.exceptions.InvalidGroupNumberException;
 import model.room.Group;
@@ -47,16 +47,14 @@ public class Manager {
         Group group = new Group(skullNumber, fieldNumber);
         GameContext.get().getGames().add(new Game());
         groups.add(group);
-        UserManager serverUser = new UserManager("Server" + group.getGroupID());
-        group.join(serverUser);
-        serverUser.createTimerController(group);
+        TimerController.get().addGroup(group);
         return group;
     }
 
     public synchronized User createUser(String name) throws InvalidUsernameException {
         User user = new User(name);
 
-        if (users.contains(user) || user.getUsername().contains("Server")||user.getUsername().contains("server")) {
+        if (users.contains(user)) {
             throw new InvalidUsernameException("Invalid username: " + name);
         }
 
@@ -75,7 +73,7 @@ public class Manager {
     synchronized String getGroupSituation(){return this.groupSituation;}
 
     synchronized void setTimer(Group group){
-        group.getServerUser().playTimer();
+        TimerController.get().startTimer(group.getGroupID());
     }
 
     public void reset(){
@@ -90,7 +88,7 @@ public class Manager {
         }
     }
 
-    List<Group> getGroups() {
+    public List<Group> getGroups() {
         return groups;
     }
 
