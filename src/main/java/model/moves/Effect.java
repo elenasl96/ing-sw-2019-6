@@ -10,15 +10,15 @@ import java.util.List;
 public abstract class Effect implements Serializable {
     protected EffectType type;
     protected Boolean optionality;
-    protected Target target;
+    protected List<Target> targets = new ArrayList<>();
     protected List<Ammo> cost = new ArrayList<>();
 
     public Effect(){
     }
 
-    public Effect(EffectType type, Target target, Boolean optionality){
+    public Effect(EffectType type, List<Target> targets, Boolean optionality){
         this.type = type;
-        this.target = target;
+        this.targets = targets;
         this.optionality = optionality;
     }
 
@@ -30,8 +30,8 @@ public abstract class Effect implements Serializable {
         return this.optionality;
     }
 
-    public Target getTarget(){
-        return this.target;
+    public List<Target> getTarget(){
+        return this.targets;
     }
 
     public List<Ammo> getCost(){

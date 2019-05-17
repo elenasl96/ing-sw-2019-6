@@ -7,6 +7,7 @@ import model.Player;
 import model.decks.Grabbable;
 import model.decks.Weapon;
 import model.field.Field;
+import network.socket.commands.Response;
 
 public class Grab implements Move{
 
@@ -24,8 +25,8 @@ public class Grab implements Move{
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        //TODO
+    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+        return null;//TODO
     }
 
     public Field getField() {

@@ -36,8 +36,8 @@ public class Pay implements Move {
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        //TODO
+    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+        return null;//TODO
     }
 
     public List<Ammo> getAmmos() {

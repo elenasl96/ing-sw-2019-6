@@ -20,7 +20,7 @@ public class WeaponDeck {
 
     public WeaponDeck() {
 
-        //Lock rifle
+        //LOCK RIFLE
         this.weapons.add(new Weapon(
                 "Lock rifle",
                 "basic effect: Deal 2 damage and 1 mark to 1 target\n" +
@@ -34,32 +34,30 @@ public class WeaponDeck {
         this.weapons.get(0).getEffects().get(0).setCost(Stream
                 .of(new Ammo(Color.BLUE), new Ammo(Color.BLUE))
                 .collect(Collectors.toCollection(ArrayList::new)));
-        //Optional effect
+        //Optional effect -- p2 is different from p1
         Player p2 = new Player(true, false, null, null);
         this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, p2,1, false)); //2
         this.weapons.get(0).getEffects().get(2).setCost(Stream
                 .of(new Ammo(Color.RED))
                 .collect(Collectors.toCollection(ArrayList::new)));
 
-        //Electroscythe
+        //ELECTROSCYTHE
         this.weapons.add(new Weapon(
                 "ELECTROSCYTHE",
                 "basic mode: Deal 1 damage to every other player\n" +
                         "on your square.\n" +
                         "in reaper mode: Deal 2 damage to every other player\n" +
                         "on your square", WeaponStatus.PARTIALLY_LOADED));
-        //Basic effect
-        this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, new AmmoSquare(),1, false));
+        //Basic effect -- target = null -> mySquare
+        this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, null,1, false));
         this.weapons.get(1).getEffects().get(0).setCost(Stream
                 .of(new Ammo(Color.BLUE))
                 .collect(Collectors.toCollection(ArrayList::new)));
-        //Alternative
+        //Alternative -- square = null -> my.square
         this.weapons.get(1).getEffects().add(new DamageEffect(ALTERNATIVE, null,2, false));
         this.weapons.get(1).getEffects().get(1).setCost(Stream
                 .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
                 .collect(Collectors.toCollection(ArrayList::new)));
-        //TODO square = null -> my.square
-
 
         //Machine Gun
         this.weapons.add(new Weapon("MACHINE GUN",

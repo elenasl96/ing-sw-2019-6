@@ -5,6 +5,7 @@ import exception.InvalidMoveException;
 import model.Player;
 import model.field.Coordinate;
 import model.field.Field;
+import network.socket.commands.Response;
 
 public class Run implements Move {
     private Movement movement;
@@ -31,7 +32,8 @@ public class Run implements Move {
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
         moveRequestHandler.handle(this, groupId);
+        return null; //TODO
     }
 }

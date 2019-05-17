@@ -8,30 +8,34 @@ import model.enums.EffectType;
 import network.socket.commands.Response;
 
 import java.util.Collections;
+import java.util.List;
 
 import static java.lang.Math.min;
 
 public class MarkEffect extends Effect implements Move{
     private int nMarks;
 
-    public MarkEffect(EffectType type, Player playerMarked, int nMarks, Boolean optionality) {
+    public MarkEffect(EffectType type, List<Target> playerMarked, int nMarks, Boolean optionality) {
         super(type, playerMarked, optionality);
-        this.target = playerMarked;
+        this.targets = playerMarked;
         this.nMarks = nMarks;
     }
 
     public void execute(Player p, int groupId) throws FullMarksException {
-        int occurrences = Collections.frequency(target.getPlayerBoard(groupId).get(0).getMarks(), p);
-        if(occurrences<3){
-            target.getPlayerBoard(groupId).get(0).addMarks(p, min(3-occurrences, nMarks));
-        } else{
-            throw new FullMarksException();
+        for(Target t : targets){
+            int occurrences = Collections.frequency(t.getPlayerBoard(groupId).get(0).getMarks(), p);
+            if(occurrences<3){
+                t.getPlayerBoard(groupId).get(0).addMarks(p, min(3-occurrences, nMarks));
+            } else{
+                throw new FullMarksException();
+            }
         }
+
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        //TODO
+    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+        return null;//TODO
     }
 
 }

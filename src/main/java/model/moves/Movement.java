@@ -9,6 +9,7 @@ import model.field.Coordinate;
 import model.field.Field;
 import model.field.Square;
 import model.room.Update;
+import network.socket.commands.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class Movement extends Effect implements Move{
     private int maxSteps;
     private int maxStepsFrenzy;
 
-    public Movement (EffectType type, Target target, Square destination, Boolean optionality){
+    public Movement (EffectType type, List<Target> target, Square destination, Boolean optionality){
         super(type, target, optionality);
         this.destination = destination;
     }
@@ -64,8 +65,9 @@ public class Movement extends Effect implements Move{
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
         moveRequestHandler.handle(this, groupId);
+        return null; //TODO
     }
 
     /**

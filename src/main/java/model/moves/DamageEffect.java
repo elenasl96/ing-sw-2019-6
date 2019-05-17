@@ -4,11 +4,14 @@ import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
 import model.Player;
 import model.enums.EffectType;
+import network.socket.commands.Response;
+
+import java.util.List;
 
 public class DamageEffect extends Effect implements Move{
     private int damages;
 
-    public DamageEffect(EffectType type, Target target, int damages, Boolean optionality){
+    public DamageEffect(EffectType type, List<Target> target, int damages, Boolean optionality){
         super(type, target, optionality);
         this.damages = damages;
     }
@@ -19,11 +22,14 @@ public class DamageEffect extends Effect implements Move{
 
     @Override
     public void execute(Player playerDamaging, int groupId){
-        target.addDamages(playerDamaging, damages, groupId);
+        for ( Target t : targets){
+            t.addDamages(playerDamaging, damages, groupId);
+        }
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
         moveRequestHandler.handle(this, groupId);
+        return null; //TODO
     }
 }

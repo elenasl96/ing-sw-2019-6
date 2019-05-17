@@ -4,6 +4,7 @@ import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
 import model.Player;
 import model.field.Coordinate;
+import network.socket.commands.Response;
 
 public class MoveAndGrab implements Move {
     private Movement movement;
@@ -25,8 +26,9 @@ public class MoveAndGrab implements Move {
     }
 
     @Override
-    public void handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
+    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
         moveRequestHandler.handle(this, groupId);
+        return null; //TODO
     }
 
     public Movement getMovement() {
