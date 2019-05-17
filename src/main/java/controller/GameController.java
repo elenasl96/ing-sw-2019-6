@@ -138,7 +138,9 @@ public class GameController implements MoveRequestHandler{
                 if(player.isDead()){
                     player.setPhase(SPAWN);
                 }
-                player.setPhase(Phase.FIRST);
+                else {
+                    player.setPhase(Phase.FIRST);
+                }
                 break;
             default:
                 break;
@@ -155,10 +157,18 @@ public class GameController implements MoveRequestHandler{
         if(isMyTurn(user.getPlayer(), groupId)){
             switch(cardRequest.cardType){
                 case "powerup":
-                    user.receiveUpdate(new Update(user.getPlayer().powerupsToString()));
+                    if(user.getPlayer().getPowerups().isEmpty())
+                        user.receiveUpdate(new Update(user.getPlayer(),
+                                true, "You have no powerups!!!"));
+                    else
+                        user.receiveUpdate(new Update(user.getPlayer().powerupsToString()));
                     break;
                 case "weapon":
-                    user.receiveUpdate(new Update(user.getPlayer().getWeapons().toString()));
+                    if(user.getPlayer().getWeapons().isEmpty())
+                        user.receiveUpdate(new Update(user.getPlayer(),
+                                true, "You have no weapons!!!"));
+                    else
+                        user.receiveUpdate(new Update(user.getPlayer().weaponsToString()));
                     break;
             }
         }
