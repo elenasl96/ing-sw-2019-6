@@ -15,6 +15,8 @@ import network.socket.commands.response.AskInput;
 
 import java.util.Optional;
 
+import static model.enums.Phase.SPAWN;
+
 /**
  * SINGLETON (SERVER SIDE)
  * Elaborates the ServerController requests
@@ -74,7 +76,7 @@ public class GameController implements MoveRequestHandler{
     public synchronized void setSpawn(Player player, int spawn, int groupID) {
         Powerup discarded;
         if(isMyTurn(player, groupID) &&
-                GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(Phase.SPAWN) &&
+                GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(SPAWN) &&
                 spawn >= 0 &&
                 spawn < player.getPowerups().size()
         ){
@@ -91,7 +93,7 @@ public class GameController implements MoveRequestHandler{
             System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
             GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn"));
             if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.FIRST);
-            else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.SPAWN);
+            else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(SPAWN);
             //send updates
             GameContext.get().getGame(groupID).sendUpdate(new Update(
                     "\n>>> Player " + player.getName()+ " discarded:\n" +
@@ -116,6 +118,31 @@ public class GameController implements MoveRequestHandler{
         return new Update(">>> Choose spawn point from:" + player.powerupsToString(player.getPowerups()));
     }
 
+    public void updatePhase(int groupID){
+        Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
+        //go to next player and set phase
+        switch(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase()) {
+            case FIRST:
+                player.setPhase(Phase.SECOND);
+                break;
+            case SECOND:
+                player.setPhase(Phase.RELOAD);
+                break;
+            case RELOAD:
+                player.setPhase(Phase.WAIT);
+                player.getUser().receiveUpdate(new Update(player, true));
+                GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
+                player = GameContext.get().getGame(groupID).getCurrentPlayer();
+                if(player.isDead()){
+                    player.setPhase(SPAWN);
+                }
+                player.setPhase(Phase.FIRST);
+                break;
+            default:
+                break;
+        }
+    }
+
     public int receiveInput(int input){
         return input;
     }
@@ -127,6 +154,8 @@ public class GameController implements MoveRequestHandler{
             run.setMaxSteps(4);
         }
         handle(run.getMovement(), groupID);
+        //go to next player and set phase
+        this.updatePhase(groupID);
     }
 
     @Override
@@ -136,8 +165,8 @@ public class GameController implements MoveRequestHandler{
             moveAndGrab.setMaxSteps(4);
         }
         handle(moveAndGrab.getMovement(), groupID);
-
-        return new AskInput();
+        receiveInput(1);
+        return null;
     }
 
     @Override
