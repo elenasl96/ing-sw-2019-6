@@ -167,7 +167,6 @@ class LocalLaunchTest {
         assertNotEquals(group0, group1);
         clientController7.chooseGroup(1);
         clientController7.startReceiverThread();
-        clientController7.sendMessage("message1");
 
         //PoisonPill
         try {
