@@ -197,7 +197,20 @@ public class Player extends Target implements Serializable{
         int nCard = 0;
         string.append("\n========Powerups=========");
         for(Powerup p : powerups){
-            string.append("\nNumber").append(nCard).append("\n").append(p);
+            string.append("\nNumber: ").append(nCard)
+                    .append("\n").append(p);
+            nCard++;
+        }
+        return string.toString();
+    }
+
+    public String weaponsToString(){
+        StringBuilder string = new StringBuilder();
+        int nCard = 0;
+        string.append("\n=========Weapons=========");
+        for(Weapon w : weapons){
+            string.append("\nNumber: ").append(nCard)
+                    .append("\n").append(w);
             nCard++;
         }
         return string.toString();

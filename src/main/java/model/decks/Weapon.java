@@ -1,5 +1,6 @@
 package model.decks;
 
+import model.Ammo;
 import model.enums.WeaponStatus;
 import model.moves.Effect;
 
@@ -42,5 +43,23 @@ public class Weapon implements Serializable {
 
     public WeaponStatus getStatus() {
         return status;
+    }
+
+    @Override
+    public String toString(){
+        int cost = 0;
+        StringBuilder string = new StringBuilder(
+                "Name: " + name +
+                        "\nDescription: " + this.getEffectsDescription()
+        );
+        for(Effect e: effects){
+            string.append("\nCost effect ").append(cost).append(": ");
+            for(Ammo a: e.getCost()){
+                string.append(a);
+            }
+            cost ++;
+        }
+        string.append("=========================");
+        return  string.toString();
     }
 }

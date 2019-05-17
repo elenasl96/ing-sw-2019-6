@@ -47,4 +47,5 @@ public abstract class Effect implements Serializable {
     public void addCost(Ammo ammo) {
         this.cost.add(ammo);
     }
+
 }

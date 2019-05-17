@@ -16,6 +16,12 @@ public class Ammo implements Serializable {
         return color;
     }
 
+    public String toString(){
+        return  "\n __\n" +
+                "|__| Ammo " + this.getColor().getName();
+
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
