@@ -72,10 +72,6 @@ public class Manager {
 
     synchronized String getGroupSituation(){return this.groupSituation;}
 
-    synchronized void setTimer(Group group){
-        TimerController.get().startTimer(group.getGroupID());
-    }
-
     public void reset(){
         if(instance!=null) {
             //Restoring default values

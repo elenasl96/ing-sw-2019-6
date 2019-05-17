@@ -137,6 +137,7 @@ public class Group implements Serializable {
         this.setFull();
         ArrayList<User> clients = new ArrayList<>(users.subList(1,users.size()));
         //Makes every listener of this group an Observer of the game
+        GameContext.get().createGame(this.groupID);
         for(GroupChangeListener listener : listeners){
             GameContext.get().getGame(this.getGroupID()).addObserverGame((GameUpdateObserver) listener);
         }

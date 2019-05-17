@@ -4,6 +4,8 @@ import model.GameContext;
 import model.room.*;
 import network.socket.Manager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,11 +15,11 @@ import java.util.TimerTask;
  */
 
 public class TimerController implements GroupChangeListener, GameUpdateObserver {
-    private Timer timer;
+    private List<Timer> timers;
 
     private static TimerController instance;
     private TimerController(){
-        //Singleton default constructor
+        timers = new ArrayList<>();
     }
 
     public static synchronized TimerController get() {
@@ -32,7 +34,8 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
         group.observe(this);
     }
 
-    public void startTimer(int groupID){
+    public synchronized void startTimer(int groupID){
+        this.timers.add(groupID, new Timer());
         TimerTask timerTask = new TimerTask(){
             int seconds = 61;
             @Override
@@ -46,12 +49,12 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
                 } else if (seconds == 0){
                     GameContext.get().getGame(groupID).sendUpdate(new Update("Game starting"));
                     Manager.get().getGroup(groupID).createGame();
-                    timer.cancel();
+                    timers.get(groupID).cancel();
                 }
                 seconds--;
             }
         };
-        this.timer.schedule(timerTask, 0,1000);
+        this.timers.get(groupID).schedule(timerTask, 0,1000);
     }
 
     @Override
@@ -66,12 +69,8 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
                 }
             }
         }
-        if(Manager.get().getGroup(groupID).size() == 3){
-            timer = new Timer();
-
-        }
         if(Manager.get().getGroup(groupID).isFull()){
-            timer.cancel();
+            timers.get(groupID).cancel();
             Manager.get().getGroup(groupID).createGame();
         }
     }
@@ -89,7 +88,7 @@ public class TimerController implements GroupChangeListener, GameUpdateObserver 
             }
         }
         if(Manager.get().getGroup(groupID).size() == 2 && !Manager.get().getGroup(groupID).isFull()){
-            timer.cancel();
+            timers.get(groupID).cancel();
             GameContext.get().getGame(groupID).sendUpdate(new Update("Timer stopped. Waiting for players..."));
         }
     }

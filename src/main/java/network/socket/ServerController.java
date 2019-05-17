@@ -1,6 +1,7 @@
 package network.socket;
 
 import controller.GameController;
+import controller.TimerController;
 import exception.InvalidMoveException;
 import model.GameContext;
 import model.moves.Move;
@@ -39,22 +40,15 @@ public class ServerController implements RequestHandler {
     User user;
     private Group currentGroup;
 
-    /**
-     * the only connection with the MANAGER is here in ServerController
-     */
-    private final Manager manager;
-
     //constructor for tests
     ServerController(User user){
         this.clientHandler = null;
-        this.manager = Manager.get();
         this.user = user;
     }
 
 
     ServerController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
-        manager = Manager.get();
     }
 
     /**
@@ -81,7 +75,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(CreateUserRequest request) {
         try {
-            user = manager.createUser(request.username);
+            user = Manager.get().createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
         } catch (InvalidUsernameException e) {
             return new TextResponse("ERROR: " + e.getMessage());
@@ -106,7 +100,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(ChooseGroupRequest chooseGroupRequest) {
         try{
-            currentGroup = manager.getGroup(chooseGroupRequest.groupId);
+            currentGroup = Manager.get().getGroup(chooseGroupRequest.groupId);
             currentGroup.join(user);
             System.out.println(">>> " + currentGroup.getName() + " updated: " + currentGroup.users());
             System.out.println(">>> Returning new JoinGroupResponse");
@@ -127,13 +121,13 @@ public class ServerController implements RequestHandler {
      */
     @Override
     public Response handle(SituationViewerRequest situationViewerRequest){
-        manager.updateGroupSituation();
-        return new SituationViewerResponse(manager.getGroupSituation());
+        Manager.get().updateGroupSituation();
+        return new SituationViewerResponse(Manager.get().getGroupSituation());
     }
 
     @Override
     public Response handle(CreateGroupRequest createGroupRequest){
-        currentGroup = manager.createGroup(createGroupRequest.getSkullNumber(), createGroupRequest.getFieldNumber() );
+        currentGroup = Manager.get().createGroup(createGroupRequest.getSkullNumber(), createGroupRequest.getFieldNumber() );
         System.out.println(">>> " + currentGroup.getName() + " created: " + currentGroup.users());
         return new JoinGroupResponse(currentGroup);
     }
@@ -154,7 +148,7 @@ public class ServerController implements RequestHandler {
                 }
             }
             if(count==3) {
-                manager.setTimer(currentGroup);
+                TimerController.get().startTimer(currentGroup.getGroupID());
             }
             return new SetCharacterResponse(character);
         }
