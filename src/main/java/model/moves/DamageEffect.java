@@ -11,8 +11,8 @@ import java.util.List;
 public class DamageEffect extends Effect implements Move{
     private int damages;
 
-    public DamageEffect(EffectType type, List<Target> target, int damages, Boolean optionality){
-        super(type, target, optionality);
+    public DamageEffect(EffectType type, List<Target> target, int damages, Boolean optionality, Boolean different){
+        super(type, target, optionality, different);
         this.damages = damages;
     }
 

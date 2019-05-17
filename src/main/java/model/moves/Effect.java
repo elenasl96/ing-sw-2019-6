@@ -1,29 +1,27 @@
 package model.moves;
 
 import model.Ammo;
-import model.enums.Color;
 import model.enums.EffectType;
 
 import java.io.Serializable;
-import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class Effect implements Serializable {
     protected EffectType type;
     protected Boolean optionality;
+    protected Boolean different;
     protected List<Target> targets = new ArrayList<>();
     protected List<Ammo> cost = new ArrayList<>();
 
     public Effect(){
     }
 
-    public Effect(EffectType type, List<Target> targets, Boolean optionality){
+    public Effect(EffectType type, List<Target> targets, Boolean optionality, Boolean notChosen){
         this.type = type;
         this.targets = targets;
         this.optionality = optionality;
+        this.different = notChosen;
     }
 
     public EffectType getType(){
