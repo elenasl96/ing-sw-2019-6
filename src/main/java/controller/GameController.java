@@ -81,14 +81,14 @@ public class GameController implements MoveRequestHandler{
         if(isMyTurn(player, groupID) &&
                 GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(SPAWN) &&
                 spawn >= 0 &&
-                spawn < player.getPowerups().size()
-        ){
+                spawn < player.getPowerups().size()){
             Optional<SpawnSquare> optional = GameContext.get().getGame(groupID).getBoard().getField().getSpawnSquares().stream()
                     .filter(ss -> ss.getColor().equals(GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
             optional.ifPresent(GameContext.get().getGame(groupID).getCurrentPlayer()::setCurrentPosition);
-            discarded = GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups().remove(spawn);
+            discarded = player.getPowerups().remove(spawn);
             //set phase wait to current player and send update
+            GameContext.get().getGame(groupID).getCurrentPlayer().setDead(false);
             GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.WAIT);
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(player, true));
             //go to next player and set phase
@@ -110,14 +110,14 @@ public class GameController implements MoveRequestHandler{
         }
     }
 
-    public synchronized Update getFirstTimeSpawn(Player player, int groupID) {
-        if(player.getPowerups().isEmpty()){
+    public synchronized Update getSpawn(Player player, int groupID) {
+        if(!player.isDead()){
             player.getPowerups().add(GameContext.get().getGame(groupID)
                     .getBoard().getPowerupsLeft().pickCard());
-            player.getPowerups().add(GameContext.get().getGame(groupID)
-                    .getBoard().getPowerupsLeft().pickCard());
-            System.out.println(">>> "+player.getPowerups().toString());
         }
+        player.getPowerups().add(GameContext.get().getGame(groupID)
+                .getBoard().getPowerupsLeft().pickCard());
+        System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
         return new Update(">>> Choose spawn point from:" + player.powerupsToString());
     }
 

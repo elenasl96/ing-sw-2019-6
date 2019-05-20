@@ -91,7 +91,7 @@ class GameControllerTest {
     @Test
     void SpawnTest(){
         //getFirstTimeSpawn
-        Update possibleMovesUpdate = GameController.get().getFirstTimeSpawn(
+        Update possibleMovesUpdate = GameController.get().getSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(), 0);
         assertFalse(possibleMovesUpdate.isPlayerChanges());
         assertFalse(GameContext.get().getGame(0).getCurrentPlayer().getPowerups().isEmpty());
