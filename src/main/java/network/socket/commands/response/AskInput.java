@@ -21,6 +21,10 @@ public class AskInput implements Response {
     public void setEffect(boolean target) {
     }
 
+    public String getInputType(){
+        return this.inputType;
+    }
+
     @Override
     public void handle(ResponseHandler handler) {
         handler.handle(this);

@@ -1,6 +1,8 @@
 package model.decks;
 
+import exception.InvalidMoveException;
 import model.Board;
+import model.GameContext;
 import model.Player;
 import model.enums.Color;
 
@@ -16,7 +18,7 @@ public class AmmoTileWithAmmo extends AmmoTile implements Grabbable{
     }
 
     @Override
-    public void pickGrabbable(Player player, Board board) {
-        player.fillAmmoFromTile(this);
+    public void pickGrabbable(int groupID) {
+        GameContext.get().getGame(groupID).getCurrentPlayer().fillAmmoFromTile(this);
     }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import exception.InvalidMoveException;
 import exception.InvalidMovementException;
+import exception.NothingGrabbableException;
 import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
@@ -11,7 +12,9 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
 import model.room.Update;
+import network.socket.ClientContext;
 import network.socket.commands.Response;
+import network.socket.commands.request.SendInput;
 import network.socket.commands.response.AskInput;
 
 import java.util.*;
@@ -184,9 +187,21 @@ public class GameController implements MoveRequestHandler{
         //TODO
     }
 
-    public int receiveInput(int input){
-        return input;
+    public Response receiveInput(SendInput input, int groupID) {
+        switch(input.getInputType()){
+            case "player damaged":
+                break;
+            case "number damages":
+                break; //roba così
+            case "weapon chosen":
+                GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getGrabbable().pickGrabbable(input.getInput(), groupID);
+                break;
+            default:
+                break;
+        }
+        return null;
     }
+
     // Moves handling
 
     public synchronized void handle() {
@@ -241,8 +256,13 @@ public class GameController implements MoveRequestHandler{
 
     @Override
     public synchronized Response handle(Grab grab, int groupID) throws InvalidMoveException{
-        //TODO
-        return null;
+        try{
+            GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getGrabbable().pickGrabbable(groupID);
+            return null;
+        } catch (NothingGrabbableException e){
+            GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(
+                    "Insert the weapon you want to pick: 1 2 3"));
+            return new AskInput("weapon choose");
+        }
     }
-
 }

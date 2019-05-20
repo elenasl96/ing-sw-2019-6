@@ -201,7 +201,16 @@ public class ClientController implements ResponseHandler {
     public void handle(AskInput askInput) {
         view.displayText(askInput.toString());
         while(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
-
+            switch(askInput.getInputType()){
+                case "damage":
+                    break;
+                case "weapon choose":
+                    client.request(new SendInput(view.askNumber(), "weapon chosen"));
+                    view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

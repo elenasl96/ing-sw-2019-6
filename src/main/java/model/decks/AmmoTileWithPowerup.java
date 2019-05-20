@@ -13,9 +13,9 @@ public class AmmoTileWithPowerup extends AmmoTile implements Grabbable{
     }
 
     @Override
-    public void pickGrabbable(Player player, Board board) {
-        player.fillAmmoFromTile(this);
-        player.getPowerups().add(board.getPowerupsLeft().pickCard());
-
+    public void pickGrabbable(int groupID) {
+        GameContext.get().getGame(groupID).getCurrentPlayer().fillAmmoFromTile(this);
+        GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups()
+                .add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
     }
 }

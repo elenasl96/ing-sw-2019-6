@@ -1,5 +1,6 @@
 package model.decks;
 
+import exception.InvalidMoveException;
 import model.Ammo;
 import model.enums.Color;
 
@@ -29,5 +30,11 @@ public abstract class AmmoTile implements Serializable, Grabbable {
 
     public void setAmmos(List<Ammo> ammos) {
         this.ammos = ammos;
+    }
+
+
+    @Override
+    public void pickGrabbable(int groupID, int toPick) throws InvalidMoveException {
+        throw new InvalidMoveException("No weapon to grab here!");
     }
 }

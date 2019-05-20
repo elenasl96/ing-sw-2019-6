@@ -17,10 +17,12 @@ public class Grab implements Move{
     
     @Override
     public void execute(Player p, int groupID) throws InvalidMoveException {
+        /*
         Grabbable grabbable=p.getCurrentPosition().getGrabbable();
         if(grabbable==null) { throw new NothingGrabbableException(); }
-        grabbable.pickGrabbable(p, GameContext.get().getGame(groupID).getBoard());
+        grabbable.pickGrabbable(groupID);
         p.getCurrentPosition().addGrabbable(GameContext.get().getGame(groupID).getBoard());
+         */
     }
 
     @Override

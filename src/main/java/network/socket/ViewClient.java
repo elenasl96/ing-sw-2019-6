@@ -34,6 +34,16 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         this.wait = wait;
     }
 
+
+    public int askNumber() {
+        try{
+            return Integer.parseInt(userInput());
+        }catch (NumberFormatException e){
+            displayText("Please insert a number");
+            return this.askNumber();
+        }
+    }
+
     void chooseUsernamePhase() {
         User user;
         do {
@@ -208,5 +218,4 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
     }
-
 }

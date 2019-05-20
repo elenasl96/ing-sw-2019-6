@@ -180,8 +180,10 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SendInput sendInput) {
-        GameController.get().receiveInput(sendInput.getInput());
-        return null;
+        Response response = GameController.get().receiveInput(sendInput, currentGroup.getGroupID());
+        if(response == null){
+            return response;
+        } return null;
     }
 
     @Override
