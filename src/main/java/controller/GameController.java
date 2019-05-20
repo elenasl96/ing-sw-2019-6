@@ -11,12 +11,12 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.*;
 import model.room.Update;
-import model.room.User;
 import network.socket.commands.Response;
-import network.socket.commands.request.CardRequest;
 import network.socket.commands.response.AskInput;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static model.enums.Phase.SPAWN;
 
@@ -134,6 +134,7 @@ public class GameController implements MoveRequestHandler{
             case RELOAD:
                 player.setPhase(Phase.WAIT);
                 player.getUser().receiveUpdate(new Update(player, true));
+                this.updatePoints(groupID);
                 GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
                 player = GameContext.get().getGame(groupID).getCurrentPlayer();
                 if(player.isDead()){
@@ -147,6 +148,33 @@ public class GameController implements MoveRequestHandler{
                 break;
         }
         player.getUser().receiveUpdate(new Update(player, true));
+    }
+
+    private void updatePoints(int groupID) {
+        for(Player p: GameContext.get().getGame(groupID).getPlayers()){
+            if(p.isDead()){
+                //add the player dead on the killshotTrack
+                GameContext.get().getGame(groupID).getBoard().addKillshot(p);
+                //overkill: readd the same player and mark the overkiller
+                if(p.isOverkilled()){
+                    GameContext.get().getGame(groupID).getBoard().addKillshot(p);
+                    p.getPlayerBoard().getDamage().get(11).getPlayerBoard().addMarks(p,1);
+                }
+                //give 1 point to the player who gives the first blood
+                p.getPlayerBoard().getDamage().get(0).addPoints(1);
+                //decrease the maximum number of points for the killShot of the player
+                p.addDeath();
+                //counting points from other damages
+                Map<Player, Long> playerBoardSorted =  p.getPlayerBoard().getDamage().stream()
+                        .collect(Collectors.groupingBy(pm->pm, TreeMap::new,Collectors.counting()));
+                int pointsToAdd = 8;
+                for (Player pm : playerBoardSorted.keySet()) {
+                    pm.addPoints(pointsToAdd);
+                    if(pointsToAdd<=2) pointsToAdd=1;
+                    else pointsToAdd -= 2;
+                }
+            }
+        }
     }
 
     public void playWeapon(int groupId, Player player, Weapon weapon){

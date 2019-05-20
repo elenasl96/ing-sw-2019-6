@@ -30,6 +30,7 @@ public class Player extends Target implements Serializable{
     private int stackPoint;
     private boolean firstPlayer;
     private boolean dead;
+    private int deaths;
     private List<Player> shootable = new ArrayList<>();
     private List<Move> possibleMoves = new ArrayList<>();
 
@@ -44,6 +45,7 @@ public class Player extends Target implements Serializable{
         this.character = user.getCharacter();
         this.phase = Phase.WAIT;
         this.setDead(false);
+        this.deaths = 0;
     }
 
     public Player(){
@@ -120,8 +122,12 @@ public class Player extends Target implements Serializable{
         return weapons;
     }
 
+    public PlayerBoard getPlayerBoard(){
+        return this.playerBoard;
+    }
+
     @Override
-    public List<PlayerBoard> getPlayerBoard(int groupId) {
+    public List<PlayerBoard> getPlayerBoards(int groupId) {
         ArrayList<PlayerBoard> returns = new ArrayList<>();
         returns.add(playerBoard);
         return returns;
@@ -131,7 +137,7 @@ public class Player extends Target implements Serializable{
         return points;
     }
 
-    void addPoints(int points) {
+    public void addPoints(int points) {
         this.points = this.points + points;
     }
 
@@ -161,6 +167,18 @@ public class Player extends Target implements Serializable{
 
     public boolean isDead() {
         return dead;
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void addDeath() {
+        this.deaths = this.deaths + 1;
+    }
+
+    public boolean isOverkilled(){
+        return this.getPlayerBoard().getDamage().size()==12;
     }
 
     public void setDead(boolean dead) {

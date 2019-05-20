@@ -51,7 +51,7 @@ public class Board implements Serializable {
      * Adds the player who killed on the kill shot track
      * @param pg player who killed
      */
-    void addKillshot(Player pg) {
+    public void addKillshot(Player pg) {
         this.killshotTrack.add(pg);
     }
     
