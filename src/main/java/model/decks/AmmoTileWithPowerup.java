@@ -1,5 +1,7 @@
 package model.decks;
 
+import model.Board;
+import model.GameContext;
 import model.Player;
 import model.enums.Color;
 
@@ -11,8 +13,9 @@ public class AmmoTileWithPowerup extends AmmoTile implements Grabbable{
     }
 
     @Override
-    public void useGrabbable(Player player) {
+    public void pickGrabbable(Player player, Board board) {
         player.fillAmmoFromTile(this);
+        player.getPowerups().add(board.getPowerupsLeft().pickCard());
 
     }
 }

@@ -1,12 +1,11 @@
 package model.field;
 
 import model.Board;
-import model.PlayerBoard;
+import model.GameContext;
 import model.decks.Grabbable;
 import model.decks.WeaponTile;
 import model.enums.Color;
 
-import java.util.List;
 
 public class SpawnSquare extends Square{
     private WeaponTile weapons;
@@ -14,10 +13,14 @@ public class SpawnSquare extends Square{
     public SpawnSquare(Color color, Coordinate coordinate, Board board) {
         super(color, coordinate);
         this.weapons = new WeaponTile();
-        this.setGrabbable(board);
     }
 
 
+    @Override
+    public void addGrabbable(Board board) {
+        if(board.getWeaponsLeft().pickCard()!=null)
+            weapons.addWeapon(board.getWeaponsLeft().pickCard());
+    }
 
     @Override
     public Grabbable getGrabbable() {

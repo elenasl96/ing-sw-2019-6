@@ -24,8 +24,7 @@ public class AmmoSquare extends Square{
         return ammo;
     }
 
-    @Override
-    public void setGrabbable(Board board){
+    public void addGrabbable(Board board){
         this.ammo=board.getAmmosLeft().pickCard();
     }
 

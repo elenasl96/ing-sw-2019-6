@@ -1,5 +1,6 @@
 package model.decks;
 
+import model.Board;
 import model.Player;
 
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class WeaponTile implements Grabbable, Serializable {
     }
 
     @Override
-    public void useGrabbable(Player player) {
+    public void pickGrabbable(Player player, Board board) {
         //TODO
     }
 }

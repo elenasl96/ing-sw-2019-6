@@ -3,6 +3,8 @@ package model.moves;
 import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
 import exception.NothingGrabbableException;
+import model.Game;
+import model.GameContext;
 import model.Player;
 import model.decks.Grabbable;
 import model.decks.Weapon;
@@ -14,11 +16,11 @@ public class Grab implements Move{
     private Weapon weapon;
     
     @Override
-    public void execute(Player p, int gorupId) throws InvalidMoveException {
+    public void execute(Player p, int groupID) throws InvalidMoveException {
         Grabbable grabbable=p.getCurrentPosition().getGrabbable();
         if(grabbable==null) { throw new NothingGrabbableException(); }
-        grabbable.useGrabbable(p);
-        //TODO togliere la carta dal terreno di giugo e metterla nel mazzo degli scarti
+        grabbable.pickGrabbable(p, GameContext.get().getGame(groupID).getBoard());
+        p.getCurrentPosition().addGrabbable(GameContext.get().getGame(groupID).getBoard());
     }
 
     @Override

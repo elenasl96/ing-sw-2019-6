@@ -16,7 +16,6 @@ import network.socket.commands.response.AskInput;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static model.enums.Phase.SPAWN;
 
@@ -118,7 +117,7 @@ public class GameController implements MoveRequestHandler{
         player.getPowerups().add(GameContext.get().getGame(groupID)
                 .getBoard().getPowerupsLeft().pickCard());
         System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
-        return new Update(">>> Choose spawn point from:" + player.powerupsToString());
+        return new Update(" Choose spawn point from:" + player.powerupsToString());
     }
 
     public void updatePhase(int groupID){

@@ -35,6 +35,8 @@ public abstract class Square extends Target implements Serializable {
         this.color = color;
     }
 
+    public abstract void addGrabbable(Board board);
+
     public abstract Grabbable getGrabbable();
 
     public void setGrabbable(Board board){ }

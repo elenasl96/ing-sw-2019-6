@@ -89,7 +89,8 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
                     character = Integer.parseInt(userInput());
                 }
                 response = controller.setCharacter(character);
-                if(response == Character.NOT_ASSIGNED) displayText("Character already taken, choose another one");
+                if(response == Character.NOT_ASSIGNED)
+                    displayText("Character already taken, choose another one");
             } while(response == Character.NOT_ASSIGNED);
             displayText("You are" + response);
         }catch (NumberFormatException e){
