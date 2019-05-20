@@ -200,18 +200,17 @@ public class GameController implements MoveRequestHandler{
             run.setMaxSteps(4);
         }
         handle(run.getMovement(), groupID);
-        //go to next player and set phase
     }
 
     @Override
-    public synchronized Response handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
+    public synchronized void handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
         moveAndGrab.setMaxSteps(1);
         if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             moveAndGrab.setMaxSteps(4);
         }
         handle(moveAndGrab.getMovement(), groupID);
-        return new AskInput("moveAndGrab");
-
+        handle(moveAndGrab.getGrab(), groupID);
+        //Changed to void since everything there's no need for askInput Response
     }
 
     @Override
