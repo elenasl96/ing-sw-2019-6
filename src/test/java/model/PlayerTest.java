@@ -2,7 +2,6 @@ package model;
 
 import model.decks.AmmoTile;
 import model.decks.AmmoTileWithAmmo;
-import model.decks.Powerup;
 import model.decks.PowerupDeck;
 import model.enums.Character;
 import model.enums.Color;
@@ -12,7 +11,6 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.Move;
 import model.moves.Pay;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
@@ -66,7 +64,7 @@ class PlayerTest {
         assertEquals(Phase.FIRST, pg.getPhase());
         assertTrue( pg.getPowerups().isEmpty());
         assertTrue(pg.getWeapons().isEmpty());
-        assertEquals(0, pg.getPlayerBoard(0).get(0).getDeaths());
+        assertEquals(0, pg.getPlayerBoards(0).get(0).getDeaths());
     }
 
     @Test

@@ -3,9 +3,7 @@ package model.moves;
 
 import model.Player;
 import model.enums.Character;
-import model.room.User;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 import static model.enums.EffectType.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,11 +19,11 @@ public class MoveDamageTest {
         playerDamaged = new Player(2, false, "paperino", Character.PG3);
         damage = new DamageEffect(MOVE, Target.addTargetList(playerDamaged), 6, false, null);
         damage.execute(playerDamaging, 0);
-        assertEquals(6, playerDamaged.getPlayerBoard(0).get(0).getNumDamageLeft());
+        assertEquals(6, playerDamaged.getPlayerBoards(0).get(0).getNumDamageLeft());
         damage.execute(playerDamaging, 0);
-        assertEquals(0, playerDamaged.getPlayerBoard(0).get(0).getNumDamageLeft());
+        assertEquals(0, playerDamaged.getPlayerBoards(0).get(0).getNumDamageLeft());
         damage.execute(playerDamaging, 0);
-        assertEquals(0, playerDamaged.getPlayerBoard(0).get(0).getNumDamageLeft());
+        assertEquals(0, playerDamaged.getPlayerBoards(0).get(0).getNumDamageLeft());
 
     }
 

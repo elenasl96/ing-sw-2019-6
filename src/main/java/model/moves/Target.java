@@ -26,10 +26,10 @@ public abstract class Target implements Serializable {
         this.maxDistance = maxDistance;
     }
 
-    public abstract List<PlayerBoard> getPlayerBoard(int groupId);
+    public abstract List<PlayerBoard> getPlayerBoards(int groupId);
 
     void addDamages(Player playerDamaging, int damages, int groupId){
-        for(PlayerBoard b : this.getPlayerBoard(groupId)){
+        for(PlayerBoard b : this.getPlayerBoards(groupId)){
             b.addDamage(playerDamaging, damages);
         }
     }

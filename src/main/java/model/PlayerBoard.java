@@ -15,7 +15,7 @@ public class PlayerBoard implements Serializable {
         this.deaths = 0;
     }
 
-    List<Player> getDamage() {
+    public List<Player> getDamage() {
         return damage;
     }
 

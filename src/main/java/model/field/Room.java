@@ -34,13 +34,13 @@ public class Room extends Target {
      * @return a list of player boards
      */
     @Override
-    public List<PlayerBoard> getPlayerBoard(int groupId) {
+    public List<PlayerBoard> getPlayerBoards(int groupId) {
         List<PlayerBoard> list = new ArrayList<>();
         for (Square square : this.squares) {
             for(int i = 0; i<GameContext.get().getGame(groupId).getPlayers().size(); i++){
                 Player player = GameContext.get().getGame(groupId).getPlayers().get(i);
                 if (player.getCurrentPosition().equals(square)){
-                    list.add(player.getPlayerBoard(groupId).get(0));
+                    list.add(player.getPlayerBoards(groupId).get(0));
                 }
             }
         }

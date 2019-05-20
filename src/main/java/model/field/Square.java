@@ -43,12 +43,12 @@ public abstract class Square extends Target implements Serializable {
         return coord;
     }
 
-    public List<PlayerBoard> getPlayerBoard(int groupId){
+    public List<PlayerBoard> getPlayerBoards(int groupId){
         ArrayList<PlayerBoard> boards = new ArrayList<>();
         for(Player p : GameContext.get().getGame(groupId).getPlayers().stream()
                 .filter(p -> p.getCurrentPosition().coord.equals(this.coord))
                 .collect(Collectors.toList())){
-            boards.add(p.getPlayerBoard(groupId).get(0));
+            boards.add(p.getPlayerBoards(groupId).get(0));
         }
         return boards;
     }
