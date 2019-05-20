@@ -205,7 +205,6 @@ public class Field implements Serializable {
                                 .collect(Collectors.toList())));
                 break;
             default: throw new NotExistingFieldException();
-
         }
     }
 

@@ -17,8 +17,7 @@ public class Ammo implements Serializable {
     }
 
     public String toString(){
-        return  "\n __\n" +
-                "|__| Ammo " + this.getColor().getName();
+        return  this.getColor().getName() + " ";
 
     }
 

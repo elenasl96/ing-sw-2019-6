@@ -181,7 +181,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(SendInput sendInput) {
         Response response = GameController.get().receiveInput(sendInput, currentGroup.getGroupID());
-        if(response == null){
+        if(response != null){
             return response;
         } return null;
     }

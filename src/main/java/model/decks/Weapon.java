@@ -49,8 +49,7 @@ public class Weapon implements Serializable {
     public String toString(){
         int cost = 0;
         StringBuilder string = new StringBuilder(
-                "Name: " + name +
-                        "\nDescription: " + this.getEffectsDescription()
+                "\nName: " + name
         );
         for(Effect e: effects){
             string.append("\nCost effect ").append(cost).append(": ");
@@ -59,7 +58,7 @@ public class Weapon implements Serializable {
             }
             cost ++;
         }
-        string.append("=========================");
+        string.append("\n=========================");
         return  string.toString();
     }
 }

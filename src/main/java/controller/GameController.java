@@ -258,13 +258,10 @@ public class GameController implements MoveRequestHandler{
     @Override
     public synchronized Response handle(Grab grab, int groupID) throws InvalidMoveException{
         try{
-            
-            grab.getSquare().getGrabbable();
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(
-                    "Insert the weapon you want to pick: 1 2 3"));
+                    "Insert the weapon you want to pick:" +  grab.getSquare().getGrabbable().toString()));
             return new AskInput("weapon choose");
         } catch (NothingGrabbableException e){
-
         }
         return null;
     }
