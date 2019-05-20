@@ -27,8 +27,7 @@ public class MoveAndGrab implements Move {
 
     @Override
     public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        moveRequestHandler.handle(this, groupId);
-        return null;
+        return moveRequestHandler.handle(this, groupId);
     }
 
     public Movement getMovement() {

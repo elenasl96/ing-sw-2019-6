@@ -9,7 +9,7 @@ public interface MoveRequestHandler {
 
     void handle(Run run, int groupID) throws InvalidMoveException;
 
-    void handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException;
+    Response handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException;
 
     Response handle(Grab grab, int groupID) throws InvalidMoveException;
 

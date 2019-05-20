@@ -218,13 +218,14 @@ public class GameController implements MoveRequestHandler{
     }
 
     @Override
-    public synchronized void handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
+    public synchronized Response handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
         moveAndGrab.setMaxSteps(1);
         if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             moveAndGrab.setMaxSteps(4);
         }
         handle(moveAndGrab.getMovement(), groupID);
-        handle(moveAndGrab.getGrab(), groupID);
+        moveAndGrab.getGrab().setSquare(GameContext.get().getGame(groupID).getBoard().getField().getSquares().stream().filter(s -> s.getCoord().equals(moveAndGrab.getMovement().getCoordinate())).findFirst().get());
+        return handle(moveAndGrab.getGrab(), groupID);
         //Changed to void since everything there's no need for askInput Response
     }
 
@@ -257,12 +258,14 @@ public class GameController implements MoveRequestHandler{
     @Override
     public synchronized Response handle(Grab grab, int groupID) throws InvalidMoveException{
         try{
-            GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getGrabbable().pickGrabbable(groupID);
-            return null;
-        } catch (NothingGrabbableException e){
+            
+            grab.getSquare().getGrabbable();
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(
                     "Insert the weapon you want to pick: 1 2 3"));
             return new AskInput("weapon choose");
+        } catch (NothingGrabbableException e){
+
         }
+        return null;
     }
 }

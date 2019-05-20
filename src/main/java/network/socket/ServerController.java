@@ -197,6 +197,7 @@ public class ServerController implements RequestHandler {
         try {
             Response response = move.handle(GameController.get(), currentGroup.getGroupID());
             if(response != null){
+                System.out.println("notNULL");
                return response;
             }
             move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());

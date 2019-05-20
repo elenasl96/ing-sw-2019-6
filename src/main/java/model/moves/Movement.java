@@ -77,6 +77,7 @@ public class Movement extends Effect implements Move{
      * @param newCurrentPosition the Square you take in exam every round of the recursion
      */
     private void createReachList(int maxSteps, Square newCurrentPosition) {
+        this.reachList.add(newCurrentPosition);
         if (maxSteps != 0) {
             for (int i = 0; i < maxSteps; i++) {
                 field.getEdges().forEach(edge -> {

@@ -7,14 +7,20 @@ import model.Game;
 import model.GameContext;
 import model.Player;
 import model.decks.Grabbable;
-import model.decks.Weapon;
+import model.field.Square;
 import network.socket.commands.Response;
 
 public class Grab implements Move{
+    private Square square;
 
+    public Square getSquare() {
+        return square;
+    }
 
-    private Weapon weapon;
-    
+    public void setSquare(Square square) {
+        this.square = square;
+    }
+
     @Override
     public void execute(Player p, int groupID) throws InvalidMoveException {
         /*
@@ -30,12 +36,6 @@ public class Grab implements Move{
         return null;//TODO
     }
 
-    public Weapon getWeapon() {
-        return weapon;
-    }
 
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-    }
 
 }
