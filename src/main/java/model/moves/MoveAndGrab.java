@@ -3,8 +3,12 @@ package model.moves;
 import exception.InvalidMoveException;
 import model.GameContext;
 import model.Player;
+import model.enums.Phase;
 import model.field.Coordinate;
+import model.room.Update;
 import network.socket.commands.Response;
+
+import static model.enums.Phase.WAIT;
 
 public class MoveAndGrab implements Move {
     private Movement movement;
@@ -16,7 +20,7 @@ public class MoveAndGrab implements Move {
     }
 
     @Override
-    public Response execute(Player p, int groupID) throws InvalidMoveException {
+    public Response execute(Player p, int groupID) {
         int maxSteps;
         if(p.getCurrentMoves().isEmpty()){
             maxSteps = 1;
@@ -29,8 +33,14 @@ public class MoveAndGrab implements Move {
         }
         while(!p.getCurrentMoves().isEmpty()){
             Response response = p.getCurrentMoves().get(0).execute(p, groupID);
+            if(response != null) {
+                Phase phase = p.getPhase();
+                p.setPhase(WAIT);
+                p.getUser().receiveUpdate(new Update(p,true));
+                p.setPhase(phase);
+                return response;
+            }
             p.getCurrentMoves().remove(0);
-            if(response != null) return response;
         }
         return null;
     }

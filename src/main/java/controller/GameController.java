@@ -192,6 +192,7 @@ public class GameController{
                 try {
                     p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, input.getInput());
                 }catch (IndexOutOfBoundsException e){
+                    System.out.println("Index out of bounds");
                     p.getUser().receiveUpdate(new Update(p,true));
                 }
                 updatePhase(groupID);

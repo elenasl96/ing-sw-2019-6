@@ -267,7 +267,8 @@ public class Player extends Target implements Serializable{
                 .append(", character = ").append(character.name())
                 .append(", points = ").append(points)
                 .append(", firstPlayer = ").append(firstPlayer)
-                .append(", dead = ").append(dead);
+                .append(", dead = ").append(dead)
+                .append(", moves = ").append(currentMoves);
         try {
             toString.append(", phase = ").append(phase.toString()).append('}');
         }catch(NullPointerException e ) {

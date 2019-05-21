@@ -31,14 +31,21 @@ public class WeaponTile implements Grabbable, Serializable {
     }
 
     @Override
-    public void pickGrabbable(int groupID) throws InvalidMoveException{
+    public void pickGrabbable(int groupID){
         throw new InvalidMoveException("No Ammo to grab here!");
     }
 
     @Override
-    public void pickGrabbable(int groupID, int toPick) throws NothingGrabbableException {
-        GameContext.get().getGame(groupID).getCurrentPlayer().getWeapons().add(this.weapons.get(toPick));
-        //Refills the weapon
+    public void pickGrabbable(int groupID, int toPick) {
+        System.out.println(toPick);
+        try {
+            GameContext.get().getGame(groupID).getCurrentPlayer().getWeapons().add(this.weapons.get(toPick));
+            //Throws IndexOutOfBoundsException if toPick inserted by the user was >2
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("IndexOutOfBounds");
+            throw new IndexOutOfBoundsException();
+        }
+            //Refills the weapon
         GameContext.get().getGame(groupID).sendUpdate(new Update(
                 GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                         " picked "+this.weapons.get(toPick).toString()));
