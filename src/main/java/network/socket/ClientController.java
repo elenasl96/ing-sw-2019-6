@@ -150,7 +150,7 @@ public class ClientController implements ResponseHandler {
             case FIRST: case SECOND:
                 if(!ClientContext.get().getCurrentPlayer().getCurrentMoves().isEmpty()){
                     System.out.println(ClientContext.get().getCurrentPlayer().getCurrentMoves().get(0));
-                    client.request(new MoveRequest(ClientContext.get().getCurrentPlayer().getCurrentMoves().get(0)));
+                    client.request(new MoveRequest());
                 }
                 else {
                     client.request(new PossibleMovesRequest());

@@ -26,14 +26,13 @@ public class Player extends Target implements Serializable{
     private List<Weapon> weapons = new ArrayList<>();
     private PlayerBoard playerBoard = new PlayerBoard();
     private int points;
-    private int adrenalineLevel;
-    private int stackPoint;
     private boolean firstPlayer;
     private boolean dead;
     private int deaths;
     private List<Player> shootable = new ArrayList<>();
     private List<Move> possibleMoves = new ArrayList<>();
     private List<Move> currentMoves = new ArrayList<>();
+    boolean phaseNotDone;
 
     //Costruttore
     public Player(Boolean canSee, Boolean cardinal, Integer minDistance, Integer maxDistance){
@@ -47,6 +46,7 @@ public class Player extends Target implements Serializable{
         this.phase = Phase.WAIT;
         this.setDead(false);
         this.deaths = 0;
+        this.phaseNotDone = false;
     }
 
     public Player(){
@@ -150,22 +150,6 @@ public class Player extends Target implements Serializable{
         this.points = this.points + points;
     }
 
-    int getAdrenalineLevel() {
-        return adrenalineLevel;
-    }
-
-    void setAdrenalineLevel(int adrenalineLevel) {
-        this.adrenalineLevel = adrenalineLevel;
-    }
-
-    int getStackPoint() {
-        return stackPoint;
-    }
-
-    void addStackPoint(int stackPoint) {
-        this.stackPoint = this.stackPoint + stackPoint;
-    }
-
     public boolean isFirstPlayer() {
         return firstPlayer;
     }
@@ -254,8 +238,6 @@ public class Player extends Target implements Serializable{
         this.ammos.add(new Ammo(Color.YELLOW));
         this.ammos.add(new Ammo(Color.RED));
         this.points = 0;
-        this.adrenalineLevel = 0;
-        this.stackPoint = 0;
         this.dead = false;
         this.firstPlayer = firstPlayer;
     }
