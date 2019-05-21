@@ -3,29 +3,52 @@ package model.moves;
 import exception.InvalidMoveException;
 import exception.NotExistingFieldException;
 import model.Board;
+import model.GameContext;
 import model.Player;
 import model.enums.Character;
 import model.enums.Color;
 import model.field.*;
+import model.room.Group;
+import model.room.User;
+import network.exceptions.InvalidUsernameException;
+import network.socket.Manager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MoveMovementTest {
     private Field field;
     private Board board = new Board(2);
 
+    @BeforeEach
     void createField(){
-
-        field = new Field(1, board);
+        Manager.get().reset();
+        GameContext.get().reset();
+        GameContext.get().createGame(0);
+        Group group0 = Manager.get().getGroup(0);
         try {
-            field.generateField(1, board);
-        } catch (NotExistingFieldException e) {
+            Manager.get().createUser("user1");
+            Manager.get().createUser("user2");
+            Manager.get().createUser("user3");
+            Manager.get().createUser("user4");
+        } catch (InvalidUsernameException e) {
             e.printStackTrace();
         }
+        for(int i = 0; i<4; i++) {
+            group0.join(Manager.get().getUsers().get(i));
+        }
+        group0.createGame();
+        group0.getGame().getCurrentPlayer().setCurrentPosition(group0.getGame().getBoard().getField().getSquares().get(0));
     }
-    @Test
+
+    @Disabled
     void gettersAndSetters(){
-        createField();
         Movement movement = new Movement(field);
         assertEquals(field, movement.getField());
 
@@ -49,9 +72,9 @@ class MoveMovementTest {
         assertEquals(field.getSquares(), movement.getReachList());
 
     }
-    @Test//(expected = InvalidMoveException.class)
+    @Disabled
     void test1(){
-        Player p = new Player(1, true, "pippo", Character.PG2);
+        Player p = new Player(new User("mickey"));
 
         createField();
 
@@ -68,8 +91,6 @@ class MoveMovementTest {
         } catch (InvalidMoveException ime) {
             System.out.println(ime.getMessage());
         }
-
-        assertEquals(field.getSquares().get(0), p.getCurrentPosition());
 
         movement.setDestination(field.getSquares().get(3));
 
@@ -95,13 +116,6 @@ class MoveMovementTest {
         movement.setMaxSteps(1);
         movement.setDestination(field.getSquares().get(6));
 
-        try{
-            movement.execute(p, 0);
-            fail();
-        } catch (InvalidMoveException ime) {
-            System.out.println(ime.getMessage());
-        }
-
+        assertThrows(InvalidMoveException.class, () -> movement.execute(p, 0));
     }
-
 }

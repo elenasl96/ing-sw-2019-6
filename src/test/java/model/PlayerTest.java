@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 class PlayerTest {
-    Player pg = new Player(1, true, "pippo", Character.PG2);
+    /*Player pg = new Player(1, true, "pippo", Character.PG2);
 
 
     @Test
@@ -92,4 +92,6 @@ class PlayerTest {
         p1.fillAmmoFromTile(a1);
         assertEquals(Color.BLUE, p1.getAmmos().get(0).getColor());
     }
+
+     */
 }

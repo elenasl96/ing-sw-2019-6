@@ -44,7 +44,7 @@ public class Game implements Serializable {
             u.receiveUpdate(new Update(this.players.get(numberPlayers), true));
             this.numberPlayers++;
         }
-        this.players.get(0).setFirstPlayer(true);
+        this.players.get(0).setFirstPlayer();
         this.currentPlayer = this.players.get(0);
         currentPlayer.setPhase(Phase.SPAWN);
         System.out.println(">>> Sending Update to currentPlayer:" + currentPlayer.getUser().getUserID());

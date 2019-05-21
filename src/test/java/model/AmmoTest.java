@@ -16,7 +16,7 @@ class AmmoTest {
         assertNotEquals(ammo1, null);
         assertEquals(ammo1, ammo2);
 
-        Player p = new Player(1, true, "pippo", Character.PG3);
+        Player p = new Player();
 
         assertNotEquals(ammo1,p);
     }

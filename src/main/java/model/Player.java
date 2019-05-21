@@ -32,9 +32,9 @@ public class Player extends Target implements Serializable{
     private List<Player> shootable = new ArrayList<>();
     private List<Move> possibleMoves = new ArrayList<>();
     private List<Move> currentMoves = new ArrayList<>();
-    boolean phaseNotDone;
+    private boolean phaseNotDone;
 
-    //Costruttore
+    //Constructors
     public Player(Boolean canSee, Boolean cardinal, Integer minDistance, Integer maxDistance){
         super(canSee, cardinal, minDistance, maxDistance);
     }
@@ -53,6 +53,8 @@ public class Player extends Target implements Serializable{
         super();
     }
 
+    //getters and setters
+
     public User getUser(){
         return this.user;
     }
@@ -61,42 +63,8 @@ public class Player extends Target implements Serializable{
         return currentMoves;
     }
 
-    public void setCurrentMoves(List<Move> currentMoves) {
-        this.currentMoves = currentMoves;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof Player)) {
-            return false;
-        }
-        Player player = (Player) obj;
-        return player.name.equals(this.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Character getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
     }
 
     public Square getCurrentPosition() {
@@ -113,10 +81,6 @@ public class Player extends Target implements Serializable{
 
     public void setPhase(Phase phase) {
         this.phase = phase;
-    }
-
-    public void setAmmos(List<Ammo> ammos) {
-        this.ammos = ammos;
     }
 
     public List<Ammo> getAmmos() {
@@ -142,10 +106,6 @@ public class Player extends Target implements Serializable{
         return returns;
     }
 
-    int getPoints() {
-        return points;
-    }
-
     public void addPoints(int points) {
         this.points = this.points + points;
     }
@@ -154,16 +114,12 @@ public class Player extends Target implements Serializable{
         return firstPlayer;
     }
 
-    void setFirstPlayer(boolean flag){
-        this.firstPlayer = flag;
+    void setFirstPlayer(){
+        this.firstPlayer = true;
     }
 
     public boolean isDead() {
         return dead;
-    }
-
-    public int getDeaths() {
-        return deaths;
     }
 
     public void addDeath() {
@@ -178,24 +134,12 @@ public class Player extends Target implements Serializable{
         this.dead = dead;
     }
 
-    List<Player> getShootable() {
-        return shootable;
-    }
-
-    void setShootable(List<Player> shootable) {
-        this.shootable = shootable;
-    }
-
-    List<Move> getPossibleMoves() {
-        return possibleMoves;
-    }
-
-    void setPossibleMoves(List<Move> possibleMoves) {
-        this.possibleMoves = possibleMoves;
-    }
-
     public boolean isPhaseNotDone(){
         return this.phaseNotDone;
+    }
+
+    public void setPhaseNotDone(boolean b) {
+        this.phaseNotDone = b;
     }
 
     public void fillAmmoFromTile(AmmoTile ammotile) {
@@ -207,6 +151,8 @@ public class Player extends Target implements Serializable{
             }
         }
     }
+
+    //To string
 
     public String powerupsToString(){
         StringBuilder string = new StringBuilder();
@@ -232,19 +178,7 @@ public class Player extends Target implements Serializable{
         return string.toString();
     }
 
-    //Costruttore per i test
-    public Player(int id, boolean firstPlayer, String name, Character character) {
-        this.name = name;
-        this.character = character;
-        this.currentPosition = null;
-        this.phase = Phase.WAIT;
-        this.ammos.add(new Ammo(Color.BLUE));
-        this.ammos.add(new Ammo(Color.YELLOW));
-        this.ammos.add(new Ammo(Color.RED));
-        this.points = 0;
-        this.dead = false;
-        this.firstPlayer = firstPlayer;
-    }
+    //Overriding standard methods
 
     @Override
     public String toString() {
@@ -261,5 +195,28 @@ public class Player extends Target implements Serializable{
             toString.append(", phase = null }");
         }
         return toString.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Player)) {
+            return false;
+        }
+        Player player = (Player) obj;
+        return player.name.equals(this.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    //TODO this method is used only in tests: refactor to delete it!
+    public void setAmmos(List<Ammo> ammoList) {
+        this.ammos = ammoList;
     }
 }

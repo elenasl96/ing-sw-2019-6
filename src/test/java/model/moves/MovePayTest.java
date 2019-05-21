@@ -5,6 +5,7 @@ import model.Ammo;
 import model.Player;
 import model.enums.Character;
 import model.enums.Color;
+import model.room.User;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
@@ -21,7 +22,7 @@ class MovePayTest {
     void paymentTest1(){
 
         payment = new Pay();
-        player = new Player(1, true, "pippo", Character.PG3);
+        player = new Player(new User("pippo"));
         System.out.println(player.getAmmos());
         Ammo yellowAmmo = new Ammo(Color.YELLOW);
         Ammo blueAmmo = new Ammo(Color.BLUE);
@@ -62,7 +63,7 @@ class MovePayTest {
     @Test
     void paymentTest2(){
         payment = new Pay();
-        player = new Player(1, true, "paperino", Character.PG2);
+        player = new Player(new User("pippo"));
         Ammo yellowAmmo = new Ammo(Color.YELLOW);
         Ammo blueAmmo = new Ammo(Color.BLUE);
         Ammo redAmmo = new Ammo(Color.RED);

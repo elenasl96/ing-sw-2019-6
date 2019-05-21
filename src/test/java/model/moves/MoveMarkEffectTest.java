@@ -3,6 +3,7 @@ package model.moves;
 import exception.FullMarksException;
 import model.Player;
 import model.enums.Character;
+import model.room.User;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -16,10 +17,10 @@ class MoveMarkEffectTest {
     @Test
     void MarkTest() throws FullMarksException {
         int groupId = 0;
-        Player playerMarking = new Player(1, true, "pippo", Character.PG3);
-        Player playerMarked = new Player(2, false, "paperino", Character.PG1);
+        Player playerMarking = new Player(new User("goofy"));
+        Player playerMarked = new Player(new User("donald"));
         MarkEffect m = new MarkEffect(MOVE, Target.addTargetList(playerMarked), 2, false, null);
-        /*add 3 marks of playermarking to playermarked */
+        /*add 3 marks of playerMarking to playerMarked */
         m.execute(playerMarking, groupId);
         assertEquals(2, Collections.frequency(playerMarked.getPlayerBoards(groupId).get(0).getMarks(), playerMarking));
 

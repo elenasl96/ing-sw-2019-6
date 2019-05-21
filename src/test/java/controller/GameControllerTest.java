@@ -47,7 +47,7 @@ class GameControllerTest {
             group0.join(Manager.get().getUsers().get(i));
         }
         group0.createGame();
-
+        group0.getGame().getCurrentPlayer().setCurrentPosition(group0.getGame().getBoard().getField().getSquares().get(0));
     }
 
     @Test
@@ -61,11 +61,11 @@ class GameControllerTest {
     void runMoveHandleTest(){
         Run invalidRun = new Run(new Coordinate('D', 4));
         assertThrows(InvalidMoveException.class, () ->
-                invalidRun.execute(users.get(0).getPlayer(), 0) );
+                invalidRun.execute(GameContext.get().getGame(0).getCurrentPlayer(), 0) );
         Run run = new Run(new Coordinate('A', 2));
         GameContext.get().getGame(0).getCurrentPlayer().setCurrentPosition(
                 GameContext.get().getGame(0).getBoard().getField().getSquares().get(0));
-        assertDoesNotThrow(() -> run.execute(users.get(0).getPlayer(), 0) );
+        assertDoesNotThrow(() -> run.execute(GameContext.get().getGame(0).getCurrentPlayer(), 0) );
     }
 
     @Test
@@ -115,11 +115,5 @@ class GameControllerTest {
         assertEquals(Phase.RELOAD, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
         GameController.get().updatePhase(0);
         assertEquals(Phase.FIRST, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
-        GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
-        GameContext.get().getGame(0).getPlayers().next().setDead(true);
-        System.out.println(GameContext.get().getGame(0).getCurrentPlayer());
-        System.out.println(GameContext.get().getGame(0).getPlayers().next());
-        GameController.get().updatePhase(0);
-        assertEquals(Phase.SPAWN, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
     }
 }

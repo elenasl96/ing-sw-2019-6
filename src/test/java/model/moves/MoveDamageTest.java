@@ -15,8 +15,8 @@ public class MoveDamageTest {
 
     @Disabled
     public void damageTest(){
-        playerDamaging = new Player(1, true, "pippo", Character.PG1);
-        playerDamaged = new Player(2, false, "paperino", Character.PG3);
+        playerDamaging = new Player();
+        playerDamaged = new Player();
         damage = new DamageEffect(MOVE, Target.addTargetList(playerDamaged), 6, false, null);
         damage.execute(playerDamaging, 0);
         assertEquals(6, playerDamaged.getPlayerBoards(0).get(0).getNumDamageLeft());
@@ -26,6 +26,4 @@ public class MoveDamageTest {
         assertEquals(0, playerDamaged.getPlayerBoards(0).get(0).getNumDamageLeft());
 
     }
-
-
 }
