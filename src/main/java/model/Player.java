@@ -4,7 +4,6 @@ import model.decks.AmmoTile;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Character;
-import model.enums.Color;
 import model.enums.Phase;
 import model.field.Square;
 import model.moves.Move;
