@@ -1,4 +1,4 @@
-package network.socket;
+package controller;
 
 import controller.ClientController;
 import model.Player;
@@ -6,6 +6,7 @@ import model.enums.Character;
 import model.enums.Phase;
 import model.room.Group;
 import model.room.User;
+import network.socket.ClientContext;
 import network.socket.commands.response.*;
 import network.socket.launch.Client;
 import org.junit.jupiter.api.BeforeEach;

@@ -64,7 +64,7 @@ public class ClientContext {
         return currentPlayer;
     }
 
-    void reset(){
+    public void reset(){
         if(instance!= null){
             this.currentPlayer = null;
             this.currentGroup = null;
