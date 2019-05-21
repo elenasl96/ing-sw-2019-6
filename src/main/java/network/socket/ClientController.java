@@ -149,11 +149,14 @@ public class ClientController implements ResponseHandler {
                 break;
             case FIRST: case SECOND:
                 if(!ClientContext.get().getCurrentPlayer().getCurrentMoves().isEmpty()){
-
+                    System.out.println(ClientContext.get().getCurrentPlayer().getCurrentMoves().get(0));
+                    client.request(new MoveRequest(ClientContext.get().getCurrentPlayer().getCurrentMoves().get(0)));
                 }
-                client.request(new PossibleMovesRequest());
-                String command = view.movePhase();
-                this.sendCommand(command);
+                else {
+                    client.request(new PossibleMovesRequest());
+                    String command = view.movePhase();
+                    this.sendCommand(command);
+                }
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case RELOAD:

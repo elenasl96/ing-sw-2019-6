@@ -192,6 +192,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(MoveRequest moveRequest) {
         Move move = moveRequest.getMove();
+        System.out.println(move);
         try {
             Response response = move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
             if(response != null){
