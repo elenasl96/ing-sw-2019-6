@@ -18,7 +18,6 @@ public class MoveRequest implements Request {
 
     @Override
     public Response handle(RequestHandler handler) {
-        handler.handle(this);
-        return null;
+        return handler.handle(this);
     }
 }

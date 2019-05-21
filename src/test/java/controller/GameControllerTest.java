@@ -61,11 +61,11 @@ class GameControllerTest {
     void runMoveHandleTest(){
         Run invalidRun = new Run(new Coordinate('D', 4));
         assertThrows(InvalidMoveException.class, () ->
-                GameController.get().handle(invalidRun, 0) );
+                invalidRun.execute(users.get(0).getPlayer(), 0) );
         Run run = new Run(new Coordinate('A', 2));
         GameContext.get().getGame(0).getCurrentPlayer().setCurrentPosition(
                 GameContext.get().getGame(0).getBoard().getField().getSquares().get(0));
-        assertDoesNotThrow(() -> GameController.get().handle(run, 0) );
+        assertDoesNotThrow(() -> run.execute(users.get(0).getPlayer(), 0) );
     }
 
     @Test

@@ -180,10 +180,9 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SendInput sendInput) {
-        Response response = GameController.get().receiveInput(sendInput, currentGroup.getGroupID());
-        if(response != null){
-            return response;
-        } return null;
+        Update update = GameController.get().receiveInput(sendInput, currentGroup.getGroupID());
+        currentGroup.sendUpdate(update);
+        return null;
     }
 
     @Override
@@ -195,12 +194,11 @@ public class ServerController implements RequestHandler {
     public Response handle(MoveRequest moveRequest) {
         Move move = moveRequest.getMove();
         try {
-            Response response = move.handle(GameController.get(), currentGroup.getGroupID());
+            Response response = move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
             if(response != null){
                 System.out.println("notNULL");
                return response;
             }
-            move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
             //go to next player and set phase
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (InvalidMoveException e) {

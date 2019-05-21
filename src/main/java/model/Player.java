@@ -33,6 +33,7 @@ public class Player extends Target implements Serializable{
     private int deaths;
     private List<Player> shootable = new ArrayList<>();
     private List<Move> possibleMoves = new ArrayList<>();
+    private List<Move> currentMoves = new ArrayList<>();
 
     //Costruttore
     public Player(Boolean canSee, Boolean cardinal, Integer minDistance, Integer maxDistance){
@@ -54,6 +55,14 @@ public class Player extends Target implements Serializable{
 
     public User getUser(){
         return this.user;
+    }
+
+    public List<Move> getCurrentMoves() {
+        return currentMoves;
+    }
+
+    public void setCurrentMoves(List<Move> currentMoves) {
+        this.currentMoves = currentMoves;
     }
 
     @Override

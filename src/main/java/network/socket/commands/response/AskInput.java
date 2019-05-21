@@ -12,6 +12,7 @@ public class AskInput implements Response {
     public AskInput(String inputType){
         this.inputType = inputType;
         this.display = new StringBuilder();
+        display.append(inputType);
     }
 
     public void append(String string){

@@ -1,21 +1,15 @@
 package controller;
 
-import exception.InvalidMoveException;
-import exception.InvalidMovementException;
-import exception.NothingGrabbableException;
 import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Phase;
 import model.field.SpawnSquare;
-import model.field.Square;
 import model.moves.*;
 import model.room.Update;
-import network.socket.ClientContext;
 import network.socket.commands.Response;
 import network.socket.commands.request.SendInput;
-import network.socket.commands.response.AskInput;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,7 +22,7 @@ import static model.enums.Phase.SPAWN;
  * Every method is called receiving the game groupID, to call it from the GameContext
  */
 
-public class GameController implements MoveRequestHandler{
+public class GameController{
     private static GameController instance;
     private GameController() {
     }
@@ -187,82 +181,21 @@ public class GameController implements MoveRequestHandler{
         //TODO
     }
 
-    public Response receiveInput(SendInput input, int groupID) {
+    public Update receiveInput(SendInput input, int groupID) {
+        Player p = GameContext.get().getGame(groupID).getCurrentPlayer();
         switch(input.getInputType()){
             case "player damaged":
                 break;
             case "number damages":
                 break; //roba così
             case "weapon chosen":
-                GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getGrabbable().pickGrabbable(input.getInput(), groupID);
-                break;
+                p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, input.getInput());
+                updatePhase(groupID);
+                return new Update(p.getName()+ " picked up " + p.getWeapons().get(p.getWeapons().size()-1) );
             default:
                 break;
         }
         return null;
     }
 
-    // Moves handling
-
-    public synchronized void handle() {
-        //TODO
-    }
-
-    @Override
-    public synchronized void handle(Run run, int groupID) throws InvalidMoveException{
-        run.setMaxSteps(3);
-        if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
-            run.setMaxSteps(4);
-        }
-        handle(run.getMovement(), groupID);
-    }
-
-    @Override
-    public synchronized Response handle(MoveAndGrab moveAndGrab, int groupID) throws InvalidMoveException {
-        moveAndGrab.setMaxSteps(1);
-        if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
-            moveAndGrab.setMaxSteps(4);
-        }
-        handle(moveAndGrab.getMovement(), groupID);
-        moveAndGrab.getGrab().setSquare(GameContext.get().getGame(groupID).getBoard().getField().getSquares().stream().filter(s -> s.getCoord().equals(moveAndGrab.getMovement().getCoordinate())).findFirst().get());
-        return handle(moveAndGrab.getGrab(), groupID);
-        //Changed to void since everything there's no need for askInput Response
-    }
-
-    @Override
-    public synchronized void handle(Movement movement, int groupID) throws InvalidMoveException {
-        System.out.println("The square inserted is: "+movement.getCoordinate());
-        Square destination = null;
-        //Check if the coordinate is valid
-        for(Square square: GameContext.get().getGame(groupID).getBoard().getField().getSquares()) {
-            if (square.getCoord().equals(movement.getCoordinate())){
-                destination = square;
-                break;
-            }
-        } if(destination == null){
-            throw new InvalidMovementException();
-        } else {
-            movement.setDestination(destination);
-            movement.setField(GameContext.get().getGame(groupID).getBoard().getField());
-        }
-    }
-
-    @Override
-    public synchronized Response handle(DamageEffect damage, int groupID) throws InvalidMoveException{
-        AskInput toAsk = new AskInput("damage");
-        toAsk.append("Who do you want to shoot to?");
-        return toAsk;
-
-    }
-
-    @Override
-    public synchronized Response handle(Grab grab, int groupID) throws InvalidMoveException{
-        try{
-            GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(
-                    "Insert the weapon you want to pick:" +  grab.getSquare().getGrabbable().toString()));
-            return new AskInput("weapon choose");
-        } catch (NothingGrabbableException e){
-        }
-        return null;
-    }
 }

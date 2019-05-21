@@ -200,7 +200,8 @@ public class ClientController implements ResponseHandler {
     @Override
     public void handle(AskInput askInput) {
         view.displayText(askInput.toString());
-        while(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
+        view.displayText(ClientContext.get().getCurrentPlayer().getPhase().toString());
+        //while(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT)){
             switch(askInput.getInputType()){
                 case "damage":
                     break;
@@ -211,6 +212,6 @@ public class ClientController implements ResponseHandler {
                 default:
                     break;
             }
-        }
+       // }
     }
 }
