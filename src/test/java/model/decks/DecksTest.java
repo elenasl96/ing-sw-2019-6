@@ -15,8 +15,6 @@ public class DecksTest {
     @Test
     void PickTest(){
         int groupId=0;
-        ArrayList<User> users = new ArrayList<>();
-        users.add(new User("1"));
         Player pg1 = new Player();
         pg1.getPowerups().add(GameContext.get().getGame(groupId).getBoard().getPowerupsLeft().pickCard());
         pg1.getPowerups().add(GameContext.get().getGame(groupId).getBoard().getPowerupsLeft().pickCard());
