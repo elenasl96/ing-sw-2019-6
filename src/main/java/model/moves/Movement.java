@@ -1,6 +1,5 @@
 package model.moves;
-import controller.MoveRequestHandler;
-import exception.InvalidMoveException;
+
 import exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
@@ -53,7 +52,21 @@ public class Movement extends Effect implements Move{
      * @param p the player who wants to move
      * @throws InvalidMovementException if the destination is unreachable for the player
      */
-    public void execute(Player p, int groupId) throws InvalidMovementException {
+    public Response execute(Player p, int groupID) throws InvalidMovementException {
+        System.out.println("The square inserted is: "+coordinate);
+        Square squareDestination = null;
+        //Check if the coordinate is valid
+        for(Square square: GameContext.get().getGame(groupID).getBoard().getField().getSquares()) {
+            if (square.getCoord().equals(coordinate)){
+                squareDestination = square;
+                break;
+            }
+        } if(squareDestination == null){
+            throw new InvalidMovementException();
+        } else {
+            this.setDestination(squareDestination);
+            this.setField(GameContext.get().getGame(groupID).getBoard().getField());
+        }
         if(!this.reachList.isEmpty()) this.reachList.clear();
         createReachList(maxSteps, p.getCurrentPosition());
         if(reachList.contains(this.destination)){
@@ -61,15 +74,11 @@ public class Movement extends Effect implements Move{
         }else {
             throw new InvalidMovementException();
         }
-        GameContext.get().getGame(groupId)
+        GameContext.get().getGame(groupID)
                 .sendUpdate(new Update(p.getName()+" moved to "+p.getCurrentPosition()));
+        return null;
     }
 
-    @Override
-    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        moveRequestHandler.handle(this, groupId);
-        return null; //TODO
-    }
 
     /**
      * Creates the List of reachable Squares p can do in maxSteps
@@ -103,6 +112,7 @@ public class Movement extends Effect implements Move{
 
     public Movement(Coordinate coordinate){
         this.coordinate = coordinate;
+
     }
     /**
      * Used getters and setters

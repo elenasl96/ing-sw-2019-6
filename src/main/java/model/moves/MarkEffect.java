@@ -21,7 +21,7 @@ public class MarkEffect extends Effect implements Move{
         this.nMarks = nMarks;
     }
 
-    public void execute(Player p, int groupId) throws FullMarksException {
+    public Response execute(Player p, int groupId) throws FullMarksException {
         for(Target t : targets){
             int occurrences = Collections.frequency(t.getPlayerBoards(groupId).get(0).getMarks(), p);
             if(occurrences<3){
@@ -30,12 +30,8 @@ public class MarkEffect extends Effect implements Move{
                 throw new FullMarksException();
             }
         }
-
+        return null;
     }
 
-    @Override
-    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        return null;//TODO
-    }
 
 }

@@ -1,7 +1,7 @@
 package model.moves;
 
-import controller.MoveRequestHandler;
 import exception.InvalidMoveException;
+import model.GameContext;
 import model.Player;
 import model.field.Coordinate;
 import model.field.Field;
@@ -27,13 +27,14 @@ public class Run implements Move {
     }
 
     @Override
-    public void execute(Player p, int groupId) throws InvalidMoveException {
-        this.movement.execute(p, groupId);
+    public Response execute(Player p, int groupID) throws InvalidMoveException {
+        this.setMaxSteps(3);
+        if(GameContext.get().getGame(groupID).isFinalFrenzy()
+                && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
+            this.setMaxSteps(4);
+        }
+        this.movement.execute(p, groupID);
+        return null;
     }
 
-    @Override
-    public Response handle(MoveRequestHandler moveRequestHandler, int groupId) throws InvalidMoveException {
-        moveRequestHandler.handle(this, groupId);
-        return null; //TODO
-    }
 }
