@@ -1,24 +1,21 @@
 package model.decks;
 
-import exception.InvalidMoveException;
-import model.Board;
 import model.GameContext;
-import model.Player;
 import model.enums.Color;
 
 public class AmmoTileWithAmmo extends AmmoTile implements Grabbable{
     /**
      * Calls the constructor of the superclass AmmoTile that creates a list of 3 ammos
-     * @param color1
-     * @param color2
-     * @param color3
+     * @param color1    the first ammo color
+     * @param color2    the second ammo color
+     * @param color3    the third ammo color
      */
-    public AmmoTileWithAmmo(Color color1, Color color2, Color color3){
+    AmmoTileWithAmmo(Color color1, Color color2, Color color3){
         super(color1, color2, color3);
     }
 
     @Override
-    public void pickGrabbable(int groupID) {
+    public void pickGrabbable(int groupID, int toPick) {
         GameContext.get().getGame(groupID).getCurrentPlayer().fillAmmoFromTile(this);
     }
 }
