@@ -22,14 +22,6 @@ public class WeaponTile implements Grabbable, Serializable {
         weapons.add(weapon);
     }
 
-    public List<Weapon> getWeapons() {
-        return weapons;
-    }
-
-    public void setWeapons(List<Weapon> weapons) {
-        this.weapons = weapons;
-    }
-
     @Override
     public void pickGrabbable(int groupID, int toPick) {
         System.out.println(toPick);
@@ -50,7 +42,7 @@ public class WeaponTile implements Grabbable, Serializable {
         StringBuilder string = new StringBuilder();
         int count = 0;
         for(Weapon w: weapons){
-            string.append("\nID: " + count).append(w);
+            string.append("\nID: ").append(count).append(w);
             count ++;
         }
         return string.toString();
