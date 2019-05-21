@@ -1,9 +1,11 @@
 package controller;
 
+import exception.NotEnoughAmmoException;
 import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
+import model.enums.Color;
 import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
@@ -213,11 +215,26 @@ public class GameController{
         }*/
     }
 
-    public void reloadWeapon(int number, int groupID) {
+    public void reloadWeapon (int number, int groupID) {
         //Check if the player has the necessary ammos
-        Weapon weapon = GameContext.get().getGame(groupID).getCurrentPlayer().getWeapons().get(number);
-        //the 0 effect is the basic effect when a card is created
-      // if(weapon.getEffects().get(0).getCost().conta);
+        Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
+        Weapon weapon = player.getWeapons().get(number);
+
+        //check if the player has enough ammos to reload the weapon
+        for(Color c: EnumSet.allOf(Color.class)
+                .stream()
+                .filter(c -> c.equals(Color.RED) ||
+                        c.equals(Color.YELLOW) ||
+                        c.equals(Color.BLUE)).collect(Collectors.toList())){
+
+            if(weapon.getEffects().get(0).getCost()
+                    .stream()
+                    .filter(a -> a.getColor().equals(c)).count()
+                    > player.getAmmos().stream().filter(a -> a.getColor().equals(c)).count()){
+                throw new NotEnoughAmmoException();
+            }
+        }
+        player.reloadWeapon(weapon);
 
     }
 }

@@ -1,7 +1,5 @@
 package model.moves;
 
-import controller.MoveRequestHandler;
-import exception.InvalidMoveException;
 import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;

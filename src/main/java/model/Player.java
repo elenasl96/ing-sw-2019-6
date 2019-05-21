@@ -151,6 +151,10 @@ public class Player extends Target implements Serializable{
         }
     }
 
+    public void reloadWeapon(Weapon weapon){
+
+    }
+
     //To string
 
     public String powerupsToString(){
