@@ -16,7 +16,6 @@ import network.socket.commands.Response;
 import network.exceptions.FullGroupException;
 import network.exceptions.InvalidGroupNumberException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
