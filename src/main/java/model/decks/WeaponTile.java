@@ -22,19 +22,6 @@ public class WeaponTile implements Grabbable, Serializable {
         weapons.add(weapon);
     }
 
-    public List<Weapon> getWeapons() {
-        return weapons;
-    }
-
-    public void setWeapons(List<Weapon> weapons) {
-        this.weapons = weapons;
-    }
-
-    @Override
-    public void pickGrabbable(int groupID){
-        throw new InvalidMoveException("No Ammo to grab here!");
-    }
-
     @Override
     public void pickGrabbable(int groupID, int toPick) {
         System.out.println(toPick);
@@ -45,6 +32,7 @@ public class WeaponTile implements Grabbable, Serializable {
                 GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                         " picked "+this.weapons.get(toPick).toString()));
         Weapon newWeapon = GameContext.get().getGame(groupID).getBoard().getWeaponsLeft().pickCard();
+        GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().addGrabbable(newWeapon, groupID);
         GameContext.get().getGame(groupID).sendUpdate(new Update(
                 "Weapon replaced by "+ newWeapon.toString()));
     }
@@ -54,7 +42,7 @@ public class WeaponTile implements Grabbable, Serializable {
         StringBuilder string = new StringBuilder();
         int count = 0;
         for(Weapon w: weapons){
-            string.append("\nID: " + count).append(w);
+            string.append("\nID: ").append(count).append(w);
             count ++;
         }
         return string.toString();

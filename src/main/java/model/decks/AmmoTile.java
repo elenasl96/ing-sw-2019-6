@@ -2,6 +2,7 @@ package model.decks;
 
 import exception.InvalidMoveException;
 import model.Ammo;
+import model.GameContext;
 import model.enums.Color;
 
 import java.io.Serializable;
@@ -11,13 +12,13 @@ import java.util.List;
 public abstract class AmmoTile implements Serializable, Grabbable {
     private List<Ammo> ammos = new ArrayList<>();
 
-    public AmmoTile(Color color1, Color color2, Color color3){
+    AmmoTile(Color color1, Color color2, Color color3){
         ammos.add(new Ammo (color1));
         ammos.add(new Ammo (color2));
         ammos.add(new Ammo (color3));
     }
 
-    public AmmoTile(Color color1, Color color2){
+    AmmoTile(Color color1, Color color2){
         Ammo ammoTemp1 = new Ammo (color1);
         Ammo ammoTemp2 = new Ammo (color2);
         ammos.add(ammoTemp1);
@@ -36,5 +37,36 @@ public abstract class AmmoTile implements Serializable, Grabbable {
     @Override
     public void pickGrabbable(int groupID, int toPick) throws InvalidMoveException {
         throw new InvalidMoveException("No weapon to grab here!");
+    }
+}
+
+class AmmoTileWithAmmo extends AmmoTile implements Grabbable{
+    /**
+     * Calls the constructor of the superclass AmmoTile that creates a list of 3 ammos
+     * @param color1    the first ammo color
+     * @param color2    the second ammo color
+     * @param color3    the third ammo color
+     */
+    AmmoTileWithAmmo(Color color1, Color color2, Color color3){
+        super(color1, color2, color3);
+    }
+
+    @Override
+    public void pickGrabbable(int groupID, int toPick) {
+        GameContext.get().getGame(groupID).getCurrentPlayer().fillAmmoFromTile(this);
+    }
+}
+
+class AmmoTileWithPowerup extends AmmoTile implements Grabbable{
+
+    AmmoTileWithPowerup(Color color1, Color color2){
+        super(color1, color2);
+    }
+
+    @Override
+    public void pickGrabbable(int groupID, int toPick) {
+        GameContext.get().getGame(groupID).getCurrentPlayer().fillAmmoFromTile(this);
+        GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups()
+                .add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
     }
 }

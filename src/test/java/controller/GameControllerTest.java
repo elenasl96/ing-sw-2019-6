@@ -14,6 +14,7 @@ import model.room.Update;
 import model.room.User;
 import network.exceptions.InvalidUsernameException;
 import network.socket.Manager;
+import network.socket.commands.request.SendInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -115,5 +116,17 @@ class GameControllerTest {
         assertEquals(Phase.RELOAD, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
         GameController.get().updatePhase(0);
         assertEquals(Phase.FIRST, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
+    }
+
+    @Test
+    void receiveInputTest(){
+        GameContext.get().getGame(0).getCurrentPlayer().setCurrentPosition(
+                GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0)
+        );
+        GameController.get().receiveInput(new SendInput(2, "weapon chosen"), 0);
+        assertFalse(GameContext.get().getGame(0).getCurrentPlayer().isPhaseNotDone());
+
+        GameController.get().receiveInput(new SendInput(5, "weapon chosen"), 0);
+        assertTrue(GameContext.get().getGame(0).getCurrentPlayer().isPhaseNotDone());
     }
 }

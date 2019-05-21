@@ -1,7 +1,10 @@
 package model.field;
 
 import model.Board;
+import model.GameContext;
 import model.decks.AmmoTile;
+import model.decks.Grabbable;
+import model.decks.Weapon;
 import model.enums.Color;
 
 public class AmmoSquare extends Square{
@@ -24,8 +27,8 @@ public class AmmoSquare extends Square{
         return ammo;
     }
 
-    public void addGrabbable(Board board){
-        this.ammo=board.getAmmosLeft().pickCard();
+    @Override
+    public void addGrabbable(Weapon weapon, int groupID) {
+        this.ammo = GameContext.get().getGame(groupID).getBoard().getAmmosLeft().pickCard();
     }
-
 }

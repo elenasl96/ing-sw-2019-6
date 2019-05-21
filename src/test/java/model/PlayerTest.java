@@ -1,7 +1,6 @@
 package model;
 
 import model.decks.AmmoTile;
-import model.decks.AmmoTileWithAmmo;
 import model.decks.PowerupDeck;
 import model.enums.Character;
 import model.enums.Color;

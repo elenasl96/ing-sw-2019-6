@@ -32,6 +32,10 @@ public class AmmoDeck {
 
     }
 
+
+    private void shuffleDeck() {
+        Collections.shuffle(ammoTiles);
+    }
     /**
      * random.nextInt() generates a random int which is used to retrieve a
      * random element from the deck
@@ -43,8 +47,8 @@ public class AmmoDeck {
         ammoTiles.remove(0);
 
         if(ammoTiles.isEmpty()) {
-            ammoTiles=discard;
-            discard=new ArrayList<>();
+            ammoTiles = discard;
+            discard = new ArrayList<>();
             shuffleDeck();
         }
 
@@ -54,9 +58,4 @@ public class AmmoDeck {
     public void discardCard(AmmoTile card) {
         discard.add(card);
     }
-
-    public void shuffleDeck() {
-        Collections.shuffle(ammoTiles);
-    }
-
 }

@@ -5,6 +5,7 @@ import model.GameContext;
 import model.Player;
 import model.PlayerBoard;
 import model.decks.Grabbable;
+import model.decks.Weapon;
 import model.enums.Color;
 import model.moves.Target;
 
@@ -35,8 +36,6 @@ public abstract class Square extends Target implements Serializable {
         this.color = color;
     }
 
-    public abstract void addGrabbable(Board board);
-
     public abstract Grabbable getGrabbable();
 
     public void setGrabbable(Board board){ }
@@ -63,4 +62,6 @@ public abstract class Square extends Target implements Serializable {
     public boolean isEmpty() {
         return this.getGrabbable()==null;
     }
+
+    public abstract void addGrabbable(Weapon grabbable, int groupID);
 }

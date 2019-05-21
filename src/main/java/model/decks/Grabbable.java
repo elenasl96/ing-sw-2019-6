@@ -5,6 +5,5 @@ import model.Board;
 import model.Player;
 
 public interface Grabbable {
-    void pickGrabbable(int groupID);
     void pickGrabbable(int groupID, int toPick);
 }

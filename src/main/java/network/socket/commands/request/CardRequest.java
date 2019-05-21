@@ -7,8 +7,8 @@ import network.socket.commands.Response;
 import static java.lang.Integer.parseInt;
 
 public class CardRequest implements Request {
-    public String cardType;
-    public int number;
+    private String cardType;
+    private int number;
 
     public CardRequest(String cardType){
         this.cardType = cardType;
@@ -19,6 +19,13 @@ public class CardRequest implements Request {
         this.cardType = cardType;
     }
 
+    public String getCardType(){
+        return this.cardType;
+    }
+
+    public int getNumber(){
+        return this.number;
+    }
     @Override
     public Response handle(RequestHandler handler) {
         return handler.handle(this);
