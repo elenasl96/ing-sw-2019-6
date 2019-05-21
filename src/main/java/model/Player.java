@@ -4,6 +4,7 @@ import model.decks.AmmoTile;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Character;
+import model.enums.Color;
 import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.Square;
@@ -47,6 +48,9 @@ public class Player extends Target implements Serializable{
         this.setDead(false);
         this.deaths = 0;
         this.phaseNotDone = false;
+        this.ammos.add(new Ammo(Color.YELLOW));
+        this.ammos.add(new Ammo(Color.RED));
+        this.ammos.add(new Ammo(Color.BLUE));
     }
 
     public Player(){
