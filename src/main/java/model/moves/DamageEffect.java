@@ -17,10 +17,6 @@ public class DamageEffect extends Effect implements Move{
         this.damages = damages;
     }
 
-    public int getDamages(){
-        return this.damages;
-    }
-
     @Override
     public Response execute(Player playerDamaging, int groupId){
         for ( Target t : targets){
@@ -28,5 +24,4 @@ public class DamageEffect extends Effect implements Move{
         }
         return null;
     }
-
 }

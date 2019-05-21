@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Effect implements Serializable {
-    protected EffectType type;
-    protected Boolean optionality;
-    protected Boolean different;
-    protected List<Target> targets = new ArrayList<>();
-    protected List<Ammo> cost = new ArrayList<>();
+    private EffectType type;
+    private Boolean optionality;
+    private Boolean different;
+    List<Target> targets = new ArrayList<>();
+    private List<Ammo> cost = new ArrayList<>();
 
     public Effect(){
     }
@@ -22,14 +22,6 @@ public abstract class Effect implements Serializable {
         this.targets = targets;
         this.optionality = optionality;
         this.different = notChosen;
-    }
-
-    public EffectType getType(){
-        return this.type;
-    }
-
-    public Boolean getOptionality(){
-        return this.optionality;
     }
 
     public List<Target> getTarget(){
@@ -43,9 +35,5 @@ public abstract class Effect implements Serializable {
     public void setCost(List<Ammo> cost) {
         this.cost = cost;
     }
-
-    public void addCost(Ammo ammo) {
-        this.cost.add(ammo);
-    }
-
 }
+

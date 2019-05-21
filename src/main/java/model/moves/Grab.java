@@ -7,7 +7,6 @@ import network.socket.commands.Response;
 import network.socket.commands.response.AskInput;
 
 public class Grab implements Move{
-
     @Override
     public Response execute(Player p, int groupID) {
         try{
@@ -20,8 +19,4 @@ public class Grab implements Move{
         }
         return null;
     }
-
-
-
-
 }
