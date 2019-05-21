@@ -1,7 +1,5 @@
 package controller;
 
-import controller.GameController;
-import controller.TimerController;
 import exception.InvalidMoveException;
 import model.GameContext;
 import model.decks.Weapon;
