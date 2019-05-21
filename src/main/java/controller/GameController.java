@@ -185,7 +185,7 @@ public class GameController{
             case "player damaged":
                 break;
             case "number damages":
-                break; //roba così
+                break;
             case "weapon chosen":
                 try {
                     p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, input.getInput());

@@ -200,21 +200,16 @@ public class ClientController implements ResponseHandler {
         view.displayText("moveupdateplayer"+ moveUpdateResponse.getPlayer());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
-        if(moveUpdateResponse.getPhaseNotDone() == 1){
-            ClientContext.get().getCurrentPlayer().setPhaseNotDone(true);
-        }else{
-            ClientContext.get().getCurrentPlayer().setPhaseNotDone(false);
-        }
+        ClientContext.get().getCurrentPlayer().setPhaseNotDone(moveUpdateResponse.getPhaseNotDone() == 1);
         view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT));
     }
 
     @Override
     public void handle(AskInput askInput) {
-        view.displayText(askInput.toString());
-        view.displayText(ClientContext.get().getCurrentPlayer().getPhase().toString());
+        view.displayText("Asking input: "+ askInput.toString());
+        view.displayText("Phase " + ClientContext.get().getCurrentPlayer().getPhase().toString());
         switch(askInput.getInputType()){
             case "damage":
-                break;
             case "weapon choose":
                 client.request(new SendInput(view.askNumber(), "weapon chosen"));
                 break;
