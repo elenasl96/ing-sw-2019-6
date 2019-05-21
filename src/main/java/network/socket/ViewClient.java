@@ -14,6 +14,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
     // ----- The view is composed with the controller (strategy)
     private final ClientController controller;
     private volatile boolean wait=true;
+    private static final String PLEASE_NUMBER = "Please insert a Number";
 
     public ViewClient(ClientController controller) {
         this.controller = controller;
@@ -39,7 +40,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         try{
             return Integer.parseInt(userInput());
         }catch (NumberFormatException e){
-            displayText("Please insert a number");
+            displayText(PLEASE_NUMBER);
             return this.askNumber();
         }
     }
@@ -104,7 +105,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
             } while(response == Character.NOT_ASSIGNED);
             displayText("You are" + response);
         }catch (NumberFormatException e){
-            displayText("Please insert a number");
+            displayText(PLEASE_NUMBER);
         }
         ClientContext.get().getCurrentGroup().observe(this);
         controller.startReceiverThread();
@@ -119,7 +120,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
             try{
                 spawnNumber = Integer.parseInt(userInput());
             }catch (NumberFormatException e){
-                displayText("Please insert a number");
+                displayText(PLEASE_NUMBER);
                 spawnNumber = null;
             }
         } return spawnNumber;
@@ -134,10 +135,6 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
             displayText("Insert a valid move");
             move = userInput();
         } return move;
-    }
-
-    String askInput(){
-        return userInput();
     }
 
     void waitingPhase(){

@@ -56,10 +56,6 @@ public class ClientHandler implements Runnable, GroupChangeListener, GameUpdateO
         close();
     }
 
-    void stop() {
-        stop = true;
-    }
-
     private void close() {
         stop = true;
         if (in != null) {

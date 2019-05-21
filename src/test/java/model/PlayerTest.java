@@ -10,50 +10,32 @@ import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.Move;
 import model.moves.Pay;
+import model.room.User;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
 class PlayerTest {
-    /*Player pg = new Player(1, true, "pippo", Character.PG2);
+    Player pg = new Player(new User("ugo"));
 
 
     @Test
     void nameTest() {
         Square sq = new SpawnSquare(Color.YELLOW, new Coordinate('B',2), new Board(2));
-        Player pg2 = new Player (2, false, "ciao", Character.PG3);
-        ArrayList<Player> sh = new ArrayList<>();
-        sh.add(pg2);
-        ArrayList<Move> mv = new ArrayList<>();
+        Player pg2 = new Player (new User("2"));
         Pay pay = new Pay();
 
-        pg.setName("ugo");
-        pg.setCharacter(Character.PG1);
         pg.setCurrentPosition(sq);
 
         assertEquals(Phase.WAIT, pg.getPhase());
         assertEquals("ugo", pg.getName());
-        assertEquals("PG1", pg.getCharacter().name());
-        assertEquals("BLUE", pg.getAmmos().get(0).getColor().name());
-        assertEquals("YELLOW", pg.getCurrentPosition().getColor().name());
-        assertEquals(0, pg.getPoints());
-        assertTrue(pg.isFirstPlayer());
-        assertFalse(pg.isDead());
-        assertTrue(pg.getShootable().isEmpty());
-        assertTrue(pg.getPossibleMoves().isEmpty());
 
-        mv.add(pay);
-        pg.setPossibleMoves(mv);
-        pg.setShootable(sh);
+
         pg.addPoints(2);
         pg.setPhase(Phase.FIRST);
         pg.setDead(true);
 
-
-        assertTrue(pg.getPossibleMoves().get(0) instanceof Pay);
         assertTrue(pg.isDead());
-        assertEquals(2, pg.getPoints());
         assertEquals(Phase.FIRST, pg.getPhase());
         assertTrue( pg.getPowerups().isEmpty());
         assertTrue(pg.getWeapons().isEmpty());
@@ -69,8 +51,8 @@ class PlayerTest {
 
     @Test
     void equalsTest(){
-        Player p1 = new Player(1, true, "pippo", Character.PG3);
-        Player p2 = new Player(1, false, "pippo", Character.PG3);
+        Player p1 = new Player(new User("pippo"));
+        Player p2 = new Player(new User("pippo"));
 
         assertEquals(p1, p1);
         assertNotEquals(null, p1);
@@ -82,15 +64,4 @@ class PlayerTest {
 
         assertNotEquals(p1,ammo);
     }
-
-    @Test
-    void ammoTest(){
-        Player p1 = new Player(1, true, "pippo", Character.PG1);
-        AmmoTile a1 = new AmmoTileWithAmmo(Color.BLUE, Color.RED, Color.YELLOW);
-
-        p1.fillAmmoFromTile(a1);
-        assertEquals(Color.BLUE, p1.getAmmos().get(0).getColor());
-    }
-
-     */
 }
