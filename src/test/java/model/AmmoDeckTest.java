@@ -11,9 +11,8 @@ class AmmoDeckTest {
     @Test
     void DeckTest(){
 
-        for(int i = 1; i <= 25; i++){
+        for(int i = 1; i <= 50; i++){
             AmmoTile picked = ammoDeck.pickCard();
-            System.out.println(ammoDeck);
             ammoDeck.discardCard(picked);
         }
     }
