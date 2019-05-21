@@ -7,10 +7,16 @@ import network.socket.commands.ResponseHandler;
 public class MoveUpdateResponse implements Response {
     private Player player;
     private int phaseId;
+    private int phaseNotDone;
 
     public MoveUpdateResponse(Player player){
         this.player = player;
         this.phaseId = player.getPhase().getId();
+        if(this.player.isPhaseNotDone()){
+            this.phaseNotDone = 1;
+        } else {
+            this.phaseNotDone = 0;
+        }
     }
 
     public Player getPlayer(){
@@ -21,8 +27,8 @@ public class MoveUpdateResponse implements Response {
         return phaseId;
     }
 
-    public void setPhaseId(int phaseId) {
-        this.phaseId = phaseId;
+    public int getPhaseNotDone(){
+        return this.phaseNotDone;
     }
 
     @Override

@@ -31,7 +31,7 @@ public class Player extends Target implements Serializable{
     private int deaths;
     private List<Player> shootable = new ArrayList<>();
     private List<Move> possibleMoves = new ArrayList<>();
-    private List<Move> currentMoves = new ArrayList<>();
+    private transient List<Move> currentMoves = new ArrayList<>();
     private boolean phaseNotDone;
 
     //Constructors
@@ -188,7 +188,7 @@ public class Player extends Target implements Serializable{
                 .append(", points = ").append(points)
                 .append(", firstPlayer = ").append(firstPlayer)
                 .append(", dead = ").append(dead)
-                .append(", moves = ").append(currentMoves);
+                .append(", phase not done? = ").append(phaseNotDone);
         try {
             toString.append(", phase = ").append(phase.toString()).append('}');
         }catch(NullPointerException e ) {

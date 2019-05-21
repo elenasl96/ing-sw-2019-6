@@ -6,9 +6,7 @@ import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Phase;
 import model.field.SpawnSquare;
-import model.moves.*;
 import model.room.Update;
-import network.socket.commands.Response;
 import network.socket.commands.request.SendInput;
 
 import java.util.*;
@@ -192,8 +190,8 @@ public class GameController{
                 try {
                     p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, input.getInput());
                 }catch (IndexOutOfBoundsException e){
-                    System.out.println("Index out of bounds");
-                    p.setPhaseNotDone(false);
+                    System.out.println(">>> Weapon index out of bounds");
+                    p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }
                 updatePhase(groupID);
