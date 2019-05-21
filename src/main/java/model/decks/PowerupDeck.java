@@ -60,12 +60,6 @@ public class PowerupDeck {
         shuffleDeck();
     }
 
-    /**
-     * random.nextInt() generates a random int which is used to retrieve a
-     * random element from the deck
-     *
-     * @return a powerup card randomly
-     */
     public Powerup pickCard() {
 
         Powerup powerupCard = powerups.get(0);

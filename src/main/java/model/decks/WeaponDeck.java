@@ -365,12 +365,4 @@ public class WeaponDeck {
 
         return null;
     }
-
-    public List<Weapon> getWeapons() {
-        return weapons;
-    }
-
-    public void setWeapons(List<Weapon> weapons) {
-        this.weapons = weapons;
-    }
 }
