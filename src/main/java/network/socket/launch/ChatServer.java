@@ -20,6 +20,15 @@ public class ChatServer {
      */
     private final boolean local;
 
+    public static void main(String[] args) throws IOException {
+        ChatServer server = new ChatServer(8234, true);
+        try {
+            server.run();
+        } finally {
+            server.close();
+        }
+    }
+
     public ChatServer(int port, boolean local) throws IOException {
         serverSocket = new ServerSocket(port);
         pool = Executors.newCachedThreadPool();
