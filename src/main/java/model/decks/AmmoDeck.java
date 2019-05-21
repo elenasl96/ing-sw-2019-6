@@ -47,8 +47,8 @@ public class AmmoDeck {
         ammoTiles.remove(0);
 
         if(ammoTiles.isEmpty()) {
-            ammoTiles=discard;
-            discard=new ArrayList<>();
+            ammoTiles = discard;
+            discard = new ArrayList<>();
             shuffleDeck();
         }
 
