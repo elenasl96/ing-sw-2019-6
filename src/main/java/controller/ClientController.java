@@ -1,10 +1,12 @@
-package network.socket;
+package controller;
 
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
 import model.moves.MoveAndGrab;
 import model.moves.Run;
+import network.socket.ClientContext;
+import network.socket.ViewClient;
 import network.socket.commands.Request;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
@@ -54,37 +56,37 @@ public class ClientController implements ResponseHandler {
      * @see Client#request(Request)
      * @see Client#nextResponse()
      */
-    User createUser(String username) {
+    public User createUser(String username) {
         client.request(new CreateUserRequest(username));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser();
     }
 
-    Group chooseGroup(int groupNumber){
+    public Group chooseGroup(int groupNumber){
         client.request(new ChooseGroupRequest(groupNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup();
     }
 
-    String getSituation(){
+    public String getSituation(){
         client.request(new SituationViewerRequest());
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentSituation();
     }
 
-    int createGroup(int skullNumber, int fieldNumber) {
+    public int createGroup(int skullNumber, int fieldNumber) {
         client.request(new CreateGroupRequest(skullNumber, fieldNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
-    synchronized Character setCharacter(int characterNumber) {
+    public synchronized Character setCharacter(int characterNumber) {
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser().getCharacter();
     }
 
-    void startReceiverThread() {
+    public void startReceiverThread() {
         Thread receiver = new Thread(
                 () -> {
                     while (gameNotDone) {

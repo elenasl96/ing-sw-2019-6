@@ -28,7 +28,7 @@ public class ClientContext {
         return instance;
     }
 
-    synchronized void createPlayer(){
+    public synchronized void createPlayer(){
         this.currentPlayer = new Player();
     }
 
@@ -36,7 +36,7 @@ public class ClientContext {
         return currentUser;
     }
 
-    synchronized void setCurrentUser(User currentUser) {
+    public synchronized void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
 
@@ -44,15 +44,15 @@ public class ClientContext {
         return currentGroup;
     }
 
-    synchronized void setCurrentGroup(Group currentGroup) {
+    public synchronized void setCurrentGroup(Group currentGroup) {
         this.currentGroup = currentGroup;
     }
 
-    synchronized String getCurrentSituation() {
+    public synchronized String getCurrentSituation() {
         return currentSituation;
     }
 
-    synchronized void setCurrentSituation(String currentSituation) {
+    public synchronized void setCurrentSituation(String currentSituation) {
         this.currentSituation = currentSituation;
     }
 
@@ -60,7 +60,7 @@ public class ClientContext {
         this.currentPlayer = player;
     }
 
-    Player getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
 

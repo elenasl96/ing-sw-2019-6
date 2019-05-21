@@ -43,7 +43,7 @@ public class Manager {
         throw new InvalidGroupNumberException("There's no group"+groupID);
     }
 
-    synchronized Group createGroup(int skullNumber, int fieldNumber) {
+    public synchronized Group createGroup(int skullNumber, int fieldNumber) {
         Group group = new Group(skullNumber, fieldNumber);
         GameContext.get().getGames().add(new Game());
         groups.add(group);
@@ -62,7 +62,7 @@ public class Manager {
         return user;
     }
 
-    synchronized void updateGroupSituation(){
+    public synchronized void updateGroupSituation(){
         String situation = "";
         for(Group g : groups){
             situation = situation.concat(g.toString());
@@ -70,7 +70,7 @@ public class Manager {
         this.groupSituation = situation;
     }
 
-    synchronized String getGroupSituation(){return this.groupSituation;}
+    public synchronized String getGroupSituation(){return this.groupSituation;}
 
     public void reset(){
         if(instance!=null) {

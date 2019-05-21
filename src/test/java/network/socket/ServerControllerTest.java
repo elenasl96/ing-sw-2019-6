@@ -1,14 +1,11 @@
 package network.socket;
 
-import model.Game;
+import controller.ServerController;
 import model.GameContext;
-import model.Player;
 import model.field.Coordinate;
-import model.moves.Movement;
 import model.room.Group;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import model.room.User;
 import org.junit.jupiter.api.Test;
@@ -59,7 +56,7 @@ class ServerControllerTest {
 
     @Test
     void userCreatedTest(){
-        assertEquals(user1, serverController1.user);
+        assertEquals(user1, serverController1.getUser());
         assertEquals("1", userResp1.user.getUsername());
         TextResponse userRespError = (TextResponse) serverController2.handle(new CreateUserRequest("1"));
         assertEquals("ERROR: Invalid username: 1", userRespError.content);
@@ -134,9 +131,9 @@ class ServerControllerTest {
         assertEquals("PG2", response6.character.name());
         assertEquals("PG3", response7.character.name());
 
-        assertEquals("PG1", serverController1.user.getCharacter().name());
-        assertEquals("PG2", serverController2.user.getCharacter().name());
-        assertEquals("PG3", serverController3.user.getCharacter().name());
+        assertEquals("PG1", serverController1.getUser().getCharacter().name());
+        assertEquals("PG2", serverController2.getUser().getCharacter().name());
+        assertEquals("PG3", serverController3.getUser().getCharacter().name());
     }
 
     @Test

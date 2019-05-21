@@ -1,5 +1,6 @@
 package network.socket;
 
+import controller.ServerController;
 import model.room.*;
 import network.socket.commands.Request;
 import network.socket.commands.response.*;
@@ -83,7 +84,7 @@ public class ClientHandler implements Runnable, GroupChangeListener, GameUpdateO
 
     @Override
     public String toString(){
-        return this.controller.user.getUsername()+"'s Client Handler";
+        return this.controller.getUser().getUsername()+"Client Handler";
     }
 
     // --- Directly forward notifications to clients
@@ -100,7 +101,7 @@ public class ClientHandler implements Runnable, GroupChangeListener, GameUpdateO
 
     @Override
     public void onUpdate(Update update) {
-        System.out.print(">>> I'm "+controller.user.getUsername()+"'s clientHandler sending: ");
+        System.out.print(">>> I'm clientHandler sending: ");
         if(update.isPlayerChanges()){
             System.out.print("a MoveUpdateResponse modifying player "+update.getPlayer()+" username "+update.getPlayer().getName()+
                     " of user "+update.getPlayer().getUser()+" with phaseId "+ update.getPlayer().getPhase().getId()+"\n");

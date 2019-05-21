@@ -1,6 +1,7 @@
 package network.socket;
 
 
+import controller.ClientController;
 import exception.NotExistingFieldException;
 import model.field.Coordinate;
 import model.room.*;
@@ -27,11 +28,11 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         return "";
     }
 
-    void displayText(String text) {
+    public void displayText(String text) {
         System.out.println(">>> " + text);
     }
 
-    void setWait(boolean wait) {
+    public void setWait(boolean wait) {
         this.wait = wait;
     }
 
@@ -45,7 +46,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         }
     }
 
-    void chooseUsernamePhase() {
+    public void chooseUsernamePhase() {
         User user;
         do {
             displayText("Provide username:");
@@ -57,7 +58,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         user.listenToMessages(this);
     }
 
-    void chooseGroupPhase() {
+    public void chooseGroupPhase() {
         Group group;
         do {
             displayText("These are the groups at the moment:");
@@ -84,7 +85,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         displayText("Welcome to " + group.getName());
     }
 
-    void chooseCharacterPhase(){
+    public void chooseCharacterPhase(){
         displayText("Which character do you want to be?");
         displayText("Insert 1 for :D-STRUCT-OR");
         displayText("Insert 2 for BANSHEE");
@@ -114,7 +115,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         //blocked until the game can start
     }
 
-    Integer spawnPhase(){
+    public Integer spawnPhase(){
         Integer spawnNumber = null;
         while (spawnNumber == null){
             try{
@@ -126,7 +127,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         } return spawnNumber;
     }
 
-    String movePhase(){
+    public String movePhase(){
         String move = userInput();
         while(!(move.equals("run")||
                 move.equals("grab")||
@@ -137,12 +138,12 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         } return move;
     }
 
-    void waitingPhase(){
+    public void waitingPhase(){
         //noinspection StatementWithEmptyBody
         while(wait);
     }
 
-    Coordinate getCoordinate(){
+    public Coordinate getCoordinate(){
         displayText("Insert coordinates in format \'X 0\'");
         char letter;
         int number;

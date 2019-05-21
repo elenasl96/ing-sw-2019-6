@@ -1,4 +1,4 @@
-package network.socket;
+package controller;
 
 import controller.GameController;
 import controller.TimerController;
@@ -8,6 +8,8 @@ import model.decks.Weapon;
 import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
+import network.socket.ClientHandler;
+import network.socket.Manager;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
 import network.exceptions.InvalidUsernameException;
@@ -41,17 +43,20 @@ public class ServerController implements RequestHandler {
     /**
      * the user and group the ServerController is related to
      */
-    User user;
+    private User user;
     private Group currentGroup;
 
     //constructor for tests
-    ServerController(User user){
+    public ServerController(User user){
         this.clientHandler = null;
         this.user = user;
     }
 
+    public User getUser(){
+        return this.user;
+    }
 
-    ServerController(ClientHandler clientHandler) {
+    public ServerController(ClientHandler clientHandler) {
         this.clientHandler = clientHandler;
     }
 
@@ -59,7 +64,7 @@ public class ServerController implements RequestHandler {
      * in case of connectionLost, the ServerController notifies the leaving of the user
      * @see ClientHandler#run()  for usage
      */
-    void connectionLost(){
+    public void connectionLost(){
         currentGroup.leave(user);
     }
 

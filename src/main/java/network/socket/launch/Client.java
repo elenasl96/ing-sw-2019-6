@@ -1,6 +1,6 @@
 package network.socket.launch;
 import network.exceptions.WrongDeserializationException;
-import network.socket.ClientController;
+import controller.ClientController;
 import network.socket.commands.Request;
 import network.socket.commands.Response;
 
