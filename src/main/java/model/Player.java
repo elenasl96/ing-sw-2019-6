@@ -194,6 +194,10 @@ public class Player extends Target implements Serializable{
         this.possibleMoves = possibleMoves;
     }
 
+    public boolean isPhaseNotDone(){
+        return this.phaseNotDone;
+    }
+
     public void fillAmmoFromTile(AmmoTile ammotile) {
         List<Ammo> refill=ammotile.getAmmos();
         for(Ammo a: refill) {

@@ -148,8 +148,8 @@ public class ClientController implements ResponseHandler {
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case FIRST: case SECOND:
-                if(!ClientContext.get().getCurrentPlayer().getCurrentMoves().isEmpty()){
-                    System.out.println(ClientContext.get().getCurrentPlayer().getCurrentMoves().get(0));
+                if(ClientContext.get().getCurrentPlayer().isPhaseNotDone()){
+                    view.displayText("Phase not done yet");
                     client.request(new MoveRequest());
                 }
                 else {
@@ -212,7 +212,6 @@ public class ClientController implements ResponseHandler {
                 break;
             case "weapon choose":
                 client.request(new SendInput(view.askNumber(), "weapon chosen"));
-                //ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             default:
                 break;
