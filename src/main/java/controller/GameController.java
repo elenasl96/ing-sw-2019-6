@@ -181,7 +181,7 @@ public class GameController{
         //TODO
     }
 
-    public Update receiveInput(SendInput input, int groupID) {
+    public void receiveInput(SendInput input, int groupID) {
         Player p = GameContext.get().getGame(groupID).getCurrentPlayer();
         switch(input.getInputType()){
             case "player damaged":
@@ -191,11 +191,10 @@ public class GameController{
             case "weapon chosen":
                 p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, input.getInput());
                 updatePhase(groupID);
-                return new Update(p.getName()+ " picked up " + p.getWeapons().get(p.getWeapons().size()-1) );
+                break;
             default:
                 break;
         }
-        return null;
     }
 
 }

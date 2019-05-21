@@ -53,8 +53,10 @@ public class Weapon implements Serializable {
         );
         for(Effect e: effects){
             string.append("\nCost effect ").append(cost).append(": ");
-            for(Ammo a: e.getCost()){
-                string.append(a);
+            if(!e.getCost().isEmpty()){
+                for(Ammo a: e.getCost()){
+                    string.append(a);
+                }
             }
             cost ++;
         }

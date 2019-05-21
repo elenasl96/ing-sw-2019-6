@@ -180,8 +180,7 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SendInput sendInput) {
-        Update update = GameController.get().receiveInput(sendInput, currentGroup.getGroupID());
-        currentGroup.sendUpdate(update);
+        GameController.get().receiveInput(sendInput, currentGroup.getGroupID());
         return null;
     }
 
