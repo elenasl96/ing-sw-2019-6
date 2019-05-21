@@ -66,7 +66,7 @@ public class ChatServer {
         }
     }
 
-    public void close() throws IOException {
+    private void close() throws IOException {
         serverSocket.close();
         pool.shutdown();
     }
