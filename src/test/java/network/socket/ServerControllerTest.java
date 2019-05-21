@@ -1,7 +1,10 @@
 package network.socket;
 
 import model.Game;
+import model.GameContext;
 import model.Player;
+import model.field.Coordinate;
+import model.moves.Movement;
 import model.room.Group;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
@@ -32,6 +35,7 @@ class ServerControllerTest {
     void creating(){
         //Resetting the Manager
         Manager.get().reset();
+        GameContext.get().reset();
         //Creating users and server controllers
         user1 = new User("1");
         user2 = new User("2");
@@ -137,11 +141,16 @@ class ServerControllerTest {
 
     @Test
     void handleRequests(){
+        chooseGroupTest();
+        GameContext.get().createGame(0);
+
         SituationViewerRequest situationViewerRequest = new SituationViewerRequest();
         situationViewerRequest.handle(serverController1);
 
         CreateUserRequest createUserRequest = new CreateUserRequest("2");
         createUserRequest.handle(serverController1);
-    }
 
+        MovementRequest movementRequest = new MovementRequest(new Coordinate('A',0));
+        movementRequest.handle(serverController1);
+    }
 }
