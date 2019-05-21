@@ -5,6 +5,7 @@ import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Character;
 import model.enums.Phase;
+import model.enums.WeaponStatus;
 import model.field.Square;
 import model.moves.Move;
 import model.moves.Target;
@@ -149,10 +150,6 @@ public class Player extends Target implements Serializable{
                 ammos.add(a.cloneAmmo());
             }
         }
-    }
-
-    public void reloadWeapon(Weapon weapon){
-
     }
 
     //To string

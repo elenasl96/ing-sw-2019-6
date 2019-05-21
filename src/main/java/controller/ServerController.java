@@ -207,9 +207,12 @@ public class ServerController implements RequestHandler {
             GameController.get().updatePhase(currentGroup.getGroupID());
         }
         else{
-            GameController.get().reloadWeapon(reloadRequest.getNumber(), currentGroup.getGroupID());
+            try {
+                GameController.get().reloadWeapon(reloadRequest.getNumber(), currentGroup.getGroupID());
+            }catch (NullPointerException e){
+                user.receiveUpdate(new Update("Invalid Weapon"));
+            }
         }
-        //TODO
         return null;
     }
 
