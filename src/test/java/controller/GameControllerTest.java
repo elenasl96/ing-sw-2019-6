@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest {
     private ArrayList<User> users;
-    private Group group0 =  Manager.get().getGroup(0);;
+    private Group group0 =  Manager.get().getGroup(0);
 
     @BeforeEach
     void start(){
