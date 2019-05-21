@@ -192,9 +192,6 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
         }
     }
 
-    void reloadPhase() {
-        //TODO Reload
-    }
 
     // ----- The view observes the state and reacts (the observable pushes the pieces of interesting state)
 
@@ -217,5 +214,15 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
+    }
+
+    public boolean reloadPhase() {
+        String input;
+        do {
+            displayText("Do you want to reload any weapons?");
+            input = userInput();
+        }while(!input.equals("yes") && !input.equals("no"));
+        if(input.equals("no")) return false;
+        else return true;
     }
 }

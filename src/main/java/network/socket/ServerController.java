@@ -4,6 +4,7 @@ import controller.GameController;
 import controller.TimerController;
 import exception.InvalidMoveException;
 import model.GameContext;
+import model.decks.Weapon;
 import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
@@ -14,6 +15,9 @@ import network.socket.commands.RequestHandler;
 import network.socket.commands.Response;
 import network.exceptions.FullGroupException;
 import network.exceptions.InvalidGroupNumberException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles the Requests coming from the ClientHandler via Socket
@@ -171,6 +175,17 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(CardRequest cardRequest){
+        if(cardRequest.cardType.equals("weaponToReload")){
+            List<Weapon> weaponsToReload = GameController.get().getWeaponToReload(user.getPlayer());
+            if(weaponsToReload.isEmpty()) {
+                user.receiveUpdate(new Update("You haven't weapons to reload"));
+                GameController.get().updatePhase(currentGroup.getGroupID());
+            } else
+                user.receiveUpdate(new Update("You can reload these weapons: " +
+                        weaponsToReload.toString() +
+                        "\n You have these ammos: " +
+                        user.getPlayer().getAmmos().toString()));
+        }
         if(cardRequest.cardType.equals("weapon"))
             GameController.get().playWeapon(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getWeapons().get(cardRequest.number-3));
         if(cardRequest.cardType.equals("powerup"))
@@ -181,6 +196,18 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(SendInput sendInput) {
         GameController.get().receiveInput(sendInput, currentGroup.getGroupID());
+        return null;
+    }
+
+    @Override
+    public Response handle(ReloadRequest reloadRequest) {
+        if(reloadRequest.getNumber()==-1){
+            GameController.get().updatePhase(currentGroup.getGroupID());
+        }
+        else{
+            GameController.get().reloadWeapon(reloadRequest.getNumber(), currentGroup.getGroupID());
+        }
+        //TODO
         return null;
     }
 
@@ -210,4 +237,6 @@ public class ServerController implements RequestHandler {
         }
         return null;
     }
+
+
 }

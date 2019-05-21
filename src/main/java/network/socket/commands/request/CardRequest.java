@@ -10,6 +10,10 @@ public class CardRequest implements Request {
     public String cardType;
     public int number;
 
+    public CardRequest(String cardType){
+        this.cardType = cardType;
+    }
+
     public CardRequest(String cardType, String numberString) {
         this.number = parseInt(numberString);
         this.cardType = cardType;

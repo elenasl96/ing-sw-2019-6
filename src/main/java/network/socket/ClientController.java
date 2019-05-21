@@ -159,7 +159,15 @@ public class ClientController implements ResponseHandler {
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case RELOAD:
-                view.reloadPhase();
+                int reload;
+                chooseReload();
+                if(view.reloadPhase()){
+                    reload = view.askNumber();
+                }else{
+                    reload = -1;
+                }
+                client.request(new ReloadRequest(reload));
+
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             default:
@@ -215,5 +223,9 @@ public class ClientController implements ResponseHandler {
             default:
                 break;
         }
+    }
+
+    public void chooseReload() {
+        client.request(new CardRequest("weaponToReload"));
     }
 }

@@ -5,6 +5,7 @@ import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.Phase;
+import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
 import model.room.Update;
 import network.socket.commands.request.SendInput;
@@ -201,4 +202,22 @@ public class GameController{
         }
     }
 
+    public List<Weapon> getWeaponToReload(Player player) {
+        return player.getWeapons()
+                .stream().filter(w -> w.getStatus().equals(WeaponStatus.UNLOADED))
+                .collect(Collectors.toList());
+      /*  } else {
+            player.getUser().receiveUpdate(
+                    new Update("You can reload these weapons: " + weaponsToReload.toString()));
+            return true;
+        }*/
+    }
+
+    public void reloadWeapon(int number, int groupID) {
+        //Check if the player has the necessary ammos
+        Weapon weapon = GameContext.get().getGame(groupID).getCurrentPlayer().getWeapons().get(number);
+        //the 0 effect is the basic effect when a card is created
+      // if(weapon.getEffects().get(0).getCost().conta);
+
+    }
 }
