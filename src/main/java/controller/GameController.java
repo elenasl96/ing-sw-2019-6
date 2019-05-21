@@ -189,7 +189,11 @@ public class GameController{
             case "number damages":
                 break; //roba così
             case "weapon chosen":
-                p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, input.getInput());
+                try {
+                    p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, input.getInput());
+                }catch (IndexOutOfBoundsException e){
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }
                 updatePhase(groupID);
                 break;
             default:

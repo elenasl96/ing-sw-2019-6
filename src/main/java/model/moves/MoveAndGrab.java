@@ -26,13 +26,12 @@ public class MoveAndGrab implements Move {
             movement.setMaxSteps(maxSteps);
             p.getCurrentMoves().add(movement);
             p.getCurrentMoves().add(grab);
-        };
-        //while(!p.getCurrentMoves().isEmpty()){
-            p.getCurrentMoves().get(0).execute(p, groupID);
-            Response response = p.getCurrentMoves().get(1).execute(p, groupID);
-           // p.getCurrentMoves().remove(i);
+        }
+        while(!p.getCurrentMoves().isEmpty()){
+            Response response = p.getCurrentMoves().get(0).execute(p, groupID);
+            p.getCurrentMoves().remove(0);
             if(response != null) return response;
-        //}
+        }
         return null;
     }
 }
