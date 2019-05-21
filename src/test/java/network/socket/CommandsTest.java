@@ -2,7 +2,6 @@ package network.socket;
 
 import model.moves.Move;
 import model.room.Command;
-import model.room.Message;
 import network.socket.commands.request.MoveRequest;
 import network.socket.commands.request.SpawnRequest;
 import org.junit.jupiter.api.Test;
@@ -13,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CommandsTest {
 
-    @Mock
-    private Message message;
     @Mock
     private Command command;
     @Mock

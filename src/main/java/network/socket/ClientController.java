@@ -11,7 +11,6 @@ import network.socket.commands.response.*;
 import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 import model.room.Group;
-import model.room.Message;
 import model.room.User;
 import network.socket.launch.Client;
 

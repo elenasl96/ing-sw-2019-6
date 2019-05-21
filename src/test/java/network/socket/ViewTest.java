@@ -1,7 +1,5 @@
 package network.socket;
 
-import model.room.Group;
-import model.room.Message;
 import model.room.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
