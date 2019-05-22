@@ -18,6 +18,14 @@ public class Pay implements Move {
      */
     private List<Ammo> ammos = new ArrayList<>();
 
+    public Pay(){
+
+    }
+
+    public Pay(List<Ammo> ammos){
+        this.ammos = ammos;
+    }
+
     /**
      * The method, with a nested forEachRemaining() iteration, confronts the player's ammos
      *  with the Pay object's ammos and then removes them from the player's ammos pile.

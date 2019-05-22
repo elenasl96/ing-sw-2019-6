@@ -1,6 +1,7 @@
 package controller;
 
 import exception.NotEnoughAmmoException;
+import model.Ammo;
 import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
@@ -9,6 +10,7 @@ import model.enums.Color;
 import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
+import model.moves.Pay;
 import model.room.Update;
 import network.socket.commands.request.SendInput;
 
@@ -206,7 +208,7 @@ public class GameController{
 
     public List<Weapon> getWeaponToReload(Player player) {
         return player.getWeapons()
-                .stream().filter(w -> w.getStatus().equals(WeaponStatus.UNLOADED))
+                .stream().filter(w -> !w.getStatus().equals(WeaponStatus.LOADED))
                 .collect(Collectors.toList());
       /*  } else {
             player.getUser().receiveUpdate(
@@ -219,22 +221,23 @@ public class GameController{
         //Check if the player has the necessary ammos
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         Weapon weapon = player.getWeapons().get(number);
+        List<Ammo> ammosToPay = new ArrayList<>();
+        int i=0;
+        if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED)) {
+            i++;
+        }
+            for( ; i<weapon.getEffects().get(0).getCost().size(); i++){
+                ammosToPay.add(weapon.getEffects().get(0).getCost().get(i));
+            }
 
         //check if the player has enough ammos to reload the weapon
-        for(Color c: EnumSet.allOf(Color.class)
-                .stream()
-                .filter(c -> c.equals(Color.RED) ||
-                        c.equals(Color.YELLOW) ||
-                        c.equals(Color.BLUE)).collect(Collectors.toList())){
-
-            if(weapon.getEffects().get(0).getCost()
-                    .stream()
-                    .filter(a -> a.getColor().equals(c)).count()
-                    > player.getAmmos().stream().filter(a -> a.getColor().equals(c)).count()){
-                throw new NotEnoughAmmoException();
-            }
+        Pay pay = new Pay(ammosToPay);
+        try{
+            pay.execute(player, groupID);
+        }catch (NotEnoughAmmoException e){
+            e.getMessage();
+            player.getUser().receiveUpdate(new Update(e.getMessage()));
         }
-        player.reloadWeapon(weapon);
-
+        weapon.setStatus(WeaponStatus.LOADED);
     }
 }

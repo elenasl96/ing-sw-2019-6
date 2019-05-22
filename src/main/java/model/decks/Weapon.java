@@ -45,6 +45,10 @@ public class Weapon implements Serializable {
         return status;
     }
 
+    public void setStatus(WeaponStatus status){
+        this.status = status;
+    }
+
     @Override
     public String toString(){
         int cost = 0;

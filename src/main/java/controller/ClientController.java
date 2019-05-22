@@ -162,8 +162,8 @@ public class ClientController implements ResponseHandler {
                 break;
             case RELOAD:
                 int reload;
-                chooseReload();
                 if(view.reloadPhase()){
+                    chooseReload();
                     reload = view.askNumber();
                 }else{
                     reload = -1;
