@@ -12,4 +12,8 @@ public enum WeaponStatus {
         this.abbr = abbr;
         this.status = status;
     }
+
+    public String toString() {
+        return status;
+    }
 }
