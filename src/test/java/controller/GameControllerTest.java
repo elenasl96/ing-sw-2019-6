@@ -24,13 +24,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest {
     private ArrayList<User> users;
-    private Group group0 =  Manager.get().getGroup(0);
+    private Group group0;
 
     @BeforeEach
     void start(){
         Manager.get().reset();
         GameContext.get().reset();
         GameContext.get().createGame(0);
+        group0 = Manager.get().getGroup(0);
         users = new ArrayList<>();
         users.add(new User("user1"));
         users.add(new User("user2"));
