@@ -22,15 +22,21 @@ public class WeaponTile implements Grabbable, Serializable {
         weapons.add(weapon);
     }
 
+    public void setWeapons(List<Weapon> weapons) { this.weapons = weapons; }
+
+    public List<Weapon> getWeapons() { return weapons; }
+
     @Override
     public void pickGrabbable(int groupID, int toPick) {
         System.out.println(toPick);
         GameContext.get().getGame(groupID).getCurrentPlayer()
                 .getWeapons().add(this.weapons.get(toPick)); //Throws IndexOutOfBoundsException if toPick inserted by the user was >2
-        //Refills the weapon
+        //Removes the weapon picked up
         GameContext.get().getGame(groupID).sendUpdate(new Update(
                 GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                         " picked "+this.weapons.get(toPick).toString()));
+        this.weapons.remove(toPick);
+        //Refills the weapon
         Weapon newWeapon = GameContext.get().getGame(groupID).getBoard().getWeaponsLeft().pickCard();
         GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().addGrabbable(newWeapon, groupID);
         GameContext.get().getGame(groupID).sendUpdate(new Update(
