@@ -125,7 +125,7 @@ public class ClientController implements ResponseHandler {
                 client.request(moveRequest);
                 break;
             default:
-
+                view.displayText("Insert a valid move");
                 break;
         }
     }

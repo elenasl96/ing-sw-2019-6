@@ -128,14 +128,7 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
     }
 
     public String movePhase(){
-        String move = userInput();
-        while(!(move.equals("run")||
-                move.equals("grab")||
-                move.equals("shoot")||
-                move.equals("powerup"))){
-            displayText("Insert a valid move");
-            move = userInput();
-        } return move;
+        return userInput();
     }
 
     public void waitingPhase(){
