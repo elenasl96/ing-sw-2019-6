@@ -3,6 +3,7 @@ package controller;
 import exception.InvalidMoveException;
 import model.GameContext;
 import model.decks.Weapon;
+import model.decks.WeaponTile;
 import model.enums.Phase;
 import model.moves.Move;
 import model.room.*;
@@ -179,15 +180,17 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(CardRequest cardRequest){
         if(cardRequest.getCardType().equals("weaponToReload")){
-            List<Weapon> weaponsToReload = GameController.get().getWeaponToReload(user.getPlayer());
-            if(weaponsToReload.isEmpty()) {
+            WeaponTile weaponsToReload = new WeaponTile();
+            weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
+            if(weaponsToReload.getWeapons().isEmpty()) {
                 user.receiveUpdate(new Update("You haven't weapons to reload"));
                 GameController.get().updatePhase(currentGroup.getGroupID());
-            } else
+            } else {
                 user.receiveUpdate(new Update("You can reload these weapons: " +
                         weaponsToReload.toString() +
                         "\n You have these ammos: " +
                         user.getPlayer().getAmmos().toString()));
+            }
         }
         if(cardRequest.getCardType().equals("weapon"))
             GameController.get().playWeapon(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getWeapons().get(cardRequest.getNumber()-3));
@@ -210,7 +213,7 @@ public class ServerController implements RequestHandler {
         else{
             try {
                 GameController.get().reloadWeapon(reloadRequest.getNumber(), currentGroup.getGroupID());
-            }catch (NullPointerException e){
+            }catch (IndexOutOfBoundsException e){
                 user.receiveUpdate(new Update("Invalid Weapon"));
             }
             currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
