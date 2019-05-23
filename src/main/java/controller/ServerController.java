@@ -98,7 +98,7 @@ public class ServerController implements RequestHandler {
      * @return  new JoinGroupResponse if the join is successful
      *          new TextResponse
      * @see Group#join(User)
-     * @see Group#observe(GroupChangeListener)
+     * @see Group#observe(ModelObserver)
      * @see JoinGroupResponse
      * @see TextResponse
      * @see ChooseGroupRequest

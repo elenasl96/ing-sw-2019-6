@@ -10,7 +10,7 @@ import network.exceptions.InvalidGroupNumberException;
 
 import java.util.Scanner;
 
-public class ViewClient implements GroupChangeListener, GameUpdateObserver {
+public class ViewClient implements ModelObserver{
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
     private final ClientController controller;

@@ -18,7 +18,7 @@ public class Group implements Serializable {
     private String groupName;
 
     private List<User> users = new ArrayList<>();
-    private transient List<GroupChangeListener> listeners = new LinkedList<>();
+    private transient List<ModelObserver> listeners = new LinkedList<>();
     private boolean full = false;
     private int fieldNumber;
     private int skullNumber;
@@ -50,7 +50,7 @@ public class Group implements Serializable {
             throw new FullGroupException();
         }
         users.add(user);
-        for(GroupChangeListener listener : listeners)
+        for(ModelObserver listener : listeners)
             listener.onJoin(user);
     }
 
@@ -58,12 +58,12 @@ public class Group implements Serializable {
         checkUserInGroup(user);
         users.remove(user);
 
-        for(GroupChangeListener listener : listeners)
+        for(ModelObserver listener : listeners)
             listener.onLeave(user);
 
     }
 
-    public void observe(GroupChangeListener listener) {
+    public void observe(ModelObserver listener) {
         listeners.add(listener);
     }
 
@@ -135,8 +135,8 @@ public class Group implements Serializable {
         this.setFull();
         //Makes every listener of this group an Observer of the game
         GameContext.get().createGame(this.groupID);
-        for(GroupChangeListener listener : listeners){
-            GameContext.get().getGame(this.getGroupID()).addObserverGame((GameUpdateObserver) listener);
+        for(ModelObserver listener : listeners){
+            GameContext.get().getGame(this.getGroupID()).addObserverGame(listener);
         }
         GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, users);
         //Fill the squares
@@ -158,7 +158,7 @@ public class Group implements Serializable {
     }
 
     public void sendStartNotification() {
-        for (GroupChangeListener listener : listeners) {
+        for (ModelObserver listener : listeners) {
             listener.onStart();
         }
     }

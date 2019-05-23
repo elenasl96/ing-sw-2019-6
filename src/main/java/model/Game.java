@@ -1,7 +1,7 @@
 package model;
 
 import model.enums.Phase;
-import model.room.GameUpdateObserver;
+import model.room.ModelObserver;
 import model.room.Update;
 import model.room.User;
 
@@ -15,7 +15,7 @@ public class Game implements Serializable {
     private Board board;
     private PlayerList players = new PlayerList();
     private Player currentPlayer;
-    private transient List<GameUpdateObserver> observers = new LinkedList<>();
+    private transient List<ModelObserver> observers = new LinkedList<>();
     private transient int turn;
     private int skullsNumber;
     private transient boolean done;
@@ -78,7 +78,7 @@ public class Game implements Serializable {
         return this.finalFrenzy;
     }
 
-    public void addObserverGame(GameUpdateObserver observer) {
+    public void addObserverGame(ModelObserver observer) {
         this.observers.add(observer);
     }
 
@@ -87,7 +87,7 @@ public class Game implements Serializable {
      * @param update  assigned by the GameController for each and every move
      */
     public void sendUpdate(Update update) {
-        for(GameUpdateObserver o: observers ){
+        for(ModelObserver o: observers ){
             System.out.println(">>> It's Game here sending an update to "+o);
             o.onUpdate(update);
         }

@@ -11,7 +11,7 @@ import java.util.*;
  * Handles the timers of all the games
  */
 
-public class TimerController implements GroupChangeListener, GameUpdateObserver {
+public class TimerController implements ModelObserver {
     private List<Timer> timers;
 
     private static TimerController instance;

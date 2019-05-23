@@ -11,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable, GroupChangeListener, GameUpdateObserver {
+public class ClientHandler implements Runnable, ModelObserver {
     private static final String ERROR = "Errors in closing - ";
 
     private Socket socket;

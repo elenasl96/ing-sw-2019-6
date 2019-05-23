@@ -13,7 +13,7 @@ import java.util.List;
 public class User implements Serializable, Comparable<User> {
 
     private String username;
-    private transient List<GameUpdateObserver> updateObservers;
+    private transient List<ModelObserver> updateObservers;
     private static int uniqueUserID = 0;
     private int userID;
     private Player player = null;
@@ -43,13 +43,13 @@ public class User implements Serializable, Comparable<User> {
         return this.userID;
     }
 
-    public void listenToMessages(GameUpdateObserver observer) {
+    public void listenToMessages(ModelObserver observer) {
         updateObservers.add(observer);
     }
 
     public void receiveUpdate(Update update){
         //The user's observers are only his specific ClientHandler and ViewClient
-        for (GameUpdateObserver observer : updateObservers) {
+        for (ModelObserver observer : updateObservers) {
             observer.onUpdate(update);
         }
     }
