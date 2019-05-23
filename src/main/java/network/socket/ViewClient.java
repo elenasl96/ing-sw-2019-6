@@ -213,7 +213,6 @@ public class ViewClient implements GroupChangeListener, GameUpdateObserver {
             displayText("Do you want to reload any weapons?");
             input = userInput();
         }while(!input.equals("yes") && !input.equals("no"));
-        if(input.equals("no")) return false;
-        else return true;
+        return (input.equals("no"));
     }
 }
