@@ -213,6 +213,6 @@ public class ViewClient implements ModelObserver{
             displayText("Do you want to reload any weapons?");
             input = userInput();
         }while(!input.equals("yes") && !input.equals("no"));
-        return (input.equals("no"));
+        return (input.equals("yes"));
     }
 }

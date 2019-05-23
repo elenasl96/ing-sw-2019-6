@@ -210,12 +210,11 @@ public class ServerController implements RequestHandler {
         else{
             try {
                 GameController.get().reloadWeapon(reloadRequest.getNumber(), currentGroup.getGroupID());
-                currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
-                currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
-
             }catch (NullPointerException e){
                 user.receiveUpdate(new Update("Invalid Weapon"));
             }
+            currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
+            currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
         }
         return null;
     }
