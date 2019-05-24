@@ -1,6 +1,6 @@
 package network.socket.launch;
 
-import network.socket.ClientHandler;
+import network.socket.SocketClientHandler;
 
 import java.io.IOException;
 import java.net.*;
@@ -15,7 +15,7 @@ public class ChatServer {
     private final AtomicBoolean forcedClose;
     private InetAddress localPoisonAddress;
     /**
-     * if true, local indicates that local Client (running on localhost) are allowed
+     * if true, local indicates that local SocketClient (running on localhost) are allowed
      * else the server would recognize any localhost as a poison pill
      */
     private final boolean local;
@@ -53,7 +53,7 @@ public class ChatServer {
                     break;
                 } else {
                     System.out.println(">>> New connection " + clientSocket.getRemoteSocketAddress());
-                    pool.submit(new ClientHandler(clientSocket));
+                    pool.submit(new SocketClientHandler(clientSocket));
                 }
             } catch (IOException ex) {
                 pool.shutdown();

@@ -2,13 +2,13 @@ package controller;
 
 import exception.InvalidMoveException;
 import model.GameContext;
-import model.decks.Weapon;
 import model.decks.WeaponTile;
 import model.enums.Phase;
 import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
-import network.socket.ClientHandler;
+import network.ClientHandler;
+import network.socket.SocketClientHandler;
 import network.socket.Manager;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
@@ -18,13 +18,11 @@ import network.socket.commands.Response;
 import network.exceptions.FullGroupException;
 import network.exceptions.InvalidGroupNumberException;
 
-import java.util.List;
-
 /**
- * Handles the Requests coming from the ClientHandler via Socket
- * chain ViewClient -> ClientController -> Client --network.socket--> ClientHandler -> ServerController
- * and sends the Response back to the ClientHandler
- * @see ClientHandler
+ * Handles the Requests coming from the SocketClientHandler via Socket
+ * chain ViewClient -> ClientController -> SocketClient --network.socket--> SocketClientHandler -> ServerController
+ * and sends the Response back to the SocketClientHandler
+ * @see SocketClientHandler
  * @see RequestHandler
  * @see Group
  * @see User
@@ -55,13 +53,13 @@ public class ServerController implements RequestHandler {
         return this.user;
     }
 
-    public ServerController(ClientHandler clientHandler) {
-        this.clientHandler = clientHandler;
+    public ServerController(ClientHandler socketClientHandler) {
+        this.clientHandler = socketClientHandler;
     }
 
     /**
      * in case of connectionLost, the ServerController notifies the leaving of the user
-     * @see ClientHandler#run()  for usage
+     * @see SocketClientHandler#run()  for usage
      */
     public void connectionLost(){
         currentGroup.leave(user);
@@ -88,7 +86,7 @@ public class ServerController implements RequestHandler {
             return new TextResponse("ERROR: " + e.getMessage());
         }
         // Listening to messages and sending them
-        user.listenToMessages(clientHandler);
+        user.listenToMessages((ModelObserver) clientHandler);
         System.out.println(">>> Returning new UserCreatedResponse");
         return new UserCreatedResponse(user);
     }
@@ -118,9 +116,9 @@ public class ServerController implements RequestHandler {
     }
 
     /**
-     * Is the first action performed by the ServerController when a Client connects
-     * Sends the situation via Response, since it is inaccessible to the Client
-     * @param situationViewerRequest    sent by the clientHandler
+     * Is the first action performed by the ServerController when a SocketClient connects
+     * Sends the situation via Response, since it is inaccessible to the SocketClient
+     * @param situationViewerRequest    sent by the socketClientHandler
      * @return  new SituationViewerRequest with the updated situation to be displayed
      * @see SituationViewerRequest
      * @see Manager#updateGroupSituation()  called to get the current groups situation
@@ -146,7 +144,7 @@ public class ServerController implements RequestHandler {
         if (taken){
             return new SetCharacterResponse(Character.NOT_ASSIGNED);
         } else {
-            currentGroup.observe(clientHandler);
+            currentGroup.observe((ModelObserver) clientHandler);
             user.setCharacter(character);
             int count = 0;
             for(User u: currentGroup.users()){

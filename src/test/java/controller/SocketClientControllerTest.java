@@ -1,6 +1,5 @@
 package controller;
 
-import controller.ClientController;
 import model.Player;
 import model.enums.Character;
 import model.enums.Phase;
@@ -8,7 +7,7 @@ import model.room.Group;
 import model.room.User;
 import network.socket.ClientContext;
 import network.socket.commands.response.*;
-import network.socket.launch.Client;
+import network.socket.launch.SocketClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,18 +15,18 @@ import org.mockito.Mock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ClientControllerTest {
+class SocketClientControllerTest {
 
     private ClientController clientController;
     private MoveUpdateResponse moveUpdateResponse1;
 
     @Mock
-    Client client;
+    SocketClient socketClient;
 
     @BeforeEach
     void start(){
         ClientContext.get().reset();
-        clientController = new ClientController(client);
+        clientController = new ClientController(socketClient);
         ClientContext.get().createPlayer();
 
         Player player = new Player();

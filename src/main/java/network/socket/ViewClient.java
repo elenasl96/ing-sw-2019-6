@@ -22,6 +22,10 @@ public class ViewClient implements ModelObserver{
         this.fromKeyBoard = new Scanner(System.in);
     }
 
+    public void run() {
+        controller.run();
+    }
+
     private String userInput() {
         if(fromKeyBoard.hasNextLine())
             return fromKeyBoard.nextLine();

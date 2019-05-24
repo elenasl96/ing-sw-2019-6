@@ -5,6 +5,7 @@ import model.enums.Phase;
 import model.field.Coordinate;
 import model.moves.MoveAndGrab;
 import model.moves.Run;
+import network.Client;
 import network.socket.ClientContext;
 import network.socket.ViewClient;
 import network.socket.commands.Request;
@@ -14,7 +15,10 @@ import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 import model.room.Group;
 import model.room.User;
-import network.socket.launch.Client;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import static model.enums.Phase.*;
 
@@ -25,7 +29,7 @@ import static model.enums.Phase.*;
  * It holds a reference to the networking layer.
  */
 
-public class ClientController implements ResponseHandler {
+public class ClientController extends UnicastRemoteObject implements ResponseHandler, Remote {
     /**
      * reference to networking layer
      */
@@ -39,8 +43,8 @@ public class ClientController implements ResponseHandler {
 
     private boolean gameNotDone;
 
-    public ClientController(Client client) {
-        this.client = client;
+    public ClientController(Client socketClient) throws RemoteException{
+        this.client = socketClient;
         this.view = new ViewClient(this);
         this.gameNotDone = true;
     }

@@ -12,7 +12,7 @@ package server{
     ServerController --> Manager : get()
     ChatServer --> ClientHandler : start socket
 }
-package client{
+package socketClient{
     class Client
     class ClientController implements ResponseHandler
     class ViewClient

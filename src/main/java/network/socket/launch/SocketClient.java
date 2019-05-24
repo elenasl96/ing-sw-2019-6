@@ -1,6 +1,8 @@
 package network.socket.launch;
+import network.Client;
 import network.exceptions.WrongDeserializationException;
 import controller.ClientController;
+import network.rmi.RMIClient;
 import network.socket.commands.Request;
 import network.socket.commands.Response;
 
@@ -8,20 +10,36 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.NotBoundException;
+import java.util.Scanner;
 
-public class Client {
+public class SocketClient implements Client {
     private final String host;
     private final int port;
     private Socket connection;
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
-    public Client(String host, int port) {
+    public SocketClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
 
     public static void main(String[] args) throws IOException{
+        System.out.println(">>> Do you want to use RMI connection? [yes]\n>>> Socket by default");
+        Scanner input = new Scanner(System.in);
+        String fromKeyboard = input.nextLine();
+        input.close();
+        if(fromKeyboard.equals("yes")){
+            try {
+                RMIClient.run(args);
+            } catch (NotBoundException e) {
+                System.out.println(">>> a NotBoundException occurred");
+            }
+            return;
+        }
+
+        //else -> Socket
         if (args.length == 0) {
             System.err.println("Provide host:port please");
             return;
@@ -37,12 +55,12 @@ public class Client {
         System.out.println(host);
         int port = Integer.parseInt(tokens[1]);
 
-        Client client = new Client(host, port);
-        client.init();
-        ClientController controller = new ClientController(client);
+        SocketClient socketClient = new SocketClient(host, port);
+        socketClient.init();
+        ClientController controller = new ClientController(socketClient);
         controller.run();
 
-        client.close();
+        socketClient.close();
     }
 
     public void init() throws IOException {
@@ -68,6 +86,7 @@ public class Client {
      *
      * @return the next Response or null if some IOException happens
      */
+    @Override
     public Response nextResponse() {
         try {
             return ((Response) in.readObject());
@@ -79,6 +98,7 @@ public class Client {
         return null;
     }
 
+    @Override
     public void request(Request request) {
         try {
             out.writeObject(request);

@@ -2,6 +2,7 @@ package network.socket;
 
 import controller.ServerController;
 import model.room.*;
+import network.ClientHandler;
 import network.socket.commands.Request;
 import network.socket.commands.response.*;
 import network.socket.commands.Response;
@@ -11,7 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable, ModelObserver {
+public class SocketClientHandler implements ClientHandler, Runnable, ModelObserver {
     private static final String ERROR = "Errors in closing - ";
 
     private Socket socket;
@@ -21,7 +22,7 @@ public class ClientHandler implements Runnable, ModelObserver {
 
     private final ServerController controller;
 
-    public ClientHandler(Socket s) throws IOException {
+    public SocketClientHandler(Socket s) throws IOException {
         this.socket = s;
         this.out = new ObjectOutputStream(s.getOutputStream());
         this.in = new ObjectInputStream(s.getInputStream());
@@ -84,7 +85,7 @@ public class ClientHandler implements Runnable, ModelObserver {
 
     @Override
     public String toString(){
-        return this.controller.getUser().getUsername()+"Client Handler";
+        return this.controller.getUser().getUsername()+"SocketClient Handler";
     }
 
     // --- Directly forward notifications to clients
