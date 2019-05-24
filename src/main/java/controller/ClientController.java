@@ -169,6 +169,8 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 int reload;
                 if(view.reloadPhase()){
                     chooseReload();
+                    //Bisogna trovare un modo per non eseguire reload = view.askNumber() quando il giocatore
+                    // ha la lista armi vuota
                     reload = view.askNumber();
                 }else{
                     reload = -1;
