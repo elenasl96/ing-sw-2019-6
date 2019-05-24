@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.rmi.RemoteException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -26,7 +28,11 @@ class SocketClientControllerTest {
     @BeforeEach
     void start(){
         ClientContext.get().reset();
-        clientController = new ClientController(socketClient);
+        try {
+            clientController = new ClientController(socketClient);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         ClientContext.get().createPlayer();
 
         Player player = new Player();

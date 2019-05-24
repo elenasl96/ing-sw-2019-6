@@ -1,6 +1,7 @@
 package network.rmi;
 
 import controller.ServerController;
+import model.room.ModelObserver;
 import model.room.Update;
 import model.room.User;
 import network.Client;
@@ -16,7 +17,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RMIClientHandler extends UnicastRemoteObject implements Client, ClientHandler, Remote {
+public class RMIClientHandler extends UnicastRemoteObject implements Client, ClientHandler, Remote, ModelObserver {
 
     private ServerController controller;
     private Response response;

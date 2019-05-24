@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.util.Scanner;
 
-public class SocketClient implements Client {
+public class SocketClient implements Client{
     private final String host;
     private final int port;
     private Socket connection;

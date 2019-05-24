@@ -15,6 +15,7 @@ import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 import model.room.Group;
 import model.room.User;
+import network.socket.launch.SocketClient;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
