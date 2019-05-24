@@ -214,7 +214,7 @@ public class ViewClient implements ModelObserver{
     public boolean reloadPhase() {
         String input;
         do {
-            displayText("Do you want to reload any weapons?");
+            displayText("Do you want to reload any weapon?");
             input = userInput();
         }while(!input.equals("yes") && !input.equals("no"));
         return (input.equals("yes"));
