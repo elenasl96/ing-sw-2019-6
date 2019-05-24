@@ -28,6 +28,14 @@ public class AmmoSquare extends Square{
     }
 
     @Override
+    public void setGrabbable(Board board) {
+        ammo = board.getAmmosLeft().pickCard();
+    }
+
+
+    //questo non è utilizzabile nell'ammo square,
+    //poichè solo lo spawn square può contenere armi
+    @Override
     public void addGrabbable(Weapon weapon, int groupID) {
         this.ammo = GameContext.get().getGame(groupID).getBoard().getAmmosLeft().pickCard();
     }

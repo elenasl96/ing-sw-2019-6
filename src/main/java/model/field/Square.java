@@ -38,7 +38,7 @@ public abstract class Square extends Target implements Serializable {
 
     public abstract Grabbable getGrabbable();
 
-    public void setGrabbable(Board board){ }
+    public abstract void setGrabbable(Board board);
 
     public Coordinate getCoord() {
         return coord;
