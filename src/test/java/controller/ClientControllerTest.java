@@ -17,7 +17,7 @@ import java.rmi.RemoteException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SocketClientControllerTest {
+class ClientControllerTest {
 
     private ClientController clientController;
     private MoveUpdateResponse moveUpdateResponse1;

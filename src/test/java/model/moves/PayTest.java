@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 
-class MovePayTest {
+class PayTest {
     private Pay payment;
     private Player player;
     int groupId = 0;

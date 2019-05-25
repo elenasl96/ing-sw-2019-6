@@ -22,7 +22,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MoveMovementTest {
+class MovementTest {
     private Field field;
     private Board board = new Board(2);
 

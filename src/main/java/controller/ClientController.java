@@ -34,17 +34,21 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     /**
      * reference to networking layer
      */
-    final Client client; //made protected to extend class in tests
+    final transient Client client; //made protected to extend class in tests
     //Removed the Thread since it can be local
 
     /**
-     * the view
+     * The view
      */
-    final ViewClient view;
+    final transient ViewClient view;
 
+    /**
+     * A local variable keeping track if the game's over
+     */
     private boolean gameNotDone;
 
-    public ClientController(Client socketClient) throws RemoteException{
+    public ClientController(Client socketClient) throws RemoteException {
+        super();
         this.client = socketClient;
         this.view = new ViewClient(this);
         this.gameNotDone = true;
@@ -234,5 +238,15 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     public void chooseReload() {
         client.request(new CardRequest("weaponToReload"));
+    }
+
+    @Override
+    public boolean equals(Object o){
+        return true;
+    }
+
+    @Override
+    public int hashCode(){
+        return 0;
     }
 }
