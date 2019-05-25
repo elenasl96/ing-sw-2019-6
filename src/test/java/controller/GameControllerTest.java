@@ -3,7 +3,6 @@ package controller;
 import exception.InvalidMoveException;
 import model.Ammo;
 import model.GameContext;
-import model.Player;
 import model.decks.Powerup;
 import model.enums.Color;
 import model.enums.Phase;
@@ -24,14 +23,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest {
     private ArrayList<User> users;
-    private Group group0;
 
     @BeforeEach
     void start(){
         Manager.get().reset();
         GameContext.get().reset();
         GameContext.get().createGame(0);
-        group0 = Manager.get().getGroup(0);
+        Group group0 = Manager.get().getGroup(0);
         users = new ArrayList<>();
         users.add(new User("user1"));
         users.add(new User("user2"));
@@ -78,15 +76,15 @@ class GameControllerTest {
     @Test
     void possibleMovesTest(){
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
-        Update possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
+        GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
         GameContext.get().getGame(0).getCurrentPlayer().getPowerups().add(new Powerup("dummy", new Ammo(Color.BLUE)));
-        possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
+        GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
         GameContext.get().getGame(0).setFinalFrenzy(true);
-        possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
+        GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
         GameContext.get().getGame(0).setCurrentPlayer(GameContext.get().getGame(0).getPlayers().next());
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
-        possibleMovesUpdate = GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
+        GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
 
     }
 
