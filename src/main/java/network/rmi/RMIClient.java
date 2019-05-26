@@ -2,19 +2,12 @@ package network.rmi;
 
 import controller.ClientController;
 import network.Client;
-import network.ClientHandler;
-import network.exceptions.WrongDeserializationException;
 import network.socket.ViewClient;
-import network.socket.commands.Request;
-import network.socket.commands.Response;
 
-import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Collections;
-import java.util.Scanner;
 
 public class RMIClient{
 

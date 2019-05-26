@@ -5,7 +5,7 @@ import network.socket.commands.Response;
 
 import java.rmi.Remote;
 
-public interface Client extends Remote {
+public interface Client {
     void request(Request request);
     Response nextResponse();
 }

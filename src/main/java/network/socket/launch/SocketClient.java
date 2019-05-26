@@ -2,7 +2,6 @@ package network.socket.launch;
 import network.Client;
 import network.exceptions.WrongDeserializationException;
 import controller.ClientController;
-import network.rmi.RMIClient;
 import network.socket.commands.Request;
 import network.socket.commands.Response;
 
@@ -10,8 +9,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.util.Scanner;
 
 public class SocketClient implements Client{
     private final String host;
