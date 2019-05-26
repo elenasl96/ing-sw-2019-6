@@ -184,27 +184,7 @@ public class GameController{
         //TODO
     }
 
-    public void receiveInput(SendInput input, int groupID) {
-        Player p = GameContext.get().getGame(groupID).getCurrentPlayer();
-        switch(input.getInputType()){
-            case "player damaged":
-                break;
-            case "number damages":
-                break;
-            case "weapon chosen":
-                try {
-                    p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, input.getInput());
-                }catch (IndexOutOfBoundsException e){
-                    System.out.println(">>> Weapon index out of bounds");
-                    p.setPhaseNotDone(true);
-                    p.getUser().receiveUpdate(new Update(p,true));
-                }
-                updatePhase(groupID);
-                break;
-            default:
-                break;
-        }
-    }
+
 
     public List<Weapon> getWeaponToReload(Player player) {
         return player.getWeapons()

@@ -170,15 +170,11 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case RELOAD:
-                int reload;
                 if(view.reloadPhase()){
-                    chooseReload();
-                    reload = view.askNumber();
+                    chooseReload(true);
                 }else{
-                    reload = -1;
+                    chooseReload(false);
                 }
-                client.request(new ReloadRequest(reload));
-
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             default:
@@ -231,13 +227,19 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             case "weapon choose":
                 client.request(new SendInput(view.askNumber(), "weapon chosen"));
                 break;
+            case "grabWeapon":
+                client.request(new SendInput(view.askNumber(), "weaponGrabbed"));
+                break;
             default:
                 break;
         }
     }
 
-    public void chooseReload() {
-        client.request(new CardRequest("weaponToReload"));
+    private void chooseReload(Boolean reload) {
+        if(reload)
+            client.request(new CardRequest("weaponToReload"));
+        else
+            client.request(new CardRequest("noCard"));
     }
 
     @Override
