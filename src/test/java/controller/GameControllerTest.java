@@ -117,15 +117,4 @@ class GameControllerTest {
         assertEquals(Phase.FIRST, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
     }
 
-    @Test
-    void receiveInputTest(){
-        GameContext.get().getGame(0).getCurrentPlayer().setCurrentPosition(
-                GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0)
-        );
-        GameController.get().receiveInput(new SendInput(2, "weapon chosen"), 0);
-        assertFalse(GameContext.get().getGame(0).getCurrentPlayer().isPhaseNotDone());
-
-        GameController.get().receiveInput(new SendInput(5, "weapon chosen"), 0);
-        assertTrue(GameContext.get().getGame(0).getCurrentPlayer().isPhaseNotDone());
-    }
 }
