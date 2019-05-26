@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ClientControllerTest {
 

@@ -31,7 +31,7 @@ public class TimerController implements ModelObserver {
         group.observe(this);
     }
 
-    public synchronized void startTimer(int groupID){
+    synchronized void startTimer(int groupID){
         while(timers.size()<groupID+1){
             timers.add(null);
         }

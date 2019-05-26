@@ -3,7 +3,6 @@ package model.moves;
 import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;
-import model.enums.Character;
 import model.enums.Color;
 import model.room.User;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,7 @@ import static org.junit.Assert.*;
 class PayTest {
     private Pay payment;
     private Player player;
-    int groupId = 0;
+    private int groupId = 0;
 
     /**
      * tests the payment gone wright
