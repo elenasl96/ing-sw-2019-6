@@ -26,19 +26,6 @@ public class SocketClient implements Client{
     }
 
     public static void main(String[] args) throws IOException{
-        System.out.println(">>> Do you want to use RMI connection? [yes]\n>>> Socket by default");
-        Scanner input = new Scanner(System.in);
-        String fromKeyboard = input.nextLine();
-        input.close();
-        if(fromKeyboard.equals("yes")){
-            try {
-                RMIClient.run();
-            } catch (NotBoundException e) {
-                System.out.println(">>> a NotBoundException occurred");
-            }
-            return;
-        }
-
         //else -> Socket
         if (args.length == 0) {
             System.err.println("Provide host:port please");

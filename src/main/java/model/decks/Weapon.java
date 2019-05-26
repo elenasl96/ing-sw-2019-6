@@ -64,8 +64,8 @@ public class Weapon implements Serializable {
             }
             cost ++;
         }
-        string.append("\nAmmo status: " + status.toString());
-        string.append("\n=========================");
+        string.append("\nAmmo status: " + status.toString())
+              .append("\n=========================");
         return  string.toString();
     }
 }
