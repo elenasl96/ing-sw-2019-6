@@ -6,6 +6,7 @@ import model.field.Coordinate;
 import model.moves.MoveAndGrab;
 import model.moves.Run;
 import network.Client;
+import network.rmi.RemoteController;
 import network.socket.ClientContext;
 import network.socket.ViewClient;
 import network.socket.commands.Request;
@@ -34,7 +35,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     /**
      * reference to networking layer
      */
-    final transient Client client; //made protected to extend class in tests
+    final transient RemoteController client; //made package private to extend class in tests
     //Removed the Thread since it can be local
 
     /**
@@ -47,7 +48,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      */
     private boolean gameNotDone;
 
-    public ClientController(Client socketClient) throws RemoteException {
+    public ClientController(RemoteController socketClient) throws RemoteException {
         super();
         this.client = socketClient;
         this.view = new ViewClient(this);
@@ -65,31 +66,31 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      * @see Client#request(Request)
      * @see Client#nextResponse()
      */
-    public User createUser(String username) {
+    public User createUser(String username) throws RemoteException{
         client.request(new CreateUserRequest(username));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser();
     }
 
-    public Group chooseGroup(int groupNumber){
+    public Group chooseGroup(int groupNumber) throws RemoteException{
         client.request(new ChooseGroupRequest(groupNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup();
     }
 
-    public String getSituation(){
+    public String getSituation() throws RemoteException{
         client.request(new SituationViewerRequest());
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentSituation();
     }
 
-    public int createGroup(int skullNumber, int fieldNumber) {
+    public int createGroup(int skullNumber, int fieldNumber) throws RemoteException{
         client.request(new CreateGroupRequest(skullNumber, fieldNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
-    public synchronized Character setCharacter(int characterNumber) {
+    public synchronized Character setCharacter(int characterNumber) throws RemoteException{
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser().getCharacter();
@@ -97,9 +98,14 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     public void startReceiverThread() {
         Thread receiver = new Thread(
-                () -> {
+                ()  -> {
                     while (gameNotDone) {
-                        Response response = client.nextResponse();
+                        Response response = null;
+                        try {
+                             response = client.nextResponse();
+                        } catch (RemoteException e){
+                            //nothing
+                        }
                         if (response != null) {
                             response.handle(this);
                         }
@@ -110,11 +116,11 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         receiver.start();
     }
 
-    void chooseSpawn(Integer spawn) {
+    void chooseSpawn(Integer spawn) throws RemoteException{
         client.request(new SpawnRequest(spawn));
     }
 
-    private void sendCommand(String content){
+    private void sendCommand(String content)  throws RemoteException{
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
             case "0": case "1": case "2":
@@ -139,18 +145,22 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         }
     }
 
-    public void run(){
+    public void run() throws RemoteException{
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         view.chooseCharacterPhase();
         while(gameNotDone) {
             view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT));
             view.waitingPhase();
-            gamingPhase();
+            try {
+                gamingPhase();
+            } catch (RemoteException e){
+                //nothing
+            }
         }
     }
 
-    private void gamingPhase(){
+    private void gamingPhase()  throws RemoteException{
         switch(ClientContext.get().getCurrentPlayer().getPhase()){
             case SPAWN:
                 client.request(new SpawnRequest(null));
@@ -225,17 +235,25 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         switch(askInput.getInputType()){
             case "damage":
             case "weapon choose":
-                client.request(new SendInput(view.askNumber(), "weapon chosen"));
+                try{
+                    client.request(new SendInput(view.askNumber(), "weapon chosen"));
+                } catch (RemoteException e){
+                    //nothing
+                }
                 break;
             case "grabWeapon":
-                client.request(new SendInput(view.askNumber(), "weaponGrabbed"));
+                try{
+                    client.request(new SendInput(view.askNumber(), "weaponGrabbed"));
+                } catch (RemoteException e){
+                    //nothing
+                }
                 break;
             default:
                 break;
         }
     }
 
-    private void chooseReload(Boolean reload) {
+    private void chooseReload(Boolean reload)  throws RemoteException{
         if(reload)
             client.request(new CardRequest("weaponToReload"));
         else

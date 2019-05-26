@@ -8,6 +8,7 @@ import model.room.*;
 import model.enums.Character;
 import network.exceptions.InvalidGroupNumberException;
 
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class ViewClient implements ModelObserver{
@@ -23,7 +24,11 @@ public class ViewClient implements ModelObserver{
     }
 
     public void run() {
-        controller.run();
+        try {
+            controller.run();
+        } catch(RemoteException e){
+            //nothing
+        }
     }
 
     private String userInput() {
@@ -50,7 +55,7 @@ public class ViewClient implements ModelObserver{
         }
     }
 
-    public void chooseUsernamePhase() {
+    public void chooseUsernamePhase()  throws RemoteException {
         User user;
         do {
             displayText("Provide username:");
@@ -62,7 +67,7 @@ public class ViewClient implements ModelObserver{
         user.listenToMessages(this);
     }
 
-    public void chooseGroupPhase() {
+    public void chooseGroupPhase()  throws RemoteException{
         Group group;
         do {
             displayText("These are the groups at the moment:");
@@ -89,7 +94,7 @@ public class ViewClient implements ModelObserver{
         displayText("Welcome to " + group.getName());
     }
 
-    public void chooseCharacterPhase(){
+    public void chooseCharacterPhase() throws RemoteException{
         displayText("Which character do you want to be?");
         displayText("Insert 1 for :D-STRUCT-OR");
         displayText("Insert 2 for BANSHEE");
@@ -165,7 +170,7 @@ public class ViewClient implements ModelObserver{
         return coordinate;
     }
 
-    private Group yesCreateGame(){
+    private Group yesCreateGame() throws RemoteException{
         try {
             displayText("How many number of Skulls do you want to use?");
             int skullNumber = Integer.parseInt(userInput());

@@ -9,6 +9,7 @@ import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
 import network.ClientHandler;
+import network.rmi.RMIClientHandler;
 import network.socket.SocketClientHandler;
 import network.socket.Manager;
 import network.socket.commands.request.*;

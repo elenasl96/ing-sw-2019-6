@@ -1,6 +1,6 @@
 package network;
 
-import java.rmi.Remote;
+import model.room.ModelObserver;
 
-public interface ClientHandler extends Remote {
+public interface ClientHandler extends ModelObserver {
 }
