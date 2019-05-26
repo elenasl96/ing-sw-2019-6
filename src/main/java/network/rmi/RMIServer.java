@@ -1,15 +1,13 @@
 package network.rmi;
 
-import network.ClientHandler;
-
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class RMIServer {
     public static void main(String[] args) throws RemoteException {
-
-        //System.setSecurityManager(new SecurityManager());
+        System.setProperty("java.security.policy", "rmi.policy");
+        System.setSecurityManager(new SecurityManager());
 
         System.out.println(">>> Creating new ClientController");
         RMIClientHandler controller = new RMIClientHandler();
