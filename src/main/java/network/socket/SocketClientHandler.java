@@ -102,7 +102,7 @@ public class SocketClientHandler implements ClientHandler, Runnable, ModelObserv
 
     @Override
     public void onUpdate(Update update) {
-        System.out.print(">>> I'm clientHandler sending: ");
+        System.out.print(">>> I'm SocketClientHandler sending: ");
         if(update.isPlayerChanges()){
             System.out.print("a MoveUpdateResponse modifying player "+update.getPlayer()+" username "+update.getPlayer().getName()+
                     " of user "+update.getPlayer().getUser()+" with phaseId "+ update.getPlayer().getPhase().getId()+"\n");

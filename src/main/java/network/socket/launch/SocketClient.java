@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 public class SocketClient implements RemoteController {
     private final String host;
@@ -81,6 +82,11 @@ public class SocketClient implements RemoteController {
             throw new WrongDeserializationException("Wrong deserialization: " + e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public void receivedResponse() throws RemoteException {
+        //empty body
     }
 
     @Override

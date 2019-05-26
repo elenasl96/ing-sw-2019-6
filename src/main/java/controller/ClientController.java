@@ -103,11 +103,12 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                         Response response = null;
                         try {
                              response = client.nextResponse();
+                            if (response != null) {
+                                client.receivedResponse();
+                                response.handle(this);
+                            }
                         } catch (RemoteException e){
-                            //nothing
-                        }
-                        if (response != null) {
-                            response.handle(this);
+                            System.out.println(">>> An error occurred");
                         }
                     }
                     Thread.currentThread().interrupt();
