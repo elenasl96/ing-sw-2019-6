@@ -9,17 +9,17 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class RMIClient{
+public class RMIClient {
 
     private RMIClient(){
         //null
     }
 
-    public static void main(String[] args) throws RemoteException, NotBoundException {
+    public static void main(String[] args) throws Exception {
         run();
     }
 
-    public static void run() throws RemoteException, NotBoundException {
+    public static void run() throws Exception{
         Registry registry = LocateRegistry.getRegistry();
         System.out.println(">>> Registry located");
 
@@ -29,7 +29,7 @@ public class RMIClient{
         System.out.println("\n");
 
         // gets a reference for the remote controller
-        Client controller = (Client) registry.lookup("controller");
+        RemoteController controller = (RemoteController) registry.lookup("controller");
         ClientController clientController = new ClientController(controller);
 
         // creates and launches the view

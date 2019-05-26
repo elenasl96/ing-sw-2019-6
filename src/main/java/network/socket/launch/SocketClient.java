@@ -2,6 +2,7 @@ package network.socket.launch;
 import network.Client;
 import network.exceptions.WrongDeserializationException;
 import controller.ClientController;
+import network.rmi.RemoteController;
 import network.socket.commands.Request;
 import network.socket.commands.Response;
 
@@ -10,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketClient implements Client{
+public class SocketClient implements RemoteController {
     private final String host;
     private final int port;
     private Socket connection;
