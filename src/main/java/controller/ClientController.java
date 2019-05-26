@@ -170,11 +170,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case RELOAD:
-                if(view.reloadPhase()){
-                    chooseReload(true);
-                }else{
-                    chooseReload(false);
-                }
+                chooseReload(view.reloadPhase());
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             default:

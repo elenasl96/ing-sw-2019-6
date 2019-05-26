@@ -24,17 +24,30 @@ public class Main {
         });
     }
 
+    public Main() {
+
+        gui = new MainFrame();
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                gui.initGUI();
+            }
+        });
+    }
+
     public static void main(String[] args) {
-        ClientController clientController = null;
+       /* ClientController clientController = null;
         try{
             SocketClient socketClient = new SocketClient("", 8234);
             socketClient.init();
             clientController = new ClientController(socketClient);
         } catch(Exception e){
             //niente
-        }
-        new Main(clientController);
-        clientController.run();
+        }*/
+        //new Main(clientController);
+        //clientController.run();
+        new Main();
     }
 }
 
