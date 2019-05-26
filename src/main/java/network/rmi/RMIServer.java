@@ -1,27 +1,23 @@
 package network.rmi;
 
-import controller.ClientController;
-import controller.ServerController;
-import network.Client;
+import network.ClientHandler;
 
-import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class RMIServer {
-    public static void main(String[] args) throws RemoteException, AlreadyBoundException {
+    public static void main(String[] args) throws RemoteException {
 
-        System.setProperty("java.security.policy", "stupid.policy");
-        System.setSecurityManager(new SecurityManager());
+        //System.setSecurityManager(new SecurityManager());
 
         System.out.println(">>> Creating new ClientController");
         RMIClientHandler controller = new RMIClientHandler();
 
-        System.out.println("Binding");
-        Registry registry = LocateRegistry.getRegistry();
+        System.out.println(">>> Binding");
+        Registry registry = LocateRegistry.createRegistry(1099);
         registry.rebind("controller", controller);
 
-        System.out.println("Waiting for invocations...");
+        System.out.println(">>> Waiting for invocations...");
     }
 }

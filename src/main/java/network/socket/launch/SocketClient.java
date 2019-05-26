@@ -32,7 +32,7 @@ public class SocketClient implements Client{
         input.close();
         if(fromKeyboard.equals("yes")){
             try {
-                RMIClient.run(args);
+                RMIClient.run();
             } catch (NotBoundException e) {
                 System.out.println(">>> a NotBoundException occurred");
             }

@@ -2,6 +2,7 @@ package network.rmi;
 
 import controller.ClientController;
 import network.Client;
+import network.ClientHandler;
 import network.exceptions.WrongDeserializationException;
 import network.socket.ViewClient;
 import network.socket.commands.Request;
@@ -21,27 +22,25 @@ public class RMIClient{
         //null
     }
 
-    public static void run(String[] args) throws RemoteException, NotBoundException {
+    public static void main(String[] args) throws RemoteException, NotBoundException {
+        run();
+    }
 
-        System.setProperty("java.security.policy", "stupid.policy");
-        System.setSecurityManager(new SecurityManager());
-
+    public static void run() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry();
+        System.out.println(">>> Registry located");
 
-        System.out.println("RMI registry bindings: ");
-        for (String binding : registry.list()) {
-            System.out.println(">>> " + binding);
-        } System.out.println("\n");
-        System.out.println(">>> Do you want to use the GUI? [yes]\n>>> Default CLI");
-        Scanner input = new Scanner(System.in);
-        String GUI = input.nextLine();
-        ClientController clientController = (ClientController) registry.lookup("controller");
-
-        if(GUI.equals("yes")){
-            //launch GUI
-        } else {
-            new ViewClient(clientController).run();
+        for (String name : registry.list()) {
+            System.out.println(">>> Registry bindings: " + name);
         }
+        System.out.println("\n");
+
+        // gets a reference for the remote controller
+        Client controller = (Client) registry.lookup("controller");
+        ClientController clientController = new ClientController(controller);
+
+        // creates and launches the view
+        new ViewClient(clientController).run();
 
     }
 }
