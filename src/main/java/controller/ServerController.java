@@ -2,6 +2,7 @@ package controller;
 
 import exception.InvalidMoveException;
 import model.GameContext;
+import model.Player;
 import model.decks.WeaponTile;
 import model.enums.Phase;
 import model.moves.Move;
@@ -177,48 +178,70 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(CardRequest cardRequest){
-        if(cardRequest.getCardType().equals("weaponToReload")){
-            WeaponTile weaponsToReload = new WeaponTile();
-            weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
-            if(weaponsToReload.getWeapons().isEmpty()) {
-                user.receiveUpdate(new Update("You haven't weapons to reload"));
+        switch (cardRequest.getCardType()) {
+            case "noCard":
                 GameController.get().updatePhase(currentGroup.getGroupID());
-            } else {
-                user.receiveUpdate(new Update("You can reload these weapons: " +
-                        weaponsToReload.toString() +
-                        "\n You have these ammos: " +
-                        user.getPlayer().getAmmos().toString()));
-            }
+                break;
+            case "weaponToReload":
+                WeaponTile weaponsToReload = new WeaponTile();
+                weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
+                if (weaponsToReload.getWeapons().isEmpty()) {
+                    user.receiveUpdate(new Update("You haven't weapons to reload"));
+                    GameController.get().updatePhase(currentGroup.getGroupID());
+                } else {
+                    user.receiveUpdate(new Update("You can reload these weapons: " +
+                            weaponsToReload.toString() +
+                            "\n You have these ammos: " +
+                            user.getPlayer().getAmmos().toString()));
+                    return new AskInput("grabWeapon");
+                }
+            break;
+            case "weapon":
+                GameController.get().playWeapon(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getWeapons().get(cardRequest.getNumber() - 3));
+            break;
+            case "powerup":
+                GameController.get().playPowerup(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getPowerups().get(cardRequest.getNumber()));
+            break;
+            default:
+                break;
         }
-        if(cardRequest.getCardType().equals("weapon"))
-            GameController.get().playWeapon(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getWeapons().get(cardRequest.getNumber()-3));
-        if(cardRequest.getCardType().equals("powerup"))
-            GameController.get().playPowerup(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getPowerups().get(cardRequest.getNumber()));
         return null;
     }
 
     @Override
-    public Response handle(SendInput sendInput) {
-        GameController.get().receiveInput(sendInput, currentGroup.getGroupID());
+    public Response handle(SendInput inputResponse) {
+        Player p = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer();
+        switch(inputResponse.getInputType()){
+            case "player damaged":
+                break;
+            case "number damages":
+                break;
+            case "weapon chosen":
+                try {
+                    p.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), inputResponse.getInput());
+                }catch (IndexOutOfBoundsException e){
+                    System.out.println(">>> Weapon index out of bounds");
+                    p.setPhaseNotDone(true);
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }
+                GameController.get().updatePhase(currentGroup.getGroupID());
+                break;
+            case "weaponGrabbed":
+                try {
+                    GameController.get().reloadWeapon(inputResponse.getInput(), currentGroup.getGroupID());
+                }catch (IndexOutOfBoundsException e){
+                    user.receiveUpdate(new Update("Invalid Weapon"));
+                }
+                currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
+                currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
+                break;
+            default:
+                break;
+        }
+
         return null;
     }
 
-    @Override
-    public Response handle(ReloadRequest reloadRequest) {
-        if(reloadRequest.getNumber()==-1){
-            GameController.get().updatePhase(currentGroup.getGroupID());
-        }
-        else{
-            try {
-                GameController.get().reloadWeapon(reloadRequest.getNumber(), currentGroup.getGroupID());
-            }catch (IndexOutOfBoundsException e){
-                user.receiveUpdate(new Update("Invalid Weapon"));
-            }
-            currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
-            currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
-        }
-        return null;
-    }
 
     @Override
     public Response handle(MovementRequest movementRequest) {

@@ -1,4 +1,6 @@
 package network;
 
-public interface ClientHandler {
+import java.rmi.Remote;
+
+public interface ClientHandler extends Remote {
 }

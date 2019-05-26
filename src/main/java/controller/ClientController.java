@@ -34,17 +34,21 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     /**
      * reference to networking layer
      */
-    final Client client; //made protected to extend class in tests
+    final transient Client client; //made protected to extend class in tests
     //Removed the Thread since it can be local
 
     /**
-     * the view
+     * The view
      */
-    final ViewClient view;
+    final transient ViewClient view;
 
+    /**
+     * A local variable keeping track if the game's over
+     */
     private boolean gameNotDone;
 
-    public ClientController(Client socketClient) throws RemoteException{
+    public ClientController(Client socketClient) throws RemoteException {
+        super();
         this.client = socketClient;
         this.view = new ViewClient(this);
         this.gameNotDone = true;
@@ -166,17 +170,11 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case RELOAD:
-                int reload;
                 if(view.reloadPhase()){
-                    chooseReload();
-                    //Bisogna trovare un modo per non eseguire reload = view.askNumber() quando il giocatore
-                    // ha la lista armi vuota
-                    reload = view.askNumber();
+                    chooseReload(true);
                 }else{
-                    reload = -1;
+                    chooseReload(false);
                 }
-                client.request(new ReloadRequest(reload));
-
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             default:
@@ -229,12 +227,28 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             case "weapon choose":
                 client.request(new SendInput(view.askNumber(), "weapon chosen"));
                 break;
+            case "grabWeapon":
+                client.request(new SendInput(view.askNumber(), "weaponGrabbed"));
+                break;
             default:
                 break;
         }
     }
 
-    public void chooseReload() {
-        client.request(new CardRequest("weaponToReload"));
+    private void chooseReload(Boolean reload) {
+        if(reload)
+            client.request(new CardRequest("weaponToReload"));
+        else
+            client.request(new CardRequest("noCard"));
+    }
+
+    @Override
+    public boolean equals(Object o){
+        return true;
+    }
+
+    @Override
+    public int hashCode(){
+        return 0;
     }
 }

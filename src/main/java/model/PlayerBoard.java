@@ -1,7 +1,10 @@
 package model;
 
+import exception.FullMarksException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.min;
@@ -46,8 +49,15 @@ public class PlayerBoard implements Serializable {
      * @param numMarks number of marks assigned
      */
     public void addMarks(Player pg, int numMarks) {
-        for (int i=0; i<numMarks; i++){
-            this.marks.add(pg);
+        int frequency = Collections.frequency(this.marks, pg);
+        if(frequency + numMarks > 3){
+            for (int i = 0; i < 3 - frequency; i++){
+                this.marks.add(pg);
+            } throw new FullMarksException();
+        } else {
+            for (int i=0; i<numMarks; i++){
+                this.marks.add(pg);
+            }
         }
     }
 

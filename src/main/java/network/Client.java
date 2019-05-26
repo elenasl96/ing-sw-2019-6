@@ -1,10 +1,11 @@
 package network;
 
-import model.room.ModelObserver;
 import network.socket.commands.Request;
 import network.socket.commands.Response;
 
-public interface Client {
+import java.rmi.Remote;
+
+public interface Client extends Remote {
     void request(Request request);
     Response nextResponse();
 }
