@@ -6,6 +6,7 @@ import model.enums.Phase;
 import model.room.Group;
 import model.room.User;
 import network.socket.ClientContext;
+import network.socket.ViewClient;
 import network.socket.commands.response.*;
 import network.socket.launch.SocketClient;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ class ClientControllerTest {
     void start(){
         ClientContext.get().reset();
         try {
-            clientController = new ClientController(socketClient);
+            clientController = new ClientController(socketClient, new ViewClient());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

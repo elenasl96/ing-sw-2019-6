@@ -12,7 +12,7 @@ public class ViewTest {
 
     @Test
     void OnTriggerTest(){
-        ViewClient view = new ViewClient(mockController);
+        ViewClient view = new ViewClient();
         view.onJoin(new User("1"));
         view.onLeave(new User("1"));
         view.onStart();
@@ -20,7 +20,7 @@ public class ViewTest {
 
     @Test
     void WaitingTest(){
-        ViewClient view = new ViewClient(mockController);
+        ViewClient view = new ViewClient();
         view.setWait(false);
         view.waitingPhase();
     }

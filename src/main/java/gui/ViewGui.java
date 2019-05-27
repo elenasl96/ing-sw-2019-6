@@ -8,34 +8,46 @@ import network.socket.ViewClient;
 import view.View;
 
 import javax.swing.SwingUtilities;
+import java.rmi.RemoteException;
 
 public class ViewGui implements View {
 
     private MainFrame gui;
     private volatile boolean wait=true;
     private ViewClient viewCli;
-    private final ClientController controller;
+    private ClientController controller;
 
-    public ViewGui(ClientController clientController){
-        this.controller = clientController;
+    public ViewGui(){
         gui = new MainFrame(null);
+        viewCli = new ViewClient();
     }
 
+    public void setClientController(ClientController controller){
+        this.controller = controller;
+    }
 
+    public void run() {
+        try {
+            controller.run();
+        } catch(RemoteException e){
+            //nothing
+        }
+    }
 
     @Override
     public void onJoin(User u) {
-
+        viewCli.onJoin(u);
     }
 
     @Override
     public void onLeave(User u) {
-
+        viewCli.onLeave(u);
     }
 
     @Override
     public void onStart() {
         gui.initGUI();
+        wait = false;
     }
 
     @Override
@@ -49,28 +61,29 @@ public class ViewGui implements View {
     }
 
     @Override
-    public void displayText(String insert_a_valid_move) {
-
+    public void displayText(String text) {
+        gui.setConsole(text);
     }
 
     @Override
-    public void chooseUsernamePhase() {
-
+    public void chooseUsernamePhase() throws RemoteException{
+        viewCli.setClientController(controller);
+        viewCli.chooseUsernamePhase();
     }
 
     @Override
-    public void chooseGroupPhase() {
-
+    public void chooseGroupPhase() throws RemoteException{
+        viewCli.chooseGroupPhase();
     }
 
     @Override
-    public void chooseCharacterPhase() {
-
+    public void chooseCharacterPhase() throws RemoteException{
+        viewCli.chooseCharacterPhase();
     }
 
     @Override
     public void setWait(boolean equalsTo) {
-
+        this.wait = wait;
     }
 
     @Override
@@ -97,4 +110,5 @@ public class ViewGui implements View {
     public int askNumber() {
         return 0;
     }
+
 }

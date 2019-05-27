@@ -3,6 +3,7 @@ import network.Client;
 import network.exceptions.WrongDeserializationException;
 import controller.ClientController;
 import network.rmi.RemoteController;
+import network.socket.ViewClient;
 import network.socket.commands.Request;
 import network.socket.commands.Response;
 
@@ -43,12 +44,13 @@ public class SocketClient implements RemoteController {
 
         SocketClient socketClient = new SocketClient(host, port);
         socketClient.init();
-        ClientController controller = new ClientController(socketClient);
+        ClientController controller = new ClientController(socketClient, new ViewClient());
         controller.run();
 
         socketClient.close();
     }
 
+    @Override
     public void init() throws IOException {
         connection = new Socket(host, port);
         out = new ObjectOutputStream(connection.getOutputStream());

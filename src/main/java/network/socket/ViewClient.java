@@ -6,8 +6,8 @@ import exception.NotExistingFieldException;
 import model.field.Coordinate;
 import model.room.*;
 import model.enums.Character;
-import network.View;
 import network.exceptions.InvalidGroupNumberException;
+import view.View;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
@@ -15,12 +15,11 @@ import java.util.Scanner;
 public class ViewClient implements View {
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
-    private final ClientController controller;
+    private ClientController controller;
     private volatile boolean wait=true;
     private static final String PLEASE_NUMBER = "Please insert a Number";
 
-    public ViewClient(ClientController controller) {
-        this.controller = controller;
+    public ViewClient() {
         this.fromKeyBoard = new Scanner(System.in);
     }
 
@@ -193,6 +192,10 @@ public class ViewClient implements View {
         }
     }
 
+    @Override
+    public void setClientController(ClientController controller){
+        this.controller = controller;
+    }
 
     // ----- The view observes the state and reacts (the observable pushes the pieces of interesting state)
 
@@ -217,7 +220,8 @@ public class ViewClient implements View {
         wait = false;
     }
 
-    public boolean reloadPhase() {
+    @Override
+    public Boolean reloadPhase() {
         String input;
         do {
             displayText("Do you want to reload any weapon?");

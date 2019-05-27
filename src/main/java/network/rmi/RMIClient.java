@@ -30,10 +30,10 @@ public class RMIClient {
 
         // gets a reference for the remote controller
         RemoteController controller = (RemoteController) registry.lookup("controller");
-        ClientController clientController = new ClientController(controller);
+        ClientController clientController = new ClientController(controller, new ViewClient());
 
         // creates and launches the view
-        new ViewClient(clientController).run();
+        clientController.run();
 
     }
 }

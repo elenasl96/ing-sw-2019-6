@@ -24,7 +24,6 @@ public class MainFrame extends JFrame {
     public MainFrame(ClientController controller)
     {
         this.controller = controller;
-        initGUI();
     }
 
     public void initGUI() {
@@ -105,6 +104,6 @@ public class MainFrame extends JFrame {
 
     public void setConsole(String message)
     {
-
+        console.append(message+"\n");
     }
 }

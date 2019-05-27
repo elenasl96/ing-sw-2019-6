@@ -1,9 +1,12 @@
 package network.socket.launch;
 
+import network.rmi.RMIClientHandler;
 import network.socket.SocketClientHandler;
 
 import java.io.IOException;
 import java.net.*;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -21,6 +24,15 @@ public class ChatServer {
     private final boolean local;
 
     public static void main(String[] args) throws IOException {
+        System.out.println(">>> Creating new RMIClientHandler");
+        RMIClientHandler clientHandler = new RMIClientHandler();
+
+        System.out.println(">>> Binding");
+        Registry registry = LocateRegistry.createRegistry(1099);
+        registry.rebind("controller", clientHandler);
+
+        System.out.println(">>> Waiting for invocations...");
+
         ChatServer server = new ChatServer(8234, true);
         try {
             server.run();

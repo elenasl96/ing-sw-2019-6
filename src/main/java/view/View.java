@@ -1,18 +1,21 @@
 package view;
 
+import controller.ClientController;
 import model.field.Coordinate;
 import model.room.ModelObserver;
+
+import java.rmi.RemoteException;
 
 public interface View extends ModelObserver {
     Coordinate getCoordinate();
 
     void displayText(String insert_a_valid_move);
 
-    void chooseUsernamePhase();
+    void chooseUsernamePhase() throws RemoteException;
 
-    void chooseGroupPhase();
+    void chooseGroupPhase() throws RemoteException;
 
-    void chooseCharacterPhase();
+    void chooseCharacterPhase() throws RemoteException;
 
     void setWait(boolean equalsTo);
 
@@ -25,4 +28,6 @@ public interface View extends ModelObserver {
     Boolean reloadPhase();
 
     int askNumber();
+
+    void setClientController(ClientController controller);
 }

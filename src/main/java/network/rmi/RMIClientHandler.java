@@ -13,6 +13,7 @@ import network.socket.commands.response.GroupChangeNotification;
 import network.socket.commands.response.MoveUpdateResponse;
 import network.socket.commands.response.StartGameResponse;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -22,7 +23,7 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
     private transient ServerController controller;
     private Response response;
 
-    RMIClientHandler() throws RemoteException {
+    public RMIClientHandler() throws RemoteException {
         this.controller = new ServerController(this);
     }
 
@@ -39,6 +40,11 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
     @Override
     public void receivedResponse() throws RemoteException {
         response = null;
+    }
+
+    @Override
+    public void init() throws IOException {
+        //nothing
     }
 
     @Override

@@ -50,11 +50,12 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      */
     private boolean gameNotDone;
 
-    public ClientController(RemoteController socketClient) throws RemoteException {
+    public ClientController(RemoteController socketClient, View view) throws RemoteException {
         super();
         this.client = socketClient;
-        this.view = (View) new ViewClient(this);
+        this.view = view;
         this.gameNotDone = true;
+        view.setClientController(this);
     }
 
     /**
