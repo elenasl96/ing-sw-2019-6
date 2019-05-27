@@ -48,7 +48,8 @@ public class Main {
         }*/
         //new Main(clientController);
         //clientController.run();
-        new Main();
+        new Main().gui.getJLabelText();
+
     }
 }
 

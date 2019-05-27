@@ -5,6 +5,8 @@ import model.room.ModelObserver;
 import model.room.Update;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,12 +20,17 @@ public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
     private static final String PATH = "C:/User/quara/IdeaProjects/ing-sw-2019-6/src/main/resources";
     private ClientController controller;
-
     private JTextArea console;
+    private JTextField commandLine;
+    private JButton ok;
+    private Object lockInput;
+    private Object lockMove;
+
 
     public MainFrame(ClientController controller)
     {
         this.controller = controller;
+        lockInput = new Object();
     }
 
     public void initGUI() {
@@ -51,11 +58,18 @@ public class MainFrame extends JFrame {
         console = new JTextArea();
         console.setLineWrap(true);
         console.setEditable(false);
-        JTextField commandLine = new JTextField(20);
-        JButton ok = new JButton("OK");
+        commandLine = new JTextField(20);
+        ok = new JButton("OK");
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               lockInput.notifyAll();
+            }
+        });
+
         BufferedImage image = null;
         Image newImage = null;
-        try{
+      /*  try{
             newImage = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\KillshotTrack.png"))
                     .getScaledInstance(200, 40, Image.SCALE_DEFAULT);
             System.out.println(PATH);
@@ -63,11 +77,11 @@ public class MainFrame extends JFrame {
         catch(IOException exception)
         {
             exception.printStackTrace();
-        }
+        }*/
 
         JPanel centralPanel = new JPanel(new GridLayout(2,1));
         JPanel field = new JPanel(new GridLayout(3,4));
-        centralPanel.add(new JLabel(new ImageIcon(newImage)));
+        //centralPanel.add(new JLabel(new ImageIcon(newImage)));
         JPanel left = new JPanel(new GridLayout(4,1));
         JPanel right = new JPanel(new GridLayout(3,1));
         JPanel playerboard = new JPanel();
@@ -105,5 +119,17 @@ public class MainFrame extends JFrame {
     public void setConsole(String message)
     {
         console.append(message+"\n");
+    }
+
+    public String getJLabelText()
+    {
+        try {
+            lockInput.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String string=commandLine.getText();
+        commandLine.setText("");
+        return string;
     }
 }

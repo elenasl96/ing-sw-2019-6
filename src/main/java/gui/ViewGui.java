@@ -34,6 +34,10 @@ public class ViewGui implements View {
         }
     }
 
+    private String userInput() {
+        return gui.getJLabelText();
+    }
+
     @Override
     public void onJoin(User u) {
         viewCli.onJoin(u);
@@ -57,7 +61,28 @@ public class ViewGui implements View {
 
     @Override
     public Coordinate getCoordinate() {
-        return null;
+        displayText("Insert coordinates in format \'X 0\'");
+        char letter;
+        int number;
+        Coordinate coordinate = null;
+        while(coordinate == null){
+            String[] input = userInput().split(" ");
+            try {
+                if(input.length !=2 || input[0].length()!=1 || input[1].length()!=1){
+                    throw new NumberFormatException();
+                } else {
+                    letter = input[0].toUpperCase().charAt(0);
+                    if (!java.lang.Character.isLetter(letter)){
+                        throw new NumberFormatException();
+                    }
+                    number = Integer.parseInt(input[1]);
+                    coordinate = new Coordinate(letter, number);
+                }
+            } catch (NumberFormatException e){
+                displayText("Not a valid format! Examples\n A 4\nB 7\nF 5");
+            }
+        }
+        return coordinate;
     }
 
     @Override
@@ -88,12 +113,20 @@ public class ViewGui implements View {
 
     @Override
     public void waitingPhase() {
-
+        while(wait);
     }
 
     @Override
     public Integer spawnPhase() {
-        return null;
+        Integer spawnNumber = null;
+        while (spawnNumber == null){
+            try{
+                spawnNumber = Integer.parseInt(userInput());
+            }catch (NumberFormatException e){
+                displayText("Please insert a Number");
+                spawnNumber = null;
+            }
+        } return spawnNumber;
     }
 
     @Override
@@ -108,7 +141,12 @@ public class ViewGui implements View {
 
     @Override
     public int askNumber() {
-        return 0;
+        try{
+            return Integer.parseInt(userInput());
+        }catch (NumberFormatException e){
+            displayText("Please insert a Number");
+            return this.askNumber();
+        }
     }
 
 }
