@@ -6,12 +6,13 @@ import exception.NotExistingFieldException;
 import model.field.Coordinate;
 import model.room.*;
 import model.enums.Character;
+import network.View;
 import network.exceptions.InvalidGroupNumberException;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class ViewClient implements ModelObserver{
+public class ViewClient implements View {
     private Scanner fromKeyBoard;
     // ----- The view is composed with the controller (strategy)
     private final ClientController controller;

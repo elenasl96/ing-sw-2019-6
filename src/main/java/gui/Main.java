@@ -14,7 +14,7 @@ public class Main {
     public Main(ClientController clientController) {
 
         this.controller = clientController;
-        gui = new MainFrame();
+        gui = new MainFrame(null);
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -27,7 +27,7 @@ public class Main {
 
     public Main() {
 
-        gui = new MainFrame();
+        gui = new MainFrame(null);
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override

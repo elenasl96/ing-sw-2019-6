@@ -1,5 +1,6 @@
 package controller;
 
+import gui.MainFrame;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
@@ -17,6 +18,7 @@ import network.socket.commands.ResponseHandler;
 import model.room.Group;
 import model.room.User;
 import network.socket.launch.SocketClient;
+import view.View;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -41,7 +43,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     /**
      * The view
      */
-    final transient ViewClient view;
+    final transient View view;
 
     /**
      * A local variable keeping track if the game's over
@@ -51,7 +53,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     public ClientController(RemoteController socketClient) throws RemoteException {
         super();
         this.client = socketClient;
-        this.view = new ViewClient(this);
+        this.view = (View) new ViewClient(this);
         this.gameNotDone = true;
     }
 
