@@ -29,8 +29,7 @@ public class MainFrame extends JFrame {
     private JPanel turnLight;
 
 
-    public MainFrame(ClientController controller)
-    {
+    public MainFrame(ClientController controller) {
         this.controller = controller;
         lockInput = new Object();
         lockMove = new Object();
@@ -45,10 +44,10 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         //Create left section of GUI
-        JPanel scrollPanelContainer = new JPanel(new GridLayout(1,2));
+        JPanel scrollPanelContainer = new JPanel(new GridLayout(1, 2));
 
-        JPanel weaponPan = new JPanel(new GridLayout(0,1));
-        JPanel powerUpPan = new JPanel(new GridLayout(0,1));
+        JPanel weaponPan = new JPanel(new GridLayout(0, 1));
+        JPanel powerUpPan = new JPanel(new GridLayout(0, 1));
         for (int i = 0; i < 10; i++) {
             weaponPan.add(new JButton("Hello-" + i));
             powerUpPan.add(new JButton("Hello-" + i));
@@ -67,7 +66,7 @@ public class MainFrame extends JFrame {
         JLabel cardlabel = new JLabel("CARTE IN POSSESSO");
         cardlabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JPanel left = new JPanel(new GridLayout(4,1));
+        JPanel left = new JPanel(new GridLayout(4, 1));
         left.add(name);
         left.add(ammos);
         left.add(cardlabel);
@@ -82,13 +81,13 @@ public class MainFrame extends JFrame {
         ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               synchronized (lockInput) {
-                   lockInput.notifyAll();
-               }
+                synchronized (lockInput) {
+                    lockInput.notifyAll();
+                }
             }
         });
 
-        JPanel turnPanel = new JPanel(new GridLayout(1,2));
+        JPanel turnPanel = new JPanel(new GridLayout(1, 2));
         turnPanel.add(new JLabel("Your turn"));
         turnLight = new JPanel();
         turnLight.setBackground(Color.RED);
@@ -98,27 +97,27 @@ public class MainFrame extends JFrame {
         commandLineBar.add(commandLine);
         commandLineBar.add(ok);
 
-        MoveButton grab = new MoveButton("Grab","grab");
-        MoveButton run = new MoveButton("Run","run");
-        MoveButton shoot = new MoveButton("Shoot","shoot");
+        MoveButton grab = new MoveButton("Grab", "grab");
+        MoveButton run = new MoveButton("Run", "run");
+        MoveButton shoot = new MoveButton("Shoot", "shoot");
         grab.addActionListener(actionListener);
         run.addActionListener(actionListener);
         shoot.addActionListener(actionListener);
 
-        JPanel buttonContainer = new JPanel(new GridLayout(4,1));
+        JPanel buttonContainer = new JPanel(new GridLayout(4, 1));
         buttonContainer.add(new JLabel("Actions"));
         buttonContainer.add(run);
         buttonContainer.add(grab);
         buttonContainer.add(shoot);
 
-        JPanel middleRightContainer = new JPanel(new GridLayout(5,1));
+        JPanel middleRightContainer = new JPanel(new GridLayout(5, 1));
         middleRightContainer.add(new JLabel(""));
         middleRightContainer.add(turnPanel);
         middleRightContainer.add(new JLabel("Insertion bar"));
         middleRightContainer.add(commandLineBar);
         middleRightContainer.add(new JLabel("Updates"));
 
-        JPanel right = new JPanel(new GridLayout(3,1));
+        JPanel right = new JPanel(new GridLayout(3, 1));
         right.add(buttonContainer);
         right.add(middleRightContainer);
         right.add(new JScrollPane(console));
@@ -136,8 +135,8 @@ public class MainFrame extends JFrame {
         }*/
 
         //Create central section of GUI
-        JPanel centralPanel = new JPanel(new GridLayout(2,1));
-        JPanel field = new JPanel(new GridLayout(3,4));
+        JPanel centralPanel = new JPanel(new GridLayout(2, 1));
+        JPanel field = new JPanel(new GridLayout(3, 4));
         //centralPanel.add(new JLabel(new ImageIcon(newImage)));
 
         //Create bottom section of GUI
@@ -145,25 +144,23 @@ public class MainFrame extends JFrame {
         playerboard.add(new JLabel("PLAYER BOARD"));
 
 
-        add(centralPanel,BorderLayout.CENTER);
-        add(left,BorderLayout.WEST);
-        add(right,BorderLayout.EAST);
-        add(playerboard,BorderLayout.SOUTH);
+        add(centralPanel, BorderLayout.CENTER);
+        add(left, BorderLayout.WEST);
+        add(right, BorderLayout.EAST);
+        add(playerboard, BorderLayout.SOUTH);
 
-        setSize(1000,600);
+        setSize(1000, 600);
         setResizable(false);
 
         // https://stackoverflow.com/questions/22982295/what-does-pack-do
         setVisible(true);
     }
 
-    public void setConsole(String message)
-    {
-        console.append(message+"\n");
+    public void setConsole(String message) {
+        console.append(message + "\n");
     }
 
-    public String getJLabelText()
-    {
+    public String getJLabelText() {
         String string;
         synchronized (lockInput) {
             try {
@@ -187,6 +184,14 @@ public class MainFrame extends JFrame {
             }
 
             return actionListener.getS();
+        }
+    }
+
+    public void toggleBackGroundTurn() {
+        if (turnLight.getBackground().equals(Color.RED)) {
+            turnLight.setBackground(Color.GREEN);
+        } else {
+            turnLight.setBackground(Color.RED);
         }
     }
 }

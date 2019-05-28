@@ -55,12 +55,7 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println(main.gui.getMove());
-        System.out.println(main.gui.getMove());
-        System.out.println(main.gui.getMove());
-        System.out.println(main.gui.getMove());
-        System.out.println(main.gui.getMove());
-        System.out.println(main.gui.getJLabelText());
-        System.out.println(main.gui.getJLabelText());
+        main.gui.toggleBackGroundTurn();
 
 
     }
