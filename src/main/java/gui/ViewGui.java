@@ -131,7 +131,7 @@ public class ViewGui implements View {
 
     @Override
     public String movePhase() {
-        return null;
+        return gui.getMove();
     }
 
     @Override

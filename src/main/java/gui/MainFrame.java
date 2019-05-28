@@ -25,12 +25,16 @@ public class MainFrame extends JFrame {
     private JButton ok;
     private Object lockInput;
     private Object lockMove;
+    private MoveButtonActionListener actionListener;
+    private JPanel turnLight;
 
 
     public MainFrame(ClientController controller)
     {
         this.controller = controller;
         lockInput = new Object();
+        lockMove = new Object();
+        actionListener = new MoveButtonActionListener(lockMove);
     }
 
     public void initGUI() {
@@ -40,6 +44,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        //Create left section of GUI
         JPanel scrollPanelContainer = new JPanel(new GridLayout(1,2));
 
         JPanel weaponPan = new JPanel(new GridLayout(0,1));
@@ -55,6 +60,20 @@ public class MainFrame extends JFrame {
         scrollPanelContainer.add(weapons);
         scrollPanelContainer.add(powerUps);
 
+        JLabel name = new JLabel("NOME GIOCATORE");
+        name.setHorizontalAlignment(SwingConstants.CENTER);
+        JPanel ammos = new JPanel();
+        ammos.add(new JLabel("AMMO"));
+        JLabel cardlabel = new JLabel("CARTE IN POSSESSO");
+        cardlabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel left = new JPanel(new GridLayout(4,1));
+        left.add(name);
+        left.add(ammos);
+        left.add(cardlabel);
+        left.add(scrollPanelContainer);
+
+        //Create right section of GUI
         console = new JTextArea();
         console.setLineWrap(true);
         console.setEditable(false);
@@ -63,9 +82,46 @@ public class MainFrame extends JFrame {
         ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               lockInput.notifyAll();
+               synchronized (lockInput) {
+                   lockInput.notifyAll();
+               }
             }
         });
+
+        JPanel turnPanel = new JPanel(new GridLayout(1,2));
+        turnPanel.add(new JLabel("Your turn"));
+        turnLight = new JPanel();
+        turnLight.setBackground(Color.RED);
+        turnPanel.add(turnLight);
+
+        JPanel commandLineBar = new JPanel(new FlowLayout());
+        commandLineBar.add(commandLine);
+        commandLineBar.add(ok);
+
+        MoveButton grab = new MoveButton("Grab","grab");
+        MoveButton run = new MoveButton("Run","run");
+        MoveButton shoot = new MoveButton("Shoot","shoot");
+        grab.addActionListener(actionListener);
+        run.addActionListener(actionListener);
+        shoot.addActionListener(actionListener);
+
+        JPanel buttonContainer = new JPanel(new GridLayout(4,1));
+        buttonContainer.add(new JLabel("Actions"));
+        buttonContainer.add(run);
+        buttonContainer.add(grab);
+        buttonContainer.add(shoot);
+
+        JPanel middleRightContainer = new JPanel(new GridLayout(5,1));
+        middleRightContainer.add(new JLabel(""));
+        middleRightContainer.add(turnPanel);
+        middleRightContainer.add(new JLabel("Insertion bar"));
+        middleRightContainer.add(commandLineBar);
+        middleRightContainer.add(new JLabel("Updates"));
+
+        JPanel right = new JPanel(new GridLayout(3,1));
+        right.add(buttonContainer);
+        right.add(middleRightContainer);
+        right.add(new JScrollPane(console));
 
         BufferedImage image = null;
         Image newImage = null;
@@ -79,30 +135,15 @@ public class MainFrame extends JFrame {
             exception.printStackTrace();
         }*/
 
+        //Create central section of GUI
         JPanel centralPanel = new JPanel(new GridLayout(2,1));
         JPanel field = new JPanel(new GridLayout(3,4));
         //centralPanel.add(new JLabel(new ImageIcon(newImage)));
-        JPanel left = new JPanel(new GridLayout(4,1));
-        JPanel right = new JPanel(new GridLayout(3,1));
-        JPanel playerboard = new JPanel();
-        JPanel commandLineBar = new JPanel(new FlowLayout());
-        commandLineBar.add(commandLine);
-        commandLineBar.add(ok);
-        right.add(new JLabel("MOSSE"));
-        right.add(commandLineBar);
-        right.add(new JScrollPane(console));
-        playerboard.add(new JLabel("PLAYER BOARD"));
-        JLabel name = new JLabel("NOME GIOCATORE");
-        name.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel ammos = new JPanel();
-        ammos.add(new JLabel("AMMO"));
-        JLabel cardlabel = new JLabel("CARTE IN POSSESSO");
-        cardlabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        left.add(name);
-        left.add(ammos);
-        left.add(cardlabel);
-        left.add(scrollPanelContainer);
+        //Create bottom section of GUI
+        JPanel playerboard = new JPanel();
+        playerboard.add(new JLabel("PLAYER BOARD"));
+
 
         add(centralPanel,BorderLayout.CENTER);
         add(left,BorderLayout.WEST);
@@ -123,13 +164,29 @@ public class MainFrame extends JFrame {
 
     public String getJLabelText()
     {
-        try {
-            lockInput.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        String string;
+        synchronized (lockInput) {
+            try {
+                lockInput.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            string = commandLine.getText();
+            commandLine.setText("");
         }
-        String string=commandLine.getText();
-        commandLine.setText("");
         return string;
+    }
+
+    public String getMove() {
+        synchronized (lockMove) {
+            try {
+                lockMove.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return actionListener.getS();
+        }
     }
 }

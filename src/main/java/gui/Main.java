@@ -48,7 +48,20 @@ public class Main {
         }*/
         //new Main(clientController);
         //clientController.run();
-        new Main().gui.getJLabelText();
+        Main main=new Main();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getJLabelText());
+        System.out.println(main.gui.getJLabelText());
+
 
     }
 }
