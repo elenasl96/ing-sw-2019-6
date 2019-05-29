@@ -7,6 +7,7 @@ import model.field.Coordinate;
 import model.room.*;
 import model.enums.Character;
 import network.exceptions.InvalidGroupNumberException;
+import network.socket.commands.Response;
 import view.View;
 
 import java.rmi.RemoteException;
@@ -210,8 +211,9 @@ public class ViewClient implements View {
     }
 
     @Override
-    public void onUpdate(Update update) {
+    public Response onUpdate(Update update) {
         displayText("Update:" + update.toString());
+        return null;
     }
 
     @Override
