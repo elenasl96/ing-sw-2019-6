@@ -1,9 +1,11 @@
 package model.room;
 
+import network.socket.commands.Response;
+
 public interface ModelObserver {
 
     void onJoin(User u);
     void onLeave(User u);
     void onStart();
-    void onUpdate(Update update);
+    Response onUpdate(Update update);
 }

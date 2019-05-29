@@ -3,6 +3,7 @@ package controller;
 import model.GameContext;
 import model.room.*;
 import network.socket.Manager;
+import network.socket.commands.Response;
 
 import java.util.*;
 
@@ -94,8 +95,9 @@ public class TimerController implements ModelObserver {
     }
 
     @Override
-    public void onUpdate(Update update) {
+    public Response onUpdate(Update update) {
         //I haven't programmed that path yet
+        return null;
     }
 
     @Override

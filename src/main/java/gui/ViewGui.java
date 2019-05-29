@@ -5,6 +5,7 @@ import model.field.Coordinate;
 import model.room.Update;
 import model.room.User;
 import network.socket.ViewClient;
+import network.socket.commands.Response;
 import view.View;
 
 import javax.swing.SwingUtilities;
@@ -55,8 +56,8 @@ public class ViewGui implements View {
     }
 
     @Override
-    public void onUpdate(Update update) {
-
+    public Response onUpdate(Update update) {
+        return null;
     }
 
     @Override

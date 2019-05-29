@@ -87,11 +87,6 @@ public class SocketClient implements RemoteController {
     }
 
     @Override
-    public void receivedResponse() throws RemoteException {
-        //empty body
-    }
-
-    @Override
     public void request(Request request) {
         try {
             out.writeObject(request);

@@ -103,11 +103,10 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         Thread receiver = new Thread(
                 ()  -> {
                     while (gameNotDone) {
-                        Response response = null;
+                        Response response;
                         try {
                              response = client.nextResponse();
                             if (response != null) {
-                                client.receivedResponse();
                                 response.handle(this);
                             }
                         } catch (RemoteException e){
