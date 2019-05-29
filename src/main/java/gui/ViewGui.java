@@ -114,6 +114,7 @@ public class ViewGui implements View {
 
     @Override
     public void waitingPhase() {
+        //noinspection StatementWithEmptyBody
         while(wait);
     }
 
@@ -132,12 +133,17 @@ public class ViewGui implements View {
 
     @Override
     public String movePhase() {
-        return null;
+        return gui.getMove();
     }
 
     @Override
     public Boolean reloadPhase() {
-        return null;
+        String input;
+        do {
+            displayText("Do you want to reload any weapon?");
+            input = userInput();
+        }while(!input.equals("yes") && !input.equals("no"));
+        return (input.equals("yes"));
     }
 
     @Override
