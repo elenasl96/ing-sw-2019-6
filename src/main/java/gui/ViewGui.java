@@ -115,7 +115,9 @@ public class ViewGui implements View {
     @Override
     public void waitingPhase() {
         //noinspection StatementWithEmptyBody
+        gui.toggleBackGroundTurn();
         while(wait);
+        gui.toggleBackGroundTurn();
     }
 
     @Override
