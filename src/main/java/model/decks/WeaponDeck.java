@@ -10,7 +10,6 @@ import model.moves.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
 import java.util.stream.Stream;
 
 import static model.enums.EffectType.*;
@@ -231,7 +230,7 @@ public class WeaponDeck {
                 .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.RED), new Ammo(Color.BLUE))));
         this.weapons.get(7).getEffectsList().get(0).getEffects().add(new Movement(Stream.of(targetBasic), vortex,false));
         this.weapons.get(7).getEffectsList().get(0).getEffects()
-                .add(new DamageEffect(Stream.of((Target)vortex), 1, false));
+                .add(new DamageEffect(Stream.of(vortex), 1, false));
         //Optional Effect
         targetOptional = new Player(NONE, null, null);
         this.weapons.get(7).getEffectsList().add(new CardEffect(OPTIONAL_VORTEX, null));
@@ -392,6 +391,217 @@ public class WeaponDeck {
                 .add(new CardEffect(BEFORE_BASIC, Stream.of(new Ammo(Color.YELLOW))));
         this.weapons.get(13).getEffectsList().get(2).getEffects()
                 .add(new DamageEffect(Stream.of(targetBasic, targetOptional), 1, false));
+
+        //ZX-2
+        this.weapons.add(new Weapon("ZX-2",
+                "basic mode: Deal 1 damage and 2 marks to\n" +
+                        "1 target you can see.\n" +
+                        "in scanner mode: Choose up to 3 targets you\n" +
+                        "can see and deal 1 mark to each.\n" +
+                        "Notes: Remember that the 3 targets can be\n" +
+                        "in 3 different rooms", WeaponStatus.PARTIALLY_LOADED));
+        //Basic Effect
+        targetBasic = new Player(VISIBLE,null, null);
+        this.weapons.get(14).getEffectsList().add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.RED))));
+        this.weapons.get(14).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 1, false));
+        this.weapons.get(14).getEffectsList().get(0).getEffects()
+                .add(new MarkEffect(Stream.of(targetBasic), 2, false));
+
+        //Alternative Effect
+        this.weapons.get(14).getEffectsList()
+                .add(new CardEffect(ALTERNATIVE, null));
+        targetAlternative = new Player(VISIBLE, null, null);
+        this.weapons.get(14).getEffectsList().get(1).getEffects()
+                .add(new MarkEffect(Stream.of(targetAlternative), 1, false));
+        targetAlternative = new Player(VISIBLE, null, null);
+        this.weapons.get(14).getEffectsList().get(1).getEffects()
+                .add(new MarkEffect(Stream.of(targetAlternative), 1, true));
+        targetAlternative = new Player(VISIBLE, null, null);
+        this.weapons.get(14).getEffectsList().get(1).getEffects()
+                .add(new MarkEffect(Stream.of(targetAlternative), 1, true));
+
+        //SHOTGUN
+        this.weapons.add(new Weapon("SHOTGUN",
+                "basic mode: Deal 3 damage to 1 target on\n" +
+                        "your square. If you want, you may then move\n" +
+                        "the target 1 square.\n" +
+                        "in long barrel mode: Deal 2 damage to\n" +
+                        "1 target on any square exactly one move\n" +
+                        "away", WeaponStatus.PARTIALLY_LOADED));
+        //Basic Effect
+        targetBasic = new Player(NONE,0, 0);
+        destination = new Square(NONE, 1,1);
+        this.weapons.get(15).getEffectsList()
+                .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.YELLOW))));
+        this.weapons.get(15).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 3, false));
+        this.weapons.get(15).getEffectsList().get(0).getEffects()
+                .add(new Movement(Stream.of(targetBasic), destination, false));
+
+        //Alternative Effect
+        targetAlternative = new Square(ALL, 1, 1);
+        this.weapons.get(15).getEffectsList()
+                .add(new CardEffect(ALTERNATIVE, null));
+        this.weapons.get(15).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetAlternative), 2, false));
+
+
+        //POWERGLOVE
+        this.weapons.add(new Weapon("POWERGLOVE",
+                "basic mode: Choose 1 target on any square\n" +
+                        "exactly 1 move away. Move onto that square\n" +
+                        "and give the target 1 damage and 2 marks.\n" +
+                        "in rocket fist mode: Choose a square\n" +
+                        "exactly 1 move away. Move onto that square.\n" +
+                        "You may deal 2 damage to 1 target there.\n" +
+                        "If you want, you may move 1 more square in\n" +
+                        "that same direction (but only if it is a legal\n" +
+                        "move). You may deal 2 damage to 1 target\n" +
+                        "there, as well.\n" +
+                        "Notes: In rocket fist mode, you're flying\n" +
+                        "2 squares in a straight line, punching\n" +
+                        "1 person per square", WeaponStatus.PARTIALLY_LOADED));
+        //Basic Effect
+        targetBasic = new Player(NONE,1, 1);
+        destination = new Square(SAME_TARGET, null, null);
+        Target me = new Player(ME, 0,0);
+        this.weapons.get(16).getEffectsList()
+                .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.BLUE))));
+        this.weapons.get(16).getEffectsList().get(0).getEffects()
+                .add(new Movement(Stream.of(me), destination, false));
+        this.weapons.get(16).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 1, false));
+        this.weapons.get(16).getEffectsList().get(0).getEffects()
+                .add(new MarkEffect(Stream.of(targetBasic), 2, false));
+
+        //Alternative Effect
+        targetAlternative = new Square(ME, 0, 0);
+        destination = new Square(NONE, 1, 1);
+        targetAlternative2 = new Player(NONE, 0, 0);
+        Square destination2 = new Square(SAME_DIRECTION, 1,1);
+        this.weapons.get(16).getEffectsList()
+                .add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.BLUE))));
+        this.weapons.get(16).getEffectsList().get(1).getEffects()
+                .add(new Movement(Stream.of(targetAlternative), destination, false));
+        this.weapons.get(16).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetAlternative2), 2, true));
+        this.weapons.get(16).getEffectsList().get(1).getEffects()
+                .add(new MarkEffect(Stream.of(targetAlternative2), 1, true));
+        this.weapons.get(16).getEffectsList().get(1).getEffects()
+                .add(new Movement(Stream.of(targetAlternative), destination2, true));
+        this.weapons.get(16).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetAlternative2), 2, true));
+
+        //RAILGUN
+        this.weapons.add(new Weapon("RAILGUN",
+                "basic mode: Choose a cardinal direction and 1 target in that direction.\n" +
+                        "Deal 3 damage to it.\n" +
+                        "in piercing mode: Choose a cardinal direction and 1 or 2 targets in that\n" +
+                        "direction. Deal 2 damage to each.\n" +
+                        "Notes: Basically, you're shooting in a straight line and ignoring walls.\n" +
+                        "You don't have to pick a target on the other side of a wall – it could even\n" +
+                        "be someone on your own square – but shooting through walls sure is\n" +
+                        "fun. There are only 4 cardinal directions. You imagine facing one wall or\n" +
+                        "door, square-on, and firing in that direction. Anyone on a square in that\n" +
+                        "direction (including yours) is a valid target. In piercing mode,\n" +
+                        "the 2 targets can be on the same square or on different squares", WeaponStatus.PARTIALLY_LOADED));
+        //Basic Effect
+        targetBasic = new Player(CARDINAL,null, null);
+        this.weapons.get(17).getEffectsList()
+                .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.YELLOW), new Ammo(Color.BLUE))));
+        this.weapons.get(17).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 3, false));
+
+        //Alternative Effect
+        targetAlternative = new Player(CARDINAL, null, null);
+        targetAlternative2 = new Player(CARDINAL, null,null);
+        this.weapons.get(17).getEffectsList()
+                .add(new CardEffect(ALTERNATIVE, null));
+        this.weapons.get(17).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetAlternative), 2, false));
+        this.weapons.get(17).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetAlternative2), 2, true));
+
+        //SHOCKWAVE
+        this.weapons.add(new Weapon("SHOCKWAVE",
+                "basic mode: Choose up to 3 targets on\n" +
+                        "different squares, each exactly 1 move away.\n" +
+                        "Deal 1 damage to each target.\n" +
+                        "in tsunami mode: Deal 1 damage to all\n" +
+                        "targets that are exactly 1 move away", WeaponStatus.PARTIALLY_LOADED));
+        //Basic Effect
+        targetBasic = new Player(DIFFERENT_SQUARE,1, 1);
+        targetBasic2 = new Player(DIFFERENT_SQUARE, 1,1);
+        Target targetBasic3 = new Player(DIFFERENT_SQUARE, 1,1);
+        this.weapons.get(18).getEffectsList()
+                .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW))));
+        this.weapons.get(18).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 1, false));
+        this.weapons.get(18).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic2), 1, true));
+        this.weapons.get(18).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic3), 1, true));
+
+        //Alternative Effect
+        targetAlternative = new Square(ALL, 1, 1);
+        this.weapons.get(18).getEffectsList()
+                .add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.YELLOW))));
+        this.weapons.get(18).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetAlternative), 1, false));
+
+        //CYBERBLADE
+        this.weapons.add(new Weapon(
+                "Cyberblade",
+                "basic effect: Deal 2 damage to 1 target on your square.\n" +
+                        "with shadowstep: Move 1 square before or after the basic effect.\n" +
+                        "with slice and dice: Deal 2 damage to a different target on your square.\n" +
+                        "The shadowstep may be used before or after this effect.\n" +
+                        "Notes: Combining all effects allows you to move onto a square and\n" +
+                        "whack 2 people; or whack somebody, move, and whack somebody else;\n" +
+                        "or whack 2 people and then move.", WeaponStatus.PARTIALLY_LOADED));
+        //Basic Effect
+        targetBasic = new Player(NONE, 0, 0);
+        this.weapons.get(19).getEffectsList()
+                .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.RED))));
+        this.weapons.get(19).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic) ,2, false));
+        //Optional Effect
+        playerOptional = new Player(ME, null, null);
+        destination = new Square(NONE, 1, 1);
+        this.weapons.get(19).getEffectsList()
+                .add(new CardEffect(EVERY_TIME, Stream.of(new Ammo(Color.RED))));
+        this.weapons.get(19).getEffectsList().get(1).getEffects()
+                .add(new Movement(Stream.of(playerOptional),destination, false));
+        //Optional Effect 2
+        targetOptional = new Player(NONE, 0,0);
+        this.weapons.get(19).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetOptional) ,2, false));
+
+        //SLEDGEHAMMER
+        this.weapons.add(new Weapon("SHOCKWAVE",
+                "basic mode: Choose up to 3 targets on\n" +
+                        "different squares, each exactly 1 move away.\n" +
+                        "Deal 1 damage to each target.\n" +
+                        "in tsunami mode: Deal 1 damage to all\n" +
+                        "targets that are exactly 1 move away", WeaponStatus.PARTIALLY_LOADED));
+        //Basic Effect
+        targetBasic = new Player(NONE,0, 0);
+        this.weapons.get(20).getEffectsList()
+                .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW))));
+        this.weapons.get(20).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 2, false));
+
+        //Alternative Effect
+        targetAlternative = new Player(NONE, 0, 0);
+        destination = new Square(CARDINAL, 0, 2);
+        this.weapons.get(20).getEffectsList()
+                .add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.RED))));
+        this.weapons.get(20).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetAlternative), 3, false));
+        this.weapons.get(20).getEffectsList().get(1).getEffects()
+                .add(new Movement(Stream.of(targetAlternative), destination, false));
+
 
         shuffleDeck();
     }

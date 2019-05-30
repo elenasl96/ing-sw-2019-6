@@ -10,7 +10,10 @@ public enum TargetType {
     CARDINAL(5),
     ME (6),
     NOT_MINE(7),
-    SAME_TARGET(8);
+    SAME_TARGET(8),
+    ALL(9),
+    SAME_DIRECTION(10),
+    DIFFERENT_SQUARE(11);
 
     private int number;
 
