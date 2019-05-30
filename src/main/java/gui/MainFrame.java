@@ -120,38 +120,57 @@ public class MainFrame extends JFrame {
 
 
         //Create central section of GUI
-        JPanel centralPanel = new JPanel(new GridLayout(4, 6));
+        JPanel centralPanel = new JPanel(new GridLayout(3, 4));
+
         Image image = null;
         try{
-            //adds red spawn point label
-            centralPanel.add(new JLabel("Red spawn point weapons:"),0);
-            //adds killshot track
-            image = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\" +
-                    "KillshotTrack.png"))
-                    .getScaledInstance(200, 40, Image.SCALE_DEFAULT);
-            centralPanel.add(new JLabel(new ImageIcon(image)),1);
-            //adds 3 blue spawn point cards
-            image = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\" +
-                    "AD_weapons_IT_0222.png"))
-                    .getScaledInstance(65, 120, Image.SCALE_DEFAULT);
-            centralPanel.add(new JLabel(new ImageIcon(image)),2);
-            centralPanel.add(new JLabel(new ImageIcon(image)),3);
-            centralPanel.add(new JLabel(new ImageIcon(image)),4);
-            //adds blue and yellow spawn point label
-            centralPanel.add(new JLabel("Yellow spawn point weapons:"),5);
-            //////End of first row
-            //adds one red spawn point card
-            centralPanel.add(new JLabel(new ImageIcon(image)),6);
-            //adds A3
-            image = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\" +
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
                     "Field1_A_3.png"))
-                    .getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-            centralPanel.add(new JLabel(new ImageIcon(image)),7);
-            //adds A2
-            image = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\" +
+                    .getScaledInstance(120,120, Image.SCALE_DEFAULT))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "Field1_B_3.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "Field1_C_3.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "Field1_D_3_Fixed.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
+            //adds blue and yellow spawn point label
+
+            //////End of first row
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
                     "Field1_A_2.png"))
-                    .getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-              centralPanel.add(new JLabel(new ImageIcon(image)),8);
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
+            //adds A3
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "Field1_A_2.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
+            //adds A2
+            image = ImageIO.read(new File("src/resources/" +
+                    "Field1_A_2.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
+              centralPanel.add(new JLabel(new ImageIcon(image)));
+            image = ImageIO.read(new File("src/resources/" +
+                    "Field1_A_2.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
+            centralPanel.add(new JLabel(new ImageIcon(image)));
+            image = ImageIO.read(new File("src/resources/" +
+                    "Field1_A_2.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
+            centralPanel.add(new JLabel(new ImageIcon(image)));
+            image = ImageIO.read(new File("src/resources/" +
+                    "Field1_A_2.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
+            centralPanel.add(new JLabel(new ImageIcon(image)));
+            image = ImageIO.read(new File("src/resources/" +
+                    "Field1_A_2.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
+            centralPanel.add(new JLabel(new ImageIcon(image)));
+            image = ImageIO.read(new File("src/resources/" +
+                    "Field1_A_2.png"))
+                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
+            centralPanel.add(new JLabel(new ImageIcon(image)));
 
 
 
@@ -217,5 +236,9 @@ public class MainFrame extends JFrame {
         } else {
             turnLight.setBackground(Color.RED);
         }
+    }
+
+    public void createMap() {
+
     }
 }
