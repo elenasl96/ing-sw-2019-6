@@ -51,14 +51,14 @@ class MovementTest {
         movement.setMaxSteps(3);
         assertEquals(3, movement.getMaxSteps());
 
-        Square destination = new SpawnSquare(Color.BLUE, new Coordinate('B',2), board);
+        Square destination = new SpawnSquare(Color.BLUE, new Coordinate('B',2));
         movement.setDestination(destination);
         assertEquals(destination, movement.getDestination());
 
-        Field field2 = new Field(1, board);
+        Field field2 = new Field(1);
         field.getSquares().add(new AmmoSquare(Color.BLUE, new Coordinate('B',2)));
         field.getSquares().add(new AmmoSquare(Color.BLUE, new Coordinate('B',2)));
-        field.getSquares().add(new SpawnSquare(Color.BLUE, new Coordinate('B',2), board));
+        field.getSquares().add(new SpawnSquare(Color.BLUE, new Coordinate('B',2)));
         field.getEdges().add(new Edge(field.getSquares().get(0), field.getSquares().get(1)));
         field.getEdges().add(new Edge(field.getSquares().get(1), field.getSquares().get(2)));
         movement.setField(field2);

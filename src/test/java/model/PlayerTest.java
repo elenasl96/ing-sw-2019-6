@@ -21,7 +21,7 @@ class PlayerTest {
 
     @Test
     void nameTest() {
-        Square sq = new SpawnSquare(Color.YELLOW, new Coordinate('B',2), new Board(2));
+        Square sq = new SpawnSquare(Color.YELLOW, new Coordinate('B',2));
         Player pg2 = new Player (new User("2"));
         Pay pay = new Pay();
 

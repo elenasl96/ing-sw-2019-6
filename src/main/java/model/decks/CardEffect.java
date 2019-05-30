@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CardEffect {
-    private boolean done;
     private EffectType effectType;
     private List<Effect> effects = new ArrayList<>();
     private ArrayList<Ammo> cost;
@@ -18,7 +17,6 @@ public class CardEffect {
     CardEffect(EffectType effecType, Stream<Ammo> ammos){
         if(ammos!=null)
             this.setCost(ammos);
-        done = false;
         this.effectType = effecType;
     }
 
@@ -26,9 +24,6 @@ public class CardEffect {
         return effects;
     }
 
-    public void setEffects(List<Effect> effects) {
-        this.effects = effects;
-    }
 
     void setCost(Stream<Ammo> ammos) {
         this.cost = ammos.collect(Collectors.toCollection(ArrayList::new));

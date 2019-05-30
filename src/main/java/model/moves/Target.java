@@ -33,7 +33,4 @@ public abstract class Target implements Serializable {
         }
     }
 
-    public static List<Target> addTargetList(Target targets){
-        return Stream.of(targets).collect(Collectors.toCollection(ArrayList::new));
-    }
 }

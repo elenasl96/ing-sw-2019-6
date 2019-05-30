@@ -1,6 +1,5 @@
 package model.moves;
 
-import exception.InvalidMoveException;
 import model.GameContext;
 import model.Player;
 import model.enums.Phase;

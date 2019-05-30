@@ -1,10 +1,6 @@
 package model.decks;
 
-import exception.InvalidMoveException;
-import exception.NothingGrabbableException;
-import model.Board;
 import model.GameContext;
-import model.Player;
 import model.room.Update;
 
 import java.io.Serializable;

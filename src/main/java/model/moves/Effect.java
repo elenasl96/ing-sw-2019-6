@@ -1,8 +1,5 @@
 package model.moves;
 
-import model.Ammo;
-import model.enums.EffectType;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +8,6 @@ import java.util.stream.Stream;
 
 public abstract class Effect implements Serializable {
     private Boolean optionality;
-    private Boolean different;
     List<Target> targets = new ArrayList<>();
 
     public Effect(){

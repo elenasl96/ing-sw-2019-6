@@ -3,7 +3,6 @@ package model.moves;
 import exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
-import model.enums.EffectType;
 import model.field.Coordinate;
 import model.field.Field;
 import model.field.Square;
@@ -53,7 +52,7 @@ public class Movement extends Effect implements Move{
      * @param p the player who wants to move
      * @throws InvalidMovementException if the destination is unreachable for the player
      */
-    public Response execute(Player p, int groupID) throws InvalidMovementException {
+    public Response execute(Player p, int groupID) {
         System.out.println("The square inserted is: "+coordinate);
         Square squareDestination = null;
         //Check if the coordinate is valid

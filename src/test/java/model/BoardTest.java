@@ -13,8 +13,8 @@ class BoardTest {
     @Test
     void Constructor(){
         Board board = new Board(1);
-        Field field = new Field(1, board);
-        try{field.generateField(1, board);}
+        Field field = new Field(1);
+        try{field.generateField(1);}
         catch (NotExistingFieldException nef){
             System.out.println(nef.getMessage());
         }

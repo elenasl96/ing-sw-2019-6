@@ -29,13 +29,8 @@ public abstract class AmmoTile implements Serializable, Grabbable {
         return ammos;
     }
 
-    public void setAmmos(List<Ammo> ammos) {
-        this.ammos = ammos;
-    }
-
-
     @Override
-    public void pickGrabbable(int groupID, int toPick) throws InvalidMoveException {
+    public void pickGrabbable(int groupID, int toPick) {
         throw new InvalidMoveException("No weapon to grab here!");
     }
 }

@@ -16,7 +16,6 @@ public class Game implements Serializable {
     private PlayerList players = new PlayerList();
     private Player currentPlayer;
     private transient List<ModelObserver> observers = new LinkedList<>();
-    private transient int turn;
     private int skullsNumber;
     private transient boolean done;
     private transient boolean finalFrenzy;

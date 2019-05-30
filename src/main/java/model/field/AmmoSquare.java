@@ -3,7 +3,6 @@ package model.field;
 import model.Board;
 import model.GameContext;
 import model.decks.AmmoTile;
-import model.decks.Grabbable;
 import model.decks.Weapon;
 import model.enums.Color;
 
@@ -15,14 +14,11 @@ public class AmmoSquare extends Square{
         this.ammo = null;
     }
 
-    public AmmoSquare(Boolean canSee, Boolean cardinal, Integer minDistance, Integer maxDistance){
-
-    }
-
     public AmmoSquare(Color color, Coordinate coord) {
         super(color, coord);
     }
 
+    @Override
     public AmmoTile getGrabbable() {
         return ammo;
     }

@@ -29,7 +29,6 @@ public class Player extends Target implements Serializable{
     private boolean dead;
     private int deaths;
     private List<Player> shootable = new ArrayList<>();
-    private List<Move> possibleMoves = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
     private boolean phaseNotDone;
 

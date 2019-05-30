@@ -1,6 +1,4 @@
 package model.moves;
-import controller.MoveRequestHandler;
-import exception.InvalidMoveException;
 import model.Player;
 import network.socket.commands.Response;
 

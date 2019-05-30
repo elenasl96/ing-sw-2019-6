@@ -20,7 +20,7 @@ public class Board implements Serializable {
         this.weaponsLeft = new WeaponDeck();
         this.ammosLeft = new AmmoDeck();
         this.powerupsLeft = new PowerupDeck();
-        this.field = new Field(fieldNumber, this);
+        this.field = new Field(fieldNumber);
     }
 
     public Field getField() {

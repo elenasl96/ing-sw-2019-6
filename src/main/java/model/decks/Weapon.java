@@ -1,15 +1,11 @@
 package model.decks;
 
 import model.Ammo;
-import model.enums.EffectType;
 import model.enums.WeaponStatus;
-import model.moves.Effect;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Weapon implements Serializable {
     private String name;
@@ -21,15 +17,6 @@ public class Weapon implements Serializable {
         this.name = name;
         this.effectsDescription = effectsDescription;
         this. status = status;
-    }
-
-    public void setNameAndDescription(String name, String effectsDescription) {
-        this.name = name;
-        this.effectsDescription = effectsDescription;
-    }
-
-    public void setEffectsCard(List<CardEffect> cardEffectCard) {
-        this.cardEffectList = cardEffectCard;
     }
 
     public List<CardEffect> getEffectsList() {

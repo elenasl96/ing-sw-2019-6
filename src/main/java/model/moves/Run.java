@@ -27,7 +27,7 @@ public class Run implements Move {
     }
 
     @Override
-    public Response execute(Player p, int groupID) throws InvalidMoveException {
+    public Response execute(Player p, int groupID) {
         this.setMaxSteps(3);
         if(GameContext.get().getGame(groupID).isFinalFrenzy()
                 && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
