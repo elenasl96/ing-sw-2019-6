@@ -3,10 +3,8 @@ package model;
 import model.decks.AmmoTile;
 import model.decks.Powerup;
 import model.decks.Weapon;
+import model.enums.*;
 import model.enums.Character;
-import model.enums.Color;
-import model.enums.Phase;
-import model.enums.WeaponStatus;
 import model.field.Square;
 import model.moves.Move;
 import model.moves.Target;
@@ -36,8 +34,8 @@ public class Player extends Target implements Serializable{
     private boolean phaseNotDone;
 
     //Constructors
-    public Player(Boolean canSee, Boolean cardinal, Integer minDistance, Integer maxDistance){
-        super(canSee, cardinal, minDistance, maxDistance);
+    public Player(TargetType targetType, Integer minDistance, Integer maxDistance){
+        super(targetType, minDistance, maxDistance);
     }
 
     public Player(User user) {

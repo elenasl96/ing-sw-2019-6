@@ -1,18 +1,21 @@
 package model.decks;
 
 import model.Ammo;
+import model.enums.EffectType;
 import model.enums.WeaponStatus;
 import model.moves.Effect;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Weapon implements Serializable {
     private String name;
     private String effectsDescription;
     private WeaponStatus status;
-    private List<Effect> effects = new ArrayList<>();
+    private transient List<CardEffect> cardEffectList = new ArrayList<>();
 
     public Weapon(String name, String effectsDescription, WeaponStatus status) {
         this.name = name;
@@ -25,12 +28,12 @@ public class Weapon implements Serializable {
         this.effectsDescription = effectsDescription;
     }
 
-    public void setEffects(List<Effect> effects) {
-        this.effects = effects;
+    public void setEffectsCard(List<CardEffect> cardEffectCard) {
+        this.cardEffectList = cardEffectCard;
     }
 
-    public List<Effect> getEffects() {
-        return effects;
+    public List<CardEffect> getEffectsList() {
+        return cardEffectList;
     }
 
     public String getName() {
@@ -55,7 +58,7 @@ public class Weapon implements Serializable {
         StringBuilder string = new StringBuilder(
                 "\nName: " + name
         );
-        for(Effect e: effects){
+        for(CardEffect e: cardEffectList){
             string.append("\nCost effect ").append(cost).append(": ");
             if(!e.getCost().isEmpty()){
                 for(Ammo a: e.getCost()){
@@ -64,8 +67,10 @@ public class Weapon implements Serializable {
             }
             cost ++;
         }
-        string.append("\nAmmo status: " + status.toString())
-              .append("\n=========================");
+        string.append("\nAmmo status: ")
+                .append(status.toString())
+                .append("\n=========================");
         return  string.toString();
     }
 }
+

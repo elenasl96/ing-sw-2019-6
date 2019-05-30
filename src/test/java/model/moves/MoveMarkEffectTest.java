@@ -7,6 +7,7 @@ import model.room.User;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.stream.Stream;
 
 import static model.enums.EffectType.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +20,7 @@ class MoveMarkEffectTest {
         int groupId = 0;
         Player playerMarking = new Player(new User("goofy"));
         Player playerMarked = new Player(new User("donald"));
-        MarkEffect m = new MarkEffect(MOVE, Target.addTargetList(playerMarked), 2, false, null);
+        MarkEffect m = new MarkEffect(Stream.of(playerMarked), 2, false);
         /*add 3 marks of playerMarking to playerMarked */
         m.execute(playerMarking, groupId);
         assertEquals(2, Collections.frequency(playerMarked.getPlayerBoards(groupId).get(0).getMarks(), playerMarking));

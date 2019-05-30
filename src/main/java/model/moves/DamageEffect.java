@@ -1,19 +1,14 @@
 package model.moves;
 
-import controller.MoveRequestHandler;
-import exception.InvalidMoveException;
 import model.Player;
-import model.enums.EffectType;
 import network.socket.commands.Response;
-import network.socket.commands.response.AskInput;
-
-import java.util.List;
+import java.util.stream.Stream;
 
 public class DamageEffect extends Effect implements Move{
     private int damages;
 
-    public DamageEffect(EffectType type, List<Target> target, int damages, Boolean optionality, Boolean different){
-        super(type, target, optionality, different);
+    public DamageEffect(Stream<Target> targets, int damages, Boolean optionality){
+        super(targets, optionality);
         this.damages = damages;
     }
 

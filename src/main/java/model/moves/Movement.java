@@ -12,6 +12,7 @@ import network.socket.commands.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Implements the movement of the player of any steps on the board
@@ -37,8 +38,8 @@ public class Movement extends Effect implements Move{
     private int maxSteps;
     private int maxStepsFrenzy;
 
-    public Movement (EffectType type, List<Target> target, Square destination, Boolean optionality, Boolean different){
-        super(type, target, optionality, different);
+    public Movement (Stream<Target> target, Square destination, boolean optionality){
+        super(target, optionality);
         this.destination = destination;
         this.maxSteps = -1; //Default (by Marti)
     }
