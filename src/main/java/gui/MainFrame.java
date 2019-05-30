@@ -1,8 +1,6 @@
 package gui;
 
 import controller.ClientController;
-import model.room.ModelObserver;
-import model.room.Update;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,15 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import static model.enums.Character.PG1;
-
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
-    private static final String PATH = "C:/User/quara/IdeaProjects/ing-sw-2019-6/src/main/resources";
+    private static final String PATH = "C:\\User\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources";
     private ClientController controller;
     private JTextArea console;
     private JTextField commandLine;
@@ -63,13 +59,13 @@ public class MainFrame extends JFrame {
         name.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel ammos = new JPanel();
         ammos.add(new JLabel("AMMO"));
-        JLabel cardlabel = new JLabel("CARTE IN POSSESSO");
-        cardlabel.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel cardLabel = new JLabel("CARTE IN POSSESSO");
+        cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel left = new JPanel(new GridLayout(4, 1));
         left.add(name);
         left.add(ammos);
-        left.add(cardlabel);
+        left.add(cardLabel);
         left.add(scrollPanelContainer);
 
         //Create right section of GUI
@@ -122,22 +118,50 @@ public class MainFrame extends JFrame {
         right.add(middleRightContainer);
         right.add(new JScrollPane(console));
 
-        BufferedImage image = null;
-        Image newImage = null;
-      /*  try{
-            newImage = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\KillshotTrack.png"))
+
+        //Create central section of GUI
+        JPanel centralPanel = new JPanel(new GridLayout(4, 6));
+        Image image = null;
+        try{
+            //adds red spawn point label
+            centralPanel.add(new JLabel("Red spawn point weapons:"),0);
+            //adds killshot track
+            image = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\" +
+                    "KillshotTrack.png"))
                     .getScaledInstance(200, 40, Image.SCALE_DEFAULT);
-            System.out.println(PATH);
-        }
+            centralPanel.add(new JLabel(new ImageIcon(image)),1);
+            //adds 3 blue spawn point cards
+            image = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\" +
+                    "AD_weapons_IT_0222.png"))
+                    .getScaledInstance(65, 120, Image.SCALE_DEFAULT);
+            centralPanel.add(new JLabel(new ImageIcon(image)),2);
+            centralPanel.add(new JLabel(new ImageIcon(image)),3);
+            centralPanel.add(new JLabel(new ImageIcon(image)),4);
+            //adds blue and yellow spawn point label
+            centralPanel.add(new JLabel("Yellow spawn point weapons:"),5);
+            //////End of first row
+            //adds one red spawn point card
+            centralPanel.add(new JLabel(new ImageIcon(image)),6);
+            //adds A3
+            image = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\" +
+                    "Field1_A_3.png"))
+                    .getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+            centralPanel.add(new JLabel(new ImageIcon(image)),7);
+            //adds A2
+            image = ImageIO.read(new File("C:\\Users\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources\\" +
+                    "Field1_A_2.png"))
+                    .getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+              centralPanel.add(new JLabel(new ImageIcon(image)),8);
+
+
+
+      }
         catch(IOException exception)
         {
             exception.printStackTrace();
-        }*/
+        }
 
-        //Create central section of GUI
-        JPanel centralPanel = new JPanel(new GridLayout(2, 1));
-        JPanel field = new JPanel(new GridLayout(3, 4));
-        //centralPanel.add(new JLabel(new ImageIcon(newImage)));
+
 
         //Create bottom section of GUI
         JPanel playerboard = new JPanel();
