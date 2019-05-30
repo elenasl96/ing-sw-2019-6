@@ -9,7 +9,8 @@ public enum TargetType {
     OPTIONAL1_VISIBLE(4),
     CARDINAL(5),
     ME (6),
-    NOT_MINE(7);
+    NOT_MINE(7),
+    SAME_TARGET(8);
 
     private int number;
 
