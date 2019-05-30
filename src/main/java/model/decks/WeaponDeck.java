@@ -4,19 +4,17 @@ import model.Ammo;
 import model.Player;
 import model.enums.Color;
 import model.enums.WeaponStatus;
-import model.field.AmmoSquare;
+import model.field.Square;
 import model.moves.*;
-import model.moves.Target.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.concurrent.BlockingDeque;
 import java.util.stream.Stream;
 
 import static model.enums.EffectType.*;
+import static model.enums.TargetType.*;
 
 public class WeaponDeck {
     private List<Weapon> weapons = new ArrayList<>();
@@ -31,19 +29,21 @@ public class WeaponDeck {
                         "with second lock: Deal 1 mark to a different target\n" +
                         "you can see.", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
-        Player p1 = new Player(true, null, null, null);
-        List<Target> t1 = Target.addTargetList(p1);
-        this.weapons.get(0).getEffects().add(new DamageEffect(BASIC, t1 ,2, false, null));
-        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, t1, 1, false, null));
-        this.weapons.get(0).getEffects().get(0).setCost(Stream
-                .of(new Ammo(Color.BLUE), new Ammo(Color.BLUE))
-                .collect(Collectors.toCollection(ArrayList::new)));
-        //Optional effect -- p2 is different from p1
-        Player p2 = new Player(true, false, null, null);
-        this.weapons.get(0).getEffects().add(new MarkEffect(BASIC, Target.addTargetList(p2),1, false, null)); //2
-        this.weapons.get(0).getEffects().get(2).setCost(Stream
-                .of(new Ammo(Color.RED))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        Target targetBasic = new Player(VISIBLE, null, null);
+        this.weapons.get(0).getEffectsList().add(new CardEffect(BASIC));
+        this.weapons.get(0).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic) ,2, false));
+        this.weapons.get(0).getEffectsList().get(0).getEffects()
+                .add(new MarkEffect(Stream.of(targetBasic), 1, false));
+        this.weapons.get(0).getEffectsList().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.BLUE)));
+        //PlayerOptional is different from PlayerBasic
+        Player playerOptional = new Player(VISIBLE, null, null);
+        this.weapons.get(0).getEffectsList().add(new CardEffect(OPTIONAL));
+        this.weapons.get(0).getEffectsList().get(1).getEffects()
+                .add(new MarkEffect(Stream.of(playerOptional),1, false));
+        this.weapons.get(0).getEffectsList().get(1).setCost(Stream
+                .of(new Ammo(Color.RED)));
 
         //ELECTROSCYTHE
         this.weapons.add(new Weapon(
@@ -53,16 +53,18 @@ public class WeaponDeck {
                         "in reaper mode: Deal 2 damage to every other player\n" +
                         "on your square", WeaponStatus.PARTIALLY_LOADED));
         //Basic effect -- target = null -> mySquare
-        this.weapons.get(1).getEffects().add(new DamageEffect(BASIC, null,1, false, null));
-        this.weapons.get(1).getEffects().get(0).setCost(Stream.of(new Ammo(Color.BLUE))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        targetBasic = new Square(VISIBLE, 0, 0);
+        this.weapons.get(1).getEffectsList().add(new CardEffect(BASIC));
+        this.weapons.get(1).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic),1, false));
+        this.weapons.get(1).getEffectsList().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE)));
         //Alternative
-        this.weapons.get(1).getEffects().add(new DamageEffect(ALTERNATIVE,
-                Target.addTargetList(new AmmoSquare(null, null, 0, 0)),
-                2, false, null));
-        this.weapons.get(1).getEffects().get(1).setCost(Stream
-                .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        this.weapons.get(1).getEffectsList().add(new CardEffect(ALTERNATIVE));
+        this.weapons.get(1).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic),2, false));
+        this.weapons.get(1).getEffectsList().get(1).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.RED)));
 
         //Machine Gun
         this.weapons.add(new Weapon("MACHINE GUN",
@@ -79,32 +81,31 @@ public class WeaponDeck {
                         "effects. If you use the basic effect on only 1 target, you can\n" +
                         "still use the the turret tripod to give it 1 additional damage", WeaponStatus.PARTIALLY_LOADED));
         //Basic effect
-        t1 = Target.addTargetList(new Player(true, null, null, null));
-        this.weapons.get(2).getEffects().add(
-                new DamageEffect(BASIC, t1,1, false, null));
-        List<Target> t2 = Target.addTargetList(new Player(true, null, null, null));
-        this.weapons.get(2).getEffects()
-                .add(new DamageEffect(BASIC, t2, 1,true, null));
-        this.weapons.get(2).getEffects().get(0).setCost(Stream
-                .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        targetBasic = new Player(VISIBLE, null, null);
+        Target targetBasic2 = new Player(VISIBLE, null, null);
+        this.weapons.get(2).getEffectsList().add(new CardEffect(BASIC));
+        this.weapons.get(2).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic),1, false));
+        this.weapons.get(2).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic2),1, true));
+        this.weapons.get(2).getEffectsList().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.RED)));
 
         //Optional effect 1
-        this.weapons.get(2).getEffects()
-                .add(new DamageEffect(OPTIONAL,
-                        Stream.concat(t1.stream(), t1.stream()).collect(Collectors.toCollection(ArrayList::new)),
-                        1, false, null));
-        this.weapons.get(2).getEffects().get(2).setCost(Stream
-                .of(new Ammo(Color.YELLOW))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        this.weapons.get(2).getEffectsList()
+                .add(new CardEffect(OPTIONAL1));
+        this.weapons.get(2).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic, targetBasic2), 1, false));
+        this.weapons.get(2).getEffectsList().get(1).setCost(Stream
+                .of(new Ammo(Color.YELLOW)));
 
         //Optional effect 2
-        this.weapons.get(2).getEffects()
-                .add(new DamageEffect(OPTIONAL,
-                        t2,1, false, true));
-        this.weapons.get(2).getEffects().get(3).setCost(Stream
-                .of(new Ammo(Color.BLUE))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        this.weapons.get(2).getEffectsList()
+                .add(new CardEffect(OPTIONAL2));
+        this.weapons.get(2).getEffectsList().get(2).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic, targetBasic2),1, false));
+        this.weapons.get(2).getEffectsList().get(2).setCost(Stream
+                .of(new Ammo(Color.BLUE)));
 
         //Tractor Beam
         this.weapons.add(new Weapon("TRACTOR BEAM",
@@ -118,24 +119,25 @@ public class WeaponDeck {
                         "damage it. The moves do not have to be in the same\n" +
                         "direction.", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
-        Player p3 = new Player(null, null, null, null);
-        this.weapons.get(3).getEffects()
-                .add(new Movement(BASIC, Target.addTargetList(p3), new AmmoSquare(true, null, 0, 2), false, null));
-        this.weapons.get(3).getEffects()
-                .add(new DamageEffect(BASIC,
-                        Target.addTargetList(p3) ,1, false, null));
-        this.weapons.get(3).getEffects().get(0).setCost(Stream
-                .of(new Ammo(Color.BLUE))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        targetBasic = new Player(NONE, null, null);
+        this.weapons.get(3).getEffectsList().add(new CardEffect(BASIC));
+        this.weapons.get(3).getEffectsList().get(0).getEffects()
+                .add(new Movement(Stream.of(targetBasic),
+                        new Square(VISIBLE, 0, 2), false));
+        this.weapons.get(3).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic),1, false));
+        this.weapons.get(3).getEffectsList().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE)));
         //ALternative Effect -- destination.cansee = null -> mysquare
-        p3 = new Player(null, null, 0, 2);
-        this.weapons.get(3).getEffects().add(new Movement(ALTERNATIVE, Target.addTargetList(p3),
-                new AmmoSquare(null, null, 0,0), false, null));
-        this.weapons.get(3).getEffects()
-                .add(new DamageEffect(ALTERNATIVE, Target.addTargetList(p3),3,false, null));
-        this.weapons.get(2).getEffects().get(2).setCost(Stream
-                .of(new Ammo(Color.RED), new Ammo(Color.YELLOW))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        Target targetOptional = new Player(NONE,0, 2);
+        this.weapons.get(3).getEffectsList().add(new CardEffect(OPTIONAL));
+        this.weapons.get(3).getEffectsList().get(1).getEffects()
+                .add(new Movement(Stream.of(targetOptional),
+                        new Square(VISIBLE,0,0), false));
+        this.weapons.get(3).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetOptional),3,false));
+        this.weapons.get(2).getEffectsList().get(1).setCost(Stream
+                .of(new Ammo(Color.RED), new Ammo(Color.YELLOW)));
 
         //T.H.O.R.
         this.weapons.add(new Weapon("T.H.O.R.",
@@ -149,31 +151,30 @@ public class WeaponDeck {
                         "its effects. (Most cards don't.) Also note that each target\n" +
                         "must be a different player", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
-        this.weapons.get(4).getEffects()
-                .add(new DamageEffect(BASIC,
-                        Target.addTargetList(new Player(true, false, null, null)), 2, false, null));
-        this.weapons.get(4).getEffects().get(0).setCost(Stream
-                .of(new Ammo(Color.BLUE), new Ammo(Color.RED))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        targetBasic = new Player(VISIBLE, null, null);
+        this.weapons.get(4).getEffectsList().add(new CardEffect(BASIC));
+        this.weapons.get(4).getEffectsList().get(0).getEffects().add(new DamageEffect(Stream.of(targetBasic), 2, false));
+        this.weapons.get(4).getEffectsList().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.RED)));
 
         //Optional Effect 1
-        //TODO add "player1.cansee"
-        this.weapons.get(4).getEffects()
-                .add(new DamageEffect(OPTIONAL,
-                        Target.addTargetList(new Player()), 1, false, null));
-        this.weapons.get(4).getEffects().get(1).setCost(Stream
-                .of(new Ammo(Color.BLUE))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        //BASIC_VISIBLE = basictarget.cansee
+        targetOptional = new Player(BASIC_VISIBLE, null, null);
+        this.weapons.get(4).getEffectsList().add(new CardEffect(OPTIONAL1));
+        this.weapons.get(4).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect( Stream.of(targetOptional), 1, false));
+        this.weapons.get(4).getEffectsList().get(1).setCost(Stream
+                .of(new Ammo(Color.BLUE)));
 
 
         //Optional Effect 2
-        //TODO add "player2.cansee
-        this.weapons.get(4).getEffects()
-                .add(new DamageEffect(OPTIONAL,
-                        Target.addTargetList(new Player()), 1, false, null));
-        this.weapons.get(4).getEffects().get(2).setCost(Stream
-                .of(new Ammo(Color.BLUE))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        //BASIC_VISIBLE = basictarget.cansee
+        targetOptional = new Player(OPTIONAL1_VISIBLE, null, null);
+        this.weapons.get(4).getEffectsList().add(new CardEffect(OPTIONAL1));
+        this.weapons.get(4).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect( Stream.of(targetOptional), 1, false));
+        this.weapons.get(4).getEffectsList().get(1).setCost(Stream
+                .of(new Ammo(Color.BLUE)));
 
         //Plasma Gun
         this.weapons.add(new Weapon("Plasma Gun",
@@ -188,25 +189,25 @@ public class WeaponDeck {
                         "you now see. You cannot use 1 move before shooting and\n" +
                         "1 move after", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
-        Player p5 = new Player (true, null, null, null);
-        this.weapons.get(5).getEffects()
-                .add(new DamageEffect(BASIC, Target.addTargetList(p5), 2, false, null));
-        this.weapons.get(5).getEffects().get(0).setCost(Stream
-                .of(new Ammo(Color.BLUE), new Ammo(Color.YELLOW))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        targetBasic = new Player (VISIBLE, null, null);
+        this.weapons.get(5).getEffectsList().add(new CardEffect(BASIC));
+        this.weapons.get(5).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 2, false));
+        this.weapons.get(5).getEffectsList().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.YELLOW)));
 
         //Optional Effect 1
-        //if target == null -> is me
-        this.weapons.get(5).getEffects()
-                .add(new Movement(BEFORE_AFTER_BASIC, null,
-                        new AmmoSquare(null, null, 1,2), false, null));
+        targetOptional = new Player (ME, null, null);
+        this.weapons.get(5).getEffectsList().add(new CardEffect(BEFORE_AFTER_BASIC));
+        this.weapons.get(5).getEffectsList().get(1).getEffects()
+                .add(new Movement(Stream.of(targetOptional), new Square(null, 1,2), false));
 
         //Optional Effect 2
-        this.weapons.get(5).getEffects()
-                .add(new DamageEffect(OPTIONAL, Target.addTargetList(p5), 1, false, null));
-        this.weapons.get(5).getEffects().get(2).setCost(Stream
-                .of(new Ammo(Color.BLUE))
-                .collect(Collectors.toCollection(ArrayList::new)));
+        this.weapons.get(5).getEffectsList().add(new CardEffect(OPTIONAL));
+        this.weapons.get(5).getEffectsList().get(2).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 1, false));
+        this.weapons.get(5).getEffectsList().get(2).setCost(Stream
+                .of(new Ammo(Color.BLUE)));
 
 
         //Whisper
@@ -218,11 +219,14 @@ public class WeaponDeck {
                         "on the diagonal. If you are beside a door, you can't shoot\n" +
                         "a target on the other side of the door, but you can shoot\n" +
                         "a target on a different square of that room.", WeaponStatus.PARTIALLY_LOADED));
-        /*this.weapons.get(6).getEffects().add(new Damage()); //3
-        this.weapons.get(6).getEffects().add(new MarkEffect());
-        this.weapons.get(6).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(6).getAmmoBasic().add(new Ammo(Color.BLUE));
-        this.weapons.get(6).getAmmoBasic().add(new Ammo(Color.YELLOW));*/
+        targetBasic = new Player(VISIBLE, 2, null);
+        this.weapons.get(6).getEffectsList().add(new CardEffect(BASIC));
+        this.weapons.get(6).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 1, false)); //3
+        this.weapons.get(6).getEffectsList().get(0).getEffects()
+                .add(new MarkEffect(Stream.of(targetBasic), 3, false));
+        this.weapons.get(6).getEffectsList().get(0).setCost(Stream
+                .of(new Ammo(Color.BLUE), new Ammo(Color.BLUE), new Ammo(Color.YELLOW)));
 
         //Vortex cannon
         this.weapons.add(new Weapon("Vortex cannon",
@@ -237,14 +241,30 @@ public class WeaponDeck {
                         "start on the same square. It is legal to choose targets on\n" +
                         "your square, on the vortex, or even on squares you can't\n" +
                         "see. They all end up on the vortex", WeaponStatus.PARTIALLY_LOADED));
-        /*this.weapons.get(7).getEffects().add(new Movement(5));
-        this.weapons.get(7).getEffects().add(new Damage()); //2
-        this.weapons.get(7).getAmmoBasic().add(new Ammo(Color.RED));
-        this.weapons.get(7).getAmmoBasic().add(new Ammo(Color.BLUE));
+        //Basic Effect
+        //TODO controllare
+        Square vortex = new Square(NOT_MINE, 0, 1);
+        targetBasic = new Player(NONE, null, null);
+        this.weapons.get(7).getEffectsList().add(new CardEffect(BASIC));
+        this.weapons.get(7).getEffectsList().get(0).getEffects().add(new Movement(Stream.of(targetBasic), vortex,false));
+        this.weapons.get(7).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of((Target)vortex), 1, false));
+        this.weapons.get(7).getEffectsList().get(0).setCost(Stream.of(new Ammo(Color.RED), new Ammo(Color.BLUE)));
 
-        this.weapons.get(7).getEffects().add(new Movement(1));
-        this.weapons.get(7).getOptionalEffect().add(new Damage());
-        this.weapons.get(7).getAmmoOptional().add(new Ammo(Color.BLUE));*/
+        //Optional Effect
+        targetOptional = new Player(NONE, null, null);
+        this.weapons.get(7).getEffectsList().add(new CardEffect(OPTIONAL_VORTEX));
+        this.weapons.get(7).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetOptional), 1, false));
+        this.weapons.get(7).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetOptional), 1, true));
+
+        this.weapons.get(7).getEffectsList().add(new CardEffect(OPTIONAL_VORTEX));
+        this.weapons.get(7).getEffectsList().get(1).getEffects()
+                .add(new Movement(Stream.of(targetOptional), vortex, false));
+        this.weapons.get(7).getEffectsList().get(1).getEffects()
+                .add(new DamageEffect(Stream.of(targetOptional), 1,false));
+        this.weapons.get(7).getEffectsList().get(1).setCost(Stream.of(new Ammo(Color.BLUE)));
 
         //Furnace
         this.weapons.add(new Weapon("Furnace",
@@ -253,7 +273,7 @@ public class WeaponDeck {
                         "in cozy fire mode: Choose a square exactly one move\n" +
                         "away. Deal 1 damage and 1 mark to everyone on that\n" +
                         "square.", WeaponStatus.PARTIALLY_LOADED));
-        /*this.weapons.get(8).getEffects().add(new Damage()); //to all room different from yours
+        /*this.weapons.get(8).getEffectsList().add(new Damage()); //to all room different from yours
         this.weapons.get(8).getAmmoBasic().add(new Ammo(Color.RED));
         this.weapons.get(8).getAmmoBasic().add(new Ammo(Color.BLUE));
 
@@ -265,7 +285,7 @@ public class WeaponDeck {
                 "effect: Choose 1 target you cannot see and deal 3 damage\n" +
                         "to it.\n" +
                         "Notes: Yes, this can only hit targets you cannot see", WeaponStatus.PARTIALLY_LOADED));
-        /*this.weapons.get(9).getEffects().add(new Damage()); //3 to targets you cannot see
+        /*this.weapons.get(9).getEffectsList().add(new Damage()); //3 to targets you cannot see
         this.weapons.get(9).getAmmoBasic().add(new Ammo(Color.RED));
         this.weapons.get(9).getAmmoBasic().add(new Ammo(Color.RED));
         this.weapons.get(9).getAmmoBasic().add(new Ammo(Color.YELLOW));*/
@@ -278,8 +298,8 @@ public class WeaponDeck {
                         "in nano-tracer mode: Deal 1 damage to 1 target you can\n" +
                         "see at least 1 move away. Then give 2 marks to that target\n" +
                         "and everyone else on that square", WeaponStatus.PARTIALLY_LOADED));
-        /*this.weapons.get(10).getEffects().add(new Damage()); //2
-        this.weapons.get(10).getEffects().add(new MarkEffect());
+        /*this.weapons.get(10).getEffectsList().add(new Damage()); //2
+        this.weapons.get(10).getEffectsList().add(new MarkEffect());
         this.weapons.get(10).getAmmoBasic().add(new Ammo(Color.RED));
         this.weapons.get(10).getAmmoBasic().add(new Ammo(Color.YELLOW));
 
@@ -299,7 +319,7 @@ public class WeaponDeck {
                         "it can sometimes damage a target you can't see – the flame won't go\n" +
                         "through walls, but it will go through doors. Think of it as a straight-line\n" +
                         "blast of flame that can travel 2 squares in a cardinal direction", WeaponStatus.PARTIALLY_LOADED));
-        /*this.weapons.get(11).getEffects().add(new Damage()); //2
+        /*this.weapons.get(11).getEffectsList().add(new Damage()); //2
         this.weapons.get(11).getAmmoBasic().add(new Ammo(Color.RED));
 
         this.weapons.get(11).getAlternateFireEffect().add(new Damage());
@@ -318,7 +338,7 @@ public class WeaponDeck {
                         "then move the main target. Or you can deal 1 to an isolated target and\n" +
                         "1 to everyone on a different square. If you target your own square,\n" +
                         "you will not be moved or damaged.", WeaponStatus.PARTIALLY_LOADED));
-        /*this.weapons.get(12).getEffects().add(new Damage());
+        /*this.weapons.get(12).getEffectsList().add(new Damage());
         this.weapons.get(12).getAmmoBasic().add(new Ammo(Color.RED));
 
         this.weapons.get(12).getOptionalEffect().add(new Damage());
@@ -338,7 +358,7 @@ public class WeaponDeck {
                         "even move off a square so you can shoot someone on it. If you use the\n" +
                         "fragmenting warhead, you deal damage to everyone on the target's\n" +
                         "square before you move the target – your target will take 3 damage total", WeaponStatus.PARTIALLY_LOADED));
-        /*this.weapons.get(13).getEffects().add(new Damage()); //2
+        /*this.weapons.get(13).getEffectsList().add(new Damage()); //2
         this.weapons.get(13).getAmmoBasic().add(new Ammo(Color.RED));
 
         this.weapons.get(13).getOptionalEffect().add(new Movement(2));

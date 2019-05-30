@@ -2,6 +2,7 @@ package model.moves;
 
 import model.Player;
 import model.PlayerBoard;
+import model.enums.TargetType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,8 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class Target implements Serializable {
-    private Boolean canSee;
-    private Boolean cardinal;
+    TargetType targetType;
     private Integer minDistance;
     private Integer maxDistance;
 
@@ -19,9 +19,8 @@ public abstract class Target implements Serializable {
 
     }
 
-    public Target(Boolean canSee, Boolean cardinal, Integer minDistance, Integer maxDistance){
-        this.canSee = canSee;
-        this.cardinal = cardinal;
+    public Target(TargetType targetType, Integer minDistance, Integer maxDistance){
+        this.targetType = targetType;
         this.minDistance = minDistance;
         this.maxDistance = maxDistance;
     }

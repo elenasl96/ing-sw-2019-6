@@ -7,6 +7,7 @@ import model.PlayerBoard;
 import model.decks.Grabbable;
 import model.decks.Weapon;
 import model.enums.Color;
+import model.enums.TargetType;
 import model.moves.Target;
 
 import java.io.Serializable;
@@ -14,11 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class Square extends Target implements Serializable {
+public class Square extends Target implements Serializable {
     private Color color;
     private Coordinate coord;
 
     public Square(){
+        this.color = null;
+        this.coord = null;
+    }
+
+    public Square(TargetType targetType, Integer minDistance, Integer maxDistance ){
+        super(targetType, minDistance,maxDistance);
         this.color = null;
         this.coord = null;
     }
@@ -36,9 +43,13 @@ public abstract class Square extends Target implements Serializable {
         this.color = color;
     }
 
-    public abstract Grabbable getGrabbable();
+    public Grabbable getGrabbable(){
+        return null;
+    }
 
-    public abstract void setGrabbable(Board board);
+    public void setGrabbable(Board board){
+        //DO nothing
+    }
 
     public Coordinate getCoord() {
         return coord;
@@ -63,5 +74,7 @@ public abstract class Square extends Target implements Serializable {
         return this.getGrabbable()==null;
     }
 
-    public abstract void addGrabbable(Weapon grabbable, int groupID);
+    public void addGrabbable(Weapon grabbable, int groupID) {
+        //DO nothing
+    }
 }

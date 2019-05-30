@@ -6,13 +6,11 @@ import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
-import model.enums.Color;
 import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
 import model.moves.Pay;
 import model.room.Update;
-import network.socket.commands.request.SendInput;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -206,8 +204,8 @@ public class GameController{
         if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED)) {
             i++;
         }
-            for( ; i<weapon.getEffects().get(0).getCost().size(); i++){
-                ammosToPay.add(weapon.getEffects().get(0).getCost().get(i));
+            for(; i<weapon.getEffectsList().get(0).getCost().size(); i++){
+                ammosToPay.add(weapon.getEffectsList().get(0).getCost().get(i));
             }
 
         //check if the player has enough ammos to reload the weapon
