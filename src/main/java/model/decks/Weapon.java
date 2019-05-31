@@ -47,7 +47,7 @@ public class Weapon implements Serializable {
         );
         for(CardEffect e: cardEffectList){
             string.append("\nCost effect ").append(cost).append(": ");
-            if(!e.getCost().isEmpty()){
+            if(e.getCost() != null && !e.getCost().isEmpty()){
                 for(Ammo a: e.getCost()){
                     string.append(a);
                 }
