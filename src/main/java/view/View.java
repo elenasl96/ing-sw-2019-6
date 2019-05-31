@@ -30,4 +30,10 @@ public interface View extends ModelObserver {
     int askNumber();
 
     void setClientController(ClientController controller);
+
+    int chooseWeapon();
+
+    String userInput();
+
+    String askEffects();
 }

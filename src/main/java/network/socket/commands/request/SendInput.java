@@ -3,19 +3,18 @@ package network.socket.commands.request;
 import network.socket.commands.Request;
 import network.socket.commands.RequestHandler;
 import network.socket.commands.Response;
-import network.socket.commands.ResponseHandler;
 
 public class SendInput implements Request {
 
-    private int input;
+    private String input;
     private String inputType;
 
-    public SendInput(int askNumber, String inputType) {
-        this.input = askNumber;
+    public SendInput(String askInput, String inputType) {
+        this.input = askInput;
         this.inputType = inputType;
     }
 
-    public int getInput(){
+    public String getInput(){
         return this.input;
     }
 

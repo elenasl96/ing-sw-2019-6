@@ -27,6 +27,12 @@ public class ViewGui implements View {
         this.controller = controller;
     }
 
+    @Override
+    public int chooseWeapon() {
+        //TODO
+        return 0;
+    }
+
     public void run() {
         try {
             controller.run();
@@ -35,8 +41,13 @@ public class ViewGui implements View {
         }
     }
 
-    private String userInput() {
+    public String userInput() {
         return gui.getJLabelText();
+    }
+
+    @Override
+    public String askEffects() {
+        return null;
     }
 
     @Override

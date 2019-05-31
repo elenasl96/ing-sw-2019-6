@@ -1,11 +1,13 @@
 package controller;
 
+import exception.InvalidMoveException;
 import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
+import model.enums.EffectType;
 import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
@@ -15,6 +17,7 @@ import model.room.Update;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static model.enums.EffectType.*;
 import static model.enums.Phase.SPAWN;
 
 /**
@@ -174,8 +177,55 @@ public class GameController{
         }
     }
 
-    public void playWeapon(int groupId, Player player, Weapon weapon){
-        //TODO
+    public void playWeapon(Player player, String weaponEffects) {
+        String[] weaponEffectsSplitted = weaponEffects.split(" ");
+        try{
+            if(!checkWeaponEffects(player, weaponEffectsSplitted))
+                throw new InvalidMoveException("Non valid sequence");
+        }catch(NumberFormatException e){
+            player.getUser().receiveUpdate(new Update("Not valid number"));
+        }catch(NullPointerException e){
+            player.getUser().receiveUpdate(new Update("Not valid effects"));
+        }
+
+    }
+
+    private boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {
+        //Check if player has the weapon
+        Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
+        int sequenceSize = weaponEffectsSplitted.length - 1;
+        EffectType[] sequence = new EffectType[sequenceSize];
+        if(!weapon.isLoaded())
+            throw new InvalidMoveException("Weapon is not loaded");
+        //Check if effects are in correct order -- generate sequence array of effectTypes
+        for(int i=1; i<weaponEffectsSplitted.length; i++){
+            sequence[i-1] = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffectType();
+        }
+        //Compare the sequence given with the correct sequences
+        if(sequenceSize == 1){
+            return Arrays.equals(sequence, new EffectType[]{BASIC}) ||
+                    Arrays.equals(sequence, new EffectType[]{ALTERNATIVE});
+        } else if(sequenceSize == 2){
+            return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL_VORTEX}) ||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC});
+        } else if(sequenceSize == 3){
+            return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, OPTIONAL})||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1, OPTIONAL2})||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, EVERY_TIME})||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME, OPTIONAL})||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, OPTIONAL})||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, OPTIONAL, BASIC})||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC, EVERY_TIME})||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_AFTER_BASIC, BASIC, EVERY_TIME })||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BEFORE_AFTER_BASIC, BASIC})||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, BEFORE_AFTER_BASIC})||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC, OPTIONAL})||
+                    Arrays.equals(sequence, new EffectType[]{OPTIONAL, BEFORE_BASIC, BASIC});
+        } else return false;
     }
 
     public void playPowerup(int groupId, Player player, Powerup powerup){

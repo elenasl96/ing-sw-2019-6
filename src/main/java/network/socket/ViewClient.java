@@ -32,10 +32,32 @@ public class ViewClient implements View {
         }
     }
 
-    private String userInput() {
+    public String userInput() {
         if(fromKeyBoard.hasNextLine())
             return fromKeyBoard.nextLine();
         return "";
+    }
+
+    @Override
+    public String askEffects() {
+        displayText("Insert effects numbers in format '0 1 2'");
+        String input = userInput();
+        boolean done = false;
+        while(!done){
+            String[] inputSplitted = input.split(" ");
+            try {
+                for(String i: inputSplitted) {
+                    if(i.length()!=1){
+                        throw new NumberFormatException();
+                    }
+                    Integer.parseInt(i);
+                }
+            } catch (NumberFormatException e){
+                displayText("Not a valid format! Examples\n 0 1 2\n2 1\n0");
+            }
+            done = true;
+        }
+        return input;
     }
 
     public void displayText(String text) {
@@ -196,6 +218,12 @@ public class ViewClient implements View {
     @Override
     public void setClientController(ClientController controller){
         this.controller = controller;
+    }
+
+    @Override
+    public int chooseWeapon() {
+        displayText("Which weapon do you choose?");
+        return askNumber();
     }
 
     // ----- The view observes the state and reacts (the observable pushes the pieces of interesting state)

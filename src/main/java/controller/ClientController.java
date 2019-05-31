@@ -1,6 +1,5 @@
 package controller;
 
-import gui.MainFrame;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
@@ -9,7 +8,6 @@ import model.moves.Run;
 import network.Client;
 import network.rmi.RemoteController;
 import network.socket.ClientContext;
-import network.socket.ViewClient;
 import network.socket.commands.Request;
 import network.socket.commands.request.*;
 import network.socket.commands.response.*;
@@ -17,7 +15,6 @@ import network.socket.commands.Response;
 import network.socket.commands.ResponseHandler;
 import model.room.Group;
 import model.room.User;
-import network.socket.launch.SocketClient;
 import view.View;
 
 import java.rmi.Remote;
@@ -127,10 +124,11 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
             case "0": case "1": case "2":
-                client.request(new CardRequest("powerup", content));
+                client.request(new CardRequest("powerupToPlay", content));
                 break;
             case "3": case "4": case "5":
-                client.request(new CardRequest("weapon", content));
+                String string = content + " " + view.askEffects();
+                client.request(new ShootRequest(string));
                 break;
             case "run":
                 Coordinate coordinate = view.getCoordinate();
@@ -235,14 +233,14 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             case "damage":
             case "weapon choose":
                 try{
-                    client.request(new SendInput(view.askNumber(), "weapon chosen"));
+                    client.request(new SendInput(view.userInput(), "weapon chosen"));
                 } catch (RemoteException e){
                     //nothing
                 }
                 break;
             case "grabWeapon":
                 try{
-                    client.request(new SendInput(view.askNumber(), "weaponGrabbed"));
+                    client.request(new SendInput(view.userInput(), "weaponGrabbed"));
                 } catch (RemoteException e){
                     //nothing
                 }
