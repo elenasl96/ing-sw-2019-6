@@ -1,6 +1,6 @@
 package network.socket.commands;
 
-import network.socket.commands.request.SendInput;
+import network.socket.commands.request.ShootRequest;
 import network.socket.commands.response.*;
 
 /**
