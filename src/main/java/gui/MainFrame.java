@@ -14,7 +14,6 @@ import javax.swing.*;
 
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
-    private static final String PATH = "C:\\User\\quara\\IdeaProjects\\ing-sw-2019-6\\src\\main\\resources";
     private ClientController controller;
     private JTextArea console;
     private JTextField commandLine;
@@ -122,65 +121,7 @@ public class MainFrame extends JFrame {
         //Create central section of GUI
         JPanel centralPanel = new JPanel(new GridLayout(3, 4));
 
-        Image image = null;
-        try{
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
-                    "Field1_A_3.png"))
-                    .getScaledInstance(120,120, Image.SCALE_DEFAULT))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
-                    "Field1_B_3.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
-                    "Field1_C_3.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
-                    "Field1_D_3_Fixed.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
-            //adds blue and yellow spawn point label
-
-            //////End of first row
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
-                    "Field1_A_2.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
-            //adds A3
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
-                    "Field1_A_2.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT))));
-            //adds A2
-            image = ImageIO.read(new File("src/resources/" +
-                    "Field1_A_2.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
-              centralPanel.add(new JLabel(new ImageIcon(image)));
-            image = ImageIO.read(new File("src/resources/" +
-                    "Field1_A_2.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
-            centralPanel.add(new JLabel(new ImageIcon(image)));
-            image = ImageIO.read(new File("src/resources/" +
-                    "Field1_A_2.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
-            centralPanel.add(new JLabel(new ImageIcon(image)));
-            image = ImageIO.read(new File("src/resources/" +
-                    "Field1_A_2.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
-            centralPanel.add(new JLabel(new ImageIcon(image)));
-            image = ImageIO.read(new File("src/resources/" +
-                    "Field1_A_2.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
-            centralPanel.add(new JLabel(new ImageIcon(image)));
-            image = ImageIO.read(new File("src/resources/" +
-                    "Field1_A_2.png"))
-                    .getScaledInstance(120, 120, Image.SCALE_DEFAULT);
-            centralPanel.add(new JLabel(new ImageIcon(image)));
-
-
-
-      }
-        catch(IOException exception)
-        {
-            exception.printStackTrace();
-        }
-
-
+        printField(centralPanel);
 
         //Create bottom section of GUI
         JPanel playerboard = new JPanel();
@@ -192,7 +133,7 @@ public class MainFrame extends JFrame {
         add(right, BorderLayout.EAST);
         add(playerboard, BorderLayout.SOUTH);
 
-        setSize(1000, 600);
+        setSize(1000, 485);
         setResizable(false);
 
         // https://stackoverflow.com/questions/22982295/what-does-pack-do
@@ -240,5 +181,50 @@ public class MainFrame extends JFrame {
 
     public void createMap() {
 
+    }
+    private void printField(JPanel centralPanel){
+        try{
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_001.png"))
+                    .getScaledInstance(140,140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_002.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_003.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_004.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            //////End of first row
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_005.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_006.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_007.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_008.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_009.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_010.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_011.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+                    "image_part_012.png"))
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+        }
+        catch(IOException exception)
+        {
+            exception.printStackTrace();
+        }
     }
 }
