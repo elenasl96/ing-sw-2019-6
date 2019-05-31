@@ -1,0 +1,115 @@
+@startuml
+package model{
+    package decks{
+        class AmmoDeck{
+            - ammoTiles: List<AmmoTile>
+            - discard: List<AmmoTile>
+            __
+            - shuffleDeck(): void
+            + pickCard(): AmmoTile
+            + discardCard(AmmoTile): void
+        }
+
+        abstract class AmmoTile <@see>
+
+        class CardEffect{
+            - effectType: EffectType
+            - effects: List<Effect>
+            - cost: Ammo
+        }
+
+        interface Grabbable extends Serializable{
+            + pickGrabbable(int, int): void
+        }
+
+        class Powerup implements Serializable{
+            - name: String
+            - ammo: Ammo
+            - moves: List<Move>
+        }
+
+        class PowerupDeck{
+            - powerups: List<Powerup>
+            - discard: List<Powerup>
+            __
+            - shuffleDeck(): void
+            + pickCard(): Powerup
+        }
+
+        class Weapon implements Serializable{
+            - name: String
+            - effectsDescription: String
+            - status: WeaponStatus
+            - cardEffect: List<CardEffect>
+            __
+            + isLoaded(): boolean
+        }
+
+        class WeaponDeck{
+            - weapons: List<Weapon>
+        }
+
+        class WeaponTile implements Grabbable{
+
+        }
+
+        AmmoDeck "2" *-- AmmoTile
+        PowerupDeck *-- Powerup
+        WeaponDeck *-- Weapon
+    }
+
+    package enums{
+
+    }
+
+    package field{
+
+    }
+
+    package moves{
+
+    }
+
+    package room{
+
+    }
+
+    class Ammo{
+
+    }
+
+    class Board{
+
+    }
+
+    class Game{
+
+    }
+
+    class GameContext  << (S,#FF7700) Singleton >> {
+
+    }
+
+    class Player {
+
+    }
+
+    class PlayerBoard{
+
+    }
+
+    class PlayerList {
+
+    }
+
+    CardEffect "1" *-- EffectType
+    CardEffect "1...n" *-- Effect
+    CardEffect o-- Ammo
+
+    Powerup "1" *-- Ammo
+    Powerup "1...n" *-- Move
+
+    Weapon "1" *-- WeaponStatus
+    Weapon "1...n" *-- CardEffect
+}
+@enduml
