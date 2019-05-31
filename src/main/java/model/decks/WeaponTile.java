@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeaponTile implements Grabbable, Serializable {
+public class WeaponTile implements Grabbable {
     private List<Weapon> weapons;
 
     public WeaponTile() {

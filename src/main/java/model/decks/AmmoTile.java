@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AmmoTile implements Serializable, Grabbable {
+public abstract class AmmoTile implements Grabbable {
     private List<Ammo> ammos = new ArrayList<>();
 
     AmmoTile(Color color1, Color color2, Color color3){
