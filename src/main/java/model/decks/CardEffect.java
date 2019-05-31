@@ -14,13 +14,13 @@ public class CardEffect {
     private List<Effect> effects = new ArrayList<>();
     private ArrayList<Ammo> cost;
 
-    CardEffect(EffectType effecType, Stream<Ammo> ammos){
+    CardEffect(EffectType effectType, Stream<Ammo> ammos){
         if(ammos!=null)
             this.setCost(ammos);
-        this.effectType = effecType;
+        this.effectType = effectType;
     }
 
-    public List<Effect> getEffects() {
+    List<Effect> getEffects() {
         return effects;
     }
 
@@ -28,19 +28,7 @@ public class CardEffect {
         return effectType;
     }
 
-    public void setEffectType(EffectType effectType) {
-        this.effectType = effectType;
-    }
-
-    public void setEffects(List<Effect> effects) {
-        this.effects = effects;
-    }
-
-    public void setCost(ArrayList<Ammo> cost) {
-        this.cost = cost;
-    }
-
-    void setCost(Stream<Ammo> ammos) {
+    private void setCost(Stream<Ammo> ammos) {
         this.cost = ammos.collect(Collectors.toCollection(ArrayList::new));
     }
 
