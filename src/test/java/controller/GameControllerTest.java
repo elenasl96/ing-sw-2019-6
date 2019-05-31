@@ -3,9 +3,12 @@ package controller;
 import exception.InvalidMoveException;
 import model.Ammo;
 import model.GameContext;
+import model.Player;
 import model.decks.Powerup;
+import model.decks.WeaponDeck;
 import model.enums.Color;
 import model.enums.Phase;
+import model.enums.WeaponStatus;
 import model.field.Coordinate;
 import model.moves.Run;
 import model.room.Group;
@@ -86,6 +89,21 @@ class GameControllerTest {
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
         GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
 
+    }
+
+    @Test
+    void playWeaponTest(){
+        WeaponDeck deck = new WeaponDeck();
+        Player player = new Player();
+        player.getWeapons().add(deck.pickCard());
+        player.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(player.getWeapons().get(0));
+        String weaponsEffect = "3 0 1";
+        try {
+            GameController.get().playWeapon(player, weaponsEffect);
+        }catch(IndexOutOfBoundsException|InvalidMoveException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
