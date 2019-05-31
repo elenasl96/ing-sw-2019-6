@@ -118,10 +118,6 @@ public class TimerController implements ModelObserver {
 
     @Override
     public Response onUpdate(Update update) {
-        if(update.toString().contains("turn")){
-            timers.get(update.getGroupID).cancel();
-            startTurnTimer(update.getGroupID);
-        }
         return null;
     }
 
