@@ -35,7 +35,7 @@ public abstract class AmmoTile implements Serializable, Grabbable {
     }
 }
 
-class AmmoTileWithAmmo extends AmmoTile implements Grabbable{
+class AmmoTileWithAmmo extends AmmoTile{
     /**
      * Calls the constructor of the superclass AmmoTile that creates a list of 3 ammos
      * @param color1    the first ammo color
@@ -52,7 +52,7 @@ class AmmoTileWithAmmo extends AmmoTile implements Grabbable{
     }
 }
 
-class AmmoTileWithPowerup extends AmmoTile implements Grabbable{
+class AmmoTileWithPowerup extends AmmoTile{
 
     AmmoTileWithPowerup(Color color1, Color color2){
         super(color1, color2);
