@@ -20,10 +20,25 @@ public class CardEffect {
         this.effectType = effecType;
     }
 
-    List<Effect> getEffects() {
+    public List<Effect> getEffects() {
         return effects;
     }
 
+    public EffectType getEffectType() {
+        return effectType;
+    }
+
+    public void setEffectType(EffectType effectType) {
+        this.effectType = effectType;
+    }
+
+    public void setEffects(List<Effect> effects) {
+        this.effects = effects;
+    }
+
+    public void setCost(ArrayList<Ammo> cost) {
+        this.cost = cost;
+    }
 
     void setCost(Stream<Ammo> ammos) {
         this.cost = ammos.collect(Collectors.toCollection(ArrayList::new));

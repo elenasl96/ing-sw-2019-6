@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.stream.Stream;
 
-import static model.enums.EffectType.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 

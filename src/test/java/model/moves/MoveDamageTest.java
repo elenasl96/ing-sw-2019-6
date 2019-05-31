@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Disabled;
 
 import java.util.stream.Stream;
 
-import static model.enums.EffectType.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MoveDamageTest {
