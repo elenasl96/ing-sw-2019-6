@@ -22,6 +22,8 @@ public class MainFrame extends JFrame {
     private Object lockMove;
     private MoveButtonActionListener actionListener;
     private JPanel turnLight;
+    JComboBox weapon;
+    JComboBox powerUp;
 
 
     public MainFrame(ClientController controller) {
@@ -39,20 +41,17 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         //Create left section of GUI
-        JPanel scrollPanelContainer = new JPanel(new GridLayout(1, 2));
+        JPanel cardsContainer = new JPanel(new GridLayout(1, 2));
 
-        JPanel weaponPan = new JPanel(new GridLayout(0, 1));
-        JPanel powerUpPan = new JPanel(new GridLayout(0, 1));
+        weapon = new JComboBox();
+        powerUp = new JComboBox();
         for (int i = 0; i < 10; i++) {
-            weaponPan.add(new JButton("Hello-" + i));
-            powerUpPan.add(new JButton("Hello-" + i));
+            weapon.addItem(new String("Duce" + i));
+            powerUp.addItem(new String("A noi!" + i));
         }
 
-        JScrollPane weapons = new JScrollPane(weaponPan);
-        JScrollPane powerUps = new JScrollPane(powerUpPan);
-
-        scrollPanelContainer.add(weapons);
-        scrollPanelContainer.add(powerUps);
+        cardsContainer.add(weapon);
+        cardsContainer.add(powerUp);
 
         JLabel name = new JLabel("NOME GIOCATORE");
         name.setHorizontalAlignment(SwingConstants.CENTER);
@@ -65,7 +64,7 @@ public class MainFrame extends JFrame {
         left.add(name);
         left.add(ammos);
         left.add(cardLabel);
-        left.add(scrollPanelContainer);
+        left.add(cardsContainer);
 
         //Create right section of GUI
         console = new JTextArea();
@@ -82,11 +81,8 @@ public class MainFrame extends JFrame {
             }
         });
 
-        JPanel turnPanel = new JPanel(new GridLayout(1, 2));
-        turnPanel.add(new JLabel("Your turn"));
         turnLight = new JPanel();
         turnLight.setBackground(Color.RED);
-        turnPanel.add(turnLight);
 
         JPanel commandLineBar = new JPanel(new FlowLayout());
         commandLineBar.add(commandLine);
@@ -95,19 +91,21 @@ public class MainFrame extends JFrame {
         MoveButton grab = new MoveButton("Grab", "grab");
         MoveButton run = new MoveButton("Run", "run");
         MoveButton shoot = new MoveButton("Shoot", "shoot");
+        MoveButton powerup = new MoveButton("Power Up", "powerup");
         grab.addActionListener(actionListener);
         run.addActionListener(actionListener);
         shoot.addActionListener(actionListener);
 
-        JPanel buttonContainer = new JPanel(new GridLayout(4, 1));
+        JPanel buttonContainer = new JPanel(new GridLayout(5, 1));
         buttonContainer.add(new JLabel("Actions"));
         buttonContainer.add(run);
         buttonContainer.add(grab);
         buttonContainer.add(shoot);
+        buttonContainer.add(powerup);
 
         JPanel middleRightContainer = new JPanel(new GridLayout(5, 1));
-        middleRightContainer.add(new JLabel(""));
-        middleRightContainer.add(turnPanel);
+        middleRightContainer.add(new JLabel("Your turn"));
+        middleRightContainer.add(turnLight);
         middleRightContainer.add(new JLabel("Insertion bar"));
         middleRightContainer.add(commandLineBar);
         middleRightContainer.add(new JLabel("Updates"));
