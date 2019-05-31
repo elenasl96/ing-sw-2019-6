@@ -20,7 +20,7 @@ public class CardEffect {
         this.effectType = effectType;
     }
 
-    List<Effect> getEffects() {
+    public List<Effect> getEffects() {
         return effects;
     }
 

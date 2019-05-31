@@ -5,12 +5,15 @@ import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.GameContext;
 import model.Player;
+import model.decks.CardEffect;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.EffectType;
 import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
+import model.moves.Effect;
+import model.moves.Move;
 import model.moves.Pay;
 import model.room.Update;
 
@@ -150,7 +153,7 @@ public class GameController{
         player.getUser().receiveUpdate(new Update(player, true));
     }
 
-    private void updatePoints(int groupID) {
+    private synchronized void updatePoints(int groupID) {
         for(Player p: GameContext.get().getGame(groupID).getPlayers()){
             if(p.isDead()){
                 //add the player dead on the killshotTrack
@@ -177,11 +180,20 @@ public class GameController{
         }
     }
 
-    public void playWeapon(Player player, String weaponEffects) {
+    public synchronized void playWeapon(Player player, String weaponEffects) {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
         try{
-            if(!checkWeaponEffects(player, weaponEffectsSplitted))
-                throw new InvalidMoveException("Non valid sequence");
+            if(checkWeaponEffects(player, weaponEffectsSplitted))
+                throw new InvalidMoveException("Not valid sequence");
+            Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
+            //Add effects to player
+            for(int i=1; i<weaponEffectsSplitted.length; i++){
+                for(Effect e: weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffects()){
+                    player.getCurrentMoves().add(e.cloneEffect());
+                }
+            }
+
+
         }catch(NumberFormatException e){
             player.getUser().receiveUpdate(new Update("Not valid number"));
         }catch(NullPointerException e){
@@ -190,7 +202,7 @@ public class GameController{
 
     }
 
-    private boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {
+    private synchronized boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {
         //Check if player has the weapon
         Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
         int sequenceSize = weaponEffectsSplitted.length - 1;
