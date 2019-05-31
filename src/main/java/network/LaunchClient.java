@@ -23,12 +23,12 @@ public class LaunchClient {
 
         if(rmi.equals("yes")){
             try {
-                clientHandler = (RemoteController) new RMIClientHandler();
+                clientHandler = new RMIClientHandler();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         } else {
-            clientHandler = (RemoteController) new SocketClient("", 8234);
+            clientHandler = new SocketClient("", 8234);
             try {
                 clientHandler.init();
             } catch (IOException e) {
