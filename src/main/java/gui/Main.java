@@ -52,6 +52,7 @@ public class Main {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             e.printStackTrace();
         }
         System.out.println(main.gui.getMove());

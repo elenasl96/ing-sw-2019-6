@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//TODO javadoc
 public class Square extends Target implements Serializable {
     private Color color;
     private Coordinate coord;

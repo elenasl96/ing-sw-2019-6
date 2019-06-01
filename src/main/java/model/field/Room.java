@@ -9,6 +9,7 @@ import model.moves.Target;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO finish javadoc
 public class Room extends Target {
     private Color color;
     private List<Square> squares;

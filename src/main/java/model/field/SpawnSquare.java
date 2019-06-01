@@ -6,7 +6,7 @@ import model.decks.Weapon;
 import model.decks.WeaponTile;
 import model.enums.Color;
 
-
+//TODO javadoc
 public class SpawnSquare extends Square{
     private WeaponTile weapons;
 

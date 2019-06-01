@@ -6,6 +6,9 @@ public class FieldTest {
 
     @Test
     void test(){
-        Field field = new Field(3);
+        Field field1 = new Field(1);
+        Field field2 = new Field(2);
+        Field field3 = new Field(3);
+        //TODO asserts
     }
 }

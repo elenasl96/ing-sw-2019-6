@@ -38,8 +38,7 @@ public class Field implements Serializable {
                  *   |     e       e |        |     e       e |
                  * 1 |     w e w e Y |1     1 |     7 e 8 e 9 |1
                  *    ---------------          ---------------
-                 *     A   B   C   D            A   B   C   D
-                 */
+                 *     A   B   C   D            A   B   C   D  */
                 this.squares.add(new AmmoSquare(Color.BLUE, new Coordinate('A', 3)));//0
                 this.squares.add(new AmmoSquare(Color.BLUE, new Coordinate('B',3)));//1
                 addSpawnSquare(new SpawnSquare(Color.BLUE, new Coordinate('C',3)));//2
@@ -50,7 +49,6 @@ public class Field implements Serializable {
                 this.squares.add(new AmmoSquare(Color.WHITE, new Coordinate('C',1)));//7
                 this.squares.add(new AmmoSquare(Color.YELLOW, new Coordinate('D',2)));//8
                 addSpawnSquare(new SpawnSquare(Color.YELLOW, new Coordinate('D',1)));//9
-
                 this.edges.add(new Edge(this.squares.get(0),this.squares.get(1)));
                 this.edges.add(new Edge(this.squares.get(1),this.squares.get(2)));
                 this.edges.add(new Edge(this.squares.get(0),this.squares.get(3)));
@@ -62,7 +60,6 @@ public class Field implements Serializable {
                 this.edges.add(new Edge(this.squares.get(4),this.squares.get(7)));
                 this.edges.add(new Edge(this.squares.get(7),this.squares.get(8)));
                 this.edges.add(new Edge(this.squares.get(8),this.squares.get(9)));
-
                 this.rooms.add(new Room(Color.RED,
                         this.squares.stream()
                                 .filter(square -> square.getColor().equals(Color.RED))
@@ -148,8 +145,7 @@ public class Field implements Serializable {
                  *   | e   e   e   e |     | e   e   e   e |
                  * 1 | w e w e y e Y |1  1 | 6 e 7 e 8 e 11|1
                  *    ---------------       ---------------
-                 *     A   B   C   D         A   B   C   D
-                 */
+                 *     A   B   C   D         A   B   C   D    */
                 this.squares.add(new AmmoSquare(Color.RED, new Coordinate('A',3)));
                 addSpawnSquare(new SpawnSquare(Color.RED, new Coordinate('A',2)));
                 this.squares.add(new AmmoSquare(Color.BLUE, new Coordinate('B',3)));
@@ -162,7 +158,6 @@ public class Field implements Serializable {
                 this.squares.add(new AmmoSquare(Color.YELLOW, new Coordinate('D',2)));
                 this.squares.add(new AmmoSquare(Color.YELLOW, new Coordinate('C',2)));
                 addSpawnSquare(new SpawnSquare(Color.WHITE, new Coordinate('D',1)));
-
                 this.edges.add(new Edge(this.squares.get(0),this.squares.get(1)));
                 this.edges.add(new Edge(this.squares.get(1),this.squares.get(6)));
                 this.edges.add(new Edge(this.squares.get(0),this.squares.get(2)));

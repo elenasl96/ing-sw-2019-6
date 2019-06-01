@@ -1,4 +1,5 @@
 @startuml
+interface Serializable
 package model{
     package decks{
         class AmmoDeck{
@@ -138,9 +139,31 @@ package model{
             - rooms: List<Room>
             __
             + generateField(int): void
+            + addSpawnSquare(SpawnSquare): void
+        }
+
+        class Room extends Target{
+            - color: Color
+            - squares: List<Square>
+        }
+
+        class SpawnSquare extends Square{
+            - weapons: WeaponTile
+        }
+
+        class Square extends Target implements Serializable{
+            - color: Color
+            - coord: Coordinate
+            __
+            + getGrabbable(): Grabbable
+            + setGrabbable(Board): void
+            + addGrabbable(Weapon, int): void
         }
 
         Edge "2" *-- Square
+        Field <-- Edge
+        Field <-- Square
+        Field <-- Room
     }
 
     package moves{
@@ -190,5 +213,6 @@ package model{
     Weapon "1...n" *-- CardEffect
 
     AmmoSquare "1" *-- AmmoTile
+    SpawnSquare "1" *-- WeaponTile
 }
 @enduml

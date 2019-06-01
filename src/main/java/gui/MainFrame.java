@@ -148,6 +148,7 @@ public class MainFrame extends JFrame {
             try {
                 lockInput.wait();
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 e.printStackTrace();
             }
 
@@ -162,6 +163,7 @@ public class MainFrame extends JFrame {
             try {
                 lockMove.wait();
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 e.printStackTrace();
             }
 
@@ -222,7 +224,7 @@ public class MainFrame extends JFrame {
         }
         catch(IOException exception)
         {
-            exception.printStackTrace();
+            System.out.println("Error");
         }
     }
 }

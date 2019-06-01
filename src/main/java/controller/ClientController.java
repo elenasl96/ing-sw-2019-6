@@ -23,6 +23,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 import static model.enums.Phase.*;
 
+//TODO javadoc
 /**
  * CLIENT-SIDE controller
  *
@@ -34,13 +35,13 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     /**
      * reference to networking layer
      */
-    final transient RemoteController client; //made package private to extend class in tests
+    private final transient RemoteController client; //made package private to extend class in tests
     //Removed the Thread since it can be local
 
     /**
      * The view
      */
-    final transient View view;
+    private final transient View view;
 
     /**
      * A local variable keeping track if the game's over
@@ -259,11 +260,11 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     @Override
     public boolean equals(Object o){
-        return true;
+        return super.equals(o);
     }
 
     @Override
     public int hashCode(){
-        return 0;
+        return super.hashCode();
     }
 }
