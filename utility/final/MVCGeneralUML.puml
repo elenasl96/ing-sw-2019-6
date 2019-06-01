@@ -50,7 +50,7 @@ package model{
         }
 
         class WeaponTile implements Grabbable{
-
+            - weapons: List<Weapon>
         }
 
         AmmoDeck "2" *-- AmmoTile
@@ -59,7 +59,46 @@ package model{
     }
 
     package enums{
-
+        enum Character{
+            NOT_ASSIGNED
+            PG1
+            PG2
+            PG3
+            PG4
+            PG5
+        }
+        enum Color{
+            NONE
+            GREY
+            YELLOW
+            RED
+            BLUE
+            GREEN
+            WHITE
+            PURPLE
+        }
+        enum EffectType {
+            BASIC
+            OPTIONAL
+            OPTIONAL1
+            OPTIONAL2
+            ALTERNATIVE
+            BEFORE_AFTER_BASIC
+            OPTIONAL_VORTEX
+            BEFORE_BASIC
+            EVERY_TIME
+        }
+        enum Phase{
+            WAIT
+            FIRST
+            SECOND
+            RELOAD
+            SPAWN
+        }
+        enum TargetType{
+        
+        }
+        enum WeaponStatus
     }
 
     package field{
