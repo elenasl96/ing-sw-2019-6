@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//TODO JavaDoc
 public class Field implements Serializable {
     private List<Edge> edges = new ArrayList<>();
     private List<Square> squares = new ArrayList<>();

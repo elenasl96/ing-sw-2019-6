@@ -96,13 +96,51 @@ package model{
             SPAWN
         }
         enum TargetType{
-        
+            NONE
+            VISIBLE
+            NOT_VISIBLE
+            BASIC_VISIBLE
+            OPTIONAL1_VISIBLE
+            CARDINAL
+            ME
+            NOT_MINE
+            SAME_TARGET
+            ALL
+            SAME_DIRECTION
+            DIFFERENT_SQUARE
         }
-        enum WeaponStatus
+        enum WeaponStatus{
+            UNLOADED
+            PARTIALLY_LOADED
+            LOADED
+        }
     }
 
     package field{
+        class AmmoSquare extends Square{
+            - ammo: AmmoTile
+        }
 
+        class Coordinate {
+            - x: char
+            - y: int
+        }
+
+        class Edge{
+            - sq1: Square
+            - sq2: Square
+        }
+
+        class Field{
+            - edges: List<Edge>
+            - squares: List<Square>
+            - spawnSquares: List<SpawnSquare>
+            - rooms: List<Room>
+            __
+            + generateField(int): void
+        }
+
+        Edge "2" *-- Square
     }
 
     package moves{
@@ -150,5 +188,7 @@ package model{
 
     Weapon "1" *-- WeaponStatus
     Weapon "1...n" *-- CardEffect
+
+    AmmoSquare "1" *-- AmmoTile
 }
 @enduml

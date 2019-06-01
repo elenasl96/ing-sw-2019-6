@@ -31,9 +31,4 @@ class GameTest {
 
 
     }
-
-    @Test
-    void numberPlayers() {
-        assertEquals(4, GameContext.get().getGame(0).getNumberPlayers());
-    }
 }
