@@ -30,12 +30,21 @@ public class MarkEffect extends Effect implements Move{
 
 
     @Override
-    public String getMessage() {
+    public String getFieldsToFill() {
         StringBuilder string = new StringBuilder();
         string.append("Mark Effect: ");
         for(Target t: targets){
             string.append(t.getFieldsToFill());
         }
         return string.toString();
+    }
+
+    @Override
+    public void fillFields(String[] inputMatrix) {
+        int i = 0;
+        for(Target t: targets){
+            t.setFieldsToFill(inputMatrix[i]);
+            i++;
+        }
     }
 }

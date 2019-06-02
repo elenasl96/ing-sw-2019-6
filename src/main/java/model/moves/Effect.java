@@ -21,6 +21,8 @@ public abstract class Effect implements Move {
         return this.targets;
     }
 
-    public abstract String getMessage();
+    public abstract String getFieldsToFill();
+
+    public abstract void fillFields(String[] inputMatrix);
 }
 

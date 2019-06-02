@@ -166,7 +166,7 @@ public class Movement extends Effect implements Move{
     }
 
     @Override
-    public String getMessage() {
+    public String getFieldsToFill() {
         StringBuilder string = new StringBuilder();
         string.append("Movement: ");
         for(Target t: targets){
@@ -174,5 +174,16 @@ public class Movement extends Effect implements Move{
         }
         if(destination != null) string.append("destination (Letter, Number); ");
         return string.toString();
+    }
+
+    @Override
+    public void fillFields(String[] inputMatrix) {
+        int i = 0;
+        for(Target t: targets){
+            t.setFieldsToFill(inputMatrix[i]);
+            i++;
+        }
+        if(this.destination == null)
+        this.coordinate.fillCoordinate(inputMatrix[i]);
     }
 }
