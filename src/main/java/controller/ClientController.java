@@ -246,6 +246,13 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                     //nothing
                 }
                 break;
+            case "fillFields":
+                try{
+                    client.request(new SendInput(view.userInput(), "fieldsFilled"));
+                }catch (RemoteException e){
+
+                }
+                break;
             default:
                 break;
         }

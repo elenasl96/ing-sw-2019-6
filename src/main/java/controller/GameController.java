@@ -5,7 +5,6 @@ import exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.GameContext;
 import model.Player;
-import model.decks.CardEffect;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.EffectType;
@@ -13,7 +12,6 @@ import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
 import model.moves.Effect;
-import model.moves.Move;
 import model.moves.Pay;
 import model.room.Update;
 
@@ -180,26 +178,38 @@ public class GameController{
         }
     }
 
-    public synchronized void playWeapon(Player player, String weaponEffects) {
+    public synchronized String prepareWeapon(Player player, String weaponEffects) {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
         try{
             if(checkWeaponEffects(player, weaponEffectsSplitted))
                 throw new InvalidMoveException("Not valid sequence");
-            Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
             //Add effects to player
-            for(int i=1; i<weaponEffectsSplitted.length; i++){
-                for(Effect e: weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffects()){
-                    player.getCurrentMoves().add(e.cloneEffect());
-                }
-            }
-
-
+            player.addEffectsToPlay(weaponEffectsSplitted);
+            //Ask player to fill effects
+            return getEffectsToFill(player);
         }catch(NumberFormatException e){
             player.getUser().receiveUpdate(new Update("Not valid number"));
         }catch(NullPointerException e){
             player.getUser().receiveUpdate(new Update("Not valid effects"));
         }
+        return null;
+    }
 
+    private String getEffectsToFill(Player player) {
+        StringBuilder string = new StringBuilder();
+        int numEffect = 0;
+        for(Effect e: player.getCurrentEffects()){
+            string.append(numEffect).append(e.getMessage()).append("\n");
+            numEffect++;
+        }
+        return string.toString();
+    }
+
+    public void playWeapon(Player player, String input) {
+        //Fill Effects
+        for(Effect e: player.getCurrentEffects()){
+
+        }
     }
 
     private synchronized boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {

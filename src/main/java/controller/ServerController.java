@@ -236,6 +236,13 @@ public class ServerController implements RequestHandler {
                 currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
                 currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
                 break;
+            case "fieldsFilled":
+                try{
+                    GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput());
+                }catch(NullPointerException e){
+                    //TODO
+                }
+                break;
             default:
                 break;
         }
@@ -246,7 +253,8 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(ShootRequest shootRequest) {
         try {
-            GameController.get().playWeapon(user.getPlayer(), shootRequest.getString());
+            this.user.receiveUpdate(new Update(GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString())));
+            return new AskInput("fillFields");
         }catch(IndexOutOfBoundsException|InvalidMoveException e){
             user.receiveUpdate(new Update("Not valid weapon"));
         }
