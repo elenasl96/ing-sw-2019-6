@@ -570,11 +570,13 @@ public class WeaponDeck {
         playerOptional = new Player(ME, null, null);
         destination = new Square(NONE, 1, 1);
         this.weapons.get(19).getEffectsList()
-                .add(new CardEffect(EVERY_TIME, Stream.of(new Ammo(Color.RED))));
+                .add(new CardEffect(EVERY_TIME, null));
         this.weapons.get(19).getEffectsList().get(1).getEffects()
                 .add(new Movement(Stream.of(playerOptional),destination, false));
         //Optional Effect 2
         targetOptional = new Player(NONE, 0,0);
+        this.weapons.get(19).getEffectsList()
+                .add(new CardEffect(OPTIONAL, Stream.of(new Ammo(Color.YELLOW))));
         this.weapons.get(19).getEffectsList().get(0).getEffects()
                 .add(new DamageEffect(Stream.of(targetOptional) ,2, false));
 

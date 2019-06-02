@@ -180,8 +180,8 @@ public class GameController{
 
     public synchronized String prepareWeapon(Player player, String weaponEffects) {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
-        try{
-            if(checkWeaponEffects(player, weaponEffectsSplitted))
+        try {
+            if (!checkWeaponEffects(player, weaponEffectsSplitted))
                 throw new InvalidMoveException("Not valid sequence");
             //Add effects to player
             player.addEffectsToPlay(weaponEffectsSplitted);
@@ -199,7 +199,7 @@ public class GameController{
         StringBuilder string = new StringBuilder();
         int numEffect = 0;
         for(Effect e: player.getCurrentEffects()){
-            string.append(numEffect).append(e.getMessage()).append("\n");
+            string.append(numEffect).append(" | ").append(e.getMessage()).append("\n");
             numEffect++;
         }
         return string.toString();
@@ -223,6 +223,7 @@ public class GameController{
         for(int i=1; i<weaponEffectsSplitted.length; i++){
             sequence[i-1] = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffectType();
         }
+        System.out.println(Arrays.toString(sequence));
         //Compare the sequence given with the correct sequences
         if(sequenceSize == 1){
             return Arrays.equals(sequence, new EffectType[]{BASIC}) ||
