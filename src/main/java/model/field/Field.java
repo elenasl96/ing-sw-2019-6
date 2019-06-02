@@ -23,6 +23,10 @@ public class Field implements Serializable {
         return squares;
     }
 
+    public List<Room> getRooms() {
+        return this.rooms;
+    }
+
     public Field(int fieldNumber){
         generateField(fieldNumber);
     }
