@@ -30,6 +30,7 @@ public class Group implements Serializable {
         uniqueGroupID++;
         this.skullNumber = skullNumber;
         this.fieldNumber = fieldNumber;
+        this.full = false;
     }
 
     public static void resetGroupID() {
