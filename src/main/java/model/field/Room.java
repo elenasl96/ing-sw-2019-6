@@ -47,4 +47,10 @@ public class Room extends Target {
         }
         return list;
     }
+
+    @Override
+    public String getFieldsToFill() {
+        if(this.color == null) return "choose the room ";
+        else return null;
+    }
 }

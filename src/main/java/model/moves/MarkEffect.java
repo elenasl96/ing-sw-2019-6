@@ -29,4 +29,13 @@ public class MarkEffect extends Effect implements Move{
     }
 
 
+    @Override
+    public String getMessage() {
+        StringBuilder string = new StringBuilder();
+        string.append("Mark Effect: ");
+        for(Target t: targets){
+            string.append(t.getFieldsToFill());
+        }
+        return string.toString();
+    }
 }

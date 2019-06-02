@@ -19,4 +19,14 @@ public class DamageEffect extends Effect implements Move{
         }
         return null;
     }
+
+    @Override
+    public String getMessage() {
+        StringBuilder string = new StringBuilder();
+        string.append("Damage Effect: ");
+        for(Target t: targets){
+            string.append(t.getFieldsToFill());
+        }
+        return string.toString();
+    }
 }

@@ -164,4 +164,15 @@ public class Movement extends Effect implements Move{
     public void setMaxStepsFrenzy(int maxStepsFrenzy) {
         this.maxStepsFrenzy = maxStepsFrenzy;
     }
+
+    @Override
+    public String getMessage() {
+        StringBuilder string = new StringBuilder();
+        string.append("Movement: ");
+        for(Target t: targets){
+            string.append(t.getFieldsToFill());
+        }
+        if(destination != null) string.append("destination (Letter, Number); ");
+        return string.toString();
+    }
 }

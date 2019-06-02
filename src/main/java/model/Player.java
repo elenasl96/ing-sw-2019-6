@@ -6,6 +6,7 @@ import model.decks.Weapon;
 import model.enums.*;
 import model.enums.Character;
 import model.field.Square;
+import model.moves.Effect;
 import model.moves.Move;
 import model.moves.Target;
 import model.room.User;
@@ -28,7 +29,7 @@ public class Player extends Target implements Serializable{
     private boolean firstPlayer;
     private boolean dead;
     private int deaths;
-    private List<Player> shootable = new ArrayList<>();
+    private transient  List<Effect> currentEffects = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
     private boolean phaseNotDone;
 
@@ -105,6 +106,16 @@ public class Player extends Target implements Serializable{
         ArrayList<PlayerBoard> returns = new ArrayList<>();
         returns.add(playerBoard);
         return returns;
+    }
+
+    @Override
+    public String getFieldsToFill() {
+        StringBuilder string = new StringBuilder();
+        if(this.getName()==null) {
+           
+            return "Choose the player";
+        }
+        else return "";
     }
 
     public void addPoints(int points) {
@@ -219,5 +230,22 @@ public class Player extends Target implements Serializable{
     //TODO this method is used only in tests: refactor to delete it!
     public void setAmmos(List<Ammo> ammoList) {
         this.ammos = ammoList;
+    }
+
+    public void addEffectsToPlay(String[] weaponEffectsSplitted) {
+        Weapon weapon = this.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
+        for(int i=1; i<weaponEffectsSplitted.length; i++){
+            for(Effect e: weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffects()){
+                this.getCurrentEffects().add(e);
+            }
+        }
+    }
+
+    public List<Effect> getCurrentEffects() {
+        return currentEffects;
+    }
+
+    public void setCurrentEffects(List<Effect> currentEffects) {
+        this.currentEffects = currentEffects;
     }
 }

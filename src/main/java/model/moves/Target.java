@@ -5,10 +5,7 @@ import model.PlayerBoard;
 import model.enums.TargetType;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class Target implements Serializable {
     TargetType targetType;
@@ -32,5 +29,19 @@ public abstract class Target implements Serializable {
             b.addDamage(playerDamaging, damages);
         }
     }
+
+    public TargetType getTargetType() {
+        return targetType;
+    }
+
+    public Integer getMinDistance() {
+        return minDistance;
+    }
+
+    public Integer getMaxDistance() {
+        return maxDistance;
+    }
+
+    public abstract String getFieldsToFill();
 
 }

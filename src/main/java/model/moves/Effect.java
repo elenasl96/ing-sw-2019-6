@@ -21,9 +21,6 @@ public abstract class Effect implements Move {
         return this.targets;
     }
 
-    public Move cloneEffect(){
-        //TODO
-        return null;
-    }
+    public abstract String getMessage();
 }
 
