@@ -180,36 +180,28 @@ public class GameController{
 
     public synchronized String prepareWeapon(Player player, String weaponEffects) {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
-        try {
             if (!checkWeaponEffects(player, weaponEffectsSplitted))
                 throw new InvalidMoveException("Not valid sequence");
             //Add effects to player
             player.addEffectsToPlay(weaponEffectsSplitted);
             //Ask player to fill effects
             return getEffectsToFill(player);
-        }catch(NumberFormatException e){
-            player.getUser().receiveUpdate(new Update("Not valid number"));
-        }catch(NullPointerException e){
-            player.getUser().receiveUpdate(new Update("Not valid effects"));
-        }
-        return null;
     }
 
     private String getEffectsToFill(Player player) {
         StringBuilder string = new StringBuilder();
         int numEffect = 0;
         for(Effect e: player.getCurrentEffects()){
-            string.append(numEffect).append(" | ").append(e.getMessage()).append("\n");
+            string.append(numEffect).append(" | ").append(e.getFieldsToFill()).append("\n");
             numEffect++;
         }
         return string.toString();
     }
 
     public void playWeapon(Player player, String input) {
-        //Fill Effects
-        for(Effect e: player.getCurrentEffects()){
+            //fill effect fields with player choices
+            player.fillCurrentEffects(input);
 
-        }
     }
 
     private synchronized boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {

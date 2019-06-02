@@ -248,6 +248,10 @@ public class ServerController implements RequestHandler {
                     GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput());
                 }catch(NullPointerException e){
                     //TODO
+                }catch(IndexOutOfBoundsException e){
+                    //TODO
+                }catch(NumberFormatException e){
+                    user.receiveUpdate(new Update("Invalid Number Format!"));
                 }
                 break;
             default:
@@ -264,7 +268,11 @@ public class ServerController implements RequestHandler {
             return new AskInput("fillFields");
         }catch(IndexOutOfBoundsException|InvalidMoveException e){
             user.receiveUpdate(new Update("Not valid weapon"));
-        }
+        }catch(NumberFormatException e){
+            user.receiveUpdate(new Update("Not valid number"));
+        }catch(NullPointerException e){
+            user.receiveUpdate(new Update("Not valid effects"));
+    }
         return null;
     }
 
