@@ -6,11 +6,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The ammo tiles deck, contained in the board
+ * @see model.Board
+ * @see AmmoTile
+ */
 public class AmmoDeck {
-
+    /**
+     * The list of AmmoTiles contained in the deck
+     * @see AmmoTile
+     * @see ArrayList
+     */
     private List<AmmoTile> ammoTiles = new ArrayList<>();
+    /**
+     * The pile of discarded ammo tiles
+     * @see AmmoTile
+     * @see ArrayList
+     */
     private List<AmmoTile> discard = new ArrayList<>();
 
+    /**
+     * Default Constructor: adds 24 ammo tiles (two times 12 different ammo tiles)
+     * @see AmmoTileWithAmmo
+     * @see AmmoTileWithPowerup
+     */
     public AmmoDeck(){
         for(int i=0; i<2 ; i++) {
             this.ammoTiles.add(new AmmoTileWithAmmo(Color.YELLOW, Color.BLUE, Color.BLUE));
@@ -32,13 +51,18 @@ public class AmmoDeck {
 
     }
 
-
+    /**
+     * Shuffles the deck using Collections own method
+     * @see Collections#shuffle(List)
+     */
     private void shuffleDeck() {
         Collections.shuffle(ammoTiles);
     }
     /**
      * random.nextInt() generates a random int which is used to retrieve a
      * random element from the deck
+     * If the deck is empty, shuffles automatically the discard deck and puts it in place
+     * of the ammo tiles regular deck
      * @return an ammo card randomly
      */
     public AmmoTile pickCard(){
@@ -55,6 +79,10 @@ public class AmmoDeck {
         return ammoCard;
     }
 
+    /**
+     * Discards a card, generally picked
+     * @param card the card that will be added to the discarded cards' deck
+     */
     public void discardCard(AmmoTile card) {
         discard.add(card);
     }
