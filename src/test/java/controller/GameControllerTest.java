@@ -16,7 +16,6 @@ import model.room.Update;
 import model.room.User;
 import network.exceptions.InvalidUsernameException;
 import network.socket.Manager;
-import network.socket.commands.request.SendInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -100,7 +99,7 @@ class GameControllerTest {
         System.out.println(player.getWeapons().get(0));
         String weaponsEffect = "3 0 1";
         try {
-            GameController.get().playWeapon(player, weaponsEffect);
+            System.out.println(GameController.get().prepareWeapon(player, weaponsEffect));
         }catch(IndexOutOfBoundsException|InvalidMoveException e){
             System.out.println(e.getMessage());
         }
