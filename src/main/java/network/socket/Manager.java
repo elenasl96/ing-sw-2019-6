@@ -73,7 +73,7 @@ public class Manager {
         }
         throw new InvalidGroupNumberException("There's no group"+groupID);
     }
-    
+
     public synchronized Group createGroup(int skullNumber, int fieldNumber) {
         Group group = new Group(skullNumber, fieldNumber);
         GameContext.get().getGames().add(new Game());
@@ -86,7 +86,7 @@ public class Manager {
         User user = new User(name);
 
         if (users.contains(user)) {
-            throw new InvalidUsernameException("Invalid username: " + name);
+            throw new InvalidUsernameException("Already Connected: " + name);
         }
 
         users.add(user);
