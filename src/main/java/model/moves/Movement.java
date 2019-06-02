@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static model.field.Coordinate.fillCoordinate;
+
 /**
  * Implements the movement of the player of any steps on the board
  * @see Move
@@ -183,7 +185,7 @@ public class Movement extends Effect implements Move{
             t.setFieldsToFill(inputMatrix[i]);
             i++;
         }
-        if(this.destination == null)
-        this.coordinate.fillCoordinate(inputMatrix[i]);
+        if(this.coordinate == null)
+            this.coordinate= fillCoordinate(inputMatrix[i]);
     }
 }
