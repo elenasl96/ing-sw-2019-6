@@ -19,6 +19,9 @@ import network.socket.commands.Response;
 import network.exceptions.FullGroupException;
 import network.exceptions.InvalidGroupNumberException;
 
+import static model.enums.Phase.DISCONNECTED;
+import static model.enums.Phase.WAIT;
+
 /**
  * Handles the Requests coming from the SocketClientHandler via Socket
  * chain ViewClient -> ClientController -> SocketClient --network.socket--> SocketClientHandler -> ServerController
@@ -84,7 +87,11 @@ public class ServerController implements RequestHandler {
             user = Manager.get().createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
         } catch (InvalidUsernameException e) {
-            return new TextResponse("ERROR: " + e.getMessage());
+
+            if(user.getPlayer().getPhase().equals(DISCONNECTED)){
+                user.getPlayer().setPhase(WAIT);
+                return new TextResponse("Welcome back!");
+            }
         }
         // Listening to messages and sending them
         user.listenToMessages((ModelObserver) clientHandler);
