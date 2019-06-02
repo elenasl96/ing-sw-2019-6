@@ -68,8 +68,25 @@ public class Square extends Target implements Serializable {
 
     @Override
     public String getFieldsToFill() {
-        if(this.coord == null) return "Choose the square ";
+        if (this.coord == null) return "Choose the square ";
         else return "";
+    }
+
+    public boolean canBeSeen(Player player, int groupID) {
+        if(player.getCurrentPosition().getColor().equals(this.getColor()))
+            return true;
+        else {
+            List<Edge> edges = GameContext.get().getGame(groupID).getBoard().getField().getEdges();
+            for (int i = 0; i < edges.size(); i++) {
+                if ((edges.get(i).getSq1().equals(player.getCurrentPosition()) &&
+                        !edges.get(i).getSq2().getColor().equals(player.getCurrentPosition().getColor()) &&
+                        this.getColor().equals(edges.get(i).getSq2().getColor()))
+                        || (edges.get(i).getSq2().equals(player.getCurrentPosition()) &&
+                        !edges.get(i).getSq1().getColor().equals(player.getCurrentPosition().getColor()) &&
+                        this.getColor().equals(edges.get(i).getSq1().getColor())))
+                    return true;
+            }
+        } return false;
     }
 
     @Override

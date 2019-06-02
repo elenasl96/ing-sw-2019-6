@@ -44,4 +44,6 @@ public abstract class Target implements Serializable {
 
     public abstract String getFieldsToFill();
 
+    public abstract boolean canBeSeen(Player player, int groupID);
+
 }
