@@ -68,7 +68,7 @@ public class Square extends Target implements Serializable {
 
     @Override
     public String getFieldsToFill() {
-        if (this.coord == null) return "Choose the square ";
+        if (this.coord == null) return "Choose the square; ";
         else return "";
     }
 

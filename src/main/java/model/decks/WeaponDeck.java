@@ -143,7 +143,8 @@ public class WeaponDeck {
         targetBasic = new Player(VISIBLE, null, null);
         this.weapons.get(4).getEffectsList().add(new CardEffect(BASIC, Stream
                 .of(new Ammo(Color.BLUE), new Ammo(Color.RED))));
-        this.weapons.get(4).getEffectsList().get(0).getEffects().add(new DamageEffect(Stream.of(targetBasic), 2, false));
+        this.weapons.get(4).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 2, false));
 
         //Optional Effect 1
         //BASIC_VISIBLE = basictarget.cansee
