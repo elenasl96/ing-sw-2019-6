@@ -59,13 +59,13 @@ public class Room extends Target {
             return true;
         else {
             List<Edge> edges = GameContext.get().getGame(groupID).getBoard().getField().getEdges();
-            for (int i = 0; i < edges.size(); i++) {
-                if ((edges.get(i).getSq1().equals(player.getCurrentPosition()) &&
-                        !edges.get(i).getSq2().getColor().equals(player.getCurrentPosition().getColor()) &&
-                        this.getColor().equals(edges.get(i).getSq2().getColor()))
-                        || (edges.get(i).getSq2().equals(player.getCurrentPosition()) &&
-                        !edges.get(i).getSq1().getColor().equals(player.getCurrentPosition().getColor()) &&
-                        this.getColor().equals(edges.get(i).getSq1().getColor()))) {
+            for (Edge e: edges) {
+                if ((e.getSq1().equals(player.getCurrentPosition()) &&
+                        !e.getSq2().getColor().equals(player.getCurrentPosition().getColor()) &&
+                        this.getColor().equals(e.getSq2().getColor()))
+                        || (e.getSq2().equals(player.getCurrentPosition()) &&
+                        !e.getSq1().getColor().equals(player.getCurrentPosition().getColor()) &&
+                        this.getColor().equals(e.getSq1().getColor()))) {
                     return true;
                 }
             }
