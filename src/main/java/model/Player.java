@@ -277,4 +277,25 @@ public class Player extends Target implements Serializable{
     public boolean canSee(Target t, int groupID){
         return t.canBeSeen(this, groupID);
     }
+
+    public void fillCurrentEffects(String input) {
+        //Convert input to matrix
+        String[] inputSplitted = input.split("\n");
+        String[][] inputMatrix = new String[inputSplitted.length][];
+        for (int i = 0; i < inputSplitted.length; i++) {
+            inputMatrix[i] = inputSplitted[i].split(";");
+        }
+        //fill
+        int counter = 0;
+        for (Effect e : this.getCurrentEffects()) {
+            e.fillFields(inputMatrix[counter]);
+        }
+    }
+
+    @Override
+    public void setFieldsToFill(String inputMatrix) {
+        if(this.getName() == null){
+            this.name = inputMatrix;
+        }
+    }
 }

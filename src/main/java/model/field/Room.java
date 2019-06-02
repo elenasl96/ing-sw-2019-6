@@ -71,4 +71,9 @@ public class Room extends Target {
             }
         } return false;
     }
+
+    @Override
+    public void setFieldsToFill(String input) {
+        if(color == null) setColor(Color.fromName(input));
+    }
 }
