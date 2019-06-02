@@ -5,10 +5,7 @@ import model.PlayerBoard;
 import model.enums.TargetType;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class Target implements Serializable {
     TargetType targetType;
@@ -33,4 +30,5 @@ public abstract class Target implements Serializable {
         }
     }
 
+    public abstract boolean canBeSeen(Player player, int groupID);
 }
