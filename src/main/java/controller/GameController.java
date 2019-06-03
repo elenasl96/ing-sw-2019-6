@@ -1,7 +1,7 @@
 package controller;
 
-import exception.InvalidMoveException;
-import exception.NotEnoughAmmoException;
+import model.exception.InvalidMoveException;
+import model.exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.GameContext;
 import model.Player;

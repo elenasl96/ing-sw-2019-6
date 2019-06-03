@@ -1,8 +1,7 @@
 package controller;
 
-import exception.InvalidMoveException;
 import model.moves.*;
-import network.socket.commands.Response;
+import network.commands.Response;
 
 public interface MoveRequestHandler {
     void handle(Movement movement, int groupID);

@@ -4,6 +4,7 @@ import controller.ClientController;
 import model.room.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import view.ViewClient;
 
 public class ViewTest {
 

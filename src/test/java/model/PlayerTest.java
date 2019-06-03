@@ -1,22 +1,17 @@
 package model;
 
-import model.decks.AmmoTile;
 import model.decks.PowerupDeck;
-import model.enums.Character;
 import model.enums.Color;
 import model.enums.Phase;
 import model.field.Coordinate;
 import model.field.SpawnSquare;
 import model.field.Square;
-import model.moves.Move;
 import model.moves.Pay;
 import model.room.Group;
 import model.room.User;
 import network.exceptions.InvalidUsernameException;
-import network.socket.Manager;
+import network.Manager;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 

@@ -1,11 +1,10 @@
 package network;
 
 import controller.ClientController;
-import gui.ViewGui;
+import view.gui.ViewGui;
 import network.rmi.RMIClientHandler;
-import network.rmi.RemoteController;
-import network.socket.ViewClient;
-import network.socket.launch.SocketClient;
+import view.ViewClient;
+import network.socket.SocketClient;
 
 import java.io.IOException;
 import java.rmi.RemoteException;

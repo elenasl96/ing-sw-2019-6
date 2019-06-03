@@ -2,8 +2,8 @@ package controller;
 
 import model.GameContext;
 import model.room.*;
-import network.socket.Manager;
-import network.socket.commands.Response;
+import network.Manager;
+import network.commands.Response;
 
 import java.util.*;
 

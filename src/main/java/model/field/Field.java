@@ -1,6 +1,6 @@
 package model.field;
 
-import exception.NotExistingFieldException;
+import model.exception.NotExistingFieldException;
 import model.enums.Color;
 
 import java.io.Serializable;

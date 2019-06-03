@@ -1,6 +1,6 @@
 package controller;
 
-import exception.InvalidMoveException;
+import model.exception.InvalidMoveException;
 import model.Ammo;
 import model.GameContext;
 import model.Player;
@@ -15,7 +15,7 @@ import model.room.Group;
 import model.room.Update;
 import model.room.User;
 import network.exceptions.InvalidUsernameException;
-import network.socket.Manager;
+import network.Manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

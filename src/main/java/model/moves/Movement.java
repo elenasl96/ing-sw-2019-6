@@ -1,13 +1,13 @@
 package model.moves;
 
-import exception.InvalidMovementException;
+import model.exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
 import model.field.Coordinate;
 import model.field.Field;
 import model.field.Square;
 import model.room.Update;
-import network.socket.commands.Response;
+import network.commands.Response;
 
 import java.util.ArrayList;
 import java.util.List;

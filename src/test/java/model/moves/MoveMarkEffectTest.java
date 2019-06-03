@@ -1,8 +1,7 @@
 package model.moves;
 
-import exception.FullMarksException;
+import model.exception.FullMarksException;
 import model.Player;
-import model.enums.Character;
 import model.room.User;
 import org.junit.jupiter.api.Test;
 

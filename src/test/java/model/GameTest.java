@@ -1,7 +1,7 @@
 package model;
 import model.room.Group;
 import network.exceptions.InvalidUsernameException;
-import network.socket.Manager;
+import network.Manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

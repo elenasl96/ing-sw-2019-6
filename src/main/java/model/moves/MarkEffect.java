@@ -1,8 +1,8 @@
 package model.moves;
 
-import exception.FullMarksException;
+import model.exception.FullMarksException;
 import model.Player;
-import network.socket.commands.Response;
+import network.commands.Response;
 import java.util.Collections;
 import java.util.stream.Stream;
 

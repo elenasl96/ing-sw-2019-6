@@ -1,12 +1,11 @@
 package controller;
 
-import controller.ServerController;
 import model.GameContext;
 import model.field.Coordinate;
 import model.room.Group;
-import network.socket.Manager;
-import network.socket.commands.request.*;
-import network.socket.commands.response.*;
+import network.Manager;
+import network.commands.request.*;
+import network.commands.response.*;
 import org.junit.jupiter.api.BeforeEach;
 import model.room.User;
 import org.junit.jupiter.api.Test;

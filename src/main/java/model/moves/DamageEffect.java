@@ -1,7 +1,7 @@
 package model.moves;
 
 import model.Player;
-import network.socket.commands.Response;
+import network.commands.Response;
 import java.util.stream.Stream;
 
 public class DamageEffect extends Effect implements Move{

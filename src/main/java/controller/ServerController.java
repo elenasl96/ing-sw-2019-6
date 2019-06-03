@@ -1,7 +1,7 @@
 package controller;
 
-import exception.InvalidMoveException;
-import exception.NotEnoughAmmoException;
+import model.exception.InvalidMoveException;
+import model.exception.NotEnoughAmmoException;
 import model.GameContext;
 import model.Player;
 import model.decks.WeaponTile;
@@ -11,12 +11,12 @@ import model.room.*;
 import model.enums.Character;
 import network.ClientHandler;
 import network.socket.SocketClientHandler;
-import network.socket.Manager;
-import network.socket.commands.request.*;
-import network.socket.commands.response.*;
+import network.Manager;
+import network.commands.request.*;
+import network.commands.response.*;
 import network.exceptions.InvalidUsernameException;
-import network.socket.commands.RequestHandler;
-import network.socket.commands.Response;
+import network.commands.RequestHandler;
+import network.commands.Response;
 import network.exceptions.FullGroupException;
 import network.exceptions.InvalidGroupNumberException;
 
@@ -32,7 +32,7 @@ import static model.enums.Phase.WAIT;
  * @see Group
  * @see User
  * @see Manager
- * @see network.socket.commands.Request
+ * @see network.commands.Request
  * @see Response
  */
 

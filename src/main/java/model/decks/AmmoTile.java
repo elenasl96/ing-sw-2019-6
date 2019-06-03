@@ -1,11 +1,10 @@
 package model.decks;
 
-import exception.InvalidMoveException;
+import model.exception.InvalidMoveException;
 import model.Ammo;
 import model.GameContext;
 import model.enums.Color;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

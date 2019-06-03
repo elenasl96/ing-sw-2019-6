@@ -2,7 +2,7 @@ package model.field;
 
 import model.GameContext;
 import network.exceptions.InvalidUsernameException;
-import network.socket.Manager;
+import network.Manager;
 import org.junit.jupiter.api.Test;
 
 public class AmmoSquareTest {

@@ -1,12 +1,9 @@
 package model;
 
-import controller.GameController;
 import model.room.User;
 import network.exceptions.InvalidUsernameException;
-import network.socket.Manager;
+import network.Manager;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

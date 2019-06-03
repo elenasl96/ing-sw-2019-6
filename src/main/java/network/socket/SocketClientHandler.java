@@ -3,9 +3,9 @@ package network.socket;
 import controller.ServerController;
 import model.room.*;
 import network.ClientHandler;
-import network.socket.commands.Request;
-import network.socket.commands.response.*;
-import network.socket.commands.Response;
+import network.commands.Request;
+import network.commands.response.*;
+import network.commands.Response;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

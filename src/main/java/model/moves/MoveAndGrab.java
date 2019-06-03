@@ -5,7 +5,7 @@ import model.Player;
 import model.enums.Phase;
 import model.field.Coordinate;
 import model.room.Update;
-import network.socket.commands.Response;
+import network.commands.Response;
 
 import static model.enums.Phase.WAIT;
 
