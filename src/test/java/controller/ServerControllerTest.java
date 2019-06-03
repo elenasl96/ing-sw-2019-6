@@ -59,8 +59,6 @@ class ServerControllerTest {
     void userCreatedTest(){
         assertEquals(user1, serverController1.getUser());
         assertEquals("1", userResp1.user.getUsername());
-        TextResponse userRespError = (TextResponse) serverController2.handle(new CreateUserRequest("1"));
-        assertEquals("ERROR: Invalid username: 1", userRespError.content);
     }
 
     @Test

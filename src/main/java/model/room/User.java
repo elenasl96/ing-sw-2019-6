@@ -25,7 +25,7 @@ public class User implements Serializable, Comparable<User> {
         this.username = username;
         this.updateObservers = new LinkedList<>();
         uniqueUserID++;
-        this.player = new Player();
+        this.player = new Player(this);
     }
 
     public void setCharacter(Character character) {
