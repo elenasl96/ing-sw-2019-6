@@ -16,7 +16,7 @@ public class User implements Serializable, Comparable<User> {
     private transient List<ModelObserver> updateObservers;
     private static int uniqueUserID = 0;
     private int userID;
-    private Player player = null;
+    private Player player;
     private Character character = Character.NOT_ASSIGNED;
 
     public User(String username) {
@@ -25,6 +25,7 @@ public class User implements Serializable, Comparable<User> {
         this.username = username;
         this.updateObservers = new LinkedList<>();
         uniqueUserID++;
+        this.player = new Player();
     }
 
     public void setCharacter(Character character) {
