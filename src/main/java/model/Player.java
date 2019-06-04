@@ -255,7 +255,7 @@ public class Player extends Target implements Serializable{
 
     public void addEffectsToPlay(String[] weaponEffectsSplitted) {
         Weapon weapon = this.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
-        for(int i=1; i<weaponEffectsSplitted.length - 1; i++){
+        for(int i=1; i<weaponEffectsSplitted.length; i++){
             for(Effect e: weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffects()){
                 this.getCurrentEffects().add(e);
             }
