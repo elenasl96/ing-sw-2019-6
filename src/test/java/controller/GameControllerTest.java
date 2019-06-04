@@ -97,7 +97,7 @@ class GameControllerTest {
         player.getWeapons().add(deck.pickCard());
         player.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(player.getWeapons().get(0));
-        String weaponsEffect = "3 0 1";
+        String weaponsEffect = "3 0";
         try {
             System.out.println(GameController.get().prepareWeapon(player, weaponsEffect));
         }catch(IndexOutOfBoundsException|InvalidMoveException e){

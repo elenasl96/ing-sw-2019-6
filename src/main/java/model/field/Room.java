@@ -4,7 +4,9 @@ import model.GameContext;
 import model.Player;
 import model.PlayerBoard;
 import model.enums.Color;
+import model.enums.TargetType;
 import model.moves.Target;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,12 @@ public class Room extends Target {
         this.squares = squares;
     }
 
+    public Room(TargetType targetType, Integer minDistance, Integer maxDistance){
+        super(targetType, minDistance,maxDistance);
+        this.color = null;
+    }
+
+    @Nullable
     public Color getColor() {
         return color;
     }
