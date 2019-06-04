@@ -105,6 +105,9 @@ public class Player extends Target implements Serializable{
         return this.playerBoard;
     }
 
+    public Character getCharacter(){
+        return this.character;
+    }
     @Override
     public List<PlayerBoard> getPlayerBoards(int groupId) {
         ArrayList<PlayerBoard> returns = new ArrayList<>();
