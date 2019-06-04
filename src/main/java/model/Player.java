@@ -33,6 +33,7 @@ public class Player extends Target implements Serializable{
     private boolean firstPlayer;
     private boolean dead;
     private int deaths;
+    private transient List<Player> shootable = new ArrayList<>();
     private transient  List<Effect> currentEffects = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
     private boolean phaseNotDone;
@@ -267,30 +268,12 @@ public class Player extends Target implements Serializable{
         return currentEffects;
     }
 
-    public void setCurrentEffects(List<Effect> currentEffects) {
-        this.currentEffects = currentEffects;
-    }
-
     /**
      * @param t the target the current Player wants to shoot to
      * @return
      */
     public boolean canSee(Target t, int groupID){
         return t.canBeSeen(this, groupID);
-    }
-
-    public void fillCurrentEffects(String input, int groupID) {
-        //Convert input to matrix
-        String[] inputSplitted = input.split("\n");
-        String[][] inputMatrix = new String[inputSplitted.length][];
-        for (int i = 0; i < inputSplitted.length; i++) {
-            inputMatrix[i] = inputSplitted[i].split(";");
-        }
-        //fill
-        int counter = 0;
-        for (Effect e : this.getCurrentEffects()) {
-            e.fillFields(inputMatrix[counter], groupID);
-        }
     }
 
     @Override
@@ -306,11 +289,15 @@ public class Player extends Target implements Serializable{
     protected boolean checkTarget(String inputName, int groupID) {
         Player target = GameContext.get().getGame(groupID).playerFromName(inputName);
         if(target != null){
+            if(this.getMinDistance() != null){
+                //TODO calculate distance between players
+            }
             switch (this.getTargetType()){
                 case VISIBLE:
+                    if(this.shootable.contains(target)) return true;
                     break;
                 case NONE:
-                    break;
+                    return true;
                 case ME:
                     break;
                 default:
@@ -318,6 +305,12 @@ public class Player extends Target implements Serializable{
             }
         }
         return false;
+    }
+
+    public void generateShootable(int groupID){
+        for(Player p: GameContext.get().getGame(groupID).getPlayers()){
+            if(p.canBeSeen(this, groupID)) this.shootable.add(p);
+        }
     }
 
 }

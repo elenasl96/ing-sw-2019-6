@@ -213,8 +213,6 @@ public class GameController{
             e.fillFields(inputMatrix[counter], groupID);
         }
         //fill effect fields with player choices
-        //player.fillCurrentEffects(input);
-
     }
 
     private synchronized boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {
