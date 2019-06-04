@@ -40,10 +40,10 @@ public class MarkEffect extends Effect implements Move{
     }
 
     @Override
-    public void fillFields(String[] inputMatrix) {
+    public void fillFields(String[] inputMatrix, int groupID) {
         int i = 0;
         for(Target t: targets){
-            t.setFieldsToFill(inputMatrix[i]);
+            t.setFieldsToFill(inputMatrix[i], groupID);
             i++;
         }
     }

@@ -198,9 +198,20 @@ public class GameController{
         return string.toString();
     }
 
-    public void playWeapon(Player player, String input) {
-            //fill effect fields with player choices
-            player.fillCurrentEffects(input);
+    public void playWeapon(Player player, String input, int groupID) {
+        //Convert input to matrix
+        String[] inputSplitted = input.split("\n");
+        String[][] inputMatrix = new String[inputSplitted.length][];
+        for (int i = 0; i < inputSplitted.length; i++) {
+            inputMatrix[i] = inputSplitted[i].split(";");
+        }
+        //fill
+        int counter = 0;
+        for (Effect e : player.getCurrentEffects()) {
+            e.fillFields(inputMatrix[counter], groupID);
+        }
+        //fill effect fields with player choices
+        //player.fillCurrentEffects(input);
 
     }
 
