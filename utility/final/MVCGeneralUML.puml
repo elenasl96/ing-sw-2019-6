@@ -1,0 +1,218 @@
+@startuml
+interface Serializable
+package model{
+    package decks{
+        class AmmoDeck{
+            - ammoTiles: List<AmmoTile>
+            - discard: List<AmmoTile>
+            __
+            - shuffleDeck(): void
+            + pickCard(): AmmoTile
+            + discardCard(AmmoTile): void
+        }
+
+        abstract class AmmoTile <@see>
+
+        class CardEffect{
+            - effectType: EffectType
+            - effects: List<Effect>
+            - cost: Ammo
+        }
+
+        interface Grabbable extends Serializable{
+            + pickGrabbable(int, int): void
+        }
+
+        class Powerup implements Serializable{
+            - name: String
+            - ammo: Ammo
+            - moves: List<Move>
+        }
+
+        class PowerupDeck{
+            - powerups: List<Powerup>
+            - discard: List<Powerup>
+            __
+            - shuffleDeck(): void
+            + pickCard(): Powerup
+        }
+
+        class Weapon implements Serializable{
+            - name: String
+            - effectsDescription: String
+            - status: WeaponStatus
+            - cardEffect: List<CardEffect>
+            __
+            + isLoaded(): boolean
+        }
+
+        class WeaponDeck{
+            - weapons: List<Weapon>
+        }
+
+        class WeaponTile implements Grabbable{
+            - weapons: List<Weapon>
+        }
+
+        AmmoDeck "2" *-- AmmoTile
+        PowerupDeck *-- Powerup
+        WeaponDeck *-- Weapon
+    }
+
+    package enums{
+        enum Character{
+            NOT_ASSIGNED
+            PG1
+            PG2
+            PG3
+            PG4
+            PG5
+        }
+        enum Color{
+            NONE
+            GREY
+            YELLOW
+            RED
+            BLUE
+            GREEN
+            WHITE
+            PURPLE
+        }
+        enum EffectType {
+            BASIC
+            OPTIONAL
+            OPTIONAL1
+            OPTIONAL2
+            ALTERNATIVE
+            BEFORE_AFTER_BASIC
+            OPTIONAL_VORTEX
+            BEFORE_BASIC
+            EVERY_TIME
+        }
+        enum Phase{
+            WAIT
+            FIRST
+            SECOND
+            RELOAD
+            SPAWN
+        }
+        enum TargetType{
+            NONE
+            VISIBLE
+            NOT_VISIBLE
+            BASIC_VISIBLE
+            OPTIONAL1_VISIBLE
+            CARDINAL
+            ME
+            NOT_MINE
+            SAME_TARGET
+            ALL
+            SAME_DIRECTION
+            DIFFERENT_SQUARE
+        }
+        enum WeaponStatus{
+            UNLOADED
+            PARTIALLY_LOADED
+            LOADED
+        }
+    }
+
+    package field{
+        class AmmoSquare extends Square{
+            - ammo: AmmoTile
+        }
+
+        class Coordinate {
+            - x: char
+            - y: int
+        }
+
+        class Edge{
+            - sq1: Square
+            - sq2: Square
+        }
+
+        class Field{
+            - edges: List<Edge>
+            - squares: List<Square>
+            - spawnSquares: List<SpawnSquare>
+            - rooms: List<Room>
+            __
+            + generateField(int): void
+            + addSpawnSquare(SpawnSquare): void
+        }
+
+        class Room extends Target{
+            - color: Color
+            - squares: List<Square>
+        }
+
+        class SpawnSquare extends Square{
+            - weapons: WeaponTile
+        }
+
+        class Square extends Target implements Serializable{
+            - color: Color
+            - coord: Coordinate
+            __
+            + getGrabbable(): Grabbable
+            + setGrabbable(Board): void
+            + addGrabbable(Weapon, int): void
+        }
+
+        Edge "2" *-- Square
+        Field <-- Edge
+        Field <-- Square
+        Field <-- Room
+    }
+
+    package moves{
+
+    }
+
+    package room{
+
+    }
+
+    class Ammo{
+
+    }
+
+    class Board{
+
+    }
+
+    class Game{
+
+    }
+
+    class GameContext  << (S,#FF7700) Singleton >> {
+
+    }
+
+    class Player {
+
+    }
+
+    class PlayerBoard{
+
+    }
+
+    class PlayerList {
+
+    }
+
+    CardEffect "1" *-- EffectType
+    CardEffect "1...n" *-- Effect
+    CardEffect o-- Ammo
+
+    Powerup "1" *-- Ammo
+    Powerup "1...n" *-- Move
+
+    Weapon "1" *-- WeaponStatus
+    Weapon "1...n" *-- CardEffect
+
+    AmmoSquare "1" *-- AmmoTile
+    SpawnSquare "1" *-- WeaponTile
+}
+@enduml

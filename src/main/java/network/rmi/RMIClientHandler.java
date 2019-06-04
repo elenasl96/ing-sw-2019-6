@@ -4,15 +4,16 @@ import controller.ServerController;
 import model.room.Update;
 import model.room.User;
 import network.ClientHandler;
-import network.socket.commands.Request;
-import network.socket.commands.Response;
-import network.socket.commands.response.GameUpdateNotification;
-import network.socket.commands.response.MoveUpdateResponse;
+import network.RemoteController;
+import network.commands.Request;
+import network.commands.Response;
+import network.commands.response.GameUpdateNotification;
+import network.commands.response.MoveUpdateResponse;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-
+//TODO javadoc
 public class RMIClientHandler extends UnicastRemoteObject implements RemoteController, ClientHandler {
 
     private transient ServerController controller;

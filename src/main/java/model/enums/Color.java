@@ -18,6 +18,23 @@ public enum Color {
         this.abbr = abbr;
     }
 
+    public static Color fromName(String name) {
+        switch(name) {
+            case "green":
+                return GREEN;
+            case "blue":
+                return BLUE;
+            case "red":
+                return RED;
+            case "yellow":
+                return YELLOW;
+            case "white":
+                return WHITE;
+            default:
+                return NONE;
+        }
+    }
+
     public String getName(){
         return name;
     }

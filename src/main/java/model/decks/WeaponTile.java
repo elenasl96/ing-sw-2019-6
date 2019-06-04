@@ -1,13 +1,16 @@
 package model.decks;
 
+import model.Ammo;
 import model.GameContext;
+import model.enums.WeaponStatus;
+import model.moves.Pay;
 import model.room.Update;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeaponTile implements Grabbable, Serializable {
+public class WeaponTile implements Grabbable {
     private List<Weapon> weapons;
 
     public WeaponTile() {
@@ -24,13 +27,28 @@ public class WeaponTile implements Grabbable, Serializable {
 
     @Override
     public void pickGrabbable(int groupID, int toPick) {
+        Weapon weapon = this.weapons.get(toPick);
+
+        ArrayList<Ammo> ammosToPay = new ArrayList<>();
+        //Try to pay the weapon
+        if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED) &&
+                weapon.getEffectsList().get(0).getCost().size()>1){
+            for(int i=1; i< weapon.getEffectsList().get(0).getCost().size(); i++){
+                ammosToPay.add(weapon.getEffectsList().get(0).getCost().get(i));
+            }
+            Pay pay = new Pay(ammosToPay);
+            pay.execute(GameContext.get().getGame(groupID).getCurrentPlayer(), groupID);
+            weapon.setStatus(WeaponStatus.LOADED);
+        }
+
+        //Pick weapon
         System.out.println(toPick);
         GameContext.get().getGame(groupID).getCurrentPlayer()
-                .getWeapons().add(this.weapons.get(toPick)); //Throws IndexOutOfBoundsException if toPick inserted by the user was >2
+                .getWeapons().add(weapon); //Throws IndexOutOfBoundsException if toPick inserted by the user was >2
         //Removes the weapon picked up
         GameContext.get().getGame(groupID).sendUpdate(new Update(
                 GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
-                        " picked "+this.weapons.get(toPick).toString()));
+                        " picked "+weapon.toString()));
         this.weapons.remove(toPick);
         //Refills the weapon
         Weapon newWeapon = GameContext.get().getGame(groupID).getBoard().getWeaponsLeft().pickCard();

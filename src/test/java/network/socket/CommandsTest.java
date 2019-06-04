@@ -1,8 +1,8 @@
 package network.socket;
 
 import model.moves.Move;
-import network.socket.commands.request.MoveRequest;
-import network.socket.commands.request.SpawnRequest;
+import network.commands.request.MoveRequest;
+import network.commands.request.SpawnRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 

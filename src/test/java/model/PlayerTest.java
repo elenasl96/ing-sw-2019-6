@@ -1,23 +1,22 @@
 package model;
 
-import model.decks.AmmoTile;
 import model.decks.PowerupDeck;
-import model.enums.Character;
 import model.enums.Color;
 import model.enums.Phase;
 import model.field.Coordinate;
 import model.field.SpawnSquare;
 import model.field.Square;
-import model.moves.Move;
 import model.moves.Pay;
+import model.room.Group;
 import model.room.User;
+import network.exceptions.InvalidUsernameException;
+import network.Manager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
 class PlayerTest {
-    Player pg = new Player(new User("ugo"));
-
+    private Player pg = new Player(new User("ugo"));
 
     @Test
     void nameTest() {
@@ -63,5 +62,31 @@ class PlayerTest {
         Ammo ammo = new Ammo(Color.BLUE);
 
         assertNotEquals(p1,ammo);
+    }
+
+    @Test
+    void canSeeTest(){
+        GameContext.get().reset();
+        Manager.get().reset();
+        Manager.get().reset();
+        GameContext.get().reset();
+        GameContext.get().createGame(0);
+        Group group0 = Manager.get().getGroup(0);
+        try {
+            Manager.get().createUser("user1");
+            Manager.get().createUser("user2");
+            Manager.get().createUser("user3");
+            Manager.get().createUser("user4");
+        } catch (InvalidUsernameException e) {
+            e.printStackTrace();
+        }
+        for(int i = 0; i<4; i++) {
+            group0.join(Manager.get().getUsers().get(i));
+        }
+        group0.createGame();
+        group0.getGame().getCurrentPlayer().setCurrentPosition(group0.getGame().getBoard().getField().getSquares().get(0));
+        group0.getGame().getPlayers().get(3).setCurrentPosition(group0.getGame().getBoard().getField().getSquares().get(1));
+
+        assertTrue(group0.getGame().getCurrentPlayer().canSee(group0.getGame().getPlayers().get(3), group0.getGroupID()));
     }
 }

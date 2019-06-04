@@ -1,6 +1,6 @@
 package controller;
 
-import network.socket.Manager;
+import network.Manager;
 import org.junit.jupiter.api.Test;
 
 public class TimerControllerTest {

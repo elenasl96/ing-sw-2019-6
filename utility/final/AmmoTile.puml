@@ -1,0 +1,11 @@
+@startuml
+
+abstract class AmmoTile implements Serializable, Grabbable{
+    - ammos: List<Ammo>
+    __
+    + pickGrabbable(int, int): void
+}
+
+AmmoTile +-- AmmoTileWithAmmo
+AmmoTile +-- AmmoTileWithPowerup
+@enduml

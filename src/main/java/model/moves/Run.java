@@ -1,11 +1,10 @@
 package model.moves;
 
-import exception.InvalidMoveException;
 import model.GameContext;
 import model.Player;
 import model.field.Coordinate;
 import model.field.Field;
-import network.socket.commands.Response;
+import network.commands.Response;
 
 public class Run implements Move {
     private Movement movement;

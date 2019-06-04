@@ -1,6 +1,6 @@
 package model;
 
-import exception.FullMarksException;
+import model.exception.FullMarksException;
 
 import java.io.Serializable;
 import java.util.ArrayList;

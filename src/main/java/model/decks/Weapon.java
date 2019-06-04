@@ -31,6 +31,10 @@ public class Weapon implements Serializable {
         return effectsDescription;
     }
 
+    public boolean isLoaded(){
+        return this.status.equals(WeaponStatus.LOADED);
+    }
+
     public WeaponStatus getStatus() {
         return status;
     }

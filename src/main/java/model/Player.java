@@ -5,10 +5,14 @@ import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.*;
 import model.enums.Character;
+import model.field.Edge;
+import model.field.Field;
 import model.field.Square;
+import model.moves.Effect;
 import model.moves.Move;
 import model.moves.Target;
 import model.room.User;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +32,7 @@ public class Player extends Target implements Serializable{
     private boolean firstPlayer;
     private boolean dead;
     private int deaths;
-    private List<Player> shootable = new ArrayList<>();
+    private transient  List<Effect> currentEffects = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
     private boolean phaseNotDone;
 
@@ -105,6 +109,34 @@ public class Player extends Target implements Serializable{
         ArrayList<PlayerBoard> returns = new ArrayList<>();
         returns.add(playerBoard);
         return returns;
+    }
+
+    @Override
+    public String getFieldsToFill() {
+        StringBuilder string = new StringBuilder();
+        if (this.getName() == null) {
+
+            return "Choose the player; ";
+        } else return "";
+    }
+
+    public boolean canBeSeen(Player p, int groupID) {
+        Field field = GameContext.get().getGame(groupID).getBoard().getField();
+        if (this.getCurrentPosition().getColor().equals(p.getCurrentPosition().getColor())){
+            return true;
+        } else {
+            List<Edge> edges= field.getEdges();
+            for(int i = 0; i < edges.size(); i++){
+                if((edges.get(i).getSq1().equals(p.getCurrentPosition())&&
+                        !edges.get(i).getSq2().getColor().equals(p.getCurrentPosition().getColor()) &&
+                        this.getCurrentPosition().getColor().equals(edges.get(i).getSq2().getColor()))
+                    || (edges.get(i).getSq2().equals(p.getCurrentPosition())&&
+                        !edges.get(i).getSq1().getColor().equals(p.getCurrentPosition().getColor()) &&
+                        this.getCurrentPosition().getColor().equals(edges.get(i).getSq1().getColor())))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public void addPoints(int points) {
@@ -219,5 +251,51 @@ public class Player extends Target implements Serializable{
     //TODO this method is used only in tests: refactor to delete it!
     public void setAmmos(List<Ammo> ammoList) {
         this.ammos = ammoList;
+    }
+
+    public void addEffectsToPlay(String[] weaponEffectsSplitted) {
+        Weapon weapon = this.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
+        for(int i=1; i<weaponEffectsSplitted.length; i++){
+            for(Effect e: weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffects()){
+                this.getCurrentEffects().add(e);
+            }
+        }
+    }
+
+    public List<Effect> getCurrentEffects() {
+        return currentEffects;
+    }
+
+    public void setCurrentEffects(List<Effect> currentEffects) {
+        this.currentEffects = currentEffects;
+    }
+
+    /**
+     * @param t the target the current Player wants to shoot to
+     * @return
+     */
+    public boolean canSee(Target t, int groupID){
+        return t.canBeSeen(this, groupID);
+    }
+
+    public void fillCurrentEffects(String input) {
+        //Convert input to matrix
+        String[] inputSplitted = input.split("\n");
+        String[][] inputMatrix = new String[inputSplitted.length][];
+        for (int i = 0; i < inputSplitted.length; i++) {
+            inputMatrix[i] = inputSplitted[i].split(";");
+        }
+        //fill
+        int counter = 0;
+        for (Effect e : this.getCurrentEffects()) {
+            e.fillFields(inputMatrix[counter]);
+        }
+    }
+
+    @Override
+    public void setFieldsToFill(String inputMatrix) {
+        if(this.getName() == null){
+            this.name = inputMatrix;
+        }
     }
 }

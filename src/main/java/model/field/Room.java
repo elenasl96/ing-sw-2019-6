@@ -4,11 +4,14 @@ import model.GameContext;
 import model.Player;
 import model.PlayerBoard;
 import model.enums.Color;
+import model.enums.TargetType;
 import model.moves.Target;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO finish javadoc
 public class Room extends Target {
     private Color color;
     private List<Square> squares;
@@ -18,6 +21,12 @@ public class Room extends Target {
         this.squares = squares;
     }
 
+    public Room(TargetType targetType, Integer minDistance, Integer maxDistance){
+        super(targetType, minDistance,maxDistance);
+        this.color = null;
+    }
+
+    @Nullable
     public Color getColor() {
         return color;
     }
@@ -45,5 +54,34 @@ public class Room extends Target {
             }
         }
         return list;
+    }
+
+    @Override
+    public String getFieldsToFill() {
+        if (this.color == null) return "choose the room ";
+        else return null;
+    }
+
+    public boolean canBeSeen(Player player, int groupID) {
+        if(player.getCurrentPosition().getColor().equals(this.getColor()))
+            return true;
+        else {
+            List<Edge> edges = GameContext.get().getGame(groupID).getBoard().getField().getEdges();
+            for (Edge e: edges) {
+                if ((e.getSq1().equals(player.getCurrentPosition()) &&
+                        !e.getSq2().getColor().equals(player.getCurrentPosition().getColor()) &&
+                        this.getColor().equals(e.getSq2().getColor()))
+                        || (e.getSq2().equals(player.getCurrentPosition()) &&
+                        !e.getSq1().getColor().equals(player.getCurrentPosition().getColor()) &&
+                        this.getColor().equals(e.getSq1().getColor()))) {
+                    return true;
+                }
+            }
+        } return false;
+    }
+
+    @Override
+    public void setFieldsToFill(String input) {
+        if(color == null) setColor(Color.fromName(input));
     }
 }

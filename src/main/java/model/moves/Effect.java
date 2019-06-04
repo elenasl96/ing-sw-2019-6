@@ -1,12 +1,11 @@
 package model.moves;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class Effect implements Serializable {
+public abstract class Effect implements Move {
     private Boolean optionality;
     List<Target> targets = new ArrayList<>();
 
@@ -22,5 +21,8 @@ public abstract class Effect implements Serializable {
         return this.targets;
     }
 
+    public abstract String getFieldsToFill();
+
+    public abstract void fillFields(String[] inputMatrix);
 }
 

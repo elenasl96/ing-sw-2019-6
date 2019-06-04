@@ -1,9 +1,9 @@
 package model.moves;
 
-import exception.NotEnoughAmmoException;
+import model.exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;
-import network.socket.commands.Response;
+import network.commands.Response;
 
 import java.util.ArrayList;
 import java.util.Collections;

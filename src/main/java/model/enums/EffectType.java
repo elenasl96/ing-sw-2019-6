@@ -7,11 +7,9 @@ public enum EffectType {
     OPTIONAL2(4),
     ALTERNATIVE(5),
     BEFORE_AFTER_BASIC(6),
-    POWERUP(7),
-    MOVE(8),
-    OPTIONAL_VORTEX(9),
-    BEFORE_BASIC(10),
-    EVERY_TIME(11);
+    OPTIONAL_VORTEX(7),
+    BEFORE_BASIC(8),
+    EVERY_TIME(9);
 
     private int number;
 

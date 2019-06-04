@@ -1,7 +1,7 @@
 package model.moves;
 
 import model.Player;
-import network.socket.commands.Response;
+import network.commands.Response;
 import java.util.stream.Stream;
 
 public class DamageEffect extends Effect implements Move{
@@ -18,5 +18,24 @@ public class DamageEffect extends Effect implements Move{
             t.addDamages(playerDamaging, damages, groupId);
         }
         return null;
+    }
+
+    @Override
+    public String getFieldsToFill() {
+        StringBuilder string = new StringBuilder();
+        string.append("Damage Effect: ");
+        for(Target t: targets){
+            string.append(t.getFieldsToFill());
+        }
+        return string.toString();
+    }
+
+    @Override
+    public void fillFields(String[] inputMatrix) {
+        int i = 0;
+        for(Target t: targets){
+            t.setFieldsToFill(inputMatrix[i]);
+            i++;
+        }
     }
 }

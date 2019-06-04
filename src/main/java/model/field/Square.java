@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static model.field.Coordinate.fillCoordinate;
+
+//TODO javadoc
 public class Square extends Target implements Serializable {
     private Color color;
     private Coordinate coord;
@@ -63,6 +66,37 @@ public class Square extends Target implements Serializable {
             boards.add(p.getPlayerBoards(groupId).get(0));
         }
         return boards;
+    }
+
+    @Override
+    public String getFieldsToFill() {
+        if (this.coord == null) return "Choose the square; ";
+        else return "";
+    }
+
+    public boolean canBeSeen(Player player, int groupID) {
+        if(player.getCurrentPosition().getColor().equals(this.getColor()))
+            return true;
+        else {
+            List<Edge> edges = GameContext.get().getGame(groupID).getBoard().getField().getEdges();
+            for (Edge e: edges){
+                if ((e.getSq1().equals(player.getCurrentPosition()) &&
+                        !e.getSq2().getColor().equals(player.getCurrentPosition().getColor()) &&
+                        this.getColor().equals(e.getSq2().getColor()))
+                        || (e.getSq2().equals(player.getCurrentPosition()) &&
+                        !e.getSq1().getColor().equals(player.getCurrentPosition().getColor()) &&
+                        this.getColor().equals(e.getSq1().getColor())))
+                    return true;
+            }
+        } return false;
+    }
+
+    @Override
+    public void setFieldsToFill(String input) {
+        if(this.coord == null){
+            this.coord= fillCoordinate(input);
+        }
+
     }
 
     @Override

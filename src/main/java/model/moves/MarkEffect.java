@@ -1,8 +1,8 @@
 package model.moves;
 
-import exception.FullMarksException;
+import model.exception.FullMarksException;
 import model.Player;
-import network.socket.commands.Response;
+import network.commands.Response;
 import java.util.Collections;
 import java.util.stream.Stream;
 
@@ -29,4 +29,22 @@ public class MarkEffect extends Effect implements Move{
     }
 
 
+    @Override
+    public String getFieldsToFill() {
+        StringBuilder string = new StringBuilder();
+        string.append("Mark Effect: ");
+        for(Target t: targets){
+            string.append(t.getFieldsToFill());
+        }
+        return string.toString();
+    }
+
+    @Override
+    public void fillFields(String[] inputMatrix) {
+        int i = 0;
+        for(Target t: targets){
+            t.setFieldsToFill(inputMatrix[i]);
+            i++;
+        }
+    }
 }

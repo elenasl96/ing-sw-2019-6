@@ -1,6 +1,6 @@
 package model.moves;
 import model.Player;
-import network.socket.commands.Response;
+import network.commands.Response;
 
 import java.io.Serializable;
 

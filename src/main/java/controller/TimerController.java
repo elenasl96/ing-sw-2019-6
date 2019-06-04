@@ -2,8 +2,8 @@ package controller;
 
 import model.GameContext;
 import model.room.*;
-import network.socket.Manager;
-import network.socket.commands.Response;
+import network.Manager;
+import network.commands.Response;
 
 import java.util.*;
 
@@ -58,6 +58,29 @@ public class TimerController implements ModelObserver {
         this.timers.get(groupID).schedule(timerTask, 0,1000);
     }
 
+    synchronized void startTurnTimer(int groupID){
+        timers.get(groupID).cancel();
+        TimerTask timerTask = new TimerTask(){
+            int seconds = 5;
+            @Override
+            public void run() {
+                if(seconds == 60){
+                    Manager.get().getGroup(groupID).sendUpdate(new Update(seconds + " seconds left..."));
+                }else if(seconds == 10) {
+                    Manager.get().getGroup(groupID).sendUpdate(new Update("Hurry, 10 seconds left!"));
+                } else if (seconds <= 5 && seconds > 0) {
+                    Manager.get().getGroup(groupID).sendUpdate(new Update("Seconds remaining: " + seconds + "..."));
+                } else if (seconds == 0){
+                    Manager.get().getGroup(groupID).sendUpdate(new Update("Move lost! No more time."));
+                    GameController.get().updatePhase(groupID);
+                    timers.get(groupID).cancel();
+                }
+                seconds--;
+            }
+        };
+        this.timers.get(groupID).schedule(timerTask, 0,1000);
+    }
+
     @Override
     public void onJoin(User u) {
         //Finding the user's group
@@ -96,7 +119,6 @@ public class TimerController implements ModelObserver {
 
     @Override
     public Response onUpdate(Update update) {
-        //I haven't programmed that path yet
         return null;
     }
 

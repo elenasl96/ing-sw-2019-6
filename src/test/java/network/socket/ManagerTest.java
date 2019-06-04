@@ -2,6 +2,7 @@ package network.socket;
 
 import model.room.Group;
 import model.room.User;
+import network.Manager;
 import network.exceptions.InvalidUsernameException;
 import network.exceptions.UserNotInGroupException;
 import org.junit.jupiter.api.Assertions;

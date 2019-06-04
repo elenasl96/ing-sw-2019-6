@@ -1,15 +1,13 @@
 package model.moves;
 
-import exception.FullMarksException;
+import model.exception.FullMarksException;
 import model.Player;
-import model.enums.Character;
 import model.room.User;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.stream.Stream;
 
-import static model.enums.EffectType.MOVE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 

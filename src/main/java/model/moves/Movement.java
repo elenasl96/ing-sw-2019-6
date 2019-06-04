@@ -1,17 +1,19 @@
 package model.moves;
 
-import exception.InvalidMovementException;
+import model.exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
 import model.field.Coordinate;
 import model.field.Field;
 import model.field.Square;
 import model.room.Update;
-import network.socket.commands.Response;
+import network.commands.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static model.field.Coordinate.fillCoordinate;
 
 /**
  * Implements the movement of the player of any steps on the board
@@ -163,5 +165,27 @@ public class Movement extends Effect implements Move{
 
     public void setMaxStepsFrenzy(int maxStepsFrenzy) {
         this.maxStepsFrenzy = maxStepsFrenzy;
+    }
+
+    @Override
+    public String getFieldsToFill() {
+        StringBuilder string = new StringBuilder();
+        string.append("Movement: ");
+        for(Target t: targets){
+            string.append(t.getFieldsToFill());
+        }
+        if(destination != null) string.append("destination (Letter, Number); ");
+        return string.toString();
+    }
+
+    @Override
+    public void fillFields(String[] inputMatrix) {
+        int i = 0;
+        for(Target t: targets){
+            t.setFieldsToFill(inputMatrix[i]);
+            i++;
+        }
+        if(this.coordinate == null)
+            this.coordinate= fillCoordinate(inputMatrix[i]);
     }
 }

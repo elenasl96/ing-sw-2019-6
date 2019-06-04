@@ -1,12 +1,11 @@
 package controller;
 
-import controller.ServerController;
 import model.GameContext;
 import model.field.Coordinate;
 import model.room.Group;
-import network.socket.Manager;
-import network.socket.commands.request.*;
-import network.socket.commands.response.*;
+import network.Manager;
+import network.commands.request.*;
+import network.commands.response.*;
 import org.junit.jupiter.api.BeforeEach;
 import model.room.User;
 import org.junit.jupiter.api.Test;
@@ -59,8 +58,6 @@ class ServerControllerTest {
     void userCreatedTest(){
         assertEquals(user1, serverController1.getUser());
         assertEquals("1", userResp1.user.getUsername());
-        TextResponse userRespError = (TextResponse) serverController2.handle(new CreateUserRequest("1"));
-        assertEquals("ERROR: Invalid username: 1", userRespError.content);
     }
 
     @Test
@@ -147,8 +144,5 @@ class ServerControllerTest {
 
         CreateUserRequest createUserRequest = new CreateUserRequest("2");
         createUserRequest.handle(serverController1);
-
-        MovementRequest movementRequest = new MovementRequest(new Coordinate('A',0));
-        movementRequest.handle(serverController1);
     }
 }

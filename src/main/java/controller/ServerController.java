@@ -1,6 +1,7 @@
 package controller;
 
-import exception.InvalidMoveException;
+import model.exception.InvalidMoveException;
+import model.exception.NotEnoughAmmoException;
 import model.GameContext;
 import model.Player;
 import model.decks.WeaponTile;
@@ -10,14 +11,17 @@ import model.room.*;
 import model.enums.Character;
 import network.ClientHandler;
 import network.socket.SocketClientHandler;
-import network.socket.Manager;
-import network.socket.commands.request.*;
-import network.socket.commands.response.*;
+import network.Manager;
+import network.commands.request.*;
+import network.commands.response.*;
 import network.exceptions.InvalidUsernameException;
-import network.socket.commands.RequestHandler;
-import network.socket.commands.Response;
+import network.commands.RequestHandler;
+import network.commands.Response;
 import network.exceptions.FullGroupException;
 import network.exceptions.InvalidGroupNumberException;
+
+import static model.enums.Phase.DISCONNECTED;
+import static model.enums.Phase.WAIT;
 
 /**
  * Handles the Requests coming from the SocketClientHandler via Socket
@@ -28,7 +32,7 @@ import network.exceptions.InvalidGroupNumberException;
  * @see Group
  * @see User
  * @see Manager
- * @see network.socket.commands.Request
+ * @see network.commands.Request
  * @see Response
  */
 
@@ -84,7 +88,11 @@ public class ServerController implements RequestHandler {
             user = Manager.get().createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
         } catch (InvalidUsernameException e) {
-            return new TextResponse("ERROR: " + e.getMessage());
+
+            if(user.getPlayer().getPhase().equals(DISCONNECTED)){
+                user.getPlayer().setPhase(WAIT);
+                return new TextResponse("Welcome back!");
+            }
         }
         // Listening to messages and sending them
         user.listenToMessages((ModelObserver) clientHandler);
@@ -196,10 +204,7 @@ public class ServerController implements RequestHandler {
                     return new AskInput("grabWeapon");
                 }
             break;
-            case "weapon":
-                GameController.get().playWeapon(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getWeapons().get(cardRequest.getNumber() - 3));
-            break;
-            case "powerup":
+            case "powerupToPlay":
                 GameController.get().playPowerup(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getPowerups().get(cardRequest.getNumber()));
             break;
             default:
@@ -218,22 +223,53 @@ public class ServerController implements RequestHandler {
                 break;
             case "weapon chosen":
                 try {
-                    p.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), inputResponse.getInput());
+                    p.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
+                    p.setPhaseNotDone(false);
+                    GameController.get().updatePhase(currentGroup.getGroupID());
                 }catch (IndexOutOfBoundsException e){
-                    System.out.println(">>> Weapon index out of bounds");
+                    user.receiveUpdate(new Update("Weapon index out of bounds"));
+                    p.setPhaseNotDone(true);
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }catch(NumberFormatException e){
+                    p.getUser().receiveUpdate(new Update("Not a number"));
+                    p.setPhaseNotDone(true);
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }catch(NotEnoughAmmoException e){
+                    p.getUser().receiveUpdate(new Update("Not enough ammos!"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }
-                GameController.get().updatePhase(currentGroup.getGroupID());
                 break;
             case "weaponGrabbed":
                 try {
-                    GameController.get().reloadWeapon(inputResponse.getInput(), currentGroup.getGroupID());
+                    GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
                 }catch (IndexOutOfBoundsException e){
+                    p.setPhaseNotDone(true);
+                    user.receiveUpdate(new Update(p,true));
                     user.receiveUpdate(new Update("Invalid Weapon"));
+                }catch (NumberFormatException e){
+                    user.receiveUpdate(new Update("Not a number"));
+                    p.setPhaseNotDone(true);
+                    p.getUser().receiveUpdate(new Update(p,true));
+
                 }
                 currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
                 currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
+                break;
+            case "fieldsFilled":
+                try{
+                    GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput());
+                    p.setPhaseNotDone(false);
+                    GameController.get().updatePhase(currentGroup.getGroupID());
+                }catch(NullPointerException | IndexOutOfBoundsException e){
+                    user.receiveUpdate(new Update("Invalid weapon!"));
+                    p.setPhaseNotDone(true);
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }catch(NumberFormatException e){
+                    user.receiveUpdate(new Update("Invalid Number Format!"));
+                    p.setPhaseNotDone(true);
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }
                 break;
             default:
                 break;
@@ -242,15 +278,27 @@ public class ServerController implements RequestHandler {
         return null;
     }
 
-
     @Override
-    public Response handle(MovementRequest movementRequest) {
+    public Response handle(ShootRequest shootRequest) {
+        try {
+            this.user.receiveUpdate(new Update(GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString())));
+            return new AskInput("fillFields");
+        }catch(IndexOutOfBoundsException e) {
+            user.receiveUpdate(new Update("Out of bound"));
+        } catch(InvalidMoveException e){
+            user.receiveUpdate(new Update("Not valid weapon"));
+        }catch(NumberFormatException e){
+            user.receiveUpdate(new Update("Not valid number"));
+        }catch(NullPointerException e){
+            user.receiveUpdate(new Update("Not valid effects"));
+    }
         return null;
     }
 
     @Override
     public Response handle(MoveRequest moveRequest) {
         Move move = moveRequest.getMove();
+
         if(move == null){
             move = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().getCurrentMoves().get(0);
         }
@@ -258,7 +306,6 @@ public class ServerController implements RequestHandler {
         try {
             Response response = move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
             if(response != null){
-                System.out.println("notNULL");
                return response;
             }
             //go to next player and set phase
@@ -269,6 +316,4 @@ public class ServerController implements RequestHandler {
         }
         return null;
     }
-
-
 }

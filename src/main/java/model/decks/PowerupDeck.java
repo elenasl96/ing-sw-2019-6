@@ -10,8 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static model.enums.EffectType.POWERUP;
-
 public class PowerupDeck {
     private List<Powerup> powerups = new ArrayList<>();
     private List<Powerup> discard = new ArrayList<>();

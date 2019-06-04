@@ -1,6 +1,6 @@
 package model.room;
 
-import network.socket.commands.Response;
+import network.commands.Response;
 
 public interface ModelObserver {
 

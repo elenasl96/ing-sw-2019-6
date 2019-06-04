@@ -1,6 +1,6 @@
 package model;
 
-import exception.NotExistingFieldException;
+import model.exception.NotExistingFieldException;
 import model.field.Field;
 import model.room.User;
 import org.junit.jupiter.api.Test;

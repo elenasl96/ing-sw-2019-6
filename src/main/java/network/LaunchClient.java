@@ -1,38 +1,41 @@
 package network;
 
 import controller.ClientController;
-import gui.ViewGui;
+import view.gui.ViewGui;
 import network.rmi.RMIClientHandler;
-import network.rmi.RemoteController;
-import network.socket.ViewClient;
-import network.socket.launch.SocketClient;
-import view.View;
+import view.ViewClient;
+import network.socket.SocketClient;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
-
+//TODO javadoc
 public class LaunchClient {
+    private static final String ERROR = "An error occurred, retrying...";
     public static void main(String[] args){
         RemoteController clientHandler = null;
-        View view = null;
 
         System.out.println(">>> Do you want to use RMI? [yes]\n>>> Default Socket");
         Scanner input = new Scanner(System.in);
         String rmi = input.nextLine();
 
         if(rmi.equals("yes")){
-            try {
-                clientHandler = (RemoteController) new RMIClientHandler();
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            while(clientHandler == null){
+                try {
+                    clientHandler = new RMIClientHandler();
+                } catch (RemoteException e) {
+                    System.out.println(ERROR);
+                }
             }
         } else {
-            clientHandler = (RemoteController) new SocketClient("", 8234);
-            try {
-                clientHandler.init();
-            } catch (IOException e) {
-                e.printStackTrace();
+            while(clientHandler == null) {
+                clientHandler = new SocketClient("", 8234);
+                try {
+                    clientHandler.init();
+                } catch (IOException e) {
+                    System.out.println(ERROR);
+                    clientHandler = null;
+                }
             }
         }
 
@@ -41,23 +44,27 @@ public class LaunchClient {
         System.out.println(">>> Do you want to use the GUI? [yes]\n>>> Default CLI");
         String gui = input.nextLine();
         if(gui.equals("yes")){
-            try {
-                clientController = new ClientController(clientHandler, new ViewGui());
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            while(clientController == null){
+                try {
+                    clientController = new ClientController(clientHandler, new ViewGui());
+                } catch (RemoteException e) {
+                    System.out.println(ERROR);
+                }
             }
         } else {
-            try {
-                clientController = new ClientController(clientHandler, new ViewClient());
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            while(clientController == null) {
+                try {
+                    clientController = new ClientController(clientHandler, new ViewClient());
+                } catch (RemoteException e) {
+                    System.out.println(ERROR);
+                }
             }
         }
 
         try {
             clientController.run();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            System.out.println(ERROR);
         }
 
         //Via

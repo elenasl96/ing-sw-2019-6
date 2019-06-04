@@ -4,6 +4,7 @@ import model.Ammo;
 import model.Player;
 import model.enums.Color;
 import model.enums.WeaponStatus;
+import model.field.Room;
 import model.field.Square;
 import model.moves.*;
 
@@ -143,7 +144,8 @@ public class WeaponDeck {
         targetBasic = new Player(VISIBLE, null, null);
         this.weapons.get(4).getEffectsList().add(new CardEffect(BASIC, Stream
                 .of(new Ammo(Color.BLUE), new Ammo(Color.RED))));
-        this.weapons.get(4).getEffectsList().get(0).getEffects().add(new DamageEffect(Stream.of(targetBasic), 2, false));
+        this.weapons.get(4).getEffectsList().get(0).getEffects()
+                .add(new DamageEffect(Stream.of(targetBasic), 2, false));
 
         //Optional Effect 1
         //BASIC_VISIBLE = basictarget.cansee
@@ -253,7 +255,7 @@ public class WeaponDeck {
                         "away. Deal 1 damage and 1 mark to everyone on that\n" +
                         "square.", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
-        targetBasic = new Square(VISIBLE, 1, null);
+        targetBasic = new Room(VISIBLE, 1, null);
         this.weapons.get(8).getEffectsList().add(new CardEffect(BASIC, Stream
                 .of(new Ammo(Color.RED), new Ammo(Color.BLUE))));
         this.weapons.get(8).getEffectsList().get(0).getEffects()
@@ -570,11 +572,13 @@ public class WeaponDeck {
         playerOptional = new Player(ME, null, null);
         destination = new Square(NONE, 1, 1);
         this.weapons.get(19).getEffectsList()
-                .add(new CardEffect(EVERY_TIME, Stream.of(new Ammo(Color.RED))));
+                .add(new CardEffect(EVERY_TIME, null));
         this.weapons.get(19).getEffectsList().get(1).getEffects()
                 .add(new Movement(Stream.of(playerOptional),destination, false));
         //Optional Effect 2
         targetOptional = new Player(NONE, 0,0);
+        this.weapons.get(19).getEffectsList()
+                .add(new CardEffect(OPTIONAL, Stream.of(new Ammo(Color.YELLOW))));
         this.weapons.get(19).getEffectsList().get(0).getEffects()
                 .add(new DamageEffect(Stream.of(targetOptional) ,2, false));
 

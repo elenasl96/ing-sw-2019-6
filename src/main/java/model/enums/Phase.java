@@ -6,7 +6,8 @@ public enum Phase{
     FIRST(1),
     SECOND(2),
     RELOAD(3),
-    SPAWN (4);
+    SPAWN (4),
+    DISCONNECTED(5);
 
     private int id;
 
