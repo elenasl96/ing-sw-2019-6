@@ -19,7 +19,7 @@ import static model.field.Coordinate.fillCoordinate;
  * Implements the movement of the player of any steps on the board
  * @see Move
  */
-public class Movement extends Effect implements Move{
+public class Movement extends Effect{
     private Coordinate coordinate;
     /**
      * The square where the player wants to move
@@ -28,6 +28,7 @@ public class Movement extends Effect implements Move{
     /**
      * The field of the current game
      */
+    //TODO remove Field
     private Field field;
     /**
      * The List of achievable Squares by the player
@@ -54,6 +55,7 @@ public class Movement extends Effect implements Move{
      * @param p the player who wants to move
      * @throws InvalidMovementException if the destination is unreachable for the player
      */
+    @Override
     public Response execute(Player p, int groupID) {
         System.out.println("The square inserted is: "+coordinate);
         Square squareDestination = null;
@@ -78,7 +80,7 @@ public class Movement extends Effect implements Move{
         }
         Update update = new Update(p.getName()+" moved to "+p.getCurrentPosition());
         update.setMove("movement");
-        update.setData("");
+        update.setData(p.getCharacter().toString()+";"+p.getCurrentPosition());
         GameContext.get().getGame(groupID).sendUpdate(update);
         return null;
     }
@@ -116,7 +118,6 @@ public class Movement extends Effect implements Move{
 
     public Movement(Coordinate coordinate){
         this.coordinate = coordinate;
-
     }
     /**
      * Used getters and setters
