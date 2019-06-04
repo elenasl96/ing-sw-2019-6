@@ -295,15 +295,10 @@ public class ServerController implements RequestHandler {
         return null;
     }
 
-
-    @Override
-    public Response handle(MovementRequest movementRequest) {
-        return null;
-    }
-
     @Override
     public Response handle(MoveRequest moveRequest) {
         Move move = moveRequest.getMove();
+
         if(move == null){
             move = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().getCurrentMoves().get(0);
         }
@@ -321,7 +316,4 @@ public class ServerController implements RequestHandler {
         }
         return null;
     }
-
-
-
 }
