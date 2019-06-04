@@ -224,6 +224,7 @@ public class MainFrame extends JFrame {
                     .getScaledInstance(70, 50, Image.SCALE_SMOOTH)));
             pedina.setBounds(0,0,70,50);
             pedina.setLocation(30,20);
+            //layout manager a null TODO
             prova.add(pedina);
             prova.repaint();
         }
