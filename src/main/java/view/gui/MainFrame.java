@@ -220,9 +220,9 @@ public class MainFrame extends JFrame {
 
             centralPanel.add(prova);
 
-            JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("C:/Users/quara/Pictures/pedina.jpg"))
-                    .getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-            pedina.setBounds(0,0,30,30);
+            JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
+                    .getScaledInstance(70, 50, Image.SCALE_SMOOTH)));
+            pedina.setBounds(0,0,70,50);
             pedina.setLocation(30,20);
             prova.add(pedina);
             prova.repaint();
