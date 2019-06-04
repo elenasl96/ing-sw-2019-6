@@ -93,13 +93,13 @@ class GameControllerTest {
     @Test
     void playWeaponTest(){
         WeaponDeck deck = new WeaponDeck();
-        Player player = new Player();
-        player.getWeapons().add(deck.pickCard());
-        player.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(player.getWeapons().get(0));
+        Player p1 = new Player();
+        p1.getWeapons().add(deck.pickCard());
+        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 0";
         try {
-            System.out.println(GameController.get().prepareWeapon(player, weaponsEffect));
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
         }catch(IndexOutOfBoundsException|InvalidMoveException e){
             System.out.println(e.getMessage());
         }

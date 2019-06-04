@@ -167,7 +167,17 @@ package model{
     }
 
     package moves{
+        class DamageEffect extends Effect implements Move{
+            - damage: int
+        }
 
+        abstract Effect implements Move{
+            - optionality: Boolean
+            # targets: List<Target>
+            __
+            + {abstract} getFieldsToFill(): String
+            + {abstract} fillField(String[], int): void
+        }
     }
 
     package room{
