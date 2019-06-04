@@ -4,7 +4,7 @@ import model.Player;
 import network.commands.Response;
 import java.util.stream.Stream;
 
-public class DamageEffect extends Effect implements Move{
+public class DamageEffect extends Effect{
     private int damages;
 
     public DamageEffect(Stream<Target> targets, int damages, Boolean optionality){
