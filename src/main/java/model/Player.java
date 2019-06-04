@@ -21,6 +21,7 @@ import java.util.List;
 
 public class Player extends Target implements Serializable{
     private User user;
+    private int playerNumber;
     private String name;
     private Character character = Character.NOT_ASSIGNED;
     private Square currentPosition;
@@ -333,4 +334,11 @@ public class Player extends Target implements Serializable{
         }
     }
 
+    public void setPlayerNumber(int number){
+        this.playerNumber = number;
+    }
+
+    public int getPlayerNumber(){
+        return this.playerNumber;
+    }
 }
