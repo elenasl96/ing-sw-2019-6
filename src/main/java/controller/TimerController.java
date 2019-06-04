@@ -59,12 +59,13 @@ public class TimerController implements ModelObserver {
     }
 
     synchronized void startTurnTimer(int groupID){
+        timers.get(groupID).cancel();
         TimerTask timerTask = new TimerTask(){
-            int seconds = 60;
+            int seconds = 5;
             @Override
             public void run() {
                 if(seconds == 60){
-                    Manager.get().getGroup(groupID).sendUpdate(new Update("Timer started: " + seconds + "seconds left..."));
+                    Manager.get().getGroup(groupID).sendUpdate(new Update(seconds + " seconds left..."));
                 }else if(seconds == 10) {
                     Manager.get().getGroup(groupID).sendUpdate(new Update("Hurry, 10 seconds left!"));
                 } else if (seconds <= 5 && seconds > 0) {

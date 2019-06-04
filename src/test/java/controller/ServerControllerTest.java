@@ -144,8 +144,5 @@ class ServerControllerTest {
 
         CreateUserRequest createUserRequest = new CreateUserRequest("2");
         createUserRequest.handle(serverController1);
-
-        MovementRequest movementRequest = new MovementRequest(new Coordinate('A',0));
-        movementRequest.handle(serverController1);
     }
 }
