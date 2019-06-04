@@ -77,8 +77,8 @@ public class Movement extends Effect implements Move{
             throw new InvalidMovementException();
         }
         Update update = new Update(p.getName()+" moved to "+p.getCurrentPosition());
-        //update.setMove("movement");
-        //update.setData("");
+        update.setMove("movement");
+        update.setData("");
         GameContext.get().getGame(groupID).sendUpdate(update);
         return null;
     }
