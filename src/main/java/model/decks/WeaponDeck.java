@@ -4,6 +4,7 @@ import model.Ammo;
 import model.Player;
 import model.enums.Color;
 import model.enums.WeaponStatus;
+import model.field.Room;
 import model.field.Square;
 import model.moves.*;
 
@@ -254,7 +255,7 @@ public class WeaponDeck {
                         "away. Deal 1 damage and 1 mark to everyone on that\n" +
                         "square.", WeaponStatus.PARTIALLY_LOADED));
         //Basic Effect
-        targetBasic = new Square(VISIBLE, 1, null);
+        targetBasic = new Room(VISIBLE, 1, null);
         this.weapons.get(8).getEffectsList().add(new CardEffect(BASIC, Stream
                 .of(new Ammo(Color.RED), new Ammo(Color.BLUE))));
         this.weapons.get(8).getEffectsList().get(0).getEffects()
