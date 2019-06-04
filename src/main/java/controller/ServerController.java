@@ -258,11 +258,11 @@ public class ServerController implements RequestHandler {
                 break;
             case "fieldsFilled":
                 try{
-                    GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput());
+                    GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
                     p.setPhaseNotDone(false);
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }catch(NullPointerException | IndexOutOfBoundsException e){
-                    user.receiveUpdate(new Update("Invalid weapon!"));
+                    user.receiveUpdate(new Update("Invalid input!"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }catch(NumberFormatException e){

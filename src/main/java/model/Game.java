@@ -99,4 +99,11 @@ public class Game implements Serializable {
     public void setFinalFrenzy(boolean finalFrenzy) {
         this.finalFrenzy = finalFrenzy;
     }
+
+    public Player playerFromName(String inputName) {
+        for(Player p: players){
+            if(p.getName() == inputName) return p;
+        }
+        return null;
+    }
 }

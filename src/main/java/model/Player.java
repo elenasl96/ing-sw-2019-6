@@ -5,6 +5,7 @@ import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.*;
 import model.enums.Character;
+import model.exception.InvalidMoveException;
 import model.field.Edge;
 import model.field.Field;
 import model.field.Square;
@@ -278,7 +279,7 @@ public class Player extends Target implements Serializable{
         return t.canBeSeen(this, groupID);
     }
 
-    public void fillCurrentEffects(String input) {
+    public void fillCurrentEffects(String input, int groupID) {
         //Convert input to matrix
         String[] inputSplitted = input.split("\n");
         String[][] inputMatrix = new String[inputSplitted.length][];
@@ -288,14 +289,35 @@ public class Player extends Target implements Serializable{
         //fill
         int counter = 0;
         for (Effect e : this.getCurrentEffects()) {
-            e.fillFields(inputMatrix[counter]);
+            e.fillFields(inputMatrix[counter], groupID);
         }
     }
 
     @Override
-    public void setFieldsToFill(String inputMatrix) {
+    public void setFieldsToFill(String inputName, int groupID) {
         if(this.getName() == null){
-            this.name = inputMatrix;
+            if(this.checkTarget(inputName, groupID))
+                this.name = inputName;
+            else throw new InvalidMoveException("Wrong player distance");
         }
     }
+
+    @Override
+    protected boolean checkTarget(String inputName, int groupID) {
+        Player target = GameContext.get().getGame(groupID).playerFromName(inputName);
+        if(target != null){
+            switch (this.getTargetType()){
+                case VISIBLE:
+                    break;
+                case NONE:
+                    break;
+                case ME:
+                    break;
+                default:
+                    return false;
+            }
+        }
+        return false;
+    }
+
 }

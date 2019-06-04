@@ -92,11 +92,16 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
-    public void setFieldsToFill(String input) {
+    public void setFieldsToFill(String input, int groupID) {
         if(this.coord == null){
             this.coord= fillCoordinate(input);
         }
 
+    }
+
+    @Override
+    protected boolean checkTarget(String inputName, int groupID) {
+        return false;
     }
 
     @Override
