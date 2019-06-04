@@ -149,6 +149,8 @@ public class GameController{
                 break;
         }
         player.getUser().receiveUpdate(new Update(player, true));
+        //move sent, timer Starting
+        TimerController.get().startTurnTimer(groupID);
     }
 
     private synchronized void updatePoints(int groupID) {
