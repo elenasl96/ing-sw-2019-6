@@ -54,6 +54,20 @@ public class Main {
             Thread.currentThread().interrupt();
             e.printStackTrace();
         }
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        (main.gui.getMapGrid())[1][1].remove(2);
         System.out.println(main.gui.getMove());
         main.gui.toggleBackGroundTurn();
 
