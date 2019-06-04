@@ -33,6 +33,7 @@ public class Player extends Target implements Serializable{
     private boolean firstPlayer;
     private boolean dead;
     private int deaths;
+    private transient List<Square> reachSquares = new ArrayList<>();
     private transient List<Player> shootable = new ArrayList<>();
     private transient  List<Effect> currentEffects = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
@@ -292,8 +293,24 @@ public class Player extends Target implements Serializable{
     protected boolean checkTarget(String inputName, int groupID) {
         Player target = GameContext.get().getGame(groupID).playerFromName(inputName);
         if(target != null){
-            if(this.getMinDistance() != null){
-                //TODO calculate distance between players
+            if(this.getMinDistance() != null) {
+                if (getMinDistance() == 0) {
+                    if(!this.getCurrentPosition()
+                            .equals(GameContext.get().getGame(groupID).getCurrentPlayer().currentPosition))
+                        return false;
+                }else{
+                    this.getCurrentPosition().createReachList(this.getMinDistance() - 1, this.reachSquares,
+                            GameContext.get().getGame(groupID).getBoard().getField());
+                    if (this.reachSquares.contains(GameContext.get().getGame(groupID).getCurrentPlayer().currentPosition))
+                        return false;
+                }
+            }
+            if(this.getMaxDistance() != null){
+                this.reachSquares.clear();
+                this.getCurrentPosition().createReachList(this.getMaxDistance(), this.reachSquares,
+                        GameContext.get().getGame(groupID).getBoard().getField());
+                if(!this.reachSquares.contains(GameContext.get().getGame(groupID).getCurrentPlayer().currentPosition))
+                    return false;
             }
             switch (this.getTargetType()){
                 case VISIBLE:

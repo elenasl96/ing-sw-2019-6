@@ -72,7 +72,7 @@ public class Movement extends Effect{
             this.setField(GameContext.get().getGame(groupID).getBoard().getField());
         }
         if(!this.reachList.isEmpty()) this.reachList.clear();
-        createReachList(maxSteps, p.getCurrentPosition());
+        p.getCurrentPosition().createReachList(maxSteps, this.reachList, field);
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);
         }else {
@@ -85,28 +85,6 @@ public class Movement extends Effect{
         return null;
     }
 
-
-    /**
-     * Creates the List of reachable Squares p can do in maxSteps
-     * @param maxSteps  the player who want to move
-     * @param newCurrentPosition the Square you take in exam every round of the recursion
-     */
-    private void createReachList(int maxSteps, Square newCurrentPosition) {
-        this.reachList.add(newCurrentPosition);
-        if (maxSteps != 0) {
-            for (int i = 0; i < maxSteps; i++) {
-                field.getEdges().forEach(edge -> {
-                    if (edge.getSq1().equals(newCurrentPosition)){
-                        this.reachList.add(edge.getSq2());
-                        createReachList(maxSteps-1, edge.getSq2());
-                    } else if (edge.getSq2().equals(newCurrentPosition)){
-                        this.reachList.add(edge.getSq1());
-                        createReachList(maxSteps-1, edge.getSq1());
-                    }
-                });
-            }
-        }
-    }
 
     /**
      * The constructor
