@@ -67,6 +67,14 @@ public class ViewGui implements View {
 
     @Override
     public Response onUpdate(Update update) {
+
+        String data[] = update.getData().split(";");
+
+        switch(update.getMove())
+        {
+            case "movement": gui.updateMap(data[0], data[1]);
+        }
+
         return null;
     }
 

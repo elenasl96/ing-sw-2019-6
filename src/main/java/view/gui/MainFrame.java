@@ -225,4 +225,7 @@ public class MainFrame extends JFrame {
             System.out.println("Error");
         }
     }
+
+    public void updateMap(String datum, String s) {
+    }
 }
