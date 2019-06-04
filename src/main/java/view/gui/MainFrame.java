@@ -177,48 +177,55 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void createMap() {
-
-    }
     private void printField(JPanel centralPanel){
         try{
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_001.png"))
                     .getScaledInstance(140,140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_002.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_003.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_004.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
             //////End of first row
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_005.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_006.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_007.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_008.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_009.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_010.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_011.png"))
                     .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/" +
+
+            SquarePanel prova = new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
                     "image_part_012.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH)));
+
+            centralPanel.add(prova);
+
+            JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
+                    .getScaledInstance(70, 50, Image.SCALE_SMOOTH)));
+            pedina.setBounds(0,0,70,50);
+            pedina.setLocation(30,20);
+            prova.add(pedina);
+            prova.repaint();
         }
         catch(IOException exception)
         {
@@ -227,5 +234,6 @@ public class MainFrame extends JFrame {
     }
 
     public void updateMap(String datum, String s) {
+
     }
 }

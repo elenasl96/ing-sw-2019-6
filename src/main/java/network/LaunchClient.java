@@ -29,7 +29,7 @@ public class LaunchClient {
             }
         } else {
             while(clientHandler == null) {
-                clientHandler = new SocketClient("172.25.1.1", 8234);
+                clientHandler = new SocketClient("", 8234);
                 try {
                     clientHandler.init();
                 } catch (IOException e) {
