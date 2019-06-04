@@ -46,8 +46,8 @@ public class MainFrame extends JFrame {
         weapon = new JComboBox();
         powerUp = new JComboBox();
         for (int i = 0; i < 10; i++) {
-            weapon.addItem(new String("Duce" + i));
-            powerUp.addItem(new String("A noi!" + i));
+            weapon.addItem(new String("Africa" + i));
+            powerUp.addItem(new String("nostra" + i));
         }
 
         cardsContainer.add(weapon);
