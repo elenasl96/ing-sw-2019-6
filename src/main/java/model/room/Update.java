@@ -8,6 +8,8 @@ public class Update implements Serializable {
     private boolean playerChanges;
     private Player player;
     private String string;
+    private String move;
+    private String data;
 
     public Update(Player player){
         this.player = player;
@@ -34,6 +36,22 @@ public class Update implements Serializable {
 
     public void setString(String string){
         this.string = string;
+    }
+
+    public String getMove() {
+        return move;
+    }
+
+    public void setMove(String move) {
+        this.move = move;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     @Override
