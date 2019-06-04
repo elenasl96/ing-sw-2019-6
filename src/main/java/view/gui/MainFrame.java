@@ -227,7 +227,6 @@ public class MainFrame extends JFrame {
                     .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
             mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
                     .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
-
         }
         catch(IOException exception)
         {

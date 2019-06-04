@@ -116,4 +116,27 @@ public class Square extends Target implements Serializable {
     public void addGrabbable(Weapon grabbable, int groupID) {
         //DO nothing
     }
+
+    /**
+     * Creates the List of reachable Squares p can do in maxSteps
+     * @param reachList
+     * @param maxSteps  the player who want to move
+     * @param field
+     */
+    public void createReachList(int maxSteps, List<Square> reachList, Field field) {
+        reachList.add(this);
+        if (maxSteps != 0) {
+            for (int i = 0; i < maxSteps; i++) {
+                field.getEdges().forEach(edge -> {
+                    if (edge.getSq1().equals(this)){
+                        reachList.add(edge.getSq2());
+                        edge.getSq2().createReachList(maxSteps-1, reachList, field);
+                    } else if (edge.getSq2().equals(this)){
+                        reachList.add(edge.getSq1());
+                        edge.getSq1().createReachList(maxSteps-1, reachList, field);
+                    }
+                });
+            }
+        }
+    }
 }
