@@ -142,7 +142,7 @@ package model{
             + addSpawnSquare(SpawnSquare): void
         }
 
-        class Room extends Target{
+        class Room{
             - color: Color
             - squares: List<Square>
         }
@@ -151,7 +151,7 @@ package model{
             - weapons: WeaponTile
         }
 
-        class Square extends Target implements Serializable{
+        class Square implements Serializable{
             - color: Color
             - coord: Coordinate
             __
@@ -167,7 +167,7 @@ package model{
     }
 
     package moves{
-        class DamageEffect extends Effect implements Move{
+        class DamageEffect extends Effect{
             - damage: int
         }
 
@@ -178,6 +178,38 @@ package model{
             + {abstract} getFieldsToFill(): String
             + {abstract} fillField(String[], int): void
         }
+
+        interface Move extends Serializable{
+            execute(Player, int): Response
+        }
+
+        class MoveAndGrab implements Move{
+            - movement: Movement
+            - grab: Grab
+        }
+
+        class Movement extends Effect{
+            - coordinate: Coordinate
+            - destination: Square
+            - reachList: List<Square>
+            - maxSteps: int
+            - maxStepsFrenzy: int
+            __
+            - createReachList(int, Square): void
+        }
+
+        class Pay implements Move{
+            - ammos: List<Ammo>
+        }
+
+        abstract Target{
+
+        }
+
+        Effect "1...n" *-- Target
+        MoveAndGrab <-- Movement
+        MoveAndGrab <-- Grab
+
     }
 
     package room{
@@ -222,7 +254,14 @@ package model{
     Weapon "1" *-- WeaponStatus
     Weapon "1...n" *-- CardEffect
 
+    Target <|-- Room
+    Target <|-- Square
     AmmoSquare "1" *-- AmmoTile
     SpawnSquare "1" *-- WeaponTile
+
+    Movement <-- Square
+    Movement <-- Coordinate
+
+    Pay <-- Ammo
 }
 @enduml
