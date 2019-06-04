@@ -41,7 +41,7 @@ public class Server {
         }
     }
 
-    public Server(int port, boolean local) throws IOException {
+    private Server(int port, boolean local) throws IOException {
         serverSocket = new ServerSocket(port);
         pool = Executors.newCachedThreadPool();
         System.out.println(">>> Listening on " + port);
