@@ -28,6 +28,7 @@ public class Movement extends Effect{
     /**
      * The field of the current game
      */
+    //TODO remove Field
     private Field field;
     /**
      * The List of achievable Squares by the player
@@ -54,6 +55,7 @@ public class Movement extends Effect{
      * @param p the player who wants to move
      * @throws InvalidMovementException if the destination is unreachable for the player
      */
+    @Override
     public Response execute(Player p, int groupID) {
         System.out.println("The square inserted is: "+coordinate);
         Square squareDestination = null;
@@ -116,7 +118,6 @@ public class Movement extends Effect{
 
     public Movement(Coordinate coordinate){
         this.coordinate = coordinate;
-
     }
     /**
      * Used getters and setters
