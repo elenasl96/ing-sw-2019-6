@@ -19,7 +19,7 @@ import static model.field.Coordinate.fillCoordinate;
  * Implements the movement of the player of any steps on the board
  * @see Move
  */
-public class Movement extends Effect implements Move{
+public class Movement extends Effect{
     private Coordinate coordinate;
     /**
      * The square where the player wants to move
