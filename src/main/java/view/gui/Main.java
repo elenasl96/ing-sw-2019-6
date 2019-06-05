@@ -77,7 +77,9 @@ public class Main {
         }
 
         (main.gui.getMapGrid())[1][1].repaint();
-
+        System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getMove());
     }
 }
 

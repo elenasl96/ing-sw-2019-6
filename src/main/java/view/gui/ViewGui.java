@@ -87,6 +87,8 @@ public class ViewGui implements View {
                     gui.changeAmmoPanel(data[i]);
                 }
             }
+            case "weapons": //TODO
+            default: break;
         }
 
         return null;
