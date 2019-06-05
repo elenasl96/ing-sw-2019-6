@@ -48,7 +48,12 @@ public class SocketClient implements RemoteController {
      * @return the next Response or null if some IOException happens
      */
     @Override
-    public Response nextResponse() {
+    public synchronized Response nextResponse() {
+        try {
+            this.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         try {
             return ((Response) in.readObject());
         } catch (IOException e) {

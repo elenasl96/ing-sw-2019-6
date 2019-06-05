@@ -47,7 +47,6 @@ public class SocketClientHandler implements ClientHandler, Runnable, ModelObserv
             do {
                 Response response = ((Request) in.readObject()).handle(controller);
                 if (response != null) {
-                    notifyAll();
                     respond(response);
                 }
             } while (!stop);

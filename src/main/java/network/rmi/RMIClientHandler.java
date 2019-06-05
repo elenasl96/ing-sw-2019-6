@@ -30,7 +30,11 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
 
     @Override
     public synchronized Response nextResponse() {
-        notifyAll();
+        try {
+            this.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return response;
     }
 
