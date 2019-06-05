@@ -16,7 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 //TODO javadoc
 public class RMIClientHandler extends UnicastRemoteObject implements RemoteController, ClientHandler {
 
-    private transient ServerController controller;
+    private ServerController controller;
     private Response response;
 
     public RMIClientHandler() throws RemoteException {
