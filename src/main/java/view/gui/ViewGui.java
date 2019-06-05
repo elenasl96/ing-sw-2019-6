@@ -72,7 +72,14 @@ public class ViewGui implements View {
 
         switch(update.getMove())
         {
-            case "movement": gui.updateMap(Integer.parseInt(data[0]), data[1]);
+            case "movement":
+                gui.updateMap(Integer.parseInt(data[0]), data[1]);
+                break;
+            case "updateconsole":
+                gui.setConsole(update.toString());
+                break;
+            case "turn":
+
         }
 
         return null;

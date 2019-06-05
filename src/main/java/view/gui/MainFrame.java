@@ -45,7 +45,7 @@ public class MainFrame extends JFrame {
         for(int i=0;i<5;i++) {
             try {
                 charactersCoordinates[i] = new Character(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina" +
-                        (i+1)+".jpg"))
+                        i+".jpg"))
                         .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -87,7 +87,7 @@ public class MainFrame extends JFrame {
         left.add(cardsContainer);
 
         //Create right section of GUI
-        console = new JTextArea();
+        console = new JTextArea("");
         console.setLineWrap(true);
         console.setEditable(false);
         commandLine = new JTextField(20);
@@ -218,31 +218,33 @@ public class MainFrame extends JFrame {
                 }
             }
 
-            JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
-                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+            JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina0.jpg"))
+                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH)));
             mapGrid[1][1].add(pedina);
-            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
-                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
-            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
-                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
-            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
-                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
+            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina1.jpg"))
+                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
+            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina2.jpg"))
+                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
+            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina3.jpg"))
+                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
         }
         catch(IOException exception)
         {
             System.out.println("Error");
-            
+
         }
     }
 
     public void updateMap(int character, String coordinates) {
         String[] newCoord = coordinates.split(" ");
-        String[] oldCoord = charactersCoordinates[character].getCoordinate().split(" ");
 
-        mapGrid[oldCoord[0].charAt(0) - 65][3-Integer.parseInt(oldCoord[1])]
-                .remove(charactersCoordinates[character].getIcon());
+        if(charactersCoordinates[character].getCoordinate()!=null) {
+            String[] oldCoord = charactersCoordinates[character].getCoordinate().split(" ");
+            mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
+                    .remove(charactersCoordinates[character].getIcon());
+        }
 
-        mapGrid[newCoord[0].charAt(0) - 65][3-Integer.parseInt(newCoord[1])]
+        mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65]
                 .add(charactersCoordinates[character].getIcon());
 
         charactersCoordinates[character].setCoordinate(coordinates);
