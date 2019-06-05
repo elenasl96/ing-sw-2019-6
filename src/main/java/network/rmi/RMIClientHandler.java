@@ -13,10 +13,11 @@ import network.commands.response.MoveUpdateResponse;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
 //TODO javadoc
 public class RMIClientHandler extends UnicastRemoteObject implements RemoteController, ClientHandler {
 
-    private ServerController controller;
+    private transient ServerController controller;
     private Response response;
 
     public RMIClientHandler() throws RemoteException {
