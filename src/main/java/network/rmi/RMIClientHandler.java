@@ -55,16 +55,16 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
     }
 
     @Override
-    public Response onUpdate(Update update) {
+    public synchronized Response onUpdate(Update update) {
         System.out.print(">>> I'm RMIClientHandler sending: ");
         if(update.isPlayerChanges()){
             System.out.print("a MoveUpdateResponse modifying player "+update.getPlayer()+" username "+update.getPlayer().getName()+
                     " of user "+update.getPlayer().getUser()+" with phaseId "+ update.getPlayer().getPhase().getId()+"\n");
-            return new MoveUpdateResponse(update.getPlayer());
+            this.response = new MoveUpdateResponse(update.getPlayer());
         } else {
             System.out.print("a GameUpdateNotification saying string "+ update.toString()+"\n");
-            return new GameUpdateNotification(update);
-        }
+            this.response = new GameUpdateNotification(update);
+        } return null;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
     }
 
     @Override
-    public void received(){
+    public synchronized void received(){
         response = null;
     }
 }
