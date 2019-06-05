@@ -194,13 +194,13 @@ public class ServerController implements RequestHandler {
                 WeaponTile weaponsToReload = new WeaponTile();
                 weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
                 if (weaponsToReload.getWeapons().isEmpty()) {
-                    user.receiveUpdate(new Update("You haven't weapons to reload"));
+                    user.receiveUpdate(new Update("You haven't weapons to reload","updateconsole"));
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 } else {
                     user.receiveUpdate(new Update("You can reload these weapons: " +
                             weaponsToReload.toString() +
                             "\n You have these ammos: " +
-                            user.getPlayer().getAmmos().toString()));
+                            user.getPlayer().getAmmos().toString(),"ignore"));
                     return new AskInput("grabWeapon");
                 }
             break;
@@ -227,15 +227,15 @@ public class ServerController implements RequestHandler {
                     p.setPhaseNotDone(false);
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }catch (IndexOutOfBoundsException e){
-                    user.receiveUpdate(new Update("Weapon index out of bounds"));
+                    user.receiveUpdate(new Update("Weapon index out of bounds","updateconsole"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }catch(NumberFormatException e){
-                    p.getUser().receiveUpdate(new Update("Not a number"));
+                    p.getUser().receiveUpdate(new Update("Not a number","updateconsole"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }catch(NotEnoughAmmoException e){
-                    p.getUser().receiveUpdate(new Update("Not enough ammos!"));
+                    p.getUser().receiveUpdate(new Update("Not enough ammos!","updateconsole"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }
@@ -246,9 +246,9 @@ public class ServerController implements RequestHandler {
                 }catch (IndexOutOfBoundsException e){
                     p.setPhaseNotDone(true);
                     user.receiveUpdate(new Update(p,true));
-                    user.receiveUpdate(new Update("Invalid Weapon"));
+                    user.receiveUpdate(new Update("Invalid Weapon","updateconsole"));
                 }catch (NumberFormatException e){
-                    user.receiveUpdate(new Update("Not a number"));
+                    user.receiveUpdate(new Update("Not a number","updateconsole"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
 
@@ -262,11 +262,11 @@ public class ServerController implements RequestHandler {
                     p.setPhaseNotDone(false);
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }catch(NullPointerException | IndexOutOfBoundsException e){
-                    user.receiveUpdate(new Update("Invalid input!"));
+                    user.receiveUpdate(new Update("Invalid input!","updateconsole"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }catch(NumberFormatException e){
-                    user.receiveUpdate(new Update("Invalid Number Format!"));
+                    user.receiveUpdate(new Update("Invalid Number Format!","updateconsole"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }
@@ -284,13 +284,13 @@ public class ServerController implements RequestHandler {
             this.user.receiveUpdate(new Update(GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString())));
             return new AskInput("fillFields");
         }catch(IndexOutOfBoundsException e) {
-            user.receiveUpdate(new Update("Out of bound"));
+            user.receiveUpdate(new Update("Out of bound","updateconsole"));
         } catch(InvalidMoveException e){
-            user.receiveUpdate(new Update("Not valid weapon"));
+            user.receiveUpdate(new Update("Not valid weapon","updateconsole"));
         }catch(NumberFormatException e){
-            user.receiveUpdate(new Update("Not valid number"));
+            user.receiveUpdate(new Update("Not valid number","updateconsole"));
         }catch(NullPointerException e){
-            user.receiveUpdate(new Update("Not valid effects"));
+            user.receiveUpdate(new Update("Not valid effects","updateconsole"));
     }
         return null;
     }

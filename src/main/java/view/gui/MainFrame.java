@@ -131,11 +131,12 @@ public class MainFrame extends JFrame {
 
         MoveButton grab = new MoveButton("Grab", "grab");
         MoveButton run = new MoveButton("Run", "run");
-        MoveButton shoot = new MoveButton("Shoot", "shoot");
-        MoveButton powerup = new MoveButton("Power Up", "powerup");
+        MoveButton shoot = new MoveButton("Shoot", "0");
+        MoveButton powerup = new MoveButton("Power Up", "0");
         grab.addActionListener(actionListener);
         run.addActionListener(actionListener);
         shoot.addActionListener(actionListener);
+        powerup.addActionListener(actionListener);
 
         JPanel buttonContainer = new JPanel(new GridLayout(5, 1));
         buttonContainer.add(new JLabel("Actions"));
@@ -177,6 +178,20 @@ public class MainFrame extends JFrame {
 
         // https://stackoverflow.com/questions/22982295/what-does-pack-do
         setVisible(true);
+
+        weapon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               shoot.setMove(weapon.getSelectedIndex()+"");
+            }
+        });
+
+        powerup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                powerup.setMove((powerUp.getSelectedIndex()+3)+"");
+            }
+        });
     }
 
     public void setConsole(String message) {
@@ -241,13 +256,10 @@ public class MainFrame extends JFrame {
 
             JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina0.jpg"))
                     .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH)));
-            mapGrid[1][1].add(pedina);
-            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina1.jpg"))
-                    .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
-            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina2.jpg"))
-                    .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
-            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina3.jpg"))
-                    .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
+            mapGrid[1][1].add(charactersCoordinates[0].getIcon());
+            mapGrid[1][1].add(charactersCoordinates[1].getIcon());
+            mapGrid[1][1].add(charactersCoordinates[2].getIcon());
+            mapGrid[1][1].add(charactersCoordinates[3].getIcon());
         }
         catch(IOException exception)
         {
@@ -289,4 +301,21 @@ public class MainFrame extends JFrame {
     public SquarePanel[][] getMapGrid() {
         return mapGrid;
     }
+
+    public void clearWeaponBox() {
+        weapon.removeAllItems();
+    }
+
+    public void clearPuBox() {
+        powerUp.removeAllItems();
+    }
+
+    public void addWeaponBox(String s) {
+        weapon.addItem(s);
+    }
+
+    public void addPuBox(String s) {
+        powerUp.addItem(s);
+    }
+
 }
