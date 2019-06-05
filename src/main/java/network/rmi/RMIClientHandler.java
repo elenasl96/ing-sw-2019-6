@@ -29,7 +29,8 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
     }
 
     @Override
-    public Response nextResponse() {
+    public synchronized Response nextResponse() {
+        notifyAll();
         return request.handle(controller);
     }
 
