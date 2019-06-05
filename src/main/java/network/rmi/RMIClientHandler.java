@@ -17,20 +17,25 @@ import java.rmi.server.UnicastRemoteObject;
 public class RMIClientHandler extends UnicastRemoteObject implements RemoteController, ClientHandler {
 
     private transient ServerController controller;
-    private Request request;
+    private Response response;
 
     public RMIClientHandler() throws RemoteException {
         this.controller = new ServerController(this);
     }
 
     @Override
-    public void request(Request request) {
-        this.request = request;
+    public synchronized void request(Request request) {
+        this.response = request.handle(controller);
     }
 
     @Override
-    public Response nextResponse() {
-        return request.handle(controller);
+    public synchronized Response nextResponse() {
+        try {
+            this.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class SocketClientHandler implements ClientHandler, Runnable, ModelObserv
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         try {
             do {
                 Response response = ((Request) in.readObject()).handle(controller);
