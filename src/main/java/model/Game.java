@@ -36,7 +36,7 @@ public class Game implements Serializable {
         for (User u: users){
             //adds a new player for user u to the list
             Player player = new Player(u);
-            player.setNumber(cont);
+            player.setPlayerNumber(cont);
             this.players.add(player);
             u.setPlayer(player);
 
@@ -44,7 +44,7 @@ public class Game implements Serializable {
             System.out.println(">>> It's setGame sending "+this.players.get(numberPlayers)+" to "+u.getUsername());
             u.receiveUpdate(new Update(this.players.get(numberPlayers), true));
             this.numberPlayers++;
-            this.cont++;
+            cont++;
         }
         this.players.get(0).setFirstPlayer();
         this.currentPlayer = this.players.get(0);
