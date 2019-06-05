@@ -231,6 +231,7 @@ public class MainFrame extends JFrame {
         catch(IOException exception)
         {
             System.out.println("Error");
+            
         }
     }
 
