@@ -97,7 +97,6 @@ public class ServerController implements RequestHandler {
         // Listening to messages and sending them
         user.listenToMessages((ModelObserver) clientHandler);
         System.out.println(">>> Returning new UserCreatedResponse");
-        notifyAll();
         return new UserCreatedResponse(user);
     }
 
@@ -105,7 +104,7 @@ public class ServerController implements RequestHandler {
      * Makes the User created join the group he chose
      * @param chooseGroupRequest the ChooseGroupRequest
      * @return  new JoinGroupResponse if the join is successful
-     *          new TextResponse
+     *          new TextResponse if not
      * @see Group#join(User)
      * @see Group#observe(ModelObserver)
      * @see JoinGroupResponse

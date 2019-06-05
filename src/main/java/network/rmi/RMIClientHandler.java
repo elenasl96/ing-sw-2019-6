@@ -30,11 +30,6 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
 
     @Override
     public synchronized Response nextResponse() {
-        try {
-            this.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return response;
     }
 
@@ -79,5 +74,10 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
     @Override
     public int hashCode(){
         return super.hashCode();
+    }
+
+    @Override
+    public void received(){
+        response = null;
     }
 }

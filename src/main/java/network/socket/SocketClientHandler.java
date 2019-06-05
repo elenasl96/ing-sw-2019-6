@@ -12,7 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketClientHandler implements ClientHandler, Runnable, ModelObserver {
+public class SocketClientHandler implements ClientHandler,Runnable, ModelObserver {
     private static final String ERROR = "Errors in closing - ";
 
     private Socket socket;

@@ -50,11 +50,6 @@ public class SocketClient implements RemoteController {
     @Override
     public synchronized Response nextResponse() {
         try {
-            this.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
             return ((Response) in.readObject());
         } catch (IOException e) {
             System.err.println("Exception on network.socket: " + e.getMessage());
@@ -71,5 +66,9 @@ public class SocketClient implements RemoteController {
         } catch (IOException e) {
             System.err.println("Exception on network.socket: " + e.getMessage());
         }
+    }
+    @Override
+    public void received(){
+        //nothing
     }
 }

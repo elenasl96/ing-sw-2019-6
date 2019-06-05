@@ -5,10 +5,8 @@ import model.enums.Phase;
 import model.field.Coordinate;
 import model.moves.MoveAndGrab;
 import model.moves.Run;
-import network.Client;
 import network.RemoteController;
 import network.ClientContext;
-import network.commands.Request;
 import network.commands.request.*;
 import network.commands.response.*;
 import network.commands.Response;
@@ -64,8 +62,6 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      * @see CreateUserRequest
      * @see #handle(UserCreatedResponse)
      * @see ClientContext#getCurrentUser()
-     * @see Client#request(Request)
-     * @see Client#nextResponse()
      */
     public User createUser(String username) throws RemoteException{
         client.request(new CreateUserRequest(username));
@@ -106,6 +102,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                             response = client.nextResponse();
                             if (response != null) {
                                 response.handle(this);
+                                client.received();
                             }
                         } catch (RemoteException e){
                             System.out.println(">>> An error occurred");
