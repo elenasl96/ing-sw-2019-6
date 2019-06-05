@@ -13,22 +13,44 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
     private ClientController controller;
+
     private JTextArea console;
     private JTextField commandLine;
     private JButton ok;
+
     private Object lockInput;
     private Object lockMove;
+
     private MoveButtonActionListener actionListener;
     private JPanel turnLight;
-    JComboBox weapon;
-    JComboBox powerUp;
+    private JComboBox weapon;
+    private JComboBox powerUp;
 
+    private SquarePanel mapGrid[][];
+    private Character charactersCoordinates[];
 
     public MainFrame(ClientController controller) {
         this.controller = controller;
         lockInput = new Object();
         lockMove = new Object();
         actionListener = new MoveButtonActionListener(lockMove);
+        mapGrid = new SquarePanel[3][4];
+
+        charactersCoordinates = new Character[5];
+        initCharacters();
+
+    }
+
+    private void initCharacters() {
+        for(int i=0;i<5;i++) {
+            try {
+                charactersCoordinates[i] = new Character(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina" +
+                        (i+1)+".jpg"))
+                        .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void initGUI() {
@@ -179,54 +201,32 @@ public class MainFrame extends JFrame {
 
     private void printField(JPanel centralPanel){
         try{
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_001.png"))
-                    .getScaledInstance(140,140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_002.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_003.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_004.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            //////End of first row
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_005.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_006.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_007.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_008.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_009.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_010.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
-            centralPanel.add(new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_011.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH))));
+            Integer cont = 1;
 
-            SquarePanel prova = new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
-                    "image_part_012.png"))
-                    .getScaledInstance(140, 140, Image.SCALE_SMOOTH)));
+            for(int i=0;i<3;i++) {
 
-            centralPanel.add(prova);
+                for(int j=0;j<4;j++) {
+
+                    mapGrid[i][j]=new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
+                            "image_part_0"+String.format("%02d",cont) +".png"))
+                            .getScaledInstance(140,140, Image.SCALE_SMOOTH)));
+                    mapGrid[i][j].setLayout(new GridLayout(3,2));
+
+                    centralPanel.add(mapGrid[i][j]);
+
+                    cont++;
+                }
+            }
 
             JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
-                    .getScaledInstance(70, 50, Image.SCALE_SMOOTH)));
-            pedina.setBounds(0,0,70,50);
-            pedina.setLocation(30,20);
-            //layout manager a null TODO
-            prova.add(pedina);
-            prova.repaint();
+                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
+            mapGrid[1][1].add(pedina);
+            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
+                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
+            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
+                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
+            mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina.jpg"))
+                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
         }
         catch(IOException exception)
         {
@@ -234,7 +234,20 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void updateMap(String datum, String s) {
+    public void updateMap(int character, String coordinates) {
+        String[] newCoord = coordinates.split(" ");
+        String[] oldCoord = charactersCoordinates[character].getCoordinate().split(" ");
 
+        mapGrid[oldCoord[0].charAt(0) - 65][3-Integer.parseInt(oldCoord[1])]
+                .remove(charactersCoordinates[character].getIcon());
+
+        mapGrid[newCoord[0].charAt(0) - 65][3-Integer.parseInt(newCoord[1])]
+                .add(charactersCoordinates[character].getIcon());
+
+        charactersCoordinates[character].setCoordinate(coordinates);
+    }
+
+    public SquarePanel[][] getMapGrid() {
+        return mapGrid;
     }
 }
