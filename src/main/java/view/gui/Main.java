@@ -2,7 +2,11 @@ package view.gui;
 
 import controller.ClientController;
 
-import javax.swing.SwingUtilities;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
 
@@ -61,16 +65,18 @@ public class Main {
             e.printStackTrace();
         }
 
+        (main.gui.getMapGrid())[1][1].remove(2);
+        (main.gui.getMapGrid())[1][1].repaint();
+        System.out.println(main.gui.getMove());
+        main.gui.toggleBackGroundTurn();
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            (main.gui.getMapGrid())[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina4.jpg"))
+                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        (main.gui.getMapGrid())[1][1].remove(2);
-        System.out.println(main.gui.getMove());
-        main.gui.toggleBackGroundTurn();
-
+        (main.gui.getMapGrid())[1][1].repaint();
 
     }
 }

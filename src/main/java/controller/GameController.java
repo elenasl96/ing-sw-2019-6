@@ -74,7 +74,7 @@ public class GameController{
             default:
                 break;
         }
-        return new Update(content.toString());
+        return new Update(content.toString(),"updateconsole");
     }
 
     public synchronized void setSpawn(Player player, int spawn, int groupID) {
@@ -95,7 +95,7 @@ public class GameController{
             //go to next player and set phase
             GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
             System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
-            GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn"));
+            GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn","updateconsole"));
             if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.FIRST);
             else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(SPAWN);
             //send updates
@@ -103,11 +103,11 @@ public class GameController{
                     "\n>>> Player " + player.getName()+ " discarded:\n" +
                         "==========Powerup========\n"
                         + discarded.toString()
-                        +"\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
+                        +"\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString(), "updateconsole"));
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer(), true));
         } else {
             player.getUser().receiveUpdate(new Update(player, true));
-            player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + GameContext.get().getGame(groupID).getCurrentPlayer().toString()));
+            player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + GameContext.get().getGame(groupID).getCurrentPlayer().toString(),"updateconsole"));
         }
     }
 
