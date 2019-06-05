@@ -119,7 +119,7 @@ public class GameController{
         player.getPowerups().add(GameContext.get().getGame(groupID)
                 .getBoard().getPowerupsLeft().pickCard());
         System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
-        return new Update(" Choose spawn point from:" + player.powerupsToString());
+        return new Update(" Choose spawn point from:" + player.powerupsToString(), "updateconsole");
     }
 
     public void updatePhase(int groupID){
@@ -289,7 +289,7 @@ public class GameController{
         try{
             pay.execute(player, groupID);
             player.getUser().receiveUpdate(new Update("Weapon reloaded!\nYou have these ammos: "
-                    + player.getAmmos().toString()));
+                    + player.getAmmos().toString(),"ignore"));
         }catch (NotEnoughAmmoException e){
             e.getMessage();
             player.getUser().receiveUpdate(new Update(e.getMessage()));

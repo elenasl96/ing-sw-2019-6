@@ -13,6 +13,13 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
     private ClientController controller;
+    private final int DIMAMMOIMAGE = 25;
+    private final int WIDTHPAWN = 70;
+    private final int HEIGHTPAWN = 60;
+
+    private AmmoPanel ammoRed;
+    private AmmoPanel ammoBlue;
+    private AmmoPanel ammoYellow;
 
     private JTextArea console;
     private JTextField commandLine;
@@ -46,7 +53,7 @@ public class MainFrame extends JFrame {
             try {
                 charactersCoordinates[i] = new Character(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina" +
                         i+".jpg"))
-                        .getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
+                        .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -75,8 +82,22 @@ public class MainFrame extends JFrame {
 
         JLabel name = new JLabel("NOME GIOCATORE");
         name.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel ammos = new JPanel();
+        JPanel ammos = new JPanel(new GridLayout(4,1));
+        try {
+            ammoRed = new AmmoPanel(3, new ImageIcon(ImageIO.read(new File("src/resources/ammo1.png"))
+                    .getScaledInstance(DIMAMMOIMAGE, DIMAMMOIMAGE, Image.SCALE_SMOOTH)));
+            ammoBlue = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/ammo2.png"))
+                    .getScaledInstance(DIMAMMOIMAGE, DIMAMMOIMAGE, Image.SCALE_SMOOTH)));
+            ammoYellow = new AmmoPanel(2,new ImageIcon(ImageIO.read(new File("src/resources/ammo3.png"))
+                    .getScaledInstance(DIMAMMOIMAGE, DIMAMMOIMAGE, Image.SCALE_SMOOTH)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         ammos.add(new JLabel("AMMO"));
+        ammos.add(ammoRed);
+        ammos.add(ammoBlue);
+        ammos.add(ammoYellow);
         JLabel cardLabel = new JLabel("CARTE IN POSSESSO");
         cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -191,8 +212,8 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void toggleBackGroundTurn() {
-        if (turnLight.getBackground().equals(Color.RED)) {
+    public void setBackGroundTurn(boolean val) {
+        if (val) {
             turnLight.setBackground(Color.GREEN);
         } else {
             turnLight.setBackground(Color.RED);
@@ -219,14 +240,14 @@ public class MainFrame extends JFrame {
             }
 
             JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina0.jpg"))
-                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH)));
+                    .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH)));
             mapGrid[1][1].add(pedina);
             mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina1.jpg"))
-                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
+                    .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
             mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina2.jpg"))
-                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
+                    .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
             mapGrid[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina3.jpg"))
-                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
+                    .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
         }
         catch(IOException exception)
         {
