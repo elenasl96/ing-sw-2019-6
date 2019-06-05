@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Player extends Target implements Serializable{
+    private static final long serialVersionUID = 3763707889643123775L;
     private User user;
     private int playerNumber;
     private String name;

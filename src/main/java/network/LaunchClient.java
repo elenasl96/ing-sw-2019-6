@@ -30,6 +30,7 @@ public class LaunchClient {
         } else {
             while(clientHandler == null) {
                 clientHandler = new SocketClient("192.168.137.1", 8234);
+
                 try {
                     clientHandler.init();
                 } catch (IOException e) {
