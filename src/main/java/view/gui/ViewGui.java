@@ -78,7 +78,6 @@ public class ViewGui implements View {
             case "updateconsole":
                 gui.setConsole(update.toString());
                 break;
-            case "turn":
 
         }
 
@@ -140,9 +139,9 @@ public class ViewGui implements View {
     @Override
     public void waitingPhase() {
         //noinspection StatementWithEmptyBody
-        gui.toggleBackGroundTurn();
+        gui.setBackGroundTurn(false);
         while(wait);
-        gui.toggleBackGroundTurn();
+        gui.setBackGroundTurn(true);
     }
 
     @Override

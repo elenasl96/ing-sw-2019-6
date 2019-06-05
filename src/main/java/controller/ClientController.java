@@ -154,7 +154,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         }
     }
 
-    private void gamingPhase()  throws RemoteException{
+    private void gamingPhase() throws RemoteException{
         switch(ClientContext.get().getCurrentPlayer().getPhase()){
             case SPAWN:
                 client.request(new SpawnRequest(null));

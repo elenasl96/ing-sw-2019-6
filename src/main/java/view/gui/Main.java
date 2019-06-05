@@ -68,7 +68,7 @@ public class Main {
         (main.gui.getMapGrid())[1][1].remove(2);
         (main.gui.getMapGrid())[1][1].repaint();
         System.out.println(main.gui.getMove());
-        main.gui.toggleBackGroundTurn();
+
         try {
             (main.gui.getMapGrid())[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina4.jpg"))
                     .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
