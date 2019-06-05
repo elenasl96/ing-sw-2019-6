@@ -83,7 +83,7 @@ public class ServerController implements RequestHandler {
      * @see CreateUserRequest
      */
     @Override
-    public Response handle(CreateUserRequest request) {
+    public synchronized Response handle(CreateUserRequest request) {
         try {
             user = Manager.get().createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
@@ -97,6 +97,7 @@ public class ServerController implements RequestHandler {
         // Listening to messages and sending them
         user.listenToMessages((ModelObserver) clientHandler);
         System.out.println(">>> Returning new UserCreatedResponse");
+        notifyAll();
         return new UserCreatedResponse(user);
     }
 
