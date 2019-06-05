@@ -97,22 +97,23 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         return ClientContext.get().getCurrentUser().getCharacter();
     }
 
-    public void startReceiverThread() {
-        while(gameNotDone) {
-            synchronized (client) {
-                try {
-                    client.wait();
-                    client.nextResponse();
-                } catch (RemoteException | InterruptedException e) {
-                    System.out.println(">>> An error occurred");
-                    Thread.currentThread().interrupt();
+    public synchronized void startReceiverThread() {
+        Thread receiver = new Thread(
+                ()  -> {
+                    while (gameNotDone) {
+                        Response response;
+                        try {
+                            response = client.nextResponse();
+                            if (response != null) {
+                                response.handle(this);
+                            }
+                        } catch (RemoteException e){
+                            System.out.println(">>> An error occurred");
+                        }
+                    }
                 }
-            }
-        }
-    }
-
-    void chooseSpawn(Integer spawn) throws RemoteException{
-        client.request(new SpawnRequest(spawn));
+        );
+        receiver.start();
     }
 
     private void sendCommand(String content)  throws RemoteException{
