@@ -271,6 +271,21 @@ public class MainFrame extends JFrame {
         charactersCoordinates[character].setCoordinate(coordinates);
     }
 
+    public void changeAmmoPanel(String s) {
+        switch(s)
+        {
+            case "red": ammoRed.addAmmo(); break;
+            case "blue": ammoBlue.addAmmo(); break;
+            case "yellow": ammoYellow.addAmmo(); break;
+        }
+    }
+
+    public void clearAmmoPanels() {
+        ammoYellow.removeAll();
+        ammoBlue.removeAll();
+        ammoRed.removeAll();
+    }
+
     public SquarePanel[][] getMapGrid() {
         return mapGrid;
     }

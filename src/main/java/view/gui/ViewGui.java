@@ -68,17 +68,25 @@ public class ViewGui implements View {
     @Override
     public Response onUpdate(Update update) {
 
-        String data[] = update.getData().split(";");
+        String data[];
 
         switch(update.getMove())
         {
             case "movement":
+                data = update.getData().split(";");
                 gui.updateMap(Integer.parseInt(data[0]), data[1]);
                 break;
             case "updateconsole":
                 gui.setConsole(update.toString());
                 break;
-
+            case "reload": {
+                data = update.getData().split(",");
+                gui.clearAmmoPanels();
+                for(int i=0;i<data.length;i++)
+                {
+                    gui.changeAmmoPanel(data[i]);
+                }
+            }
         }
 
         return null;
