@@ -17,9 +17,13 @@ public class AmmoPanel extends JPanel {
         removeAll();
 
         for(int i=0;i<n;i++) {
-            add(new JLabel(img));
+            addAmmo();
         }
 
         repaint();
+    }
+
+    public void addAmmo() {
+        add(new JLabel(img));
     }
 }
