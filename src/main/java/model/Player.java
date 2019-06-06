@@ -1,6 +1,7 @@
 package model;
 
 import model.decks.AmmoTile;
+import model.decks.CardEffect;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.*;
@@ -9,7 +10,6 @@ import model.exception.InvalidMoveException;
 import model.field.Edge;
 import model.field.Field;
 import model.field.Square;
-import model.moves.Effect;
 import model.moves.Move;
 import model.moves.Target;
 import model.room.User;
@@ -37,7 +37,7 @@ public class Player extends Target implements Serializable{
     private int deaths;
     private transient List<Square> reachSquares = new ArrayList<>();
     private transient List<Player> shootable = new ArrayList<>();
-    private transient  List<Effect> currentEffects = new ArrayList<>();
+    private transient  List<CardEffect> currentCardEffects = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
     private boolean phaseNotDone;
 
@@ -264,14 +264,12 @@ public class Player extends Target implements Serializable{
     public void addEffectsToPlay(String[] weaponEffectsSplitted) {
         Weapon weapon = this.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
         for(int i=1; i<weaponEffectsSplitted.length; i++){
-            for(Effect e: weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffects()){
-                this.getCurrentEffects().add(e);
-            }
+            this.getCurrentCardEffects().add(weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])));
         }
     }
 
-    public List<Effect> getCurrentEffects() {
-        return currentEffects;
+    public List<CardEffect> getCurrentCardEffects() {
+        return currentCardEffects;
     }
 
     /**
