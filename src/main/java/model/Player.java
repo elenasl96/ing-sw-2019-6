@@ -35,8 +35,7 @@ public class Player extends Target implements Serializable{
     private boolean firstPlayer;
     private boolean dead;
     private int deaths;
-    private transient List<Square> reachSquares = new ArrayList<>();
-    private transient List<Player> shootable = new ArrayList<>();
+    private transient List<Square> visible = new ArrayList<>();
     private transient  List<CardEffect> currentCardEffects = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
     private boolean phaseNotDone;
@@ -77,6 +76,7 @@ public class Player extends Target implements Serializable{
         return name;
     }
 
+    @Override
     public Square getCurrentPosition() {
         return currentPosition;
     }
@@ -121,9 +121,7 @@ public class Player extends Target implements Serializable{
 
     @Override
     public String getFieldsToFill() {
-        StringBuilder string = new StringBuilder();
         if (this.getName() == null) {
-
             return "Choose the player; ";
         } else return "";
     }
@@ -219,6 +217,10 @@ public class Player extends Target implements Serializable{
         return string.toString();
     }
 
+    public List<Square> getVisible() {
+        return visible;
+    }
+
     //Overriding standard methods
 
     @Override
@@ -274,7 +276,7 @@ public class Player extends Target implements Serializable{
 
     /**
      * @param t the target the current Player wants to shoot to
-     * @return
+     * @return true value if the player can see the target, false otherwise
      */
     public boolean canSee(Target t, int groupID){
         return t.canBeSeen(this, groupID);
@@ -283,53 +285,13 @@ public class Player extends Target implements Serializable{
     @Override
     public void setFieldsToFill(String inputName, int groupID) {
         if(this.getName() == null){
-            if(this.checkTarget(inputName, groupID))
-                this.name = inputName;
-            else throw new InvalidMoveException("Wrong player distance");
+            throw new InvalidMoveException("Wrong player");
         }
     }
 
-    @Override
-    protected boolean checkTarget(String inputName, int groupID) {
-        Player target = GameContext.get().getGame(groupID).playerFromName(inputName);
-        if(target != null){
-            if(this.getMinDistance() != null) {
-                if (getMinDistance() == 0) {
-                    if(!this.getCurrentPosition()
-                            .equals(GameContext.get().getGame(groupID).getCurrentPlayer().currentPosition))
-                        return false;
-                }else{
-                    this.getCurrentPosition().createReachList(this.getMinDistance() - 1, this.reachSquares,
-                            GameContext.get().getGame(groupID).getBoard().getField());
-                    if (this.reachSquares.contains(GameContext.get().getGame(groupID).getCurrentPlayer().currentPosition))
-                        return false;
-                }
-            }
-            if(this.getMaxDistance() != null){
-                this.reachSquares.clear();
-                this.getCurrentPosition().createReachList(this.getMaxDistance(), this.reachSquares,
-                        GameContext.get().getGame(groupID).getBoard().getField());
-                if(!this.reachSquares.contains(GameContext.get().getGame(groupID).getCurrentPlayer().currentPosition))
-                    return false;
-            }
-            switch (this.getTargetType()){
-                case VISIBLE:
-                    if(this.shootable.contains(target)) return true;
-                    break;
-                case NONE:
-                    return true;
-                case ME:
-                    break;
-                default:
-                    return false;
-            }
-        }
-        return false;
-    }
-
-    public void generateShootable(int groupID){
+    public void generateVisible(int groupID){
         for(Player p: GameContext.get().getGame(groupID).getPlayers()){
-            if(p.canBeSeen(this, groupID)) this.shootable.add(p);
+            if(p.canBeSeen(this, groupID)) this.visible.add(p.getCurrentPosition());
         }
     }
 

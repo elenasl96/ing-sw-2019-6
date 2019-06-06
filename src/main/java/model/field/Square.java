@@ -21,6 +21,7 @@ import static model.field.Coordinate.fillCoordinate;
 public class Square extends Target implements Serializable {
     private Color color;
     private Coordinate coord;
+    private List<Square> reachSquares = new ArrayList<>();
 
     public Square(){
         this.color = null;
@@ -100,8 +101,8 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
-    protected boolean checkTarget(String inputName, int groupID) {
-        return false;
+    public Square getCurrentPosition() {
+        return null;
     }
 
     @Override
@@ -119,9 +120,9 @@ public class Square extends Target implements Serializable {
 
     /**
      * Creates the List of reachable Squares p can do in maxSteps
-     * @param reachList
+     * @param reachList the squares reachable from this square
      * @param maxSteps  the player who want to move
-     * @param field
+     * @param field the field where is the square
      */
     public void createReachList(int maxSteps, List<Square> reachList, Field field) {
         reachList.add(this);
@@ -138,5 +139,9 @@ public class Square extends Target implements Serializable {
                 });
             }
         }
+    }
+
+    public List<Square> getReachSquares() {
+        return reachSquares;
     }
 }

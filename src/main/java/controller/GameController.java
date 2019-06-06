@@ -14,6 +14,7 @@ import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
 import model.moves.Effect;
 import model.moves.Pay;
+import model.moves.Target;
 import model.room.Update;
 
 import java.util.*;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static model.enums.EffectType.*;
 import static model.enums.Phase.SPAWN;
+import static model.enums.TargetType.*;
 
 /**
  * SINGLETON (SERVER SIDE)
@@ -211,14 +213,79 @@ public class GameController{
         for (int i = 0; i < inputSplitted.length; i++) {
             inputMatrix[i] = inputSplitted[i].split(";");
         }
-        //fill
+        //TODO fill moves
         int counter = 0;
+        int counter2 = 0;
         for(CardEffect c: player.getCurrentCardEffects()){
             for (Effect e : c.getEffects()) {
-                e.fillFields(inputMatrix[counter], groupID);
+                for(Target t: e.getTarget()){
+                    checkTarget(t, inputMatrix[counter][counter2], groupID);
+                    counter2++;
+                    e.fillFields(inputMatrix[counter], groupID);
+                }
+            }
+        }
+        //execute moves
+        for(CardEffect c:player.getCurrentCardEffects()){
+            for(Effect e: c.getEffects()){
+                e.execute(player, groupID);
             }
         }
         //fill effect fields with player choices
+    }
+
+    private void checkTarget(Target t, String inputName, int groupID) {
+        Player target = GameContext.get().getGame(groupID).playerFromName(inputName);
+        if(target != null){
+            checkMinDistance(t, groupID);
+            checkMaxDistance(t, groupID);
+            checkTargetType(t, groupID);
+        }
+    }
+
+    private void checkMaxDistance(Target t, int groupID) {
+        if(t.getMaxDistance() != null){
+            t.getCurrentPosition().getReachSquares().clear();
+            t.getCurrentPosition().createReachList(t.getMaxDistance(), t.getCurrentPosition().getReachSquares(),
+                    GameContext.get().getGame(groupID).getBoard().getField());
+            if(!t.getCurrentPosition().getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+                throw new InvalidMoveException("Invalid max distance");
+        }
+    }
+
+    private void checkMinDistance(Target t, int groupID) {
+        if(t.getMinDistance() != null) {
+            if (t.getMinDistance() == 0) {
+                if(!t.getCurrentPosition()
+                        .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+                    throw new InvalidMoveException("Invalid distance");
+            }else{
+                t.getCurrentPosition().createReachList(t.getMinDistance() - 1, t.getCurrentPosition().getReachSquares(),
+                        GameContext.get().getGame(groupID).getBoard().getField());
+                if (t.getCurrentPosition().getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+                    throw new InvalidMoveException("Invalid distance");
+            }
+        }
+    }
+
+    private void checkTargetType(Target target, int groupID) {
+        Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
+        player.generateVisible(groupID);
+        switch (target.getTargetType()) {
+            case VISIBLE:
+                if (!player.getVisible().contains(target.getCurrentPosition()))
+                    throw new InvalidMoveException("Not visible target");
+                break;
+            case NOT_VISIBLE:
+                if (player.getVisible().contains(target.getCurrentPosition()))
+                    throw new InvalidMoveException("Not not visible target");
+                break;
+            case NONE:
+            case ME:
+                break;
+            default:
+                break;
+        }
     }
 
     private synchronized boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {

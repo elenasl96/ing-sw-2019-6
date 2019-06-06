@@ -3,12 +3,13 @@ package model.moves;
 import model.Player;
 import model.PlayerBoard;
 import model.enums.TargetType;
+import model.field.Square;
 
 import java.io.Serializable;
 import java.util.List;
 
 public abstract class Target implements Serializable {
-    TargetType targetType;
+    private TargetType targetType;
     private Integer minDistance;
     private Integer maxDistance;
 
@@ -48,5 +49,6 @@ public abstract class Target implements Serializable {
 
     public abstract void setFieldsToFill(String inputMatrix, int groupID);
 
-    protected abstract boolean checkTarget(String inputName, int groupID);
+    public abstract Square getCurrentPosition();
+
 }

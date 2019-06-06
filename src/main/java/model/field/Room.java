@@ -81,12 +81,13 @@ public class Room extends Target {
     }
 
     @Override
-    protected boolean checkTarget(String inputName, int groupID) {
-        return false;
+    public void setFieldsToFill(String input, int groupID) {
+        if(color == null) setColor(Color.fromName(input));
     }
 
     @Override
-    public void setFieldsToFill(String input, int groupID) {
-        if(color == null) setColor(Color.fromName(input));
+    public Square getCurrentPosition() {
+        //nothing
+        return null;
     }
 }
