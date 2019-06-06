@@ -340,22 +340,23 @@ public class WeaponDeck {
                                 "and everyone else on that square", WeaponStatus.PARTIALLY_LOADED));
                 //Basic Effect
                 targetBasic = new Player(VISIBLE, 1, null);
-                targetBasic2 = new Square(SAME_TARGET, null, null);
+                Player player1 = (Player) targetBasic;
+                player1.setCurrentPosition(new Square());
                 this.weapons.get(10).getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.RED), new Ammo(Color.YELLOW))));
                 this.weapons.get(10).getEffectsList().get(0).getEffects()
                         .add(new DamageEffect(Stream.of(targetBasic), 1, false));
                 this.weapons.get(10).getEffectsList().get(0).getEffects()
-                        .add(new MarkEffect(Stream.of(targetBasic2), 1, false));
+                        .add(new MarkEffect(Stream.of(player1.getCurrentPosition()), 1, false));
 
                 //Alternative Effect
                 targetAlternative = new Player(VISIBLE, 1, null);
-                targetAlternative2 = new Square(SAME_TARGET, null, null);
+                player1.setCurrentPosition(new Square());
                 this.weapons.get(10).getEffectsList().add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.RED))));
                 this.weapons.get(10).getEffectsList().get(1).getEffects()
                         .add(new DamageEffect(Stream.of(targetAlternative), 1, false));
                 this.weapons.get(10).getEffectsList().get(1).getEffects()
-                        .add(new MarkEffect(Stream.of(targetAlternative2), 2, false));
+                        .add(new MarkEffect(Stream.of(player1.getCurrentPosition()), 2, false));
                 break;
             case 11:
                 //Flamethrowner
@@ -449,7 +450,8 @@ public class WeaponDeck {
                         .add(new Movement(Stream.of(targetOptional), destination, false));
 
                 //Optional Effect 2
-                targetOptional = new Square(SAME_TARGET, null, null);
+                player1 = (Player)targetBasic;
+                player1.setCurrentPosition(new Square());
                 this.weapons.get(13).getEffectsList()
                         .add(new CardEffect(BEFORE_BASIC, Stream.of(new Ammo(Color.YELLOW))));
                 this.weapons.get(13).getEffectsList().get(2).getEffects()
@@ -539,12 +541,13 @@ public class WeaponDeck {
                                 "1 person per square", WeaponStatus.PARTIALLY_LOADED));
                 //Basic Effect
                 targetBasic = new Player(NONE,1, 1);
-                destination = new Square(SAME_TARGET, null, null);
+                player1 = (Player)targetBasic;
+                player1.setCurrentPosition(new Square());
                 me = new Player(ME, 0,0);
                 this.weapons.get(16).getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.BLUE))));
                 this.weapons.get(16).getEffectsList().get(0).getEffects()
-                        .add(new Movement(Stream.of(me), destination, false));
+                        .add(new Movement(Stream.of(me), player1.getCurrentPosition(), false));
                 this.weapons.get(16).getEffectsList().get(0).getEffects()
                         .add(new DamageEffect(Stream.of(targetBasic), 1, false));
                 this.weapons.get(16).getEffectsList().get(0).getEffects()

@@ -1,5 +1,6 @@
 package controller;
 
+import model.decks.CardEffect;
 import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.Ammo;
@@ -193,10 +194,13 @@ public class GameController{
     private String getEffectsToFill(Player player) {
         StringBuilder string = new StringBuilder();
         int numEffect = 0;
-        for(Effect e: player.getCurrentEffects()){
-            string.append(numEffect).append(" | ").append(e.getFieldsToFill()).append("\n");
-            numEffect++;
+        for(CardEffect c: player.getCurrentCardEffects()){
+            for(Effect e: c.getEffects()){
+                string.append(numEffect).append(" | ").append(e.getFieldsToFill()).append("\n");
+                numEffect++;
+            }
         }
+
         return string.toString();
     }
 
@@ -209,8 +213,10 @@ public class GameController{
         }
         //fill
         int counter = 0;
-        for (Effect e : player.getCurrentEffects()) {
-            e.fillFields(inputMatrix[counter], groupID);
+        for(CardEffect c: player.getCurrentCardEffects()){
+            for (Effect e : c.getEffects()) {
+                e.fillFields(inputMatrix[counter], groupID);
+            }
         }
         //fill effect fields with player choices
     }
