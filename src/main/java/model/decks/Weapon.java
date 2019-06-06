@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Weapon implements Serializable {
+    private int id;
     private String name;
     private String effectsDescription;
     private WeaponStatus status;
     private transient List<CardEffect> cardEffectList = new ArrayList<>();
 
-    public Weapon(String name, String effectsDescription, WeaponStatus status) {
+    public Weapon(int id, String name, String effectsDescription, WeaponStatus status) {
+        this.id = id;
         this.name = name;
         this.effectsDescription = effectsDescription;
         this. status = status;
