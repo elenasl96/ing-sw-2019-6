@@ -4,6 +4,9 @@ import network.commands.response.*;
 
 /**
  * A method for every possible Response
+ * @see controller.ClientController#handle;
+ * @see controller.ClientController
+ * @see Response
  */
 public interface ResponseHandler {
     void handle(TextResponse textResponse);

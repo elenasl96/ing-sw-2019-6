@@ -4,6 +4,9 @@ import network.commands.request.*;
 
 /**
  * A method for every possible Request
+ * @see Request
+ * @see controller.ServerController#handle
+ * @see controller.ServerController
  */
 public interface RequestHandler {
 
