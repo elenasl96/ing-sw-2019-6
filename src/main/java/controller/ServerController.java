@@ -220,10 +220,6 @@ public class ServerController implements RequestHandler {
     public Response handle(SendInput inputResponse) {
         Player p = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer();
         switch(inputResponse.getInputType()){
-            case "player damaged":
-                break;
-            case "number damages":
-                break;
             case "weapon chosen":
                 try {
                     p.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
@@ -272,6 +268,10 @@ public class ServerController implements RequestHandler {
                     user.receiveUpdate(new Update("Invalid Number Format!","updateconsole"));
                     p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
+                }catch(InvalidMoveException e){
+                    user.receiveUpdate(new Update(e.getMessage(),"updateconsole"));
+                    p.setPhaseNotDone(true);
+                    p.getUser().receiveUpdate(new Update(p,true));
                 }
                 break;
             default:
@@ -289,7 +289,7 @@ public class ServerController implements RequestHandler {
         }catch(IndexOutOfBoundsException e) {
             user.receiveUpdate(new Update("Out of bound","updateconsole"));
         } catch(InvalidMoveException e){
-            user.receiveUpdate(new Update("Not valid weapon","updateconsole"));
+            user.receiveUpdate(new Update(e.getMessage(),"updateconsole"));
         }catch(NumberFormatException e){
             user.receiveUpdate(new Update("Not valid number","updateconsole"));
         }catch(NullPointerException e){
