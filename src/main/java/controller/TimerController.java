@@ -50,7 +50,7 @@ public class TimerController implements ModelObserver {
                 } else if (seconds == 0){
                     Manager.get().getGroup(groupID).sendUpdate(new Update("Game starting"));
                     Manager.get().getGroup(groupID).createGame();
-                    timers.get(groupID).cancel();
+                    timers.get(groupID).purge();
                 }
                 seconds--;
             }
@@ -58,22 +58,22 @@ public class TimerController implements ModelObserver {
         this.timers.get(groupID).schedule(timerTask, 0,1000);
     }
 
-    synchronized void startTurnTimer(int groupID){
-        timers.get(groupID).cancel();
+    public synchronized void startTurnTimer(int groupID){
+        this.timers.get(groupID).purge();
         TimerTask timerTask = new TimerTask(){
             int seconds = 5;
             @Override
             public void run() {
                 if(seconds == 60){
-                    Manager.get().getGroup(groupID).sendUpdate(new Update(seconds + " seconds left..."));
+                    Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(seconds + " seconds left..."));
                 }else if(seconds == 10) {
-                    Manager.get().getGroup(groupID).sendUpdate(new Update("Hurry, 10 seconds left!"));
+                    Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("Hurry, 10 seconds left!"));
                 } else if (seconds <= 5 && seconds > 0) {
-                    Manager.get().getGroup(groupID).sendUpdate(new Update("Seconds remaining: " + seconds + "..."));
+                    Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "..."));
                 } else if (seconds == 0){
-                    Manager.get().getGroup(groupID).sendUpdate(new Update("Move lost! No more time."));
+                    Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("Move lost! No more time."));
                     GameController.get().updatePhase(groupID);
-                    timers.get(groupID).cancel();
+                    timers.get(groupID).purge();
                 }
                 seconds--;
             }
@@ -94,7 +94,7 @@ public class TimerController implements ModelObserver {
             }
         }
         if(Manager.get().getGroup(groupID).isFull()){
-            timers.get(groupID).cancel();
+            timers.get(groupID).purge();
             Manager.get().getGroup(groupID).createGame();
         }
     }

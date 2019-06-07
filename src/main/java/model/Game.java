@@ -1,5 +1,6 @@
 package model;
 
+import controller.TimerController;
 import model.enums.Phase;
 import model.room.ModelObserver;
 import model.room.Update;
@@ -28,7 +29,7 @@ public class Game implements Serializable {
         //no need to initiate any variable
     }
 
-    public void setGame(int skullNumber, int fieldNumber, List<User> users) {
+    public void setGame(int skullNumber, int fieldNumber, List<User> users, int groupID) {
         this.skullsNumber = skullNumber;
         this.board = new Board(fieldNumber);
         Collections.sort(users);
@@ -54,6 +55,7 @@ public class Game implements Serializable {
         Update update = new Update("It's "+currentPlayer.getName()+"'s turn");
         System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
         this.sendUpdate(update);
+        TimerController.get().startTurnTimer(groupID);
     }
 
     int getNumberPlayers() {
@@ -105,7 +107,7 @@ public class Game implements Serializable {
 
     public Player playerFromName(String inputName) {
         for(Player p: players){
-            if(p.getName() == inputName) return p;
+            if(p.getName().equals(inputName)) return p;
         }
         return null;
     }

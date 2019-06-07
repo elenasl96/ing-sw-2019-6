@@ -86,6 +86,7 @@ public class GameController{
                 GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(SPAWN) &&
                 spawn >= 0 &&
                 spawn < player.getPowerups().size()){
+            TimerController.get().startTurnTimer(groupID);
             Optional<SpawnSquare> optional = GameContext.get().getGame(groupID).getBoard().getField().getSpawnSquares().stream()
                     .filter(ss -> ss.getColor().equals(GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();

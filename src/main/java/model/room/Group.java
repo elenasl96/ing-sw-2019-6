@@ -1,5 +1,6 @@
 package model.room;
 
+import controller.TimerController;
 import model.Game;
 import model.GameContext;
 import model.enums.Character;
@@ -139,7 +140,7 @@ public class Group implements Serializable {
         for(ModelObserver listener : listeners){
             GameContext.get().getGame(this.getGroupID()).addObserverGame(listener);
         }
-        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, users);
+        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, users, this.groupID);
         //Fill the squares
         GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares()
                 .forEach(square->
