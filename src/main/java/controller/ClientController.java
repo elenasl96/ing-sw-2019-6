@@ -33,8 +33,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     /**
      * reference to networking layer
      */
-    private final transient RemoteController client; //made package private to extend class in tests
-    //Removed the Thread since it can be local
+    private final transient RemoteController client;
 
     /**
      * The view
