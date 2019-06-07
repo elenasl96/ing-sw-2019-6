@@ -21,6 +21,14 @@ public abstract class Effect implements Move {
         return this.targets;
     }
 
+    public Boolean getOptionality() {
+        return optionality;
+    }
+
+    public void setOptionality(Boolean optionality) {
+        this.optionality = optionality;
+    }
+
     public abstract String getFieldsToFill();
 
     public abstract void fillFields(String[] inputMatrix, int groupID);

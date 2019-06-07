@@ -31,16 +31,18 @@ public class WeaponTile implements Grabbable {
 
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
         //Try to pay the weapon
-        if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED) &&
-                weapon.getEffectsList().get(0).getCost().size()>1){
-            for(int i=1; i< weapon.getEffectsList().get(0).getCost().size(); i++){
-                ammosToPay.add(weapon.getEffectsList().get(0).getCost().get(i));
+        if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED)) {
+            if (weapon.getEffectsList().get(0).getCost().size() <= 1) {
+                weapon.setStatus(WeaponStatus.LOADED);
+            } else {
+                for (int i = 1; i < weapon.getEffectsList().get(0).getCost().size(); i++) {
+                    ammosToPay.add(weapon.getEffectsList().get(0).getCost().get(i));
+                }
+                Pay pay = new Pay(ammosToPay);
+                pay.execute(GameContext.get().getGame(groupID).getCurrentPlayer(), groupID);
+                weapon.setStatus(WeaponStatus.LOADED);
             }
-            Pay pay = new Pay(ammosToPay);
-            pay.execute(GameContext.get().getGame(groupID).getCurrentPlayer(), groupID);
-            weapon.setStatus(WeaponStatus.LOADED);
         }
-
         //Pick weapon
         System.out.println(toPick);
         GameContext.get().getGame(groupID).getCurrentPlayer()
