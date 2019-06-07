@@ -86,10 +86,10 @@ public class GameController{
     public synchronized void setFirstSpawn(Player player, int spawn, int groupID) {
         Powerup discarded;
         if(isMyTurn(player, groupID) &&
-                GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(SPAWN) &&
+                GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(FIRST_SPAWN) &&
                 spawn >= 0 &&
                 spawn < player.getPowerups().size()){
-            TimerController.get().startTurnTimer(groupID);
+            //TimerController.get().startTurnTimer(groupID);
             Optional<SpawnSquare> optional = GameContext.get().getGame(groupID).getBoard().getField().getSpawnSquares().stream()
                     .filter(ss -> ss.getColor().equals(GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
@@ -104,7 +104,7 @@ public class GameController{
             System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
             GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn","updateconsole"));
             if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST);
-            else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(SPAWN);
+            else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST_SPAWN);
             //send updates
             GameContext.get().getGame(groupID).sendUpdate(new Update(
                     "\n>>> Player " + player.getName()+ " discarded:\n" +
@@ -134,9 +134,11 @@ public class GameController{
         //go to next player and set phase
         switch(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase()) {
             case FIRST:
+                player.getCurrentMoves().clear();
                 player.setPhase(Phase.SECOND);
                 break;
             case SECOND:
+                player.getCurrentMoves().clear();
                 player.setPhase(Phase.RELOAD);
                 break;
             case RELOAD:
@@ -165,7 +167,7 @@ public class GameController{
         }
         player.getUser().receiveUpdate(new Update(player, true));
         //move sent, timer Starting
-        TimerController.get().startTurnTimer(groupID);
+        //TimerController.get().startTurnTimer(groupID);
     }
 
     private synchronized void updatePoints(int groupID) {
@@ -225,18 +227,7 @@ public class GameController{
         for (int i = 0; i < inputSplitted.length; i++) {
             inputMatrix[i] = inputSplitted[i].split(";");
         }
-        //TODO fill moves
-        int counter = 0;
-        int counter2 = 0;
-        for(CardEffect c: player.getCurrentCardEffects()){
-            for (Effect e : c.getEffects()) {
-                for(Target t: e.getTarget()){
-                    checkTarget(t, inputMatrix[counter][counter2], groupID);
-                    counter2++;
-                    e.fillFields(inputMatrix[counter], groupID);
-                }
-            }
-        }
+        fillEffects(player, inputMatrix, groupID);
         //execute moves
         for(CardEffect c:player.getCurrentCardEffects()){
             for(Effect e: c.getEffects()){
@@ -244,6 +235,25 @@ public class GameController{
             }
         }
         //fill effect fields with player choices
+    }
+
+    private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
+        int counter = 0;
+        int counter2 = 0;
+        for(CardEffect c: player.getCurrentCardEffects()){
+            for (Effect e : c.getEffects()) {
+                try {
+                    for (Target t : e.getTarget()) {
+                        checkTarget(t, inputMatrix[counter][counter2], groupID);
+                        counter2++;
+                        e.fillFields(inputMatrix[counter], groupID);
+                    }
+                }catch(NullPointerException | InvalidMoveException d){
+                    if(e.getOptionality()) break;
+                    else throw d;
+                }
+            }
+        }
     }
 
     private void checkTarget(Target t, String inputName, int groupID) {

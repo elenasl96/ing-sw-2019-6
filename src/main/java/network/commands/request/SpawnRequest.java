@@ -23,7 +23,7 @@ public class SpawnRequest implements Request {
     }
 
     public boolean isFirstTime(){
-        return this.isFirstTime();
+        return this.firstTime;
     }
 
     @Override

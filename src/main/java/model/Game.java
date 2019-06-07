@@ -49,13 +49,13 @@ public class Game implements Serializable {
         }
         this.players.get(0).setFirstPlayer();
         this.currentPlayer = this.players.get(0);
-        currentPlayer.setPhase(Phase.SPAWN);
+        currentPlayer.setPhase(Phase.FIRST_SPAWN);
         System.out.println(">>> Sending Update to currentPlayer:" + currentPlayer.getUser().getUserID());
         currentPlayer.getUser().receiveUpdate(new Update(currentPlayer, true));
         Update update = new Update("It's "+currentPlayer.getName()+"'s turn");
         System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
         this.sendUpdate(update);
-        TimerController.get().startTurnTimer(groupID);
+        //TimerController.get().startTurnTimer(groupID);
     }
 
     int getNumberPlayers() {
