@@ -52,10 +52,12 @@ public class ViewClient implements View {
                     }
                     Integer.parseInt(i);
                 }
+                done = true;
             } catch (NumberFormatException e){
-                displayText("Not a valid format! Examples\n 0 1 2\n2 1\n0");
+                displayText("Not a valid format! Examples\n0 1 2\n2 1\n0");
+            } catch (IndexOutOfBoundsException e ){
+                displayText("Index out");
             }
-            done = true;
         }
         return input;
     }
@@ -160,7 +162,18 @@ public class ViewClient implements View {
     }
 
     public String movePhase(){
-        return userInput();
+        String input = userInput();
+        while(!input.equals("grab") &&
+                !input.equals("run") &&
+                !input.equals("0") &&
+                !input.equals("1") &&
+                !input.equals("2") &&
+                !input.equals("6") &&
+                !input.equals("4") &&
+                !input.equals("5") &&
+                !input.equals("3") )
+            input = userInput();
+        return input;
     }
 
     public void waitingPhase(){
