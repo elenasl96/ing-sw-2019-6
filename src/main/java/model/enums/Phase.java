@@ -7,8 +7,8 @@ public enum Phase{
     SECOND(2),
     RELOAD(3),
     SPAWN (4),
-    DISCONNECTED(5);
-
+    DISCONNECTED(5),
+    FIRST_SPAWN(6);
     private int id;
 
     Phase(int id)
@@ -32,8 +32,12 @@ public enum Phase{
                 return RELOAD;
             case 4:
                 return SPAWN;
+            case 5:
+                return DISCONNECTED;
+            case 6:
+                return FIRST_SPAWN;
             default:
-                return WAIT;
+                return null;
         }
     }
 

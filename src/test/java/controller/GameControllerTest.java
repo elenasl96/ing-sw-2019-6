@@ -113,12 +113,12 @@ class GameControllerTest {
         assertFalse(possibleMovesUpdate.isPlayerChanges());
         assertFalse(GameContext.get().getGame(0).getCurrentPlayer().getPowerups().isEmpty());
         //Not working Spawn
-        GameController.get().setSpawn(
+        GameController.get().setFirstSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
                 5, 0);
 
         //Working spawn
-        GameController.get().setSpawn(
+        GameController.get().setFirstSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
                 0, 0);
     }

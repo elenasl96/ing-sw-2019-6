@@ -21,8 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static model.enums.EffectType.*;
-import static model.enums.Phase.SPAWN;
-import static model.enums.TargetType.*;
+import static model.enums.Phase.*;
 
 /**
  * SINGLETON (SERVER SIDE)
@@ -80,7 +79,11 @@ public class GameController{
         return new Update(content.toString(),"updateconsole");
     }
 
-    public synchronized void setSpawn(Player player, int spawn, int groupID) {
+    public synchronized void setSpawn(Player player, int spawn, int groupID){
+        //TODO
+    }
+
+    public synchronized void setFirstSpawn(Player player, int spawn, int groupID) {
         Powerup discarded;
         if(isMyTurn(player, groupID) &&
                 GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(SPAWN) &&
@@ -94,13 +97,13 @@ public class GameController{
             discarded = player.getPowerups().remove(spawn);
             //set phase wait to current player and send update
             GameContext.get().getGame(groupID).getCurrentPlayer().setDead(false);
-            GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.WAIT);
+            GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(WAIT);
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(player, true));
             //go to next player and set phase
             GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
             System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
             GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn","updateconsole"));
-            if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.FIRST);
+            if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST);
             else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(SPAWN);
             //send updates
             GameContext.get().getGame(groupID).sendUpdate(new Update(
@@ -137,7 +140,7 @@ public class GameController{
                 player.setPhase(Phase.RELOAD);
                 break;
             case RELOAD:
-                player.setPhase(Phase.WAIT);
+                player.setPhase(WAIT);
                 player.getUser().receiveUpdate(new Update(player, true));
                 this.updatePoints(groupID);
                 GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
@@ -146,7 +149,15 @@ public class GameController{
                     player.setPhase(SPAWN);
                 }
                 else {
-                    player.setPhase(Phase.FIRST);
+                    player.setPhase(FIRST);
+                }
+                break;
+            case SPAWN:
+                if(player.getCurrentPosition()!=null){
+                    player.setDead(true);
+                    player.setPhase(WAIT);
+                } else {
+                    player.setPhase(FIRST);
                 }
                 break;
             default:

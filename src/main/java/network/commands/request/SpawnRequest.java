@@ -5,14 +5,25 @@ import network.commands.RequestHandler;
 import network.commands.Response;
 
 public class SpawnRequest implements Request {
+    private boolean firstTime;
     private Integer spawn;
 
     public SpawnRequest(Integer spawn) {
         this.spawn = spawn;
+        this.firstTime = false;
     }
 
     public Integer getSpawn() {
         return spawn;
+    }
+
+    public SpawnRequest(Integer spawn, boolean isFirstTime){
+        this.firstTime = isFirstTime;
+        this.spawn = spawn;
+    }
+
+    public boolean isFirstTime(){
+        return this.isFirstTime();
     }
 
     @Override
