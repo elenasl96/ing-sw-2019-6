@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.*;
 
+//TODO finish javadoc
 /**
  * The group of users that are playing the game
  * Every user chooses a group straight after the username
