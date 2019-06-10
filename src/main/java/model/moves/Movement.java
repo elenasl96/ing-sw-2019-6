@@ -80,7 +80,7 @@ public class Movement extends Effect{
         }
         Update update = new Update(p.getName()+" moved to "+p.getCurrentPosition());
         update.setMove("movement");
-        update.setData(p.getCharacter().toString()+";"+p.getCurrentPosition());
+        update.setData(p.getCharacter().getNum() + ";" + p.getCurrentPosition().toString().replace("[","").replace("]",""));
         GameContext.get().getGame(groupID).sendUpdate(update);
         return null;
     }
