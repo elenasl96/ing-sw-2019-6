@@ -243,7 +243,6 @@ public class GameController{
         }
         System.out.println("4");
         fillEffects(player, inputMatrix, groupID);
-        System.out.println("5");
         //execute moves
         /*for(CardEffect c:player.getCurrentCardEffects()){
             for(Effect e: c.getEffects()){
@@ -255,17 +254,20 @@ public class GameController{
 
     private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
         int counter = 0;
-        int counter2 = 0;
         for(CardEffect c: player.getCurrentCardEffects()){
             for (Effect e : c.getEffects()) {
+                int counter2 = 0;
                 try {
+                    System.out.println("-"+inputMatrix[counter].length+"-"+e.getTarget().size());
                     for (Target t : e.getTarget()) {
-                        if(inputMatrix[counter].length <= counter2) throw new InvalidMoveException("fields missing");
+                        System.out.println(counter2);
+                        if(counter2 >= inputMatrix[counter].length) throw new InvalidMoveException("fields missing");
                         checkTarget(t, inputMatrix[counter][counter2], groupID);
-                        e.fillFields(inputMatrix[counter], groupID);
+                        t.setFieldsToFill(inputMatrix[counter][counter2], groupID);
                         counter2++;
                     }
-                }catch(NullPointerException | InvalidMoveException d){
+                    e.fillFields(inputMatrix[counter], groupID);
+                }catch(NullPointerException d){
                     for(int i=counter2; i<c.getEffects().size(); i++){
                         if(c.getEffects().get(i).getOptionality()) throw d;
                     }
@@ -276,11 +278,10 @@ public class GameController{
     }
 
     private void checkTarget(Target target, String inputName, int groupID) {
-        Square targetPosition = GameContext.get().getGame(groupID).playerFromName(inputName).getCurrentPosition();
-        checkMinDistance(target, targetPosition, groupID);
-        checkMaxDistance(target, targetPosition, groupID);
-        checkTargetType(target, targetPosition, groupID);
-        target = target.setFieldsToFill(inputName, groupID);
+        Target realTarget = target.findRealTarget(inputName, groupID);
+        checkMinDistance(target, realTarget.getCurrentPosition(), groupID);
+        checkMaxDistance(target, realTarget.getCurrentPosition(), groupID);
+        checkTargetType(target, realTarget, groupID);
     }
 
     private void checkMaxDistance(Target t, Square targetPosition, int groupID) {
@@ -308,22 +309,28 @@ public class GameController{
         }
     }
 
-    private void checkTargetType(Target target, Square targetPosition, int groupID) {
+    private void checkTargetType(Target target, Target realTarget, int groupID) {
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         player.generateVisible(groupID);
         switch (target.getTargetType()) {
             case VISIBLE:
-                if (!player.getVisible().contains(targetPosition))
+                if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yourself");
+                if (!player.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Not visible target");
                 break;
             case NOT_VISIBLE:
-                if (player.getVisible().contains(targetPosition))
+                if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yourself");
+                if (player.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Not not visible target");
                 break;
             case NONE:
+                if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yourself");
+            break;
             case ME:
+                if(!realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You must use yourself");
                 break;
             default:
+                if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yourself");
                 break;
         }
     }
