@@ -6,7 +6,6 @@ import model.enums.WeaponStatus;
 import model.moves.Pay;
 import model.room.Update;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
