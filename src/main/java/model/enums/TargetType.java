@@ -12,7 +12,8 @@ public enum TargetType {
     NOT_MINE(7),
     ALL(8),
     SAME_DIRECTION(9),
-    DIFFERENT_SQUARE(10);
+    DIFFERENT_SQUARE(10),
+    SAME(11);
 
     private int number;
 

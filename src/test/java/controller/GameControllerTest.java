@@ -1,5 +1,7 @@
 package controller;
 
+import model.Game;
+import model.decks.Weapon;
 import model.exception.InvalidMoveException;
 import model.Ammo;
 import model.GameContext;
@@ -56,7 +58,7 @@ class GameControllerTest {
     @Test
     void constructorTest(){
         assertEquals(users.get(0), GameContext.get().getGame(0).getCurrentPlayer().getUser());
-        assertEquals(Phase.SPAWN, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
+        assertEquals(Phase.FIRST_SPAWN, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
         assertEquals(Phase.WAIT, GameContext.get().getGame(0).getPlayers().get(1).getPhase());
     }
 
@@ -96,16 +98,17 @@ class GameControllerTest {
         WeaponDeck deck = new WeaponDeck();
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
             p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
         }
-        p1.getWeapons().add(deck.initializeWeapon(0));
+        p1.getWeapons().add(new Weapon().initializeWeapon(0));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "3 0 1";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         // Choose a non existing player
-        String weaponChosen = "4:4";
+        String weaponChosen = "elena:elena";
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
             GameController.get().playWeapon(p1, weaponChosen, 0);
@@ -113,12 +116,14 @@ class GameControllerTest {
             System.out.println(e.getMessage());
         }
 
-        //test
-        weaponChosen = "user2:user3";
+        //test effects on lock rifle
+        weaponChosen = "user2 user2;user3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
-
-        System.out.println(p1.getWeapons().get(0).getEffectsList().get(0).getEffects().get(1).getTarget());
-
+        assertEquals(2, p2.getPlayerBoard().getDamage().size());
+        assertEquals(1, p2.getPlayerBoard().getMarks().size());
+        assertEquals(1, p3.getPlayerBoard().getMarks().size());
+        assertThrows(InvalidMoveException.class, () -> p1.getWeapons().get(0).getEffectsList().get(0).getEffects().get(1).getTarget().get(0).getCurrentPosition());
+        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
 
     @Test

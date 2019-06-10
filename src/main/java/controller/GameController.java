@@ -215,13 +215,58 @@ public class GameController{
 
     synchronized String prepareWeapon(Player player, String weaponEffects) {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
-            if (!checkWeaponEffects(player, weaponEffectsSplitted))
+        Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
+        if (!checkWeaponEffects(weapon, weaponEffectsSplitted))
                 throw new InvalidMoveException("Not valid sequence");
-            //Add effects to player
-            player.addEffectsToPlay(weaponEffectsSplitted);
-            //Ask player to fill effects
-            return getEffectsToFill(player);
+        //Add effects to player
+        player.addEffectsToPlay(weaponEffectsSplitted);
+        //Reinitialize weapon
+        Weapon newWeapon = weapon.initializeWeapon(weapon.getId());
+        newWeapon.setStatus(WeaponStatus.UNLOADED);
+        player.getWeapons().add(newWeapon);
+        player.getWeapons().remove(weapon);
+        //Ask player to fill effects
+        return getEffectsToFill(player);
     }
+
+    private synchronized boolean checkWeaponEffects(Weapon weapon, String[] weaponEffectsSplitted) {
+        //Check if player has the weapon
+        int sequenceSize = weaponEffectsSplitted.length - 1;
+        EffectType[] sequence = new EffectType[sequenceSize];
+        if(!weapon.isLoaded())
+            throw new InvalidMoveException("Weapon is not loaded");
+        //Check if effects are in correct order -- generate sequence array of effectTypes
+        for(int i=1; i<weaponEffectsSplitted.length; i++){
+            sequence[i-1] = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffectType();
+        }
+        System.out.println(Arrays.toString(sequence));
+        //Compare the sequence given with the correct sequences
+        if(sequenceSize == 1){
+            return Arrays.equals(sequence, new EffectType[]{BASIC}) ||
+                    Arrays.equals(sequence, new EffectType[]{ALTERNATIVE});
+        } else if(sequenceSize == 2){
+            return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL_VORTEX}) ||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC});
+        } else if(sequenceSize == 3){
+            return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, OPTIONAL})||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1, OPTIONAL2})||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, EVERY_TIME})||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME, OPTIONAL})||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, OPTIONAL})||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, OPTIONAL, BASIC})||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC, EVERY_TIME})||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_AFTER_BASIC, BASIC, EVERY_TIME })||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BEFORE_AFTER_BASIC, BASIC})||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, BEFORE_AFTER_BASIC})||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC, OPTIONAL})||
+                    Arrays.equals(sequence, new EffectType[]{OPTIONAL, BEFORE_BASIC, BASIC});
+        } else return false;
+    }
+
 
     private String getEffectsToFill(Player player) {
         StringBuilder string = new StringBuilder();
@@ -238,10 +283,10 @@ public class GameController{
 
     void playWeapon(Player player, String input, int groupID) {
         //Convert input to matrix
-        String[] inputSplitted = input.split(":");
+        String[] inputSplitted = input.split(";");
         String[][] inputMatrix = new String[inputSplitted.length][];
         for (int i = 0; i < inputSplitted.length; i++) {
-            inputMatrix[i] = inputSplitted[i].split(";");
+            inputMatrix[i] = inputSplitted[i].split(" ");
         }
         fillEffects(player, inputMatrix, groupID);
         //execute moves
@@ -254,10 +299,16 @@ public class GameController{
     }
 
     private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
+        for(String[] s1: inputMatrix){
+            for(String s2: s1){
+                System.out.println(s2+" ");
+            }
+        }
         int counter = 0;
         for(CardEffect c: player.getCurrentCardEffects()){
             for (Effect e : c.getEffects()) {
                 try{
+                    System.out.println(inputMatrix[counter]+" <-");
                    fillTargets(e, inputMatrix[counter], groupID);
                 }catch(NullPointerException d){
                     for(int i=counter; i<c.getEffects().size(); i++){
@@ -266,6 +317,7 @@ public class GameController{
                 break;
             }
             }
+            counter++;
         }
     }
 
@@ -337,44 +389,6 @@ public class GameController{
             throw new InvalidMoveException("You can't use yourself");
     }
 
-    private synchronized boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {
-        //Check if player has the weapon
-        Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
-        int sequenceSize = weaponEffectsSplitted.length - 1;
-        EffectType[] sequence = new EffectType[sequenceSize];
-        if(!weapon.isLoaded())
-            throw new InvalidMoveException("Weapon is not loaded");
-        //Check if effects are in correct order -- generate sequence array of effectTypes
-        for(int i=1; i<weaponEffectsSplitted.length; i++){
-            sequence[i-1] = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffectType();
-        }
-        System.out.println(Arrays.toString(sequence));
-        //Compare the sequence given with the correct sequences
-        if(sequenceSize == 1){
-            return Arrays.equals(sequence, new EffectType[]{BASIC}) ||
-                    Arrays.equals(sequence, new EffectType[]{ALTERNATIVE});
-        } else if(sequenceSize == 2){
-            return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL}) ||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1}) ||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC}) ||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME}) ||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL_VORTEX}) ||
-                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC});
-        } else if(sequenceSize == 3){
-            return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, OPTIONAL})||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1, OPTIONAL2})||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, EVERY_TIME})||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME, OPTIONAL})||
-                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, OPTIONAL})||
-                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, OPTIONAL, BASIC})||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC, EVERY_TIME})||
-                    Arrays.equals(sequence, new EffectType[]{BEFORE_AFTER_BASIC, BASIC, EVERY_TIME })||
-                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BEFORE_AFTER_BASIC, BASIC})||
-                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, BEFORE_AFTER_BASIC})||
-                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC, OPTIONAL})||
-                    Arrays.equals(sequence, new EffectType[]{OPTIONAL, BEFORE_BASIC, BASIC});
-        } else return false;
-    }
 
     void playPowerup(int groupId, Player player, Powerup powerup){
         //TODO
