@@ -12,8 +12,6 @@ import network.commands.response.GroupChangeNotification;
 import network.commands.response.MoveUpdateResponse;
 import network.commands.response.StartGameResponse;
 
-import java.io.IOException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -40,19 +38,15 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
     }
 
     @Override
-    public void init() throws IOException {
+    public void init(){
         System.out.println(">>> RMIClientHandler initialized");
     }
 
     @Override
     public void bound() throws RemoteException {
-        try {
-            RMIClientHandler newClientHandler = new RMIClientHandler();
-            Registry registry = LocateRegistry.getRegistry(1099);
-            registry.rebind("controller", newClientHandler);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        RMIClientHandler newClientHandler = new RMIClientHandler();
+        Registry registry = LocateRegistry.getRegistry(1099);
+        registry.rebind("controller", newClientHandler);
     }
 
     @Override

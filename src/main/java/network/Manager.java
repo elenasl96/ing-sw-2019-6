@@ -129,4 +129,12 @@ public class Manager {
     public List<User> getUsers() {
         return users;
     }
+
+    public User getUser(String username) {
+        for(User u : this.users){
+            if(u.getUsername().equals(username)){
+                return u;
+            }
+        } return null;
+    }
 }

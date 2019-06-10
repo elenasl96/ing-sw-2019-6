@@ -12,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import static model.enums.Phase.DISCONNECTED;
+
 public class SocketClientHandler implements ClientHandler,Runnable, ModelObserver {
     private static final String ERROR = "Errors in closing - ";
 
