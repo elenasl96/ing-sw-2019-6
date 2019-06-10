@@ -222,18 +222,23 @@ public class GameController{
 
     public void playWeapon(Player player, String input, int groupID) {
         //Convert input to matrix
-        String[] inputSplitted = input.split("\n");
+        String[] inputSplitted = input.split(":");
+        System.out.println("1");
         String[][] inputMatrix = new String[inputSplitted.length][];
+        System.out.println("2");
         for (int i = 0; i < inputSplitted.length; i++) {
+            System.out.println("3");
             inputMatrix[i] = inputSplitted[i].split(";");
         }
+        System.out.println("4");
         fillEffects(player, inputMatrix, groupID);
+        System.out.println("5");
         //execute moves
-        for(CardEffect c:player.getCurrentCardEffects()){
+        /*for(CardEffect c:player.getCurrentCardEffects()){
             for(Effect e: c.getEffects()){
                 e.execute(player, groupID);
             }
-        }
+        }*/
         //fill effect fields with player choices
     }
 
@@ -256,13 +261,11 @@ public class GameController{
         }
     }
 
-    private void checkTarget(Target t, String inputName, int groupID) {
-        Player target = GameContext.get().getGame(groupID).playerFromName(inputName);
-        if(target != null){
-            checkMinDistance(t, groupID);
-            checkMaxDistance(t, groupID);
-            checkTargetType(t, groupID);
-        }
+    private void checkTarget(Target target, String inputName, int groupID) {
+        Target player = GameContext.get().getGame(groupID).playerFromName(inputName);
+        checkMinDistance(target, groupID);
+        checkMaxDistance(target, groupID);
+        checkTargetType(target, groupID);
     }
 
     private void checkMaxDistance(Target t, int groupID) {

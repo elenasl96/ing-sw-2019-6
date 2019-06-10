@@ -10,6 +10,7 @@ import model.enums.Color;
 import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.Coordinate;
+import model.field.Field;
 import model.moves.Run;
 import model.room.Group;
 import model.room.Update;
@@ -93,16 +94,29 @@ class GameControllerTest {
     @Test
     void playWeaponTest(){
         WeaponDeck deck = new WeaponDeck();
-        Player p1 = new Player();
-        p1.getWeapons().add(deck.pickCard());
+        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
+        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        for(Player p: GameContext.get().getGame(0).getPlayers()){
+            p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
+        }
+        p1.getWeapons().add(deck.initializeWeapon(0));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 0";
+        System.out.println(GameContext.get().getGame(0).getPlayers().size());
+        // Choose a non existing player
+        String weaponChosen = "2:2";
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+            GameController.get().playWeapon(p1, weaponChosen, 0);
         }catch(IndexOutOfBoundsException|InvalidMoveException e){
             System.out.println(e.getMessage());
         }
+
+        //test
+        weaponChosen = "user2:user2";
+        GameController.get().playWeapon(p1, weaponChosen, 0);
+
     }
 
     @Test

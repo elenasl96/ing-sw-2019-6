@@ -2,6 +2,7 @@ package model;
 
 import controller.TimerController;
 import model.enums.Phase;
+import model.exception.InvalidMoveException;
 import model.room.ModelObserver;
 import model.room.Update;
 import model.room.User;
@@ -106,9 +107,9 @@ public class Game implements Serializable {
     }
 
     public Player playerFromName(String inputName) {
-        for(Player p: players){
-            if(p.getName().equals(inputName)) return p;
-        }
-        return null;
+            for (Player p : players) {
+                if (p.getName().equals(inputName)) return p;
+            }
+            throw new InvalidMoveException("Player doesn't exist");
     }
 }

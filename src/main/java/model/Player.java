@@ -78,6 +78,8 @@ public class Player extends Target implements Serializable{
 
     @Override
     public Square getCurrentPosition() {
+        if(this.currentPosition == null)
+            throw new InvalidMoveException(this.name+" position doesn't exist");
         return currentPosition;
     }
 
