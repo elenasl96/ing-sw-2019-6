@@ -62,6 +62,7 @@ public class ViewGui implements View {
     @Override
     public void onStart() {
         gui.initGUI();
+        System.out.println("Gui started");
         wait = false;
     }
 
@@ -82,12 +83,12 @@ public class ViewGui implements View {
             case "reload": {
                 data = update.getData().split(",");
                 gui.clearAmmoPanels();
-                for(int i=0;i<data.length;i++)
-                {
+                for(int i=0;i<data.length;i++) {
                     gui.changeAmmoPanel(data[i]);
                 }
             }
-            case "weapons": //TODO
+            case "weapons":
+            case "powerup":
             default: break;
         }
 

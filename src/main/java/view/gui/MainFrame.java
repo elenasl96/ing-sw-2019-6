@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
     private AmmoPanel ammoBlue;
     private AmmoPanel ammoYellow;
 
-    private JTextArea console;
+    private volatile JTextArea console;
     private JTextField commandLine;
     private JButton ok;
 
@@ -195,6 +195,9 @@ public class MainFrame extends JFrame {
     }
 
     public void setConsole(String message) {
+        while(console == null){
+            //wait
+        }
         console.append(message + "\n");
     }
 

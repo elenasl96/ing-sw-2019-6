@@ -277,7 +277,9 @@ public class ViewClient implements View {
 
     @Override
     public Response onUpdate(Update update) {
-        displayText("Update:" + update.toString());
+        if(update.toString()!= null) {
+            displayText("Update:" + update.toString());
+        }
         return null;
     }
 

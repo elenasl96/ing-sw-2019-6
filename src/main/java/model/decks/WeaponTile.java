@@ -27,7 +27,6 @@ public class WeaponTile implements Grabbable {
     @Override
     public void pickGrabbable(int groupID, int toPick) {
         Weapon weapon = this.weapons.get(toPick);
-
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
         //Try to pay the weapon
         if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED)) {
@@ -50,6 +49,7 @@ public class WeaponTile implements Grabbable {
         GameContext.get().getGame(groupID).sendUpdate(new Update(
                 GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                         " picked "+weapon.toString()));
+        //TODO
         this.weapons.remove(toPick);
         //Refills the weapon
         Weapon newWeapon = GameContext.get().getGame(groupID).getBoard().getWeaponsLeft().pickCard();
