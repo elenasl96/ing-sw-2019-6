@@ -47,7 +47,7 @@ public class GameController{
     }
 
 
-    public synchronized Update possibleMoves(Player player, int groupID) {
+    synchronized Update possibleMoves(Player player, int groupID) {
         StringBuilder content = new StringBuilder();
         switch (player.getPhase()){
             case FIRST: case SECOND:
@@ -80,11 +80,11 @@ public class GameController{
         return new Update(content.toString(),"updateconsole");
     }
 
-    public synchronized void setSpawn(Player player, int spawn, int groupID){
+    synchronized void setSpawn(Player player, int spawn, int groupID){
         //TODO
     }
 
-    public synchronized void setFirstSpawn(Player player, int spawn, int groupID) {
+    synchronized void setFirstSpawn(Player player, int spawn, int groupID) {
         Powerup discarded;
         if(isMyTurn(player, groupID) &&
                 GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(FIRST_SPAWN) &&
@@ -119,7 +119,7 @@ public class GameController{
         }
     }
 
-    public synchronized Update getSpawn(Player player, int groupID) {
+    synchronized Update getSpawn(Player player, int groupID) {
         if(!player.isDead()){
             player.getPowerups().add(GameContext.get().getGame(groupID)
                     .getBoard().getPowerupsLeft().pickCard());
@@ -130,7 +130,7 @@ public class GameController{
         return new Update(" Choose spawn point from:" + player.powerupsToString(), "updateconsole");
     }
 
-    public void updatePhase(int groupID){
+    void updatePhase(int groupID){
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         //go to next player and set phase
         switch(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase()) {
@@ -160,6 +160,16 @@ public class GameController{
                     player.setDead(true);
                     player.setPhase(WAIT);
                 } else {
+                    player.setPhase(FIRST);
+                }
+                break;
+            case DISCONNECTED:
+                GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
+                player = GameContext.get().getGame(groupID).getCurrentPlayer();
+                if(player.isDead()){
+                    player.setPhase(SPAWN);
+                }
+                else {
                     player.setPhase(FIRST);
                 }
                 break;
@@ -198,7 +208,7 @@ public class GameController{
         }
     }
 
-    public synchronized String prepareWeapon(Player player, String weaponEffects) {
+    synchronized String prepareWeapon(Player player, String weaponEffects) {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
             if (!checkWeaponEffects(player, weaponEffectsSplitted))
                 throw new InvalidMoveException("Not valid sequence");
@@ -221,7 +231,7 @@ public class GameController{
         return string.toString();
     }
 
-    public void playWeapon(Player player, String input, int groupID) {
+    void playWeapon(Player player, String input, int groupID) {
         //Convert input to matrix
         String[] inputSplitted = input.split(":");
         System.out.println("1");
@@ -357,13 +367,13 @@ public class GameController{
         } else return false;
     }
 
-    public void playPowerup(int groupId, Player player, Powerup powerup){
+    void playPowerup(int groupId, Player player, Powerup powerup){
         //TODO
     }
 
 
 
-    public List<Weapon> getWeaponToReload(Player player) {
+    List<Weapon> getWeaponToReload(Player player) {
         return player.getWeapons()
                 .stream().filter(w -> !w.getStatus().equals(WeaponStatus.LOADED))
                 .collect(Collectors.toList());
@@ -374,7 +384,7 @@ public class GameController{
         }*/
     }
 
-    public void reloadWeapon (int number, int groupID) {
+    void reloadWeapon (int number, int groupID) {
         //Check if the player has the necessary ammos
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         Weapon weapon = player.getWeapons().get(number);
