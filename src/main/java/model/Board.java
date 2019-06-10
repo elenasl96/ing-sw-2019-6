@@ -7,14 +7,44 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The board of the game, holding reference to the card decks, field and the killshotTrack
+ * @see Field
+ * @see WeaponDeck
+ * @see AmmoDeck
+ * @see PowerupDeck
+ */
 public class Board implements Serializable {
 
+    /**
+     * Reference to the Field of the game
+     */
     private Field field;
+
+    /**
+     * The killshot track, represented by an array of the players that took the respective skull
+     */
     private List<Player> killshotTrack;
+
+    /**
+     * The deck of the remaining weapons
+     */
     private transient WeaponDeck weaponsLeft;
+
+    /**
+     * The deck of the remaining ammo tile
+     */
     private transient AmmoDeck ammosLeft;
+
+    /**
+     * The deck of the remaining powerups
+     */
     private transient PowerupDeck powerupsLeft;
 
+    /**
+     * Constructor
+     * @param fieldNumber   the number of field chosen by the group creator
+     */
     public Board(int fieldNumber){
         this.killshotTrack = new ArrayList<>();
         this.weaponsLeft = new WeaponDeck();

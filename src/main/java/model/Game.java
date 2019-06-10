@@ -10,7 +10,17 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The class of each single game, Server Side
+ * @see Board
+ * @see Player
+ * @see GameContext
+ * @see model.room.Group
+ */
 public class Game implements Serializable {
+    /**
+     *
+     */
     private int numberPlayers;
     private Board board;
     private PlayerList players = new PlayerList();
@@ -20,10 +30,26 @@ public class Game implements Serializable {
     private transient boolean done;
     private transient boolean finalFrenzy;
 
+    /**
+     * Empty Constructor to avoid null pointer exception
+     */
     public Game(){
         //no need to initiate any variable
     }
 
+    /**
+     * Constructor de facto, called by the group, sets the all game up.
+     * Creates the board, sets the skullNumber as passed by parameters,
+     * creates a player for every user, setting the first one as the
+     * creator of the game. Sends an update to every user once the player
+     * is created and starts the game, setting the first player to FIRST_SPAWN phase
+     * @param skullNumber   the skullNumber of the game
+     * @param fieldNumber   the fieldNumber of the game
+     * @param users         the users of the group, that will join the game
+     * @see Phase
+     * @see Player
+     * @see model.room.Group
+     */
     public void setGame(int skullNumber, int fieldNumber, List<User> users) {
         this.skullsNumber = skullNumber;
         this.board = new Board(fieldNumber);
@@ -50,11 +76,6 @@ public class Game implements Serializable {
         Update update = new Update("It's "+currentPlayer.getName()+"'s turn");
         System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
         this.sendUpdate(update);
-        //TimerController.get().startTurnTimer(groupID);
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
     }
 
     int getNumberPlayers() {
@@ -73,14 +94,16 @@ public class Game implements Serializable {
         return players;
     }
 
-    public boolean isDone() {
-        return done;
-    }
-
     public boolean isFinalFrenzy(){
         return this.finalFrenzy;
     }
 
+    /**
+     * Adds a game observer, as specified by the Observer pattern
+     * The observers of the game are instances of interface ModelObserver
+     * @see ModelObserver
+     * @param observer  The observer of the game, that will be added to the list
+     */
     public void addObserverGame(ModelObserver observer) {
         this.observers.add(observer);
     }
