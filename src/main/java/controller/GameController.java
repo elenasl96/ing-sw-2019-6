@@ -162,6 +162,16 @@ public class GameController{
                     player.setPhase(FIRST);
                 }
                 break;
+            case DISCONNECTED:
+                GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
+                player = GameContext.get().getGame(groupID).getCurrentPlayer();
+                if(player.isDead()){
+                    player.setPhase(SPAWN);
+                }
+                else {
+                    player.setPhase(FIRST);
+                }
+                break;
             default:
                 break;
         }
