@@ -255,10 +255,13 @@ public class MainFrame extends JFrame {
             String[] oldCoord = charactersCoordinates[character].getCoordinate().split(" ");
             mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
                     .remove(charactersCoordinates[character].getIcon());
+            mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
+                    .repaint();
         }
 
         mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65]
                 .add(charactersCoordinates[character].getIcon());
+        mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65].repaint();
 
         charactersCoordinates[character].setCoordinate(coordinates);
     }
