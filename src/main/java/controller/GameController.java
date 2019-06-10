@@ -318,27 +318,25 @@ public class GameController{
 
     private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
         for(int i=0; i<player.getCurrentCardEffects().size(); i++){
-            try{
-               fillTargets(player.getCurrentCardEffects().get(i), inputMatrix[i], groupID);
-            }catch(NullPointerException d){
-                //for(i=i; i<player.getCurrentCardEffects().size(); i++){
-                //if(c.getEffects().get(i).getOptionality()) throw d;
+            for (int j=0; j<player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
+                try {
+                    fillTargets(player.getCurrentCardEffects().get(i).getEffects().get(j), inputMatrix[i], groupID);
+                } catch (NullPointerException d) {
+                    //for(i=i; i<player.getCurrentCardEffects().size(); i++){
+                    //if(c.getEffects().get(i).getOptionality()) throw d;
+                }
             }
         }
     }
 
-    private void fillTargets(CardEffect cardEffect, String[] inputMatrix, int groupID) {
-        int counter=0;
-        for (int j=0; j<cardEffect.getEffects().size(); j++) {
-            for (int k=0; k<cardEffect.getEffects().get(j).getTarget().size(); k++) {
-                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-                checkTarget(cardEffect.getEffects().get(j).getTarget().get(k), inputMatrix[j], groupID);
-                cardEffect.getEffects().get(j).getTarget().add(cardEffect.getEffects().get(j).getTarget().get(k)
-                        .setFieldsToFill(inputMatrix[counter], groupID));
-                cardEffect.getEffects().get(j).getTarget().remove(cardEffect.getEffects().get(j).getTarget().get(k));
-                cardEffect.getEffects().get(j).fillFields(inputMatrix, groupID);
-                counter++;
-            }
+    private void fillTargets(Effect effect, String[] inputMatrix, int groupID) {
+        for (int k=0; k<effect.getTarget().size(); k++) {
+            if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+            checkTarget(effect.getTarget().get(k), inputMatrix[k], groupID);
+            effect.getTarget().add(effect.getTarget().get(k)
+                    .setFieldsToFill(inputMatrix[k], groupID));
+            effect.getTarget().remove(effect.getTarget().get(k));
+            effect.fillFields(inputMatrix, groupID);
         }
     }
 
@@ -409,11 +407,6 @@ public class GameController{
         return player.getWeapons()
                 .stream().filter(w -> !w.getStatus().equals(WeaponStatus.LOADED))
                 .collect(Collectors.toList());
-      /*  } else {
-            player.getUser().receiveUpdate(
-                    new Update("You can reload these weapons: " + weaponsToReload.toString()));
-            return true;
-        }*/
     }
 
     void reloadWeapon (int number, int groupID) {
