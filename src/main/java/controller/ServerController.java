@@ -95,7 +95,7 @@ public class ServerController implements RequestHandler {
             if(user.getPlayer().getPhase().equals(DISCONNECTED)){
                 user.getPlayer().setPhase(WAIT);
                 System.out.println(user.getPlayer());
-                return new TextResponse("Welcome back!");
+                return new UserCreatedResponse(user);
             } else return new TextResponse("Invalid Username: already in use, choose another one");
         }
         // Listening to messages and sending them
