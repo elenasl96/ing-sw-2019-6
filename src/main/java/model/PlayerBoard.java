@@ -26,10 +26,13 @@ public class PlayerBoard implements Serializable {
      * @param pg player who is attacking
      * @param numDamage number of damages
      */
-    public void addDamage(Player pg, int numDamage) {
+    public int addDamage(Player pg, int numDamage) {
+        int damagesSuffered = 0;
         for(int i=0; i<min(numDamage, this.getNumDamageLeft()); i++){
             this.damage.add(pg);
+            damagesSuffered ++;
         }
+        return damagesSuffered;
     }
 
     /**

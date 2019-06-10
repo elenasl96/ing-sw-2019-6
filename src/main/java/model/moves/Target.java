@@ -4,6 +4,7 @@ import model.Player;
 import model.PlayerBoard;
 import model.enums.TargetType;
 import model.field.Square;
+import model.room.Update;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,9 +28,11 @@ public abstract class Target implements Serializable {
 
     void addDamages(Player playerDamaging, int damages, int groupId){
         for(PlayerBoard b : this.getPlayerBoards(groupId)){
-            b.addDamage(playerDamaging, damages);
+            this.receiveUpdate(new Update("You received " + b.addDamage(playerDamaging, damages)+ " damages."));
         }
     }
+
+    public abstract void receiveUpdate(Update update);
 
     public TargetType getTargetType() {
         return targetType;

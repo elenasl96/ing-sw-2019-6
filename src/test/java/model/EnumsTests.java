@@ -28,7 +28,6 @@ class EnumsTests {
         assertEquals(SECOND, Phase.fromInteger(2));
         assertEquals(RELOAD, Phase.fromInteger(3));
         assertEquals(SPAWN, Phase.fromInteger(4));
-        assertEquals(WAIT, Phase.fromInteger(11));
 
         Phase phase = SPAWN;
         assertTrue(phase.equalsTo(SPAWN));

@@ -7,6 +7,7 @@ import model.enums.Color;
 import model.enums.TargetType;
 import model.exception.InvalidMoveException;
 import model.moves.Target;
+import model.room.Update;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,6 +66,11 @@ public class Square extends Target implements Serializable {
             boards.add(p.getPlayerBoards(groupId).get(0));
         }
         return boards;
+    }
+
+    @Override
+    public void receiveUpdate(Update update) {
+        //TODO send update to all users in that square
     }
 
     @Override

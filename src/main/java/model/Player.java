@@ -12,6 +12,7 @@ import model.field.Field;
 import model.field.Square;
 import model.moves.Move;
 import model.moves.Target;
+import model.room.Update;
 import model.room.User;
 
 import java.io.Serializable;
@@ -132,6 +133,11 @@ public class Player extends Target implements Serializable{
         ArrayList<PlayerBoard> returns = new ArrayList<>();
         returns.add(playerBoard);
         return returns;
+    }
+
+    @Override
+    public void receiveUpdate(Update update) {
+        user.receiveUpdate(update);
     }
 
     @Override

@@ -6,6 +6,7 @@ import model.PlayerBoard;
 import model.enums.Color;
 import model.enums.TargetType;
 import model.moves.Target;
+import model.room.Update;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -54,6 +55,11 @@ public class Room extends Target {
             }
         }
         return list;
+    }
+
+    @Override
+    public void receiveUpdate(Update update) {
+        //TODO implement send update to all room
     }
 
     @Override
