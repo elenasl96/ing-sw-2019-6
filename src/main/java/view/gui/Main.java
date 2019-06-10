@@ -26,6 +26,7 @@ public class Main {
         gui = new MainFrame(null);
 
         gui.initGUI();
+        gui.setVisible(true);
     }
 
     public static void main(String[] args) {
@@ -54,18 +55,6 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-        (main.gui.getMapGrid())[1][1].remove(2);
-        (main.gui.getMapGrid())[1][1].repaint();
-        System.out.println(main.gui.getMove());
-
-        try {
-            (main.gui.getMapGrid())[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina4.jpg"))
-                    .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-        (main.gui.getMapGrid())[1][1].repaint();
         System.out.println(main.gui.getMove());
         System.out.println(main.gui.getMove());
         System.out.println(main.gui.getMove());

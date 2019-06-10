@@ -3,17 +3,19 @@ package model.enums;
 import java.io.Serializable;
 
 public enum Character implements Serializable {
-    NOT_ASSIGNED("NOT_ASSIGNED", Color.NONE, "NOT_ASSIGNED"),
-    PG1(":D-STRUCT-OR", Color.YELLOW, "PG1"),
-    PG2("BANSHEE", Color.BLUE, "PG2"),
-    PG3("DOZER", Color.GREY, "PG3"),
-    PG4("VIOLET", Color.PURPLE, "PG4"),
-    PG5("SPROG", Color.GREEN, "PG5");
+    NOT_ASSIGNED("NOT_ASSIGNED", Color.NONE, "NOT_ASSIGNED",0),
+    PG1(":D-STRUCT-OR", Color.YELLOW, "PG1",1),
+    PG2("BANSHEE", Color.BLUE, "PG2",2),
+    PG3("DOZER", Color.GREY, "PG3",3),
+    PG4("VIOLET", Color.PURPLE, "PG4",4),
+    PG5("SPROG", Color.GREEN, "PG5",5);
 
     private String def;
+    private int num;
 
-    Character(String name, Color color, String def){
+    Character(String name, Color color, String def, int num){
         this.def = def;
+        this.num = num;
     }
 
     public static Character fromInteger(int x) {
@@ -36,5 +38,9 @@ public enum Character implements Serializable {
     @Override
     public String toString(){
         return this.def;
+    }
+
+    public int getNum() {
+        return num;
     }
 }

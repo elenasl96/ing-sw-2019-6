@@ -109,10 +109,13 @@ public class GameController{
             //send updates
             GameContext.get().getGame(groupID).sendUpdate(new Update(
                     "\n>>> Player " + player.getName()+ " discarded:\n" +
-                        "==========Powerup========\n"
-                        + discarded.toString()
-                        +"\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString(), "updateconsole"));
+                        "==========Powerup========\n" + discarded.toString(), "updateconsole"));
+            GameContext.get().getGame(groupID).sendUpdate(new Update("\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
+            Update update = new Update(null,"movement");
+            update.setData(player.getCharacter().getNum() + ";" + player.getCurrentPosition().toString().replace("[","").replace("]",""));
+            GameContext.get().getGame(groupID).sendUpdate(update);
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer(), true));
+
         } else {
             player.getUser().receiveUpdate(new Update(player, true));
             player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + GameContext.get().getGame(groupID).getCurrentPlayer().toString(),"updateconsole"));

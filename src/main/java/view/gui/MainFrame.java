@@ -241,18 +241,10 @@ public class MainFrame extends JFrame {
                     cont++;
                 }
             }
-
-            JLabel pedina = new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina0.jpg"))
-                    .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH)));
-            mapGrid[1][1].add(charactersCoordinates[0].getIcon());
-            mapGrid[1][1].add(charactersCoordinates[1].getIcon());
-            mapGrid[1][1].add(charactersCoordinates[2].getIcon());
-            mapGrid[1][1].add(charactersCoordinates[3].getIcon());
         }
         catch(IOException exception)
         {
             System.out.println("Error");
-
         }
     }
 
