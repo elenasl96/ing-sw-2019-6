@@ -36,4 +36,6 @@ public interface View extends ModelObserver {
     String userInput();
 
     String askEffects();
+
+    void playMusic(String s);
 }

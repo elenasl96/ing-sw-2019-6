@@ -45,6 +45,8 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      */
     private boolean gameNotDone;
 
+    private boolean musicLoop;
+
     public ClientController(RemoteController socketClient, View view) throws RemoteException {
         super();
         this.client = socketClient;
@@ -63,6 +65,10 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      * @see ClientContext#getCurrentUser()
      */
     public User createUser(String username) throws RemoteException{
+        musicLoop = true;
+        while(musicLoop) {
+            view.playMusic("src/resources/Music/WaitingRoom.wav");
+        }
         client.request(new CreateUserRequest(username));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser();
@@ -184,6 +190,17 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 break;
             default:
                 break;
+        }
+    }
+
+    public void stopMusicLoop(){
+        this.musicLoop = false;
+    }
+
+    public void startMusicLoop(String s){
+        musicLoop = true;
+        while(musicLoop){
+            view.playMusic(s);
         }
     }
     // -------------------------- Response handling

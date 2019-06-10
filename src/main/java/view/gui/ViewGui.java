@@ -192,4 +192,8 @@ public class ViewGui implements View {
         }
     }
 
+    @Override
+    public void playMusic(String s){
+        viewCli.playMusic(s);
+    }
 }

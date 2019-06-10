@@ -1,28 +1,49 @@
 package view;
 
-
-import com.sun.media.sound.InvalidFormatException;
 import controller.ClientController;
+import model.enums.Character;
 import model.exception.NotExistingFieldException;
 import model.field.Coordinate;
-import model.room.*;
-import model.enums.Character;
-import network.exceptions.InvalidGroupNumberException;
+import model.room.Group;
+import model.room.Update;
+import model.room.User;
 import network.ClientContext;
 import network.commands.Response;
+import network.exceptions.InvalidGroupNumberException;
 
+import javax.sound.sampled.*;
+import java.io.*;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class ViewClient implements View {
     private Scanner fromKeyBoard;
-    // ----- The view is composed with the controller (strategy)
     private ClientController controller;
     private volatile boolean wait=true;
     private static final String PLEASE_NUMBER = "Please insert a Number";
 
     public ViewClient() {
         this.fromKeyBoard = new Scanner(System.in);
+    }
+
+    public void playMusic(String string){
+        try {
+            File yourFile = new File(string);
+            AudioInputStream stream;
+            AudioFormat format;
+            DataLine.Info info;
+            Clip clip;
+
+            stream = AudioSystem.getAudioInputStream(yourFile);
+            format = stream.getFormat();
+            info = new DataLine.Info(Clip.class, format);
+            clip = (Clip) AudioSystem.getLine(info);
+            clip.open(stream);
+            clip.start();
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+            displayText("Error!!");
+            e.printStackTrace();
+        }
     }
 
     public void run() {
