@@ -1,13 +1,11 @@
 package model.field;
 
-import model.Board;
-import model.GameContext;
-import model.Player;
-import model.PlayerBoard;
+import model.*;
 import model.decks.Grabbable;
 import model.decks.Weapon;
 import model.enums.Color;
 import model.enums.TargetType;
+import model.exception.InvalidMoveException;
 import model.moves.Target;
 
 import java.io.Serializable;
@@ -94,12 +92,38 @@ public class Square extends Target implements Serializable {
 
     @Override
     public Square setFieldsToFill(String input, int groupID) {
-        return GameContext.get().getGame(0).squareFromCoordinate(input);
+        return (Square) this.findRealTarget(input, groupID);
     }
 
     @Override
     public Square getCurrentPosition() {
         return null;
+    }
+
+    @Override
+    public Target findRealTarget(String inputName, int groupID) {
+        char letter;
+        int number;
+        String[] inputSplitted = inputName.split(" ");
+        if(inputSplitted.length !=2 || inputSplitted[0].length()!=1 || inputSplitted[1].length()!=1){
+            throw new NumberFormatException();
+        } else {
+            letter = inputSplitted[0].toUpperCase().charAt(0);
+            if (!java.lang.Character.isLetter(letter)){
+                throw new NumberFormatException();
+            }
+            number = Integer.parseInt(inputSplitted[1]);
+            Coordinate coordinate = new Coordinate(letter, number);
+            for(Square s: GameContext.get().getGame(groupID).getBoard().getField().getSquares()){
+                if(s.getCoord().equals(coordinate)) return s;
+            }
+            throw new InvalidMoveException("Square " + coordinate + " doesn't exist.");
+        }
+    }
+
+    @Override
+    public boolean sameAsMe(int groupID) {
+        return false;
     }
 
     @Override

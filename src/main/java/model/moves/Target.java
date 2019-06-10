@@ -51,4 +51,7 @@ public abstract class Target implements Serializable {
 
     public abstract Square getCurrentPosition();
 
+    public abstract Target findRealTarget(String inputName, int groupID);
+
+    public abstract boolean sameAsMe(int groupID);
 }

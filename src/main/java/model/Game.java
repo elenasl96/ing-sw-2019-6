@@ -5,6 +5,7 @@ import model.enums.Phase;
 import model.exception.InvalidMoveException;
 import model.field.Coordinate;
 import model.field.Square;
+import model.moves.Target;
 import model.room.ModelObserver;
 import model.room.Update;
 import model.room.User;
@@ -106,32 +107,5 @@ public class Game implements Serializable {
 
     public void setFinalFrenzy(boolean finalFrenzy) {
         this.finalFrenzy = finalFrenzy;
-    }
-
-    public Player playerFromName(String inputName) {
-            for (Player p : players) {
-                if (p.getName().equals(inputName)) return p;
-            }
-            throw new InvalidMoveException("Player doesn't exist");
-    }
-
-    public Square squareFromCoordinate(String input) {
-        char letter;
-        int number;
-        String[] inputSplitted = input.split(" ");
-        if(inputSplitted.length !=2 || inputSplitted[0].length()!=1 || inputSplitted[1].length()!=1){
-            throw new NumberFormatException();
-        } else {
-            letter = inputSplitted[0].toUpperCase().charAt(0);
-            if (!java.lang.Character.isLetter(letter)){
-                throw new NumberFormatException();
-            }
-            number = Integer.parseInt(inputSplitted[1]);
-            Coordinate coordinate = new Coordinate(letter, number);
-            for(Square s: this.getBoard().getField().getSquares()){
-                if(s.getCoord().equals(coordinate)) return s;
-            }
-            throw new InvalidMoveException("Square " + coordinate + " doesn't exist.");
-        }
     }
 }

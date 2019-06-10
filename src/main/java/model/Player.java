@@ -83,6 +83,19 @@ public class Player extends Target implements Serializable{
         return currentPosition;
     }
 
+    @Override
+    public Target findRealTarget(String inputName, int groupID) {
+        for (Player p : GameContext.get().getGame(groupID).getPlayers()) {
+            if (p.getName().equals(inputName)) return p;
+        }
+        throw new InvalidMoveException("Player doesn't exist");
+    }
+
+    @Override
+    public boolean sameAsMe(int groupID) {
+        return false;
+    }
+
     public void setCurrentPosition(Square destination) {
         this.currentPosition = destination;
     }
@@ -286,7 +299,7 @@ public class Player extends Target implements Serializable{
 
     @Override
     public Player setFieldsToFill(String inputName, int groupID) {
-        return GameContext.get().getGame(0).playerFromName(inputName);
+        return (Player) this.findRealTarget(inputName, groupID);
     }
 
     public void generateVisible(int groupID){
