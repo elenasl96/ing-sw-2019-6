@@ -47,7 +47,7 @@ public abstract class Target implements Serializable {
 
     public abstract boolean canBeSeen(Player player, int groupID);
 
-    public abstract void setFieldsToFill(String inputMatrix, int groupID);
+    public abstract Target setFieldsToFill(String inputMatrix, int groupID);
 
     public abstract Square getCurrentPosition();
 

@@ -93,11 +93,8 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
-    public void setFieldsToFill(String input, int groupID) {
-        if(this.coord == null){
-            this.coord= fillCoordinate(input);
-        }
-
+    public Square setFieldsToFill(String input, int groupID) {
+        return GameContext.get().getGame(0).squareFromCoordinate(input);
     }
 
     @Override

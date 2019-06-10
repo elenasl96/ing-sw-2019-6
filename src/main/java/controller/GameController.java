@@ -12,6 +12,7 @@ import model.enums.EffectType;
 import model.enums.Phase;
 import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
+import model.field.Square;
 import model.moves.Effect;
 import model.moves.Pay;
 import model.moves.Target;
@@ -249,60 +250,64 @@ public class GameController{
             for (Effect e : c.getEffects()) {
                 try {
                     for (Target t : e.getTarget()) {
+                        if(inputMatrix[counter].length <= counter2) throw new InvalidMoveException("fields missing");
                         checkTarget(t, inputMatrix[counter][counter2], groupID);
-                        counter2++;
                         e.fillFields(inputMatrix[counter], groupID);
+                        counter2++;
                     }
                 }catch(NullPointerException | InvalidMoveException d){
-                    if(e.getOptionality()) break;
-                    else throw d;
+                    for(int i=counter2; i<c.getEffects().size(); i++){
+                        if(c.getEffects().get(i).getOptionality()) throw d;
+                    }
+                    break;
                 }
             }
         }
     }
 
     private void checkTarget(Target target, String inputName, int groupID) {
-        Target player = GameContext.get().getGame(groupID).playerFromName(inputName);
-        checkMinDistance(target, groupID);
-        checkMaxDistance(target, groupID);
-        checkTargetType(target, groupID);
+        Square targetPosition = GameContext.get().getGame(groupID).playerFromName(inputName).getCurrentPosition();
+        checkMinDistance(target, targetPosition, groupID);
+        checkMaxDistance(target, targetPosition, groupID);
+        checkTargetType(target, targetPosition, groupID);
+        target = target.setFieldsToFill(inputName, groupID);
     }
 
-    private void checkMaxDistance(Target t, int groupID) {
+    private void checkMaxDistance(Target t, Square targetPosition, int groupID) {
         if(t.getMaxDistance() != null){
-            t.getCurrentPosition().getReachSquares().clear();
-            t.getCurrentPosition().createReachList(t.getMaxDistance(), t.getCurrentPosition().getReachSquares(),
+           targetPosition.getReachSquares().clear();
+           targetPosition.createReachList(t.getMaxDistance(), t.getCurrentPosition().getReachSquares(),
                     GameContext.get().getGame(groupID).getBoard().getField());
-            if(!t.getCurrentPosition().getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+            if(!targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
                 throw new InvalidMoveException("Invalid max distance");
         }
     }
 
-    private void checkMinDistance(Target t, int groupID) {
+    private void checkMinDistance(Target t, Square targetPosition, int groupID) {
         if(t.getMinDistance() != null) {
             if (t.getMinDistance() == 0) {
-                if(!t.getCurrentPosition()
+                if(!targetPosition
                         .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
                     throw new InvalidMoveException("Invalid distance");
             }else{
-                t.getCurrentPosition().createReachList(t.getMinDistance() - 1, t.getCurrentPosition().getReachSquares(),
+                targetPosition.createReachList(t.getMinDistance() - 1, t.getCurrentPosition().getReachSquares(),
                         GameContext.get().getGame(groupID).getBoard().getField());
-                if (t.getCurrentPosition().getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+                if (targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
                     throw new InvalidMoveException("Invalid distance");
             }
         }
     }
 
-    private void checkTargetType(Target target, int groupID) {
+    private void checkTargetType(Target target, Square targetPosition, int groupID) {
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         player.generateVisible(groupID);
         switch (target.getTargetType()) {
             case VISIBLE:
-                if (!player.getVisible().contains(target.getCurrentPosition()))
+                if (!player.getVisible().contains(targetPosition))
                     throw new InvalidMoveException("Not visible target");
                 break;
             case NOT_VISIBLE:
-                if (player.getVisible().contains(target.getCurrentPosition()))
+                if (player.getVisible().contains(targetPosition))
                     throw new InvalidMoveException("Not not visible target");
                 break;
             case NONE:

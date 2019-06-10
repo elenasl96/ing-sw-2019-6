@@ -285,10 +285,8 @@ public class Player extends Target implements Serializable{
     }
 
     @Override
-    public void setFieldsToFill(String inputName, int groupID) {
-        if(this.getName() == null){
-            throw new InvalidMoveException("Wrong player");
-        }
+    public Player setFieldsToFill(String inputName, int groupID) {
+        return GameContext.get().getGame(0).playerFromName(inputName);
     }
 
     public void generateVisible(int groupID){
