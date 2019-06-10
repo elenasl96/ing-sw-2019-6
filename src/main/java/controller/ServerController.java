@@ -67,6 +67,7 @@ public class ServerController implements RequestHandler {
      * @see SocketClientHandler#run()  for usage
      */
     public void connectionLost(){
+        user.getPlayer().setPhase(DISCONNECTED);
         currentGroup.leave(user);
     }
 
@@ -88,14 +89,17 @@ public class ServerController implements RequestHandler {
             user = Manager.get().createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
         } catch (InvalidUsernameException e) {
-
+            user = Manager.get().getUser(request.username);
+            System.out.println(">>> Invalid Username");
+            System.out.println(user.getPlayer());
             if(user.getPlayer().getPhase().equals(DISCONNECTED)){
                 user.getPlayer().setPhase(WAIT);
+                System.out.println(user.getPlayer());
                 return new TextResponse("Welcome back!");
-            }
+            } else return new TextResponse("Invalid Username: already in use, choose another one");
         }
         // Listening to messages and sending them
-        user.listenToMessages((ModelObserver) clientHandler);
+        user.listenToMessages(clientHandler);
         System.out.println(">>> Returning new UserCreatedResponse");
         return new UserCreatedResponse(user);
     }
