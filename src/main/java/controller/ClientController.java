@@ -1,5 +1,6 @@
 package controller;
 
+import model.Player;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
@@ -145,6 +146,9 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         view.chooseUsernamePhase();
         view.chooseGroupPhase();
         view.chooseCharacterPhase();
+        ClientContext.get().createPlayer();
+        ClientContext.get().getCurrentPlayer().setPhase(WAIT);
+        System.out.println(ClientContext.get().getCurrentPlayer());
         while(gameNotDone) {
             view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT));
             view.waitingPhase();

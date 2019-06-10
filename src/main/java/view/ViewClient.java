@@ -168,9 +168,6 @@ public class ViewClient implements View {
         displayText("You are" + response);
         ClientContext.get().getCurrentGroup().observe(this);
         controller.startReceiverThread();
-        //noinspection StatementWithEmptyBody
-        while(wait);
-        //blocked until the game can start
     }
 
     public Integer spawnPhase(){

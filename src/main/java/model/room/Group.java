@@ -206,7 +206,9 @@ public class Group implements Serializable {
     }
 
     public synchronized void sendStartNotification() {
-
+        if(listeners.size()==2){
+            listeners.remove(0);
+        }
         for (ModelObserver listener : listeners) {
             listener.onStart();
         }
