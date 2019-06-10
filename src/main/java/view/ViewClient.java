@@ -285,6 +285,7 @@ public class ViewClient implements View {
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
+        this.playMusic("src/resources/Music/Intro.wav");
     }
 
     @Override
