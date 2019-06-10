@@ -51,28 +51,41 @@ public class GameController{
 
     synchronized Update possibleMoves(Player player, int groupID) {
         StringBuilder content = new StringBuilder();
+        Update update;
         switch (player.getPhase()){
             case FIRST: case SECOND:
                 content.append("\nThese are the moves you can choose");
+                StringBuilder forGui = new StringBuilder("");
                 if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
                     content.append("\n||RUN||");
-                    if(!player.getCurrentPosition().isEmpty())
+                    forGui.append("RUN;");
+                    if(!player.getCurrentPosition().isEmpty()) {
                         content.append("\n||GRAB||");
-                    if(!player.getWeapons().isEmpty())
+                        forGui.append("GRAB;");
+                    }
+                    if(!player.getWeapons().isEmpty()) {
                         content.append("\n||SHOOT||").append(player.weaponsToString());
+                        forGui.append("SHOOT;");
+                    }
                 } else {
                     if(player.isFirstPlayer()){
                         content.append("shoot (move up to 2 squares, reload, shoot)\n" +
                                 "grab (move up to 3 squares, grab)");
+                        forGui.append("GRAB;").append("SHOOT;");
                     } else {
                         content.append("shoot (move up to 1 squares, reload, shoot)\n" +
                                 "run (move up to 4 squares)\n" +
                                 "grab (move up to 2 squares, grab)");
+                        forGui.append("RUN;").append("GRAB;").append("SHOOT;");
                     }
                 }
-                if(!player.getPowerups().isEmpty())
+                if(!player.getPowerups().isEmpty()) {
                     content.append("\n||POWERUPS||").append(player.powerupsToString());
-                break;
+                    forGui.append("POWERUPS;");
+                }
+                update = new Update(content.toString(),"disablebutton");
+                update.setData(forGui.toString().substring(0,forGui.toString().length()-1));
+                return update;
             case RELOAD:
                 content.append("You can reload:\n").append(player.getWeapons());
                 break;
@@ -111,7 +124,7 @@ public class GameController{
             //send updates
             GameContext.get().getGame(groupID).sendUpdate(new Update(
                     "\n>>> Player " + player.getName()+ " discarded:\n" +
-                        "==========Powerup========\n" + discarded.toString(), "updateconsole"));
+                        "==========Powerup========\n" + discarded.toString(), UPDATECONSOLE));
             GameContext.get().getGame(groupID).sendUpdate(new Update("\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
             Update update = new Update(null,"movement");
             update.setData(player.getCharacter().getNum() + ";" + player.getCurrentPosition().toString().replace("[","").replace("]",""));
