@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
                         i+".jpg"))
                         .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
         }
     }
@@ -91,7 +91,7 @@ public class MainFrame extends JFrame {
             ammoYellow = new AmmoPanel(2,new ImageIcon(ImageIO.read(new File("src/resources/ammo3.png"))
                     .getScaledInstance(DIMAMMOIMAGE, DIMAMMOIMAGE, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         ammos.add(new JLabel("AMMO"));
@@ -164,14 +164,14 @@ public class MainFrame extends JFrame {
         printField(centralPanel);
 
         //Create bottom section of GUI
-        JPanel playerboard = new JPanel();
-        playerboard.add(new JLabel("PLAYER BOARD"));
+        JPanel playerBoard = new JPanel();
+        playerBoard.add(new JLabel("PLAYER BOARD"));
 
 
         add(centralPanel, BorderLayout.CENTER);
         add(left, BorderLayout.WEST);
         add(right, BorderLayout.EAST);
-        add(playerboard, BorderLayout.SOUTH);
+        add(playerBoard, BorderLayout.SOUTH);
 
         setSize(1000, 485);
         setResizable(false);
@@ -205,7 +205,7 @@ public class MainFrame extends JFrame {
                 lockInput.wait();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
 
             string = commandLine.getText();
@@ -220,7 +220,7 @@ public class MainFrame extends JFrame {
                 lockMove.wait();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
 
             return actionListener.getS();

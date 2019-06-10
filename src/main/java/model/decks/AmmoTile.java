@@ -27,11 +27,6 @@ public abstract class AmmoTile implements Grabbable {
     public List<Ammo> getAmmos() {
         return ammos;
     }
-
-    @Override
-    public void pickGrabbable(int groupID, int toPick) {
-        throw new InvalidMoveException("No weapon to grab here!");
-    }
 }
 
 class AmmoTileWithAmmo extends AmmoTile{

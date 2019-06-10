@@ -56,13 +56,14 @@ public class Main {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            System.out.println(e.getMessage());
         }
 
         (main.gui.getMapGrid())[1][1].remove(2);
@@ -73,7 +74,7 @@ public class Main {
             (main.gui.getMapGrid())[1][1].add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina4.jpg"))
                     .getScaledInstance(70, 60, Image.SCALE_SMOOTH))));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         (main.gui.getMapGrid())[1][1].repaint();

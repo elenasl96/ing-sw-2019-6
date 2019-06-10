@@ -1,4 +1,4 @@
-package model;
+package model.decks;
 
 import model.decks.AmmoDeck;
 import model.decks.AmmoTile;

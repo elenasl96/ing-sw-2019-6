@@ -42,7 +42,7 @@ public class ViewClient implements View {
             clip.start();
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             displayText("Error!!");
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
