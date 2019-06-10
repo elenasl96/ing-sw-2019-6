@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.RemoteException;
 
 public class SocketClient implements RemoteController {
     private final String host;
@@ -28,6 +29,11 @@ public class SocketClient implements RemoteController {
         connection = new Socket(host, port);
         out = new ObjectOutputStream(connection.getOutputStream());
         in = new ObjectInputStream(connection.getInputStream());
+    }
+
+    @Override
+    public void bound() throws RemoteException {
+        //RMI method
     }
 
     public void setPoisonous() throws IOException {

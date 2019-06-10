@@ -12,4 +12,6 @@ public interface RemoteController extends Remote {
     Response nextResponse() throws RemoteException;
     void received()throws RemoteException;
     void init()  throws IOException;
+
+    void bound() throws RemoteException;
 }

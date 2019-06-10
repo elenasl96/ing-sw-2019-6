@@ -73,7 +73,7 @@ public class LaunchClient {
 
         if(rmi.equals("yes")){
             while(clientHandler == null){
-                Registry registry = null;
+                Registry registry;
                 try {
                     registry = LocateRegistry.getRegistry();
                     for (String name : registry.list()) {
@@ -83,6 +83,7 @@ public class LaunchClient {
 
                     // gets a reference for the remote controller
                     clientHandler = (RemoteController) registry.lookup("controller");
+                    clientHandler.bound();
                 } catch (RemoteException | NotBoundException e) {
                     System.out.println("An error occurred");
                 }
