@@ -105,17 +105,19 @@ class GameControllerTest {
         String weaponsEffect = "3 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         // Choose a non existing player
-        String weaponChosen = "2:2";
+        String weaponChosen = "4:4";
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
             GameController.get().playWeapon(p1, weaponChosen, 0);
-        }catch(IndexOutOfBoundsException|InvalidMoveException e){
+        }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
 
         //test
-        weaponChosen = "user2:user2";
+        weaponChosen = "user2:user3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
+
+        System.out.println(p1.getWeapons().get(0).getEffectsList().get(0).getEffects().get(1).getTarget());
 
     }
 

@@ -83,6 +83,19 @@ public class Player extends Target implements Serializable{
         return currentPosition;
     }
 
+    @Override
+    public Target findRealTarget(String inputName, int groupID) {
+        for (Player p : GameContext.get().getGame(groupID).getPlayers()) {
+            if (p.getName().equals(inputName)) return p;
+        }
+        throw new InvalidMoveException("Player doesn't exist");
+    }
+
+    @Override
+    public boolean sameAsMe(int groupID) {
+        return this.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
+    }
+
     public void setCurrentPosition(Square destination) {
         this.currentPosition = destination;
     }
@@ -134,13 +147,13 @@ public class Player extends Target implements Serializable{
             return true;
         } else {
             List<Edge> edges= field.getEdges();
-            for(int i = 0; i < edges.size(); i++){
-                if((edges.get(i).getSq1().equals(p.getCurrentPosition())&&
-                        !edges.get(i).getSq2().getColor().equals(p.getCurrentPosition().getColor()) &&
-                        this.getCurrentPosition().getColor().equals(edges.get(i).getSq2().getColor()))
-                    || (edges.get(i).getSq2().equals(p.getCurrentPosition())&&
-                        !edges.get(i).getSq1().getColor().equals(p.getCurrentPosition().getColor()) &&
-                        this.getCurrentPosition().getColor().equals(edges.get(i).getSq1().getColor())))
+            for(Edge e: edges){
+                if((e.getSq1().equals(p.getCurrentPosition())&&
+                        !e.getSq2().getColor().equals(p.getCurrentPosition().getColor()) &&
+                        this.getCurrentPosition().getColor().equals(e.getSq2().getColor()))
+                    || (e.getSq2().equals(p.getCurrentPosition())&&
+                        !e.getSq1().getColor().equals(p.getCurrentPosition().getColor()) &&
+                        this.getCurrentPosition().getColor().equals(e.getSq1().getColor())))
                     return true;
             }
         }
@@ -286,7 +299,7 @@ public class Player extends Target implements Serializable{
 
     @Override
     public Player setFieldsToFill(String inputName, int groupID) {
-        return GameContext.get().getGame(0).playerFromName(inputName);
+        return (Player) this.findRealTarget(inputName, groupID);
     }
 
     public void generateVisible(int groupID){

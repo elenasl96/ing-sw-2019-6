@@ -92,4 +92,15 @@ public class Room extends Target {
         //nothing
         return null;
     }
+
+    @Override
+    public Target findRealTarget(String inputName, int groupID) {
+        //TODO find room
+        return null;
+    }
+
+    @Override
+    public boolean sameAsMe(int groupID) {
+        return false;
+    }
 }

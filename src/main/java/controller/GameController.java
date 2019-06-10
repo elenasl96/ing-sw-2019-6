@@ -1,6 +1,7 @@
 package controller;
 
 import model.decks.CardEffect;
+import model.enums.TargetType;
 import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.Ammo;
@@ -32,6 +33,7 @@ import static model.enums.Phase.*;
 
 public class GameController{
     private static GameController instance;
+    private static final String UPDATECONSOLE = "updateconsole";
     private GameController() {
     }
 
@@ -77,7 +79,7 @@ public class GameController{
             default:
                 break;
         }
-        return new Update(content.toString(),"updateconsole");
+        return new Update(content.toString(), UPDATECONSOLE);
     }
 
     synchronized void setSpawn(Player player, int spawn, int groupID){
@@ -103,7 +105,7 @@ public class GameController{
             //go to next player and set phase
             GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
             System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
-            GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn","updateconsole"));
+            GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn", UPDATECONSOLE));
             if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST);
             else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST_SPAWN);
             //send updates
@@ -118,7 +120,7 @@ public class GameController{
 
         } else {
             player.getUser().receiveUpdate(new Update(player, true));
-            player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + GameContext.get().getGame(groupID).getCurrentPlayer().toString(),"updateconsole"));
+            player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + GameContext.get().getGame(groupID).getCurrentPlayer().toString(), UPDATECONSOLE));
         }
     }
 
@@ -130,7 +132,7 @@ public class GameController{
         player.getPowerups().add(GameContext.get().getGame(groupID)
                 .getBoard().getPowerupsLeft().pickCard());
         System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
-        return new Update(" Choose spawn point from:" + player.powerupsToString(), "updateconsole");
+        return new Update(" Choose spawn point from:" + player.powerupsToString(), UPDATECONSOLE);
     }
 
     void updatePhase(int groupID){
@@ -237,53 +239,53 @@ public class GameController{
     void playWeapon(Player player, String input, int groupID) {
         //Convert input to matrix
         String[] inputSplitted = input.split(":");
-        System.out.println("1");
         String[][] inputMatrix = new String[inputSplitted.length][];
-        System.out.println("2");
         for (int i = 0; i < inputSplitted.length; i++) {
-            System.out.println("3");
             inputMatrix[i] = inputSplitted[i].split(";");
         }
-        System.out.println("4");
         fillEffects(player, inputMatrix, groupID);
-        System.out.println("5");
         //execute moves
-        /*for(CardEffect c:player.getCurrentCardEffects()){
+        for(CardEffect c:player.getCurrentCardEffects()){
             for(Effect e: c.getEffects()){
                 e.execute(player, groupID);
             }
-        }*/
+        }
         //fill effect fields with player choices
     }
 
     private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
         int counter = 0;
-        int counter2 = 0;
         for(CardEffect c: player.getCurrentCardEffects()){
             for (Effect e : c.getEffects()) {
-                try {
-                    for (Target t : e.getTarget()) {
-                        if(inputMatrix[counter].length <= counter2) throw new InvalidMoveException("fields missing");
-                        checkTarget(t, inputMatrix[counter][counter2], groupID);
-                        e.fillFields(inputMatrix[counter], groupID);
-                        counter2++;
-                    }
-                }catch(NullPointerException | InvalidMoveException d){
-                    for(int i=counter2; i<c.getEffects().size(); i++){
+                try{
+                   fillTargets(e, inputMatrix[counter], groupID);
+                }catch(NullPointerException d){
+                    for(int i=counter; i<c.getEffects().size(); i++){
                         if(c.getEffects().get(i).getOptionality()) throw d;
-                    }
-                    break;
                 }
+                break;
+            }
             }
         }
     }
 
+    private void fillTargets(Effect e, String[] inputMatrix, int groupID) {
+        int counter2 = 0;
+        for (Target t : e.getTarget()) {
+            if (counter2 >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+            checkTarget(t, inputMatrix[counter2], groupID);
+            e.getTarget().add(t.setFieldsToFill(inputMatrix[counter2], groupID));
+            e.getTarget().remove(t);
+            counter2++;
+        }
+        e.fillFields(inputMatrix, groupID);
+    }
+
     private void checkTarget(Target target, String inputName, int groupID) {
-        Square targetPosition = GameContext.get().getGame(groupID).playerFromName(inputName).getCurrentPosition();
-        checkMinDistance(target, targetPosition, groupID);
-        checkMaxDistance(target, targetPosition, groupID);
-        checkTargetType(target, targetPosition, groupID);
-        target = target.setFieldsToFill(inputName, groupID);
+        Target realTarget = target.findRealTarget(inputName, groupID);
+        checkMinDistance(target, realTarget.getCurrentPosition(), groupID);
+        checkMaxDistance(target, realTarget.getCurrentPosition(), groupID);
+        checkTargetType(target, realTarget, groupID);
     }
 
     private void checkMaxDistance(Target t, Square targetPosition, int groupID) {
@@ -311,24 +313,28 @@ public class GameController{
         }
     }
 
-    private void checkTargetType(Target target, Square targetPosition, int groupID) {
+    private void checkTargetType(Target target, Target realTarget, int groupID) {
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         player.generateVisible(groupID);
         switch (target.getTargetType()) {
             case VISIBLE:
-                if (!player.getVisible().contains(targetPosition))
+                if (!player.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Not visible target");
                 break;
             case NOT_VISIBLE:
-                if (player.getVisible().contains(targetPosition))
+                if (player.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Not not visible target");
                 break;
             case NONE:
+            break;
             case ME:
+                if(!realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You must use yourself");
                 break;
             default:
                 break;
         }
+        if(!target.getTargetType().equals(TargetType.ME) && realTarget.sameAsMe(groupID))
+            throw new InvalidMoveException("You can't use yourself");
     }
 
     private synchronized boolean checkWeaponEffects(Player player, String[] weaponEffectsSplitted) {
@@ -411,7 +417,7 @@ public class GameController{
             player.getUser().receiveUpdate(update);
         }catch (NotEnoughAmmoException e){
             e.getMessage();
-            player.getUser().receiveUpdate(new Update(e.getMessage(),"updateconsole"));
+            player.getUser().receiveUpdate(new Update(e.getMessage(), UPDATECONSOLE));
         }
         weapon.setStatus(WeaponStatus.LOADED);
     }

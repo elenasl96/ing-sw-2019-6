@@ -186,7 +186,7 @@ public class Group implements Serializable {
         for(ModelObserver listener : listeners){
             GameContext.get().getGame(this.getGroupID()).addObserverGame(listener);
         }
-        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, users, this.groupID);
+        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, users);
         //Fill the squares
         GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares()
                 .forEach(square->
