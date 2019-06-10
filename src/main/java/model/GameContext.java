@@ -12,7 +12,9 @@ import java.util.List;
 public class GameContext {
 
     private static GameContext instance;
+
     private List<Game> games;
+
     private GameContext() {
         this.games = new ArrayList<>();
     }
