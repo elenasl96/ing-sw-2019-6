@@ -159,7 +159,7 @@ public class ServerController implements RequestHandler {
         if (taken){
             return new SetCharacterResponse(Character.NOT_ASSIGNED);
         } else {
-            currentGroup.observe((ModelObserver) clientHandler);
+            currentGroup.observe(clientHandler);
             user.setCharacter(character);
             int count = 0;
             for(User u: currentGroup.users()){

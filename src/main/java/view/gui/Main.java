@@ -15,16 +15,9 @@ public class Main {
     private ClientController controller;
 
     public Main(ClientController clientController) {
-
         this.controller = clientController;
         gui = new MainFrame(null);
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                gui.initGUI();
-            }
-        });
+        gui.initGUI();
     }
 
 
@@ -32,12 +25,7 @@ public class Main {
 
         gui = new MainFrame(null);
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                gui.initGUI();
-            }
-        });
+        gui.initGUI();
     }
 
     public static void main(String[] args) {

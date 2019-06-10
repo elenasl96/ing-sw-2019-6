@@ -4,10 +4,12 @@ import controller.ClientController;
 import model.field.Coordinate;
 import model.room.Update;
 import model.room.User;
+import network.ClientContext;
 import view.ViewClient;
 import network.commands.Response;
 import view.View;
 
+import javax.swing.*;
 import java.rmi.RemoteException;
 
 public class ViewGui implements View {
@@ -19,6 +21,7 @@ public class ViewGui implements View {
 
     public ViewGui(){
         gui = new MainFrame(null);
+        gui.initGUI();
         viewCli = new ViewClient();
     }
 
@@ -61,7 +64,8 @@ public class ViewGui implements View {
 
     @Override
     public void onStart() {
-        gui.initGUI();
+        System.out.println("Gui starting");
+        gui.setVisible(true);
         System.out.println("Gui started");
         wait = false;
     }
@@ -69,29 +73,29 @@ public class ViewGui implements View {
     @Override
     public Response onUpdate(Update update) {
 
-        String data[];
-
-        switch(update.getMove())
-        {
-            case "movement":
-                data = update.getData().split(";");
-                gui.updateMap(Integer.parseInt(data[0]), data[1]);
-                break;
-            case "updateconsole":
-                gui.setConsole(update.toString());
-                break;
-            case "reload": {
-                data = update.getData().split(",");
-                gui.clearAmmoPanels();
-                for(int i=0;i<data.length;i++) {
-                    gui.changeAmmoPanel(data[i]);
+        String[] data;
+        if(update.getMove()!=null) {
+            switch (update.getMove()) {
+                case "movement":
+                    data = update.getData().split(";");
+                    gui.updateMap(Integer.parseInt(data[0]), data[1]);
+                    break;
+                case "updateconsole":
+                    gui.setConsole(update.toString());
+                    break;
+                case "reload": {
+                    data = update.getData().split(",");
+                    gui.clearAmmoPanels();
+                    for (int i = 0; i < data.length; i++) {
+                        gui.changeAmmoPanel(data[i]);
+                    }
                 }
+                case "weapons":
+                case "powerup":
+                default:
+                    break;
             }
-            case "weapons":
-            case "powerup":
-            default: break;
         }
-
         return null;
     }
 
@@ -109,6 +113,8 @@ public class ViewGui implements View {
     public void chooseUsernamePhase() throws RemoteException{
         viewCli.setClientController(controller);
         viewCli.chooseUsernamePhase();
+        ClientContext.get().getCurrentUser().listenToMessages(this);
+        System.out.println(ClientContext.get().getCurrentUser().getUpdateObservers());
     }
 
     @Override
@@ -119,6 +125,7 @@ public class ViewGui implements View {
     @Override
     public void chooseCharacterPhase() throws RemoteException{
         viewCli.chooseCharacterPhase();
+        ClientContext.get().getCurrentGroup().observe(this);
     }
 
     @Override

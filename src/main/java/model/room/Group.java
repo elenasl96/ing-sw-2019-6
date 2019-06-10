@@ -105,7 +105,6 @@ public class Group implements Serializable {
 
     public void leave(User user){
         checkUserInGroup(user);
-        users.remove(user);
 
         for(ModelObserver listener : listeners)
             listener.onLeave(user);
@@ -193,7 +192,7 @@ public class Group implements Serializable {
                 .forEach(square->
                     square.setGrabbable(GameContext.get().getGame(this.getGroupID()).getBoard())
         );
-        //Triggers onStart in the GroupChangeListeners
+        //Triggers onStart in the Listeners
         this.sendStartNotification();
     }
 
@@ -206,7 +205,8 @@ public class Group implements Serializable {
         return false;
     }
 
-    public void sendStartNotification() {
+    public synchronized void sendStartNotification() {
+
         for (ModelObserver listener : listeners) {
             listener.onStart();
         }

@@ -93,4 +93,8 @@ public class User implements Serializable, Comparable<User> {
     public Player getPlayer() {
         return player;
     }
+
+    public List<ModelObserver> getUpdateObservers() {
+        return updateObservers;
+    }
 }

@@ -39,6 +39,7 @@ public class SocketClientHandler implements ClientHandler,Runnable, ModelObserve
         try {
             out.writeObject(response);
         } catch (IOException e) {
+            controller.getUser().getPlayer().setPhase(DISCONNECTED);
             printError("IO - " + e.getMessage());
         }
     }

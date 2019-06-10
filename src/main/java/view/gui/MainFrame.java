@@ -61,25 +61,26 @@ public class MainFrame extends JFrame {
     }
 
     public void initGUI() {
+        System.out.println("Go");
 
-        // Try to comment it out
         setTitle("Adrenalina");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        System.out.println("1");
 
         //Create left section of GUI
         JPanel cardsContainer = new JPanel(new GridLayout(1, 2));
-
+        System.out.println("2");
         weapon = new JComboBox();
         powerUp = new JComboBox();
         for (int i = 0; i < 10; i++) {
             weapon.addItem(new String("Africa" + i));
             powerUp.addItem(new String("nostra" + i));
         }
-
+        System.out.println("3");
         cardsContainer.add(weapon);
         cardsContainer.add(powerUp);
-
+        System.out.println("4");
         JLabel name = new JLabel("NOME GIOCATORE");
         name.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel ammos = new JPanel(new GridLayout(4,1));
@@ -93,20 +94,20 @@ public class MainFrame extends JFrame {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
+        System.out.println("5");
         ammos.add(new JLabel("AMMO"));
         ammos.add(ammoRed);
         ammos.add(ammoBlue);
         ammos.add(ammoYellow);
         JLabel cardLabel = new JLabel("CARTE IN POSSESSO");
         cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
+        System.out.println("6");
         JPanel left = new JPanel(new GridLayout(4, 1));
         left.add(name);
         left.add(ammos);
         left.add(cardLabel);
         left.add(cardsContainer);
-
+        System.out.println("7");
         //Create right section of GUI
         console = new JTextArea("");
         console.setLineWrap(true);
@@ -121,14 +122,14 @@ public class MainFrame extends JFrame {
                 }
             }
         });
-
+        System.out.println("8");
         turnLight = new JPanel();
         turnLight.setBackground(Color.RED);
-
+        System.out.println("9");
         JPanel commandLineBar = new JPanel(new FlowLayout());
         commandLineBar.add(commandLine);
         commandLineBar.add(ok);
-
+        System.out.println("10");
         MoveButton grab = new MoveButton("Grab", "grab");
         MoveButton run = new MoveButton("Run", "run");
         MoveButton shoot = new MoveButton("Shoot", "0");
@@ -137,21 +138,21 @@ public class MainFrame extends JFrame {
         run.addActionListener(actionListener);
         shoot.addActionListener(actionListener);
         powerup.addActionListener(actionListener);
-
+        System.out.println("11");
         JPanel buttonContainer = new JPanel(new GridLayout(5, 1));
         buttonContainer.add(new JLabel("Actions"));
         buttonContainer.add(run);
         buttonContainer.add(grab);
         buttonContainer.add(shoot);
         buttonContainer.add(powerup);
-
+        System.out.println("12");
         JPanel middleRightContainer = new JPanel(new GridLayout(5, 1));
         middleRightContainer.add(new JLabel("Your turn"));
         middleRightContainer.add(turnLight);
         middleRightContainer.add(new JLabel("Insertion bar"));
         middleRightContainer.add(commandLineBar);
         middleRightContainer.add(new JLabel("Updates"));
-
+        System.out.println("13");
         JPanel right = new JPanel(new GridLayout(3, 1));
         right.add(buttonContainer);
         right.add(middleRightContainer);
@@ -176,28 +177,12 @@ public class MainFrame extends JFrame {
         setSize(1000, 485);
         setResizable(false);
 
-        // https://stackoverflow.com/questions/22982295/what-does-pack-do
-        setVisible(true);
-
-        weapon.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               shoot.setMove(weapon.getSelectedIndex()+"");
-            }
-        });
-
-        powerup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                powerup.setMove((powerUp.getSelectedIndex()+3)+"");
-            }
-        });
+        weapon.addActionListener(e -> shoot.setMove(weapon.getSelectedIndex()+""));
+        powerup.addActionListener(e -> powerup.setMove((powerUp.getSelectedIndex()+3)+""));
+        System.out.println("end");
     }
 
     public void setConsole(String message) {
-        while(console == null){
-            //wait
-        }
         console.append(message + "\n");
     }
 
