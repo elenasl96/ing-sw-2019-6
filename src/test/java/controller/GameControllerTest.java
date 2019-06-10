@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,6 +92,12 @@ class GameControllerTest {
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
         GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
 
+    }
+
+    @Test
+    void generateMatrixTest(){
+        String[][] matrix = GameController.get().generateMatrix("User1 User2 User3;User3 Square1;User1");
+        System.out.println(Arrays.deepToString(matrix));
     }
 
     @Test

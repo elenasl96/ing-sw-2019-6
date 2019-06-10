@@ -296,12 +296,8 @@ public class GameController{
 
     void playWeapon(Player player, String input, int groupID) {
         //Convert input to matrix
-        String[] inputSplitted = input.split(";");
-        String[][] inputMatrix = new String[inputSplitted.length][];
-        for (int i = 0; i < inputSplitted.length; i++) {
-            inputMatrix[i] = inputSplitted[i].split(" ");
-        }
-        fillEffects(player, inputMatrix, groupID);
+        String[][] effectsMatrix = generateMatrix(input);
+        fillEffects(player, effectsMatrix, groupID);
         //execute moves
         for(CardEffect c:player.getCurrentCardEffects()){
             for(Effect e: c.getEffects()){
@@ -311,39 +307,39 @@ public class GameController{
         //fill effect fields with player choices
     }
 
-    private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
-        for(String[] s1: inputMatrix){
-            for(String s2: s1){
-                System.out.println(s2+" ");
-            }
+    String[][] generateMatrix(String input) {
+        String[] inputSplitted = input.split(";");
+        String[][] inputMatrix = new String[inputSplitted.length][];
+        for (int i = 0; i < inputSplitted.length; i++) {
+            inputMatrix[i] = inputSplitted[i].split(" ");
         }
-        int counter = 0;
-        for(CardEffect c: player.getCurrentCardEffects()){
-            for (Effect e : c.getEffects()) {
-                try{
-                    System.out.println(inputMatrix[counter]+" <-");
-                   fillTargets(e, inputMatrix[counter], groupID);
-                }catch(NullPointerException d){
-                    for(int i=counter; i<c.getEffects().size(); i++){
-                        if(c.getEffects().get(i).getOptionality()) throw d;
-                }
-                break;
+        return inputMatrix;
+    }
+
+    private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
+        for(int i=0; i<player.getCurrentCardEffects().size(); i++){
+            try{
+               fillTargets(player.getCurrentCardEffects().get(i), inputMatrix[i], groupID);
+            }catch(NullPointerException d){
+                //for(i=i; i<player.getCurrentCardEffects().size(); i++){
+                //if(c.getEffects().get(i).getOptionality()) throw d;
             }
-            }
-            counter++;
         }
     }
 
-    private void fillTargets(Effect e, String[] inputMatrix, int groupID) {
-        int counter2 = 0;
-        for (Target t : e.getTarget()) {
-            if (counter2 >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-            checkTarget(t, inputMatrix[counter2], groupID);
-            e.getTarget().add(t.setFieldsToFill(inputMatrix[counter2], groupID));
-            e.getTarget().remove(t);
-            counter2++;
+    private void fillTargets(CardEffect cardEffect, String[] inputMatrix, int groupID) {
+        int counter=0;
+        for (int j=0; j<cardEffect.getEffects().size(); j++) {
+            for (int k=0; k<cardEffect.getEffects().get(j).getTarget().size(); k++) {
+                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+                checkTarget(cardEffect.getEffects().get(j).getTarget().get(k), inputMatrix[j], groupID);
+                cardEffect.getEffects().get(j).getTarget().add(cardEffect.getEffects().get(j).getTarget().get(k)
+                        .setFieldsToFill(inputMatrix[counter], groupID));
+                cardEffect.getEffects().get(j).getTarget().remove(cardEffect.getEffects().get(j).getTarget().get(k));
+                cardEffect.getEffects().get(j).fillFields(inputMatrix, groupID);
+                counter++;
+            }
         }
-        e.fillFields(inputMatrix, groupID);
     }
 
     private void checkTarget(Target target, String inputName, int groupID) {
