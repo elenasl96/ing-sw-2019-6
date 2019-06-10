@@ -8,7 +8,9 @@ import network.RemoteController;
 import network.commands.Request;
 import network.commands.Response;
 import network.commands.response.GameUpdateNotification;
+import network.commands.response.GroupChangeNotification;
 import network.commands.response.MoveUpdateResponse;
+import network.commands.response.StartGameResponse;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -36,22 +38,22 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
 
     @Override
     public void init() throws IOException {
-        //nothing
+        System.out.println(">>> RMIClientHandler initialized");
     }
 
     @Override
     public void onJoin(User u) {
-        //nothing
+        this.response = new GroupChangeNotification(true, u);
     }
 
     @Override
     public void onLeave(User u) {
-        //nothing
+        this.response = new GroupChangeNotification(false, u);
     }
 
     @Override
     public void onStart() {
-        //nothing
+        this.response = new StartGameResponse();
     }
 
     @Override

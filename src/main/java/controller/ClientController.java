@@ -100,6 +100,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                         try {
                             response = client.nextResponse();
                             if (response != null) {
+                                System.out.println(">>> Response received: "+response);
                                 response.handle(this);
                                 client.received();
                             }

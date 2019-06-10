@@ -47,7 +47,7 @@ public class Main {
             socketClient.init();
             clientController = new ClientController(socketClient);
         } catch(Exception e){
-            //niente
+            //nientes
         }*/
         //new Main(clientController);
         //clientController.run();

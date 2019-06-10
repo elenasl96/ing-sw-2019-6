@@ -1,6 +1,7 @@
 package view;
 
 
+import com.sun.media.sound.InvalidFormatException;
 import controller.ClientController;
 import model.exception.NotExistingFieldException;
 import model.field.Coordinate;
@@ -127,21 +128,23 @@ public class ViewClient implements View {
         displayText("Insert 4 for VIOLET");
         displayText("Insert 5 for SPROG");
         Character response;
-        try{
-            do{
-                int character = Integer.parseInt(userInput());
-                while (character < 1 || character > 5) {
-                    displayText("Choose between character from 1 to 5");
-                    character = Integer.parseInt(userInput());
-                }
-                response = controller.setCharacter(character);
-                if(response == Character.NOT_ASSIGNED)
-                    displayText("Character already taken, choose another one");
-            } while(response == Character.NOT_ASSIGNED);
-            displayText("You are" + response);
-        }catch (NumberFormatException e){
-            displayText(PLEASE_NUMBER);
-        }
+        do{
+            int character = 0;
+            try{
+                character = Integer.parseInt(userInput());
+            } catch (NumberFormatException e){
+                displayText(PLEASE_NUMBER);
+            }
+            if (character < 1 || character > 5) {
+                displayText("Choose between characters from 1 to 5");
+                response = Character.NOT_ASSIGNED;
+                continue;
+            }
+            response = controller.setCharacter(character);
+            if(response == Character.NOT_ASSIGNED)
+                displayText("Character already taken, choose another one");
+        } while(response == Character.NOT_ASSIGNED);
+        displayText("You are" + response);
         ClientContext.get().getCurrentGroup().observe(this);
         controller.startReceiverThread();
         //noinspection StatementWithEmptyBody
