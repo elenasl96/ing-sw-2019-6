@@ -91,7 +91,11 @@ public class ViewGui implements View {
                     }
                 }
                 case "weapons":
-                case "powerup":
+                case "powerup": break;
+                case "disablebutton": {
+                    data = update.getData().split(";");
+                    gui.disableButtons(data);
+                }
                 default:
                     break;
             }
@@ -101,7 +105,8 @@ public class ViewGui implements View {
 
     @Override
     public Coordinate getCoordinate() {
-        return viewCli.getCoordinate();
+        String[] alphabetCoordinate = gui.getCoordinate().split(" ");
+        return new Coordinate(alphabetCoordinate[0].toUpperCase().charAt(0), Integer.parseInt(alphabetCoordinate[1]));
     }
 
     @Override
