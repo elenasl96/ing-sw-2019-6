@@ -96,28 +96,7 @@ public class ViewGui implements View {
 
     @Override
     public Coordinate getCoordinate() {
-        displayText("Insert coordinates in format \'X 0\'");
-        char letter;
-        int number;
-        Coordinate coordinate = null;
-        while(coordinate == null){
-            String[] input = userInput().split(" ");
-            try {
-                if(input.length !=2 || input[0].length()!=1 || input[1].length()!=1){
-                    throw new NumberFormatException();
-                } else {
-                    letter = input[0].toUpperCase().charAt(0);
-                    if (!java.lang.Character.isLetter(letter)){
-                        throw new NumberFormatException();
-                    }
-                    number = Integer.parseInt(input[1]);
-                    coordinate = new Coordinate(letter, number);
-                }
-            } catch (NumberFormatException e){
-                displayText("Not a valid format! Examples\n A 4\nB 7\nF 5");
-            }
-        }
-        return coordinate;
+        return viewCli.getCoordinate();
     }
 
     @Override
