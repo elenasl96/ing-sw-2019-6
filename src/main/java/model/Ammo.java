@@ -4,21 +4,31 @@ import model.enums.Color;
 
 import java.io.Serializable;
 
+/**
+ * Class for the ammos of the game
+ */
 public class Ammo implements Serializable {
+    /**
+     * The color of the ammo
+     */
     private Color color;
 
+    /**
+     * Constructor
+     * @param color the color of the ammo
+     */
     public Ammo(Color color){
         this.color = color;
     }
 
-    public Color getColor() {
 
+    public Color getColor() {
         return color;
     }
 
+    @Override
     public String toString(){
         return  this.getColor().getName() + " ";
-
     }
 
     @Override
@@ -39,7 +49,11 @@ public class Ammo implements Serializable {
         return super.hashCode();
     }
 
-    public Ammo cloneAmmo() {
+    /**
+     * Method that returns a new Ammo of the same color of this ammo object.
+     * @return  a new Ammo, same color of this one
+     */
+    Ammo cloneAmmo() {
         return new Ammo(color);
     }
 }
