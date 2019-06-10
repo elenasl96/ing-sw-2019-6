@@ -1,11 +1,6 @@
 package model;
 
-import controller.TimerController;
 import model.enums.Phase;
-import model.exception.InvalidMoveException;
-import model.field.Coordinate;
-import model.field.Square;
-import model.moves.Target;
 import model.room.ModelObserver;
 import model.room.Update;
 import model.room.User;
@@ -25,15 +20,11 @@ public class Game implements Serializable {
     private transient boolean done;
     private transient boolean finalFrenzy;
 
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
     public Game(){
         //no need to initiate any variable
     }
 
-    public void setGame(int skullNumber, int fieldNumber, List<User> users, int groupID) {
+    public void setGame(int skullNumber, int fieldNumber, List<User> users) {
         this.skullsNumber = skullNumber;
         this.board = new Board(fieldNumber);
         Collections.sort(users);
@@ -60,6 +51,10 @@ public class Game implements Serializable {
         System.out.println(">>> Sending broadcast update from GameController: "+update.toString());
         this.sendUpdate(update);
         //TimerController.get().startTurnTimer(groupID);
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 
     int getNumberPlayers() {

@@ -114,8 +114,10 @@ class GameControllerTest {
         }
 
         //test
-        weaponChosen = "user1:user1";
+        weaponChosen = "user2:user3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
+
+        System.out.println(p1.getWeapons().get(0).getEffectsList().get(0).getEffects().get(1).getTarget());
 
     }
 

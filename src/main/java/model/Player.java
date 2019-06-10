@@ -93,7 +93,7 @@ public class Player extends Target implements Serializable{
 
     @Override
     public boolean sameAsMe(int groupID) {
-        return false;
+        return this.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
     }
 
     public void setCurrentPosition(Square destination) {
@@ -147,13 +147,13 @@ public class Player extends Target implements Serializable{
             return true;
         } else {
             List<Edge> edges= field.getEdges();
-            for(int i = 0; i < edges.size(); i++){
-                if((edges.get(i).getSq1().equals(p.getCurrentPosition())&&
-                        !edges.get(i).getSq2().getColor().equals(p.getCurrentPosition().getColor()) &&
-                        this.getCurrentPosition().getColor().equals(edges.get(i).getSq2().getColor()))
-                    || (edges.get(i).getSq2().equals(p.getCurrentPosition())&&
-                        !edges.get(i).getSq1().getColor().equals(p.getCurrentPosition().getColor()) &&
-                        this.getCurrentPosition().getColor().equals(edges.get(i).getSq1().getColor())))
+            for(Edge e: edges){
+                if((e.getSq1().equals(p.getCurrentPosition())&&
+                        !e.getSq2().getColor().equals(p.getCurrentPosition().getColor()) &&
+                        this.getCurrentPosition().getColor().equals(e.getSq2().getColor()))
+                    || (e.getSq2().equals(p.getCurrentPosition())&&
+                        !e.getSq1().getColor().equals(p.getCurrentPosition().getColor()) &&
+                        this.getCurrentPosition().getColor().equals(e.getSq1().getColor())))
                     return true;
             }
         }
