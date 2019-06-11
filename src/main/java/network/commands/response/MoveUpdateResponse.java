@@ -6,12 +6,12 @@ import network.commands.ResponseHandler;
 
 public class MoveUpdateResponse implements Response {
     private Player player;
-    private int phaseId;
+    private String phaseId;
     private int phaseNotDone;
 
     public MoveUpdateResponse(Player player){
         this.player = player;
-        this.phaseId = player.getPhase().getId();
+        this.phaseId = Integer.toString(player.getPhase().getId());
         if(this.player.isPhaseNotDone()){
             this.phaseNotDone = 1;
         } else {
@@ -23,7 +23,7 @@ public class MoveUpdateResponse implements Response {
         return this.player;
     }
 
-    public int getPhaseId() {
+    public String getPhaseId() {
         return phaseId;
     }
 

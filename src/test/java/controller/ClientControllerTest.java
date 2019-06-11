@@ -48,7 +48,7 @@ class ClientControllerTest {
 
     @Test
     void handleMoveUpdateTest(){
-        assertEquals(Phase.WAIT , Phase.fromInteger(moveUpdateResponse1.getPhaseId()));
+        assertEquals(Phase.WAIT , Phase.fromInteger(Integer.parseInt(moveUpdateResponse1.getPhaseId())));
     }
 
     @Test
