@@ -298,14 +298,27 @@ public class GameController{
     void playWeapon(Player player, String input, int groupID) {
         //Convert input to matrix
         String[][] effectsMatrix = generateMatrix(input);
-        fillEffects(player, effectsMatrix, groupID);
+        //fill effect fields with player choices
+        fillWithInput(player, effectsMatrix, groupID);
+        //fill effects with real targets
+        fillFields(player.getCurrentCardEffects(), groupID);
         //execute moves
         for(CardEffect c:player.getCurrentCardEffects()){
             for(Effect e: c.getEffects()){
                 e.execute(player, groupID);
             }
         }
-        //fill effect fields with player choices
+    }
+
+    private void fillFields(List<CardEffect> currentCardEffects, int groupID) {
+        for(CardEffect c: currentCardEffects){
+            for(Effect e: c.getEffects()){
+                for(Target t: e.getTarget()){
+                    e.getTarget().add(t.fillFields(groupID));
+                    e.getTarget().remove(t);
+                }
+            }
+        }
     }
 
     String[][] generateMatrix(String input) {
@@ -317,13 +330,25 @@ public class GameController{
         return inputMatrix;
     }
 
-    private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
+    private void fillWithInput(Player player, String[][] inputMatrix, int groupID) {
         int index2=0;
         for(int i=0; i<player.getCurrentCardEffects().size(); i++){
             for (int j=0; j<player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
                 try {
-
-                    index2+=fillTargets(player.getCurrentCardEffects().get(i).getEffects().get(j), inputMatrix[index2], groupID);
+                    int index3=0;
+                    int index=0;
+                    for (int k=0; k<player.getCurrentCardEffects().get(i).getEffects().get(j).getTarget().size(); k++) {
+                        if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+                        if(!player.getCurrentCardEffects().get(i).getEffects().get(j).getTarget().get(k).isFilled()) {
+                            checkTarget(player.getCurrentCardEffects().get(i).getEffects().get(j).getTarget().get(k), inputMatrix[index2][index], groupID);
+                            player.getCurrentCardEffects().get(i).getEffects().get(j).getTarget().get(k)
+                                    .setFieldsToFill(inputMatrix[index2][index], groupID);
+                            index++;
+                            index3++;
+                        }
+                    }
+                    if(index3>0)
+                        index2++;
                 } catch (NullPointerException d) {
                     //for(i=i; i<player.getCurrentCardEffects().size(); i++){
                     //if(c.getEffects().get(i).getOptionality()) throw d;
@@ -337,12 +362,10 @@ public class GameController{
         int index=0;
         for (int k=0; k<effect.getTarget().size(); k++) {
             if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-            if(!effect.getTarget().get(k).isFilled()){
+            if(!effect.getTarget().get(k).isFilled()) {
                 checkTarget(effect.getTarget().get(k), inputMatrix[index], groupID);
-                effect.getTarget().add(effect.getTarget().get(k)
-                        .setFieldsToFill(inputMatrix[index], groupID));
-                effect.getTarget().remove(effect.getTarget().get(k));
-                //effect.fillFields(inputMatrix, groupID);
+                effect.getTarget().get(k)
+                        .setFieldsToFill(inputMatrix[index], groupID);
                 index++;
                 index3++;
             }

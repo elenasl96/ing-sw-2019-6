@@ -34,7 +34,8 @@ public class DamageEffect extends Effect{
     public void fillFields(String[] inputMatrix, int groupID) {
         int i = 0;
         for(Target t: targets){
-            t.setFieldsToFill(inputMatrix[i], groupID);
+            targets.add(t.fillFields(groupID));
+            targets.remove(t);
             i++;
         }
     }

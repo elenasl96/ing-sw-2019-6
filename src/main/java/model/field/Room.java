@@ -87,9 +87,13 @@ public class Room extends Target {
     }
 
     @Override
-    public Room setFieldsToFill(String input, int groupID) {
+    public void setFieldsToFill(String input, int groupID) {
         if(color == null) setColor(Color.fromName(input));
-        //TODO return square or color?
+    }
+
+    @Override
+    public Target fillFields(int groupID) {
+        //TODO fill real room with what?
         return null;
     }
 

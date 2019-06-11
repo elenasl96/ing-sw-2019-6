@@ -312,8 +312,14 @@ public class Player extends Target implements Serializable{
     }
 
     @Override
-    public Player setFieldsToFill(String inputName, int groupID) {
-        return (Player) this.findRealTarget(inputName, groupID);
+    public void setFieldsToFill(String inputName, int groupID) {
+        this.name = inputName;
+    }
+
+
+    @Override
+    public Player fillFields(int groupID) {
+        return (Player) this.findRealTarget(this.name, groupID);
     }
 
     @Override

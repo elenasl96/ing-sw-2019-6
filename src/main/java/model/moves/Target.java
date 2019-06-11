@@ -51,8 +51,6 @@ public abstract class Target implements Serializable {
 
     public abstract boolean canBeSeen(Player player, int groupID);
 
-    public abstract Target setFieldsToFill(String input, int groupID);
-
     public abstract boolean isFilled();
 
     public abstract Square getCurrentPosition();
@@ -60,4 +58,8 @@ public abstract class Target implements Serializable {
     public abstract Target findRealTarget(String inputName, int groupID);
 
     public abstract boolean sameAsMe(int groupID);
+
+    public abstract void setFieldsToFill(String input, int groupID);
+
+    public abstract Target fillFields(int groupID);
 }
