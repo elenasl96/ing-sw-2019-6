@@ -331,6 +331,7 @@ public class GameController{
     private void fillTargets(Effect effect, String[] inputMatrix, int groupID) {
         for (int k=0; k<effect.getTarget().size(); k++) {
             if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+           // if(effect.getTarget().get(k).isFilled())
             checkTarget(effect.getTarget().get(k), inputMatrix[k], groupID);
             effect.getTarget().add(effect.getTarget().get(k)
                     .setFieldsToFill(inputMatrix[k], groupID));

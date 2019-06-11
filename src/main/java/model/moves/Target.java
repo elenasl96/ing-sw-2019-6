@@ -52,6 +52,8 @@ public abstract class Target implements Serializable {
 
     public abstract Target setFieldsToFill(String input, int groupID);
 
+    public abstract boolean isFilled();
+
     public abstract Square getCurrentPosition();
 
     public abstract Target findRealTarget(String inputName, int groupID);
