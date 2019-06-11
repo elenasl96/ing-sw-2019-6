@@ -112,7 +112,7 @@ class GameControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(0));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0 1";
+        String weaponsEffect = "3 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         // Choose a non existing player
         String weaponChosen = "elena,elena";
@@ -125,11 +125,11 @@ class GameControllerTest {
 
         //A:B:C;D:E   -> first effect 3 fields, second effect 2 fields
         //test effects on lock rifle
-        weaponChosen = "user2;user3";
+        weaponChosen = "user2";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(2, p2.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getMarks().size());
-        assertEquals(1, p3.getPlayerBoard().getMarks().size());
+//        assertEquals(1, p3.getPlayerBoard().getMarks().size());
         assertThrows(InvalidMoveException.class, () -> p1.getWeapons().get(0).getEffectsList().get(0).getEffects().get(1).getTarget().get(0).getCurrentPosition());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
