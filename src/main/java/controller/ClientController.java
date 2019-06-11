@@ -222,19 +222,19 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     @Override
     public void handle(MoveUpdateResponse moveUpdateResponse) {
-        view.displayText("moveupdateplayer"+ moveUpdateResponse.getPlayer());
-        System.out.println("Phase ID: "+moveUpdateResponse.getPhaseId());
+        //view.displayText("moveupdateplayer"+ moveUpdateResponse.getPlayer());
+        //System.out.println("Phase ID: "+moveUpdateResponse.getPhaseId());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
         ClientContext.get().getCurrentPlayer().setPhaseNotDone(moveUpdateResponse.getPhaseNotDone() == 1);
         view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT));
-        System.out.println(ClientContext.get().getCurrentPlayer());
+        //System.out.println(ClientContext.get().getCurrentPlayer());
     }
 
     @Override
     public void handle(AskInput askInput) {
-        view.displayText("Asking input: "+ askInput.toString());
-        view.displayText("Phase " + ClientContext.get().getCurrentPlayer().getPhase().toString());
+        //view.displayText("Asking input: "+ askInput.toString());
+        //view.displayText("Phase " + ClientContext.get().getCurrentPlayer().getPhase().toString());
         switch(askInput.getInputType()){
             case "damage":
             case "weapon choose":
