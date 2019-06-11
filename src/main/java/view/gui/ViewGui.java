@@ -87,6 +87,7 @@ public class ViewGui implements View {
                     for (int i = 0; i < data.length; i++) {
                         gui.changeAmmoPanel(data[i]);
                     }
+                    break;
                 }
                 case "weapons": {
                     data = update.getData().split(";");
@@ -94,15 +95,18 @@ public class ViewGui implements View {
                     for(String s: data) {
                         gui.addWeaponBox(s);
                     }
+                    break;
                 }
                 case "powerup": break;
                 case "disablebutton": {
                     data = update.getData().split(";");
                     gui.disableButtons(data);
+                    break;
                 }
                 case "choosecard": {
                     data = update.getData().split(";");
                     gui.createPopUp(data);
+                    break;
                 }
                 default:
                     break;

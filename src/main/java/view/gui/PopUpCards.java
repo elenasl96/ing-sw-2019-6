@@ -18,7 +18,7 @@ public class PopUpCards extends JFrame {
         setLayout(new BorderLayout());
         add(new JLabel("Choose a card"),BorderLayout.NORTH);
         JPanel cardPanel = new JPanel(new FlowLayout());
-        setSize(500,300);
+        setSize(400,200);
         setLocation(300,300);
 
         int cont = 0;
@@ -35,7 +35,8 @@ public class PopUpCards extends JFrame {
     }
 
     public String close() {
-        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        setVisible(false);
+        dispose();
         return actionListenerClick.getS();
     }
 }
