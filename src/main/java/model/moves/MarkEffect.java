@@ -1,7 +1,9 @@
 package model.moves;
 
+import controller.GameController;
 import model.exception.FullMarksException;
 import model.Player;
+import model.exception.InvalidMoveException;
 import network.commands.Response;
 import java.util.Collections;
 import java.util.stream.Stream;
@@ -46,5 +48,19 @@ public class MarkEffect extends Effect implements Move{
             t.setFieldsToFill(inputMatrix[i], groupID);
             i++;
         }
+    }
+
+    @Override
+    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
+        for (int k=0; k<this.getTarget().size(); k++) {
+            if(!this.getTarget().get(k).isFilled()) {
+                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+                GameController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
+                this.getTarget().get(k)
+                        .setFieldsToFill(inputMatrix[index], groupID);
+                index++;
+            }
+        }
+        return index;
     }
 }

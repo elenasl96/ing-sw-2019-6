@@ -334,22 +334,11 @@ public class GameController{
 
     private void fillWithInput(Player player, String[][] inputMatrix, int groupID) {
         int index2=0;
-        for(int i=0; i<player.getCurrentCardEffects().size(); i++){
-            for (int j=0; j<player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
+        for(CardEffect c: player.getCurrentCardEffects()){
+            for (Effect e: c.getEffects()) {
                 try {
-                    int index3=0;
                     int index=0;
-                    for (int k=0; k<player.getCurrentCardEffects().get(i).getEffects().get(j).getTarget().size(); k++) {
-                        if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-                        if(!player.getCurrentCardEffects().get(i).getEffects().get(j).getTarget().get(k).isFilled()) {
-                            checkTarget(player.getCurrentCardEffects().get(i).getEffects().get(j).getTarget().get(k), inputMatrix[index2][index], groupID);
-                            player.getCurrentCardEffects().get(i).getEffects().get(j).getTarget().get(k)
-                                    .setFieldsToFill(inputMatrix[index2][index], groupID);
-                            index++;
-                            index3++;
-                        }
-                    }
-                    if(index3>0)
+                    if(e.setFieldsToFill(inputMatrix[index2], index, groupID)>0)
                         index2++;
                 } catch (NullPointerException d) {
                     //for(i=i; i<player.getCurrentCardEffects().size(); i++){
@@ -377,7 +366,7 @@ public class GameController{
         else return 0;
     }
 
-    private void checkTarget(Target target, String inputName, int groupID) {
+    public void checkTarget(Target target, String inputName, int groupID) {
         Target realTarget = target.findRealTarget(inputName, groupID);
         checkMinDistance(target, realTarget.getCurrentPosition(), groupID);
         checkMaxDistance(target, realTarget.getCurrentPosition(), groupID);

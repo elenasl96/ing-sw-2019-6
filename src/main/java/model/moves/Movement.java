@@ -1,5 +1,7 @@
 package model.moves;
 
+import controller.GameController;
+import model.exception.InvalidMoveException;
 import model.exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
@@ -40,9 +42,9 @@ public class Movement extends Effect{
     private int maxSteps;
     private int maxStepsFrenzy;
 
-    public Movement (Stream<Target> target, Square destination, boolean optionality){
+    public Movement (Stream<Target> target, Target destination, boolean optionality){
         super(target, optionality);
-        this.destination = destination;
+        this.destination = (Square) destination;
         this.maxSteps = -1; //Default (by Marti)
     }
 
@@ -168,5 +170,19 @@ public class Movement extends Effect{
         }
         if(this.coordinate == null)
             this.coordinate= fillCoordinate(inputMatrix[i]);
+    }
+
+    @Override
+    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
+        for (int k=0; k<this.getTarget().size(); k++) {
+            if(!this.getTarget().get(k).isFilled()) {
+                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+                GameController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
+                this.getTarget().get(k)
+                        .setFieldsToFill(inputMatrix[index], groupID);
+                index++;
+            }
+        }
+        return index;
     }
 }

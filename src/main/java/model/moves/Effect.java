@@ -32,5 +32,7 @@ public abstract class Effect implements Move {
     public abstract String getFieldsToFill();
 
     public abstract void fillFields(String[] inputMatrix, int groupID);
+
+    public abstract int setFieldsToFill(String[] inputMatrix, int index, int groupID);
 }
 
