@@ -16,7 +16,6 @@ public class ViewTest {
         ViewClient view = new ViewClient();
         view.onJoin(new User("1"));
         view.onLeave(new User("1"));
-        view.onStart();
     }
 
     @Test

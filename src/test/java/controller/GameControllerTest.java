@@ -203,22 +203,9 @@ class GameControllerTest {
         GameController.get().setFirstSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
                 5, 0);
-
         //Working spawn
         GameController.get().setFirstSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
                 0, 0);
     }
-
-    @Test
-    void UpdatePhaseTest() {
-        GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
-        GameController.get().updatePhase(0);
-        assertEquals(Phase.SECOND, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
-        GameController.get().updatePhase(0);
-        assertEquals(Phase.RELOAD, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
-        GameController.get().updatePhase(0);
-        assertEquals(Phase.FIRST, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
-    }
-
 }
