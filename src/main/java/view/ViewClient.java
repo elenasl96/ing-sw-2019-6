@@ -8,7 +8,6 @@ import model.room.Group;
 import model.room.Update;
 import model.room.User;
 import network.ClientContext;
-import network.commands.Response;
 import network.exceptions.InvalidGroupNumberException;
 
 import javax.sound.sampled.*;
@@ -275,11 +274,10 @@ public class ViewClient implements View {
     }
 
     @Override
-    public Response onUpdate(Update update) {
+    public void onUpdate(Update update) {
         if(update.toString()!= null) {
             displayText("Update:" + update.toString());
         }
-        return null;
     }
 
     @Override

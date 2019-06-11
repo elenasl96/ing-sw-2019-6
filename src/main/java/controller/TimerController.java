@@ -4,7 +4,6 @@ import model.GameContext;
 import model.enums.Phase;
 import model.room.*;
 import network.Manager;
-import network.commands.Response;
 
 import java.util.*;
 
@@ -124,8 +123,7 @@ public class TimerController implements ModelObserver {
     }
 
     @Override
-    public Response onUpdate(Update update) {
-        return null;
+    public void onUpdate(Update update) {
     }
 
     @Override

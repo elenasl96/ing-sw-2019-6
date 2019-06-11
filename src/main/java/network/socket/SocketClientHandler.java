@@ -104,7 +104,7 @@ public class SocketClientHandler implements ClientHandler,Runnable, ModelObserve
     }
 
     @Override
-    public Response onUpdate(Update update) {
+    public void onUpdate(Update update) {
         System.out.print(">>> I'm SocketClientHandler sending: ");
         if(update.isPlayerChanges()){
             System.out.print("a MoveUpdateResponse modifying player "+update.getPlayer()+" username "+update.getPlayer().getName()+
@@ -114,7 +114,6 @@ public class SocketClientHandler implements ClientHandler,Runnable, ModelObserve
             System.out.print("a GameUpdateNotification saying string "+ update.toString()+"\n");
             respond(new GameUpdateNotification(update));
         }
-        return null;
     }
 
     @Override

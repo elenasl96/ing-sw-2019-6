@@ -6,10 +6,8 @@ import model.room.Update;
 import model.room.User;
 import network.ClientContext;
 import view.ViewClient;
-import network.commands.Response;
 import view.View;
 
-import javax.swing.*;
 import java.rmi.RemoteException;
 
 public class ViewGui implements View {
@@ -71,7 +69,7 @@ public class ViewGui implements View {
     }
 
     @Override
-    public Response onUpdate(Update update) {
+    public void onUpdate(Update update) {
 
         String[] data;
         if(update.getMove()!=null) {
@@ -100,7 +98,6 @@ public class ViewGui implements View {
                     break;
             }
         }
-        return null;
     }
 
     @Override

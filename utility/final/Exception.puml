@@ -1,0 +1,11 @@
+@startuml
+
+class FullMarksException extends InvalidMoveException
+class FullPlayerBoardException extends InvalidMoveException
+class InvalidMoveException extends RuntimeException
+class InvalidMovementException extends InvalidMoveException
+class NotEnoughAmmoException extends InvalidMoveException
+class NotExistingFieldException extends InvalidMoveException
+class NothingGrabbableException extends InvalidMoveException
+
+@enduml

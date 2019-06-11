@@ -16,7 +16,6 @@ public abstract class Target implements Serializable {
     private Integer maxDistance;
 
     public Target(){
-
     }
 
     public Target(TargetType targetType, Integer minDistance, Integer maxDistance){

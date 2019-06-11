@@ -59,64 +59,6 @@ package model{
         WeaponDeck *-- Weapon
     }
 
-    package enums{
-        enum Character{
-            NOT_ASSIGNED
-            PG1
-            PG2
-            PG3
-            PG4
-            PG5
-        }
-        enum Color{
-            NONE
-            GREY
-            YELLOW
-            RED
-            BLUE
-            GREEN
-            WHITE
-            PURPLE
-        }
-        enum EffectType {
-            BASIC
-            OPTIONAL
-            OPTIONAL1
-            OPTIONAL2
-            ALTERNATIVE
-            BEFORE_AFTER_BASIC
-            OPTIONAL_VORTEX
-            BEFORE_BASIC
-            EVERY_TIME
-        }
-        enum Phase{
-            WAIT
-            FIRST
-            SECOND
-            RELOAD
-            SPAWN
-        }
-        enum TargetType{
-            NONE
-            VISIBLE
-            NOT_VISIBLE
-            BASIC_VISIBLE
-            OPTIONAL1_VISIBLE
-            CARDINAL
-            ME
-            NOT_MINE
-            SAME_TARGET
-            ALL
-            SAME_DIRECTION
-            DIFFERENT_SQUARE
-        }
-        enum WeaponStatus{
-            UNLOADED
-            PARTIALLY_LOADED
-            LOADED
-        }
-    }
-
     package field{
         class AmmoSquare extends Square{
             - ammo: AmmoTile
@@ -202,18 +144,62 @@ package model{
             - ammos: List<Ammo>
         }
 
-        abstract Target{
+        class Run implements Move{
+            - movement: Movement
+        }
 
+        abstract Target implements Serializable{
+            - targetType: TargetType
+            - minDistance: Integer
+            - maxDistance: Integer
+            __
+            + Target(TargetType, Integer, Integer)
+            + addDamages(Player, int, int): void
+            + {abstract} receiveUpdate(Update): void
+            + {abstract} getFieldsToFill(): String;
+            + {abstract} canBeSeen(Player, int): boolean;
+            + {abstract} setFieldsToFill(String, int): Target;
+            + {abstract} getCurrentPosition(): Square;
+            + {abstract} findRealTarget(String, int): Target;
+            + {abstract} sameAsMe(int): boolean;
         }
 
         Effect "1...n" *-- Target
         MoveAndGrab <-- Movement
         MoveAndGrab <-- Grab
-
+        Run <-- Movement
     }
 
     package room{
+        class Group implements Serializable{
+            - {static} uniqueGroupID: int
+            - groupID: int
+            - groupName: String
+            - users: List<User>
+            - listeners: List<ModelObserver>
+            - full: boolean
+            - fieldNumber: int
+            - skullNumber: int
+            __
+            + Group(int, int)
+            + {static} resetGroupID(): void
+            + sendUpdate(Update): void
+            + join(User): void
+            + leave(User): void
+            + observe(ModelObserver): void
+            - checkUserInGroup(User): void
+            - readObject(ObjectInputStream): void
+            + createGame(): void
+            + characterIsTaken(Character): Boolean
+            + sendStartNotification(): void
+        }
 
+        interface ModelObserver {
+            + onJoin(User): void
+            + onLeave(User): void
+            + onStart(): void
+
+        }
     }
 
     class Ammo{
@@ -244,14 +230,12 @@ package model{
 
     }
 
-    CardEffect "1" *-- EffectType
     CardEffect "1...n" *-- Effect
     CardEffect o-- Ammo
 
     Powerup "1" *-- Ammo
     Powerup "1...n" *-- Move
 
-    Weapon "1" *-- WeaponStatus
     Weapon "1...n" *-- CardEffect
 
     Target <|-- Room
@@ -263,5 +247,67 @@ package model{
     Movement <-- Coordinate
 
     Pay <-- Ammo
+
+    package enums{
+        enum Character{
+            NOT_ASSIGNED
+            PG1
+            PG2
+            PG3
+            PG4
+            PG5
+        }
+        enum Color{
+            NONE
+            GREY
+            YELLOW
+            RED
+            BLUE
+            GREEN
+            WHITE
+            PURPLE
+        }
+        enum EffectType {
+            BASIC
+            OPTIONAL
+            OPTIONAL1
+            OPTIONAL2
+            ALTERNATIVE
+            BEFORE_AFTER_BASIC
+            OPTIONAL_VORTEX
+            BEFORE_BASIC
+            EVERY_TIME
+        }
+        enum Phase{
+            WAIT
+            FIRST
+            SECOND
+            RELOAD
+            SPAWN
+        }
+        enum TargetType{
+            NONE
+            VISIBLE
+            NOT_VISIBLE
+            BASIC_VISIBLE
+            OPTIONAL1_VISIBLE
+            CARDINAL
+            ME
+            NOT_MINE
+            SAME_TARGET
+            ALL
+            SAME_DIRECTION
+            DIFFERENT_SQUARE
+        }
+        enum WeaponStatus{
+            UNLOADED
+            PARTIALLY_LOADED
+            LOADED
+        }
+    }
+
+    package exception{
+        class InvalidMoveException <@see> extends RuntimeException
+    }
 }
 @enduml
