@@ -59,8 +59,8 @@ public class MainFrame extends JFrame {
     private void initCharacters() {
         for(int i=0;i<5;i++) {
             try {
-                charactersCoordinates[i] = new Character(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/pedina" +
-                        i+".jpg"))
+                charactersCoordinates[i] = new Character(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/Pedine/pg" +
+                        (i + 1)+".png"))
                         .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
             } catch (IOException e) {
                 System.err.println(e.getMessage());
