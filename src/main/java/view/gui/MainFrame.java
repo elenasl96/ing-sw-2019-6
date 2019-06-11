@@ -332,6 +332,11 @@ public class MainFrame extends JFrame {
         shoot.setEnabled(false);
         powerup.setEnabled(false);
 
+        grab.setBorder(null);
+        run.setBorder(null);
+        shoot.setBorder(null);
+        powerup.setBorder(null);
+
         for(String s: data) {
             switch(s) {
                 case "RUN": run.setEnabled(true); break;

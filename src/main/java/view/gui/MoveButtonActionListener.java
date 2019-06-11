@@ -1,5 +1,6 @@
 package view.gui;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +20,8 @@ public class MoveButtonActionListener implements ActionListener {
             s = ((MoveButton) e.getSource()).getMove();
             lock.notifyAll();
         }
+        ((MoveButton)e.getSource()).setBorder(BorderFactory.createLoweredBevelBorder());
+
     }
 
     public String getS() {
