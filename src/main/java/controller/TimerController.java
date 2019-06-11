@@ -1,11 +1,14 @@
 package controller;
 
 import model.GameContext;
+import model.enums.Phase;
 import model.room.*;
 import network.Manager;
 import network.commands.Response;
 
 import java.util.*;
+
+import static model.enums.Phase.SPAWN;
 
 /**
  * SINGLETON (SERVER SIDE)
@@ -61,17 +64,20 @@ public class TimerController implements ModelObserver {
     public synchronized void startTurnTimer(int groupID){
         this.timers.get(groupID).purge();
         TimerTask timerTask = new TimerTask(){
-            int seconds = 5;
+            int seconds = 60;
             @Override
             public void run() {
                 if(seconds == 60){
                     Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(seconds + " seconds left..."));
-                }else if(seconds == 10) {
-                    Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("Hurry, 10 seconds left!"));
-                } else if (seconds <= 5 && seconds > 0) {
+                } else if (seconds == 5) {
                     Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "..."));
                 } else if (seconds == 0){
                     Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("Move lost! No more time."));
+                    if(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equalsTo(SPAWN)){
+                        GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.SECOND);
+                        Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("You didn't spawn and lost the turn. " +
+                                "You're lucky you can at least reload."));
+                    }
                     GameController.get().updatePhase(groupID);
                     timers.get(groupID).purge();
                 }
