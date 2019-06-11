@@ -102,13 +102,11 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                         try {
                             response = client.nextResponse();
                             if (response != null) {
-                                System.out.println(">>> Response received: "+response);
                                 response.handle(this);
-                                System.out.println(">>> Handled");
                                 client.received();
                             }
                         } catch (RemoteException e){
-                            System.out.println(">>> An error occurred");
+                            System.err.println(">>> An error occurred");
                         }
                     }
                 }
@@ -148,7 +146,6 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         view.chooseCharacterPhase();
         ClientContext.get().createPlayer();
         ClientContext.get().getCurrentPlayer().setPhase(WAIT);
-        System.out.println(ClientContext.get().getCurrentPlayer());
         while(gameNotDone) {
             view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(WAIT));
             view.waitingPhase();
@@ -222,19 +219,14 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     @Override
     public void handle(MoveUpdateResponse moveUpdateResponse) {
-        //view.displayText("moveupdateplayer"+ moveUpdateResponse.getPlayer());
-        //System.out.println("Phase ID: "+moveUpdateResponse.getPhaseId());
         ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
-        ClientContext.get().getCurrentPlayer().setPhase(fromInteger(moveUpdateResponse.getPhaseId()));
+        ClientContext.get().getCurrentPlayer().setPhase(fromInteger(Integer.parseInt(moveUpdateResponse.getPhaseId())));
         ClientContext.get().getCurrentPlayer().setPhaseNotDone(moveUpdateResponse.getPhaseNotDone() == 1);
         view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT));
-        //System.out.println(ClientContext.get().getCurrentPlayer());
     }
 
     @Override
     public void handle(AskInput askInput) {
-        //view.displayText("Asking input: "+ askInput.toString());
-        //view.displayText("Phase " + ClientContext.get().getCurrentPlayer().getPhase().toString());
         switch(askInput.getInputType()){
             case "damage":
             case "weapon choose":

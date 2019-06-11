@@ -113,8 +113,8 @@ public class ViewGui implements View {
     }
 
     @Override
-    public void displayText(String text) {
-        gui.setConsole(text);
+    public void displayText(String insertAValidMove) {
+        gui.setConsole(insertAValidMove);
     }
 
     @Override

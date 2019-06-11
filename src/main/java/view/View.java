@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 public interface View extends ModelObserver {
     Coordinate getCoordinate();
 
-    void displayText(String insert_a_valid_move);
+    void displayText(String insertAValidMove);
 
     void chooseUsernamePhase() throws RemoteException;
 
