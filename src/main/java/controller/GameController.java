@@ -146,7 +146,9 @@ public class GameController{
         player.getPowerups().add(GameContext.get().getGame(groupID)
                 .getBoard().getPowerupsLeft().pickCard());
         System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
-        return new Update(" Choose spawn point from:" + player.powerupsToString(), UPDATECONSOLE);
+        Update update = new Update(" Choose spawn point from:" + player.powerupsToString(),"choosecard");
+        update.setData(player.getStringIdPowerUp());
+        return update;
     }
 
     void updatePhase(int groupID){

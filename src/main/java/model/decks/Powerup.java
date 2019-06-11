@@ -30,4 +30,9 @@ public class Powerup implements Serializable {
         return "Name: " + name + "\nAmmo: " + ammo.getColor().getName() + "\n" +
                 "=========================";
     }
+
+    public String getName() {
+        return name;
+    }
+
 }

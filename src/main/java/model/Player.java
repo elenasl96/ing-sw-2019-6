@@ -129,6 +129,14 @@ public class Player extends Target implements Serializable{
         return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
     }
 
+    public String getStringIdPowerUp() {
+        StringBuilder stringbuilder = new StringBuilder("");
+        for(Powerup p : powerups) {
+            stringbuilder.append(p.getName()+";");
+        }
+        return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
+    }
+
     public PlayerBoard getPlayerBoard(){
         return this.playerBoard;
     }

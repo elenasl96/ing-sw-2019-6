@@ -17,6 +17,8 @@ public class MainFrame extends JFrame {
     private static final int WIDTH_PAWN = 70;
     private static final int HEIGHT_PAWN = 60;
 
+    private PopUpCards popUp;
+
     private AmmoPanel ammoRed;
     private AmmoPanel ammoBlue;
     private AmmoPanel ammoYellow;
@@ -32,6 +34,7 @@ public class MainFrame extends JFrame {
     private Object lockInput;
     private Object lockMove;
     private Object lockCoordinate;
+    private Object lockChooseCard;
 
     private MoveButtonActionListener actionListenerMovement;
     private CoordinateActionListener actionListenerCoordinate;
@@ -47,6 +50,8 @@ public class MainFrame extends JFrame {
         lockInput = new Object();
         lockMove = new Object();
         lockCoordinate = new Object();
+        lockChooseCard = new Object();
+
         actionListenerMovement = new MoveButtonActionListener(lockMove);
         actionListenerCoordinate = new CoordinateActionListener(lockCoordinate);
         mapGrid = new SquarePanel[3][4];
@@ -350,5 +355,23 @@ public class MainFrame extends JFrame {
                 default: break;
             }
         }
+    }
+
+    public String cardChoose() {
+
+        synchronized (lockChooseCard) {
+            try {
+                lockChooseCard.wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println(e.getMessage());
+            }
+        }
+
+        return popUp.close();
+    }
+
+    public void createPopUp(String[] nameCard) {
+        popUp = new PopUpCards(nameCard, lockChooseCard);
     }
 }

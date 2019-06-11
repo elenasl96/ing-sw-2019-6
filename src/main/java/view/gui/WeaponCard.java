@@ -13,7 +13,7 @@ public class WeaponCard extends JPanel {
     public WeaponCard(String name, int num) {
         try {
             add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/Weapons/" +
-                    name + ".png"))
+                    /*name */ "mp40" + ".png"))
                     .getScaledInstance(140,140, Image.SCALE_SMOOTH))));
         } catch (IOException e) {
             e.printStackTrace();

@@ -100,6 +100,10 @@ public class ViewGui implements View {
                     data = update.getData().split(";");
                     gui.disableButtons(data);
                 }
+                case "choosecard": {
+                    data = update.getData().split(";");
+                    gui.createPopUp(data);
+                }
                 default:
                     break;
             }
@@ -150,15 +154,7 @@ public class ViewGui implements View {
 
     @Override
     public Integer spawnPhase() {
-        Integer spawnNumber = null;
-        while (spawnNumber == null){
-            try{
-                spawnNumber = Integer.parseInt(userInput());
-            }catch (NumberFormatException e){
-                displayText("Please insert a Number");
-                spawnNumber = null;
-            }
-        } return spawnNumber;
+        return Integer.parseInt(gui.cardChoose());
     }
 
     @Override
