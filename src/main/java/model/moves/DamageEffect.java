@@ -25,34 +25,24 @@ public class DamageEffect extends Effect{
     @Override
     public String getFieldsToFill() {
         StringBuilder string = new StringBuilder();
-        string.append("Damage Effect: ");
         for(Target t: targets){
             string.append(t.getFieldsToFill());
         }
-        return string.toString();
+        if(!string.toString().isEmpty())
+            return "Damage Effect: " + string.toString();
+        else
+            return string.toString();
     }
 
     @Override
-    public void fillFields(String[] inputMatrix, int groupID) {
-        int i = 0;
-        for(Target t: targets){
-            targets.add(t.fillFields(groupID));
-            targets.remove(t);
-            i++;
-        }
+    public void fillFields(int groupID) {
+       super.fillFields(groupID);
+
     }
 
     @Override
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
-        for (int k=0; k<this.getTarget().size(); k++) {
-            if(!this.getTarget().get(k).isFilled()) {
-                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-                GameController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
-                this.getTarget().get(k)
-                        .setFieldsToFill(inputMatrix[index], groupID);
-                index++;
-            }
-        }
+        index += super.setFieldsToFill(inputMatrix,index,groupID);
         return index;
     }
 }

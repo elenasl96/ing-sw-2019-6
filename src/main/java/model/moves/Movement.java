@@ -162,27 +162,19 @@ public class Movement extends Effect{
     }
 
     @Override
-    public void fillFields(String[] inputMatrix, int groupID) {
-        int i = 0;
-        for(Target t: targets){
-            t.setFieldsToFill(inputMatrix[i], groupID);
-            i++;
-        }
-        if(this.coordinate == null)
-            this.coordinate= fillCoordinate(inputMatrix[i]);
+    public void fillFields(int groupID) {
+        super.fillFields(groupID);
+        this.destination = (Square) this.destination.findRealTarget(this.destination.getCoord().toString(), groupID);
+        this.coordinate = this.destination.getCoord();
     }
 
     @Override
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
-        for (int k=0; k<this.getTarget().size(); k++) {
-            if(!this.getTarget().get(k).isFilled()) {
-                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-                GameController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
-                this.getTarget().get(k)
-                        .setFieldsToFill(inputMatrix[index], groupID);
-                index++;
-            }
-        }
+       index += super.setFieldsToFill(inputMatrix,index,groupID);
+       if(this.destination.getCoord() == null) {
+           this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
+       }
+
         return index;
     }
 }

@@ -198,7 +198,7 @@ class GameControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(3));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0 1";
+        String weaponsEffect = "3 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
@@ -207,7 +207,7 @@ class GameControllerTest {
         }
 
         //test effects on tractor beam
-        String weaponChosen = "user2;C 3";
+        String weaponChosen = "user2,C 3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getDamage().size());

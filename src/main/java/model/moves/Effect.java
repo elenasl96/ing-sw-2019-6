@@ -1,5 +1,8 @@
 package model.moves;
 
+import controller.GameController;
+import model.exception.InvalidMoveException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +34,24 @@ public abstract class Effect implements Move {
 
     public abstract String getFieldsToFill();
 
-    public abstract void fillFields(String[] inputMatrix, int groupID);
+    public void fillFields(int groupID){
+        for(Target t: targets){
+            targets.add(t.fillFields(groupID));
+            targets.remove(t);
+        }
+    }
 
-    public abstract int setFieldsToFill(String[] inputMatrix, int index, int groupID);
+    public int setFieldsToFill(String[] inputMatrix, int index, int groupID){
+        for (int k=0; k<this.getTarget().size(); k++) {
+            if(!this.getTarget().get(k).isFilled()) {
+                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+                GameController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
+                this.getTarget().get(k)
+                        .setFieldsToFill(inputMatrix[index], groupID);
+                index++;
+            }
+        }
+        return index;
+    }
 }
 

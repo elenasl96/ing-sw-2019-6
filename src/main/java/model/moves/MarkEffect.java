@@ -42,25 +42,13 @@ public class MarkEffect extends Effect implements Move{
     }
 
     @Override
-    public void fillFields(String[] inputMatrix, int groupID) {
-        int i = 0;
-        for(Target t: targets){
-            t.setFieldsToFill(inputMatrix[i], groupID);
-            i++;
-        }
+    public void fillFields(int groupID) {
+        super.fillFields(groupID);
     }
 
     @Override
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
-        for (int k=0; k<this.getTarget().size(); k++) {
-            if(!this.getTarget().get(k).isFilled()) {
-                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-                GameController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
-                this.getTarget().get(k)
-                        .setFieldsToFill(inputMatrix[index], groupID);
-                index++;
-            }
-        }
+       index += super.setFieldsToFill(inputMatrix,index,groupID);
         return index;
     }
 }

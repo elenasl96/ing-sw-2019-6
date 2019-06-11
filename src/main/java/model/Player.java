@@ -89,7 +89,7 @@ public class Player extends Target implements Serializable{
         for (Player p : GameContext.get().getGame(groupID).getPlayers()) {
             if (p.getName().equals(inputName)) return p;
         }
-        throw new InvalidMoveException("Player doesn't exist");
+        throw new InvalidMoveException("Player "+inputName+" doesn't exist");
     }
 
     @Override

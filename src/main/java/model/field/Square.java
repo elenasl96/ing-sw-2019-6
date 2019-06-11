@@ -170,4 +170,8 @@ public class Square extends Target implements Serializable {
     public List<Square> getReachSquares() {
         return reachSquares;
     }
+
+    public void setCoordinate(Coordinate fillCoordinate) {
+        this.coord = fillCoordinate;
+    }
 }

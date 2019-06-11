@@ -315,6 +315,7 @@ public class GameController{
     private void fillFields(List<CardEffect> currentCardEffects, int groupID) {
         for(CardEffect c: currentCardEffects){
             for(Effect e: c.getEffects()){
+                e.fillFields(groupID);
                 for(Target t: e.getTarget()){
                     e.getTarget().add(t.fillFields(groupID));
                     e.getTarget().remove(t);
@@ -338,8 +339,9 @@ public class GameController{
             for (Effect e: c.getEffects()) {
                 try {
                     int index=0;
-                    if(e.setFieldsToFill(inputMatrix[index2], index, groupID)>0)
-                        index2++;
+                    if(!e.getFieldsToFill().isEmpty() &&
+                            e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
+                            index2++;
                 } catch (NullPointerException d) {
                     //for(i=i; i<player.getCurrentCardEffects().size(); i++){
                     //if(c.getEffects().get(i).getOptionality()) throw d;
