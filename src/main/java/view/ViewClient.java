@@ -85,8 +85,8 @@ public class ViewClient implements View {
         return input;
     }
 
-    public void displayText(String text) {
-        System.out.println(">>> " + text);
+    public void displayText(String insertAValidMove) {
+        System.out.println(">>> " + insertAValidMove);
     }
 
     public void setWait(boolean wait) {
@@ -276,7 +276,7 @@ public class ViewClient implements View {
     @Override
     public void onUpdate(Update update) {
         if(update.toString()!= null) {
-            displayText("Update:" + update.toString());
+            displayText("Update: " + update.toString());
         }
     }
 
