@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
     private AmmoPanel ammoBlue;
     private AmmoPanel ammoYellow;
 
-    private volatile JTextArea console;
+    private JTextArea console;
     private JTextField commandLine;
     private JButton ok;
     private MoveButton grab;
@@ -221,6 +221,14 @@ public class MainFrame extends JFrame {
                 System.err.println(e.getMessage());
             }
 
+            switch(actionListenerMovement.getS()) {
+                case "run": run.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "grab": grab.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "0": case "1": case "2": shoot.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "3": case "4": case "5": powerup.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                default: break;
+            }
+
             return actionListenerMovement.getS();
         }
     }
@@ -332,10 +340,10 @@ public class MainFrame extends JFrame {
         shoot.setEnabled(false);
         powerup.setEnabled(false);
 
-        grab.setBorder(null);
-        run.setBorder(null);
-        shoot.setBorder(null);
-        powerup.setBorder(null);
+        grab.setBorder(UIManager.getBorder("Button.border"));
+        run.setBorder(UIManager.getBorder("Button.border"));
+        shoot.setBorder(UIManager.getBorder("Button.border"));
+        powerup.setBorder(UIManager.getBorder("Button.border"));
 
         for(String s: data) {
             switch(s) {

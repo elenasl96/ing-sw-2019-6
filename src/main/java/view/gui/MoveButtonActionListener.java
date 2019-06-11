@@ -20,7 +20,6 @@ public class MoveButtonActionListener implements ActionListener {
             s = ((MoveButton) e.getSource()).getMove();
             lock.notifyAll();
         }
-        ((MoveButton)e.getSource()).setBorder(BorderFactory.createLoweredBevelBorder());
 
     }
 
