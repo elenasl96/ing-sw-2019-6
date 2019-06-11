@@ -92,11 +92,11 @@ public class MainFrame extends JFrame {
         name.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel ammos = new JPanel(new GridLayout(4,1));
         try {
-            ammoRed = new AmmoPanel(3, new ImageIcon(ImageIO.read(new File("src/resources/ammo1.png"))
+            ammoRed = new AmmoPanel(1, new ImageIcon(ImageIO.read(new File("src/resources/ammo1.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
             ammoBlue = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/ammo2.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-            ammoYellow = new AmmoPanel(2,new ImageIcon(ImageIO.read(new File("src/resources/ammo3.png"))
+            ammoYellow = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/ammo3.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
             System.out.println(e.getMessage());

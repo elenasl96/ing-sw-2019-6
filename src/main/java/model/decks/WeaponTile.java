@@ -24,6 +24,14 @@ public class WeaponTile implements Grabbable {
 
     public List<Weapon> getWeapons() { return weapons; }
 
+    public String getStringIdWeapons() {
+        StringBuilder stringbuilder = new StringBuilder("");
+        for(Weapon w: weapons) {
+            stringbuilder.append(w.getName()+";");
+        }
+        return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
+    }
+
     @Override
     public void pickGrabbable(int groupID, int toPick) {
         Weapon weapon = this.weapons.get(toPick);

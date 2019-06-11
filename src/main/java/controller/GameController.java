@@ -88,7 +88,9 @@ public class GameController{
                 return update;
             case RELOAD:
                 content.append("You can reload:\n").append(player.getWeapons());
-                break;
+                update = new Update(content.toString(), "weapons");
+                update.setData(player.getStringIdWeapons());
+                return update;
             default:
                 break;
         }
