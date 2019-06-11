@@ -144,12 +144,6 @@ public class Group implements Serializable {
         this.full = true;
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-        // upon deserialization, observers are reset
-        listeners = new LinkedList<>();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
