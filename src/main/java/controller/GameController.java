@@ -88,7 +88,9 @@ public class GameController{
                 return update;
             case RELOAD:
                 content.append("You can reload:\n").append(player.getWeapons());
-                break;
+                update = new Update(content.toString(), "weapons");
+                update.setData(player.getStringIdWeapons());
+                return update;
             default:
                 break;
         }
@@ -316,11 +318,12 @@ public class GameController{
     }
 
     private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
+        int index2=0;
         for(int i=0; i<player.getCurrentCardEffects().size(); i++){
             for (int j=0; j<player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
-                int index=0;
                 try {
-                    fillTargets(player.getCurrentCardEffects().get(i).getEffects().get(j), inputMatrix[j], index, groupID);
+
+                    index2+=fillTargets(player.getCurrentCardEffects().get(i).getEffects().get(j), inputMatrix[index2], groupID);
                 } catch (NullPointerException d) {
                     //for(i=i; i<player.getCurrentCardEffects().size(); i++){
                     //if(c.getEffects().get(i).getOptionality()) throw d;
@@ -329,7 +332,9 @@ public class GameController{
         }
     }
 
-    private void fillTargets(Effect effect, String[] inputMatrix, int index, int groupID) {
+    private int fillTargets(Effect effect, String[] inputMatrix, int groupID) {
+        int index3=0;
+        int index=0;
         for (int k=0; k<effect.getTarget().size(); k++) {
             if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
             if(!effect.getTarget().get(k).isFilled()){
@@ -339,8 +344,12 @@ public class GameController{
                 effect.getTarget().remove(effect.getTarget().get(k));
                 //effect.fillFields(inputMatrix, groupID);
                 index++;
+                index3++;
             }
         }
+        if(index3>0)
+            return 1;
+        else return 0;
     }
 
     private void checkTarget(Target target, String inputName, int groupID) {

@@ -114,6 +114,7 @@ public class Weapon implements Serializable {
                 //Basic effect
                 targetBasic = new Player(VISIBLE, null, null);
                 targetBasic2 = new Player(VISIBLE, null, null);
+                targetOptional = new Player(VISIBLE, null, null);
                 weapon.getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.BLUE), new Ammo(Color.RED))));
                 weapon.getEffectsList().get(0).getEffects()
@@ -126,7 +127,7 @@ public class Weapon implements Serializable {
                         .add(new CardEffect(OPTIONAL1, Stream
                                 .of(new Ammo(Color.YELLOW))));
                 weapon.getEffectsList().get(1).getEffects()
-                        .add(new DamageEffect(Stream.of(targetBasic, targetBasic2), 1, false));
+                        .add(new DamageEffect(Stream.of(targetOptional), 1, false));
 
                 //Optional effect 2
                 weapon.getEffectsList()
@@ -200,9 +201,10 @@ public class Weapon implements Serializable {
                 //Optional Effect 2
                 //BASIC_VISIBLE = basictarget.cansee
                 targetOptional = new Player(OPTIONAL1_VISIBLE, null, null);
-                weapon.getEffectsList().add(new CardEffect(OPTIONAL1, Stream
+                weapon.getEffectsList()
+                        .add(new CardEffect(OPTIONAL1, Stream
                         .of(new Ammo(Color.BLUE))));
-                weapon.getEffectsList().get(1).getEffects()
+                weapon.getEffectsList().get(2).getEffects()
                         .add(new DamageEffect( Stream.of(targetOptional), 1, false));
                 break;
             case 5:

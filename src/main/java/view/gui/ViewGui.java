@@ -88,7 +88,13 @@ public class ViewGui implements View {
                         gui.changeAmmoPanel(data[i]);
                     }
                 }
-                case "weapons":
+                case "weapons": {
+                    data = update.getData().split(";");
+                    gui.clearWeaponBox();
+                    for(String s: data) {
+                        gui.addWeaponBox(s);
+                    }
+                }
                 case "powerup": break;
                 case "disablebutton": {
                     data = update.getData().split(";");

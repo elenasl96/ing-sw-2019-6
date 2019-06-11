@@ -21,7 +21,7 @@ public class MainFrame extends JFrame {
     private AmmoPanel ammoBlue;
     private AmmoPanel ammoYellow;
 
-    private volatile JTextArea console;
+    private JTextArea console;
     private JTextField commandLine;
     private JButton ok;
     private MoveButton grab;
@@ -92,11 +92,11 @@ public class MainFrame extends JFrame {
         name.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel ammos = new JPanel(new GridLayout(4,1));
         try {
-            ammoRed = new AmmoPanel(3, new ImageIcon(ImageIO.read(new File("src/resources/ammo1.png"))
+            ammoRed = new AmmoPanel(1, new ImageIcon(ImageIO.read(new File("src/resources/ammo1.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
             ammoBlue = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/ammo2.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-            ammoYellow = new AmmoPanel(2,new ImageIcon(ImageIO.read(new File("src/resources/ammo3.png"))
+            ammoYellow = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/ammo3.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -221,6 +221,14 @@ public class MainFrame extends JFrame {
                 System.err.println(e.getMessage());
             }
 
+            switch(actionListenerMovement.getS()) {
+                case "run": run.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "grab": grab.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "0": case "1": case "2": shoot.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "3": case "4": case "5": powerup.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                default: break;
+            }
+
             return actionListenerMovement.getS();
         }
     }
@@ -332,10 +340,10 @@ public class MainFrame extends JFrame {
         shoot.setEnabled(false);
         powerup.setEnabled(false);
 
-        grab.setBorder(null);
-        run.setBorder(null);
-        shoot.setBorder(null);
-        powerup.setBorder(null);
+        grab.setBorder(UIManager.getBorder("Button.border"));
+        run.setBorder(UIManager.getBorder("Button.border"));
+        shoot.setBorder(UIManager.getBorder("Button.border"));
+        powerup.setBorder(UIManager.getBorder("Button.border"));
 
         for(String s: data) {
             switch(s) {

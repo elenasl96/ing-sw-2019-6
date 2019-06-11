@@ -121,6 +121,14 @@ public class Player extends Target implements Serializable{
         return weapons;
     }
 
+    public String getStringIdWeapons() {
+        StringBuilder stringbuilder = new StringBuilder("");
+        for(Weapon w: weapons) {
+            stringbuilder.append(w.getName()+";");
+        }
+        return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
+    }
+
     public PlayerBoard getPlayerBoard(){
         return this.playerBoard;
     }
