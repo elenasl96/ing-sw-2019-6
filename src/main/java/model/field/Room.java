@@ -94,6 +94,12 @@ public class Room extends Target {
     }
 
     @Override
+    public boolean isFilled() {
+        //TODO when a room is empty? color is given in the declaration!
+        return true;
+    }
+
+    @Override
     public Square getCurrentPosition() {
         //nothing
         return null;

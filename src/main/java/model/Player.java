@@ -308,6 +308,11 @@ public class Player extends Target implements Serializable{
         return (Player) this.findRealTarget(inputName, groupID);
     }
 
+    @Override
+    public boolean isFilled() {
+        return name==null;
+    }
+
     public void generateVisible(int groupID){
         for(Player p: GameContext.get().getGame(groupID).getPlayers()){
             if(p.canBeSeen(this, groupID)) this.visible.add(p.getCurrentPosition());

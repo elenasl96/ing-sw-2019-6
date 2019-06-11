@@ -102,6 +102,11 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
+    public boolean isFilled() {
+        return coord==null;
+    }
+
+    @Override
     public Square getCurrentPosition() {
         return null;
     }
