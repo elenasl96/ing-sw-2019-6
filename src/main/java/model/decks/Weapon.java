@@ -201,9 +201,10 @@ public class Weapon implements Serializable {
                 //Optional Effect 2
                 //BASIC_VISIBLE = basictarget.cansee
                 targetOptional = new Player(OPTIONAL1_VISIBLE, null, null);
-                weapon.getEffectsList().add(new CardEffect(OPTIONAL1, Stream
+                weapon.getEffectsList()
+                        .add(new CardEffect(OPTIONAL1, Stream
                         .of(new Ammo(Color.BLUE))));
-                weapon.getEffectsList().get(1).getEffects()
+                weapon.getEffectsList().get(2).getEffects()
                         .add(new DamageEffect( Stream.of(targetOptional), 1, false));
                 break;
             case 5:

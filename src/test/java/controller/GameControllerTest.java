@@ -193,6 +193,35 @@ class GameControllerTest {
     }
 
     @Test
+    void PlayWeapon4(){
+        WeaponDeck deck = new WeaponDeck();
+        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
+        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
+        for(Player p: GameContext.get().getGame(0).getPlayers()){
+            p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
+        }
+        p1.getWeapons().add(new Weapon().initializeWeapon(4));
+        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(p1.getWeapons().get(0));
+        String weaponsEffect = "3 0 1";
+        System.out.println(GameContext.get().getGame(0).getPlayers().size());
+        try {
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+        }catch(IndexOutOfBoundsException | InvalidMoveException e){
+            System.out.println(e.getMessage());
+        }
+
+        //test effects on thor with basic and alternative effect working
+        String weaponChosen = "user2;user3";
+        GameController.get().playWeapon(p1, weaponChosen, 0);
+        assertEquals(0, p1.getPlayerBoard().getDamage().size());
+        assertEquals(2, p2.getPlayerBoard().getDamage().size());
+        assertEquals(1, p3.getPlayerBoard().getDamage().size());
+        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
+    }
+
+    @Test
     void SpawnTest(){
         //getFirstTimeSpawn
         Update possibleMovesUpdate = GameController.get().getSpawn(
