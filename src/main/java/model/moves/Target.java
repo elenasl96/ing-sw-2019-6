@@ -7,6 +7,7 @@ import model.field.Square;
 import model.room.Update;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Target implements Serializable {
@@ -27,7 +28,8 @@ public abstract class Target implements Serializable {
     public abstract List<PlayerBoard> getPlayerBoards(int groupId);
 
     void addDamages(Player playerDamaging, int damages, int groupId){
-        for(PlayerBoard b : this.getPlayerBoards(groupId)){
+        List<PlayerBoard> boards = this.getPlayerBoards(groupId);
+        for(PlayerBoard b : boards){
             this.receiveUpdate(new Update("You received " + b.addDamage(playerDamaging, damages)+ " damages."));
         }
     }

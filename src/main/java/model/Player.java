@@ -310,7 +310,7 @@ public class Player extends Target implements Serializable{
 
     @Override
     public boolean isFilled() {
-        return name==null;
+        return name!=null;
     }
 
     public void generateVisible(int groupID){

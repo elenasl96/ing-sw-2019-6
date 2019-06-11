@@ -311,7 +311,7 @@ public class GameController{
         String[] inputSplitted = input.split(";");
         String[][] inputMatrix = new String[inputSplitted.length][];
         for (int i = 0; i < inputSplitted.length; i++) {
-            inputMatrix[i] = inputSplitted[i].split(" ");
+            inputMatrix[i] = inputSplitted[i].split(":");
         }
         return inputMatrix;
     }
@@ -319,8 +319,9 @@ public class GameController{
     private void fillEffects(Player player, String[][] inputMatrix, int groupID) {
         for(int i=0; i<player.getCurrentCardEffects().size(); i++){
             for (int j=0; j<player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
+                int index=0;
                 try {
-                    fillTargets(player.getCurrentCardEffects().get(i).getEffects().get(j), inputMatrix[i], groupID);
+                    fillTargets(player.getCurrentCardEffects().get(i).getEffects().get(j), inputMatrix[i], index, groupID);
                 } catch (NullPointerException d) {
                     //for(i=i; i<player.getCurrentCardEffects().size(); i++){
                     //if(c.getEffects().get(i).getOptionality()) throw d;
@@ -329,15 +330,17 @@ public class GameController{
         }
     }
 
-    private void fillTargets(Effect effect, String[] inputMatrix, int groupID) {
+    private void fillTargets(Effect effect, String[] inputMatrix, int index, int groupID) {
         for (int k=0; k<effect.getTarget().size(); k++) {
             if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-           // if(effect.getTarget().get(k).isFilled())
-            checkTarget(effect.getTarget().get(k), inputMatrix[k], groupID);
-            effect.getTarget().add(effect.getTarget().get(k)
-                    .setFieldsToFill(inputMatrix[k], groupID));
-            effect.getTarget().remove(effect.getTarget().get(k));
-            effect.fillFields(inputMatrix, groupID);
+            if(!effect.getTarget().get(k).isFilled()){
+                checkTarget(effect.getTarget().get(k), inputMatrix[index], groupID);
+                effect.getTarget().add(effect.getTarget().get(k)
+                        .setFieldsToFill(inputMatrix[index], groupID));
+                effect.getTarget().remove(effect.getTarget().get(k));
+                //effect.fillFields(inputMatrix, groupID);
+                index++;
+            }
         }
     }
 
@@ -350,25 +353,46 @@ public class GameController{
 
     private void checkMaxDistance(Target t, Square targetPosition, int groupID) {
         if(t.getMaxDistance() != null){
-           targetPosition.getReachSquares().clear();
-           targetPosition.createReachList(t.getMaxDistance(), t.getCurrentPosition().getReachSquares(),
-                    GameContext.get().getGame(groupID).getBoard().getField());
-            if(!targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
-                throw new InvalidMoveException("Invalid max distance");
+            if (t.getMinDistance() == 0) {
+                System.out.println("B--");
+                if(!targetPosition
+                        .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
+                    System.out.println("B0");
+                    throw new InvalidMoveException("Invalid distance");
+                }
+                System.out.println("B2");
+            }else {
+                System.out.println("A");
+                targetPosition.getReachSquares().clear();
+                targetPosition.createReachList(t.getMaxDistance(), t.getCurrentPosition().getReachSquares(),
+                        GameContext.get().getGame(groupID).getBoard().getField());
+                if (!targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+                    throw new InvalidMoveException("Invalid max distance");
+            }
         }
     }
 
     private void checkMinDistance(Target t, Square targetPosition, int groupID) {
+        System.out.println("B");
         if(t.getMinDistance() != null) {
+            System.out.println("B1");
             if (t.getMinDistance() == 0) {
+                System.out.println("B--");
                 if(!targetPosition
-                        .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+                        .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
+                    System.out.println("B0");
                     throw new InvalidMoveException("Invalid distance");
+                }
+                System.out.println("B2");
             }else{
+                System.out.println("c3");
                 targetPosition.createReachList(t.getMinDistance() - 1, t.getCurrentPosition().getReachSquares(),
                         GameContext.get().getGame(groupID).getBoard().getField());
-                if (targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+
+                if (targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
+                    System.out.println("C1");
                     throw new InvalidMoveException("Invalid distance");
+                }
             }
         }
     }

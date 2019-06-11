@@ -59,9 +59,10 @@ public class Square extends Target implements Serializable {
     }
 
     public List<PlayerBoard> getPlayerBoards(int groupId){
+        Player currentPlayer = GameContext.get().getGame(groupId).getCurrentPlayer();
         ArrayList<PlayerBoard> boards = new ArrayList<>();
         for(Player p : GameContext.get().getGame(groupId).getPlayers().stream()
-                .filter(p -> p.getCurrentPosition().coord.equals(this.coord))
+                .filter(p -> p.getCurrentPosition().coord.equals(this.coord) && !p.equals(currentPlayer))
                 .collect(Collectors.toList())){
             boards.add(p.getPlayerBoards(groupId).get(0));
         }
@@ -103,12 +104,12 @@ public class Square extends Target implements Serializable {
 
     @Override
     public boolean isFilled() {
-        return coord==null;
+        return coord!=null;
     }
 
     @Override
     public Square getCurrentPosition() {
-        return null;
+        return this;
     }
 
     @Override

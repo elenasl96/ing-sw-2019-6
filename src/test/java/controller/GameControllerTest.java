@@ -96,7 +96,7 @@ class GameControllerTest {
 
     @Test
     void generateMatrixTest(){
-        String[][] matrix = GameController.get().generateMatrix("User1 User2 User3;User3 Square1;User1");
+        String[][] matrix = GameController.get().generateMatrix("C 3:User2:User3;User3:Square1;User1");
         System.out.println(Arrays.deepToString(matrix));
     }
 
@@ -123,13 +123,72 @@ class GameControllerTest {
             System.out.println(e.getMessage());
         }
 
+        //A:B:C;D:E   -> first effect 3 fields, second effect 2 fields
         //test effects on lock rifle
-        weaponChosen = "user2 user2;user3";
+        weaponChosen = "user2;user3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(2, p2.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getMarks().size());
         assertEquals(1, p3.getPlayerBoard().getMarks().size());
         assertThrows(InvalidMoveException.class, () -> p1.getWeapons().get(0).getEffectsList().get(0).getEffects().get(1).getTarget().get(0).getCurrentPosition());
+        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
+    }
+
+    @Test
+    void PlayWeapon2(){
+        WeaponDeck deck = new WeaponDeck();
+        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
+        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
+        for(Player p: GameContext.get().getGame(0).getPlayers()){
+            p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
+        }
+        p1.getWeapons().add(new Weapon().initializeWeapon(1));
+        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(p1.getWeapons().get(0));
+        String weaponsEffect = "3 1";
+        System.out.println(GameContext.get().getGame(0).getPlayers().size());
+        try {
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+        }catch(IndexOutOfBoundsException | InvalidMoveException e){
+            System.out.println(e.getMessage());
+        }
+
+        //test effects on electroscythe with basic and alternative effect working
+        String weaponChosen = "C 3";
+        GameController.get().playWeapon(p1, weaponChosen, 0);
+        assertEquals(0, p1.getPlayerBoard().getDamage().size());
+        assertEquals(2, p2.getPlayerBoard().getDamage().size());
+        assertEquals(2, p3.getPlayerBoard().getDamage().size());
+        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
+    }
+
+    @Test
+    void PlayWeapon3(){
+        WeaponDeck deck = new WeaponDeck();
+        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
+        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
+        for(Player p: GameContext.get().getGame(0).getPlayers()){
+            p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
+        }
+        p1.getWeapons().add(new Weapon().initializeWeapon(2));
+        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(p1.getWeapons().get(0));
+        String weaponsEffect = "3 0";
+        System.out.println(GameContext.get().getGame(0).getPlayers().size());
+        try {
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+        }catch(IndexOutOfBoundsException | InvalidMoveException e){
+            System.out.println(e.getMessage());
+        }
+
+        //test effects on electroscythe with basic and alternative effect working
+        String weaponChosen = "user2:user3";
+        GameController.get().playWeapon(p1, weaponChosen, 0);
+        assertEquals(0, p1.getPlayerBoard().getDamage().size());
+        assertEquals(1, p2.getPlayerBoard().getDamage().size());
+        assertEquals(1, p3.getPlayerBoard().getDamage().size());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
 
