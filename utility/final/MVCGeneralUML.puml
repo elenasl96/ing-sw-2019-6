@@ -1,5 +1,4 @@
 @startuml
-interface Serializable
 package model{
     package decks{
         class AmmoDeck{
@@ -19,11 +18,11 @@ package model{
             - cost: Ammo
         }
 
-        interface Grabbable extends Serializable{
+        interface Grabbable{
             + pickGrabbable(int, int): void
         }
 
-        class Powerup implements Serializable{
+        class Powerup{
             - name: String
             - ammo: Ammo
             - moves: List<Move>
@@ -37,7 +36,7 @@ package model{
             + pickCard(): Powerup
         }
 
-        class Weapon implements Serializable{
+        class Weapon{
             - name: String
             - effectsDescription: String
             - status: WeaponStatus
@@ -93,7 +92,7 @@ package model{
             - weapons: WeaponTile
         }
 
-        class Square implements Serializable{
+        class Square{
             - color: Color
             - coord: Coordinate
             __
@@ -121,7 +120,7 @@ package model{
             + {abstract} fillField(String[], int): void
         }
 
-        interface Move extends Serializable{
+        interface Move{
             execute(Player, int): Response
         }
 
@@ -148,7 +147,7 @@ package model{
             - movement: Movement
         }
 
-        abstract Target implements Serializable{
+        abstract Target{
             - targetType: TargetType
             - minDistance: Integer
             - maxDistance: Integer
@@ -171,7 +170,7 @@ package model{
     }
 
     package room{
-        class Group implements Serializable{
+        class Group{
             - {static} uniqueGroupID: int
             - groupID: int
             - groupName: String
@@ -188,18 +187,50 @@ package model{
             + leave(User): void
             + observe(ModelObserver): void
             - checkUserInGroup(User): void
-            - readObject(ObjectInputStream): void
             + createGame(): void
             + characterIsTaken(Character): Boolean
             + sendStartNotification(): void
         }
 
+        Group <-- User
+        Group <-- ModelObserver
+
         interface ModelObserver {
             + onJoin(User): void
             + onLeave(User): void
             + onStart(): void
-
+            + onUpdate(Update): void
         }
+
+        class Update{
+            - playerChanges: boolean
+            - player: Player
+            - string: String
+            - move: String
+            - data: String
+            __
+            + Update(Player, boolean)
+            + Update(Player)
+            + Update(String)
+            + Update(String, String)
+        }
+
+        Update <-- Player
+
+        class User {
+            - username: String
+            - updateObservers: List<ModelObserver>
+            - {static} uniqueGroupID: int
+            - userID: int
+            - player: Player
+            - character: Character
+            __
+            + User(String)
+            + listenToMessages(ModelObserver): void
+            + receiveUpdate(Update): void
+        }
+
+        User <-- Player
     }
 
     class Ammo{
