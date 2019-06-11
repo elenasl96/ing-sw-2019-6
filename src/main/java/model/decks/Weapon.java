@@ -161,7 +161,7 @@ public class Weapon implements Serializable {
                         .add(new DamageEffect(Stream.of(targetBasic),1, false));
                 //ALternative Effect -- destination.cansee = null -> mysquare
                 targetOptional = new Player(NONE,0, 2);
-                weapon.getEffectsList().add(new CardEffect(OPTIONAL, Stream
+                weapon.getEffectsList().add(new CardEffect(ALTERNATIVE, Stream
                         .of(new Ammo(Color.RED), new Ammo(Color.YELLOW))));
                 weapon.getEffectsList().get(1).getEffects()
                         .add(new Movement(Stream.of(targetOptional),
