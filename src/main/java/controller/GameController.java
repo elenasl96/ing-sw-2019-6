@@ -310,7 +310,7 @@ public class GameController{
         String[] inputSplitted = input.split(";");
         String[][] inputMatrix = new String[inputSplitted.length][];
         for (int i = 0; i < inputSplitted.length; i++) {
-            inputMatrix[i] = inputSplitted[i].split(":");
+            inputMatrix[i] = inputSplitted[i].split(",");
         }
         return inputMatrix;
     }
@@ -320,7 +320,7 @@ public class GameController{
             for (int j=0; j<player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
                 int index=0;
                 try {
-                    fillTargets(player.getCurrentCardEffects().get(i).getEffects().get(j), inputMatrix[i], index, groupID);
+                    fillTargets(player.getCurrentCardEffects().get(i).getEffects().get(j), inputMatrix[j], index, groupID);
                 } catch (NullPointerException d) {
                     //for(i=i; i<player.getCurrentCardEffects().size(); i++){
                     //if(c.getEffects().get(i).getOptionality()) throw d;

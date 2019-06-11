@@ -115,7 +115,7 @@ class GameControllerTest {
         String weaponsEffect = "3 0 1";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         // Choose a non existing player
-        String weaponChosen = "elena:elena";
+        String weaponChosen = "elena,elena";
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
             GameController.get().playWeapon(p1, weaponChosen, 0);
@@ -184,7 +184,7 @@ class GameControllerTest {
         }
 
         //test effects on electroscythe with basic and alternative effect working
-        String weaponChosen = "user2:user3";
+        String weaponChosen = "user2;user3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getDamage().size());
