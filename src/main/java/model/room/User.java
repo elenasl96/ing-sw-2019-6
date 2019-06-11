@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class User implements Serializable, Comparable<User> {
 
@@ -62,7 +63,7 @@ public class User implements Serializable, Comparable<User> {
 
         User user = (User) o;
 
-        return username != null ? username.equals(user.username) : user.username == null;
+        return Objects.equals(username, user.username);
     }
 
     @Override
