@@ -91,6 +91,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     public synchronized Character setCharacter(int characterNumber) throws RemoteException{
         client.request(new SetCharacterRequest(characterNumber));
         client.nextResponse().handle(this);
+        client.received();
         return ClientContext.get().getCurrentUser().getCharacter();
     }
 
@@ -204,6 +205,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     @Override
     public void handle(UserCreatedResponse userCreatedResponse) {
         ClientContext.get().setCurrentUser(userCreatedResponse.user);
+        ClientContext.get().getCurrentUser().setPlayer(new Player());
     }
 
     @Override
