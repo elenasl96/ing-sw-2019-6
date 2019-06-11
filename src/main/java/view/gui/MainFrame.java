@@ -80,10 +80,6 @@ public class MainFrame extends JFrame {
 
         weapon = new JComboBox();
         powerUp = new JComboBox();
-        for (int i = 0; i < 10; i++) {
-            weapon.addItem(new String("Africa" + i));
-            powerUp.addItem(new String("nostra" + i));
-        }
 
         cardsContainer.add(weapon);
         cardsContainer.add(powerUp);
@@ -140,7 +136,7 @@ public class MainFrame extends JFrame {
         grab = new MoveButton("Grab", "grab");
         run = new MoveButton("Run", "run");
         shoot = new MoveButton("Shoot", "0");
-        powerup = new MoveButton("Power Up", "0");
+        powerup = new MoveButton("Power Up", "3");
         grab.addActionListener(actionListenerMovement);
         run.addActionListener(actionListenerMovement);
         shoot.addActionListener(actionListenerMovement);

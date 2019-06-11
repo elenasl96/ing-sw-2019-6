@@ -55,8 +55,12 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-        System.out.println(main.gui.getMove());
-        System.out.println(main.gui.getMove());
+        //System.out.println(main.gui.getMove());
+        //System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getJLabelText());
+        //System.out.println(main.gui.getMove());
+        System.out.println(main.gui.getJLabelText());
+        System.out.println(main.gui.getJLabelText());
         System.out.println(main.gui.getMove());
     }
 }
