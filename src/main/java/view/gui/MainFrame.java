@@ -13,9 +13,9 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
     private ClientController controller;
-    private final int DIMAMMOIMAGE = 25;
-    private final int WIDTHPAWN = 70;
-    private final int HEIGHTPAWN = 60;
+    private static final int DIM_AMMO_IMAGE = 25;
+    private static final int WIDTH_PAWN = 70;
+    private static final int HEIGHT_PAWN = 60;
 
     private AmmoPanel ammoRed;
     private AmmoPanel ammoBlue;
@@ -61,7 +61,7 @@ public class MainFrame extends JFrame {
             try {
                 charactersCoordinates[i] = new Character(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/Pedine/pg" +
                         (i + 1)+".png"))
-                        .getScaledInstance(WIDTHPAWN, HEIGHTPAWN, Image.SCALE_SMOOTH))));
+                        .getScaledInstance(WIDTH_PAWN, HEIGHT_PAWN, Image.SCALE_SMOOTH))));
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }
@@ -93,11 +93,11 @@ public class MainFrame extends JFrame {
         JPanel ammos = new JPanel(new GridLayout(4,1));
         try {
             ammoRed = new AmmoPanel(3, new ImageIcon(ImageIO.read(new File("src/resources/ammo1.png"))
-                    .getScaledInstance(DIMAMMOIMAGE, DIMAMMOIMAGE, Image.SCALE_SMOOTH)));
+                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
             ammoBlue = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/ammo2.png"))
-                    .getScaledInstance(DIMAMMOIMAGE, DIMAMMOIMAGE, Image.SCALE_SMOOTH)));
+                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
             ammoYellow = new AmmoPanel(2,new ImageIcon(ImageIO.read(new File("src/resources/ammo3.png"))
-                    .getScaledInstance(DIMAMMOIMAGE, DIMAMMOIMAGE, Image.SCALE_SMOOTH)));
+                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
