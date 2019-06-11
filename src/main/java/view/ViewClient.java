@@ -22,9 +22,12 @@ public class ViewClient implements View {
     private volatile boolean wait=true;
     private static final String PLEASE_NUMBER = "Please insert a Number";
 
+    private Clip clip;
+
     public ViewClient() {
         this.fromKeyBoard = new Scanner(System.in);
     }
+
 
     public void playMusic(String string){
         try {
@@ -32,14 +35,13 @@ public class ViewClient implements View {
             AudioInputStream stream;
             AudioFormat format;
             DataLine.Info info;
-            Clip clip;
-
             stream = AudioSystem.getAudioInputStream(yourFile);
             format = stream.getFormat();
             info = new DataLine.Info(Clip.class, format);
             clip = (Clip) AudioSystem.getLine(info);
             clip.open(stream);
             clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             displayText("Error!!");
             System.err.println(e.getMessage());
@@ -284,6 +286,7 @@ public class ViewClient implements View {
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
+        this.clip.stop();
         this.playMusic("src/resources/Music/Intro.wav");
     }
 
