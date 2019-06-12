@@ -173,7 +173,7 @@ public class Weapon implements Serializable {
                 //T.H.O.R.
                 weapon = new Weapon(
                         id,
-                        "T.H.O.R.",
+                        "THOR",
                         "basic effect: Deal 2 damage to 1 target you can see.\n" +
                                 "with chain reaction: Deal 1 damage to a second target that\n" +
                                 "your first target can see.\n" +
@@ -376,7 +376,7 @@ public class Weapon implements Serializable {
                 //Flamethrowner
                 weapon = new Weapon(
                         id,
-                        "Flamethrowner",
+                        "Flamethrower",
                         "basic mode: Choose a square 1 move away and possibly a second square\n" +
                                 "1 more move away in the same direction. On each square, you may\n" +
                                 "choose 1 target and give it 1 damage.\n" +

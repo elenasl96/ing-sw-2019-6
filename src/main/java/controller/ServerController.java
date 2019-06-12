@@ -212,12 +212,12 @@ public class ServerController implements RequestHandler {
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 } else {
                     update = new Update("You can reload these weapons: " + weaponsToReload.toString(),"choosecard");
-                    update.setData(weaponsToReload.getStringIdWeapons().toLowerCase());
+                    update.setData(weaponsToReload.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
                     user.receiveUpdate(update);
                     update = new Update("\n You have these ammos: " +
                             user.getPlayer().getAmmos().toString(),"reload");
                     update.setData(user.getPlayer().getAmmos().toString().replaceAll("[ ]","")
-                            .replaceAll(" ","").toLowerCase());
+                            .replaceAll(" ","").toLowerCase().replaceAll(" ",""));
                     user.receiveUpdate(update);
                     return new AskInput("grabWeapon");
                 }
