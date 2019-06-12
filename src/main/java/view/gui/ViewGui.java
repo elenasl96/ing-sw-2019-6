@@ -97,6 +97,7 @@ public class ViewGui implements View {
                 case "disablebutton": {
                     data = update.getData().split(";");
                     gui.disableButtons(data);
+                    gui.setBackGroundTurn(true);
                     break;
                 }
                 case "choosecard": {
@@ -147,9 +148,7 @@ public class ViewGui implements View {
 
     @Override
     public void waitingPhase() {
-        gui.setBackGroundTurn(false);
         while(wait);
-        gui.setBackGroundTurn(true);
     }
 
     @Override

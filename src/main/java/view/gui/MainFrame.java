@@ -193,8 +193,8 @@ public class MainFrame extends JFrame {
         setSize(1000, 485);
         setResizable(false);
 
-        weapon.addActionListener(e -> shoot.setMove(weapon.getSelectedIndex()+""));
-        powerup.addActionListener(e -> powerup.setMove((powerUp.getSelectedIndex()+3)+""));
+        weapon.addActionListener(e -> shoot.setMove((weapon.getSelectedIndex()+3)+""));
+        powerup.addActionListener(e -> powerup.setMove((powerUp.getSelectedIndex())+""));
     }
 
     public void setConsole(String message) {
@@ -229,8 +229,8 @@ public class MainFrame extends JFrame {
             switch(actionListenerMovement.getS()) {
                 case "run": run.setBorder(BorderFactory.createLoweredBevelBorder()); break;
                 case "grab": grab.setBorder(BorderFactory.createLoweredBevelBorder()); break;
-                case "0": case "1": case "2": shoot.setBorder(BorderFactory.createLoweredBevelBorder()); break;
-                case "3": case "4": case "5": powerup.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "0": case "1": case "2": powerup.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "3": case "4": case "5": shoot.setBorder(BorderFactory.createLoweredBevelBorder()); break;
                 default: break;
             }
 

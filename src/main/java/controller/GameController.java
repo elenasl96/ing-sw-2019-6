@@ -89,7 +89,7 @@ public class GameController{
                 return update;
             case RELOAD:
                 content.append("You can reload:\n").append(player.getWeapons());
-                update = new Update(content.toString(), "weapons");
+                update = new Update(content.toString(), "choosecard");
                 update.setData(player.getStringIdWeapons());
                 return update;
             default:
