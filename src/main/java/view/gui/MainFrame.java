@@ -35,12 +35,15 @@ public class MainFrame extends JFrame {
     private Object lockMove;
     private Object lockCoordinate;
     private Object lockChooseCard;
+    private Object lockReload;
 
     private MoveButtonActionListener actionListenerMovement;
     private CoordinateActionListener actionListenerCoordinate;
     private JPanel turnLight;
     private JComboBox weapon;
     private JComboBox powerUp;
+    private String yesnochoice;
+    private JFrame yesNoFrame;
 
     private SquarePanel mapGrid[][];
     private Character charactersCoordinates[];
@@ -51,6 +54,7 @@ public class MainFrame extends JFrame {
         lockMove = new Object();
         lockCoordinate = new Object();
         lockChooseCard = new Object();
+        lockReload = new Object();
 
         actionListenerMovement = new MoveButtonActionListener(lockMove);
         actionListenerCoordinate = new CoordinateActionListener(lockCoordinate);
@@ -373,5 +377,50 @@ public class MainFrame extends JFrame {
 
     public void createPopUp(String[] nameCard) {
         popUp = new PopUpCards(nameCard, lockChooseCard);
+    }
+
+    public void yesNoPopUp() {
+        yesNoFrame = new JFrame();
+
+        yesNoFrame.setTitle("Yes/No");
+        yesNoFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        yesNoFrame.setLayout(new BorderLayout());
+        yesNoFrame.setLocation(300,300);
+        yesNoFrame.add(new JLabel("Do you want to reload?"),BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton yes = new JButton("Yes");
+        JButton no = new JButton("No");
+        yes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (lockReload) {
+                    yesnochoice = ((JButton) e.getSource()).getText().toLowerCase();
+                    lockReload.notifyAll();
+                }
+            }
+        });
+
+        buttonPanel.add(yes);
+        buttonPanel.add(no);
+        yesNoFrame.add(buttonPanel);
+        yesNoFrame.setVisible(true);
+        yesNoFrame.pack();
+    }
+
+    public String yesNoChoose() {
+
+        synchronized (lockReload) {
+            try {
+                lockReload.wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println(e.getMessage());
+            }
+        }
+        yesNoFrame.setVisible(false);
+        yesNoFrame.dispose();
+
+        return yesnochoice;
     }
 }

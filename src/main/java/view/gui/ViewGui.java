@@ -168,12 +168,8 @@ public class ViewGui implements View {
 
     @Override
     public Boolean reloadPhase() {
-        String input;
-        do {
-            displayText("Do you want to reload any weapon?");
-            input = userInput();
-        }while(!input.equals("yes") && !input.equals("no"));
-        return (input.equals("yes"));
+        gui.yesNoPopUp();
+        return (gui.yesNoChoose().equals("yes"));
     }
 
     @Override
