@@ -31,7 +31,7 @@ public class Grab implements Move{
     public Response execute(Player p, int groupID) {
         if(p.getCurrentPosition().getGrabbable()==null) { throw new NothingGrabbableException(); }
         Update update = new Update("Insert the weapon you want to pick:" +  p.getCurrentPosition().getGrabbable().toString(),"choosecard");
-        update.setData(((WeaponTile)p.getCurrentPosition().getGrabbable()).getStringIdWeapons());
+        update.setData(((WeaponTile)p.getCurrentPosition().getGrabbable()).getStringIdWeapons().toLowerCase().toLowerCase().replaceAll(" ",""));
         p.receiveUpdate(update);
         return new AskInput("weapon choose");
     }

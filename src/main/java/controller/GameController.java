@@ -86,8 +86,8 @@ public class GameController{
                 return update;
             case RELOAD:
                 content.append("You can reload:\n").append(player.getWeapons());
-                update = new Update(content.toString(), "weapons");
-                update.setData(player.getStringIdWeapons());
+                update = new Update(content.toString(), "choosecard");
+                update.setData(player.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
                 return update;
             default:
                 break;
@@ -145,7 +145,7 @@ public class GameController{
                 .getBoard().getPowerupsLeft().pickCard());
         System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
         Update update = new Update(" Choose spawn point from:" + player.powerupsToString(),"choosecard");
-        update.setData(player.getStringIdPowerUp());
+        update.setData(player.getStringIdPowerUp().replaceAll(" ",""));
         return update;
     }
 

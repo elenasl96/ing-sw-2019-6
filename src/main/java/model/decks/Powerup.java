@@ -6,11 +6,12 @@ import model.moves.Move;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Powerup implements Serializable {
     private String name;
     private Ammo ammo;
-    private ArrayList<Move> moves = new ArrayList<>();
+    private List<Move> moves = new ArrayList<>();
 
     public Powerup(String name, Ammo ammo){
         this.name = name;
@@ -27,7 +28,7 @@ public class Powerup implements Serializable {
 
     @Override
     public String toString(){
-        return "Name: " + name + "\nAmmo: " + ammo.getColor().getName() + "\n" +
+        return "Name: " + name.substring(0,name.length()-1) + "\nAmmo: " + ammo.getColor().getName() + "\n" +
                 "=========================";
     }
 
@@ -35,4 +36,7 @@ public class Powerup implements Serializable {
         return name;
     }
 
+    public List<Move> getMoves() {
+        return moves;
+    }
 }

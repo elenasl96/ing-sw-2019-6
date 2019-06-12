@@ -90,23 +90,23 @@ public class ViewGui implements View {
                     break;
                 }
                 case "weapons": {
-                    data = update.getData().split(";");
-                    gui.clearWeaponBox();
-                    for(String s: data) {
-                        gui.addWeaponBox(s);
-                    }
+                    gui.addWeaponBox(update.getData());
                     break;
                 }
                 case "powerup": break;
                 case "disablebutton": {
                     data = update.getData().split(";");
                     gui.disableButtons(data);
+                    gui.setBackGroundTurn(true);
                     break;
                 }
                 case "choosecard": {
                     data = update.getData().split(";");
                     gui.createPopUp(data);
                     break;
+                }
+                case "turnbar": {
+                    gui.setBackGroundTurn(false);
                 }
                 default:
                     break;
@@ -151,9 +151,7 @@ public class ViewGui implements View {
 
     @Override
     public void waitingPhase() {
-        gui.setBackGroundTurn(false);
         while(wait);
-        gui.setBackGroundTurn(true);
     }
 
     @Override
@@ -168,12 +166,8 @@ public class ViewGui implements View {
 
     @Override
     public Boolean reloadPhase() {
-        String input;
-        do {
-            displayText("Do you want to reload any weapon?");
-            input = userInput();
-        }while(!input.equals("yes") && !input.equals("no"));
-        return (input.equals("yes"));
+        gui.yesNoPopUp();
+        return (gui.yesNoChoose().equals("yes"));
     }
 
     @Override

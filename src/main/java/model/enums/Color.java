@@ -38,4 +38,8 @@ public enum Color {
     public String getName(){
         return name;
     }
+
+    public char getAbbr() {
+        return abbr;
+    }
 }
