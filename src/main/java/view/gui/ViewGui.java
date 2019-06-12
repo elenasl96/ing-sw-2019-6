@@ -158,7 +158,7 @@ public class ViewGui implements View {
 
     @Override
     public Integer spawnPhase() {
-        return Integer.parseInt(gui.cardChoose());
+        return Integer.parseInt(weaponChosen());
     }
 
     @Override
@@ -189,5 +189,10 @@ public class ViewGui implements View {
     @Override
     public void playMusic(String s){
         viewCli.playMusic(s);
+    }
+
+    @Override
+    public String weaponChosen() {
+        return gui.cardChoose();
     }
 }

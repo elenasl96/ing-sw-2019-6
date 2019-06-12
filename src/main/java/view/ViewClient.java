@@ -47,6 +47,11 @@ public class ViewClient implements View {
         }
     }
 
+    @Override
+    public String weaponChosen() {
+        return userInput();
+    }
+
     public void run() {
         try {
             controller.run();
