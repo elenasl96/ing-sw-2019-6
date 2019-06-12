@@ -234,7 +234,7 @@ public class ServerController implements RequestHandler {
             case "weapon chosen":
                 try {
                     p.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
-                    p.setPhaseNotDone(false);
+                    //p.setPhaseNotDone(false); senza questo per ora funziona
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }catch (IndexOutOfBoundsException e){
                     user.receiveUpdate(new Update("Weapon index out of bounds",UPDATE_CONSOLE));
@@ -288,7 +288,7 @@ public class ServerController implements RequestHandler {
             default:
                 break;
         }
-
+        System.out.println("QUI");
         return null;
     }
 
