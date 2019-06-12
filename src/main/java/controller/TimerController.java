@@ -124,6 +124,7 @@ public class TimerController implements ModelObserver {
 
     @Override
     public void onUpdate(Update update) {
+        //Does Nothing
     }
 
     @Override
