@@ -1,5 +1,7 @@
 package model.moves;
 
+import model.decks.Weapon;
+import model.decks.WeaponTile;
 import model.exception.NothingGrabbableException;
 import model.Player;
 import model.room.Update;
@@ -28,8 +30,9 @@ public class Grab implements Move{
     @Override
     public Response execute(Player p, int groupID) {
         if(p.getCurrentPosition().getGrabbable()==null) { throw new NothingGrabbableException(); }
-        p.getUser().receiveUpdate(new Update(
-                    "Insert the weapon you want to pick:" +  p.getCurrentPosition().getGrabbable().toString()));
+        Update update = new Update("Insert the weapon you want to pick:" +  p.getCurrentPosition().getGrabbable().toString(),"choosecard");
+        update.setData(((WeaponTile)p.getCurrentPosition().getGrabbable()).getStringIdWeapons());
+        p.receiveUpdate(update);
         return new AskInput("weapon choose");
     }
 }

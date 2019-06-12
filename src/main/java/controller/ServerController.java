@@ -207,7 +207,7 @@ public class ServerController implements RequestHandler {
                     user.receiveUpdate(new Update("You haven't weapons to reload",UPDATE_CONSOLE));
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 } else {
-                    update = new Update("You can reload these weapons: " + weaponsToReload.toString(),"weapons");
+                    update = new Update("You can reload these weapons: " + weaponsToReload.toString(),"choosecard");
                     update.setData(weaponsToReload.getStringIdWeapons());
                     user.receiveUpdate(update);
                     update = new Update("\n You have these ammos: " +

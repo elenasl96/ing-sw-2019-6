@@ -14,7 +14,7 @@ public class WeaponCard extends JPanel {
         try {
             add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/Weapons/" +
                     /*name */ "mp40" + ".png"))
-                    .getScaledInstance(140,140, Image.SCALE_SMOOTH))));
+                    .getScaledInstance(140,70, Image.SCALE_SMOOTH))));
         } catch (IOException e) {
             e.printStackTrace();
         }
