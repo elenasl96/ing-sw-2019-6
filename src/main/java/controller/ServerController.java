@@ -295,17 +295,19 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(ShootRequest shootRequest) {
         try {
-            this.user.receiveUpdate(new Update(GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString())));
+            this.user.receiveUpdate(new Update(GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString(), currentGroup.getGroupID())));
             return new AskInput("fillFields");
-        }catch(IndexOutOfBoundsException e) {
-            user.receiveUpdate(new Update("Out of bound",UPDATE_CONSOLE));
-        } catch(InvalidMoveException e){
-            user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
-        }catch(NumberFormatException e){
-            user.receiveUpdate(new Update("Not valid number",UPDATE_CONSOLE));
-        }catch(NullPointerException e){
-            user.receiveUpdate(new Update("Not valid effects",UPDATE_CONSOLE));
-    }
+            }catch(IndexOutOfBoundsException e) {
+                user.receiveUpdate(new Update("Out of bound",UPDATE_CONSOLE));
+            } catch(InvalidMoveException e){
+                user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
+                user.getPlayer().setPhaseNotDone(true);
+                //user.receiveUpdate(new Update(user.getPlayer(),true)); <-socket null exception
+            }catch(NumberFormatException e){
+                user.receiveUpdate(new Update("Not valid number",UPDATE_CONSOLE));
+            }catch(NullPointerException e){
+                user.receiveUpdate(new Update("Not valid effects",UPDATE_CONSOLE));
+        }
         return null;
     }
 

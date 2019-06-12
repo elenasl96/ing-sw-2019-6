@@ -1,7 +1,7 @@
 package controller;
 
 import model.decks.CardEffect;
-import model.enums.TargetType;
+import model.enums.*;
 import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.Ammo;
@@ -9,9 +9,6 @@ import model.GameContext;
 import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
-import model.enums.EffectType;
-import model.enums.Phase;
-import model.enums.WeaponStatus;
 import model.field.SpawnSquare;
 import model.field.Square;
 import model.moves.Effect;
@@ -230,10 +227,10 @@ public class GameController{
         }
     }
 
-    synchronized String prepareWeapon(Player player, String weaponEffects) {
+    synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
         Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
-        if (!checkWeaponEffects(weapon, weaponEffectsSplitted))
+        if (!checkWeaponEffects(weapon, weaponEffectsSplitted, groupID))
                 throw new InvalidMoveException("Not valid sequence");
         //Add effects to player
         player.addEffectsToPlay(weaponEffectsSplitted);
@@ -246,16 +243,21 @@ public class GameController{
         return getEffectsToFill(player);
     }
 
-    private synchronized boolean checkWeaponEffects(Weapon weapon, String[] weaponEffectsSplitted) {
+    private synchronized boolean checkWeaponEffects(Weapon weapon, String[] weaponEffectsSplitted, int groupID) {
         //Check if player has the weapon
         int sequenceSize = weaponEffectsSplitted.length - 1;
         EffectType[] sequence = new EffectType[sequenceSize];
+        ArrayList<Ammo> ammosToPay = new ArrayList<>();
         if(!weapon.isLoaded())
             throw new InvalidMoveException("Weapon is not loaded");
         //Check if effects are in correct order -- generate sequence array of effectTypes
         for(int i=1; i<weaponEffectsSplitted.length; i++){
-            sequence[i-1] = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i])).getEffectType();
+            CardEffect effect = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i]));
+            ammosToPay.addAll(effect.getCost());
+            sequence[i-1] = effect.getEffectType();
         }
+        Pay payEffects = new Pay(ammosToPay);
+        payEffects.execute(GameContext.get().getGame(groupID).getCurrentPlayer(), groupID);
         System.out.println(Arrays.toString(sequence));
         //Compare the sequence given with the correct sequences
         if(sequenceSize == 1){

@@ -113,7 +113,7 @@ class GameControllerTest {
         // Choose a non existing player
         String weaponChosen = "elena,elena";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
             GameController.get().playWeapon(p1, weaponChosen, 0);
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
@@ -144,7 +144,7 @@ class GameControllerTest {
         String weaponsEffect = "3 1";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -172,7 +172,7 @@ class GameControllerTest {
         String weaponsEffect = "3 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -201,7 +201,7 @@ class GameControllerTest {
         String weaponsEffect = "3 1";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -232,7 +232,7 @@ class GameControllerTest {
         String weaponsEffect = "3 0 1 2";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect));
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
