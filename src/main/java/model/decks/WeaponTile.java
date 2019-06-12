@@ -54,16 +54,18 @@ public class WeaponTile implements Grabbable {
         GameContext.get().getGame(groupID).getCurrentPlayer()
                 .getWeapons().add(weapon); //Throws IndexOutOfBoundsException if toPick inserted by the user was >2
         //Removes the weapon picked up
-        GameContext.get().getGame(groupID).sendUpdate(new Update(
-                GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
-                        " picked "+weapon.toString()));
+        Update update;
+        update = new Update(GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
+                " picked "+weapon.toString(),"weapons");
+        update.setData(weapon.getName());
+        GameContext.get().getGame(groupID).sendUpdate(update);
         //TODO
         this.weapons.remove(toPick);
         //Refills the weapon
         Weapon newWeapon = GameContext.get().getGame(groupID).getBoard().getWeaponsLeft().pickCard();
         GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().addGrabbable(newWeapon, groupID);
         GameContext.get().getGame(groupID).sendUpdate(new Update(
-                "Weapon replaced by "+ newWeapon.toString()));
+                "Weapon replaced by "+ newWeapon.toString(), "updateconsole"));
     }
 
     @Override
