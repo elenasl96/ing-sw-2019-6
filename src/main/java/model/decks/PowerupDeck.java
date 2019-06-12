@@ -26,42 +26,42 @@ public class PowerupDeck {
 
     public PowerupDeck() {
         for (int i = 0; i == 0 || i == 12; i = i + 12) {
-            this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.YELLOW)));
+            this.powerups.add(new Powerup(TARGETING_SCOPE + Color.YELLOW.getAbbr(), new Ammo(Color.YELLOW)));
             this.powerups.get(i).addMove(new Pay());
             this.powerups.get(i).addMove(new DamageEffect(Stream.of(new Player()), 0, false));
 
-            this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.BLUE)));
+            this.powerups.add(new Powerup(TARGETING_SCOPE + Color.BLUE.getAbbr(), new Ammo(Color.BLUE)));
             this.powerups.get(1 + i).addMove(new Pay());
             this.powerups.get(1 + i).addMove(new DamageEffect(Stream.of(new Player()), 0, false));
 
-            this.powerups.add(new Powerup(TARGETING_SCOPE, new Ammo(Color.RED)));
+            this.powerups.add(new Powerup(TARGETING_SCOPE + Color.RED.getAbbr(), new Ammo(Color.RED)));
             this.powerups.get(2 + i).addMove(new Pay());
             this.powerups.get(2 + i).addMove(new DamageEffect(Stream.of(new Player()), 0, false));
             //TODO last powerup Elenina abbi pietà di me non ci capisco una sega
-            this.powerups.add(new Powerup(NEWTON, new Ammo(Color.YELLOW)));
+            this.powerups.add(new Powerup(NEWTON + Color.YELLOW.getAbbr(), new Ammo(Color.YELLOW)));
             //this.powerups.get(3 + i).addMove(new Movement());
-            this.powerups.add(new Powerup(NEWTON, new Ammo(Color.BLUE)));
+            this.powerups.add(new Powerup(NEWTON + Color.BLUE.getAbbr(), new Ammo(Color.BLUE)));
             //this.powerups.get(4 + i).addMove();
 
-            this.powerups.add(new Powerup(NEWTON, new Ammo(Color.RED)));
+            this.powerups.add(new Powerup(NEWTON + Color.RED.getAbbr(), new Ammo(Color.RED)));
             //this.powerups.get(5 + i).addMove();
 
-            this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.YELLOW)));
+            this.powerups.add(new Powerup(TAGBACK_GRENADE + Color.YELLOW.getAbbr(), new Ammo(Color.YELLOW)));
             this.powerups.get(6 + i).addMove(new MarkEffect(Stream.of(new Player()), 1, false));
 
-            this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.BLUE)));
+            this.powerups.add(new Powerup(TAGBACK_GRENADE + Color.BLUE.getAbbr(), new Ammo(Color.BLUE)));
             this.powerups.get(7 + i).addMove(new MarkEffect(Stream.of(new Player()), 1, false));
 
-            this.powerups.add(new Powerup(TAGBACK_GRENADE, new Ammo(Color.RED)));
+            this.powerups.add(new Powerup(TAGBACK_GRENADE + Color.RED.getAbbr(), new Ammo(Color.RED)));
             this.powerups.get(8 + i).addMove(new MarkEffect(Stream.of(new Player()), 1, false));
 
-            this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.YELLOW)));
+            this.powerups.add(new Powerup(TELEPORTER + Color.YELLOW.getAbbr(), new Ammo(Color.YELLOW)));
             this.powerups.get(9 + i).addMove(new Movement(Stream.of(new Player(TargetType.ME, null, null)),new Square(ALL, null, null), false));
 
-            this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.BLUE)));
+            this.powerups.add(new Powerup(TELEPORTER + Color.BLUE.getAbbr(), new Ammo(Color.BLUE)));
             this.powerups.get(10 + i).addMove(new Movement(Stream.of(new Player(TargetType.ME, null, null)),new Square(ALL, null, null), false));
 
-            this.powerups.add(new Powerup(TELEPORTER, new Ammo(Color.RED)));
+            this.powerups.add(new Powerup(TELEPORTER + Color.RED.getAbbr(), new Ammo(Color.RED)));
             this.powerups.get(11 + i).addMove(new Movement(Stream.of(new Player(TargetType.ME, null, null)),new Square(ALL, null, null), false));
         }
         shuffleDeck();

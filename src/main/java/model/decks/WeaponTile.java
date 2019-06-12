@@ -58,7 +58,9 @@ public class WeaponTile implements Grabbable {
         update = new Update(GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                 " picked "+weapon.toString(),"weapons");
         update.setData(weapon.getName());
-        GameContext.get().getGame(groupID).sendUpdate(update);
+        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update);
+        GameContext.get().getGame(groupID).sendUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
+                " picked "+weapon.toString(),"updateconsole"));
         //TODO
         this.weapons.remove(toPick);
         //Refills the weapon
