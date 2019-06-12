@@ -105,6 +105,9 @@ public class ViewGui implements View {
                     gui.createPopUp(data);
                     break;
                 }
+                case "turnbar": {
+                    gui.setBackGroundTurn(false);
+                }
                 default:
                     break;
             }

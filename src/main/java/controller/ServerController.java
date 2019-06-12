@@ -198,6 +198,8 @@ public class ServerController implements RequestHandler {
         Update update;
         switch (cardRequest.getCardType()) {
             case "noCard":
+                GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
+                        .receiveUpdate(new Update(null,"turnbar"));
                 GameController.get().updatePhase(currentGroup.getGroupID());
                 break;
             case "weaponToReload":
@@ -205,10 +207,12 @@ public class ServerController implements RequestHandler {
                 weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
                 if (weaponsToReload.getWeapons().isEmpty()) {
                     user.receiveUpdate(new Update("You haven't weapons to reload",UPDATE_CONSOLE));
+                    GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
+                            .receiveUpdate(new Update(null,"turnbar"));
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 } else {
                     update = new Update("You can reload these weapons: " + weaponsToReload.toString(),"choosecard");
-                    update.setData(weaponsToReload.getStringIdWeapons());
+                    update.setData(weaponsToReload.getStringIdWeapons().toLowerCase());
                     user.receiveUpdate(update);
                     update = new Update("\n You have these ammos: " +
                             user.getPlayer().getAmmos().toString(),"reload");
