@@ -90,11 +90,7 @@ public class ViewGui implements View {
                     break;
                 }
                 case "weapons": {
-                    data = update.getData().split(";");
-                    gui.clearWeaponBox();
-                    for(String s: data) {
-                        gui.addWeaponBox(s);
-                    }
+                    gui.addWeaponBox(update.getData());
                     break;
                 }
                 case "powerup": break;
