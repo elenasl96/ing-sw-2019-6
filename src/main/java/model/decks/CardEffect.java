@@ -35,4 +35,5 @@ public class CardEffect {
     public List<Ammo> getCost() {
         return cost;
     }
+
 }

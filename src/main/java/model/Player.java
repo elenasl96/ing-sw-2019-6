@@ -10,6 +10,7 @@ import model.exception.InvalidMoveException;
 import model.field.Edge;
 import model.field.Field;
 import model.field.Square;
+import model.moves.Effect;
 import model.moves.Move;
 import model.moves.Target;
 import model.room.Update;
@@ -347,5 +348,15 @@ public class Player extends Target implements Serializable{
 
     public int getPlayerNumber(){
         return this.playerNumber;
+    }
+
+    public Target getBasicTarget(int groupID) {
+        for(CardEffect c: currentCardEffects){
+            for(Effect e: c.getEffects()){
+                if(e.getTarget().size()==1)
+                    return e.getTarget().get(0).findRealTarget(name, groupID);
+            }
+        }
+        throw new InvalidMoveException("Not only one basic target");
     }
 }

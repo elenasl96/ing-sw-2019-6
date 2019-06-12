@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static model.enums.EffectType.*;
 import static model.enums.Phase.*;
+import static model.enums.TargetType.VISIBLE;
 
 /**
  * SINGLETON (SERVER SIDE)
@@ -350,6 +351,7 @@ public class GameController{
         }
     }
 
+    /*
     private int fillTargets(Effect effect, String[] inputMatrix, int groupID) {
         int index3=0;
         int index=0;
@@ -366,7 +368,7 @@ public class GameController{
         if(index3>0)
             return 1;
         else return 0;
-    }
+    }*/
 
     public void checkTarget(Target target, String inputName, int groupID) {
         Target realTarget = target.findRealTarget(inputName, groupID);
@@ -425,6 +427,12 @@ public class GameController{
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         player.generateVisible(groupID);
         switch (target.getTargetType()) {
+            case BASIC_VISIBLE:
+                Player basic= (Player) player.getBasicTarget(groupID);
+                basic.generateVisible(groupID);
+                if(!basic.getVisible().contains(realTarget.getCurrentPosition()))
+                    throw new InvalidMoveException("Target is not basic visible");
+                break;
             case VISIBLE:
                 if (!player.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Not visible target");
