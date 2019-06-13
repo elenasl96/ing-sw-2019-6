@@ -32,7 +32,7 @@ public class MoveAndGrab implements Move {
             p.getCurrentMoves().add(movement);
             p.getCurrentMoves().add(grab);
         }
-        try {
+
         while(!p.getCurrentMoves().isEmpty()){
                 Response response = p.getCurrentMoves().get(0).execute(p, groupID);
                 if(response != null) {
@@ -43,10 +43,6 @@ public class MoveAndGrab implements Move {
                     return response;
                 }
                 p.getCurrentMoves().remove(0);
-        }
-        }catch (InvalidMoveException e){
-            p.receiveUpdate(new Update(e.getMessage()));
-            throw e;
         }
         return null;
     }

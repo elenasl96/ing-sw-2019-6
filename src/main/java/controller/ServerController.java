@@ -332,10 +332,16 @@ public class ServerController implements RequestHandler {
             //go to next player and set phase
             GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().setPhaseNotDone(false);
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (InvalidMoveException | NullPointerException e) {
+        } catch (InvalidMoveException e) {
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+            user.getPlayer().setPhaseNotDone(false);
+            GameController.get().updatePhase(currentGroup.getGroupID());
+            user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
+        } catch (NullPointerException e){
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.getPlayer().setPhaseNotDone(true);
             user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
+
         }
         return null;
     }
