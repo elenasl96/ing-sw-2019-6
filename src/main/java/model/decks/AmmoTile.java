@@ -2,7 +2,9 @@ package model.decks;
 
 import model.Ammo;
 import model.GameContext;
+import model.Player;
 import model.enums.Color;
+import model.room.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public abstract class AmmoTile implements Grabbable {
     /**
      * The list of two ammos included with every ammo tile
      */
+    String grabbableType = "ammo";
     private List<Ammo> ammos = new ArrayList<>();
 
     /**
@@ -47,6 +50,11 @@ public abstract class AmmoTile implements Grabbable {
         ammos.add(ammoTemp2);
     }
 
+    @Override
+    public String getGrabbableType() {
+        return this.grabbableType;
+    }
+
     public List<Ammo> getAmmos() {
         return ammos;
     }
@@ -65,21 +73,26 @@ class AmmoTileWithAmmo extends AmmoTile{
     }
 
     @Override
-    public void pickGrabbable(int groupID, int toPick) {
-        GameContext.get().getGame(groupID).getCurrentPlayer().fillAmmoFromTile(this);
+    public void pickGrabbable(int groupID, int toPick){
+        Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
+        player.receiveUpdate(new Update(player.fillAmmoFromTile(this)));
     }
 }
 //TODO javadoc
 class AmmoTileWithPowerup extends AmmoTile{
-
     AmmoTileWithPowerup(Color color1, Color color2){
         super(color1, color2);
     }
 
     @Override
     public void pickGrabbable(int groupID, int toPick) {
-        GameContext.get().getGame(groupID).getCurrentPlayer().fillAmmoFromTile(this);
+        String ammosGrabbed = GameContext.get().getGame(groupID).getCurrentPlayer()
+                .fillAmmoFromTile(this);
+        Powerup cardPicked = GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard();
         GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups()
-                .add(GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().pickCard());
+                .add(cardPicked);
+        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(
+                new Update("You grab these ammos:" + ammosGrabbed +
+                        "You pick a new powerup:" + cardPicked.toString()));
     }
 }

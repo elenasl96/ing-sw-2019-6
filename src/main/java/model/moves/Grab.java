@@ -1,13 +1,11 @@
 package model.moves;
 
-import model.decks.Weapon;
 import model.decks.WeaponTile;
 import model.exception.NothingGrabbableException;
 import model.Player;
 import model.room.Update;
 import network.commands.Response;
 import network.commands.response.AskInput;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * The move representing the grabbing of something on current player's square
@@ -30,9 +28,16 @@ public class Grab implements Move{
     @Override
     public Response execute(Player p, int groupID) {
         if(p.getCurrentPosition().getGrabbable()==null) { throw new NothingGrabbableException(); }
-        Update update = new Update("Insert the weapon you want to pick:" +  p.getCurrentPosition().getGrabbable().toString(),"choosecard");
-        update.setData(((WeaponTile)p.getCurrentPosition().getGrabbable()).getStringIdWeapons().toLowerCase().toLowerCase().replaceAll(" ",""));
-        p.receiveUpdate(update);
-        return new AskInput("weapon choose");
+        if(p.getCurrentPosition().getGrabbable().getGrabbableType().equals("weapon")) {
+            Update update = new Update("Insert the weapon you want to pick:" + p.getCurrentPosition().getGrabbable().toString(), "choosecard");
+            update.setData(((WeaponTile) p.getCurrentPosition().getGrabbable()).getStringIdWeapons().toLowerCase().toLowerCase().replaceAll(" ", ""));
+            p.receiveUpdate(update);
+            return new AskInput("weapon choose");
+        }else{
+            System.out.println();
+            p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, 0);
+            p.setPhaseNotDone(false);
+            return null;
+        }
     }
 }

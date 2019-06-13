@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeaponTile implements Grabbable {
+    private String grabbableType = "weapon";
     private List<Weapon> weapons;
 
     public WeaponTile() {
@@ -30,6 +31,10 @@ public class WeaponTile implements Grabbable {
             stringbuilder.append(w.getName()+";");
         }
         return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
+    }
+
+    public String getGrabbableType() {
+        return grabbableType;
     }
 
     @Override
@@ -61,14 +66,16 @@ public class WeaponTile implements Grabbable {
         GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update);
         GameContext.get().getGame(groupID).sendUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                 " picked "+weapon.toString(),"updateconsole"));
-        //TODO
         this.weapons.remove(toPick);
+
         //Refills the weapon
         Weapon newWeapon = GameContext.get().getGame(groupID).getBoard().getWeaponsLeft().pickCard();
         GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().addGrabbable(newWeapon, groupID);
         GameContext.get().getGame(groupID).sendUpdate(new Update(
                 "Weapon replaced by "+ newWeapon.toString(), "updateconsole"));
     }
+
+
 
     @Override
     public String toString() {
