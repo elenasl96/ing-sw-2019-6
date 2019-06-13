@@ -3,6 +3,7 @@ package model.moves;
 import model.exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.Player;
+import model.room.Update;
 import network.commands.Response;
 
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class Pay implements Move {
                 throw new NotEnoughAmmoException();
         }
         p.getAmmos().removeAll(this.ammos);
+        Update update = new Update(null,"reload");
+        update.setData(p.getAmmos().toString().replace("[","").replace("]","")
+                .replace(" ","").toLowerCase());
+        p.receiveUpdate(update);
         return null;
     }
 

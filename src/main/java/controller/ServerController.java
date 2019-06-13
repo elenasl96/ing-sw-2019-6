@@ -216,8 +216,8 @@ public class ServerController implements RequestHandler {
                     user.receiveUpdate(update);
                     update = new Update("\n You have these ammos: " +
                             user.getPlayer().getAmmos().toString(),"reload");
-                    update.setData(user.getPlayer().getAmmos().toString().replaceAll("[ ]","")
-                            .replaceAll(" ","").toLowerCase().replaceAll(" ",""));
+                    update.setData(user.getPlayer().getAmmos().toString().replace("[","").replace("]","")
+                            .replace(" ","").toLowerCase());
                     user.receiveUpdate(update);
                     return new AskInput("grabWeapon");
                 }

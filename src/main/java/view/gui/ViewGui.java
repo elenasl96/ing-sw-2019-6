@@ -82,10 +82,13 @@ public class ViewGui implements View {
                     gui.setConsole(update.toString());
                     break;
                 case "reload": {
+                    System.out.println("RELOAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
                     data = update.getData().split(",");
                     gui.clearAmmoPanels();
-                    for (int i = 0; i < data.length; i++) {
-                        gui.changeAmmoPanel(data[i]);
+                    for(String s: data) {
+                        gui.changeAmmoPanel(s);
+                        System.out.println(s);
                     }
                     break;
                 }
@@ -156,7 +159,10 @@ public class ViewGui implements View {
 
     @Override
     public Integer spawnPhase() {
-        return Integer.parseInt(weaponChosen());
+        gui.setBackGroundTurn(true);
+        int val = Integer.parseInt(weaponChosen());
+        gui.setBackGroundTurn(false);
+        return val;
     }
 
     @Override

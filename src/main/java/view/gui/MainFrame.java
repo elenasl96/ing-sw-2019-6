@@ -306,9 +306,21 @@ public class MainFrame extends JFrame {
     public void changeAmmoPanel(String s) {
         switch(s)
         {
-            case "red": ammoRed.addAmmo(); break;
-            case "blue": ammoBlue.addAmmo(); break;
-            case "yellow": ammoYellow.addAmmo(); break;
+            case "red": {
+                ammoRed.addAmmo();
+                ammoRed.repaint();
+                break;
+            }
+            case "blue": {
+                ammoBlue.addAmmo();
+                ammoBlue.repaint();
+                break;
+            }
+            case "yellow": {
+                ammoYellow.addAmmo();
+                ammoYellow.repaint();
+                break;
+            }
         }
     }
 
@@ -385,7 +397,7 @@ public class MainFrame extends JFrame {
         yesNoFrame.setTitle("Yes/No");
         yesNoFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         yesNoFrame.setLayout(new BorderLayout());
-        yesNoFrame.setLocation(300,300);
+        yesNoFrame.setLocation(500,500);
         yesNoFrame.add(new JLabel("Do you want to reload?"),BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -404,8 +416,10 @@ public class MainFrame extends JFrame {
         buttonPanel.add(yes);
         buttonPanel.add(no);
         yesNoFrame.add(buttonPanel);
-        yesNoFrame.setVisible(true);
         yesNoFrame.pack();
+        yesNoFrame.setVisible(true);
+        yesNoFrame.setResizable(false);
+
     }
 
     public String yesNoChoose() {
