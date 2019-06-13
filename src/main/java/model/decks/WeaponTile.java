@@ -2,11 +2,14 @@ package model.decks;
 
 import model.Ammo;
 import model.GameContext;
+import model.Player;
 import model.enums.WeaponStatus;
+import model.exception.NotEnoughAmmoException;
 import model.moves.Pay;
 import model.room.Update;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WeaponTile implements Grabbable {
@@ -35,6 +38,21 @@ public class WeaponTile implements Grabbable {
 
     public String getGrabbableType() {
         return grabbableType;
+    }
+
+    @Override
+    public boolean isGrabbable(Player p) {
+        for(Weapon w: weapons){
+            int costSize = w.getEffectsList().get(0).getCost().size();
+            for(int i=1; i<costSize; i++){
+                if(Collections.frequency(
+                        p.getAmmos(), w.getEffectsList().get(0).getCost().get(i))>=
+                        Collections.frequency(w.getEffectsList().get(0).getCost().subList(1, costSize),
+                                w.getEffectsList().get(0).getCost().get(i)))
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override

@@ -58,6 +58,11 @@ public abstract class AmmoTile implements Grabbable {
     public List<Ammo> getAmmos() {
         return ammos;
     }
+
+    @Override
+    public boolean isGrabbable(Player player) {
+        return true;
+    }
 }
 
 //TODO javadoc
@@ -75,7 +80,7 @@ class AmmoTileWithAmmo extends AmmoTile{
     @Override
     public void pickGrabbable(int groupID, int toPick){
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
-        player.receiveUpdate(new Update(player.fillAmmoFromTile(this)));
+        player.receiveUpdate(new Update("You grab these ammos: " + player.fillAmmoFromTile(this)));
     }
 }
 //TODO javadoc

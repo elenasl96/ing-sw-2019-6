@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 import static model.enums.EffectType.*;
 import static model.enums.Phase.*;
-import static model.enums.TargetType.VISIBLE;
 
 /**
  * SINGLETON (SERVER SIDE)
@@ -52,39 +51,9 @@ public class GameController{
         Update update;
         switch (player.getPhase()){
             case FIRST: case SECOND:
-                content.append("\nThese are the moves you can choose");
-                StringBuilder forGui = new StringBuilder("");
-                if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
-                    content.append("\n||RUN||");
-                    forGui.append("RUN;");
-                    if(!player.getCurrentPosition().isEmpty()) {
-                        content.append("\n||GRAB||");
-                        forGui.append("GRAB;");
-                    }
-                    if(!player.getWeapons().isEmpty()) {
-                        content.append("\n||SHOOT||").append(player.weaponsToString());
-                        forGui.append("SHOOT;");
-                    }
-                } else {
-                    if(player.isFirstPlayer()){
-                        content.append("shoot (move up to 2 squares, reload, shoot)\n" +
-                                "grab (move up to 3 squares, grab)");
-                        forGui.append("GRAB;").append("SHOOT;");
-                    } else {
-                        content.append("shoot (move up to 1 squares, reload, shoot)\n" +
-                                "run (move up to 4 squares)\n" +
-                                "grab (move up to 2 squares, grab)");
-                        forGui.append("RUN;").append("GRAB;").append("SHOOT;");
-                    }
-                }
-                if(!player.getPowerups().isEmpty()) {
-                    content.append("\n||POWERUPS||").append(player.powerupsToString());
-                    forGui.append("POWERUPS;");
-                }
-                update = new Update(content.toString(),"disablebutton");
-                update.setData(forGui.toString().substring(0,forGui.toString().length()-1));
-                return update;
-            case RELOAD:
+                firstSecondMoves(player, content, groupID);
+                break;
+                case RELOAD:
                 content.append("You can reload:\n").append(player.getWeapons());
                 update = new Update(content.toString(), "choosecard");
                 update.setData(player.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
@@ -93,6 +62,43 @@ public class GameController{
                 break;
         }
         return new Update(content.toString(), UPDATECONSOLE);
+    }
+
+    private Update firstSecondMoves(Player player, StringBuilder content, int groupID) {
+        Update update;
+        content.append("\nThese are the moves you can choose");
+        StringBuilder forGui = new StringBuilder("");
+        if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
+            content.append("\n||RUN||");
+            forGui.append("RUN;");
+            if(!player.getCurrentPosition().isEmpty() &&
+                    player.getCurrentPosition().getGrabbable().isGrabbable(player)) {
+                content.append("\n||GRAB||");
+                forGui.append("GRAB;");
+            }
+            if(!player.getWeapons().isEmpty()) {
+                content.append("\n||SHOOT||").append(player.weaponsToString());
+                forGui.append("SHOOT;");
+            }
+        } else {
+            if(player.isFirstPlayer()){
+                content.append("shoot (move up to 2 squares, reload, shoot)\n" +
+                        "grab (move up to 3 squares, grab)");
+                forGui.append("GRAB;").append("SHOOT;");
+            } else {
+                content.append("shoot (move up to 1 squares, reload, shoot)\n" +
+                        "run (move up to 4 squares)\n" +
+                        "grab (move up to 2 squares, grab)");
+                forGui.append("RUN;").append("GRAB;").append("SHOOT;");
+            }
+        }
+        if(!player.getPowerups().isEmpty()) {
+            content.append("\n||POWERUPS||").append(player.powerupsToString());
+            forGui.append("POWERUPS;");
+        }
+        update = new Update(content.toString(),"disablebutton");
+        update.setData(forGui.toString().substring(0,forGui.toString().length()-1));
+        return update;
     }
 
     synchronized void setSpawn(Player player, int spawn, int groupID){
