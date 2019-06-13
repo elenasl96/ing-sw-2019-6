@@ -126,6 +126,7 @@ public class GameController{
             if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST);
             else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST_SPAWN);
             //send updates
+            //TODO CANCELLARE UPDATE E MODIFICARE PER GRAFICA
             GameContext.get().getGame(groupID).sendUpdate(new Update(
                     "\n>>> Player " + player.getName()+ " discarded:\n" +
                         "==========Powerup========\n" + discarded.toString(), UPDATECONSOLE));
@@ -255,10 +256,13 @@ public class GameController{
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
         if(!weapon.isLoaded())
             throw new InvalidMoveException("Weapon is not loaded");
-        //Check if effects are in correct order -- generate sequence array of effectTypes
+        //check if the player has enough ammos to pay for effects
         for(int i=1; i<weaponEffectsSplitted.length; i++){
+            int index = 0;
             CardEffect effect = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i]));
-            ammosToPay.addAll(effect.getCost());
+            if(effect.getEffectType().equals(BASIC))
+                index = 1;
+            ammosToPay.addAll(effect.getCost().subList(index, effect.getCost().size()-1));
             sequence[i-1] = effect.getEffectType();
         }
         Pay payEffects = new Pay(ammosToPay);

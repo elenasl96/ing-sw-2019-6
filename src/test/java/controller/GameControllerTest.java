@@ -79,7 +79,7 @@ class GameControllerTest {
     @Test
     void possibleMovesTest(){
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
-        GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
+//TODO CHECK        GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
         GameContext.get().getGame(0).getCurrentPlayer().getPowerups().add(new Powerup("dummy", new Ammo(Color.BLUE)));
         GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
@@ -107,7 +107,7 @@ class GameControllerTest {
         }
         p1.getWeapons().add(new Weapon().initializeWeapon(0));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
+        System.out.println(p1.getWeapons().get(0) + p1.getAmmos().toString());
         String weaponsEffect = "3 0 1";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         // Choose a non existing player
