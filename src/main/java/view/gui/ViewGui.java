@@ -95,7 +95,10 @@ public class ViewGui implements View {
                     gui.addWeaponBox(update.getData());
                     break;
                 }
-                case "powerup": break;
+                case "powerup": {
+                    gui.addPuBox(update.getData());
+                    break;
+                }
                 case "disablebutton": {
                     data = update.getData().split(";");
                     gui.disableButtons(data);
