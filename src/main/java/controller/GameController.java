@@ -493,8 +493,8 @@ public class GameController{
             pay.execute(player, groupID);
             Update update = new Update("Weapon reloaded!\nYou have these ammos: "
                     + player.getAmmos().toString(),"reload");
-            update.setData(player.getAmmos().toString().replaceAll("[ ]","")
-                    .replaceAll(" ","").toLowerCase());
+            update.setData(player.getAmmos().toString().replace("[","").replace("]","")
+                    .replace(" ","").toLowerCase());
             player.getUser().receiveUpdate(update);
         }catch (NotEnoughAmmoException e){
             e.getMessage();
