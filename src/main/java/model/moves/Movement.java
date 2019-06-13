@@ -1,7 +1,5 @@
 package model.moves;
 
-import controller.GameController;
-import model.exception.InvalidMoveException;
 import model.exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
@@ -154,7 +152,7 @@ public class Movement extends Effect{
     public String getFieldsToFill() {
         StringBuilder string = new StringBuilder();
         string.append("Movement: ");
-        for(Target t: targets){
+        for(Target t: this.getTarget()){
             string.append(t.getFieldsToFill());
         }
         if(destination != null) string.append("destination (Letter, Number); ");

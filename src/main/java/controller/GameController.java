@@ -31,6 +31,9 @@ import static model.enums.Phase.*;
 public class GameController{
     private static GameController instance;
     private static final String UPDATECONSOLE = "updateconsole";
+    private static final String GRAB = "GRAB";
+    private static final String SHOOT = "SHOOT";
+
     private GameController() {
     }
 
@@ -66,29 +69,29 @@ public class GameController{
     private Update firstSecondMoves(Player player, StringBuilder content, int groupID) {
         Update update;
         content.append("\nThese are the moves you can choose");
-        StringBuilder forGui = new StringBuilder("");
+        StringBuilder forGui = new StringBuilder();
         if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
             content.append("\n||RUN||");
             forGui.append("RUN;");
             if(!player.getCurrentPosition().isEmpty() &&
                     player.getCurrentPosition().getGrabbable().isGrabbable(player)) {
-                content.append("\n||GRAB||");
-                forGui.append("GRAB;");
+                content.append("\n||"+GRAB+"||");
+                forGui.append(GRAB+";");
             }
             if(!player.getWeapons().isEmpty()) {
                 content.append("\n||SHOOT||").append(player.weaponsToString());
-                forGui.append("SHOOT;");
+                forGui.append(SHOOT+";");
             }
         } else {
             if(player.isFirstPlayer()){
                 content.append("shoot (move up to 2 squares, reload, shoot)\n" +
                         "grab (move up to 3 squares, grab)");
-                forGui.append("GRAB;").append("SHOOT;");
+                forGui.append(GRAB+";").append("SHOOT;");
             } else {
                 content.append("shoot (move up to 1 squares, reload, shoot)\n" +
                         "run (move up to 4 squares)\n" +
                         "grab (move up to 2 squares, grab)");
-                forGui.append("RUN;").append("GRAB;").append("SHOOT;");
+                forGui.append("RUN;").append(GRAB+";").append("SHOOT;");
             }
         }
         if(!player.getPowerups().isEmpty()) {
@@ -361,25 +364,6 @@ public class GameController{
             }
         }
     }
-
-    /*
-    private int fillTargets(Effect effect, String[] inputMatrix, int groupID) {
-        int index3=0;
-        int index=0;
-        for (int k=0; k<effect.getTarget().size(); k++) {
-            if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-            if(!effect.getTarget().get(k).isFilled()) {
-                checkTarget(effect.getTarget().get(k), inputMatrix[index], groupID);
-                effect.getTarget().get(k)
-                        .setFieldsToFill(inputMatrix[index], groupID);
-                index++;
-                index3++;
-            }
-        }
-        if(index3>0)
-            return 1;
-        else return 0;
-    }*/
 
     public void checkTarget(Target target, String inputName, int groupID) {
         Target realTarget = target.findRealTarget(inputName, groupID);

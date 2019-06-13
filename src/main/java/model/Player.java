@@ -125,7 +125,7 @@ public class Player extends Target implements Serializable{
     public String getStringIdWeapons() {
         StringBuilder stringbuilder = new StringBuilder("");
         for(Weapon w: weapons) {
-            stringbuilder.append(w.getName()+";");
+            stringbuilder.append(w.getName()).append(";");
         }
         return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
     }
@@ -133,7 +133,7 @@ public class Player extends Target implements Serializable{
     public String getStringIdPowerUp() {
         StringBuilder stringbuilder = new StringBuilder("");
         for(Powerup p : powerups) {
-            stringbuilder.append(p.getName()+";");
+            stringbuilder.append(p.getName()).append(";");
         }
         return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
     }

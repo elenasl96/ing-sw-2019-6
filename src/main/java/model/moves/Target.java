@@ -7,7 +7,6 @@ import model.field.Square;
 import model.room.Update;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Target implements Serializable {

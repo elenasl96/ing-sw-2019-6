@@ -1,9 +1,7 @@
 package model.moves;
 
-import controller.GameController;
 import model.exception.FullMarksException;
 import model.Player;
-import model.exception.InvalidMoveException;
 import network.commands.Response;
 import java.util.Collections;
 import java.util.stream.Stream;
@@ -19,7 +17,7 @@ public class MarkEffect extends Effect implements Move{
     }
 
     public Response execute(Player p, int groupId) {
-        for(Target t : targets){
+        for(Target t : this.getTarget()){
             int occurrences = Collections.frequency(t.getPlayerBoards(groupId).get(0).getMarks(), p);
             if(occurrences<3){
                 t.getPlayerBoards(groupId).get(0).addMarks(p, min(3-occurrences, nMarks));
@@ -30,20 +28,14 @@ public class MarkEffect extends Effect implements Move{
         return null;
     }
 
-
     @Override
     public String getFieldsToFill() {
         StringBuilder string = new StringBuilder();
         string.append("Mark Effect: ");
-        for(Target t: targets){
+        for(Target t: this.getTarget()){
             string.append(t.getFieldsToFill());
         }
         return string.toString();
-    }
-
-    @Override
-    public void fillFields(int groupID) {
-        super.fillFields(groupID);
     }
 
     @Override

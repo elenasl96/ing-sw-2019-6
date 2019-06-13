@@ -4,7 +4,6 @@ import model.Ammo;
 import model.GameContext;
 import model.Player;
 import model.enums.WeaponStatus;
-import model.exception.NotEnoughAmmoException;
 import model.moves.Pay;
 import model.room.Update;
 
@@ -13,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class WeaponTile implements Grabbable {
-    private String grabbableType = "weapon";
     private List<Weapon> weapons;
 
     public WeaponTile() {
@@ -29,15 +27,15 @@ public class WeaponTile implements Grabbable {
     public List<Weapon> getWeapons() { return weapons; }
 
     public String getStringIdWeapons() {
-        StringBuilder stringbuilder = new StringBuilder("");
+        StringBuilder stringbuilder = new StringBuilder();
         for(Weapon w: weapons) {
-            stringbuilder.append(w.getName()+";");
+            stringbuilder.append(w.getName()).append(";");
         }
         return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
     }
 
     public String getGrabbableType() {
-        return grabbableType;
+        return "weapon";
     }
 
     @Override

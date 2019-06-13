@@ -4,7 +4,6 @@ import model.Board;
 import model.GameContext;
 import model.decks.AmmoTile;
 import model.decks.Grabbable;
-import model.decks.Weapon;
 import model.enums.Color;
 import org.jetbrains.annotations.Nullable;
 

@@ -293,7 +293,6 @@ public class ServerController implements RequestHandler {
             default:
                 break;
         }
-        System.out.println("QUI");
         return null;
     }
 

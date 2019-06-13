@@ -1,11 +1,9 @@
 package model.decks;
 
-import controller.GameController;
 import model.Ammo;
 import model.GameContext;
 import model.Player;
 import model.enums.Color;
-import model.exception.InvalidMoveException;
 import model.room.Update;
 
 import java.util.ArrayList;
@@ -25,7 +23,6 @@ public abstract class AmmoTile implements Grabbable {
     /**
      * The list of two ammos included with every ammo tile
      */
-    private String grabbableType = "ammo";
     private List<Ammo> ammos = new ArrayList<>();
 
     /**
@@ -66,7 +63,7 @@ public abstract class AmmoTile implements Grabbable {
 
     @Override
     public String getGrabbableType() {
-        return this.grabbableType;
+        return "ammo";
     }
 
     public List<Ammo> getAmmos() {

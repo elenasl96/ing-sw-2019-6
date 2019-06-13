@@ -15,9 +15,7 @@ public enum TargetType {
     DIFFERENT_SQUARE(10),
     SAME(11);
 
-    private int number;
 
     TargetType(int number){
-        this.number = number;
     }
 }

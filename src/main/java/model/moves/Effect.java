@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public abstract class Effect implements Move {
     private Boolean optionality;
-    List<Target> targets = new ArrayList<>();
+    private List<Target> targets = new ArrayList<>();
 
     public Effect(){
     }
@@ -26,10 +26,6 @@ public abstract class Effect implements Move {
 
     public Boolean getOptionality() {
         return optionality;
-    }
-
-    public void setOptionality(Boolean optionality) {
-        this.optionality = optionality;
     }
 
     public abstract String getFieldsToFill();

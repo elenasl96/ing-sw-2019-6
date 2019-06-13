@@ -1,8 +1,6 @@
 package model.moves;
 
-import controller.GameController;
 import model.Player;
-import model.exception.InvalidMoveException;
 import network.commands.Response;
 import java.util.stream.Stream;
 
@@ -16,7 +14,7 @@ public class DamageEffect extends Effect{
 
     @Override
     public Response execute(Player playerDamaging, int groupId){
-        for ( Target t : targets){
+        for ( Target t : this.getTarget()){
             t.addDamages(playerDamaging, damages, groupId);
         }
         return null;
@@ -25,19 +23,13 @@ public class DamageEffect extends Effect{
     @Override
     public String getFieldsToFill() {
         StringBuilder string = new StringBuilder();
-        for(Target t: targets){
+        for(Target t: this.getTarget()){
             string.append(t.getFieldsToFill());
         }
         if(!string.toString().isEmpty())
             return "Damage Effect: " + string.toString();
         else
             return string.toString();
-    }
-
-    @Override
-    public void fillFields(int groupID) {
-       super.fillFields(groupID);
-
     }
 
     @Override

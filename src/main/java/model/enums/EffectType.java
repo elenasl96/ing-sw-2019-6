@@ -11,9 +11,6 @@ public enum EffectType {
     BEFORE_BASIC(8),
     EVERY_TIME(9);
 
-    private int number;
-
     EffectType(int number){
-        this.number = number;
     }
 }

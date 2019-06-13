@@ -3,8 +3,6 @@ package model.moves;
 import model.GameContext;
 import model.Player;
 import model.enums.Phase;
-import model.exception.InvalidMoveException;
-import model.exception.InvalidMovementException;
 import model.field.Coordinate;
 import model.room.Update;
 import network.commands.Response;
