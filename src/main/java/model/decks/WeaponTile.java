@@ -59,6 +59,7 @@ public class WeaponTile implements Grabbable {
     public void pickGrabbable(int groupID, int toPick) {
         Weapon weapon = this.weapons.get(toPick);
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
+
         //Try to pay the weapon
         if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED)) {
             if (weapon.getEffectsList().get(0).getCost().size() <= 1) {
@@ -73,10 +74,12 @@ public class WeaponTile implements Grabbable {
             }
         }
         //Pick weapon
-        System.out.println(toPick);
         GameContext.get().getGame(groupID).getCurrentPlayer()
                 .getWeapons().add(weapon); //Throws IndexOutOfBoundsException if toPick inserted by the user was >2
         //Removes the weapon picked up
+        this.weapons.remove(toPick);
+
+        //Send updates
         Update update;
         update = new Update(GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                 " picked "+weapon.toString(),"weapons");
@@ -84,15 +87,17 @@ public class WeaponTile implements Grabbable {
         GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update);
         GameContext.get().getGame(groupID).sendUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                 " picked "+weapon.toString(),"updateconsole"));
-        this.weapons.remove(toPick);
 
         //Refills the weapon
+        refillWeapon(groupID);
+    }
+
+    private void refillWeapon(int groupID) {
         Weapon newWeapon = GameContext.get().getGame(groupID).getBoard().getWeaponsLeft().pickCard();
-        GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().addGrabbable(newWeapon, groupID);
+        this.weapons.add(newWeapon);
         GameContext.get().getGame(groupID).sendUpdate(new Update(
                 "Weapon replaced by "+ newWeapon.toString(), "updateconsole"));
     }
-
 
 
     @Override

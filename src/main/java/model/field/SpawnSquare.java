@@ -28,7 +28,7 @@ public class SpawnSquare extends Square{
     }
 
     @Override
-    public void addGrabbable(Weapon weapon, int groupID) {
-        this.weapons.addWeapon(weapon);
+    public void addGrabbable(Grabbable weapon, int groupID) {
+        this.weapons.addWeapon((Weapon) weapon);
     }
 }

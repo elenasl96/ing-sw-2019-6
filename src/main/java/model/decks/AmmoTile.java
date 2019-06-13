@@ -1,5 +1,6 @@
 package model.decks;
 
+import controller.GameController;
 import model.Ammo;
 import model.GameContext;
 import model.Player;
@@ -24,7 +25,7 @@ public abstract class AmmoTile implements Grabbable {
     /**
      * The list of two ammos included with every ammo tile
      */
-    String grabbableType = "ammo";
+    private String grabbableType = "ammo";
     private List<Ammo> ammos = new ArrayList<>();
 
     /**
@@ -49,6 +50,18 @@ public abstract class AmmoTile implements Grabbable {
         Ammo ammoTemp2 = new Ammo (color2);
         ammos.add(ammoTemp1);
         ammos.add(ammoTemp2);
+    }
+
+    void replaceAmmoTile(AmmoTile ammoTilePicked, int groupID){
+        Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
+        //Removes the AmmoTile picked up
+        Update update;
+        update = new Update(player.getName()+
+                " picked "+ ammoTilePicked.toString(),"weapons");
+        //TODO X SCHERO: ADATTARE PER AMMO (PRESO DA WEAPONZ) update.setData(ammoTilePicked.getName());
+        player.receiveUpdate(update);
+        GameContext.get().getGame(groupID).sendUpdate(new Update(player.getName()+
+                " picked " + ammoTilePicked.toString(),"updateconsole"));
     }
 
     @Override

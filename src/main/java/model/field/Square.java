@@ -1,6 +1,7 @@
 package model.field;
 
 import model.*;
+import model.decks.AmmoTile;
 import model.decks.Grabbable;
 import model.decks.Weapon;
 import model.enums.Color;
@@ -140,7 +141,7 @@ public class Square extends Target implements Serializable {
         return this.getGrabbable()==null;
     }
 
-    public void addGrabbable(Weapon grabbable, int groupID) {
+    public void addGrabbable(Grabbable grabbable, int groupID) {
         //DO nothing
     }
 
@@ -173,5 +174,10 @@ public class Square extends Target implements Serializable {
 
     public void setCoordinate(Coordinate fillCoordinate) {
         this.coord = fillCoordinate;
+    }
+
+    public void replaceAmmoTile(int groupID) {
+        GameContext.get().getGame(groupID).getBoard().getAmmosLeft().discardCard((AmmoTile) this.getGrabbable());
+        this.addGrabbable(GameContext.get().getGame(groupID).getBoard().getAmmosLeft().pickCard(), groupID);
     }
 }

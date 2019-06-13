@@ -3,6 +3,7 @@ package model.field;
 import model.Board;
 import model.GameContext;
 import model.decks.AmmoTile;
+import model.decks.Grabbable;
 import model.decks.Weapon;
 import model.enums.Color;
 import org.jetbrains.annotations.Nullable;
@@ -76,7 +77,7 @@ public class AmmoSquare extends Square{
      * @see this#setGrabbable(Board)
      */
     @Override
-    public void addGrabbable(Weapon weapon, int groupID) {
+    public void addGrabbable(Grabbable weapon, int groupID) {
         this.ammo = GameContext.get().getGame(groupID).getBoard().getAmmosLeft().pickCard();
     }
 }

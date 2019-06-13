@@ -36,6 +36,8 @@ public class Grab implements Move{
         }else{
             System.out.println();
             p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, 0);
+            //Remove ammoTile from Field
+            p.getCurrentPosition().replaceAmmoTile(groupID);
             p.setPhaseNotDone(false);
             return null;
         }
