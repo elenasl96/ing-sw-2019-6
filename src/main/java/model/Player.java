@@ -219,14 +219,17 @@ public class Player extends Target implements Serializable{
         this.phaseNotDone = b;
     }
 
-    public void fillAmmoFromTile(AmmoTile ammotile) {
+    public String fillAmmoFromTile(AmmoTile ammotile) {
+        StringBuilder ammosFilled = new StringBuilder();
         List<Ammo> refill=ammotile.getAmmos();
         for(Ammo a: refill) {
             if(Collections.frequency(ammos,a)<3)
             {
                 ammos.add(a.cloneAmmo());
+                ammosFilled.append(a.toString());
             }
         }
+        return ammosFilled.toString();
     }
 
     //To string
