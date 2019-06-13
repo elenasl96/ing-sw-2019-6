@@ -51,8 +51,7 @@ public class GameController{
         Update update;
         switch (player.getPhase()){
             case FIRST: case SECOND:
-                firstSecondMoves(player, content, groupID);
-                break;
+                return firstSecondMoves(player, content, groupID);
                 case RELOAD:
                 content.append("You can reload:\n").append(player.getWeapons());
                 update = new Update(content.toString(), "choosecard");
