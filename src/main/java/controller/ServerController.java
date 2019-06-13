@@ -1,5 +1,6 @@
 package controller;
 
+import model.decks.Grabbable;
 import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.GameContext;
@@ -329,9 +330,11 @@ public class ServerController implements RequestHandler {
                return response;
             }
             //go to next player and set phase
+            GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().setPhaseNotDone(false);
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (InvalidMoveException e) {
-            user.receiveUpdate(new Update(e.getMessage()));
+        } catch (InvalidMoveException | NullPointerException e) {
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+            user.getPlayer().setPhaseNotDone(true);
             user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
         }
         return null;
