@@ -3,6 +3,8 @@ package model.moves;
 import model.GameContext;
 import model.Player;
 import model.enums.Phase;
+import model.exception.InvalidMoveException;
+import model.exception.InvalidMovementException;
 import model.field.Coordinate;
 import model.room.Update;
 import network.commands.Response;
@@ -30,16 +32,21 @@ public class MoveAndGrab implements Move {
             p.getCurrentMoves().add(movement);
             p.getCurrentMoves().add(grab);
         }
+        try {
         while(!p.getCurrentMoves().isEmpty()){
-            Response response = p.getCurrentMoves().get(0).execute(p, groupID);
-            if(response != null) {
-                Phase phase = p.getPhase();
-                p.setPhase(WAIT);
-                p.getUser().receiveUpdate(new Update(p,true));
-                p.setPhase(phase);
-                return response;
-            }
-            p.getCurrentMoves().remove(0);
+                Response response = p.getCurrentMoves().get(0).execute(p, groupID);
+                if(response != null) {
+                    Phase phase = p.getPhase();
+                    p.setPhase(WAIT);
+                    p.getUser().receiveUpdate(new Update(p,true));
+                    p.setPhase(phase);
+                    return response;
+                }
+                p.getCurrentMoves().remove(0);
+        }
+        }catch (InvalidMoveException e){
+            p.receiveUpdate(new Update(e.getMessage()));
+            throw e;
         }
         return null;
     }

@@ -4,6 +4,7 @@ import model.Ammo;
 import model.GameContext;
 import model.Player;
 import model.enums.Color;
+import model.exception.InvalidMoveException;
 import model.room.Update;
 
 import java.util.ArrayList;
@@ -80,10 +81,16 @@ class AmmoTileWithAmmo extends AmmoTile{
     @Override
     public void pickGrabbable(int groupID, int toPick){
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
-        Update update = new Update("You grab these ammos: " + player.fillAmmoFromTile(this),"reload");
-        update.setData(player.getAmmos().toString().replace("[","").replace("]","")
-                .replace(" ","").toLowerCase());
-        player.receiveUpdate(update);
+        try {
+            Update update = new Update("You grab these ammos: " + player.fillAmmoFromTile(this), "reload");
+            update.setData(player.getAmmos().toString().replace("[", "").replace("]", "")
+                    .replace(" ", "").toLowerCase());
+            //TODO REPLACE IN FIELD
+            player.receiveUpdate(update);
+        }catch (InvalidMoveException e){
+            player.receiveUpdate(new Update(e.getMessage()));
+            throw e;
+        }
 
     }
 }

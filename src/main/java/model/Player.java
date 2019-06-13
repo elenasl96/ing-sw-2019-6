@@ -229,6 +229,8 @@ public class Player extends Target implements Serializable{
                 ammosFilled.append(a.toString());
             }
         }
+        if(ammosFilled.toString().isEmpty()) throw new InvalidMoveException("You cannot have more ammos of that color");
+
         return ammosFilled.toString();
     }
 
