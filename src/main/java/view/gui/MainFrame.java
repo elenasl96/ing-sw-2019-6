@@ -93,9 +93,10 @@ public class MainFrame extends JFrame {
         cardsContainer.add(weapon);
         cardsContainer.add(powerUp);
 
-        JLabel name = new JLabel("NOME GIOCATORE                           ");
-        name.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel ammos = new JPanel(new GridLayout(4,1));
+        JPanel writesPanel = new JPanel(new GridLayout(2,1));
+        writesPanel.add(new JLabel("NOME GIOCATORE                           ",SwingConstants.CENTER));
+        writesPanel.add(new JLabel("AMMO",SwingConstants.CENTER));
+        JPanel ammos = new JPanel(new GridLayout(3,1));
         try {
             ammoRed = new AmmoPanel(1, new ImageIcon(ImageIO.read(new File("src/resources/Ammo/ammoR.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
@@ -107,7 +108,6 @@ public class MainFrame extends JFrame {
             System.out.println(e.getMessage());
         }
 
-        ammos.add(new JLabel("AMMO"));
         ammos.add(ammoRed);
         ammos.add(ammoBlue);
         ammos.add(ammoYellow);
@@ -115,7 +115,7 @@ public class MainFrame extends JFrame {
         cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel left = new JPanel(new GridLayout(4, 1));
-        left.add(name);
+        left.add(writesPanel);
         left.add(ammos);
         left.add(cardLabel);
         left.add(cardsContainer);
