@@ -82,14 +82,13 @@ public class ViewGui implements View {
                     gui.setConsole(update.toString());
                     break;
                 case "reload": {
-                    System.out.println("RELOAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
                     data = update.getData().split(",");
                     gui.clearAmmoPanels();
                     for(String s: data) {
                         gui.changeAmmoPanel(s);
                         System.out.println(s);
                     }
+                    gui.updateAmmoPanels();
                     break;
                 }
                 case "weapons": {

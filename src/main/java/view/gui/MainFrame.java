@@ -13,7 +13,7 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
     private ClientController controller;
-    private static final int DIM_AMMO_IMAGE = 25;
+    private static final int DIM_AMMO_IMAGE = 30;
     private static final int WIDTH_PAWN = 70;
     private static final int HEIGHT_PAWN = 60;
 
@@ -93,21 +93,21 @@ public class MainFrame extends JFrame {
         cardsContainer.add(weapon);
         cardsContainer.add(powerUp);
 
-        JLabel name = new JLabel("NOME GIOCATORE");
-        name.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel ammos = new JPanel(new GridLayout(4,1));
+        JPanel writesPanel = new JPanel(new GridLayout(2,1));
+        writesPanel.add(new JLabel("NOME GIOCATORE                           ",SwingConstants.CENTER));
+        writesPanel.add(new JLabel("AMMO",SwingConstants.CENTER));
+        JPanel ammos = new JPanel(new GridLayout(3,1));
         try {
-            ammoRed = new AmmoPanel(1, new ImageIcon(ImageIO.read(new File("src/resources/ammo1.png"))
+            ammoRed = new AmmoPanel(1, new ImageIcon(ImageIO.read(new File("src/resources/Ammo/ammoR.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-            ammoBlue = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/ammo2.png"))
+            ammoBlue = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/Ammo/ammoB.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-            ammoYellow = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/ammo3.png"))
+            ammoYellow = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/Ammo/ammoY.png"))
                     .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
-        ammos.add(new JLabel("AMMO"));
         ammos.add(ammoRed);
         ammos.add(ammoBlue);
         ammos.add(ammoYellow);
@@ -115,7 +115,7 @@ public class MainFrame extends JFrame {
         cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel left = new JPanel(new GridLayout(4, 1));
-        left.add(name);
+        left.add(writesPanel);
         left.add(ammos);
         left.add(cardLabel);
         left.add(cardsContainer);
@@ -190,7 +190,7 @@ public class MainFrame extends JFrame {
         add(right, BorderLayout.EAST);
         add(playerBoard, BorderLayout.SOUTH);
 
-        setSize(1000, 485);
+        setSize(1050, 485);
         setResizable(false);
 
         weapon.addActionListener(e -> shoot.setMove((weapon.getSelectedIndex()+3)+""));
@@ -293,11 +293,14 @@ public class MainFrame extends JFrame {
             mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
                     .remove(charactersCoordinates[character].getIcon());
             mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
+                    .invalidate();
+            mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
                     .revalidate();
         }
 
         mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65]
                 .add(charactersCoordinates[character].getIcon());
+        mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65].invalidate();
         mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65].revalidate();
 
         charactersCoordinates[character].setCoordinate(coordinates);
@@ -308,17 +311,14 @@ public class MainFrame extends JFrame {
         {
             case "red": {
                 ammoRed.addAmmo();
-                ammoRed.repaint();
                 break;
             }
             case "blue": {
                 ammoBlue.addAmmo();
-                ammoBlue.repaint();
                 break;
             }
             case "yellow": {
                 ammoYellow.addAmmo();
-                ammoYellow.repaint();
                 break;
             }
         }
@@ -328,6 +328,15 @@ public class MainFrame extends JFrame {
         ammoYellow.removeAll();
         ammoBlue.removeAll();
         ammoRed.removeAll();
+    }
+
+    public void updateAmmoPanels() {
+        ammoYellow.invalidate();
+        ammoYellow.revalidate();
+        ammoBlue.invalidate();
+        ammoBlue.revalidate();
+        ammoRed.invalidate();
+        ammoRed.revalidate();
     }
 
     public SquarePanel[][] getMapGrid() {
