@@ -149,7 +149,7 @@ class GameControllerTest {
             System.out.println(e.getMessage());
         }
 
-        //test effects on electroscythe with basic and alternative effect working
+        //test effects on lockrifle
         String weaponChosen = "C 3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());

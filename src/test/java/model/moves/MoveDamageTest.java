@@ -20,11 +20,11 @@ public class MoveDamageTest {
         playerDamaged = new Player();
         damage = new DamageEffect(Stream.of(playerDamaged), 6, false);
         damage.execute(playerDamaging, 0);
-        assertEquals(6, playerDamaged.getPlayerBoards(0).get(0).getNumDamageLeft());
+        assertEquals(6, playerDamaged.getPlayerBoard().getNumDamageLeft());
         damage.execute(playerDamaging, 0);
-        assertEquals(0, playerDamaged.getPlayerBoards(0).get(0).getNumDamageLeft());
+        assertEquals(0, playerDamaged.getPlayerBoard().getNumDamageLeft());
         damage.execute(playerDamaging, 0);
-        assertEquals(0, playerDamaged.getPlayerBoards(0).get(0).getNumDamageLeft());
+        assertEquals(0, playerDamaged.getPlayerBoard().getNumDamageLeft());
 
     }
 }

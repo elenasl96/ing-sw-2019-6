@@ -38,7 +38,7 @@ class PlayerTest {
         assertEquals(Phase.FIRST, pg.getPhase());
         assertTrue( pg.getPowerups().isEmpty());
         assertTrue(pg.getWeapons().isEmpty());
-        assertEquals(0, pg.getPlayerBoards(0).get(0).getDeaths());
+        assertEquals(0, pg.getPlayerBoard().getDeaths());
     }
 
     @Test

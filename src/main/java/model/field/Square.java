@@ -3,7 +3,6 @@ package model.field;
 import model.*;
 import model.decks.AmmoTile;
 import model.decks.Grabbable;
-import model.decks.Weapon;
 import model.enums.Color;
 import model.enums.TargetType;
 import model.exception.InvalidMoveException;
@@ -13,7 +12,6 @@ import model.room.Update;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static model.field.Coordinate.fillCoordinate;
 
@@ -59,28 +57,6 @@ public class Square extends Target implements Serializable {
         return coord;
     }
 
-    public List<PlayerBoard> getPlayerBoards(int groupId){
-        Player currentPlayer = GameContext.get().getGame(groupId).getCurrentPlayer();
-        ArrayList<PlayerBoard> boards = new ArrayList<>();
-        for(Player p : GameContext.get().getGame(groupId).getPlayers().stream()
-                .filter(p -> p.getCurrentPosition().coord.equals(this.coord) && !p.equals(currentPlayer))
-                .collect(Collectors.toList())){
-            boards.add(p.getPlayerBoards(groupId).get(0));
-        }
-        return boards;
-    }
-
-    @Override
-    public void receiveUpdate(Update update) {
-        //TODO send update to all users in that square
-    }
-
-    @Override
-    public String getFieldsToFill() {
-        if (this.coord == null) return "Choose the square; ";
-        else return "";
-    }
-
     public boolean canBeSeen(Player player, int groupID) {
         if(player.getCurrentPosition().getColor().equals(this.getColor()))
             return true;
@@ -96,45 +72,6 @@ public class Square extends Target implements Serializable {
                     return true;
             }
         } return false;
-    }
-
-    @Override
-    public void setFieldsToFill(String input, int groupID) {
-        this.coord = fillCoordinate(input);
-    }
-
-    @Override
-    public Target fillFields(int groupID) {
-        return this.findRealTarget(coord.toString(), groupID);
-    }
-
-    @Override
-    public boolean isFilled() {
-        return coord!=null;
-    }
-
-    @Override
-    public Square getCurrentPosition() {
-        return this;
-    }
-
-    @Override
-    public Target findRealTarget(String coordinateString, int groupID) {
-        Coordinate coordinate = fillCoordinate(coordinateString);
-        for(Square s: GameContext.get().getGame(groupID).getBoard().getField().getSquares()){
-            if(s.getCoord().equals(coordinate)) return s;
-        }
-        throw new InvalidMoveException("Square " + coordinate + " doesn't exist.");
-    }
-
-    @Override
-    public boolean sameAsMe(int groupID) {
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return this.coord.toString();
     }
 
     public boolean isEmpty() {
@@ -179,5 +116,71 @@ public class Square extends Target implements Serializable {
     public void replaceAmmoTile(int groupID) {
         GameContext.get().getGame(groupID).getBoard().getAmmosLeft().discardCard((AmmoTile) this.getGrabbable());
         this.addGrabbable(GameContext.get().getGame(groupID).getBoard().getAmmosLeft().pickCard(), groupID);
+    }
+    @Override
+    public void receiveUpdate(Update update) {
+        //TODO send update to all users in that square
+    }
+
+    @Override
+    public String getFieldsToFill() {
+        if (this.coord == null) return "Choose the square; ";
+        else return "";
+    }
+
+    @Override
+    public void setFieldsToFill(String input, int groupID) {
+        this.coord = fillCoordinate(input);
+    }
+
+    @Override
+    public Target fillFields(int groupID) {
+        return this.findRealTarget(coord.toString(), groupID);
+    }
+
+    @Override
+    public boolean isFilled() {
+        return coord!=null;
+    }
+
+    @Override
+    public Square getCurrentPosition() {
+        return this;
+    }
+
+    @Override
+    public Target findRealTarget(String coordinateString, int groupID) {
+        Coordinate coordinate = fillCoordinate(coordinateString);
+        for(Square s: GameContext.get().getGame(groupID).getBoard().getField().getSquares()){
+            if(s.getCoord().equals(coordinate)) return s;
+        }
+        throw new InvalidMoveException("Square " + coordinate + " doesn't exist.");
+    }
+
+    @Override
+    public boolean sameAsMe(int groupID) {
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return this.coord.toString();
+    }
+
+    //Effects
+    @Override
+    public void addDamages(Player playerDamaging, int damages, int groupId) {
+        GameContext.get().getGame(groupId).getPlayers()
+                .stream()
+                .filter(player -> player.getCurrentPosition().equals(this) && !player.equals(playerDamaging))
+                .forEach(player -> player.addDamages(playerDamaging, damages, groupId));
+    }
+
+    @Override
+    public void addMarks(Player playerMarking, int groupID, int nMarks) {
+        GameContext.get().getGame(groupID).getPlayers()
+                .stream()
+                .filter(player -> getCurrentPosition().equals(this) && !player.equals(playerMarking))
+                .forEach(player -> player.addMarks(playerMarking, groupID, nMarks));
     }
 }

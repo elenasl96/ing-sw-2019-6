@@ -2,14 +2,12 @@ package model.field;
 
 import model.GameContext;
 import model.Player;
-import model.PlayerBoard;
 import model.enums.Color;
 import model.enums.TargetType;
 import model.moves.Target;
 import model.room.Update;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //TODO finish javadoc
@@ -36,25 +34,9 @@ public class Room extends Target {
         this.color = color;
     }
 
-    /**
-     * Returns all the playerBoards of every player in every square of the room.
-     * with a for loop over the squares in this room, it looks for the players who are in
-     * any of the squares of the room and then gets their player boards.
-     * @param groupId the current group ID, the key to get to the Game via the GameContext
-     * @return a list of player boards
-     */
     @Override
-    public List<PlayerBoard> getPlayerBoards(int groupId) {
-        List<PlayerBoard> list = new ArrayList<>();
-        for (Square square : this.squares) {
-            for(int i = 0; i<GameContext.get().getGame(groupId).getPlayers().size(); i++){
-                Player player = GameContext.get().getGame(groupId).getPlayers().get(i);
-                if (player.getCurrentPosition().equals(square)){
-                    list.add(player.getPlayerBoards(groupId).get(0));
-                }
-            }
-        }
-        return list;
+    public void addDamages(Player playerDamaging, int damages, int groupId) {
+        //TODO ADDDAMAGES in room
     }
 
     @Override
@@ -98,9 +80,13 @@ public class Room extends Target {
     }
 
     @Override
+    public void addMarks(Player playerMarking, int groupID, int nMarks) {
+        //TODO add marks to room
+    }
+
+    @Override
     public boolean isFilled() {
-        //TODO when a room is empty? color is given in the declaration!
-        return true;
+        return !this.color.equals(Color.NONE);
     }
 
     @Override

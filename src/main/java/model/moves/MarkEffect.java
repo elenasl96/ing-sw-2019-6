@@ -1,9 +1,8 @@
 package model.moves;
 
-import model.exception.FullMarksException;
 import model.Player;
 import network.commands.Response;
-import java.util.Collections;
+
 import java.util.stream.Stream;
 
 import static java.lang.Math.min;
@@ -18,12 +17,7 @@ public class MarkEffect extends Effect implements Move{
 
     public Response execute(Player p, int groupId) {
         for(Target t : this.getTarget()){
-            int occurrences = Collections.frequency(t.getPlayerBoards(groupId).get(0).getMarks(), p);
-            if(occurrences<3){
-                t.getPlayerBoards(groupId).get(0).addMarks(p, min(3-occurrences, nMarks));
-            } else{
-                throw new FullMarksException();
-            }
+            t.addMarks(p, groupId, this.nMarks);
         }
         return null;
     }

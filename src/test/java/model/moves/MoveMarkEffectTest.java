@@ -21,11 +21,11 @@ class MoveMarkEffectTest {
         MarkEffect m = new MarkEffect(Stream.of(playerMarked), 2, false);
         /*add 3 marks of playerMarking to playerMarked */
         m.execute(playerMarking, groupId);
-        assertEquals(2, Collections.frequency(playerMarked.getPlayerBoards(groupId).get(0).getMarks(), playerMarking));
+        assertEquals(2, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
 
         /*add other 3 marks of playermarking to playermarked */
         m.execute(playerMarking, groupId);
-        assertEquals(3, Collections.frequency(playerMarked.getPlayerBoards(groupId).get(0).getMarks(), playerMarking));
+        assertEquals(3, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
 
         /*add other 3 marks --> this move will throw fullmarkexception*/
         try{
@@ -34,7 +34,7 @@ class MoveMarkEffectTest {
             System.out.println(e.getMessage());
         }
 
-        assertEquals(3, Collections.frequency(playerMarked.getPlayerBoards(groupId).get(0).getMarks(), playerMarking));
+        assertEquals(3, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
 
     }
     @Test

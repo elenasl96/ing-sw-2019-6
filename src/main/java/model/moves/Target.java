@@ -1,13 +1,11 @@
 package model.moves;
 
 import model.Player;
-import model.PlayerBoard;
 import model.enums.TargetType;
 import model.field.Square;
 import model.room.Update;
 
 import java.io.Serializable;
-import java.util.List;
 
 public abstract class Target implements Serializable {
     private TargetType targetType;
@@ -21,15 +19,6 @@ public abstract class Target implements Serializable {
         this.targetType = targetType;
         this.minDistance = minDistance;
         this.maxDistance = maxDistance;
-    }
-
-    public abstract List<PlayerBoard> getPlayerBoards(int groupId);
-
-    void addDamages(Player playerDamaging, int damages, int groupId){
-        List<PlayerBoard> boards = this.getPlayerBoards(groupId);
-        for(PlayerBoard b : boards){
-            this.receiveUpdate(new Update("You received " + b.addDamage(playerDamaging, damages)+ " damages."));
-        }
     }
 
     public abstract void receiveUpdate(Update update);
@@ -46,19 +35,27 @@ public abstract class Target implements Serializable {
         return maxDistance;
     }
 
-    public abstract String getFieldsToFill();
-
-    public abstract boolean canBeSeen(Player player, int groupID);
-
-    public abstract boolean isFilled();
 
     public abstract Square getCurrentPosition();
 
     public abstract Target findRealTarget(String inputName, int groupID);
 
+    //Checks
+    public abstract boolean canBeSeen(Player player, int groupID);
+
+    public abstract boolean isFilled();
+
     public abstract boolean sameAsMe(int groupID);
+
+    //Fill target for shooting
+    public abstract String getFieldsToFill();
 
     public abstract void setFieldsToFill(String input, int groupID);
 
     public abstract Target fillFields(int groupID);
+
+    //Effects of shooting
+    public abstract void addMarks(Player playerMarking, int groupID, int nMarks);
+
+    public abstract void addDamages(Player playerDamaging, int damages, int groupId);
 }

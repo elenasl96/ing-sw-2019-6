@@ -6,6 +6,7 @@ import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.*;
 import model.enums.Character;
+import model.exception.FullMarksException;
 import model.exception.InvalidMoveException;
 import model.field.Edge;
 import model.field.Field;
@@ -20,6 +21,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static java.lang.Math.min;
 
 public class Player extends Target implements Serializable{
     private static final long serialVersionUID = 3763707889643123775L;
@@ -145,11 +148,13 @@ public class Player extends Target implements Serializable{
     public Character getCharacter(){
         return this.character;
     }
+
     @Override
-    public List<PlayerBoard> getPlayerBoards(int groupId) {
-        ArrayList<PlayerBoard> returns = new ArrayList<>();
-        returns.add(playerBoard);
-        return returns;
+    public void addDamages(Player playerDamaging, int damages, int groupId) {
+        this.receiveUpdate(
+                new Update("You received "
+                        + this.getPlayerBoard().addDamage(playerDamaging, damages)
+                        + " damages."));
     }
 
     @Override
@@ -332,6 +337,16 @@ public class Player extends Target implements Serializable{
     @Override
     public Player fillFields(int groupID) {
         return (Player) this.findRealTarget(this.name, groupID);
+    }
+
+    @Override
+    public void addMarks(Player playerMarking, int groupID, int nMarks) {
+        int occurrences = Collections.frequency(this.getPlayerBoard().getMarks(), playerMarking);
+        if(occurrences<3){
+            this.getPlayerBoard().addMarks(playerMarking, min(3-occurrences, nMarks));
+        } else{
+            throw new FullMarksException();
+        }
     }
 
     @Override
