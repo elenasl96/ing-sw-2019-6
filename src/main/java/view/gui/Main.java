@@ -57,11 +57,13 @@ public class Main {
 
         //System.out.println(main.gui.getMove());
         //System.out.println(main.gui.getMove());
-        System.out.println(main.gui.getJLabelText());
+        //System.out.println(main.gui.getJLabelText());
         //System.out.println(main.gui.getMove());
-        System.out.println(main.gui.getJLabelText());
-        System.out.println(main.gui.getJLabelText());
-        System.out.println(main.gui.getMove());
+        //System.out.println(main.gui.getJLabelText());
+        //System.out.println(main.gui.getJLabelText());
+        //System.out.println(main.gui.getMove());
+
+        main.gui.chooseEffectPopUp("furnace",2);
     }
 }
 

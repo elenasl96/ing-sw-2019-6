@@ -36,6 +36,7 @@ public class MainFrame extends JFrame {
     private Object lockCoordinate;
     private Object lockChooseCard;
     private Object lockReload;
+    private Object lockEffect;
 
     private MoveButtonActionListener actionListenerMovement;
     private CoordinateActionListener actionListenerCoordinate;
@@ -44,6 +45,7 @@ public class MainFrame extends JFrame {
     private JComboBox powerUp;
     private String yesnochoice;
     private JFrame yesNoFrame;
+    private JFrame effectFrame;
 
     private SquarePanel mapGrid[][];
     private Character charactersCoordinates[];
@@ -55,6 +57,7 @@ public class MainFrame extends JFrame {
         lockCoordinate = new Object();
         lockChooseCard = new Object();
         lockReload = new Object();
+        lockEffect = new Object();
 
         actionListenerMovement = new MoveButtonActionListener(lockMove);
         actionListenerCoordinate = new CoordinateActionListener(lockCoordinate);
@@ -144,8 +147,8 @@ public class MainFrame extends JFrame {
 
         grab = new MoveButton("Grab", "grab");
         run = new MoveButton("Run", "run");
-        shoot = new MoveButton("Shoot", "0");
-        powerup = new MoveButton("Power Up", "3");
+        shoot = new MoveButton("Shoot", "3");
+        powerup = new MoveButton("Power Up", "0");
         grab.addActionListener(actionListenerMovement);
         run.addActionListener(actionListenerMovement);
         shoot.addActionListener(actionListenerMovement);
@@ -445,5 +448,30 @@ public class MainFrame extends JFrame {
         yesNoFrame.dispose();
 
         return yesnochoice;
+    }
+
+    public void chooseEffectPopUp(String weapon, int layout) {
+        effectFrame = new JFrame();
+        effectFrame.setVisible(true);
+        effectFrame.setLocation(400,400);
+        PopUpChooseEffect popUp = new PopUpChooseEffect(weapon, layout, lockEffect);
+        effectFrame.add(popUp);
+        effectFrame.pack();
+    }
+
+    public String askEffects() {
+        synchronized (lockEffect) {
+            try {
+                lockEffect.wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println(e.getMessage());
+            }
+        }
+
+        String s = ((PopUpChooseEffect)(effectFrame.getComponent(0))).getEffectSerie();
+        effectFrame.setVisible(false);
+        effectFrame.dispose();
+        return s;
     }
 }

@@ -21,6 +21,10 @@ public class WeaponCard extends JPanel {
         this.num = num;
     }
 
+    public WeaponCard(int num) {
+        this.num = num;
+    }
+
     public int getNum() {
         return num;
     }

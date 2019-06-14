@@ -47,7 +47,7 @@ public class ViewGui implements View {
 
     @Override
     public String askEffects() {
-        return null;
+        return gui.askEffects();
     }
 
     @Override
@@ -112,6 +112,10 @@ public class ViewGui implements View {
                 }
                 case "turnbar": {
                     gui.setBackGroundTurn(false);
+                }
+                case "layouteffect": {
+                    data = update.getData().split(";");
+                    gui.chooseEffectPopUp(data[0],Integer.parseInt(data[1]));
                 }
                 default:
                     break;
