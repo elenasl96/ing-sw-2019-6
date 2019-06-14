@@ -1,5 +1,6 @@
 package controller;
 
+import model.decks.Weapon;
 import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.GameContext;
@@ -197,6 +198,13 @@ public class ServerController implements RequestHandler {
     public Response handle(CardRequest cardRequest){
         Update update;
         switch (cardRequest.getCardType()) {
+            case "weaponLayout":
+                StringBuilder updateString = new StringBuilder();
+                Weapon weapon = this.user.getPlayer().getWeapons().get(cardRequest.getNumber());
+                updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
+                //TODO Check if update is correct for weapon layout
+                this.user.getPlayer().receiveUpdate(new Update(updateString.toString(), UPDATE_CONSOLE));
+                break;
             case "noCard":
                 GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
                         .receiveUpdate(new Update(null,"turnbar"));

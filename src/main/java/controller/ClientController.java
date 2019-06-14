@@ -122,6 +122,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 client.request(new CardRequest("powerupToPlay", content));
                 break;
             case "3": case "4": case "5":
+                client.request(new CardRequest("weaponLayout", content));
                 String string = content + " " + view.askEffects();
                 client.request(new ShootRequest(string));
                 break;
