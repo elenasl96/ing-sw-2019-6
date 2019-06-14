@@ -1,6 +1,5 @@
 package controller;
 
-import model.decks.Grabbable;
 import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.GameContext;
@@ -224,7 +223,8 @@ public class ServerController implements RequestHandler {
                 }
             break;
             case "powerupToPlay":
-                GameController.get().playPowerup(currentGroup.getGroupID(), user.getPlayer(), user.getPlayer().getPowerups().get(cardRequest.getNumber()));
+                String input=""; //TODO ??
+                GameController.get().playPowerup(currentGroup.getGroupID(), input, user.getPlayer());
             break;
             default:
                 break;

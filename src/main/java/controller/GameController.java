@@ -79,7 +79,8 @@ public class GameController{
                 forGui.append(GRAB+";");
             }
             if(!player.getWeapons().isEmpty()) {
-                content.append("\n||SHOOT||").append(player.weaponsToString());
+                int index = 3;
+                content.append("\n||SHOOT||").append(player.weaponsToString(index));
                 forGui.append(SHOOT+";");
             }
         } else {
@@ -375,15 +376,11 @@ public class GameController{
     private void checkMaxDistance(Target t, Square targetPosition, int groupID) {
         if(t.getMaxDistance() != null){
             if (t.getMinDistance() == 0) {
-                System.out.println("B--");
                 if(!targetPosition
                         .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
-                    System.out.println("B0");
                     throw new InvalidMoveException("Invalid distance");
                 }
-                System.out.println("B2");
             }else {
-                System.out.println("A");
                 targetPosition.getReachSquares().clear();
                 targetPosition.createReachList(t.getMaxDistance(), t.getCurrentPosition().getReachSquares(),
                         GameContext.get().getGame(groupID).getBoard().getField());
@@ -394,24 +391,16 @@ public class GameController{
     }
 
     private void checkMinDistance(Target t, Square targetPosition, int groupID) {
-        System.out.println("B");
         if(t.getMinDistance() != null) {
-            System.out.println("B1");
             if (t.getMinDistance() == 0) {
-                System.out.println("B--");
                 if(!targetPosition
                         .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
-                    System.out.println("B0");
                     throw new InvalidMoveException("Invalid distance");
                 }
-                System.out.println("B2");
             }else{
-                System.out.println("c3");
                 targetPosition.createReachList(t.getMinDistance() - 1, t.getCurrentPosition().getReachSquares(),
                         GameContext.get().getGame(groupID).getBoard().getField());
-
                 if (targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
-                    System.out.println("C1");
                     throw new InvalidMoveException("Invalid distance");
                 }
             }
@@ -436,21 +425,28 @@ public class GameController{
                 if (player.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Not not visible target");
                 break;
-            case NONE:
-            break;
             case ME:
                 if(!realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You must use yourself");
                 break;
-            default:
+            case NONE: default:
                 break;
         }
         if(!target.getTargetType().equals(TargetType.ME) && realTarget.sameAsMe(groupID))
             throw new InvalidMoveException("You can't use yourself");
     }
 
+    public String preparePowerup(Player player, Powerup powerup, int groupID){
+        //TODO TEST AND CHECK IMPLEMENTATION
+        //Add effects to player
+        player.getCurrentMoves().add(powerup.getMoves().get(0));
+        //Discard powerup
+        GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().discardCard(powerup);
+        //Ask player to fill effects
+        return getEffectsToFill(player);
+    }
 
-    void playPowerup(int groupId, Player player, Powerup powerup){
-        //TODO
+    void playPowerup(int groupID, String input, Player player){
+        //TODO IMPLEMENTATION SIMILAR TO WEAPONS
     }
 
 
