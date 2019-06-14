@@ -248,14 +248,12 @@ public class Player extends Target implements Serializable{
         return string.toString();
     }
 
-    public String weaponsToString(){
+    public String weaponsToString(int index){
         StringBuilder string = new StringBuilder();
-        int nCard = 0;
         string.append("\n=========Weapons=========");
         for(Weapon w : weapons){
-            string.append("\nNumber: ").append(nCard)
-                    .append("\n").append(w);
-            nCard++;
+            string.append("\nID: ").append(index).append(w);
+            index++;
         }
         return string.toString();
     }
