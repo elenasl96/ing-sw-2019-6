@@ -68,7 +68,6 @@ public class Player extends Target implements Serializable{
     }
 
     //getters and setters
-
     public User getUser(){
         return this.user;
     }
@@ -86,19 +85,6 @@ public class Player extends Target implements Serializable{
         if(this.currentPosition == null)
             throw new InvalidMoveException(this.name+" position doesn't exist");
         return currentPosition;
-    }
-
-    @Override
-    public Target findRealTarget(String inputName, int groupID) {
-        for (Player p : GameContext.get().getGame(groupID).getPlayers()) {
-            if (p.getName().equals(inputName)) return p;
-        }
-        throw new InvalidMoveException("Player "+inputName+" doesn't exist");
-    }
-
-    @Override
-    public boolean sameAsMe(int groupID) {
-        return this.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
     }
 
     public void setCurrentPosition(Square destination) {
@@ -149,12 +135,12 @@ public class Player extends Target implements Serializable{
         return this.character;
     }
 
-    @Override
-    public void addDamages(Player playerDamaging, int damages, int groupId) {
-        this.receiveUpdate(
-                new Update("You received "
-                        + this.getPlayerBoard().addDamage(playerDamaging, damages)
-                        + " damages."));
+    public void setPlayerNumber(int number){
+        this.playerNumber = number;
+    }
+
+    public int getPlayerNumber(){
+        return this.playerNumber;
     }
 
     @Override
@@ -340,6 +326,15 @@ public class Player extends Target implements Serializable{
     }
 
     @Override
+    public void addDamages(Player playerDamaging, int damages, int groupId) {
+        int damagesReceived = this.getPlayerBoard().addDamage(playerDamaging, damages);
+        this.receiveUpdate(
+                new Update("You received " + damagesReceived + " damages."));
+        if(this.getPlayerBoard().getDamage().size() == (11 | 12))
+            this.dead = true;
+    }
+
+    @Override
     public void addMarks(Player playerMarking, int groupID, int nMarks) {
         int occurrences = Collections.frequency(this.getPlayerBoard().getMarks(), playerMarking);
         if(occurrences<3){
@@ -360,14 +355,6 @@ public class Player extends Target implements Serializable{
         }
     }
 
-    public void setPlayerNumber(int number){
-        this.playerNumber = number;
-    }
-
-    public int getPlayerNumber(){
-        return this.playerNumber;
-    }
-
     public Target getBasicTarget(int groupID) {
         for(CardEffect c: currentCardEffects){
             for(Effect e: c.getEffects()){
@@ -377,4 +364,18 @@ public class Player extends Target implements Serializable{
         }
         throw new InvalidMoveException("Not only one basic target");
     }
+
+    @Override
+    public Target findRealTarget(String inputName, int groupID) {
+        for (Player p : GameContext.get().getGame(groupID).getPlayers()) {
+            if (p.getName().equals(inputName)) return p;
+        }
+        throw new InvalidMoveException("Player "+inputName+" doesn't exist");
+    }
+
+    @Override
+    public boolean sameAsMe(int groupID) {
+        return this.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
+    }
+
 }
