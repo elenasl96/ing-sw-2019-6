@@ -296,15 +296,15 @@ public class MainFrame extends JFrame {
             mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
                     .remove(charactersCoordinates[character].getIcon());
             mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
-                    .invalidate();
-            mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
                     .revalidate();
+            mapGrid[3-Integer.parseInt(oldCoord[1])][oldCoord[0].charAt(0) - 65]
+                    .repaint();
         }
 
         mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65]
                 .add(charactersCoordinates[character].getIcon());
-        mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65].invalidate();
         mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65].revalidate();
+        mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65].repaint();
 
         charactersCoordinates[character].setCoordinate(coordinates);
     }
@@ -334,12 +334,12 @@ public class MainFrame extends JFrame {
     }
 
     public void updateAmmoPanels() {
-        ammoYellow.invalidate();
         ammoYellow.revalidate();
-        ammoBlue.invalidate();
+        ammoYellow.repaint();
         ammoBlue.revalidate();
-        ammoRed.invalidate();
+        ammoBlue.repaint();
         ammoRed.revalidate();
+        ammoRed.repaint();
     }
 
     public SquarePanel[][] getMapGrid() {
