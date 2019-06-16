@@ -63,6 +63,7 @@ public class ViewGui implements View {
     @Override
     public void onStart() {
         System.out.println("Gui starting");
+        viewCli.onStart();
         gui.setVisible(true);
         System.out.println("Gui started");
         wait = false;
