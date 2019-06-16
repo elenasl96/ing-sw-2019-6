@@ -82,7 +82,7 @@ public class ViewGui implements View {
                 case "updateconsole":
                     gui.setConsole(update.toString());
                     break;
-                case "reload": {
+                case "reload":
                     data = update.getData().split(",");
                     gui.clearAmmoPanels();
                     for(String s: data) {
@@ -91,33 +91,28 @@ public class ViewGui implements View {
                     }
                     gui.updateAmmoPanels();
                     break;
-                }
-                case "weapons": {
+                case "weapons":
                     gui.addWeaponBox(update.getData());
                     break;
-                }
-                case "powerup": {
+                case "powerup":
                     gui.addPuBox(update.getData());
                     break;
-                }
-                case "disablebutton": {
+                case "disablebutton":
                     data = update.getData().split(";");
                     gui.disableButtons(data);
                     gui.setBackGroundTurn(true);
                     break;
-                }
-                case "choosecard": {
+                case "choosecard":
                     data = update.getData().split(";");
                     gui.createPopUp(data);
                     break;
-                }
-                case "turnbar": {
+                case "turnbar":
                     gui.setBackGroundTurn(false);
-                }
-                case "layouteffect": {
+                    break;
+                case "layouteffect":
                     data = update.getData().split(";");
                     gui.chooseEffectPopUp(data[0],Integer.parseInt(data[1]));
-                }
+                    break;
                 default:
                     break;
             }
@@ -155,7 +150,7 @@ public class ViewGui implements View {
     }
 
     @Override
-    public void setWait(boolean equalsTo) {
+    public void setWait(boolean wait) {
         this.wait = wait;
     }
 
