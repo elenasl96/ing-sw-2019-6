@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT_PAWN = 60;
 
     private PopUpCards popUp;
+    private PopUpChooseEffect popUpEffect;
 
     private AmmoPanel ammoRed;
     private AmmoPanel ammoBlue;
@@ -453,9 +454,8 @@ public class MainFrame extends JFrame {
     public void chooseEffectPopUp(String weapon, int layout) {
         effectFrame = new JFrame();
         effectFrame.setLayout(new BorderLayout());
-        PopUpChooseEffect popUp = null;
-        popUp = new PopUpChooseEffect(weapon, layout);
-        effectFrame.add(popUp,BorderLayout.CENTER);
+        popUpEffect = new PopUpChooseEffect(weapon, layout);
+        effectFrame.add(popUpEffect,BorderLayout.CENTER);
         JButton ok = new JButton("OK");
         ok.addActionListener(new ActionListener() {
                                  @Override
@@ -485,7 +485,7 @@ public class MainFrame extends JFrame {
             }
         }
 
-        String s = ((PopUpChooseEffect)(effectFrame.getComponent(0))).getEffectSerie();
+        String s = popUpEffect.getEffectSerie();
         effectFrame.setVisible(false);
         effectFrame.dispose();
         return s;

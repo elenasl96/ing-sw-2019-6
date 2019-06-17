@@ -40,7 +40,7 @@ public class Main {
         }*/
         //new Main(clientController);
         //clientController.run();
-        Main main=new Main();
+        Main main = new Main();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -63,7 +63,8 @@ public class Main {
         //System.out.println(main.gui.getJLabelText());
         //System.out.println(main.gui.getMove());
 
-        //main.gui.chooseEffectPopUp("furnace",2);
+        main.gui.chooseEffectPopUp("furnace", 2);
+        System.out.println(main.gui.askEffects());
     }
 }
 

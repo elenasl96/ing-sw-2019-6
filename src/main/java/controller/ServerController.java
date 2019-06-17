@@ -202,8 +202,9 @@ public class ServerController implements RequestHandler {
                 StringBuilder updateString = new StringBuilder();
                 Weapon weapon = this.user.getPlayer().getWeapons().get(cardRequest.getNumber());
                 updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
-                //TODO Check if update is correct for weapon layout
-                this.user.getPlayer().receiveUpdate(new Update(updateString.toString(), UPDATE_CONSOLE));
+                update = new Update(null, "layouteffect");
+                update.setData(updateString.toString().toLowerCase().replace(" ",""));
+                user.receiveUpdate(update);
                 break;
             case "noCard":
                 GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()

@@ -109,10 +109,11 @@ public class ViewGui implements View {
                 case "turnbar":
                     gui.setBackGroundTurn(false);
                     break;
-                case "layouteffect":
+                case "layouteffect": {
                     data = update.getData().split(";");
-                    gui.chooseEffectPopUp(data[0],Integer.parseInt(data[1]));
+                    gui.chooseEffectPopUp(data[0], Integer.parseInt(data[1]));
                     break;
+                }
                 default:
                     break;
             }
