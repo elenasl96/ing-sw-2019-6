@@ -23,6 +23,7 @@ public class WeaponCard extends JPanel {
 
     public WeaponCard(int num) {
         this.num = num;
+        setBackground(new Color(0,0,0,0));
     }
 
     public int getNum() {

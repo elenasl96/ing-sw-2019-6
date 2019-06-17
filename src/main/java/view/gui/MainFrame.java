@@ -452,11 +452,27 @@ public class MainFrame extends JFrame {
 
     public void chooseEffectPopUp(String weapon, int layout) {
         effectFrame = new JFrame();
-        effectFrame.setVisible(true);
+        effectFrame.setLayout(new BorderLayout());
+        PopUpChooseEffect popUp = null;
+        popUp = new PopUpChooseEffect(weapon, layout);
+        effectFrame.add(popUp,BorderLayout.CENTER);
+        JButton ok = new JButton("OK");
+        ok.addActionListener(new ActionListener() {
+                                 @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                     synchronized (lockEffect) {
+                                         lockEffect.notifyAll();
+                                     }
+                                 }
+                             }
+        );
+        effectFrame.add(ok,BorderLayout.SOUTH);
+
         effectFrame.setLocation(400,400);
-        PopUpChooseEffect popUp = new PopUpChooseEffect(weapon, layout, lockEffect);
-        effectFrame.add(popUp);
-        effectFrame.pack();
+        effectFrame.setSize(150,300);
+        effectFrame.setResizable(false);
+        effectFrame.setVisible(true);
+        //effectFrame.pack();
     }
 
     public String askEffects() {
