@@ -10,9 +10,11 @@ public class PlayerBoardPanel extends JPanel {
 
     private Image img;
     private JPanel dropPanel;
+    private JPanel markerPanel;
     private model.enums.Color[] serie;
     private int sizeSerie;
     private final int numDrops = 12;
+    private int numMarker = 0;
 
     public PlayerBoardPanel() {
         try {
@@ -27,9 +29,20 @@ public class PlayerBoardPanel extends JPanel {
         setMinimumSize(new Dimension(700,130));
 
         setLayout(new GridLayout(3,1));
+        JPanel topPanel = new JPanel(new GridLayout(1,3));
+        topPanel.setBackground(new Color(0,0,0,0));
         JPanel voidPanel = new JPanel();
         voidPanel.setBackground(new Color(0,0,0,0));
-        add(voidPanel,0);
+        topPanel.add(voidPanel);
+        voidPanel = new JPanel();
+        voidPanel.setBackground(new Color(0,0,0,0));
+        topPanel.add(voidPanel);
+
+        markerPanel = new JPanel(new GridLayout(1,12));
+        markerPanel.setBackground(new Color(0,0,0,0));
+        topPanel.add(markerPanel);
+
+        add(topPanel,0);
 
         dropPanel = new JPanel();
         dropPanel.setLayout(new GridLayout(1,numDrops));
@@ -43,6 +56,31 @@ public class PlayerBoardPanel extends JPanel {
         sizeSerie = 0;
         serie = new model.enums.Color[12];
 
+    }
+
+    public void addMarker() {
+        JPanel voidPanel;
+
+        markerPanel.removeAll();
+        numMarker++;
+
+        for(int i=0;i<numMarker;i++) {
+            try {
+                markerPanel.add(new JLabel((new ImageIcon(ImageIO.read(new File("src/resources/badoglio.jpg"))
+                        .getScaledInstance(50, 50, Image.SCALE_SMOOTH)))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for(int i=numMarker;i<12;i++) {
+            voidPanel = new JPanel();
+            voidPanel.setBackground(new Color(0,0,0,0));
+            markerPanel.add(voidPanel);
+        }
+
+        markerPanel.revalidate();
+        markerPanel.repaint();
     }
 
     public void addDrop(model.enums.Color color) {

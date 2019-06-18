@@ -79,7 +79,7 @@ public class Main {
             main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
-            Thread.sleep(2000);
+            /*Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
@@ -90,7 +90,32 @@ public class Main {
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(Color.RED);*/
+
+           main.gui.addMarker();
+           Thread.sleep(2000);
+           main.gui.addMarker();
+           Thread.sleep(2000);
+           main.gui.addMarker();
+           Thread.sleep(2000);
+           main.gui.addMarker();
+           Thread.sleep(2000);
+           main.gui.addMarker();
+           Thread.sleep(2000);
+           main.gui.addMarker();
+           Thread.sleep(2000);
+           main.gui.addMarker();
+            Thread.sleep(2000);
+            main.gui.addMarker();
+            Thread.sleep(2000);
+            main.gui.addMarker();
+            Thread.sleep(2000);
+            main.gui.addMarker();
+            Thread.sleep(2000);
+            main.gui.addMarker();
+            Thread.sleep(2000);
+            main.gui.addMarker();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

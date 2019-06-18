@@ -496,4 +496,8 @@ public class MainFrame extends JFrame {
     public void addDropPlayerBoard(model.enums.Color color) {
         playerBoard.addDrop(color);
     }
+
+    public void addMarker(){
+        playerBoard.addMarker();
+    }
 }
