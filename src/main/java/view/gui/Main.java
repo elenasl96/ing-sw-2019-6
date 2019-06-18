@@ -1,6 +1,7 @@
 package view.gui;
 
 import controller.ClientController;
+import model.enums.Color;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -63,8 +64,54 @@ public class Main {
         //System.out.println(main.gui.getJLabelText());
         //System.out.println(main.gui.getMove());
 
-        main.gui.chooseEffectPopUp("furnace", 2);
-        System.out.println(main.gui.askEffects());
+        //main.gui.chooseEffectPopUp("furnace", 2);
+        //System.out.println(main.gui.askEffects());
+
+        try {
+            /*main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);*/
+
+           main.gui.addMarkerPlayerBoard();
+           Thread.sleep(2000);
+           main.gui.addMarkerPlayerBoard();
+           Thread.sleep(2000);
+           main.gui.addSkullPlayerBoard();
+           Thread.sleep(2000);
+           main.gui.addSkullPlayerBoard();
+           Thread.sleep(2000);
+           main.gui.addSkullPlayerBoard();
+           Thread.sleep(2000);
+           main.gui.addSkullPlayerBoard();
+           Thread.sleep(2000);
+           main.gui.addSkullPlayerBoard();
+           Thread.sleep(2000);
+           main.gui.addSkullPlayerBoard();
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 

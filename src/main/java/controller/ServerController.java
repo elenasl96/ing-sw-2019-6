@@ -178,6 +178,7 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
         Update update = GameController.get().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
+        if(update == null) return null;
         return new GameUpdateNotification(update);
     }
 
@@ -199,10 +200,11 @@ public class ServerController implements RequestHandler {
         Update update;
         switch (cardRequest.getCardType()) {
             case "weaponLayout":
+                int cardNumber = cardRequest.getNumber()-3;
                 StringBuilder updateString = new StringBuilder();
-                Weapon weapon = this.user.getPlayer().getWeapons().get(cardRequest.getNumber());
+                Weapon weapon = this.user.getPlayer().getWeapons().get(cardNumber);
                 updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
-                update = new Update(null, "layouteffect");
+                update = new Update(updateString.toString().toLowerCase().replace(" ",""), "layouteffect");
                 update.setData(updateString.toString().toLowerCase().replace(" ",""));
                 user.receiveUpdate(update);
                 break;
@@ -283,21 +285,18 @@ public class ServerController implements RequestHandler {
             case "fieldsFilled":
                 try{
                     GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
-                    p.setPhaseNotDone(false);
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }catch(NullPointerException | IndexOutOfBoundsException e){
                     user.receiveUpdate(new Update("Invalid input!",UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }catch(NumberFormatException e){
                     user.receiveUpdate(new Update("Invalid Number Format!",UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }catch(InvalidMoveException e){
                     user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
                     p.getUser().receiveUpdate(new Update(p,true));
                 }
+                p.setPhaseNotDone(false);
                 break;
             default:
                 break;
@@ -326,13 +325,15 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(MoveRequest moveRequest) {
+        Player currentPlayer = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer();
         Move move = moveRequest.getMove();
-
-        if(move == null){
-            move = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().getCurrentMoves().get(0);
-        }
-        System.out.println(move);
         try {
+            if(move == null) {
+                if (currentPlayer.getCurrentMoves().isEmpty())
+                    throw new InvalidMoveException("No pending moves");
+                move = currentPlayer.getCurrentMoves().get(0);
+            }
+            System.out.println(move);
             Response response = move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
             if(response != null){
                return response;

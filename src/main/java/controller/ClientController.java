@@ -167,12 +167,8 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case FIRST: case SECOND:
-                if(ClientContext.get().getCurrentPlayer().isPhaseNotDone()){
-                    view.displayText("Phase not done yet");
-                    client.request(new MoveRequest());
-                }
-                else {
-                    client.request(new PossibleMovesRequest());
+                client.request(new PossibleMovesRequest());
+                if(!ClientContext.get().getCurrentPlayer().isPhaseNotDone()) {
                     String command = view.movePhase();
                     this.sendCommand(command);
                 }
@@ -234,7 +230,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             case "damage":
             case "weapon choose":
                 try{
-                    client.request(new SendInput(view.weaponChosen(), "weapon chosen"));
+                    client.request(new SendInput(view.userInput(), "weapon chosen"));
                 } catch (RemoteException e){
                     //nothing
                 }

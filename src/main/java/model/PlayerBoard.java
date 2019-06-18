@@ -51,17 +51,14 @@ public class PlayerBoard implements Serializable {
      * @param pg player who is marking
      * @param numMarks number of marks assigned
      */
-    public void addMarks(Player pg, int numMarks) {
+    public int addMarks(Player pg, int numMarks) {
+        int marksSuffered = 0;
         int frequency = Collections.frequency(this.marks, pg);
-        if(frequency + numMarks > 3){
-            for (int i = 0; i < 3 - frequency; i++){
-                this.marks.add(pg);
-            } throw new FullMarksException();
-        } else {
-            for (int i=0; i<numMarks; i++){
-                this.marks.add(pg);
-            }
+        for (int i=0; i<min(numMarks, 3 - frequency); i++){
+            this.marks.add(pg);
+            marksSuffered++;
         }
+        return marksSuffered;
     }
 
     int getDeaths() {

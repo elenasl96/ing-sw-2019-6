@@ -71,7 +71,6 @@ public class ViewGui implements View {
 
     @Override
     public void onUpdate(Update update) {
-
         String[] data;
         if(update.getMove()!=null) {
             switch (update.getMove()) {
@@ -163,7 +162,7 @@ public class ViewGui implements View {
     @Override
     public Integer spawnPhase() {
         gui.setBackGroundTurn(true);
-        int val = Integer.parseInt(weaponChosen());
+        int val = Integer.parseInt(gui.cardChoose());
         gui.setBackGroundTurn(false);
         return val;
     }
@@ -192,10 +191,5 @@ public class ViewGui implements View {
     @Override
     public void playMusic(String s){
         viewCli.playMusic(s);
-    }
-
-    @Override
-    public String weaponChosen() {
-        return gui.cardChoose();
     }
 }
