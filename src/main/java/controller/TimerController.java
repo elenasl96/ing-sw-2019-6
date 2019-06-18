@@ -96,14 +96,14 @@ public class TimerController implements ModelObserver {
             @Override
             public void run() {
                 if(seconds == 60){
-                    Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(seconds + " seconds left..."));
+                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(seconds + " seconds left..."));
                 } else if (seconds == 5) {
-                    Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "..."));
+                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "..."));
                 } else if (seconds == 0){
-                    Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("Move lost! No more time."));
+                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Move lost! No more time."));
                     if(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equalsTo(SPAWN)){
                         GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.SECOND);
-                        Manager.get().getGroup(groupID).getGame().getCurrentPlayer().getUser().receiveUpdate(new Update("You didn't spawn and lost the turn. " +
+                        GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("You didn't spawn and lost the turn. " +
                                 "You're lucky you can at least reload."));
                     }
                     GameController.get().updatePhase(groupID);
