@@ -47,6 +47,7 @@ public class MainFrame extends JFrame {
     private String yesnochoice;
     private JFrame yesNoFrame;
     private JFrame effectFrame;
+    private PlayerBoardPanel playerBoard;
 
     private SquarePanel mapGrid[][];
     private Character charactersCoordinates[];
@@ -185,17 +186,18 @@ public class MainFrame extends JFrame {
         printField(centralPanel);
 
         //Create bottom section of GUI
-        JPanel playerBoard = new JPanel();
-        playerBoard.add(new JLabel("PLAYER BOARD"));
-
+        JPanel voidPanel = new JPanel();
+        playerBoard = new PlayerBoardPanel();
+        voidPanel.add(playerBoard);
 
         add(centralPanel, BorderLayout.CENTER);
         add(left, BorderLayout.WEST);
         add(right, BorderLayout.EAST);
-        add(playerBoard, BorderLayout.SOUTH);
+        add(voidPanel, BorderLayout.SOUTH);
 
-        setSize(1050, 485);
+        //setSize(1050, 615);
         setResizable(false);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         weapon.addActionListener(e -> shoot.setMove((weapon.getSelectedIndex()+3)+""));
         powerup.addActionListener(e -> powerup.setMove((powerUp.getSelectedIndex())+""));
