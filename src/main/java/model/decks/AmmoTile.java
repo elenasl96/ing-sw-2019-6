@@ -76,7 +76,6 @@ public abstract class AmmoTile implements Grabbable {
     }
 }
 
-//TODO javadoc
 class AmmoTileWithAmmo extends AmmoTile{
     /**
      * Calls the constructor of the superclass AmmoTile that creates a list of 3 ammos
@@ -88,6 +87,13 @@ class AmmoTileWithAmmo extends AmmoTile{
         super(color1, color2, color3);
     }
 
+    /**
+     * Picks the ammoTile from the ground, refills te player's ammo with the ammos taken
+     * Sends update only to the player.
+     * @param groupID   groupID
+     * @param toPick    unused in ammo tile, useful only in spawn point
+     * @see Player#fillAmmoFromTile(AmmoTile)
+     */
     @Override
     public void pickGrabbable(int groupID, int toPick){
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
@@ -105,6 +111,14 @@ class AmmoTileWithPowerup extends AmmoTile{
         super(color1, color2);
     }
 
+    /**
+     * Picks the ammoTile from the ground, refills te player's ammo with the ammos taken
+     * and picks a random powerup from deck, giving it to the player.
+     * Sends update only to the player.
+     * @param groupID   groupID
+     * @param toPick    unused in ammo tile, useful only in spawn point
+     * @see Player#fillAmmoFromTile(AmmoTile)
+     */
     @Override
     public void pickGrabbable(int groupID, int toPick) {
         String ammosGrabbed = GameContext.get().getGame(groupID).getCurrentPlayer()
