@@ -12,9 +12,15 @@ import static model.enums.Phase.SPAWN;
 /**
  * SINGLETON (SERVER SIDE)
  * Handles the timers of all the games
+ * @see ModelObserver
+ * @see Timer
+ * @see TimerTask
  */
-
 public class TimerController implements ModelObserver {
+    /**
+     * A list of timers
+     * Every timer is associated with its groupID being the groupID-th in the list
+     */
     private List<Timer> timers;
 
     private static TimerController instance;
@@ -29,11 +35,25 @@ public class TimerController implements ModelObserver {
         return instance;
     }
 
+    /**
+     * Adds itself to the list of observers
+     * @param group the group you want to be observed by the timer controller
+     */
     public void addGroup(Group group){
         //Observer of every group, starts the timer when called
         group.observe(this);
     }
 
+    /**
+     * Starts the waiting timer of the designated group in the waiting room.
+     * The task consists in 60 seconds of waiting, with notices at 60, 10 and from 5 to 0 seconds
+     * If the group is complete before the timer elapses that the timer gets canceled.
+     * If the group passes to less than 3 players the timer is purged, waiting to be rescheduled
+     * when there are enough players to play (at least 3).
+     * @param groupID   The groupID of the group you want to start the timer of
+     * @see Timer
+     * @see TimerTask
+     */
     synchronized void startTimer(int groupID){
         while(timers.size()<groupID+1){
             timers.add(null);
@@ -60,6 +80,15 @@ public class TimerController implements ModelObserver {
         this.timers.get(groupID).schedule(timerTask, 0,1000);
     }
 
+    /**
+     * Starts the timer of the designated group in the game's current player's turn.
+     * The task consists in 60 seconds of waiting, with notices at 60, 5 and 0 seconds.
+     * If the player completes the turn before the timer elapses that the timer gets purged.
+     * If the timer elapses the player loses its turn and the game is updated to the next turn.
+     * @param groupID   The groupID of the group you want to start the timer of
+     * @see Timer
+     * @see TimerTask
+     */
     public synchronized void startTurnTimer(int groupID){
         this.timers.get(groupID).purge();
         TimerTask timerTask = new TimerTask(){
@@ -86,6 +115,10 @@ public class TimerController implements ModelObserver {
         this.timers.get(groupID).schedule(timerTask, 0,1000);
     }
 
+    /**
+     * Looks for the user's group, if the group is full, purges the timer, since the game is starting
+     * @param u the user joining
+     */
     @Override
     public void onJoin(User u) {
         //Finding the user's group
@@ -104,6 +137,12 @@ public class TimerController implements ModelObserver {
         }
     }
 
+    /**
+     * Looks for the user's group,
+     * if the group passes to less than 3 players the timer is purged, waiting to be rescheduled
+     * when there are enough players to play (at least 3).
+     * @param u the user leaving
+     */
     @Override
     public void onLeave(User u) {
         //Finding the user's group
@@ -124,11 +163,11 @@ public class TimerController implements ModelObserver {
 
     @Override
     public void onUpdate(Update update) {
-        //Does Nothing
+        //Does nothing
     }
 
     @Override
     public void onStart() {
-        //essentially does nothing
+        //Does nothing
     }
 }
