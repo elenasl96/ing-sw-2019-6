@@ -91,14 +91,15 @@ class AmmoTileWithAmmo extends AmmoTile{
     @Override
     public void pickGrabbable(int groupID, int toPick){
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
-            Update update = new Update("You grab these ammos: " + player.fillAmmoFromTile(this), "reload");
-            update.setData(player.getAmmos().toString().replace("[", "").replace("]", "")
+        Update update = new Update("You grab these ammos: " + player.fillAmmoFromTile(this), "reload");
+        update.setData(player.getAmmos().toString().replace("[", "").replace("]", "")
                     .replace(" ", "").toLowerCase());
-            //TODO REPLACE IN FIELD
-            player.receiveUpdate(update);
+        replaceAmmoTile(this, groupID);
+        player.receiveUpdate(update);
     }
 }
-//TODO javadoc
+
+
 class AmmoTileWithPowerup extends AmmoTile{
     AmmoTileWithPowerup(Color color1, Color color2){
         super(color1, color2);
