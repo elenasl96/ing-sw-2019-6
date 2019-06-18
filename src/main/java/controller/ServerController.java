@@ -24,6 +24,8 @@ import network.exceptions.InvalidGroupNumberException;
 import static model.enums.Phase.DISCONNECTED;
 import static model.enums.Phase.WAIT;
 
+//TODO Javadoc
+
 /**
  * Handles the Requests coming from the SocketClientHandler via Socket
  * chain ViewClient -> ClientController -> SocketClient --network.socket--> SocketClientHandler -> ServerController

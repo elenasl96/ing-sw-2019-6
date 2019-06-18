@@ -46,6 +46,11 @@ public class ViewClient implements View {
         }
     }
 
+    @Override
+    public String cardChoose() {
+        return userInput();
+    }
+
     public void run() {
         try {
             controller.run();

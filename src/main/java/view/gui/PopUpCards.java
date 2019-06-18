@@ -29,9 +29,10 @@ public class PopUpCards extends JFrame {
             cont++;
         }
 
-        add(cardPanel);
+        add(cardPanel,BorderLayout.CENTER);
         pack();
         setResizable(false);
+        toFront();
         setVisible(true);
     }
 

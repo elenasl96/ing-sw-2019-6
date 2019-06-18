@@ -192,4 +192,9 @@ public class ViewGui implements View {
     public void playMusic(String s){
         viewCli.playMusic(s);
     }
+
+    @Override
+    public String cardChoose() {
+        return gui.cardChoose();
+    }
 }

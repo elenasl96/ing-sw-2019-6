@@ -38,4 +38,6 @@ public interface View extends ModelObserver {
     String askEffects();
 
     void playMusic(String s);
+
+    String cardChoose();
 }
