@@ -27,7 +27,6 @@ public class ViewClient implements View {
         this.fromKeyBoard = new Scanner(System.in);
     }
 
-
     public void playMusic(String string){
         try {
             File yourFile = new File(string);
@@ -45,11 +44,6 @@ public class ViewClient implements View {
             displayText("Error!!");
             System.err.println(e.getMessage());
         }
-    }
-
-    @Override
-    public String weaponChosen() {
-        return userInput();
     }
 
     public void run() {
@@ -195,10 +189,9 @@ public class ViewClient implements View {
                 !input.equals("0") &&
                 !input.equals("1") &&
                 !input.equals("2") &&
-                !input.equals("6") &&
+                !input.equals("3") &&
                 !input.equals("4") &&
-                !input.equals("5") &&
-                !input.equals("3") )
+                !input.equals("5"))
             input = userInput();
         return input;
     }
