@@ -92,7 +92,6 @@ public class ViewClient implements View {
         this.wait = wait;
     }
 
-
     public int askNumber() {
         try{
             return Integer.parseInt(userInput());
@@ -109,7 +108,6 @@ public class ViewClient implements View {
             String userInput = userInput();
             user = controller.createUser(userInput);
         } while (user == null);
-
         displayText("You are " + user.getUsername());
         user.listenToMessages(this);
     }

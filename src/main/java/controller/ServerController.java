@@ -199,8 +199,9 @@ public class ServerController implements RequestHandler {
         Update update;
         switch (cardRequest.getCardType()) {
             case "weaponLayout":
+                int cardNumber = cardRequest.getNumber()-3;
                 StringBuilder updateString = new StringBuilder();
-                Weapon weapon = this.user.getPlayer().getWeapons().get(cardRequest.getNumber());
+                Weapon weapon = this.user.getPlayer().getWeapons().get(cardNumber);
                 updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
                 update = new Update(null, "layouteffect");
                 update.setData(updateString.toString().toLowerCase().replace(" ",""));
@@ -327,10 +328,8 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(MoveRequest moveRequest) {
         Move move = moveRequest.getMove();
-
-        if(move == null){
+    if(move == null)
             move = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().getCurrentMoves().get(0);
-        }
         System.out.println(move);
         try {
             Response response = move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());

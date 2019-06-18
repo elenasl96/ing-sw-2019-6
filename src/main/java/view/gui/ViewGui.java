@@ -71,7 +71,6 @@ public class ViewGui implements View {
 
     @Override
     public void onUpdate(Update update) {
-
         String[] data;
         if(update.getMove()!=null) {
             switch (update.getMove()) {
