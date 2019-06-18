@@ -492,4 +492,8 @@ public class MainFrame extends JFrame {
         effectFrame.dispose();
         return s;
     }
+
+    public void addDropPlayerBoard(model.enums.Color color) {
+        playerBoard.addDrop(color);
+    }
 }

@@ -1,6 +1,7 @@
 package view.gui;
 
 import controller.ClientController;
+import model.enums.Color;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -65,6 +66,34 @@ public class Main {
 
         //main.gui.chooseEffectPopUp("furnace", 2);
         //System.out.println(main.gui.askEffects());
+
+        try {
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 
