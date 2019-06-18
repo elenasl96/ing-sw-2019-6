@@ -90,21 +90,21 @@ public class TimerController implements ModelObserver {
      * @see TimerTask
      */
     public synchronized void startTurnTimer(int groupID){
+        this.timers.get(groupID).cancel();
+        this.timers.add(groupID, new Timer());
         this.timers.get(groupID).purge();
-        TimerTask timerTask = new TimerTask(){
+        TimerTask timerTask2 = new TimerTask(){
             int seconds = 60;
             @Override
             public void run() {
-                if(seconds == 60){
-                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(seconds + " seconds left..."));
-                } else if (seconds == 5) {
-                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "..."));
+                if (seconds == 5) {
+                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "...", null));
                 } else if (seconds == 0){
-                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Move lost! No more time."));
+                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Move lost! No more time.", null));
                     if(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equalsTo(SPAWN)){
                         GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.SECOND);
                         GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("You didn't spawn and lost the turn. " +
-                                "You're lucky you can at least reload."));
+                                "You're lucky you can at least reload.", null));
                     }
                     GameController.get().updatePhase(groupID);
                     timers.get(groupID).purge();
@@ -112,7 +112,7 @@ public class TimerController implements ModelObserver {
                 seconds--;
             }
         };
-        this.timers.get(groupID).schedule(timerTask, 0,1000);
+        this.timers.get(groupID).schedule(timerTask2, 0,1000);
     }
 
     /**
