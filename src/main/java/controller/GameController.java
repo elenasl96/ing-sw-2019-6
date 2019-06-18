@@ -73,11 +73,8 @@ public class GameController{
         if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
             content.append("\n||RUN||");
             forGui.append("RUN;");
-            if(!player.getCurrentPosition().isEmpty() &&
-                    player.getCurrentPosition().getGrabbable().isGrabbable(player)) {
-                content.append("\n||"+GRAB+"||");
-                forGui.append(GRAB+";");
-            }
+            content.append("\n||"+GRAB+"||");
+            forGui.append(GRAB+";");
             if(!player.getWeapons().isEmpty()) {
                 int index = 3;
                 content.append("\n||SHOOT||").append(player.weaponsToString(index));
