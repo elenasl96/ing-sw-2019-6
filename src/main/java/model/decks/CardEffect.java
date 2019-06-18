@@ -1,5 +1,6 @@
 package model.decks;
 
+import jdk.internal.jline.internal.Nullable;
 import model.Ammo;
 import model.enums.EffectType;
 import model.moves.Effect;
@@ -9,6 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The effect of Weapons and Powerups
+ */
 public class CardEffect {
     private EffectType effectType;
     private List<Effect> effects = new ArrayList<>();
@@ -32,6 +36,7 @@ public class CardEffect {
         this.cost = ammos.collect(Collectors.toCollection(ArrayList::new));
     }
 
+    @Nullable
     public List<Ammo> getCost() {
         return cost;
     }

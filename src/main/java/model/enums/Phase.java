@@ -1,5 +1,10 @@
 package model.enums;
 
+import network.commands.response.MoveUpdateResponse;
+
+/**
+ * The phase of the player's turn
+ */
 public enum Phase{
 
     WAIT(0),
@@ -8,18 +13,27 @@ public enum Phase{
     RELOAD(3),
     SPAWN (4),
     DISCONNECTED(5),
+    /**
+     * Used for first time spawn: different from the normal spawn because the player
+     * can't perform his turn after the spawn.
+     */
     FIRST_SPAWN(6);
     private int id;
 
-    Phase(int id)
-    {
+    Phase(int id) {
         this.id=id;
     }
 
     public int getId(){
        return id;
     }
-
+    /**
+     * Returns the phase object corresponding to the integer.
+     * It's used client side to pass the a number instead of a phase type object, for serialization.
+     * @see controller.ClientController#handle(MoveUpdateResponse)
+     * @param x   the integer
+     * @return    the phase
+     */
     public static Phase fromInteger(int x) {
         switch(x) {
             case 0:
