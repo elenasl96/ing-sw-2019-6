@@ -17,7 +17,7 @@ public class CardEffect {
     private EffectType effectType;
     private List<Effect> effects = new ArrayList<>();
     private ArrayList<Ammo> cost;
-    
+
     CardEffect(EffectType effectType, Stream<Ammo> ammos){
         if(ammos!=null)
             this.setCost(ammos);
