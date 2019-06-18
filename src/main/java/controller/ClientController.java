@@ -230,7 +230,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             case "damage":
             case "weapon choose":
                 try{
-                    client.request(new SendInput(view.userInput(), "weapon chosen"));
+                    client.request(new SendInput(view.cardChoose(), "weapon chosen"));
                 } catch (RemoteException e){
                     //nothing
                 }

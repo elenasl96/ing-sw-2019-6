@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static model.enums.EffectType.*;
 import static model.enums.Phase.*;
+//TODO Javadoc
 
 /**
  * SINGLETON (SERVER SIDE)

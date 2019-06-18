@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
@@ -129,6 +130,9 @@ public class MainFrame extends JFrame {
         console = new JTextArea("");
         console.setLineWrap(true);
         console.setEditable(false);
+        DefaultCaret caret = (DefaultCaret)console.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
         commandLine = new JTextField(20);
         ok = new JButton("OK");
         ok.addActionListener(new ActionListener() {
@@ -433,6 +437,7 @@ public class MainFrame extends JFrame {
         yesNoFrame.add(buttonPanel);
         yesNoFrame.pack();
         yesNoFrame.setVisible(true);
+        yesNoFrame.toFront();
         yesNoFrame.setResizable(false);
 
     }
@@ -473,6 +478,7 @@ public class MainFrame extends JFrame {
         effectFrame.setLocation(400,400);
         effectFrame.setSize(150,300);
         effectFrame.setResizable(false);
+        effectFrame.toFront();
         effectFrame.setVisible(true);
         //effectFrame.pack();
     }
