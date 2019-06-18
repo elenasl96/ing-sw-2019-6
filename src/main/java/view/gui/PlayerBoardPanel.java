@@ -11,10 +11,12 @@ public class PlayerBoardPanel extends JPanel {
     private Image img;
     private JPanel dropPanel;
     private JPanel markerPanel;
+    private JPanel bottomPanel;
     private model.enums.Color[] serie;
-    private int sizeSerie;
+    private int sizeSerie = 0;
     private final int numDrops = 12;
     private int numMarker = 0;
+    private int numSkull = 0;
 
     public PlayerBoardPanel() {
         try {
@@ -49,13 +51,44 @@ public class PlayerBoardPanel extends JPanel {
         dropPanel.setBackground(new Color(0,0,0,0));
 
         add(dropPanel,1);
-        voidPanel = new JPanel();
-        voidPanel.setBackground(new Color(0,0,0,0));
-        add(voidPanel,2);
+        bottomPanel = new JPanel(new GridLayout(1,11));
+        bottomPanel.setBackground(new Color(0,0,0,0));
+        add(bottomPanel,2);
 
         sizeSerie = 0;
         serie = new model.enums.Color[12];
 
+    }
+
+    public void addSkull() {
+        JPanel voidPanel;
+
+        bottomPanel.removeAll();
+        numSkull++;
+
+        for(int i=0;i<4;i++) {
+            voidPanel = new JPanel();
+            voidPanel.setBackground(new Color(0,0,0,0));
+            bottomPanel.add(voidPanel);
+        }
+
+        for(int i=4;i<numSkull+4;i++) {
+            try {
+                bottomPanel.add(new JLabel((new ImageIcon(ImageIO.read(new File("src/resources/xmas.jpg"))
+                        .getScaledInstance(60, 60, Image.SCALE_SMOOTH)))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for(int i=numSkull;i<11;i++) {
+            voidPanel = new JPanel();
+            voidPanel.setBackground(new Color(0,0,0,0));
+            bottomPanel.add(voidPanel);
+        }
+
+        markerPanel.revalidate();
+        markerPanel.repaint();
     }
 
     public void addMarker() {

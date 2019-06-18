@@ -68,7 +68,7 @@ public class Main {
         //System.out.println(main.gui.askEffects());
 
         try {
-            main.gui.addDropPlayerBoard(Color.RED);
+            /*main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
@@ -79,7 +79,7 @@ public class Main {
             main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
-            /*Thread.sleep(2000);
+            Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
@@ -92,29 +92,22 @@ public class Main {
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);*/
 
-           main.gui.addMarker();
+           main.gui.addMarkerPlayerBoard();
            Thread.sleep(2000);
-           main.gui.addMarker();
+           main.gui.addMarkerPlayerBoard();
            Thread.sleep(2000);
-           main.gui.addMarker();
+           main.gui.addSkullPlayerBoard();
            Thread.sleep(2000);
-           main.gui.addMarker();
+           main.gui.addSkullPlayerBoard();
            Thread.sleep(2000);
-           main.gui.addMarker();
+           main.gui.addSkullPlayerBoard();
            Thread.sleep(2000);
-           main.gui.addMarker();
+           main.gui.addSkullPlayerBoard();
            Thread.sleep(2000);
-           main.gui.addMarker();
-            Thread.sleep(2000);
-            main.gui.addMarker();
-            Thread.sleep(2000);
-            main.gui.addMarker();
-            Thread.sleep(2000);
-            main.gui.addMarker();
-            Thread.sleep(2000);
-            main.gui.addMarker();
-            Thread.sleep(2000);
-            main.gui.addMarker();
+           main.gui.addSkullPlayerBoard();
+           Thread.sleep(2000);
+           main.gui.addSkullPlayerBoard();
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();

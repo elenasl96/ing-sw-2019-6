@@ -497,7 +497,11 @@ public class MainFrame extends JFrame {
         playerBoard.addDrop(color);
     }
 
-    public void addMarker(){
+    public void addMarkerPlayerBoard(){
         playerBoard.addMarker();
+    }
+
+    public void addSkullPlayerBoard() {
+        playerBoard.addSkull();
     }
 }
