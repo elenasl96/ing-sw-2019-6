@@ -89,7 +89,7 @@ public class TimerController implements ModelObserver {
      * @see Timer
      * @see TimerTask
      */
-    public synchronized void startTurnTimer(int groupID){
+    synchronized void startTurnTimer(int groupID){
         this.timers.get(groupID).cancel();
         this.timers.add(groupID, new Timer());
         this.timers.get(groupID).purge();
