@@ -6,6 +6,7 @@ import network.commands.Response;
 
 import static java.lang.Integer.parseInt;
 
+//TODO javadoc
 public class CardRequest implements Request {
     private String cardType;
     private int number;

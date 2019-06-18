@@ -5,6 +5,7 @@ import model.room.Group;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
+//TODO javadoc
 public class StartGameResponse implements Response {
     @Override
     public void handle(ResponseHandler handler) {

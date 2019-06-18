@@ -4,6 +4,7 @@ import model.room.User;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
+//TODO javadoc
 public class UserCreatedResponse implements Response {
     public final User user;
 

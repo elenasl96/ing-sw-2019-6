@@ -6,6 +6,7 @@ import model.room.ModelObserver;
 
 import java.rmi.RemoteException;
 
+//TODO javadoc
 public interface View extends ModelObserver {
     Coordinate getCoordinate();
 

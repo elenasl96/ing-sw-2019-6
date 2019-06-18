@@ -3,6 +3,7 @@ package network.commands.response;
 import network.commands.ResponseHandler;
 import network.commands.Response;
 
+//TODO javadoc
 public class SituationViewerResponse implements Response {
     public final String situation;
 

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+//TODO javadoc
 public interface RemoteController extends Remote {
     void request(Request request) throws RemoteException;
     Response nextResponse() throws RemoteException;

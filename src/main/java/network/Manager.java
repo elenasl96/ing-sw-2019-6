@@ -11,7 +11,7 @@ import model.room.User;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO finish javadoc
+//TODO javadoc
 /**
  * SINGLETON
  * It is still a piece of the model that traces the instances available.

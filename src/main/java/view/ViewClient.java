@@ -15,6 +15,7 @@ import java.io.*;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
+//TODO javadoc
 public class ViewClient implements View {
     private Scanner fromKeyBoard;
     private ClientController controller;

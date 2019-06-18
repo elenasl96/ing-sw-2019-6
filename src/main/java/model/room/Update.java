@@ -4,6 +4,7 @@ import model.Player;
 
 import java.io.Serializable;
 
+//TODO javadoc
 public class Update implements Serializable {
     private boolean playerChanges;
     private Player player;

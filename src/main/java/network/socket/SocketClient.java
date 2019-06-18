@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 
+//TODO javadoc
 public class SocketClient implements RemoteController {
     private final String host;
     private final int port;

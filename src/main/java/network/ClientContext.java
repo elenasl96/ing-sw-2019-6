@@ -5,6 +5,8 @@ import model.Player;
 import model.room.Group;
 import model.room.User;
 
+
+//TODO javadoc
 /**
  * SINGLETON (CLIENT SIDE)
  *

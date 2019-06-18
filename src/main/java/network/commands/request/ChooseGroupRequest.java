@@ -4,6 +4,7 @@ import network.commands.Request;
 import network.commands.RequestHandler;
 import network.commands.Response;
 
+//TODO javadoc
 public class ChooseGroupRequest implements Request {
 
     public final int groupId;

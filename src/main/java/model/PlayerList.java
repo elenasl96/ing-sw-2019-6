@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+//TODO javadoc
 public class PlayerList extends ArrayList<Player> {
     private int counter = 0;
 

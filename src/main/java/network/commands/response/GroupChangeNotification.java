@@ -7,6 +7,7 @@ import model.room.User;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
+//TODO javadoc
 public class GroupChangeNotification implements Response {
     private final boolean inOut;
     public final User user;

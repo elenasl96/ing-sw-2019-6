@@ -4,8 +4,9 @@ import network.commands.Request;
 import network.commands.RequestHandler;
 import network.commands.Response;
 
+//TODO javadoc
 public class ShootRequest implements Request {
-    String string;
+    private String string;
 
     public ShootRequest(String string) {
         this.string = string;

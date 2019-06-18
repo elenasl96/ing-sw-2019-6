@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+//TODO javadoc
 public class User implements Serializable, Comparable<User> {
 
     private String username;

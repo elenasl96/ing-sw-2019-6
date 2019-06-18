@@ -8,9 +8,6 @@ import java.io.Serializable;
  * Class for the ammos of the game
  */
 public class Ammo implements Serializable {
-    /**
-     * The color of the ammo
-     */
     private Color color;
 
     /**
@@ -31,6 +28,10 @@ public class Ammo implements Serializable {
         return  this.getColor().getName() + " ";
     }
 
+    /**
+     * @param obj   the confronting object
+     * @return      true only if the ammos have the same color
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;

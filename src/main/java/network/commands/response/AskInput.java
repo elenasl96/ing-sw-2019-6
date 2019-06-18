@@ -3,8 +3,9 @@ package network.commands.response;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
+//TODO javadoc
 public class AskInput implements Response {
-    String inputType;
+    private String inputType;
     private StringBuilder display;
 
     public AskInput(String inputType){

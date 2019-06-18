@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+//TODO javadoc
 public class Server {
     private final ServerSocket serverSocket;
     private final ExecutorService pool;

@@ -4,6 +4,7 @@ import model.room.Group;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
+//TODO javadoc
 public class JoinGroupResponse implements Response {
     public final Group group;
 

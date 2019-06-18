@@ -16,6 +16,10 @@ public class GameUpdateNotification implements Response {
         this.update = update;
     }
 
+    /**
+     * Sends update to the views
+     * @param handler   the clientController
+     */
     @Override
     public void handle(ResponseHandler handler) {
         ClientContext.get().getCurrentUser().receiveUpdate(update);
