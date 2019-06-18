@@ -1,5 +1,7 @@
 package model.enums;
 
+import network.commands.response.MoveUpdateResponse;
+
 import java.io.Serializable;
 
 public enum Character implements Serializable {
@@ -18,6 +20,13 @@ public enum Character implements Serializable {
         this.num = num;
     }
 
+    /**
+     * Returns the character corresponding to the integer.
+     * It's used client side to pass the a number instead of a character type object, for serialization.
+     * @see controller.ClientController#handle(MoveUpdateResponse)
+     * @param x   the integer
+     * @return    the character
+     */
     public static Character fromInteger(int x) {
         switch(x) {
             case 1:

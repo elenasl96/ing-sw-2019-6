@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//TODO javadoc
 public class WeaponTile implements Grabbable {
     private List<Weapon> weapons;
 

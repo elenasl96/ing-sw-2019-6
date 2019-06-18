@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//TODO javadoc
 public class WeaponDeck {
     private List<Weapon> weapons = new ArrayList<>();
 

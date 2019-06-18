@@ -1,5 +1,8 @@
 package model.enums;
 
+/**
+ * One color for each possible character or room color
+ */
 public enum Color {
     NONE ("none", 'n'),
     GREY("grey",'l'),

@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import static model.enums.TargetType.ALL;
 import static model.enums.TargetType.VISIBLE;
 
+//TODO javadoc
 public class PowerupDeck {
     private List<Powerup> powerups = new ArrayList<>();
     private List<Powerup> discard = new ArrayList<>();
