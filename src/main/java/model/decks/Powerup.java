@@ -8,6 +8,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The powerup cards of the game, contains a list of moves and an ammo
+ * @see Move
+ * @see Ammo
+ */
 public class Powerup implements Serializable {
     private String name;
     private Ammo ammo;
@@ -18,7 +23,7 @@ public class Powerup implements Serializable {
         this.ammo = ammo;
     }
 
-    public void addMove(Move move){
+    void addMove(Move move){
         this.moves.add(move);
     }
 
