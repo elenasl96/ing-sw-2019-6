@@ -1,5 +1,6 @@
 package controller;
 
+import model.Game;
 import model.decks.CardEffect;
 import model.enums.*;
 import model.exception.InvalidMoveException;
@@ -15,6 +16,8 @@ import model.moves.Effect;
 import model.moves.Pay;
 import model.moves.Target;
 import model.room.Update;
+import network.ClientContext;
+import network.commands.request.MoveRequest;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,18 +55,35 @@ public class GameController{
     synchronized Update possibleMoves(Player player, int groupID) {
         StringBuilder content = new StringBuilder();
         Update update;
-        switch (player.getPhase()){
-            case FIRST: case SECOND:
-                return firstSecondMoves(player, content, groupID);
-                case RELOAD:
-                content.append("You can reload:\n").append(player.getWeapons());
-                update = new Update(content.toString(), "choosecard");
-                update.setData(player.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
-                return update;
-            default:
-                break;
+        if(GameContext.get().getGame(groupID).getCurrentPlayer().isPhaseNotDone() &&
+            !player.getCurrentMoves().isEmpty()){
+            System.out.println("Phase not done yet");
+            playPendingMoves(player, groupID);
         }
-        return new Update(content.toString(), UPDATECONSOLE);
+        else {
+            switch (player.getPhase()) {
+                case FIRST:
+                case SECOND:
+                    return firstSecondMoves(player, content, groupID);
+                case RELOAD:
+                    content.append("You can reload:\n").append(player.getWeapons());
+                    update = new Update(content.toString(), "choosecard");
+                    update.setData(player.getStringIdWeapons().toLowerCase().replaceAll(" ", ""));
+                    return update;
+                default:
+                    break;
+            }
+            return new Update(content.toString(), UPDATECONSOLE);
+        }
+        return null;
+    }
+
+    private void playPendingMoves(Player player, int groupID) {
+        while(!player.getCurrentMoves().isEmpty()) {
+            GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentMoves().get(0)
+                    .execute(player, groupID);
+            player.getCurrentMoves().remove(0);
+        }
     }
 
     private Update firstSecondMoves(Player player, StringBuilder content, int groupID) {

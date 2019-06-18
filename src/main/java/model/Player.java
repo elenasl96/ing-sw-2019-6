@@ -329,7 +329,8 @@ public class Player extends Target implements Serializable{
     public void addDamages(Player playerDamaging, int damages, int groupId) {
         int damagesReceived = this.getPlayerBoard().addDamage(playerDamaging, damages);
         this.receiveUpdate(
-                new Update("You received " + damagesReceived + " damages."));
+                new Update("You received " + damagesReceived + " damages " +
+                        "from " + playerDamaging.getName()));
         if(this.getPlayerBoard().getDamage().size() == (11 | 12))
             this.dead = true;
     }
@@ -338,7 +339,9 @@ public class Player extends Target implements Serializable{
     public void addMarks(Player playerMarking, int groupID, int nMarks) {
         int occurrences = Collections.frequency(this.getPlayerBoard().getMarks(), playerMarking);
         if(occurrences<3){
-            this.getPlayerBoard().addMarks(playerMarking, min(3-occurrences, nMarks));
+            int marksReceived = this.getPlayerBoard().addMarks(playerMarking, min(3-occurrences, nMarks));
+            this.receiveUpdate(new Update("You received " + marksReceived + " marks " +
+                    "from " + playerMarking.getName()));
         } else{
             throw new FullMarksException();
         }
