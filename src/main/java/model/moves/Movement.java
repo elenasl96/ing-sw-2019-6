@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 import static model.field.Coordinate.fillCoordinate;
 
+//TODO javadoc
 /**
  * Implements the movement of the player of any steps on the board
  * @see Move

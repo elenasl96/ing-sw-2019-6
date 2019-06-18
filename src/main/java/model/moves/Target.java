@@ -7,6 +7,7 @@ import model.room.Update;
 
 import java.io.Serializable;
 
+//TODO javadoc
 public abstract class Target implements Serializable {
     private TargetType targetType;
     private Integer minDistance;

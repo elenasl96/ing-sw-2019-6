@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+//TODO javadoc
 public abstract class Effect implements Move {
     private Boolean optionality;
     private List<Target> targets = new ArrayList<>();

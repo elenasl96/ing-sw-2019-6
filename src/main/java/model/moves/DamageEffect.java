@@ -4,6 +4,7 @@ import model.Player;
 import network.commands.Response;
 import java.util.stream.Stream;
 
+//TODO javadoc
 public class DamageEffect extends Effect{
     private int damages;
 

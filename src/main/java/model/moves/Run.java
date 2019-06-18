@@ -6,6 +6,7 @@ import model.field.Coordinate;
 import model.field.Field;
 import network.commands.Response;
 
+//TODO javadoc
 public class Run implements Move {
     private Movement movement;
 
@@ -13,7 +14,7 @@ public class Run implements Move {
         this.movement = new Movement(destination);
     }
 
-    public void setMaxSteps(int maxSteps){
+    private void setMaxSteps(int maxSteps){
         movement.setMaxSteps(maxSteps);
     }
 

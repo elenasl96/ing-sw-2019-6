@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import static java.lang.Math.min;
 
+//TODO javadoc
 public class MarkEffect extends Effect implements Move{
     private int nMarks;
 

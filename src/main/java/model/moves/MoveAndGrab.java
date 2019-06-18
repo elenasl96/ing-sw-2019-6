@@ -9,6 +9,7 @@ import network.commands.Response;
 
 import static model.enums.Phase.WAIT;
 
+//TODO javadoc
 public class MoveAndGrab implements Move {
     private Movement movement;
     private Grab grab;
