@@ -202,7 +202,7 @@ public class ServerController implements RequestHandler {
                 StringBuilder updateString = new StringBuilder();
                 Weapon weapon = this.user.getPlayer().getWeapons().get(cardRequest.getNumber());
                 updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
-                update = new Update(null, "layouteffect");
+                update = new Update(updateString.toString().toLowerCase().replace(" ",""), "layouteffect");
                 update.setData(updateString.toString().toLowerCase().replace(" ",""));
                 user.receiveUpdate(update);
                 break;

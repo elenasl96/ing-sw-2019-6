@@ -63,8 +63,8 @@ public class Main {
         //System.out.println(main.gui.getJLabelText());
         //System.out.println(main.gui.getMove());
 
-        main.gui.chooseEffectPopUp("furnace", 2);
-        System.out.println(main.gui.askEffects());
+        //main.gui.chooseEffectPopUp("furnace", 2);
+        //System.out.println(main.gui.askEffects());
     }
 }
 
