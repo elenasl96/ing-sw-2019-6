@@ -23,7 +23,6 @@ public class Grab implements Move{
      * @param p     the player grabbing
      * @param groupID   the current game groupID to access the Game from the GameContext
      * @return  new AskInput request
-     * //TODO non so bene come mai ritorni ciò, ma funziona con le ammotiles?? ORA DOVREBBE
      */
     @Override
     public Response execute(Player p, int groupID) {
