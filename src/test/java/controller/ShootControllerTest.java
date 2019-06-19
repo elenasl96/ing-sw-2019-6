@@ -1,5 +1,6 @@
 package controller;
 
+import model.Game;
 import model.GameContext;
 import model.Player;
 import model.decks.Weapon;
@@ -158,18 +159,17 @@ class ShootControllerTest {
     }
 
     @Test
-    void PlayWeapon3(){
+    void TractorBeamTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
-        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
-        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
+        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
         for(Player p: GameContext.get().getGame(0).getPlayers()){
             p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
         }
         p1.getWeapons().add(new Weapon().initializeWeapon(3));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 1";
+        String weaponsEffect = "3 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -177,11 +177,13 @@ class ShootControllerTest {
             System.out.println(e.getMessage());
         }
 
+        //TODO test from multiple squares of p2.
+        // If destination is different from C 3, returns "You can't move there"
         //test effects on tractor beam
         String weaponChosen = "user2,C 3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
-        assertEquals(3, p2.getPlayerBoard().getDamage().size());
+        assertEquals(1, p2.getPlayerBoard().getDamage().size());
         // assertEquals(1, p3.getPlayerBoard().getDamage().size());
         //assertEquals(2, p4.getPlayerBoard().getDamage().size());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
@@ -189,10 +191,12 @@ class ShootControllerTest {
 
 
     @Test
-    void PlayWeapon4(){
+    void ThorTestWithBasicVisible(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(1));
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
+        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
         Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
             p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
@@ -209,6 +213,7 @@ class ShootControllerTest {
         }
 
         //test effects on thor with basic and alternative effect working
+        //TODO why it also accepts players not basic_visible?
         String weaponChosen = "user2;user3;user4";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());

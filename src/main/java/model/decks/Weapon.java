@@ -49,6 +49,7 @@ public class Weapon implements Serializable {
         Target targetOptional3;
         Target targetAlternative;
         Target targetAlternative2;
+        Square destination;
         Square destination2;
         switch (id){
             case 0:
@@ -160,11 +161,12 @@ public class Weapon implements Serializable {
                                 "direction.", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Effect
                 targetBasic = new Player(NONE, NONE, null, null);
+                destination = new Square(VISIBLE, NONE, 0, 2);
                 weapon.getEffectsList().add(new CardEffect(BASIC, Stream
                         .of(new Ammo(Color.BLUE))));
                 weapon.getEffectsList().get(0).getEffects()
                         .add(new Movement(Stream.of(targetBasic),
-                                new Square(VISIBLE, NONE, 0, 2), false));
+                                destination, false));
                 weapon.getEffectsList().get(0).getEffects()
                         .add(new DamageEffect(Stream.of(targetBasic),1, false));
                 //ALternative Effect -- destination.cansee = null -> mysquare
@@ -435,7 +437,7 @@ public class Weapon implements Serializable {
                                 "you will not be moved or damaged.", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Effect
                 targetBasic = new Player(VISIBLE, NONE, null, null);
-                Square destination = new Square (NONE, NONE, 1,1);
+                destination = new Square (NONE, NONE, 1,1);
                 targetOptional = new Square(VISIBLE, NONE, null, null);
                 weapon.getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.RED))));
