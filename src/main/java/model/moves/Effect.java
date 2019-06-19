@@ -2,6 +2,7 @@ package model.moves;
 
 import controller.GameController;
 import controller.ShootController;
+import model.GameContext;
 import model.enums.TargetType;
 import model.exception.InvalidMoveException;
 
@@ -49,14 +50,16 @@ public abstract class Effect implements Move {
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID){
         for (int k=0; k<this.getTarget().size(); k++) {
             if(!this.getTarget().get(k).isFilled()) {
-                switch (this.getTarget().get(k).getTargetType()) {
+                switch (this.targets.get(k).getTargetType()) {
                     case MINE:
-                        this.getTarget().get(k).setMine(groupID);
+                        this.targets.get(k).setMine(groupID);
                         break;
                     case ALL:
-                        this.getTarget().addAll(this.getTarget().get(k).findAllTargets(this.getTarget().get(k), groupID));
-                        this.getTarget().remove(k);
+                        this.targets.addAll(this.getTarget().get(k).findAllTargets(this.getTarget().get(k), groupID));
+                        this.targets.remove(k);
                         break;
+                    case BASIC_EQUALS:
+                        this.targets.get(k).setFieldsToFill(null, groupID);
                     default:
                         if (k >= inputMatrix.length && !this.optionality)
                             throw new InvalidMoveException("fields missing");

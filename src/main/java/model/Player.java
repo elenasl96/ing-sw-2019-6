@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.min;
+import static model.enums.TargetType.BASIC_EQUALS;
 import static model.enums.TargetType.MINE;
 
 //TODO javadoc
@@ -333,7 +334,11 @@ public class Player extends Target implements Serializable{
 
     @Override
     public void setFieldsToFill(String inputName, int groupID) {
-        this.name = inputName;
+        if(inputName == null && this.getTargetType().equals(BASIC_EQUALS)){
+           this.name = ((Player) GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID)).getName();
+        } else {
+            this.name = inputName;
+        }
     }
 
 
