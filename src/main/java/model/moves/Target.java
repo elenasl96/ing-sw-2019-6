@@ -6,6 +6,8 @@ import model.field.Square;
 import model.room.Update;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 //TODO javadoc
 public abstract class Target implements Serializable {
@@ -63,4 +65,6 @@ public abstract class Target implements Serializable {
     public abstract void addDamages(Player playerDamaging, int damages, int groupId);
 
     public abstract void setMine(int groupID);
+
+    public abstract List<Target> findAllTargets(Target target, int groupID);
 }

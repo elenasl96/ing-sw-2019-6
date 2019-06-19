@@ -27,12 +27,6 @@ public class ViewGui implements View {
         this.controller = controller;
     }
 
-    @Override
-    public int chooseWeapon() {
-        //TODO
-        return 0;
-    }
-
     public void run() {
         try {
             controller.run();
@@ -53,7 +47,6 @@ public class ViewGui implements View {
     @Override
     public void onJoin(User u) {
         viewCli.onJoin(u);
-        gui.setPlayerNameLabel(u.getUsername());
     }
 
     @Override
@@ -114,17 +107,17 @@ public class ViewGui implements View {
                     gui.chooseEffectPopUp(data[0], Integer.parseInt(data[1]));
                     break;
                 }
-                case "damages": {
+                case "damages":
                     data = update.getData().split(";");
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
-                       gui.addDropPlayerBoard(Integer.parseInt(data[1]));
+                        gui.addDropPlayerBoard(Integer.parseInt(data[1]));
                     }
-                }
-                case "markers": {
+                    break;
+                case "markers":
                     data = update.getData().split(";");
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
                         gui.addMarkerPlayerBoard(Integer.parseInt(data[1]));
-                    }
+                    break;
                 }
                 default:
                     break;
@@ -144,11 +137,12 @@ public class ViewGui implements View {
     }
 
     @Override
-    public void chooseUsernamePhase() throws RemoteException{
+    public String chooseUsernamePhase() throws RemoteException{
         viewCli.setClientController(controller);
-        viewCli.chooseUsernamePhase();
+        gui.setPlayerNameLabel(viewCli.chooseUsernamePhase().toUpperCase());
         ClientContext.get().getCurrentUser().listenToMessages(this);
         System.out.println(ClientContext.get().getCurrentUser().getUpdateObservers());
+        return null;
     }
 
     @Override

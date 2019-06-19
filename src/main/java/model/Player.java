@@ -1,5 +1,6 @@
 package model;
 
+import controller.ShootController;
 import model.decks.AmmoTile;
 import model.decks.CardEffect;
 import model.decks.Powerup;
@@ -355,6 +356,21 @@ public class Player extends Target implements Serializable{
     @Override
     public void setMine(int groupID) {
         this.name = GameContext.get().getGame(groupID).getCurrentPlayer().getName();
+    }
+
+    @Override
+    public List<Target> findAllTargets(Target target, int groupID) {
+        List<Target> targets = new ArrayList<>();
+        for(Player p: GameContext.get().getGame(groupID).getPlayers()){
+            try{
+                ShootController.get().checkMinDistance(target, p.getCurrentPosition(), groupID);
+                ShootController.get().checkMaxDistance(target, p.getCurrentPosition(), groupID);
+                targets.add(p);
+            }catch(InvalidMoveException e){
+                //next player
+            }
+        }
+        return targets;
     }
 
     @Override

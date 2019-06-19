@@ -1,5 +1,6 @@
 package model.field;
 
+import controller.ShootController;
 import model.*;
 import model.decks.AmmoTile;
 import model.decks.Grabbable;
@@ -183,6 +184,21 @@ public class Square extends Target implements Serializable {
     @Override
     public void setMine(int groupID) {
         this.coord = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getCoord();
+    }
+
+    @Override
+    public List<Target> findAllTargets(Target target, int groupID) {
+        List<Target> targets = new ArrayList<>();
+        for(Square s: GameContext.get().getGame(groupID).getBoard().getField().getSquares()){
+            try{
+                ShootController.get().checkMinDistance(target, s, groupID);
+                ShootController.get().checkMaxDistance(target, s, groupID);
+                targets.add(s);
+            }catch(InvalidMoveException e){
+                //next square
+            }
+        }
+        return targets;
     }
 
     @Override

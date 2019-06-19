@@ -49,15 +49,22 @@ public abstract class Effect implements Move {
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID){
         for (int k=0; k<this.getTarget().size(); k++) {
             if(!this.getTarget().get(k).isFilled()) {
-                if(this.getTarget().get(k).getTargetType().equals(TargetType.MINE)) {
-                    this.getTarget().get(k).setMine(groupID);
-                }else {
-                    if (k >= inputMatrix.length && !this.optionality) throw new InvalidMoveException("fields missing");
-                    ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
-                    this.getTarget().get(k)
-                            .setFieldsToFill(inputMatrix[index], groupID);
-                    index++;
+                switch (this.getTarget().get(k).getTargetType()) {
+                    case MINE:
+                        this.getTarget().get(k).setMine(groupID);
+                        break;
+                    case ALL:
+                        this.getTarget().addAll(this.getTarget().get(k).findAllTargets(this.getTarget().get(k), groupID));
+                        this.getTarget().remove(k);
+                        break;
+                    default:
+                        if (k >= inputMatrix.length && !this.optionality)
+                            throw new InvalidMoveException("fields missing");
+                        ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
+                        this.getTarget().get(k).setFieldsToFill(inputMatrix[index], groupID);
+                        index++;
                 }
+
             }
         }
         return index;
