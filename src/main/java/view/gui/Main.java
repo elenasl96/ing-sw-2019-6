@@ -68,8 +68,6 @@ public class Main {
         //System.out.println(main.gui.askEffects());
 
         try {
-            /*main.gui.addDropPlayerBoard(Color.RED);
-            Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
@@ -90,7 +88,9 @@ public class Main {
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(Color.RED);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);*/
+            main.gui.addDropPlayerBoard(Color.RED);
+            Thread.sleep(2000);
+            main.gui.addDropPlayerBoard(Color.RED);
 
            main.gui.addMarkerPlayerBoard();
            Thread.sleep(2000);
@@ -112,6 +112,9 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        main.gui.yesNoPopUp();
+        System.out.println(main.gui.yesNoChoose());
     }
 }
 

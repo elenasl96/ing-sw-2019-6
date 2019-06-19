@@ -199,9 +199,9 @@ public class MainFrame extends JFrame {
         add(right, BorderLayout.EAST);
         add(voidPanel, BorderLayout.SOUTH);
 
-        //setSize(1050, 615);
+        setSize(1050, 590);
         setResizable(false);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         weapon.addActionListener(e -> shoot.setMove((weapon.getSelectedIndex()+3)+""));
         powerup.addActionListener(e -> powerup.setMove((powerUp.getSelectedIndex())+""));
@@ -423,6 +423,15 @@ public class MainFrame extends JFrame {
         JButton yes = new JButton("Yes");
         JButton no = new JButton("No");
         yes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (lockReload) {
+                    yesnochoice = ((JButton) e.getSource()).getText().toLowerCase();
+                    lockReload.notifyAll();
+                }
+            }
+        });
+        no.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 synchronized (lockReload) {
