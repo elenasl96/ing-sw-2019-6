@@ -199,7 +199,7 @@ public class MainFrame extends JFrame {
         add(right, BorderLayout.EAST);
         add(voidPanel, BorderLayout.SOUTH);
 
-        setSize(1050, 580);
+        setSize(1050, 590);
         setResizable(false);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
