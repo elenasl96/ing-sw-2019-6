@@ -93,7 +93,7 @@ class GameControllerTest {
 
     @Test
     void generateMatrixTest(){
-        String[][] matrix = GameController.get().generateMatrix("C 3:User2:User3;User3:Square1;User1");
+        String[][] matrix = ShootController.get().generateMatrix("C 3:User2:User3;User3:Square1;User1");
         System.out.println(Arrays.deepToString(matrix));
     }
 
