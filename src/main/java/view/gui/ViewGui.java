@@ -53,6 +53,7 @@ public class ViewGui implements View {
     @Override
     public void onJoin(User u) {
         viewCli.onJoin(u);
+        gui.setPlayerNameLabel(u.getUsername());
     }
 
     @Override
@@ -117,6 +118,12 @@ public class ViewGui implements View {
                     data = update.getData().split(";");
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
                        gui.addDropPlayerBoard(Integer.parseInt(data[1]));
+                    }
+                }
+                case "markers": {
+                    data = update.getData().split(";");
+                    for(int i=0;i<Integer.parseInt(data[0]);i++) {
+                        gui.addMarkerPlayerBoard(Integer.parseInt(data[1]));
                     }
                 }
                 default:

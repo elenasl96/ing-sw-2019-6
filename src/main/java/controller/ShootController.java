@@ -41,11 +41,7 @@ public class ShootController {
             throw new InvalidMoveException("Not valid sequence");
         //Add effects to player
         player.addEffectsToPlay(weaponEffectsSplitted);
-        //Reinitialize weapon
-        Weapon newWeapon = weapon.initializeWeapon(weapon.getId());
-        player.getWeapons().add(newWeapon);
-        player.getWeapons().remove(weapon);
-        player.setWeaponInUse(newWeapon.getId());
+        player.setWeaponInUse(weapon.getId());
         //Ask player to fill effects
         return getEffectsToFill(player);
     }
@@ -127,11 +123,14 @@ public class ShootController {
     }
 
     private void unloadWeaponInUse(Player player) {
-        player.getWeapons()
-                .stream()
-                .filter(weapon -> weapon.getId() == player.getWeaponInUse())
-                .findFirst()
-                .ifPresent(weapon -> weapon.setStatus(WeaponStatus.UNLOADED));
+        for(int i=0; i<player.getWeapons().size(); i++){
+            if(player.getWeapons().get(i).getId() == player.getWeaponInUse()) {
+               player.getWeapons().remove(i);
+               player.getWeapons().add(new Weapon().initializeWeapon(player.getWeaponInUse()));
+               player.getWeapons().get(i).setStatus(WeaponStatus.UNLOADED);
+            }
+        }
+        System.out.println(player.getWeapons().get(0).getStatus()+player.getWeapons().get(0).getName());
     }
 
     //---------------------------------USE POWERUPS-------------------------------------------//
@@ -153,10 +152,6 @@ public class ShootController {
         for(CardEffect c: currentCardEffects){
             for(Effect e: c.getEffects()){
                 e.fillFields(groupID);
-                for(Target t: e.getTarget()){
-                    e.getTarget().add(t.fillFields(groupID));
-                    e.getTarget().remove(t);
-                }
             }
         }
     }
@@ -233,7 +228,7 @@ public class ShootController {
         player.generateVisible(groupID);
         switch (target.getTargetType()) {
             case BASIC_VISIBLE:
-                Player basic= (Player) player.getBasicTarget(groupID);
+                Player basic = (Player) player.getBasicTarget(groupID);
                 basic.generateVisible(groupID);
                 if(!basic.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Target is not basic visible");
@@ -248,6 +243,9 @@ public class ShootController {
                 break;
             case MINE:
                 if(!realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You must use yourself");
+                break;
+            case NOT_MINE:
+                if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yours");
                 break;
             case NONE: default:
                 break;

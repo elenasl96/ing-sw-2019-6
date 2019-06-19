@@ -156,12 +156,15 @@ public class GameController{
     }
 
     synchronized Update getSpawn(Player player, int groupID) {
-        if(!player.isDead()){
+
+        if(player.getPowerups().isEmpty()) {
+            if (!player.isDead()) {
+                player.getPowerups().add(GameContext.get().getGame(groupID)
+                        .getBoard().getPowerupsLeft().pickCard());
+            }
             player.getPowerups().add(GameContext.get().getGame(groupID)
                     .getBoard().getPowerupsLeft().pickCard());
         }
-        player.getPowerups().add(GameContext.get().getGame(groupID)
-                .getBoard().getPowerupsLeft().pickCard());
         System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
         Update update = new Update(" Choose spawn point from:" + player.powerupsToString(),"choosecard");
         update.setData(player.getStringIdPowerUp().replaceAll(" ",""));

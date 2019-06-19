@@ -237,7 +237,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 break;
             case "grabWeapon":
                 try{
-                    client.request(new SendInput(view.userInput(), "weaponGrabbed"));
+                    client.request(new SendInput(view.cardChoose(), "weaponGrabbed"));
                 } catch (RemoteException e){
                     //nothing
                 }

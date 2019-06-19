@@ -151,13 +151,11 @@ public class Movement extends Effect{
 
     @Override
     public String getFieldsToFill() {
-        StringBuilder string = new StringBuilder();
-        string.append("Movement: ");
-        for(Target t: this.getTarget()){
-            string.append(t.getFieldsToFill());
-        }
-        if(destination != null) string.append("destination (Letter, Number); ");
-        return string.toString();
+        String string = super.getFieldsToFill();
+        string += destination.getFieldsToFill();
+        if (string.isEmpty())
+            return string;
+        else return "Movement: " + string;
     }
 
     @Override
