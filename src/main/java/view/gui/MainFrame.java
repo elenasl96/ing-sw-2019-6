@@ -199,9 +199,9 @@ public class MainFrame extends JFrame {
         add(right, BorderLayout.EAST);
         add(voidPanel, BorderLayout.SOUTH);
 
-        //setSize(1050, 615);
-        //setResizable(false);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(1050, 580);
+        setResizable(false);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         weapon.addActionListener(e -> shoot.setMove((weapon.getSelectedIndex()+3)+""));
         powerup.addActionListener(e -> powerup.setMove((powerUp.getSelectedIndex())+""));
