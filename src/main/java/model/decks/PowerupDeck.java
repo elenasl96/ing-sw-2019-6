@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static model.enums.TargetType.ALL;
-import static model.enums.TargetType.VISIBLE;
+import static model.enums.TargetType.NONE;
 
 //TODO javadoc
 public class PowerupDeck {
@@ -57,13 +57,19 @@ public class PowerupDeck {
             this.powerups.get(8 + i).addMove(new MarkEffect(Stream.of(new Player()), 1, false));
 
             this.powerups.add(new Powerup(TELEPORTER + Color.YELLOW.getAbbr(), new Ammo(Color.YELLOW)));
-            this.powerups.get(9 + i).addMove(new Movement(Stream.of(new Player(TargetType.ME, null, null)),new Square(ALL, null, null), false));
+            this.powerups.get(9 + i).addMove(
+                    new Movement(Stream.of(new Player(TargetType.MINE, NONE, null, null)),
+                            new Square(ALL, NONE, null, null), false));
 
             this.powerups.add(new Powerup(TELEPORTER + Color.BLUE.getAbbr(), new Ammo(Color.BLUE)));
-            this.powerups.get(10 + i).addMove(new Movement(Stream.of(new Player(TargetType.ME, null, null)),new Square(ALL, null, null), false));
+            this.powerups.get(10 + i).addMove(
+                    new Movement(Stream.of(new Player(TargetType.MINE, NONE, null, null)),
+                            new Square(ALL, NONE, null, null), false));
 
             this.powerups.add(new Powerup(TELEPORTER + Color.RED.getAbbr(), new Ammo(Color.RED)));
-            this.powerups.get(11 + i).addMove(new Movement(Stream.of(new Player(TargetType.ME, null, null)),new Square(ALL, null, null), false));
+            this.powerups.get(11 + i).addMove(
+                    new Movement(Stream.of(new Player(TargetType.MINE, NONE, null, null)),
+                            new Square(ALL, NONE, null, null), false));
         }
         shuffleDeck();
     }

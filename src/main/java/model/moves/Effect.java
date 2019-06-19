@@ -1,7 +1,10 @@
 package model.moves;
 
 import controller.GameController;
+import model.GameContext;
+import model.enums.TargetType;
 import model.exception.InvalidMoveException;
+import network.ClientContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +44,15 @@ public abstract class Effect implements Move {
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID){
         for (int k=0; k<this.getTarget().size(); k++) {
             if(!this.getTarget().get(k).isFilled()) {
-                if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
-                GameController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
-                this.getTarget().get(k)
-                        .setFieldsToFill(inputMatrix[index], groupID);
-                index++;
+                if(this.getTarget().get(k).getTargetType().equals(TargetType.MINE)) {
+                    this.getTarget().get(k).setMine(groupID);
+                }else {
+                    if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+                    GameController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
+                    this.getTarget().get(k)
+                            .setFieldsToFill(inputMatrix[index], groupID);
+                    index++;
+                }
             }
         }
         return index;

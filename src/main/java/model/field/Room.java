@@ -20,8 +20,8 @@ public class Room extends Target {
         this.squares = squares;
     }
 
-    public Room(TargetType targetType, Integer minDistance, Integer maxDistance){
-        super(targetType, minDistance,maxDistance);
+    public Room(TargetType targetType, TargetType targetState, Integer minDistance, Integer maxDistance){
+        super(targetType, targetState, minDistance,maxDistance);
         this.color = null;
     }
 
@@ -37,6 +37,11 @@ public class Room extends Target {
     @Override
     public void addDamages(Player playerDamaging, int damages, int groupId) {
         //TODO ADDDAMAGES in room
+    }
+
+    @Override
+    public void setMine(int groupID) {
+        this.color = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getColor();
     }
 
     @Override

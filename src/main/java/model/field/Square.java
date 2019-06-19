@@ -26,8 +26,8 @@ public class Square extends Target implements Serializable {
         this.coord = null;
     }
 
-    public Square(TargetType targetType, Integer minDistance, Integer maxDistance ){
-        super(targetType, minDistance,maxDistance);
+    public Square(TargetType targetType, TargetType targetState, Integer minDistance, Integer maxDistance ){
+        super(targetType, targetState, minDistance,maxDistance);
         this.color = null;
         this.coord = null;
     }
@@ -174,6 +174,11 @@ public class Square extends Target implements Serializable {
                 .stream()
                 .filter(player -> player.getCurrentPosition().equals(this) && !player.equals(playerDamaging))
                 .forEach(player -> player.addDamages(playerDamaging, damages, groupId));
+    }
+
+    @Override
+    public void setMine(int groupID) {
+        this.coord = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getCoord();
     }
 
     @Override
