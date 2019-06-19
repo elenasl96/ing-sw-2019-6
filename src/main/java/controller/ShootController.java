@@ -17,6 +17,7 @@ import model.moves.Target;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static model.enums.EffectType.*;
@@ -107,6 +108,8 @@ public class ShootController {
     void playWeapon(Player player, String input, int groupID) {
         //Convert input to matrix
         String[][] effectsMatrix = generateMatrix(input);
+        //Check if inputs are all different
+        checkDifferentInputs(effectsMatrix);
         //fill effect fields with player choices
         fillWithInput(player, effectsMatrix, groupID);
         //fill effects with real targets
@@ -118,6 +121,17 @@ public class ShootController {
             }
         }
         unloadWeaponInUse(player);
+    }
+
+    public void checkDifferentInputs(String[][] effectsMatrix) {
+        HashSet<String> set = new HashSet<>();
+        for (String[] array : effectsMatrix) {
+            for(String s: array ){
+                if (! set.add(s)) {
+                    throw new InvalidMoveException("");
+                }
+            }
+        }
     }
 
     private void unloadWeaponInUse(Player player) {
@@ -166,16 +180,21 @@ public class ShootController {
 
     private void fillWithInput(Player player, String[][] inputMatrix, int groupID) {
         int index2=0;
-        for(CardEffect c: player.getCurrentCardEffects()){
-            for (Effect e: c.getEffects()) {
+        for(int i=0; i<player.getCurrentCardEffects().size(); i++){
+            for (int j=0; j<player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
                 try {
+                    Effect e =player.getCurrentCardEffects().get(i).getEffects().get(j);
                     int index=0;
                     if(!e.getFieldsToFill().isEmpty() &&
                             e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
                         index2++;
-                } catch (NullPointerException d) {
-                    //for(i=i; i<player.getCurrentCardEffects().size(); i++){
-                    //if(c.getEffects().get(i).getOptionality()) throw d;
+                } catch (NullPointerException | IndexOutOfBoundsException d) {
+                    if(!player.getCurrentCardEffects().get(i).getEffects().get(j+1).getOptionality())
+                        throw new InvalidMoveException("Not enough inputs");
+                    if(j < player.getCurrentCardEffects().size() - 1)
+                        throw new InvalidMoveException("Not enough inputs");
+                    //for(int k=i; k<player.getCurrentCardEffects().getEffects().size(); k++){
+                      //  if(!player.getCurrentCardEffects().get(i).getEffects().get(i).getOptionality()) throw d;
                 }
             }
         }
