@@ -1,9 +1,10 @@
 package model.decks;
 
-import jdk.internal.jline.internal.Nullable;
+
 import model.Ammo;
 import model.enums.EffectType;
 import model.moves.Effect;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;

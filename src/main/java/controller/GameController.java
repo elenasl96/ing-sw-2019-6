@@ -1,6 +1,5 @@
 package controller;
 
-import model.Game;
 import model.decks.CardEffect;
 import model.enums.*;
 import model.exception.InvalidMoveException;
@@ -16,8 +15,6 @@ import model.moves.Effect;
 import model.moves.Pay;
 import model.moves.Target;
 import model.room.Update;
-import network.ClientContext;
-import network.commands.request.MoveRequest;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -443,13 +440,13 @@ public class GameController{
                 if (player.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Not not visible target");
                 break;
-            case ME:
+            case MINE:
                 if(!realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You must use yourself");
                 break;
             case NONE: default:
                 break;
         }
-        if(!target.getTargetType().equals(TargetType.ME) && realTarget.sameAsMe(groupID))
+        if(!target.getTargetType().equals(TargetType.MINE) && realTarget.sameAsMe(groupID))
             throw new InvalidMoveException("You can't use yourself");
     }
 

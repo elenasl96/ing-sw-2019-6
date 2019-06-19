@@ -10,14 +10,16 @@ import java.io.Serializable;
 //TODO javadoc
 public abstract class Target implements Serializable {
     private TargetType targetType;
+    private TargetType targetState;
     private Integer minDistance;
     private Integer maxDistance;
 
     public Target(){
     }
 
-    public Target(TargetType targetType, Integer minDistance, Integer maxDistance){
+    public Target(TargetType targetType, TargetType targetState, Integer minDistance, Integer maxDistance){
         this.targetType = targetType;
+        this.targetState = targetState;
         this.minDistance = minDistance;
         this.maxDistance = maxDistance;
     }
@@ -59,4 +61,6 @@ public abstract class Target implements Serializable {
     public abstract void addMarks(Player playerMarking, int groupID, int nMarks);
 
     public abstract void addDamages(Player playerDamaging, int damages, int groupId);
+
+    public abstract void setMine(int groupID);
 }

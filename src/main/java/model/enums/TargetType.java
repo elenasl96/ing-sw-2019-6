@@ -4,33 +4,50 @@ package model.enums;
 import model.Player;
 
 public enum TargetType {
-    //TODO X ELENINA: same as Effecttype: piccola spiegazione, io ho messo quelle che so
-
+    //TODO CONTROLLO JAVADOC
+    /**
+     * No particular type of target required
+     */
     NONE (0),
+    /**
+     * A target that must be on the player square or not
+     */
+    MINE(1),
+    NOT_MINE(2),
+
+    /**
+     * Indicate a Target which satisfy all the other conditions.
+     * It doesn't require an input from the player.
+     */
+    ALL(3),
 
     /**
      * A target that the player can or can't see, determined by canBeSeen method
      * @see model.moves.Target#canBeSeen(Player, int)
      */
-    VISIBLE(1),
-    NOT_VISIBLE(2),
+    VISIBLE(4),
+    NOT_VISIBLE(5),
+
     /**
-     * Visible and same as Basic card effect
+     * Visible from another target (basic or optional1)
      */
-    BASIC_VISIBLE(3),
-    OPTIONAL1_VISIBLE(4),
+    BASIC_VISIBLE(6),
+    OPTIONAL1_VISIBLE(7),
+
     /**
      * Indicates a Target which can be chosen only on a cardinal direction,
      * not diagonal.
      */
-    CARDINAL(5),
+    CARDINAL(8),
 
-    ME (6),
-    NOT_MINE(7),
-    ALL(8),
-    SAME_DIRECTION(9),
-    DIFFERENT_SQUARE(10),
-    SAME(11);
+    /**
+     * A target that must be different or equals to another target of a card effect
+     */
+    BASIC_DIFFERENT(9),
+    BASIC_EQUALS(10),
+    BASIC_NOT_OPTIONAL(11),
+    LATEST_SQUARE(12),
+    DIFFERENT_LATEST_SQUARE(13);
 
     TargetType(int number){}
 }

@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.min;
+import static model.enums.TargetType.MINE;
 
 //TODO javadoc
 public class Player extends Target implements Serializable{
@@ -47,8 +48,8 @@ public class Player extends Target implements Serializable{
     private boolean phaseNotDone;
 
     //Constructors
-    public Player(TargetType targetType, Integer minDistance, Integer maxDistance){
-        super(targetType, minDistance, maxDistance);
+    public Player(TargetType targetType, TargetType targetState, Integer minDistance, Integer maxDistance){
+        super(targetType, targetState, minDistance, maxDistance);
     }
 
     public Player(User user) {
@@ -334,6 +335,11 @@ public class Player extends Target implements Serializable{
                         "from " + playerDamaging.getName()));
         if(this.getPlayerBoard().getDamage().size() == (11 | 12))
             this.dead = true;
+    }
+
+    @Override
+    public void setMine(int groupID) {
+        this.name = GameContext.get().getGame(groupID).getCurrentPlayer().getName();
     }
 
     @Override
