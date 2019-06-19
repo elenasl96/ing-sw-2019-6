@@ -119,6 +119,12 @@ public class ViewGui implements View {
                        gui.addDropPlayerBoard(Integer.parseInt(data[1]));
                     }
                 }
+                case "markers": {
+                    data = update.getData().split(";");
+                    for(int i=0;i<Integer.parseInt(data[0]);i++) {
+                        gui.addMarkerPlayerBoard(Integer.parseInt(data[1]));
+                    }
+                }
                 default:
                     break;
             }

@@ -362,8 +362,10 @@ public class Player extends Target implements Serializable{
         int occurrences = Collections.frequency(this.getPlayerBoard().getMarks(), playerMarking);
         if(occurrences<3){
             int marksReceived = this.getPlayerBoard().addMarks(playerMarking, min(3-occurrences, nMarks));
-            this.receiveUpdate(new Update("You received " + marksReceived + " marks " +
-                    "from " + playerMarking.getName()));
+            Update update = new Update("You received " + marksReceived + " marks " +
+                    "from " + playerMarking.getName(),"markers");
+            update.setData(marksReceived + ";" + playerMarking.getCharacter().getNum());
+            this.receiveUpdate(update);
         } else{
             throw new FullMarksException();
         }
