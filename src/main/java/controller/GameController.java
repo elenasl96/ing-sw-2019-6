@@ -341,7 +341,11 @@ public class GameController{
                 e.execute(player, groupID);
             }
         }
-        player.getWeapons().get(player.getWeaponInUse()).setStatus(WeaponStatus.UNLOADED);
+        player.getWeapons()
+                .stream()
+                .filter(weapon -> weapon.getId() == player.getWeaponInUse())
+                .findFirst()
+                .ifPresent(weapon -> weapon.setStatus(WeaponStatus.UNLOADED));
     }
 
     private void fillFields(List<CardEffect> currentCardEffects, int groupID) {
