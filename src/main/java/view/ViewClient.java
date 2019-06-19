@@ -64,8 +64,9 @@ public class ViewClient implements View {
         if(fromKeyBoard.hasNextLine()){
             String input = fromKeyBoard.nextLine();
             if(input.equals(":mute")){
-                this.clip.stop();
-                return "";
+                if(this.clip.isRunning())
+                    this.clip.stop();
+                return userInput();
             } else {
                 return input;
             }
