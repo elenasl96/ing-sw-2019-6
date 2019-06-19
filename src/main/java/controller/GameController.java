@@ -126,29 +126,25 @@ public class GameController{
     synchronized void setFirstSpawn(Player player, int spawn, int groupID) {
         Powerup discarded;
         if(isMyTurn(player, groupID) &&
-                GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equals(FIRST_SPAWN) &&
+                player.getPhase().equals(FIRST_SPAWN) &&
                 spawn >= 0 &&
                 spawn < player.getPowerups().size()){
             Optional<SpawnSquare> optional = GameContext.get().getGame(groupID).getBoard().getField().getSpawnSquares().stream()
-                    .filter(ss -> ss.getColor().equals(GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups().get(spawn).getAmmo().getColor()))
+                    .filter(ss -> ss.getColor().equals(player.getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
-            optional.ifPresent(GameContext.get().getGame(groupID).getCurrentPlayer()::setCurrentPosition);
+            optional.ifPresent(player::setCurrentPosition);
             discarded = player.getPowerups().remove(spawn);
             //set phase wait to current player and send update
-            GameContext.get().getGame(groupID).getCurrentPlayer().setDead(false);
-            GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(WAIT);
-            GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(player, true));
+            player.setDead(false);
+            player.setPhase(WAIT);
+            player.getUser().receiveUpdate(new Update(player, true));
             //go to next player and set phase
             GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
             System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
-            GameContext.get().getGame(groupID).sendUpdate(new Update("It's " + GameContext.get().getGame(groupID).getCurrentPlayer()+"'s turn", UPDATECONSOLE));
             if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST);
             else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST_SPAWN);
             //send updates
             //TODO CANCELLARE UPDATE E MODIFICARE PER GRAFICA
-            GameContext.get().getGame(groupID).sendUpdate(new Update(
-                    "\n>>> Player " + player.getName()+ " discarded:\n" +
-                        "==========Powerup========\n" + discarded.toString(), UPDATECONSOLE));
             GameContext.get().getGame(groupID).sendUpdate(new Update("\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
             Update update = new Update(null,"movement");
             update.setData(player.getCharacter().getNum() + ";" + player.getCurrentPosition().toString().replace("[","").replace("]",""));
