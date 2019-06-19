@@ -153,10 +153,6 @@ public class ShootController {
         for(CardEffect c: currentCardEffects){
             for(Effect e: c.getEffects()){
                 e.fillFields(groupID);
-                for(Target t: e.getTarget()){
-                    e.getTarget().add(t.fillFields(groupID));
-                    e.getTarget().remove(t);
-                }
             }
         }
     }
@@ -233,7 +229,7 @@ public class ShootController {
         player.generateVisible(groupID);
         switch (target.getTargetType()) {
             case BASIC_VISIBLE:
-                Player basic= (Player) player.getBasicTarget(groupID);
+                Player basic = (Player) player.getBasicTarget(groupID);
                 basic.generateVisible(groupID);
                 if(!basic.getVisible().contains(realTarget.getCurrentPosition()))
                     throw new InvalidMoveException("Target is not basic visible");
@@ -248,6 +244,9 @@ public class ShootController {
                 break;
             case MINE:
                 if(!realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You must use yourself");
+                break;
+            case NOT_MINE:
+                if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yours");
                 break;
             case NONE: default:
                 break;

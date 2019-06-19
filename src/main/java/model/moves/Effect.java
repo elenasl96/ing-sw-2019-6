@@ -31,7 +31,13 @@ public abstract class Effect implements Move {
         return optionality;
     }
 
-    public abstract String getFieldsToFill();
+    public String getFieldsToFill(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Target t: this.getTarget()) {
+            stringBuilder.append(t.getFieldsToFill());
+        }
+        return stringBuilder.toString();
+    }
 
     public void fillFields(int groupID){
         for(Target t: targets){
@@ -46,7 +52,7 @@ public abstract class Effect implements Move {
                 if(this.getTarget().get(k).getTargetType().equals(TargetType.MINE)) {
                     this.getTarget().get(k).setMine(groupID);
                 }else {
-                    if (k >= inputMatrix.length) throw new InvalidMoveException("fields missing");
+                    if (k >= inputMatrix.length && !this.optionality) throw new InvalidMoveException("fields missing");
                     ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
                     this.getTarget().get(k)
                             .setFieldsToFill(inputMatrix[index], groupID);

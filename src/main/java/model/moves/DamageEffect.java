@@ -23,14 +23,11 @@ public class DamageEffect extends Effect{
 
     @Override
     public String getFieldsToFill() {
-        StringBuilder string = new StringBuilder();
-        for(Target t: this.getTarget()){
-            string.append(t.getFieldsToFill());
-        }
-        if(!string.toString().isEmpty())
-            return "Damage Effect: " + string.toString();
+        String string = super.getFieldsToFill();
+        if(!super.getFieldsToFill().isEmpty())
+            return "Damage Effect: " + string;
         else
-            return string.toString();
+            return string;
     }
 
     @Override
