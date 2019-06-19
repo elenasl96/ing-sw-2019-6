@@ -107,17 +107,17 @@ public class ViewGui implements View {
                     gui.chooseEffectPopUp(data[0], Integer.parseInt(data[1]));
                     break;
                 }
-                case "damages": {
+                case "damages":
                     data = update.getData().split(";");
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
-                       gui.addDropPlayerBoard(Integer.parseInt(data[1]));
+                        gui.addDropPlayerBoard(Integer.parseInt(data[1]));
                     }
-                }
-                case "markers": {
+                    break;
+                case "markers":
                     data = update.getData().split(";");
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
                         gui.addMarkerPlayerBoard(Integer.parseInt(data[1]));
-                }
+                    break;
                 }
                 default:
                     break;
