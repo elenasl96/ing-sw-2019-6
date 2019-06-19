@@ -189,12 +189,14 @@ public class ShootController {
                             e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
                         index2++;
                 } catch (NullPointerException | IndexOutOfBoundsException d) {
-                    if(!player.getCurrentCardEffects().get(i).getEffects().get(j+1).getOptionality())
+                    if(i < player.getCurrentCardEffects().size() - 1)
                         throw new InvalidMoveException("Not enough inputs");
-                    if(j < player.getCurrentCardEffects().size() - 1)
+                    if(!player.getCurrentCardEffects().get(i).getEffects().get(j).getOptionality())
                         throw new InvalidMoveException("Not enough inputs");
-                    //for(int k=i; k<player.getCurrentCardEffects().getEffects().size(); k++){
-                      //  if(!player.getCurrentCardEffects().get(i).getEffects().get(i).getOptionality()) throw d;
+                    for(int k=j; k<player.getCurrentCardEffects().get(i).getEffects().size(); k++){
+                        player.getCurrentCardEffects().get(i).getEffects().remove(k);
+                        //  if(!player.getCurrentCardEffects().get(i).getEffects().get(i).getOptionality()) throw d;
+                    }
                 }
             }
         }

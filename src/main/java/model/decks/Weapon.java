@@ -86,7 +86,7 @@ public class Weapon implements Serializable {
                                 "in reaper mode: Deal 2 damage to every other player\n" +
                                 "on your square", WeaponStatus.PARTIALLY_LOADED);
                 //Basic effect -- target = null -> mySquare
-                targetBasic = new Square(NONE, NONE, 0, 0);
+                targetBasic = new Square(MINE, NONE, 0, 0);
                 weapon.getEffectsList().add(new CardEffect(BASIC, Stream
                         .of(new Ammo(Color.BLUE))));
                 weapon.getEffectsList().get(0).getEffects()

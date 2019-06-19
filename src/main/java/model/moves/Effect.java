@@ -60,6 +60,7 @@ public abstract class Effect implements Move {
                         break;
                     case BASIC_EQUALS:
                         this.targets.get(k).setFieldsToFill(null, groupID);
+                        break;
                     default:
                         if (k >= inputMatrix.length && !this.optionality)
                             throw new InvalidMoveException("fields missing");
