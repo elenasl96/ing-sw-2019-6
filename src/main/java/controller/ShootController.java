@@ -57,9 +57,7 @@ public class ShootController {
         for(int i=1; i<weaponEffectsSplitted.length; i++){
             int index = 0;
             CardEffect effect = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i]));
-            if(effect.getEffectType().equals(BASIC))
-                index = 1;
-            if(!effect.getCost().isEmpty())
+            if(!effect.getCost().isEmpty() && !effect.getEffectType().equals(BASIC))
                 ammosToPay.addAll(effect.getCost().subList(index, effect.getCost().size()-1));
             sequence[i-1] = effect.getEffectType();
         }
