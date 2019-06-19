@@ -38,7 +38,7 @@ public class Powerup implements Serializable {
     }
 
     public String getName() {
-        return name.substring(0,name.length()-1);
+        return name;
     }
 
     public List<Move> getMoves() {

@@ -128,7 +128,7 @@ class AmmoTileWithPowerup extends AmmoTile{
                 .add(cardPicked);
         Update update = new Update("You grab these ammos:" + ammosGrabbed +
                 "You pick a new powerup:" + cardPicked.toString(),"powerup");
-        update.setData(cardPicked.getName());
+        update.setData(cardPicked.getName().substring(0,cardPicked.getName().length()-1));
         GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update);
         update = new Update(null,"reload");
         update.setData(GameContext.get().getGame(groupID).getCurrentPlayer().getAmmos().toString().replace("[","").replace("]","")
