@@ -32,6 +32,7 @@ public class MainFrame extends JFrame {
     private MoveButton run;
     private MoveButton shoot;
     private MoveButton powerup;
+    private JLabel playerNameLabel;
 
     private Object lockInput;
     private Object lockMove;
@@ -99,8 +100,9 @@ public class MainFrame extends JFrame {
         cardsContainer.add(weapon);
         cardsContainer.add(powerUp);
 
+        playerNameLabel = new JLabel("NOME GIOCATORE                           ",SwingConstants.CENTER);
         JPanel writesPanel = new JPanel(new GridLayout(2,1));
-        writesPanel.add(new JLabel("NOME GIOCATORE                           ",SwingConstants.CENTER));
+        writesPanel.add(playerNameLabel);
         writesPanel.add(new JLabel("AMMO",SwingConstants.CENTER));
         JPanel ammos = new JPanel(new GridLayout(3,1));
         try {
@@ -519,4 +521,10 @@ public class MainFrame extends JFrame {
     public void addSkullPlayerBoard() {
         playerBoard.addSkull();
     }
+
+    public void setPlayerNameLabel(String name) {
+        playerNameLabel.setText(name);
+    }
+
+
 }
