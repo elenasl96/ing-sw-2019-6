@@ -4,7 +4,6 @@ package model.decks;
 import model.Ammo;
 import model.enums.EffectType;
 import model.moves.Effect;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
 public class CardEffect {
     private EffectType effectType;
     private List<Effect> effects = new ArrayList<>();
-    private ArrayList<Ammo> cost;
+    private List<Ammo> cost = new ArrayList<>();
 
     CardEffect(EffectType effectType, Stream<Ammo> ammos){
         if(ammos!=null)
@@ -37,7 +36,6 @@ public class CardEffect {
         this.cost = ammos.collect(Collectors.toCollection(ArrayList::new));
     }
 
-    @Nullable
     public List<Ammo> getCost() {
         return cost;
     }
