@@ -53,6 +53,7 @@ public class ViewGui implements View {
     @Override
     public void onJoin(User u) {
         viewCli.onJoin(u);
+        gui.setPlayerNameLabel(u.getUsername());
     }
 
     @Override
