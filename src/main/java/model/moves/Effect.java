@@ -1,10 +1,8 @@
 package model.moves;
 
 import controller.GameController;
-import model.GameContext;
 import model.enums.TargetType;
 import model.exception.InvalidMoveException;
-import network.ClientContext;
 
 import java.util.ArrayList;
 import java.util.List;

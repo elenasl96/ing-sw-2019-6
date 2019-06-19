@@ -124,7 +124,6 @@ public class GameController{
     }
 
     synchronized void setFirstSpawn(Player player, int spawn, int groupID) {
-        Powerup discarded;
         if(isMyTurn(player, groupID) &&
                 player.getPhase().equals(FIRST_SPAWN) &&
                 spawn >= 0 &&
@@ -133,7 +132,6 @@ public class GameController{
                     .filter(ss -> ss.getColor().equals(player.getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
             optional.ifPresent(player::setCurrentPosition);
-            discarded = player.getPowerups().remove(spawn);
             //set phase wait to current player and send update
             player.setDead(false);
             player.setPhase(WAIT);
@@ -277,7 +275,8 @@ public class GameController{
             CardEffect effect = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i]));
             if(effect.getEffectType().equals(BASIC))
                 index = 1;
-            ammosToPay.addAll(effect.getCost().subList(index, effect.getCost().size()-1));
+            if(!effect.getCost().isEmpty())
+                ammosToPay.addAll(effect.getCost().subList(index, effect.getCost().size()-1));
             sequence[i-1] = effect.getEffectType();
         }
         Pay payEffects = new Pay(ammosToPay);
