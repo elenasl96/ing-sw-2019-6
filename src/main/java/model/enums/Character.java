@@ -52,4 +52,5 @@ public enum Character implements Serializable {
     public int getNum() {
         return num;
     }
+
 }
