@@ -61,8 +61,16 @@ public class ViewClient implements View {
     }
 
     public String userInput() {
-        if(fromKeyBoard.hasNextLine())
-            return fromKeyBoard.nextLine();
+        if(fromKeyBoard.hasNextLine()){
+            String input = fromKeyBoard.nextLine();
+            if(input.equals(":mute")){
+                this.clip.stop();
+                return "";
+            } else {
+                return input;
+            }
+
+        }
         return "";
     }
 
@@ -286,8 +294,11 @@ public class ViewClient implements View {
     public void onStart() {
         displayText("Get ready for A D R E N A L I N E");
         wait = false;
-        this.clip.stop();
-        this.playMusic("src/resources/Music/Intro.wav");
+        if(this.clip.isRunning()){
+            this.clip.stop();
+            this.playMusic("src/resources/Music/Intro.wav");
+        }
+
     }
 
     @Override
