@@ -116,7 +116,7 @@ public class ViewClient implements View {
         }
     }
 
-    public void chooseUsernamePhase()  throws RemoteException {
+    public String chooseUsernamePhase()  throws RemoteException {
         User user;
         do {
             displayText("Provide username:");
@@ -125,6 +125,7 @@ public class ViewClient implements View {
         } while (user == null);
         displayText("You are " + user.getUsername());
         user.listenToMessages(this);
+        return user.getUsername();
     }
 
     public void chooseGroupPhase()  throws RemoteException{
@@ -264,12 +265,6 @@ public class ViewClient implements View {
     @Override
     public void setClientController(ClientController controller){
         this.controller = controller;
-    }
-
-    @Override
-    public int chooseWeapon() {
-        displayText("Which weapon do you choose?");
-        return askNumber();
     }
 
     // ----- The view observes the state and reacts (the observable pushes the pieces of interesting state)

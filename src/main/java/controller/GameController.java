@@ -1,6 +1,7 @@
 package controller;
 
 import model.decks.CardEffect;
+import model.decks.PowerupDeck;
 import model.enums.*;
 import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
@@ -133,6 +134,12 @@ public class GameController{
                     .findFirst();
             optional.ifPresent(player::setCurrentPosition);
             //set phase wait to current player and send update
+            PowerupDeck pUpDeck = GameContext.get().getGame(groupID).getBoard().getPowerupsLeft();
+            pUpDeck.discardCard(player.getPowerups().get(spawn));
+            player.getPowerups().remove(spawn);
+            Update update = new Update(null,"powerup");
+            update.setData(player.getPowerups().get(0).getName().substring(0,player.getPowerups().get(0).getName().length()-1));
+            player.receiveUpdate(update);
             player.setDead(false);
             player.setPhase(WAIT);
             player.getUser().receiveUpdate(new Update(player, true));
@@ -144,7 +151,7 @@ public class GameController{
             //send updates
             //TODO CANCELLARE UPDATE E MODIFICARE PER GRAFICA
             GameContext.get().getGame(groupID).sendUpdate(new Update("\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
-            Update update = new Update(null,"movement");
+            update = new Update(null,"movement");
             update.setData(player.getCharacter().getNum() + ";" + player.getCurrentPosition().toString().replace("[","").replace("]",""));
             GameContext.get().getGame(groupID).sendUpdate(update);
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer(), true));

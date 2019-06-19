@@ -12,7 +12,7 @@ public interface View extends ModelObserver {
 
     void displayText(String insertAValidMove);
 
-    void chooseUsernamePhase() throws RemoteException;
+    String chooseUsernamePhase() throws RemoteException;
 
     void chooseGroupPhase() throws RemoteException;
 
@@ -31,8 +31,6 @@ public interface View extends ModelObserver {
     int askNumber();
 
     void setClientController(ClientController controller);
-
-    int chooseWeapon();
 
     String userInput();
 
