@@ -58,6 +58,7 @@ public class TimerController implements ModelObserver {
         while(timers.size()<groupID+1){
             timers.add(null);
         }
+        this.timers.remove(groupID);
         this.timers.add(groupID, new Timer());
         TimerTask timerTask = new TimerTask(){
             int seconds = 2;
@@ -91,6 +92,7 @@ public class TimerController implements ModelObserver {
      */
     synchronized void startTurnTimer(int groupID){
         this.timers.get(groupID).cancel();
+        this.timers.remove(groupID);
         this.timers.add(groupID, new Timer());
         this.timers.get(groupID).purge();
         TimerTask timerTask2 = new TimerTask(){
