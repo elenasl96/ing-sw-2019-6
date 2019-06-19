@@ -128,6 +128,7 @@ public class ShootController {
                player.getWeapons().remove(i);
                player.getWeapons().add(new Weapon().initializeWeapon(player.getWeaponInUse()));
                player.getWeapons().get(i).setStatus(WeaponStatus.UNLOADED);
+               break;
             }
         }
         System.out.println(player.getWeapons().get(0).getStatus()+player.getWeapons().get(0).getName());
@@ -189,7 +190,7 @@ public class ShootController {
         checkTargetType(target, realTarget, groupID);
     }
 
-    private void checkMaxDistance(Target t, Square targetPosition, int groupID) {
+    public void checkMaxDistance(Target t, Square targetPosition, int groupID) {
         if(t.getMaxDistance() != null){
             if (t.getMinDistance() == 0) {
                 if(!targetPosition
@@ -206,7 +207,7 @@ public class ShootController {
         }
     }
 
-    private void checkMinDistance(Target t, Square targetPosition, int groupID) {
+    public void checkMinDistance(Target t, Square targetPosition, int groupID) {
         if(t.getMinDistance() != null) {
             if (t.getMinDistance() == 0) {
                 if(!targetPosition

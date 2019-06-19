@@ -36,12 +36,20 @@ public class Room extends Target {
 
     @Override
     public void addDamages(Player playerDamaging, int damages, int groupId) {
-        //TODO ADDDAMAGES in room
+        for(Square s: GameContext.get().getGame(groupId).getBoard().getField().getSquares()){
+            if(s.getColor().equals(this.color)) s.addDamages(playerDamaging, damages, groupId);
+        }
     }
 
     @Override
     public void setMine(int groupID) {
         this.color = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getColor();
+    }
+
+    @Override
+    public List<Target> findAllTargets(Target target, int groupID) {
+        //TODO forse non serve da implementare
+        return null;
     }
 
     @Override
