@@ -512,8 +512,8 @@ public class MainFrame extends JFrame {
         playerBoard.addDrop(num);
     }
 
-    public void addMarkerPlayerBoard(){
-        playerBoard.addMarker();
+    public void addMarkerPlayerBoard(int num){
+        playerBoard.addMarker(num);
     }
 
     public void addSkullPlayerBoard() {
