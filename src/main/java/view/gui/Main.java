@@ -68,29 +68,29 @@ public class Main {
         //System.out.println(main.gui.askEffects());
 
         try {
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(4);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(4);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(5);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(5);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(5);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(3);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(Color.RED);
+            main.gui.addDropPlayerBoard(2);
 
            main.gui.addMarkerPlayerBoard();
            Thread.sleep(2000);
@@ -113,8 +113,8 @@ public class Main {
             e.printStackTrace();
         }
 
-        main.gui.yesNoPopUp();
-        System.out.println(main.gui.yesNoChoose());
+        //main.gui.yesNoPopUp();
+        //System.out.println(main.gui.yesNoChoose());
     }
 }
 

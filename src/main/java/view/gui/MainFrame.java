@@ -508,8 +508,8 @@ public class MainFrame extends JFrame {
         return s;
     }
 
-    public void addDropPlayerBoard(model.enums.Color color) {
-        playerBoard.addDrop(color);
+    public void addDropPlayerBoard(int num) {
+        playerBoard.addDrop(num);
     }
 
     public void addMarkerPlayerBoard(){

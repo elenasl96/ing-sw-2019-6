@@ -127,7 +127,10 @@ public class Player extends Target implements Serializable{
         for(Weapon w: weapons) {
             stringbuilder.append(w.getName()).append(";");
         }
-        return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
+
+        if(stringbuilder.toString()!=null) return stringbuilder.toString()
+                .substring(0,stringbuilder.toString().length()-1);
+        return null;
     }
 
     public String getStringIdPowerUp() {
@@ -135,7 +138,9 @@ public class Player extends Target implements Serializable{
         for(Powerup p : powerups) {
             stringbuilder.append(p.getName()).append(";");
         }
-        return stringbuilder.toString().substring(0,stringbuilder.toString().length()-1);
+        if(stringbuilder.toString()!=null) return stringbuilder.toString()
+                .substring(0,stringbuilder.toString().length()-1);
+        return null;
     }
 
     public PlayerBoard getPlayerBoard(){
@@ -339,9 +344,10 @@ public class Player extends Target implements Serializable{
     @Override
     public void addDamages(Player playerDamaging, int damages, int groupId) {
         int damagesReceived = this.getPlayerBoard().addDamage(playerDamaging, damages);
-        this.receiveUpdate(
-                new Update("You received " + damagesReceived + " damages " +
-                        "from " + playerDamaging.getName()));
+        Update update = new Update("You received " + damagesReceived + " damages " +
+                "from " + playerDamaging.getName(),"damages");
+        update.setData(damagesReceived + ";" + playerDamaging.getCharacter().getNum());
+        this.receiveUpdate(update);
         if(this.getPlayerBoard().getDamage().size() == (11 | 12))
             this.dead = true;
     }

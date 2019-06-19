@@ -52,11 +52,6 @@ public abstract class AmmoTile implements Grabbable {
     void replaceAmmoTile(AmmoTile ammoTilePicked, int groupID){
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         //Removes the AmmoTile picked up
-        Update update;
-        update = new Update(player.getName()+
-                " picked "+ ammoTilePicked.toString(),"weapons");
-        //TODO X SCHERO: ADATTARE PER AMMO (PRESO DA WEAPONZ) update.setData(ammoTilePicked.getName());
-        player.receiveUpdate(update);
         GameContext.get().getGame(groupID).sendUpdate(new Update(player.getName()+
                 " picked " + ammoTilePicked.toString(),"updateconsole"));
     }
