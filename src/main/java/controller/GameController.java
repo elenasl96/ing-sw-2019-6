@@ -261,9 +261,9 @@ public class GameController{
         player.addEffectsToPlay(weaponEffectsSplitted);
         //Reinitialize weapon
         Weapon newWeapon = weapon.initializeWeapon(weapon.getId());
-        newWeapon.setStatus(WeaponStatus.UNLOADED);
         player.getWeapons().add(newWeapon);
         player.getWeapons().remove(weapon);
+        player.setWeaponInUse(newWeapon.getId());
         //Ask player to fill effects
         return getEffectsToFill(player);
     }
@@ -341,6 +341,7 @@ public class GameController{
                 e.execute(player, groupID);
             }
         }
+        player.getWeapons().get(player.getWeaponInUse()).setStatus(WeaponStatus.UNLOADED);
     }
 
     private void fillFields(List<CardEffect> currentCardEffects, int groupID) {

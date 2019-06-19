@@ -46,6 +46,15 @@ public class Player extends Target implements Serializable{
     private transient  List<CardEffect> currentCardEffects = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
     private boolean phaseNotDone;
+    private int weaponInUse;
+
+    public int getWeaponInUse() {
+        return weaponInUse;
+    }
+
+    public void setWeaponInUse(int weaponInUse) {
+        this.weaponInUse = weaponInUse;
+    }
 
     //Constructors
     public Player(TargetType targetType, TargetType targetState, Integer minDistance, Integer maxDistance){
