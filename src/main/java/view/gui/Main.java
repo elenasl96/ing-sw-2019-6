@@ -70,7 +70,7 @@ public class Main {
         try {
             main.gui.addDropPlayerBoard(1);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(2);
+            /*main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
@@ -126,8 +126,20 @@ public class Main {
            Thread.sleep(2000);
            main.gui.addSkullPlayerBoard();
            Thread.sleep(2000);
-           main.gui.addSkullPlayerBoard();
+           main.gui.addSkullPlayerBoard();*/
 
+            main.gui.getMapGrid()[0][0].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[0][1].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[0][2].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[0][3].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[1][0].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[1][1].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[1][2].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[1][3].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[2][0].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[2][1].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[2][2].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[2][3].setGrabbable("furnace;mp40;powerglove");
 
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -531,5 +531,4 @@ public class MainFrame extends JFrame {
         playerNameLabel.setText(name);
     }
 
-
 }
