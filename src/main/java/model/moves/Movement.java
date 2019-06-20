@@ -58,7 +58,7 @@ public class Movement extends Effect{
      */
     @Override
     public Response execute(Player p, int groupID) {
-        if(this.getTarget() != null){
+        if(this.getTarget() != null && !this.getTarget().isEmpty()){
             p = (Player) this.getTarget().get(0);
         }
         System.out.println("The square inserted is: "+coordinate);
