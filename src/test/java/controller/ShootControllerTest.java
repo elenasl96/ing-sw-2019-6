@@ -225,7 +225,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void PlasmaGunTest(){
+    void PlasmaGunTestWithMovementMe(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
@@ -234,7 +234,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(5));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0 2";
+        String weaponsEffect = "3 0 1 2";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -242,9 +242,9 @@ class ShootControllerTest {
             System.out.println(e.getMessage());
         }
 
-        //TODO movement don't work "You can't move there"
-        String weaponChosen = "user2";
+        String weaponChosen = "user2;C 2";
         GameController.get().playWeapon(p1, weaponChosen, 0);
+        assertEquals("C 2", p1.getCurrentPosition().toString());
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(3, p2.getPlayerBoard().getDamage().size());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
