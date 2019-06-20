@@ -4,6 +4,7 @@ import model.GameContext;
 import model.Player;
 import model.enums.Color;
 import model.enums.TargetType;
+import model.exception.InvalidMoveException;
 import model.moves.Target;
 import model.room.Update;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +23,7 @@ public class Room extends Target {
 
     public Room(TargetType targetType, TargetType targetState, Integer minDistance, Integer maxDistance){
         super(targetType, targetState, minDistance,maxDistance);
-        this.color = null;
+        this.color = Color.NONE;
     }
 
     @Nullable
@@ -37,7 +38,7 @@ public class Room extends Target {
     @Override
     public void addDamages(Player playerDamaging, int damages, int groupId) {
         for(Square s: GameContext.get().getGame(groupId).getBoard().getField().getSquares()){
-            if(s.getColor().equals(this.color)) s.addDamages(playerDamaging, damages, groupId);
+            if(s.getColor().equalsTo(this.color)) s.addDamages(playerDamaging, damages, groupId);
         }
     }
 
@@ -54,7 +55,9 @@ public class Room extends Target {
 
     @Override
     public void receiveUpdate(Update update) {
-        //TODO implement send update to all room
+        for(Square s: this.squares){
+            s.receiveUpdate(update);
+        }
     }
 
     @Override
@@ -83,12 +86,14 @@ public class Room extends Target {
 
     @Override
     public void setFieldsToFill(String input, int groupID) {
-        if(color == null) setColor(Color.fromName(input));
+        if(color == null || color.equalsTo(Color.NONE)) setColor(Color.fromName(input));
     }
 
     @Override
     public Target fillFields(int groupID) {
-        //TODO fill real room with what?
+        for(Room r: GameContext.get().getGame(groupID).getBoard().getField().getRooms()){
+            if(this.color.equals(r.color)) return r;
+        }
         return null;
     }
 
@@ -99,19 +104,23 @@ public class Room extends Target {
 
     @Override
     public boolean isFilled() {
-        return !this.color.equals(Color.NONE);
+        if(this.color == null) return false;
+        else
+            return !this.color.equals(Color.NONE);
     }
 
     @Override
     public Square getCurrentPosition() {
-        //nothing
         return null;
     }
 
     @Override
     public Target findRealTarget(String inputName, int groupID) {
-        //TODO find room
-        return null;
+        for(Room r: GameContext.get().getGame(groupID).getBoard().getField().getRooms()){
+            if(r.color.equalsTo(Color.fromName(inputName)))
+                return r;
+        }
+        throw new InvalidMoveException("Not existing Room");
     }
 
     @Override

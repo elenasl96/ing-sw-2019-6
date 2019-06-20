@@ -45,4 +45,8 @@ public enum Color {
     public char getAbbr() {
         return abbr;
     }
+
+    public boolean equalsTo(Color color){
+        return this.name.equals(color.name);
+    }
 }
