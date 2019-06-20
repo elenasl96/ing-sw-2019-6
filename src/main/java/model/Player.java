@@ -343,8 +343,8 @@ public class Player extends Target implements Serializable{
 
 
     @Override
-    public Player fillFields(int groupID) {
-        return (Player) this.findRealTarget(this.name, groupID);
+    public Target fillFields(int groupID) {
+        return this.findRealTarget(this.name, groupID);
     }
 
     @Override
@@ -405,9 +405,8 @@ public class Player extends Target implements Serializable{
 
     public Target getBasicTarget(int groupID) {
         for(CardEffect c: currentCardEffects){
-            for(Effect e: c.getEffects()){
-                if(e.getTarget().size()==1)
-                    return e.getTarget().get(0).findRealTarget(name, groupID);
+            if(c.getEffectType().equals(EffectType.BASIC)) {
+                return c.getEffects().get(0).getTarget().get(0).findRealTarget(null, groupID);
             }
         }
         throw new InvalidMoveException("Not only one basic target");
@@ -415,6 +414,9 @@ public class Player extends Target implements Serializable{
 
     @Override
     public Target findRealTarget(String inputName, int groupID) {
+        if(inputName == null){
+            inputName = this.name;
+        }
         for (Player p : GameContext.get().getGame(groupID).getPlayers()) {
             if (p.getName().equals(inputName)) return p;
         }

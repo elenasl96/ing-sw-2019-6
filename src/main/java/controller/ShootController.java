@@ -186,11 +186,14 @@ public class ShootController {
         for (int i = 0; i < player.getCurrentCardEffects().size(); i++) {
             for (int j = 0; j < player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
                 try {
-                Effect e = player.getCurrentCardEffects().get(i).getEffects().get(j);
-                int index = 0;
-                if (!e.getFieldsToFill().isEmpty() &&
-                        e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
-                    index2++;
+                    Effect e = player.getCurrentCardEffects().get(i).getEffects().get(j);
+                    int index = 0;
+                    if (!e.getFieldsToFill().isEmpty()){
+                        if(index2 >= inputMatrix.length)
+                            e.setFieldsToFill(null, index, groupID);
+                        else if(e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
+                            index2++;
+                    }
                 } catch (NullPointerException | IndexOutOfBoundsException d) {
                     if(i < player.getCurrentCardEffects().size() - 1)
                         throw new InvalidMoveException("Not enough inputs");
@@ -261,7 +264,7 @@ public class ShootController {
                     throw new InvalidMoveException("Not visible target");
                 break;
             case NOT_VISIBLE:
-                if (player.getVisible().contains(realTarget.getCurrentPosition()))
+                if (realTarget.canBeSeen(player, groupID))
                     throw new InvalidMoveException("Not not visible target");
                 break;
             case MINE:

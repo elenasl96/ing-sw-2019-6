@@ -363,18 +363,16 @@ public class Weapon implements Serializable {
                                 "and everyone else on that square", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Effect
                 targetBasic = new Player(VISIBLE, NONE, 1, null);
-                Player player1 = (Player) targetBasic;
-                player1.setCurrentPosition(new Square());
+                targetBasic2 = new Square(BASIC_EQUALS, NONE, null,null);
                 weapon.getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.RED), new Ammo(Color.YELLOW))));
                 weapon.getEffectsList().get(0).getEffects()
                         .add(new DamageEffect(Stream.of(targetBasic), 1, false));
                 weapon.getEffectsList().get(0).getEffects()
-                        .add(new MarkEffect(Stream.of(player1.getCurrentPosition()), 1, false));
+                        .add(new MarkEffect(Stream.of(targetBasic2), 1, false));
 
                 //Alternative Effect
                 targetAlternative = new Player(VISIBLE, NONE, 1, null);
-                player1.setCurrentPosition(new Square());
                 weapon.getEffectsList().add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.RED))));
                 weapon.getEffectsList().get(1).getEffects()
                         .add(new DamageEffect(Stream.of(targetAlternative), 1, false));
