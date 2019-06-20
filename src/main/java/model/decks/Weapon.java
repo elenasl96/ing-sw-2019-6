@@ -267,9 +267,9 @@ public class Weapon implements Serializable {
                 weapon.getEffectsList().add(new CardEffect(BASIC, Stream
                         .of(new Ammo(Color.BLUE), new Ammo(Color.BLUE), new Ammo(Color.YELLOW))));
                 weapon.getEffectsList().get(0).getEffects()
-                        .add(new DamageEffect(Stream.of(targetBasic), 1, false)); //3
+                        .add(new DamageEffect(Stream.of(targetBasic), 3, false)); //3
                 weapon.getEffectsList().get(0).getEffects()
-                        .add(new MarkEffect(Stream.of(targetBasic), 3, false));
+                        .add(new MarkEffect(Stream.of(targetBasic), 1, false));
 
                 break;
             case 7:
@@ -289,14 +289,13 @@ public class Weapon implements Serializable {
                                 "your square, on the vortex, or even on squares you can't\n" +
                                 "see. They all end up on the vortex", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Effect
-                //TODO controllare
-                Square vortex = new Square(NOT_MINE, NONE, 0, 1);
+                Square vortex = new Square(NOT_MINE, NONE, null, 1);
                 targetBasic = new Player(NONE, NONE, null, null);
                 weapon.getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.RED), new Ammo(Color.BLUE))));
                 weapon.getEffectsList().get(0).getEffects().add(new Movement(Stream.of(targetBasic), vortex,false));
                 weapon.getEffectsList().get(0).getEffects()
-                        .add(new DamageEffect(Stream.of(vortex), 1, false));
+                        .add(new DamageEffect(Stream.of(vortex), 2, false));
                 //Optional Effect
                 targetOptional = new Player(NONE, NONE, null, null);
                 targetOptional2 = new Player(NONE, NONE, null, null);
@@ -539,7 +538,7 @@ public class Weapon implements Serializable {
                                 "1 target on any square exactly one move\n" +
                                 "away", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Effect
-                targetBasic = new Player(NONE, NONE, 0, 0);
+                targetBasic = new Player(NONE, NONE, null, 0);
                 destination = new Square(NONE, NONE, 1,1);
                 weapon.getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.YELLOW))));
@@ -683,7 +682,7 @@ public class Weapon implements Serializable {
                                 "whack 2 people; or whack somebody, move, and whack somebody else;\n" +
                                 "or whack 2 people and then move.", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Effect
-                targetBasic = new Player(NONE, NONE, 0, 0);
+                targetBasic = new Player(NONE, NONE, null, 0);
                 weapon.getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.RED))));
                 weapon.getEffectsList().get(0).getEffects()
@@ -712,14 +711,14 @@ public class Weapon implements Serializable {
                                 "in tsunami mode: Deal 1 damage to all\n" +
                                 "targets that are exactly 1 move away", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Effect
-                targetBasic = new Player(NONE, NONE,0, 0);
+                targetBasic = new Player(NONE, NONE,null, 0);
                 weapon.getEffectsList()
                         .add(new CardEffect(BASIC, Stream.of(new Ammo(Color.YELLOW))));
                 weapon.getEffectsList().get(0).getEffects()
                         .add(new DamageEffect(Stream.of(targetBasic), 2, false));
 
                 //Alternative Effect
-                targetAlternative = new Player(NONE, NONE, 0, 0);
+                targetAlternative = new Player(NONE, NONE, null, 0);
                 destination = new Square(CARDINAL, NONE, 0, 2);
                 weapon.getEffectsList()
                         .add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.RED))));
