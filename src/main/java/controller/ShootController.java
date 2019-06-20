@@ -53,42 +53,42 @@ public class ShootController {
         int sequenceSize = weaponEffectsSplitted.length - 1;
         EffectType[] sequence = new EffectType[sequenceSize];
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
-        if(!weapon.isLoaded())
+        if (!weapon.isLoaded())
             throw new InvalidMoveException("Weapon is not loaded");
         //check if the player has enough ammos to pay for effects
-        for(int i=1; i<weaponEffectsSplitted.length; i++){
+        for (int i = 1; i < weaponEffectsSplitted.length; i++) {
             int index = 0;
             CardEffect effect = weapon.getEffectsList().get(Integer.parseInt(weaponEffectsSplitted[i]));
-            if(!effect.getCost().isEmpty() && !effect.getEffectType().equals(BASIC))
-                ammosToPay.addAll(effect.getCost().subList(index, effect.getCost().size()-1));
-            sequence[i-1] = effect.getEffectType();
+            if (!effect.getCost().isEmpty() && !effect.getEffectType().equals(BASIC))
+                ammosToPay.addAll(effect.getCost().subList(index, effect.getCost().size() - 1));
+            sequence[i - 1] = effect.getEffectType();
         }
         Pay payEffects = new Pay(ammosToPay);
         payEffects.execute(GameContext.get().getGame(groupID).getCurrentPlayer(), groupID);
         System.out.println(Arrays.toString(sequence));
         //Compare the sequence given with the correct sequences
-        if(sequenceSize == 1){
+        if (sequenceSize == 1) {
             return Arrays.equals(sequence, new EffectType[]{BASIC}) ||
                     Arrays.equals(sequence, new EffectType[]{ALTERNATIVE});
-        } else if(sequenceSize == 2){
+        } else if (sequenceSize == 2) {
             return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL}) ||
                     Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1}) ||
                     Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC}) ||
                     Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME}) ||
                     Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL_VORTEX}) ||
                     Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC});
-        } else if(sequenceSize == 3){
-            return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, OPTIONAL})||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1, OPTIONAL2})||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, EVERY_TIME})||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME, OPTIONAL})||
-                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, OPTIONAL})||
-                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, OPTIONAL, BASIC})||
-                    Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC, EVERY_TIME})||
-                    Arrays.equals(sequence, new EffectType[]{BEFORE_AFTER_BASIC, BASIC, EVERY_TIME })||
-                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BEFORE_AFTER_BASIC, BASIC})||
-                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, BEFORE_AFTER_BASIC})||
-                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC, OPTIONAL})||
+        } else if (sequenceSize == 3) {
+            return Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, OPTIONAL}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1, OPTIONAL2}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL, EVERY_TIME}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME, OPTIONAL}) ||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, OPTIONAL}) ||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, OPTIONAL, BASIC}) ||
+                    Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC, EVERY_TIME}) ||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_AFTER_BASIC, BASIC, EVERY_TIME}) ||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BEFORE_AFTER_BASIC, BASIC}) ||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC, BEFORE_AFTER_BASIC}) ||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC, OPTIONAL}) ||
                     Arrays.equals(sequence, new EffectType[]{OPTIONAL, BEFORE_BASIC, BASIC});
         } else return false;
     }
@@ -96,8 +96,8 @@ public class ShootController {
     private String getEffectsToFill(Player player) {
         StringBuilder string = new StringBuilder();
         int numEffect = 0;
-        for(CardEffect c: player.getCurrentCardEffects()){
-            for(Effect e: c.getEffects()){
+        for (CardEffect c : player.getCurrentCardEffects()) {
+            for (Effect e : c.getEffects()) {
                 string.append(numEffect).append(" | ").append(e.getFieldsToFill()).append("\n");
                 numEffect++;
             }
@@ -116,8 +116,8 @@ public class ShootController {
         //fill effects with real targets
         fillFields(player.getCurrentCardEffects(), groupID);
         //execute moves
-        for(CardEffect c:player.getCurrentCardEffects()){
-            for(Effect e: c.getEffects()){
+        for (CardEffect c : player.getCurrentCardEffects()) {
+            for (Effect e : c.getEffects()) {
                 e.execute(player, groupID);
             }
         }
@@ -127,8 +127,8 @@ public class ShootController {
     public void checkDifferentInputs(String[][] effectsMatrix) {
         HashSet<String> set = new HashSet<>();
         for (String[] array : effectsMatrix) {
-            for(String s: array ){
-                if (! set.add(s)) {
+            for (String s : array) {
+                if (!set.add(s)) {
                     throw new InvalidMoveException("");
                 }
             }
@@ -136,21 +136,21 @@ public class ShootController {
     }
 
     private void unloadWeaponInUse(Player player) {
-        for(int i=0; i<player.getWeapons().size(); i++){
-            if(player.getWeapons().get(i).getId() == player.getWeaponInUse()) {
-               player.getWeapons().remove(i);
-               player.getWeapons().add(new Weapon().initializeWeapon(player.getWeaponInUse()));
-               player.getWeapons().get(i).setStatus(WeaponStatus.UNLOADED);
-               break;
+        for (int i = 0; i < player.getWeapons().size(); i++) {
+            if (player.getWeapons().get(i).getId() == player.getWeaponInUse()) {
+                player.getWeapons().remove(i);
+                player.getWeapons().add(new Weapon().initializeWeapon(player.getWeaponInUse()));
+                player.getWeapons().get(i).setStatus(WeaponStatus.UNLOADED);
+                break;
             }
         }
-        System.out.println(player.getWeapons().get(0).getStatus()+player.getWeapons().get(0).getName());
+        System.out.println(player.getWeapons().get(0).getStatus() + player.getWeapons().get(0).getName());
     }
 
     //---------------------------------USE POWERUPS-------------------------------------------//
 
 
-    public String preparePowerup(Player player, Powerup powerup, int groupID){
+    public String preparePowerup(Player player, Powerup powerup, int groupID) {
         //TODO TEST AND CHECK IMPLEMENTATION
         //Add effects to player
         player.getCurrentMoves().add(powerup.getMoves().get(0));
@@ -163,8 +163,8 @@ public class ShootController {
     //---------------------------------GENERAL CHECKS-------------------------------------------//
 
     private void fillFields(List<CardEffect> currentCardEffects, int groupID) {
-        for(CardEffect c: currentCardEffects){
-            for(Effect e: c.getEffects()){
+        for (CardEffect c : currentCardEffects) {
+            for (Effect e : c.getEffects()) {
                 e.fillFields(groupID);
             }
         }
@@ -180,15 +180,15 @@ public class ShootController {
     }
 
     private void fillWithInput(Player player, String[][] inputMatrix, int groupID) {
-        int index2=0;
-        for(int i=0; i<player.getCurrentCardEffects().size(); i++){
-            for (int j=0; j<player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
+        int index2 = 0;
+        for (int i = 0; i < player.getCurrentCardEffects().size(); i++) {
+            for (int j = 0; j < player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
                 try {
-                    Effect e =player.getCurrentCardEffects().get(i).getEffects().get(j);
-                    int index=0;
-                    if(!e.getFieldsToFill().isEmpty() &&
-                            e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
-                        index2++;
+                Effect e = player.getCurrentCardEffects().get(i).getEffects().get(j);
+                int index = 0;
+                if (!e.getFieldsToFill().isEmpty() &&
+                        e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
+                    index2++;
                 } catch (NullPointerException | IndexOutOfBoundsException d) {
                     if(i < player.getCurrentCardEffects().size() - 1)
                         throw new InvalidMoveException("Not enough inputs");
@@ -198,15 +198,21 @@ public class ShootController {
                         player.getCurrentCardEffects().get(i).getEffects().remove(k);
                         //  if(!player.getCurrentCardEffects().get(i).getEffects().get(i).getOptionality()) throw d;
                     }
-                }
+            }
+
             }
         }
     }
 
     public void checkTarget(Target target, String inputName, int groupID) {
         Target realTarget = target.findRealTarget(inputName, groupID);
-        checkMinDistance(target.getMinDistance(), realTarget.getCurrentPosition(), groupID);
-        checkMaxDistance(target.getMaxDistance(), realTarget.getCurrentPosition(), groupID);
+        try {
+            checkMinDistance(target.getMinDistance(),
+                    realTarget.getCurrentPosition(), groupID);
+            checkMaxDistance(target.getMaxDistance(), realTarget.getCurrentPosition(), groupID);
+        }catch (NullPointerException n){
+            //It's a room, continue
+        }
         checkTargetType(target, realTarget, groupID);
     }
 
@@ -241,7 +247,6 @@ public class ShootController {
 
     private void checkTargetType(Target target, Target realTarget, int groupID) {
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
-        player.generateVisible(groupID);
         switch (target.getTargetType()) {
             case BASIC_VISIBLE:
                 Player basic = (Player) player.getBasicTarget(groupID);
@@ -250,7 +255,7 @@ public class ShootController {
                     throw new InvalidMoveException("Target is not basic visible");
                 break;
             case VISIBLE:
-                if (!player.getVisible().contains(realTarget.getCurrentPosition()))
+                if(!realTarget.canBeSeen(player, groupID))
                     throw new InvalidMoveException("Not visible target");
                 break;
             case NOT_VISIBLE:

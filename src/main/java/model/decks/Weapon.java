@@ -321,7 +321,7 @@ public class Weapon implements Serializable {
                                 "away. Deal 1 damage and 1 mark to everyone on that\n" +
                                 "square.", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Effect
-                targetBasic = new Room(VISIBLE, NONE, 1, null);
+                targetBasic = new Room(VISIBLE, NOT_MINE, null, null);
                 weapon.getEffectsList().add(new CardEffect(BASIC, Stream
                         .of(new Ammo(Color.RED), new Ammo(Color.BLUE))));
                 weapon.getEffectsList().get(0).getEffects()
