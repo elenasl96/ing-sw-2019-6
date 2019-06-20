@@ -368,8 +368,8 @@ public class Player extends Target implements Serializable{
         List<Target> targets = new ArrayList<>();
         for(Player p: GameContext.get().getGame(groupID).getPlayers()){
             try{
-                ShootController.get().checkMinDistance(target, p.getCurrentPosition(), groupID);
-                ShootController.get().checkMaxDistance(target, p.getCurrentPosition(), groupID);
+                ShootController.get().checkMinDistance(target.getMinDistance(), p.getCurrentPosition(), groupID);
+                ShootController.get().checkMaxDistance(target.getMaxDistance(), p.getCurrentPosition(), groupID);
                 targets.add(p);
             }catch(InvalidMoveException e){
                 //next player

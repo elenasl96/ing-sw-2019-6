@@ -195,8 +195,8 @@ public class Square extends Target implements Serializable {
         List<Target> targets = new ArrayList<>();
         for(Square s: GameContext.get().getGame(groupID).getBoard().getField().getSquares()){
             try{
-                ShootController.get().checkMinDistance(target, s, groupID);
-                ShootController.get().checkMaxDistance(target, s, groupID);
+                ShootController.get().checkMinDistance(target.getMinDistance(), s, groupID);
+                ShootController.get().checkMaxDistance(target.getMaxDistance(), s, groupID);
                 targets.add(s);
             }catch(InvalidMoveException e){
                 //next square

@@ -10,6 +10,7 @@ import model.enums.EffectType;
 import model.enums.TargetType;
 import model.enums.WeaponStatus;
 import model.exception.InvalidMoveException;
+import model.field.Field;
 import model.field.Square;
 import model.moves.Effect;
 import model.moves.Pay;
@@ -204,41 +205,36 @@ public class ShootController {
 
     public void checkTarget(Target target, String inputName, int groupID) {
         Target realTarget = target.findRealTarget(inputName, groupID);
-        checkMinDistance(target, realTarget.getCurrentPosition(), groupID);
-        checkMaxDistance(target, realTarget.getCurrentPosition(), groupID);
+        checkMinDistance(target.getMinDistance(), realTarget.getCurrentPosition(), groupID);
+        checkMaxDistance(target.getMaxDistance(), realTarget.getCurrentPosition(), groupID);
         checkTargetType(target, realTarget, groupID);
     }
 
-    public void checkMaxDistance(Target t, Square targetPosition, int groupID) {
-        if(t.getMaxDistance() != null){
-            if (t.getMinDistance() == 0) {
-                if(!targetPosition
-                        .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
+    public void checkMaxDistance(Integer maxDistance, Square targetPosition, int groupID) {
+        Square firstPosition = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition();
+        Field field = GameContext.get().getGame(groupID).getBoard().getField();
+        if(maxDistance != null){
+            if (maxDistance == 0) {
+                if(!targetPosition.equals(firstPosition)) {
                     throw new InvalidMoveException("Invalid distance");
                 }
             }else {
                 targetPosition.getReachSquares().clear();
-                targetPosition.createReachList(t.getMaxDistance(), t.getCurrentPosition().getReachSquares(),
-                        GameContext.get().getGame(groupID).getBoard().getField());
-                if (!targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition()))
+                targetPosition.createReachList(maxDistance, targetPosition.getReachSquares(), field);
+                if (!targetPosition.getReachSquares().contains(firstPosition))
                     throw new InvalidMoveException("Invalid max distance");
             }
         }
     }
 
-    public void checkMinDistance(Target t, Square targetPosition, int groupID) {
-        if(t.getMinDistance() != null) {
-            if (t.getMinDistance() == 0) {
-                if(!targetPosition
-                        .equals(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
-                    throw new InvalidMoveException("Invalid distance");
-                }
-            }else{
-                targetPosition.createReachList(t.getMinDistance() - 1, t.getCurrentPosition().getReachSquares(),
-                        GameContext.get().getGame(groupID).getBoard().getField());
-                if (targetPosition.getReachSquares().contains(GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition())) {
-                    throw new InvalidMoveException("Invalid distance");
-                }
+    public void checkMinDistance(Integer minDistance, Square targetPosition, int groupID) {
+        Square firstPosition = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition();
+        targetPosition.getReachSquares().clear();
+        if(minDistance != null) {
+            targetPosition.createReachList(minDistance - 1, targetPosition.getReachSquares(),
+                    GameContext.get().getGame(groupID).getBoard().getField());
+            if (targetPosition.getReachSquares().contains(firstPosition)) {
+                throw new InvalidMoveException("Invalid distance");
             }
         }
     }
