@@ -58,6 +58,9 @@ public class Movement extends Effect{
      */
     @Override
     public Response execute(Player p, int groupID) {
+        if(this.getTarget() != null){
+            p = (Player) this.getTarget().get(0);
+        }
         System.out.println("The square inserted is: "+coordinate);
         Square squareDestination = null;
         //Check if the coordinate is valid
@@ -170,6 +173,13 @@ public class Movement extends Effect{
        index += super.setFieldsToFill(inputMatrix,index,groupID);
        if(this.destination.getCoord() == null) {
            this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
+       }
+       if(this.maxSteps == -1) {
+           if (this.destination.getMaxDistance() != null) {
+               this.maxSteps = this.getDestination().getMaxDistance();
+           } else{
+               this.maxSteps = 5;
+           }
        }
 
         return index;
