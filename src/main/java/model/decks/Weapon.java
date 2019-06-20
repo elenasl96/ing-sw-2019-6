@@ -373,11 +373,12 @@ public class Weapon implements Serializable {
 
                 //Alternative Effect
                 targetAlternative = new Player(VISIBLE, NONE, 1, null);
+                targetAlternative2 = new Square(LATEST_SQUARE, NONE, null, null);
                 weapon.getEffectsList().add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.RED))));
                 weapon.getEffectsList().get(1).getEffects()
                         .add(new DamageEffect(Stream.of(targetAlternative), 1, false));
                 weapon.getEffectsList().get(1).getEffects()
-                        .add(new MarkEffect(Stream.of(new Square(LATEST_SQUARE, NONE, null, null)), 2, false));
+                        .add(new MarkEffect(Stream.of(targetAlternative2), 2, false));
                 break;
             case 11:
                 //Flamethrowner
@@ -395,8 +396,8 @@ public class Weapon implements Serializable {
                                 "through walls, but it will go through doors. Think of it as a straight-line\n" +
                                 "blast of flame that can travel 2 squares in a cardinal direction", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Mode
-                targetBasic = new Player(CARDINAL, VISIBLE, 1, 1);
-                targetBasic2 = new Player(CARDINAL, VISIBLE, 2, 2);
+                targetBasic = new Player(NONE, NONE, 1, 1);
+                targetBasic2 = new Player(CARDINAL, NONE, 2, 2);
                 weapon.getEffectsList().add(new CardEffect(BASIC, Stream.of(new Ammo(Color.RED))));
                 weapon.getEffectsList().get(0).getEffects()
                         .add(new DamageEffect(Stream.of(targetBasic), 1, false));

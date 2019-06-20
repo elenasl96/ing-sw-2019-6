@@ -3,6 +3,7 @@ package model.moves;
 import controller.GameController;
 import controller.ShootController;
 import model.GameContext;
+import model.decks.CardEffect;
 import model.enums.TargetType;
 import model.exception.InvalidMoveException;
 
@@ -61,6 +62,10 @@ public abstract class Effect implements Move {
                     case BASIC_EQUALS:
                         this.targets.get(k).setFieldsToFill(null, groupID);
                         break;
+                    case LATEST_SQUARE:
+                        this.targets.get(k).setFieldsToFill(
+                                this.getPreviousEffect(groupID).getTarget().get(0).findRealTarget(null, groupID).getCurrentPosition().getCoord().toString(), groupID);
+                        break;
                     default:
                         if (k >= inputMatrix.length && !this.optionality)
                             throw new InvalidMoveException("fields missing");
@@ -72,6 +77,17 @@ public abstract class Effect implements Move {
             }
         }
         return index;
+    }
+
+    public Effect getPreviousEffect(int groupID) {
+        for(CardEffect c: GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
+            for(int i=0; i<c.getEffects().size(); i++){
+                if(c.getEffects().get(i).equals(this) && i>0){
+                    return c.getEffects().get(i-1);
+                }
+            }
+        }
+        throw new InvalidMoveException("No latest Square found");
     }
 }
 

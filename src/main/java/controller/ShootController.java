@@ -273,11 +273,34 @@ public class ShootController {
             case NOT_MINE:
                 if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yours");
                 break;
+            case CARDINAL:
+                isCardinal(findPreviousTarget(target, groupID).findRealTarget(null, groupID),
+                        target.findRealTarget(null, groupID));
+                break;
             case NONE: default:
                 break;
         }
         if(!target.getTargetType().equals(TargetType.MINE) && realTarget.sameAsMe(groupID))
             throw new InvalidMoveException("You can't use yourself");
+    }
+
+    private void isCardinal(Target previousTarget, Target target) {
+        if(previousTarget.getCurrentPosition().getCoord().getX() != target.getCurrentPosition().getCoord().getX() &&
+            previousTarget.getCurrentPosition().getCoord().getY() != target.getCurrentPosition().getCoord().getY())
+            throw new InvalidMoveException("Targets are not cardinal");
+    }
+
+    private Target findPreviousTarget(Target target, int groupID) {
+        for(CardEffect c:GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
+            for(Effect e: c.getEffects()){
+                for(int i = 0; i < e.getTarget().size(); i++){
+                    if(i > 0 && e.getTarget().get(i).equals(target)){
+                        return e.getTarget().get(i-1);
+                    }
+                }
+            }
+        }
+        throw new InvalidMoveException("Previous target not found");
     }
 
 }
