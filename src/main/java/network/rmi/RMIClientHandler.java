@@ -16,25 +16,34 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 //TODO javadoc
 public class RMIClientHandler extends UnicastRemoteObject implements RemoteController, ClientHandler {
 
     private transient ServerController controller;
-    private Response response;
+    private ArrayList<Response> responses;
 
     public RMIClientHandler() throws RemoteException {
         this.controller = new ServerController(this);
+        this.responses = new ArrayList<>();
     }
 
     @Override
     public synchronized void request(Request request) {
-        this.response = request.handle(controller);
+        this.responses.add(request.handle(controller));
     }
 
     @Override
     public synchronized Response nextResponse() {
-        return response;
+        try{
+            Response next = responses.get(0);
+            responses.remove(0);
+            return next;
+        } catch (NullPointerException | IndexOutOfBoundsException e){
+            return null;
+        }
+
     }
 
     @Override
@@ -51,17 +60,17 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
 
     @Override
     public void onJoin(User u) {
-        this.response = new GroupChangeNotification(true, u);
+        this.responses.add(new GroupChangeNotification(true, u));
     }
 
     @Override
     public void onLeave(User u) {
-        this.response = new GroupChangeNotification(false, u);
+        this.responses.add(new GroupChangeNotification(false, u));
     }
 
     @Override
     public void onStart() {
-        this.response = new StartGameResponse();
+        this.responses.add(new StartGameResponse());
     }
 
     @Override
@@ -70,10 +79,10 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
         if(update.isPlayerChanges()){
             System.out.print("a MoveUpdateResponse modifying player "+update.getPlayer()+" username "+update.getPlayer().getName()+
                     " of user "+update.getPlayer().getUser()+" with phaseId "+ update.getPlayer().getPhase().getId()+"\n");
-            this.response = new MoveUpdateResponse(update.getPlayer());
+            this.responses.add(new MoveUpdateResponse(update.getPlayer()));
         } else {
             System.out.print("a GameUpdateNotification saying string "+ update.toString()+"\n");
-            this.response = new GameUpdateNotification(update);
+            this.responses.add(new GameUpdateNotification(update));
         }
     }
 
@@ -88,7 +97,9 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
     }
 
     @Override
-    public synchronized void received(){
-        response = null;
+    public synchronized void received() {
+        if(this.responses.isEmpty()){
+            this.responses = new ArrayList<>();
+        }
     }
 }
