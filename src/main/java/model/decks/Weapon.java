@@ -396,7 +396,7 @@ public class Weapon implements Serializable {
                                 "through walls, but it will go through doors. Think of it as a straight-line\n" +
                                 "blast of flame that can travel 2 squares in a cardinal direction", WeaponStatus.PARTIALLY_LOADED);
                 //Basic Mode
-                targetBasic = new Player(NONE, NONE, 1, 1);
+                targetBasic = new Player(CARDINAL, NONE, 1, 1);
                 targetBasic2 = new Player(CARDINAL, NONE, 2, 2);
                 weapon.getEffectsList().add(new CardEffect(BASIC, Stream.of(new Ammo(Color.RED))));
                 weapon.getEffectsList().get(0).getEffects()
@@ -407,10 +407,9 @@ public class Weapon implements Serializable {
 
                 //Alternative Mode
                 weapon.getEffectsList()
-                        .add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.RED), new Ammo(Color.YELLOW))));
-                targetAlternative = new Player(CARDINAL, VISIBLE, 1, 1);
-                targetAlternative2 = new Player(CARDINAL, VISIBLE, 2, 2);
-                weapon.getEffectsList().add(new CardEffect(BASIC, Stream.of(new Ammo(Color.RED))));
+                        .add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.YELLOW), new Ammo(Color.YELLOW))));
+                targetAlternative = new Square(CARDINAL, NONE, 1, 1);
+                targetAlternative2 = new Square(CARDINAL, NONE, 2, 2);
                 weapon.getEffectsList().get(1).getEffects()
                         .add(new DamageEffect(Stream.of(targetAlternative), 2, false));
                 weapon.getEffectsList().get(1).getEffects()

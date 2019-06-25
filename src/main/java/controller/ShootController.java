@@ -10,16 +10,14 @@ import model.enums.EffectType;
 import model.enums.TargetType;
 import model.enums.WeaponStatus;
 import model.exception.InvalidMoveException;
+import model.exception.CardinalTargetNotFoundException;
 import model.field.Field;
 import model.field.Square;
 import model.moves.Effect;
 import model.moves.Pay;
 import model.moves.Target;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static model.enums.EffectType.*;
 import static model.enums.EffectType.BASIC;
@@ -194,7 +192,7 @@ public class ShootController {
                         else if(e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
                             index2++;
                     }
-                } catch (NullPointerException | IndexOutOfBoundsException d) {
+                } catch (IndexOutOfBoundsException d) {
                     if(i < player.getCurrentCardEffects().size() - 1)
                         throw new InvalidMoveException("Not enough inputs");
                     if(!player.getCurrentCardEffects().get(i).getEffects().get(j).getOptionality())
@@ -274,8 +272,7 @@ public class ShootController {
                 if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yours");
                 break;
             case CARDINAL:
-                isCardinal(findPreviousTarget(target, groupID).findRealTarget(null, groupID),
-                        target.findRealTarget(null, groupID));
+                areCardinal(target, realTarget, groupID);
                 break;
             case NONE: default:
                 break;
@@ -284,23 +281,61 @@ public class ShootController {
             throw new InvalidMoveException("You can't use yourself");
     }
 
-    private void isCardinal(Target previousTarget, Target target) {
-        if(previousTarget.getCurrentPosition().getCoord().getX() != target.getCurrentPosition().getCoord().getX() &&
-            previousTarget.getCurrentPosition().getCoord().getY() != target.getCurrentPosition().getCoord().getY())
-            throw new InvalidMoveException("Targets are not cardinal");
+    private void areCardinal(Target target, Target realTarget, int groupID) {
+        Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
+        List<Target> realTargets = new ArrayList<>();
+        List<Target> cardinalTargets = findCardinalTargets(target, groupID);
+        realTargets.add(realTarget);
+        for(Target t: cardinalTargets){
+            if (target.isFilled())
+                realTargets.add(t.findRealTarget(null, groupID));
+        }
+        for(Target t: realTargets) {
+            if(
+                    t.getCurrentPosition().getCoord().getX() != player.getCurrentPosition().getCoord().getX() &&
+                    t.getCurrentPosition().getCoord().getY() != player.getCurrentPosition().getCoord().getY()
+            ) throw new InvalidMoveException("Targets are not cardinal");
+        }
+        for (int i = 1; i < realTargets.size(); i++) {
+            if (
+                    realTargets.get(i).getCurrentPosition().getCoord().getX() <
+                            player.getCurrentPosition().getCoord().getX() &&
+                    realTargets.get(i - 1).getCurrentPosition().getCoord().getX() >
+                    player.getCurrentPosition().getCoord().getX()
+                            ||
+                    realTargets.get(i).getCurrentPosition().getCoord().getX() >
+                    player.getCurrentPosition().getCoord().getX() &&
+                    realTargets.get(i - 1).getCurrentPosition().getCoord().getX() <
+                    player.getCurrentPosition().getCoord().getX()
+                            ||
+                    realTargets.get(i).getCurrentPosition().getCoord().getY() <
+                    player.getCurrentPosition().getCoord().getY() &&
+                    realTargets.get(i - 1).getCurrentPosition().getCoord().getY() >
+                    player.getCurrentPosition().getCoord().getY()
+                            ||
+                    realTargets.get(i).getCurrentPosition().getCoord().getY() >
+                    player.getCurrentPosition().getCoord().getY() &&
+                    realTargets.get(i - 1).getCurrentPosition().getCoord().getY() <
+                    player.getCurrentPosition().getCoord().getY()
+                )
+                throw new InvalidMoveException("Targets are not cardinal");
+        }
     }
 
-    private Target findPreviousTarget(Target target, int groupID) {
+    private List<Target> findCardinalTargets(Target target, int groupID) {
+        List<Target> targets = new ArrayList<>();
         for(CardEffect c:GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
             for(Effect e: c.getEffects()){
-                for(int i = 0; i < e.getTarget().size(); i++){
-                    if(i > 0 && e.getTarget().get(i).equals(target)){
-                        return e.getTarget().get(i-1);
-                    }
-                }
+               if(e.getTarget().contains(target))
+                   c.getEffects().forEach(effect ->
+                           effect.getTarget().forEach(target1 -> {
+                               if(target1.getTargetType().equals(TargetType.CARDINAL))
+                                   targets.add(target1);
+                           }));
             }
         }
-        throw new InvalidMoveException("Previous target not found");
+        if(targets != null) return targets;
+        else throw new CardinalTargetNotFoundException();
     }
 
 }
