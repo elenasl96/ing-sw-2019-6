@@ -300,7 +300,10 @@ public class Player extends Target implements Serializable{
             return false;
         }
         Player player = (Player) obj;
-        return player.name.equals(this.name);
+        if(player.name != null) {
+            return player.name.equals(this.name);
+        }
+        return false;
     }
 
     @Override

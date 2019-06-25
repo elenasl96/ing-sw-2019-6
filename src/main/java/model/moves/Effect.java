@@ -8,6 +8,7 @@ import model.enums.TargetType;
 import model.exception.InvalidMoveException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,11 +43,17 @@ public abstract class Effect implements Move {
     }
 
     public void fillFields(int groupID){
-        for(Target t: targets){
-            targets.add(t.fillFields(groupID));
-            targets.remove(t);
+        List<Target> targetsToRemove = new ArrayList<>();
+        List<Target> realTargets = new ArrayList<>();
+        for(Target t : targets){
+            if (t.isFilled())
+                realTargets.add(t.fillFields(groupID));
+            targetsToRemove.add(t);
         }
+        targets.removeAll(targetsToRemove);
+        targets.addAll(realTargets);
     }
+
 
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID){
         for (int k=0; k<this.getTarget().size(); k++) {
@@ -67,11 +74,15 @@ public abstract class Effect implements Move {
                                 this.getPreviousEffect(groupID).getTarget().get(0).findRealTarget(null, groupID).getCurrentPosition().getCoord().toString(), groupID);
                         break;
                     default:
-                        if (k >= inputMatrix.length && !this.optionality)
+                        if ((inputMatrix == null || k >= inputMatrix.length) && !this.optionality)
                             throw new InvalidMoveException("fields missing");
-                        ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
-                        this.getTarget().get(k).setFieldsToFill(inputMatrix[index], groupID);
-                        index++;
+                        if (inputMatrix != null && index<inputMatrix.length) {
+                            if (!this.targets.get(k).isFilled()){
+                                ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
+                                this.getTarget().get(k).setFieldsToFill(inputMatrix[index], groupID);
+                                index++;
+                            }
+                        }
                 }
 
             }
