@@ -100,7 +100,7 @@ public class MainFrame extends JFrame {
         cardsContainer.add(weapon);
         cardsContainer.add(powerUp);
 
-        playerNameLabel = new JLabel("NOME GIOCATORE                           ",SwingConstants.CENTER);
+        playerNameLabel = new JLabel("NOME GIOCATORE",SwingConstants.CENTER);
         JPanel writesPanel = new JPanel(new GridLayout(2,1));
         writesPanel.add(playerNameLabel);
         writesPanel.add(new JLabel("AMMO",SwingConstants.CENTER));
@@ -127,6 +127,11 @@ public class MainFrame extends JFrame {
         left.add(ammos);
         left.add(cardLabel);
         left.add(cardsContainer);
+
+        left.setSize(300,500);
+        left.setPreferredSize(new Dimension(300,500));
+        left.setMaximumSize(new Dimension(300,500));
+        left.setMinimumSize(new Dimension(300,500));
 
         //Create right section of GUI
         console = new JTextArea("");
@@ -201,7 +206,7 @@ public class MainFrame extends JFrame {
         add(right, BorderLayout.EAST);
         add(voidPanel, BorderLayout.SOUTH);
 
-        setSize(1050, 590);
+        setSize(1150, 590);
         setResizable(false);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
