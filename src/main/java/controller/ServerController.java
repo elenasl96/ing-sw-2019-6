@@ -21,6 +21,8 @@ import network.commands.Response;
 import network.exceptions.FullGroupException;
 import network.exceptions.InvalidGroupNumberException;
 
+import java.util.List;
+
 import static model.enums.Phase.DISCONNECTED;
 import static model.enums.Phase.WAIT;
 
@@ -72,8 +74,26 @@ public class ServerController implements RequestHandler {
      * @see SocketClientHandler#run()  for usage
      */
     public void connectionLost(){
+        System.out.println(">>> Disconnection!");
         user.getPlayer().setPhase(DISCONNECTED);
         currentGroup.leave(user);
+        if(currentGroup.getGame()!=null){
+            int count = 0;
+            for(Player p: currentGroup.getGame().getPlayers()){
+                if(p.getPhase()!= Phase.DISCONNECTED){
+                    count++;
+                }
+            }
+            System.out.println(">>> Players remaining: "+ count);
+            if(count>=3) {
+                List<Player> winners = currentGroup.getGame().getPlayers().findHighest(currentGroup.getGroupID());
+                System.out.println(">>> The winners are: "+winners);
+                for (Player winner : winners) {
+                    winner.receiveUpdate(new Update("Congratulations! You win!"));
+                    //TODO GUI update for the win
+                }
+            }
+        }
     }
 
     // ------ Request handling

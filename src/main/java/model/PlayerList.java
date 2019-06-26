@@ -3,6 +3,8 @@ package model;
 import model.enums.Phase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 //TODO javadoc
 public class PlayerList extends ArrayList<Player> {
@@ -31,13 +33,26 @@ public class PlayerList extends ArrayList<Player> {
         } return player;
     }
 
-    public Player findHighest(){
-        Player player = this.get(0);
-        for(Player p : this){
-            if(p.getPhase()!= Phase.DISCONNECTED && p.getPoints()>player.getPoints()){
-                player = p;
+    public List<Player> findHighest(int groupID){
+        List<Player> players = new ArrayList<>();
+        List<Player> killshot = GameContext.get().getGame(groupID).getBoard().getKillshotTrack();
+        for(Player p : this) {
+            if (p.getPhase() != Phase.DISCONNECTED) {
+                players.add(p);
             }
-        } return player;
+        }
+        System.out.println("Players not disconnected: "+ players);
+        List<Player> winners = new ArrayList<>(players);
+        for(Player p: players){
+            Player player = players.get(0);
+            if(p.getPoints()< player.getPoints() &&
+                        Collections.frequency(killshot, p)<Collections.frequency(killshot, player)){
+                System.out.println("Removing: "+p);
+                winners.remove(p);
+            }
+            System.out.println("Winners left: "+winners);
+        }
+        return winners;
     }
 
     @Override

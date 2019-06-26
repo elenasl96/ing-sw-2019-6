@@ -4,6 +4,7 @@ import model.Game;
 import model.GameContext;
 import model.Player;
 import model.enums.Character;
+import model.enums.Phase;
 import network.Manager;
 import network.exceptions.UserNotInGroupException;
 import network.exceptions.FullGroupException;
@@ -106,14 +107,8 @@ public class Group implements Serializable {
 
     public void leave(User user){
         checkUserInGroup(user);
-
         for(ModelObserver listener : listeners)
             listener.onLeave(user);
-        if(this.size()<3 && this.getGame()!=null){
-            Player winner = getGame().getPlayers().findHighest();
-            winner.receiveUpdate(new Update("Congratulations! You win!"));
-            //TODO GUI update for the win
-        }
     }
 
     public void observe(ModelObserver listener) {
