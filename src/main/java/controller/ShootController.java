@@ -163,10 +163,16 @@ public class ShootController {
     //---------------------------------GENERAL CHECKS-------------------------------------------//
 
     private void fillFields(List<CardEffect> currentCardEffects, int groupID) {
+        List<Effect> effectsToRemove = new ArrayList<>();
         for (CardEffect c : currentCardEffects) {
             for (Effect e : c.getEffects()) {
-                e.fillFields(groupID);
+                if(e.isFilled())
+                    e.fillFields(groupID);
+                else
+                    effectsToRemove.add(e);
             }
+            c.getEffects().removeAll(effectsToRemove);
+            effectsToRemove.clear();
         }
     }
 

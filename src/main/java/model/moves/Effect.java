@@ -100,5 +100,8 @@ public abstract class Effect implements Move {
         }
         throw new InvalidMoveException("No latest Square found");
     }
+
+    public abstract boolean isFilled();
+
 }
 

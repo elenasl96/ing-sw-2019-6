@@ -78,7 +78,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void LockRifleTestWithDuplicateInput(){
+    void lockRifleTestWithDuplicateInput(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -104,7 +104,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void electoscytheTestWithNoInput(){
+    void electroscytheTestWithNoInput(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -132,7 +132,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void MachineGunTestWithHalfBasic(){
+    void machineGunTestWithHalfBasic(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -160,7 +160,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void TractorBeamTest(){
+    void tractorBeamTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
@@ -192,7 +192,7 @@ class ShootControllerTest {
 
 
     @Test
-    void ThorTestWithBasicVisible(){
+    void thorTestWithBasicVisible(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(1));
@@ -225,7 +225,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void PlasmaGunTestWithMovementMe(){
+    void plasmaGunTestWithMovementMe(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
@@ -251,7 +251,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void WhisperTest(){
+    void whisperTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
@@ -279,7 +279,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void VortexCannonWithTargetMovement(){
+    void vortexCannonWithTargetMovement(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -312,7 +312,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void FurnaceTestWithRoomTarget(){
+    void furnaceTestWithRoomTarget(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -341,7 +341,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void HeatSeekerTestWithNOT_VISIBLE(){
+    void heatSeekerTestWithNOT_VISIBLE(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(1));
@@ -364,7 +364,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void HellionTestWithLATEST_SQUARE(){
+    void hellionTestWithLATEST_SQUARE(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -401,7 +401,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void FlamethrownerTestWithNotCardinal(){
+    void flamethrownerTestWithNotCardinal(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -437,7 +437,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void FlamethrownerTestWithCardinalSquare(){
+    void flamethrownerTestWithCardinalSquare(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -473,7 +473,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void GrenadeLauncherTest(){
+    void grenadeLauncherTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -505,13 +505,13 @@ class ShootControllerTest {
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getDamage().size());
         assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("C 3", p2.getCurrentPosition().toString());
+        assertEquals("C 2", p2.getCurrentPosition().toString());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
 
 
     @Test
-    void RocketLauncherTest(){
+    void rocketLauncherTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -543,12 +543,12 @@ class ShootControllerTest {
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(2, p2.getPlayerBoard().getDamage().size());
         assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("C 3", p2.getCurrentPosition().toString());
+        assertEquals("C 2", p2.getCurrentPosition().toString());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
 
     @Test
-    void ZX2Test(){
+    void zx2Test(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -585,7 +585,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void ShotgunTest(){
+    void shotgunTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -623,7 +623,7 @@ class ShootControllerTest {
 
 
     @Test
-    void PowerGloveTest(){
+    void powerGloveTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -656,12 +656,12 @@ class ShootControllerTest {
         assertEquals(1, p2.getPlayerBoard().getDamage().size());
         assertEquals(2, p2.getPlayerBoard().getMarks().size());
         assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("C 3", p2.getCurrentPosition().toString());
+        assertEquals("D 3", p2.getCurrentPosition().toString());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
 
     @Test
-    void RailgunTest(){
+    void railgunTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -698,7 +698,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void ShockWave(){
+    void shockWave(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -735,7 +735,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void CyberBladeTest(){
+    void cyberBladeTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -772,7 +772,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void SledgeHammerTest(){
+    void sledgeHammerTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);

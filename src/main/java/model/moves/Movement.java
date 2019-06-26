@@ -1,5 +1,7 @@
 package model.moves;
 
+import model.Game;
+import model.enums.TargetType;
 import model.exception.InvalidMoveException;
 import model.exception.InvalidMovementException;
 import model.GameContext;
@@ -171,13 +173,15 @@ public class Movement extends Effect{
 
     @Override
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
-       index += super.setFieldsToFill(inputMatrix,index,groupID);
-       if(this.destination.getCoord() == null) {
+        if(this.destination.getCoord() == null) {
            if(inputMatrix == null) {
-               if(!this.getOptionality()) {
+               if(this.destination.getTargetType().equals(TargetType.BASIC_EQUALS)){
+                   destination = GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID).getCurrentPosition();
+               }else if(!this.getOptionality()) {
                    throw new InvalidMoveException("Not enough fields");
                }
            }else {
+               index += super.setFieldsToFill(inputMatrix,index,groupID);
                this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
            }
        }
@@ -190,5 +194,10 @@ public class Movement extends Effect{
        }
 
         return index;
+    }
+
+    @Override
+    public boolean isFilled() {
+        return (destination!=null && destination.getCoord()!=null);
     }
 }

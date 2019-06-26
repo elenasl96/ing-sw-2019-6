@@ -35,4 +35,9 @@ public class DamageEffect extends Effect{
         index += super.setFieldsToFill(inputMatrix,index,groupID);
         return index;
     }
+
+    @Override
+    public boolean isFilled() {
+        return true;
+    }
 }
