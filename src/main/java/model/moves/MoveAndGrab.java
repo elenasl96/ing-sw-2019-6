@@ -23,7 +23,11 @@ public class MoveAndGrab implements Move {
     public Response execute(Player p, int groupID) {
         int maxSteps;
         if(p.getCurrentMoves().isEmpty()){
-            maxSteps = 1;
+            if(p.getAdrenalineLevel() == 0)
+                maxSteps = 1;
+            else
+                maxSteps = 2;
+            
             if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
                 maxSteps = 4;
             }

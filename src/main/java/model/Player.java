@@ -30,8 +30,8 @@ import static model.enums.TargetType.MINE;
 //TODO javadoc
 public class Player extends Target implements Serializable{
     private static final long serialVersionUID = 3763707889643123775L;
-    private User user;
     private int playerNumber;
+    private User user;
     private String name;
     private Character character = Character.NOT_ASSIGNED;
     private Square currentPosition;
@@ -44,6 +44,7 @@ public class Player extends Target implements Serializable{
     private boolean firstPlayer;
     private boolean dead;
     private int deaths;
+    private int adrenalineLevel = 0;
     private transient List<Square> visible = new ArrayList<>();
     private transient  List<CardEffect> currentCardEffects = new ArrayList<>();
     private transient List<Move> currentMoves = new ArrayList<>();
@@ -361,8 +362,20 @@ public class Player extends Target implements Serializable{
                 "from " + playerDamaging.getName(),"damages");
         update.setData(damagesReceived + ";" + playerDamaging.getCharacter().getNum());
         this.receiveUpdate(update);
+        this.updateAdrenaline();
         if(this.getPlayerBoard().getDamage().size() == (11 | 12))
             this.dead = true;
+    }
+
+    private void updateAdrenaline() {
+        if(this.getPlayerBoard().getDamage().size() >= 3)
+            this.adrenalineLevel = 1;
+        if(this.getPlayerBoard().getDamage().size() >= 6)
+            this.adrenalineLevel = 2;
+    }
+
+    public int getAdrenalineLevel() {
+        return adrenalineLevel;
     }
 
     @Override
