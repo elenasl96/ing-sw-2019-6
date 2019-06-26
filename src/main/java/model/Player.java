@@ -306,6 +306,10 @@ public class Player extends Target implements Serializable{
         return false;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
     @Override
     public int hashCode() {
         return super.hashCode();

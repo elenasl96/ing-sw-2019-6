@@ -1,5 +1,7 @@
 package model;
 
+import model.enums.Phase;
+
 import java.util.ArrayList;
 
 //TODO javadoc
@@ -25,6 +27,15 @@ public class PlayerList extends ArrayList<Player> {
                     player = GameContext.get().getGame(groupID).getPlayers().get(i+1);
                 }
                 break;
+            }
+        } return player;
+    }
+
+    public Player findHighest(){
+        Player player = this.get(0);
+        for(Player p : this){
+            if(p.getPhase()!= Phase.DISCONNECTED && p.getPoints()>player.getPoints()){
+                player = p;
             }
         } return player;
     }
