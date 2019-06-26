@@ -85,7 +85,7 @@ public class ServerController implements RequestHandler {
                 }
             }
             System.out.println(">>> Players remaining: "+ count);
-            if(count>=3) {
+            if(count<3) {
                 List<Player> winners = currentGroup.getGame().getPlayers().findHighest(currentGroup.getGroupID());
                 System.out.println(">>> The winners are: "+winners);
                 for (Player winner : winners) {
