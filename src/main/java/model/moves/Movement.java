@@ -1,5 +1,6 @@
 package model.moves;
 
+import model.exception.InvalidMoveException;
 import model.exception.InvalidMovementException;
 import model.GameContext;
 import model.Player;
@@ -172,7 +173,13 @@ public class Movement extends Effect{
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
        index += super.setFieldsToFill(inputMatrix,index,groupID);
        if(this.destination.getCoord() == null) {
-           this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
+           if(inputMatrix == null) {
+               if(!this.getOptionality()) {
+                   throw new InvalidMoveException("Not enough fields");
+               }
+           }else {
+               this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
+           }
        }
        if(this.maxSteps == -1) {
            if (this.destination.getMaxDistance() != null) {
