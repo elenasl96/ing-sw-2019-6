@@ -41,16 +41,13 @@ public class PlayerList extends ArrayList<Player> {
                 players.add(p);
             }
         }
-        System.out.println("Players not disconnected: "+ players);
         List<Player> winners = new ArrayList<>(players);
         for(Player p: players){
             Player player = players.get(0);
             if(p.getPoints()< player.getPoints() &&
                         Collections.frequency(killshot, p)<Collections.frequency(killshot, player)){
-                System.out.println("Removing: "+p);
                 winners.remove(p);
             }
-            System.out.println("Winners left: "+winners);
         }
         return winners;
     }
