@@ -99,13 +99,11 @@ public class WeaponTile implements Grabbable {
     }
 
 
-    @Override
-    public String toString() {
+    public String toString(int index) {
         StringBuilder string = new StringBuilder();
-        int count = 0;
         for(Weapon w: weapons){
-            string.append("\nID: ").append(count).append(w);
-            count ++;
+            string.append("\nID: ").append(index).append(w);
+            index ++;
         }
         return string.toString();
     }
