@@ -1,7 +1,5 @@
 package view.gui;
 
-import controller.ClientController;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +11,6 @@ import javax.swing.text.DefaultCaret;
 
 public class MainFrame extends JFrame {
     private static final long serialVersionUID = -1946117194064716902L;
-    private ClientController controller;
     private static final int DIM_AMMO_IMAGE = 30;
     private static final int WIDTH_PAWN = 70;
     private static final int HEIGHT_PAWN = 60;
@@ -27,22 +24,21 @@ public class MainFrame extends JFrame {
 
     private JTextArea console;
     private JTextField commandLine;
-    private JButton ok;
     private MoveButton grab;
     private MoveButton run;
     private MoveButton shoot;
     private MoveButton powerup;
     private JLabel playerNameLabel;
 
-    private Object lockInput;
-    private Object lockMove;
-    private Object lockCoordinate;
-    private Object lockChooseCard;
-    private Object lockReload;
-    private Object lockEffect;
+    private final transient Object lockInput;
+    private final transient Object lockMove;
+    private final transient Object lockCoordinate;
+    private final transient Object lockChooseCard;
+    private final transient Object lockReload;
+    private final transient Object lockEffect;
 
-    private MoveButtonActionListener actionListenerMovement;
-    private CoordinateActionListener actionListenerCoordinate;
+    private transient MoveButtonActionListener actionListenerMovement;
+    private transient CoordinateActionListener actionListenerCoordinate;
     private JPanel turnLight;
     private JComboBox weapon;
     private JComboBox powerUp;
@@ -51,11 +47,10 @@ public class MainFrame extends JFrame {
     private JFrame effectFrame;
     private PlayerBoardPanel playerBoard;
 
-    private SquarePanel mapGrid[][];
-    private Character charactersCoordinates[];
+    private SquarePanel[][] mapGrid;
+    private Character[] charactersCoordinates;
 
-    public MainFrame(ClientController controller) {
-        this.controller = controller;
+    public MainFrame() {
         lockInput = new Object();
         lockMove = new Object();
         lockCoordinate = new Object();
@@ -84,7 +79,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void initGUI() {
+    void initGUI() {
         System.out.println("Go");
 
         setTitle("Adrenalina");
@@ -141,13 +136,10 @@ public class MainFrame extends JFrame {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         commandLine = new JTextField(20);
-        ok = new JButton("OK");
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                synchronized (lockInput) {
-                    lockInput.notifyAll();
-                }
+        JButton ok = new JButton("OK");
+        ok.addActionListener(e -> {
+            synchronized (lockInput) {
+                lockInput.notifyAll();
             }
         });
 
@@ -530,5 +522,6 @@ public class MainFrame extends JFrame {
     public void setPlayerNameLabel(String name) {
         playerNameLabel.setText(name);
     }
+
 
 }

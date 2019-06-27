@@ -18,7 +18,7 @@ public class ViewGui implements View {
     private ClientController controller;
 
     public ViewGui(){
-        gui = new MainFrame(null);
+        gui = new MainFrame();
         gui.initGUI();
         viewCli = new ViewClient();
     }
