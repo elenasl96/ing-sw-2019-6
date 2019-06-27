@@ -47,7 +47,12 @@ public enum TargetType {
     BASIC_EQUALS(10),
     BASIC_NOT_OPTIONAL(11),
     LATEST_SQUARE(12),
-    DIFFERENT_LATEST_SQUARE(13);
+    DIFFERENT_LATEST_SQUARE(13),
+
+    /*
+    Types for powerups
+     */
+    TARGETING_SCOPE_TARGET(14);
 
     TargetType(int number){}
 }
