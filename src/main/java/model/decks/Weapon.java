@@ -701,7 +701,7 @@ public class Weapon implements Serializable {
             case 20:
                 //SLEDGEHAMMER
                 weapon = new Weapon(
-                        id,"SHOCKWAVE",
+                        id,"SLEDGEHAMMER",
                         "basic mode: Choose up to 3 targets on\n" +
                                 "different squares, each exactly 1 move away.\n" +
                                 "Deal 1 damage to each target.\n" +
