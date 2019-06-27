@@ -27,7 +27,7 @@ public class MoveAndGrab implements Move {
                 maxSteps = 1;
             else
                 maxSteps = 2;
-            
+
             if(GameContext.get().getGame(groupID).isFinalFrenzy() && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
                 maxSteps = 4;
             }

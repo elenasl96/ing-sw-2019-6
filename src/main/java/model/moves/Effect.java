@@ -76,13 +76,17 @@ public abstract class Effect implements Move {
                     default:
                         if ((inputMatrix == null || k >= inputMatrix.length) && !this.optionality)
                             throw new InvalidMoveException("fields missing");
-                        if (inputMatrix != null && index<inputMatrix.length) {
-                            if (!this.targets.get(k).isFilled()){
-                                ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
-                                this.getTarget().get(k).setFieldsToFill(inputMatrix[index], groupID);
-                                index++;
+                        if (inputMatrix != null && index<inputMatrix.length && !this.targets.get(k).isFilled()){
+                                if(inputMatrix[index].equals("")) {
+                                    if (!this.optionality)
+                                        throw new InvalidMoveException("fields missing");
+                                }else {
+                                    ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
+                                    this.getTarget().get(k).setFieldsToFill(inputMatrix[index], groupID);
+                                }
+                            index++;
                             }
-                        }
+
                 }
 
             }

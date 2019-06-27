@@ -182,7 +182,16 @@ public class Movement extends Effect{
                }
            }else {
                index += super.setFieldsToFill(inputMatrix,index,groupID);
-               this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
+               if(inputMatrix[index]!=null) {
+                   if(inputMatrix[index].equals("")){
+                       if(!this.getOptionality())
+                           throw new InvalidMoveException("Not enough fields");
+                   }
+                   else
+                       this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
+                   index++;
+               }
+
            }
        }
        if(this.maxSteps == -1) {
