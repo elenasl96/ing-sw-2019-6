@@ -42,4 +42,9 @@ public class MarkEffect extends Effect implements Move{
     public boolean isFilled() {
         return true;
     }
+
+    @Override
+    public boolean doesDamage() {
+        return false;
+    }
 }

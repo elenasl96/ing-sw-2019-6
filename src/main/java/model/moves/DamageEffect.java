@@ -40,4 +40,9 @@ public class DamageEffect extends Effect{
     public boolean isFilled() {
         return true;
     }
+
+    @Override
+    public boolean doesDamage() {
+        return true;
+    }
 }

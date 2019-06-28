@@ -40,4 +40,11 @@ public class CardEffect {
         return cost;
     }
 
+    public boolean doesDamage() {
+        for(Effect e: getEffects()){
+            if(e.doesDamage())
+                return true;
+        }
+        return false;
+    }
 }

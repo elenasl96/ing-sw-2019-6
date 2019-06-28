@@ -213,4 +213,9 @@ public class Movement extends Effect{
     public boolean isFilled() {
         return (destination!=null && destination.getCoord()!=null);
     }
+
+    @Override
+    public boolean doesDamage() {
+        return false;
+    }
 }

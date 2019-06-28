@@ -458,5 +458,4 @@ public class Player extends Target implements Serializable{
     public boolean sameAsMe(int groupID) {
         return this.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
     }
-
 }

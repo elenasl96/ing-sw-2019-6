@@ -107,5 +107,6 @@ public abstract class Effect implements Move {
 
     public abstract boolean isFilled();
 
+    public abstract boolean doesDamage();
 }
 

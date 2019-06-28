@@ -1,5 +1,6 @@
 package controller;
 
+import model.decks.CardEffect;
 import model.decks.PowerupDeck;
 import model.enums.*;
 import model.exception.NotEnoughAmmoException;
@@ -299,8 +300,39 @@ public class GameController{
         weapon.setStatus(WeaponStatus.LOADED);
     }
 
-    public List<Powerup> getPowerupsToPlay() {
-        //TODO
-        return null;
+    //-------------------------------POWERUPS------------------------------------//
+
+    /**
+     * for every powerup the player owns
+     * if it is playable at the moment it is added in the return list
+     * @return list of powerups the player can play in that moment
+     */
+    public List<Powerup> getPowerupsToPlay(Player player, int groupID) {
+        List<Powerup> powerupsToPlay = new ArrayList<>();
+        for(Powerup powerup: player.getPowerups()){
+            if(isPlayable(player, powerup))
+                powerupsToPlay.add(powerup);
+        }
+        return powerupsToPlay;
+    }
+
+    private boolean isPlayable(Player player, Powerup powerup) {
+        switch (powerup.getName()){
+            case "teleporter": case "newton":
+                return true;
+            case "targeting scope":
+                for(CardEffect c: player.getCurrentCardEffects()){
+                    if(c.doesDamage())
+                        return true;
+                }
+                break;
+            case "tagback grenade":
+                if(player.getPlayerBoard().wasDamaged())
+                    return true;
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }

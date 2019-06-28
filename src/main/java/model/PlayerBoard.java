@@ -1,5 +1,6 @@
 package model;
 
+import model.decks.CardEffect;
 import model.exception.FullMarksException;
 
 import java.io.Serializable;
@@ -85,5 +86,14 @@ public class PlayerBoard implements Serializable {
 
     void addDeath() {
         this.deaths++;
+    }
+
+    public boolean wasDamaged() {
+        Player lastPlayerDamaging = damage.get(damage.size()-1);
+        for(CardEffect c : lastPlayerDamaging.getCurrentCardEffects()) {
+            if (c.doesDamage())
+                return true;
+        }
+        return false;
     }
 }
