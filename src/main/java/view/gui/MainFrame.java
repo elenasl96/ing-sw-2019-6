@@ -273,7 +273,7 @@ public class MainFrame extends JFrame {
             Integer cont = 1;
             for(int i=0;i<3;i++) {
                 for(int j=0;j<4;j++) {
-                    mapGrid[i][j]=new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/HandMade/" +
+                    mapGrid[i][j]=new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/Field2/" +
                             "image_part_0"+String.format("%02d",cont) +".png"))
                             .getScaledInstance(140,140, Image.SCALE_SMOOTH)), (char)(j+65)+" "+(3-i));
                     mapGrid[i][j].setLayout(new GridLayout(3,2));
