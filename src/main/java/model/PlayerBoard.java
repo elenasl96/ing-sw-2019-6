@@ -35,6 +35,16 @@ public class PlayerBoard implements Serializable {
         return damagesSuffered;
     }
 
+    public int deleteMarks(Player playerMarking) {
+        List<Player> marksToDelete = new ArrayList<>();
+        for(Player player : marks){
+            if(player.equals(playerMarking))
+                marksToDelete.add(player);
+        }
+        marks.removeAll(marksToDelete);
+        return marksToDelete.size();
+    }
+
     /**
      *
      * @return number of endured damages

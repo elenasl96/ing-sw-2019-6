@@ -357,11 +357,22 @@ public class Player extends Target implements Serializable{
 
     @Override
     public void addDamages(Player playerDamaging, int damages, int groupId) {
-        int damagesReceived = this.getPlayerBoard().addDamage(playerDamaging, damages);
-        Update update = new Update("You received " + damagesReceived + " damages " +
+        Update updateDamages;
+        Update updateMarks;
+        int damagesReceived;
+        int marksRemoved;
+        marksRemoved = this.getPlayerBoard().deleteMarks(playerDamaging);
+        damagesReceived = this.getPlayerBoard().addDamage(playerDamaging, damages + marksRemoved);
+        updateDamages = new Update(
+                "You received " + damagesReceived + " damages " +
                 "from " + playerDamaging.getName(),"damages");
-        update.setData(damagesReceived + ";" + playerDamaging.getCharacter().getNum());
-        this.receiveUpdate(update);
+        updateDamages.setData(damagesReceived + ";" + playerDamaging.getCharacter().getNum());
+        this.receiveUpdate(updateDamages);
+        //TODO update marksDeleted for GUI (SCHERO)
+        updateMarks = new Update(
+                "Your " + marksRemoved + " marks from "
+                        + playerDamaging.getName() + " are removed");
+        this.receiveUpdate(updateMarks);
         this.updateAdrenaline();
         if(this.getPlayerBoard().getDamage().size() == (11 | 12))
             this.dead = true;
