@@ -1,18 +1,27 @@
 @startuml
 skinparam classAttributeIconSize 0
-interface ModelObserver <<Interface>>{
-     + onJoin(User): void
-     + onLeave(User): void
-     + onStart(): void
-     onUpdate(Update): void
+package model{
+    interface ModelObserver <<Interface>>{
+         + onJoin(User): void
+         + onLeave(User): void
+         + onStart(): void
+         + onUpdate(Update): void
+    }
+    class ModelUML <@see>
 }
-
 package view{
      interface View extends ModelObserver
-     interface ClientHandler extends ModelObserver
-
-     class ViewCli
+     class ViewClient implements View
+     class ViewGui implements View
 }
 
-class TimerController implements ModelObserver
+package network{
+    interface ClientHandler extends ModelObserver
+    class SocketClientHandler implements ClientHandler
+    class RMIClientHandler implements ClientHandler
+}
+
+package controller{
+    class TimerController implements ModelObserver
+}
 @enduml
