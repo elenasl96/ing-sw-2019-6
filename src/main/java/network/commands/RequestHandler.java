@@ -31,4 +31,6 @@ public interface RequestHandler {
     Response handle(SendInput sendInput);
 
     Response handle(ShootRequest shootRequest);
+
+    Response handle(AskWeaponsOnTileRequest askWeaponsOnTileRequest);
 }

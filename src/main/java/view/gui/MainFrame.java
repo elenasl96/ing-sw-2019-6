@@ -1,5 +1,7 @@
 package view.gui;
 
+import controller.ClientController;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +41,7 @@ public class MainFrame extends JFrame {
 
     private transient MoveButtonActionListener actionListenerMovement;
     private transient CoordinateActionListener actionListenerCoordinate;
+    private transient SpawnTileWeaponActionListener spawnTileWeaponActionListener;
     private JPanel turnLight;
     private JComboBox weapon;
     private JComboBox powerUp;
@@ -284,6 +287,9 @@ public class MainFrame extends JFrame {
                     cont++;
                 }
             }
+            mapGrid[0][2].addMouseListener(spawnTileWeaponActionListener);
+            mapGrid[1][0].addMouseListener(spawnTileWeaponActionListener);
+            mapGrid[2][3].addMouseListener(spawnTileWeaponActionListener);
         }
         catch(IOException exception)
         {
@@ -521,4 +527,7 @@ public class MainFrame extends JFrame {
     }
 
 
+    public void setClientController(ClientController controller) {
+        spawnTileWeaponActionListener = new SpawnTileWeaponActionListener(controller);
+    }
 }

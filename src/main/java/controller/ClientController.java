@@ -270,4 +270,8 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     public int hashCode(){
         return super.hashCode();
     }
+
+    public void askWeapons(String data) throws RemoteException {
+        client.request(new AskWeaponsOnTileRequest(data));
+    }
 }

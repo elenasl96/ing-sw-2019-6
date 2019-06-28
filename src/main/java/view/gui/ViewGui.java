@@ -25,6 +25,7 @@ public class ViewGui implements View {
 
     public void setClientController(ClientController controller){
         this.controller = controller;
+        gui.setClientController(controller);
     }
 
     public void run() {
@@ -117,7 +118,13 @@ public class ViewGui implements View {
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
                         gui.addMarkerPlayerBoard(Integer.parseInt(data[1]));
                     } break;
-
+                case "weaponsAsked":
+                    try {
+                        controller.askWeapons(update.getData());
+                    } catch (RemoteException e) {
+                        System.out.println(">>> An error occurred");
+                    }
+                    break;
                 default:
                     break;
             }

@@ -346,6 +346,15 @@ public class ServerController implements RequestHandler {
     }
 
     @Override
+    public Response handle(AskWeaponsOnTileRequest askWeaponsOnTileRequest) {
+        user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID())
+                .getBoard().getField()
+                .getSquare(askWeaponsOnTileRequest.getCoordinate())
+                .getGrabbable().toString(),"choosecard"));
+        return null;
+    }
+
+    @Override
     public Response handle(MoveRequest moveRequest) {
         Player currentPlayer = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer();
         Move move = moveRequest.getMove();

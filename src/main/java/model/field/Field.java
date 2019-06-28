@@ -215,4 +215,21 @@ public class Field implements Serializable {
     public List<SpawnSquare> getSpawnSquares() {
         return spawnSquares;
     }
+
+    public Square getSquare(Coordinate coordinate) {
+        Square square = null;
+        for(Square s: squares){
+            if(s.getCoord().equals(coordinate)){
+                square = s;
+            }
+        }
+        if(square == null){
+            for(Square s: spawnSquares){
+                if(s.getCoord().equals(coordinate)){
+                    square = s;
+                }
+            }
+        }
+        return square;
+    }
 }
