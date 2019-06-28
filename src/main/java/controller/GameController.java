@@ -175,7 +175,7 @@ public class GameController{
                 //set phase wait to current player and send update
                 if(player.isDead()){
                     player.setDead(false);
-                    player.setPhase(FIRST);
+                    player.setPhase(POWERUP1);
                 } else {
                     player.setPhase(WAIT);
                 }
@@ -184,16 +184,24 @@ public class GameController{
                 GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
                 System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
                 if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0)))
-                    GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST);
+                    GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(POWERUP1);
                 else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(SPAWN);
             break;
+            case POWERUP1:
+                player.getCurrentMoves().clear();
+                player.setPhase(FIRST);
+                break;
             case FIRST:
                 player.getCurrentMoves().clear();
                 player.setPhase(Phase.SECOND);
                 break;
             case SECOND:
                 player.getCurrentMoves().clear();
-                player.setPhase(Phase.RELOAD);
+                player.setPhase(POWERUP2);
+                break;
+            case POWERUP2:
+                player.getCurrentMoves().clear();
+                player.setPhase(RELOAD);
                 break;
             case RELOAD:
                 player.setPhase(WAIT);
@@ -206,7 +214,7 @@ public class GameController{
                     player.setCurrentPosition(null); //TODO Check
                 }
                 else {
-                    player.setPhase(FIRST);
+                    player.setPhase(POWERUP1);
                 }
                 break;
             case DISCONNECTED:
@@ -268,7 +276,9 @@ public class GameController{
     }
 
     void playPowerup(int groupID, String input, Player player){
+        player.getUser().receiveUpdate(new Update("Using powerup...."));
         //TODO IMPLEMENTATION SIMILAR TO WEAPONS
+        updatePhase(groupID);
     }
 
 
@@ -316,7 +326,7 @@ public class GameController{
      * if it is playable at the moment it is added in the return list
      * @return list of powerups the player can play in that moment
      */
-    public List<Powerup> getPowerupsToPlay(Player player, int groupID) {
+    public List<Powerup> getPowerupsToPlay(Player player) {
         List<Powerup> powerupsToPlay = new ArrayList<>();
         for(Powerup powerup: player.getPowerups()){
             if(isPlayable(player, powerup))
@@ -325,7 +335,7 @@ public class GameController{
         return powerupsToPlay;
     }
 
-    private boolean isPlayable(Player player, Powerup powerup) {
+    boolean isPlayable(Player player, Powerup powerup) {
         switch (powerup.getName()){
             case "teleporter": case "newton":
                 return true;

@@ -24,6 +24,7 @@ import network.exceptions.InvalidGroupNumberException;
 
 import java.util.List;
 
+import static controller.GameController.cardsToString;
 import static model.enums.Phase.DISCONNECTED;
 import static model.enums.Phase.WAIT;
 
@@ -258,7 +259,7 @@ public class ServerController implements RequestHandler {
             break;
             case "powerupToPlay":
                 List<Powerup> powerupsToPlay = GameController.get()
-                        .getPowerupsToPlay(user.getPlayer(), currentGroup.getGroupID());
+                        .getPowerupsToPlay(user.getPlayer());
                 if(powerupsToPlay.isEmpty()){
                     user.receiveUpdate(new Update("You haven't powerups to play now",UPDATE_CONSOLE));
                     GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
