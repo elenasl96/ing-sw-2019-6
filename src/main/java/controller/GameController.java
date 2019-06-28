@@ -114,11 +114,7 @@ public class GameController{
         return update;
     }
 
-    synchronized void setSpawn(Player player, int spawn, int groupID){
-        //TODO
-    }
-
-    synchronized void setFirstSpawn(Player player, int spawn, int groupID) {
+    synchronized void setSpawn(Player player, int spawn, int groupID) {
         if(isMyTurn(player, groupID) &&
                 player.getPhase().equals(FIRST_SPAWN) &&
                 spawn >= 0 &&
@@ -127,38 +123,31 @@ public class GameController{
                     .filter(ss -> ss.getColor().equals(player.getPowerups().get(spawn).getAmmo().getColor()))
                     .findFirst();
             optional.ifPresent(player::setCurrentPosition);
-            //set phase wait to current player and send update
-            PowerupDeck pUpDeck = GameContext.get().getGame(groupID).getBoard().getPowerupsLeft();
-            pUpDeck.discardCard(player.getPowerups().get(spawn));
+            PowerupDeck powerupDeck = GameContext.get().getGame(groupID).getBoard().getPowerupsLeft();
+            powerupDeck.discardCard(player.getPowerups().get(spawn));
             player.getPowerups().remove(spawn);
             Update update = new Update(null,"powerup");
             update.setData(player.getPowerups().get(0).getName().substring(0,player.getPowerups().get(0).getName().length()-1));
             player.receiveUpdate(update);
-            player.setDead(false);
-            player.setPhase(WAIT);
-            player.getUser().receiveUpdate(new Update(player, true));
-            //go to next player and set phase
-            GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
-            System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
-            if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0))) GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST);
-            else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST_SPAWN);
+            updatePhase(groupID);
             //send updates
-            //TODO CANCELLARE UPDATE E MODIFICARE PER GRAFICA
             GameContext.get().getGame(groupID).sendUpdate(new Update("\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
             update = new Update(null,"movement");
             update.setData(player.getCharacter().getNum() + ";" + player.getCurrentPosition().toString().replace("[","").replace("]",""));
             GameContext.get().getGame(groupID).sendUpdate(update);
             GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer(), true));
-
         } else {
+            player.getPowerups().remove(player.getPowerups().size()-1);
+            if(!player.isDead())
+                player.getPowerups().remove(player.getPowerups().size()-1);
             player.getUser().receiveUpdate(new Update(player, true));
-            player.getUser().receiveUpdate(new Update("not working spawn:" + player.toString()+ "," + GameContext.get().getGame(groupID).getCurrentPlayer().toString(), UPDATECONSOLE));
+            player.getUser().receiveUpdate(new Update(
+                    "not working spawn:" + player.toString()+ "," + player.toString(), UPDATECONSOLE));
         }
     }
 
     synchronized Update getSpawn(Player player, int groupID) {
-
-        if(player.getPowerups().isEmpty()) {
+        if(player.getPowerups().isEmpty()){
             if (!player.isDead()) {
                 player.getPowerups().add(GameContext.get().getGame(groupID)
                         .getBoard().getPowerupsLeft().pickCard());
@@ -176,6 +165,18 @@ public class GameController{
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         //go to next player and set phase
         switch(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase()) {
+            case FIRST_SPAWN:
+                //set phase wait to current player and send update
+                player.setDead(false);
+                player.setPhase(WAIT);
+                player.getUser().receiveUpdate(new Update(player, true));
+                //go to next player and set phase
+                GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
+                System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
+                if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0)))
+                    GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST);
+                else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(FIRST_SPAWN);
+            break;
             case FIRST:
                 player.getCurrentMoves().clear();
                 player.setPhase(Phase.SECOND);
@@ -192,17 +193,18 @@ public class GameController{
                 player = GameContext.get().getGame(groupID).getCurrentPlayer();
                 if(player.isDead()){
                     player.setPhase(SPAWN);
+                    player.setCurrentPosition(null); //TODO Check
                 }
                 else {
                     player.setPhase(FIRST);
                 }
                 break;
             case SPAWN:
-                if(player.getCurrentPosition()!=null){
-                    player.setDead(true);
-                    player.setPhase(WAIT);
-                } else {
+                if(player.isDead()){
+                    player.setDead(false);
                     player.setPhase(FIRST);
+                } else {
+                    player.setPhase(WAIT);
                 }
                 break;
             case DISCONNECTED:

@@ -209,7 +209,7 @@ public class ServerController implements RequestHandler {
         if(spawnRequest.getSpawn()==null) {
             return new GameUpdateNotification(GameController.get().getSpawn(this.user.getPlayer(), currentGroup.getGroupID()));
         }else if(spawnRequest.isFirstTime()) {
-            GameController.get().setFirstSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
+            GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
             return null;
         } else {
             GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());

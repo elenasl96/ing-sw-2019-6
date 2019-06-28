@@ -1,14 +1,11 @@
 package controller;
 
-import model.decks.Weapon;
 import model.exception.InvalidMoveException;
 import model.Ammo;
 import model.GameContext;
-import model.Player;
 import model.decks.Powerup;
 import model.enums.Color;
 import model.enums.Phase;
-import model.enums.WeaponStatus;
 import model.field.Coordinate;
 import model.moves.Run;
 import model.room.Group;
@@ -20,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -99,12 +95,12 @@ class GameControllerTest {
         assertFalse(possibleMovesUpdate.isPlayerChanges());
         assertFalse(GameContext.get().getGame(0).getCurrentPlayer().getPowerups().isEmpty());
         //Not working Spawn
-        GameController.get().setFirstSpawn(
+        GameController.get().setSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
                 5, 0);
         //Working spawn
-        GameController.get().setFirstSpawn(
+/*        GameController.get().setSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
-                0, 0);
+                0, 0);*/
     }
 }
