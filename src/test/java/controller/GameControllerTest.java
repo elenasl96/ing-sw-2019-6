@@ -52,7 +52,7 @@ class GameControllerTest {
     @Test
     void constructorTest(){
         assertEquals(users.get(0), GameContext.get().getGame(0).getCurrentPlayer().getUser());
-        assertEquals(Phase.FIRST_SPAWN, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
+        assertEquals(Phase.SPAWN, GameContext.get().getGame(0).getCurrentPlayer().getPhase());
         assertEquals(Phase.WAIT, GameContext.get().getGame(0).getPlayers().get(1).getPhase());
     }
 
@@ -94,13 +94,17 @@ class GameControllerTest {
                 GameContext.get().getGame(0).getCurrentPlayer(), 0);
         assertFalse(possibleMovesUpdate.isPlayerChanges());
         assertFalse(GameContext.get().getGame(0).getCurrentPlayer().getPowerups().isEmpty());
-        //Not working Spawn
+        assertFalse(GameContext.get().getGame(0).getCurrentPlayer().isDead());
+       //Not working Spawn
         GameController.get().setSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
                 5, 0);
         //Working spawn
-/*        GameController.get().setSpawn(
+        System.out.println(GameContext.get().getGame(0).getCurrentPlayer().getPowerups());
+
+        TimerController.get().startTimer(0);
+        GameController.get().setSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
-                0, 0);*/
+                0, 0);
     }
 }

@@ -12,12 +12,11 @@ public enum Phase{
     SECOND(2),
     RELOAD(3),
     SPAWN (4),
-    DISCONNECTED(5),
+    DISCONNECTED(5);
     /**
      * Used for first time spawn: different from the normal spawn because the player
      * can't perform his turn after the spawn.
-     */
-    FIRST_SPAWN(6);
+    FIRST_SPAWN(6);*/
     private int id;
 
     Phase(int id) {
@@ -48,8 +47,6 @@ public enum Phase{
                 return SPAWN;
             case 5:
                 return DISCONNECTED;
-            case 6:
-                return FIRST_SPAWN;
             default:
                 return null;
         }

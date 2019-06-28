@@ -178,11 +178,6 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 chooseReload(view.reloadPhase());
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
-            case FIRST_SPAWN:
-                client.request(new SpawnRequest(null));
-                client.request(new SpawnRequest(view.spawnPhase(), true));
-                ClientContext.get().getCurrentPlayer().setPhase(WAIT);
-                break;
             default:
                 break;
         }
