@@ -1,7 +1,9 @@
 package model.room;
 
 
-//TODO javadoc
+/**
+ * PATTERN OBSERVER
+ */
 public interface ModelObserver {
     void onJoin(User u);
     void onLeave(User u);

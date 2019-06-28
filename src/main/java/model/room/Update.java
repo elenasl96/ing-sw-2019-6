@@ -4,19 +4,31 @@ import model.Player;
 
 import java.io.Serializable;
 
-//TODO javadoc
 public class Update implements Serializable {
+    /**
+     * If this parameter is set to true, the Player is send to the ClientController
+     * To be updated in the ClientContext
+     */
     private boolean playerChanges;
     private Player player;
     private String string;
+    /**
+     * both data and move are GUI reading only content
+     */
     private String move;
     private String data;
 
+    /**
+     * @param player playerChanges is automatically false
+     */
     public Update(Player player){
         this.player = player;
         this.playerChanges = false;
     }
 
+    /**
+     * @param string playerChanges is automatically false
+     */
     public Update(String string){
         this.string = string;
         this.playerChanges = false;
