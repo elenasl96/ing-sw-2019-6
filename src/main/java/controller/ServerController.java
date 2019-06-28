@@ -258,7 +258,7 @@ public class ServerController implements RequestHandler {
                 }
             break;
             case "powerupToPlay":
-                List<Powerup> powerupsToPlay = GameController.get()
+                List<Powerup> powerupsToPlay = ShootController.get()
                         .getPowerupsToPlay(user.getPlayer());
                 if(powerupsToPlay.isEmpty()){
                     user.receiveUpdate(new Update("You haven't powerups to play now",UPDATE_CONSOLE));
@@ -335,7 +335,8 @@ public class ServerController implements RequestHandler {
                 break;
             case "powerupToPlay":
                 try{
-                    GameController.get().playPowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer());
+                    this.user.receiveUpdate(new Update(GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer())));
+                    return new AskInput("fillFields");
                 }catch (IndexOutOfBoundsException e){
                     user.receiveUpdate(new Update("Powerup index out of bounds",UPDATE_CONSOLE));
                     p.setPhaseNotDone(true);

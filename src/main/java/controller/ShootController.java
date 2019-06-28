@@ -150,15 +150,55 @@ public class ShootController {
 
     //---------------------------------USE POWERUPS-------------------------------------------//
 
+    /**
+     * for every powerup the player owns
+     * if it is playable at the moment it is added in the return list
+     * @return list of powerups the player can play in that moment
+     */
+    public List<Powerup> getPowerupsToPlay(Player player) {
+        List<Powerup> powerupsToPlay = new ArrayList<>();
+        for(Powerup powerup: player.getPowerups()){
+            if(isPlayable(player, powerup))
+                powerupsToPlay.add(powerup);
+        }
+        return powerupsToPlay;
+    }
 
-    public String preparePowerup(Player player, Powerup powerup, int groupID) {
-        //TODO TEST AND CHECK IMPLEMENTATION
-        //Add effects to player
-        player.getCurrentMoves().add(powerup.getMoves().get(0));
-        //Discard powerup
-        GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().discardCard(powerup);
-        //Ask player to fill effects
-        return getEffectsToFill(player);
+    boolean isPlayable(Player player, Powerup powerup) {
+        switch (powerup.getName()){
+            case "teleporter": case "newton":
+                return true;
+            case "targeting scope":
+                if(player.getAmmos().isEmpty())
+                    return false;
+                for(CardEffect c: player.getCurrentCardEffects()){
+                    if(c.doesDamage())
+                        return true;
+                }
+                break;
+            case "tagback grenade":
+                if(player.getPlayerBoard().wasDamaged())
+                    return true;
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    public String preparePowerup(Player player, String input, int groupID) {
+        Powerup powerupToPlay;
+        try {
+            int powerupIndex = Integer.parseInt(input);
+            powerupToPlay = getPowerupsToPlay(player).get(powerupIndex);
+            GameController.get().addMoves(player, powerupToPlay);
+            //Discard powerup
+            GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().discardCard(powerupToPlay);
+            //Ask player to fill effects
+            return powerupToPlay.getEffectsDescription();
+        }catch (NumberFormatException | IndexOutOfBoundsException e){
+            throw new InvalidMoveException("Not valid powerup");
+        }
     }
 
     //---------------------------------GENERAL CHECKS-------------------------------------------//

@@ -3,6 +3,7 @@ package controller;
 import model.decks.CardEffect;
 import model.decks.PowerupDeck;
 import model.enums.*;
+import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.GameContext;
@@ -10,6 +11,7 @@ import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.field.SpawnSquare;
+import model.moves.Move;
 import model.moves.Pay;
 import model.room.Update;
 
@@ -271,17 +273,6 @@ public class GameController{
         ShootController.get().playWeapon(player, input, groupID);
     }
 
-    public String preparePowerup(Player player, Powerup powerup, int groupID){
-        return ShootController.get().preparePowerup(player, powerup, groupID);
-    }
-
-    void playPowerup(int groupID, String input, Player player){
-        player.getUser().receiveUpdate(new Update("Using powerup...."));
-        //TODO IMPLEMENTATION SIMILAR TO WEAPONS
-        updatePhase(groupID);
-    }
-
-
     //---------------------------------RELOAD-----------------------------------------------//
     List<Weapon> getWeaponToReload(Player player) {
         return player.getWeapons()
@@ -321,37 +312,14 @@ public class GameController{
 
     //-------------------------------POWERUPS------------------------------------//
 
-    /**
-     * for every powerup the player owns
-     * if it is playable at the moment it is added in the return list
-     * @return list of powerups the player can play in that moment
-     */
-    public List<Powerup> getPowerupsToPlay(Player player) {
-        List<Powerup> powerupsToPlay = new ArrayList<>();
-        for(Powerup powerup: player.getPowerups()){
-            if(isPlayable(player, powerup))
-                powerupsToPlay.add(powerup);
-        }
-        return powerupsToPlay;
+    String preparePowerup(int groupID, String input, Player player){
+        return ShootController.get().preparePowerup(player, input, groupID);
     }
 
-    boolean isPlayable(Player player, Powerup powerup) {
-        switch (powerup.getName()){
-            case "teleporter": case "newton":
-                return true;
-            case "targeting scope":
-                for(CardEffect c: player.getCurrentCardEffects()){
-                    if(c.doesDamage())
-                        return true;
-                }
-                break;
-            case "tagback grenade":
-                if(player.getPlayerBoard().wasDamaged())
-                    return true;
-                break;
-            default:
-                break;
+    public void addMoves(Player player, Powerup powerupToPlay) {
+        for(Move m: powerupToPlay.getEffects()){
+            player.getCurrentMoves().add(m);
         }
-        return false;
     }
+
 }

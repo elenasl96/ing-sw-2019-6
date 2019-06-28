@@ -114,6 +114,6 @@ class GameControllerTest {
         Player player = users.get(0).getPlayer();
         Powerup powerup = new Powerup().initializePowerup(3);
                 player.getPowerups().add(powerup);
-        assertTrue(GameController.get().isPlayable(users.get(0).getPlayer(), powerup));
+        assertTrue(ShootController.get().isPlayable(users.get(0).getPlayer(), powerup));
     }
 }

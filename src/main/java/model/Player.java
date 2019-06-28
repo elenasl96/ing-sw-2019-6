@@ -12,7 +12,6 @@ import model.exception.InvalidMoveException;
 import model.field.Edge;
 import model.field.Field;
 import model.field.Square;
-import model.moves.Effect;
 import model.moves.Move;
 import model.moves.Target;
 import model.room.Update;
@@ -25,7 +24,6 @@ import java.util.List;
 
 import static java.lang.Math.min;
 import static model.enums.TargetType.BASIC_EQUALS;
-import static model.enums.TargetType.MINE;
 
 //TODO javadoc
 public class Player extends Target implements Serializable{

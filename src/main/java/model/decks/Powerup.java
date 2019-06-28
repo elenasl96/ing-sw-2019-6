@@ -25,7 +25,9 @@ public class Powerup implements Serializable {
     private int id;
     private String name;
     private Ammo ammo;
-    private List<Move> moves = new ArrayList<>();
+    private int cost;
+    private String effectsDescription;
+    private List<Effect> effects = new ArrayList<>();
 
     private static final String TARGETING_SCOPE = "targeting scope";
     private static final String NEWTON = "newton";
@@ -42,29 +44,32 @@ public class Powerup implements Serializable {
         this.ammo = ammo;
     }
 
-    public Powerup initializePowerup(int i){
+    public Powerup initializePowerup(int id){
         Powerup powerup;
-        switch (i){
+        switch (id){
             case 0: case 1: case 2:
                 powerup = new Powerup(id,TARGETING_SCOPE, initializeAmmo(id));
-                powerup.addMove(new Pay());
-                powerup.addMove(new DamageEffect(Stream.of(
+                powerup.setEffectsDescription("player");
+                powerup.setCost(1);
+                powerup.getEffects().add(new DamageEffect(Stream.of(
                         new Player(TARGETING_SCOPE_TARGET, NONE, null, null)),
                         0, false));
                 break;
             case 3: case 4: case 5:
                 powerup = new Powerup(id,NEWTON, initializeAmmo(id));
-                powerup.addMove(
+                powerup.setEffectsDescription("player:square");
+                powerup.getEffects().add(
                         new Movement(Stream.of(new Player(NONE, NONE, null, null)),
                                 new Square(CARDINAL, NONE, 1, 2), false));
                 break;
             case 6: case 7: case 8:
                 powerup = new Powerup(id,TAGBACK_GRENADE, initializeAmmo(id));
-                powerup.addMove(new MarkEffect(Stream.of(new Player()), 1, false));
+                powerup.setEffectsDescription("none");
+                powerup.getEffects().add(new MarkEffect(Stream.of(new Player()), 1, false));
                 break;
             case 9: case 10: case 11:
                 powerup = new Powerup(id,TELEPORTER, initializeAmmo(id));
-                powerup.addMove(
+                powerup.getEffects().add(
                         new Movement(Stream.of(new Player(TargetType.MINE, NONE, null, null)),
                                 new Square(ALL, NONE, null, null), false));
                 break;
@@ -89,8 +94,16 @@ public class Powerup implements Serializable {
         }
     }
 
-    void addMove(Move move){
-        this.moves.add(move);
+    public void setEffectsDescription(String effectsDescription) {
+        this.effectsDescription = effectsDescription;
+    }
+
+    public String getEffectsDescription() {
+        return effectsDescription;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     public void setAmmo(Ammo ammo) {
@@ -111,7 +124,7 @@ public class Powerup implements Serializable {
         return name;
     }
 
-    public List<Move> getMoves() {
-        return moves;
+    public List<Effect> getEffects() {
+        return effects;
     }
 }
