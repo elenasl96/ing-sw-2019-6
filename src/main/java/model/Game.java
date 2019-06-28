@@ -23,6 +23,7 @@ public class Game implements Serializable {
     private PlayerList players = new PlayerList();
     private Player currentPlayer;
     private transient List<ModelObserver> observers = new LinkedList<>();
+    private int skullsNumber;
     private transient boolean done;
     private transient boolean finalFrenzy;
 
@@ -47,6 +48,7 @@ public class Game implements Serializable {
      * @see model.room.Group
      */
     public void setGame(int skullNumber, int fieldNumber, List<User> users) {
+        this.skullsNumber = skullNumber;
         this.board = new Board(fieldNumber);
         Collections.sort(users);
         int cont = 0;
