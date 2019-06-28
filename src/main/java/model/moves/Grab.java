@@ -8,6 +8,8 @@ import model.room.Update;
 import network.commands.Response;
 import network.commands.response.AskInput;
 
+import static controller.GameController.cardsToString;
+
 /**
  * The move representing the grabbing of something on current player's square
  * either an ammo tile or a weapon
@@ -32,7 +34,8 @@ public class Grab implements Move{
             throw new NothingGrabbableException();
         }
         if(p.getCurrentPosition().getGrabbable().getGrabbableType().equals("weapon")) {
-            Update update = new Update("Insert the weapon you want to pick:" + ((WeaponTile) p.getCurrentPosition().getGrabbable()).toString(0), "choosecard");
+            Update update = new Update("Insert the weapon you want to pick:" +
+                    cardsToString(((WeaponTile) p.getCurrentPosition().getGrabbable()).getWeapons(), 0), "choosecard");
             update.setData(((WeaponTile) p.getCurrentPosition().getGrabbable()).getStringIdWeapons().toLowerCase().toLowerCase().replaceAll(" ", ""));
             p.receiveUpdate(update);
             return new AskInput("weapon choose");

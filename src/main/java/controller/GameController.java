@@ -41,6 +41,15 @@ public class GameController{
         return instance;
     }
 
+    public static String cardsToString(List cards, int index) {
+        StringBuilder cardsString = new StringBuilder();
+        for(Object c : cards){
+            cardsString.append("\nID: ").append(index).append("\n").append(c.toString());
+            index ++;
+        }
+        return cardsString.toString();
+    }
+
     boolean isMyTurn (Player player, int groupID){
         return player.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
     }

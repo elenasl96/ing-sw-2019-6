@@ -245,7 +245,7 @@ public class ServerController implements RequestHandler {
                             .receiveUpdate(new Update(null,"turnbar"));
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 } else {
-                    update = new Update("You can reload these weapons: " + weaponsToReload.toString(0),"choosecard");
+                    update = new Update("You can reload these weapons: " + cardsToString(weaponsToReload.getWeapons(),0),"choosecard");
                     update.setData(weaponsToReload.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
                     user.receiveUpdate(update);
                     update = new Update("\n You have these ammos: " +
@@ -265,8 +265,8 @@ public class ServerController implements RequestHandler {
                             .receiveUpdate(new Update(null,"turnbar")); //TODO check this (SCHERO) for GUI
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }else{
-                    update = new Update("You can play these powerups: " + powerupsToPlay.toString(),"choosecard");
-                   // update.setData(powerupsToPlay.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
+                    update = new Update("You can play these powerups:" + cardsToString(powerupsToPlay, 0),"choosecard");
+                    // update.setData(powerupsToPlay.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
                     user.receiveUpdate(update);
                     return new AskInput("choosePowerup");
                 }

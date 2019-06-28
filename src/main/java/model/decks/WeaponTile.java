@@ -97,14 +97,4 @@ public class WeaponTile implements Grabbable {
         GameContext.get().getGame(groupID).sendUpdate(new Update(
                 "Weapon replaced by "+ newWeapon.toString(), "updateconsole"));
     }
-
-
-    public String toString(int index) {
-        StringBuilder string = new StringBuilder();
-        for(Weapon w: weapons){
-            string.append("\nID: ").append(index).append(w);
-            index ++;
-        }
-        return string.toString();
-    }
 }
