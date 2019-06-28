@@ -11,10 +11,9 @@ import model.room.User;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO javadoc
 /**
  * SINGLETON
- * It is still a piece of the model that traces the instances available.
+ * It is a piece of the model that traces the instances available.
  * @see Group
  * @see User
  * @see InvalidUsernameException
@@ -24,20 +23,12 @@ import java.util.List;
  * @see TimerController
  */
 public class Manager {
-    /**
-     * As singleton practice says, a static instance of the Manager
-     */
+
     private static Manager instance;
-    /**
-     * The List of the created groups
-     */
     private List<Group> groups = new ArrayList<>();
-    /**
-     * The List of the created users
-     */
     private List<User> users = new ArrayList<>();
     /**
-     * A String describing the current groups situation to be displayed when a
+     * A String describing the current groups and users situation to be displayed when a
      * new user logs in
      */
     private String groupSituation;
@@ -74,6 +65,11 @@ public class Manager {
         throw new InvalidGroupNumberException("There's no group"+groupID);
     }
 
+    /**
+     * @param skullNumber   the skullNumber of the game
+     * @param fieldNumber   the field number of the game (1,2,3)
+     * @return  the created group
+     */
     public synchronized Group createGroup(int skullNumber, int fieldNumber) {
         Group group = new Group(skullNumber, fieldNumber);
         GameContext.get().getGames().add(new Game());
@@ -82,6 +78,11 @@ public class Manager {
         return group;
     }
 
+    /**
+     * @param name  the username
+     * @return the created user
+     * @throws InvalidUsernameException if the username already exists
+     */
     public synchronized User createUser(String name) throws InvalidUsernameException {
         User user = new User(name);
 
@@ -130,6 +131,12 @@ public class Manager {
         return users;
     }
 
+    /**
+     * Does a rapid check over the users to find the one with that username.
+     * Doesn't throw exception since it is used only server side in a way that makes it impossible to throw exception
+     * @param username  the username that was asked for
+     * @return  the user found
+     */
     public User getUser(String username) {
         for(User u : this.users){
             if(u.getUsername().equals(username)){
