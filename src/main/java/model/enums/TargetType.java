@@ -1,10 +1,11 @@
 package model.enums;
 
-
 import model.Player;
 
+/**
+ * The type of the targets for weapons and powerups
+ */
 public enum TargetType {
-    //TODO CONTROLLO JAVADOC
     /**
      * No particular type of target required
      */

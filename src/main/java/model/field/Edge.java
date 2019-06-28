@@ -2,7 +2,9 @@ package model.field;
 
 import java.io.Serializable;
 
-// TODO javadoc
+/**
+ * The esge of the field seen as a graph, between two squares
+ */
 public class Edge implements Serializable {
     private Square sq1;
     private Square sq2;
