@@ -25,29 +25,19 @@ import static model.field.Coordinate.fillCoordinate;
  */
 public class Movement extends Effect{
     private Coordinate coordinate;
-    /**
-     * The square where the player wants to move
-     */
     private Square destination;
-    /**
-     * The field of the current game
-     */
-    //TODO remove Field
-    private Field field;
     /**
      * The List of achievable Squares by the player
      */
     private List<Square> reachList = new ArrayList<>();
-    /**
-     * The maximum number of steps the player can do
-     */
+
     private int maxSteps;
     private int maxStepsFrenzy;
 
     public Movement (Stream<Target> target, Target destination, boolean optionality){
         super(target, optionality);
         this.destination = (Square) destination;
-        this.maxSteps = -1; //Default (by Marti)
+        this.maxSteps = -1; //Default
     }
 
     public Movement(int maxSteps){
@@ -55,7 +45,8 @@ public class Movement extends Effect{
     }
 
     /**
-     * Implement the movement
+     * Implements the movement. First checks if the coordinate is valid, then moves the player and
+     * sends update to every user in the game
      * @param p the player who wants to move
      * @throws InvalidMovementException if the destination is unreachable for the player
      */
@@ -75,11 +66,10 @@ public class Movement extends Effect{
         } if(squareDestination == null){
             throw new InvalidMovementException();
         } else {
-            this.setDestination(squareDestination);
-            this.setField(GameContext.get().getGame(groupID).getBoard().getField());
+            this.destination = squareDestination;
         }
         if(!this.reachList.isEmpty()) this.reachList.clear();
-        p.getCurrentPosition().createReachList(maxSteps, this.reachList, field);
+        p.getCurrentPosition().createReachList(maxSteps, this.reachList, GameContext.get().getGame(groupID).getBoard().getField());
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);
         }else {
@@ -92,43 +82,8 @@ public class Movement extends Effect{
         return null;
     }
 
-
-    /**
-     * The constructor
-     * @param field the current game field
-     */
-    public Movement(Field field){
-        this.field = field;
-    }
-
     public Movement(Coordinate coordinate){
         this.coordinate = coordinate;
-    }
-    /**
-     * Used getters and setters
-     */
-    Square getDestination() {
-        return destination;
-    }
-
-    public void setDestination(Square destination) {
-        this.destination = destination;
-    }
-
-    public Field getField() {
-        return field;
-    }
-
-    public void setField(Field field) {
-        this.field = field;
-    }
-
-    List<Square> getReachList() {
-        return reachList;
-    }
-
-    void setReachList(List<Square> reachList) {
-        this.reachList = reachList;
     }
 
     public Coordinate getCoordinate() {
@@ -139,20 +94,8 @@ public class Movement extends Effect{
         this.coordinate = coordinate;
     }
 
-    public int getMaxSteps() {
-        return maxSteps;
-    }
-
     void setMaxSteps(int maxSteps) {
         this.maxSteps = maxSteps;
-    }
-
-    public int getMaxStepsFrenzy() {
-        return maxStepsFrenzy;
-    }
-
-    public void setMaxStepsFrenzy(int maxStepsFrenzy) {
-        this.maxStepsFrenzy = maxStepsFrenzy;
     }
 
     @Override
@@ -171,6 +114,7 @@ public class Movement extends Effect{
         this.coordinate = this.destination.getCoord();
     }
 
+    //TODO X ELENINA non voglio toccare niente per non fare casino ma sarebbe carino togliere la cognitive complexity
     @Override
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
         if(this.destination.getCoord() == null) {
@@ -180,7 +124,7 @@ public class Movement extends Effect{
                }else if(!this.getOptionality()) {
                    throw new InvalidMoveException("Not enough fields");
                }
-           }else {
+           } else {
                index += super.setFieldsToFill(inputMatrix,index,groupID);
                if(inputMatrix[index]!=null) {
                    if(inputMatrix[index].equals("")){
@@ -200,12 +144,11 @@ public class Movement extends Effect{
        }
        if(this.maxSteps == -1) {
            if (this.destination.getMaxDistance() != null) {
-               this.maxSteps = this.getDestination().getMaxDistance();
+               this.maxSteps = this.destination.getMaxDistance();
            } else{
                this.maxSteps = 5;
            }
        }
-
         return index;
     }
 

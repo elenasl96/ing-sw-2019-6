@@ -18,10 +18,6 @@ public class Run implements Move {
         movement.setMaxSteps(maxSteps);
     }
 
-    public void setField(Field field){
-        this.movement.setField(field);
-    }
-
     public Movement getMovement() {
         return movement;
     }
