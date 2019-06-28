@@ -100,6 +100,7 @@ public class TimerController implements ModelObserver {
             int seconds = 120;
             @Override
             public void run() {
+                //TODO add GUI support
                 if (seconds == 5) {
                     GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "...", null));
                 } else if (seconds == 0){
