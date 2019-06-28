@@ -40,6 +40,9 @@ public class CardEffect {
         return cost;
     }
 
+    /**
+     * @return true if any of the effects of this card does Damage
+     */
     public boolean doesDamage() {
         for(Effect e: getEffects()){
             if(e.doesDamage())

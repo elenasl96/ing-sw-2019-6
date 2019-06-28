@@ -2,9 +2,7 @@ package model.room;
 
 import model.Game;
 import model.GameContext;
-import model.Player;
 import model.enums.Character;
-import model.enums.Phase;
 import network.Manager;
 import network.exceptions.UserNotInGroupException;
 import network.exceptions.FullGroupException;
@@ -14,7 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.*;
 
-//TODO javadoc
 /**
  * The group of users that are playing the game
  * Every user chooses a group straight after the username
@@ -93,6 +90,13 @@ public class Group implements Serializable {
         }
     }
 
+    /**
+     * Invoked when a user joins a group.
+     * Notices the observers
+     * @param user  the user joining
+     * @throws FullGroupException if there were already 5 components or the game has started already (full group)
+     * @see ModelObserver#onJoin(User)
+     */
     public void join(User user){
         if(this.size()==5){
             this.setFull();
@@ -105,12 +109,24 @@ public class Group implements Serializable {
             listener.onJoin(user);
     }
 
+    /**
+     * Invoked when a user leaves a group.
+     * Notices the observers
+     * @param user  the user joining
+     * @throws UserNotInGroupException if the user wasn't in the group
+     * @see ModelObserver#onLeave(User)
+     */
     public void leave(User user){
         checkUserInGroup(user);
         for(ModelObserver listener : listeners)
             listener.onLeave(user);
     }
 
+    /**
+     * Add a ModelObserver to the list of listeners
+     * Upon deserialization, observers are reset.
+     * @param listener the modelObserver of the user joining the group
+     */
     public void observe(ModelObserver listener) {
         listeners.add(listener);
     }
@@ -121,6 +137,9 @@ public class Group implements Serializable {
         }
     }
 
+    /**
+     * @return the number of users in the group
+     */
     public int size() {
         return users.size();
     }
@@ -171,8 +190,13 @@ public class Group implements Serializable {
         }
         return situation;
     }
+
     public int getGroupID(){return this.groupID;}
 
+    /**
+     * Creates a new Game: sets the group full, adds every listener to the games listeners,
+     * fills the square with grabbable content, triggers onStart in ModelObservers
+     */
     public void createGame() {
         this.setFull();
         //Makes every listener of this group an Observer of the game
@@ -190,6 +214,10 @@ public class Group implements Serializable {
         this.sendStartNotification();
     }
 
+    /**
+     * @param character checks if that character is already taken from another player
+     * @return  true if it's taken, false if it's free. Does not assign anything
+     */
     public Boolean characterIsTaken(Character character) {
         for(User u: users) {
             if(u.getCharacter() == character){
@@ -199,7 +227,12 @@ public class Group implements Serializable {
         return false;
     }
 
+    /**
+     * Triggers onStart in ModelObservers
+     * @see ModelObserver#onStart()
+     */
     public synchronized void sendStartNotification() {
+        //Removing the view CLI from listening if there's also the GUI
         if(listeners.size()==2){
             listeners.remove(0);
         }

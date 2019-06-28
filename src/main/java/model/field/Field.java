@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//TODO JavaDoc
+
 public class Field implements Serializable {
     private List<Edge> edges = new ArrayList<>();
     private List<Square> squares = new ArrayList<>();
+    /**
+     * Spawn Squares are also separated for practical issues
+     */
     private List<SpawnSquare> spawnSquares = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
 
@@ -31,6 +34,10 @@ public class Field implements Serializable {
         generateField(fieldNumber);
     }
 
+    /**
+     * Generates edges and Squares depending on the field number inserted, from 1 to 3
+     * @param fieldNumber   the number of the field requested
+     */
     public void generateField(int fieldNumber){
         switch (fieldNumber) {
             case(1):

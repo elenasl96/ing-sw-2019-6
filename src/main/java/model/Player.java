@@ -30,7 +30,6 @@ import static model.enums.TargetType.MINE;
 //TODO javadoc
 public class Player extends Target implements Serializable{
     private static final long serialVersionUID = 3763707889643123775L;
-    private int playerNumber;
     private User user;
     private String name;
     private Character character = Character.NOT_ASSIGNED;
@@ -126,24 +125,22 @@ public class Player extends Target implements Serializable{
     }
 
     public String getStringIdWeapons() {
-        StringBuilder stringbuilder = new StringBuilder("");
+        StringBuilder stringbuilder = new StringBuilder();
         for(Weapon w: weapons) {
             stringbuilder.append(w.getName()).append(";");
         }
 
-        if(stringbuilder.toString()!=null) return stringbuilder.toString()
+        return stringbuilder.toString()
                 .substring(0,stringbuilder.toString().length()-1);
-        return null;
     }
 
     public String getStringIdPowerUp() {
-        StringBuilder stringbuilder = new StringBuilder("");
+        StringBuilder stringbuilder = new StringBuilder();
         for(Powerup p : powerups) {
             stringbuilder.append(p.getName()).append(";");
         }
-        if(stringbuilder.toString()!=null) return stringbuilder.toString()
+        return stringbuilder.toString()
                 .substring(0,stringbuilder.toString().length()-1);
-        return null;
     }
 
     public PlayerBoard getPlayerBoard(){
@@ -152,14 +149,6 @@ public class Player extends Target implements Serializable{
 
     public Character getCharacter(){
         return this.character;
-    }
-
-    public void setPlayerNumber(int number){
-        this.playerNumber = number;
-    }
-
-    public int getPlayerNumber(){
-        return this.playerNumber;
     }
 
     @Override
@@ -307,18 +296,13 @@ public class Player extends Target implements Serializable{
         return false;
     }
 
-    public int getPoints() {
+    int getPoints() {
         return points;
     }
 
     @Override
     public int hashCode() {
         return super.hashCode();
-    }
-
-    //TODO this method is used only in tests: refactor to delete it!
-    public void setAmmos(List<Ammo> ammoList) {
-        this.ammos = ammoList;
     }
 
     public void addEffectsToPlay(String[] weaponEffectsSplitted) {
@@ -336,7 +320,7 @@ public class Player extends Target implements Serializable{
      * @param t the target the current Player wants to shoot to
      * @return true value if the player can see the target, false otherwise
      */
-    public boolean canSee(Target t, int groupID){
+    boolean canSee(Target t, int groupID){
         return t.canBeSeen(this, groupID);
     }
 

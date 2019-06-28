@@ -2,9 +2,14 @@ package model.field;
 
 import java.io.Serializable;
 
-//TODO javadoc
 public class Coordinate implements Serializable {
+    /**
+     * Column in letters, from A to D
+     */
     private char x;
+    /**
+     * Row in numbers from 0 to 2
+     */
     private int y;
 
     public Coordinate(){
@@ -43,19 +48,23 @@ public class Coordinate implements Serializable {
         return this.x+" "+this.y;
     }
 
+    /**
+     * @param input the coordinate in String format
+     * @return  the corresponding coordinate
+     */
     public static Coordinate fillCoordinate(String input) {
         Coordinate coordinate = new Coordinate();
         char letter;
         int number;
-        String[] inputSplitted = input.split(" ");
-        if(inputSplitted.length !=2 || inputSplitted[0].length()!=1 || inputSplitted[1].length()!=1){
+        String[] inputSplit = input.split(" ");
+        if(inputSplit.length !=2 || inputSplit[0].length()!=1 || inputSplit[1].length()!=1){
             throw new NumberFormatException();
         } else {
-            letter = inputSplitted[0].toUpperCase().charAt(0);
+            letter = inputSplit[0].toUpperCase().charAt(0);
             if (!java.lang.Character.isLetter(letter)) {
                 throw new NumberFormatException();
             }
-            number = Integer.parseInt(inputSplitted[1]);
+            number = Integer.parseInt(inputSplit[1]);
             coordinate.x = letter;
             coordinate.y = number;
         }

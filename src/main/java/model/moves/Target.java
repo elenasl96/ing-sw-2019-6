@@ -9,7 +9,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-//TODO javadoc
+/**
+ * The target can either be of a shooting or a powerup move,
+ * implemented by Room, Square and Player
+ */
 public abstract class Target implements Serializable {
     private TargetType targetType;
     private TargetType targetState;

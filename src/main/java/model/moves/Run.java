@@ -6,7 +6,9 @@ import model.field.Coordinate;
 import model.field.Field;
 import network.commands.Response;
 
-//TODO javadoc
+/**
+ * The RUN move, composed by max 3 or 4 steps
+ */
 public class Run implements Move {
     private Movement movement;
 
@@ -18,20 +20,20 @@ public class Run implements Move {
         movement.setMaxSteps(maxSteps);
     }
 
-    public void setField(Field field){
-        this.movement.setField(field);
-    }
-
     public Movement getMovement() {
         return movement;
     }
 
+    /**
+     * @see Movement#execute(Player, int)
+     */
     @Override
     public Response execute(Player p, int groupID) {
-        this.setMaxSteps(3);
         if(GameContext.get().getGame(groupID).isFinalFrenzy()
                 && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             this.setMaxSteps(4);
+        } else {
+            this.setMaxSteps(3);
         }
         this.movement.execute(p, groupID);
         return null;

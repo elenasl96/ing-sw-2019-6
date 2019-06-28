@@ -27,7 +27,7 @@ public class PlayerBoard implements Serializable {
      * @param pg player who is attacking
      * @param numDamage number of damages
      */
-    public int addDamage(Player pg, int numDamage) {
+    int addDamage(Player pg, int numDamage) {
         int damagesSuffered = 0;
         for(int i=0; i<min(numDamage, this.getNumDamageLeft()); i++){
             this.damage.add(pg);
@@ -36,7 +36,11 @@ public class PlayerBoard implements Serializable {
         return damagesSuffered;
     }
 
-    public int deleteMarks(Player playerMarking) {
+    /**
+     * @param playerMarking the player who marked
+     * @return  the number of marks that will be converted in damage
+     */
+    int deleteMarks(Player playerMarking) {
         List<Player> marksToDelete = new ArrayList<>();
         for(Player player : marks){
             if(player.equals(playerMarking))
@@ -47,7 +51,6 @@ public class PlayerBoard implements Serializable {
     }
 
     /**
-     *
      * @return number of endured damages
      */
     public int getNumDamageLeft(){
@@ -88,6 +91,9 @@ public class PlayerBoard implements Serializable {
         this.deaths++;
     }
 
+    /**
+     * @return true if the player was damaged in the last turn
+     */
     public boolean wasDamaged() {
         Player lastPlayerDamaging = damage.get(damage.size()-1);
         for(CardEffect c : lastPlayerDamaging.getCurrentCardEffects()) {

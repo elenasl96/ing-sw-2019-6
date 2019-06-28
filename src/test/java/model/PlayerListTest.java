@@ -19,30 +19,4 @@ class PlayerListTest {
 
         assertNotEquals(list, new PlayerList());
     }
-
-    @Test
-    void nextCurrentPlayerTest(){
-        Manager.get().reset();
-        GameContext.get().reset();
-        GameContext.get().createGame(0);
-        try {
-            Manager.get().createUser("user1");
-            Manager.get().createUser("user2");
-            Manager.get().createUser("user3");
-            Manager.get().createUser("user4");
-        } catch (InvalidUsernameException e) {
-            e.printStackTrace();
-        }
-        for(int i = 0; i<4; i++) {
-            Manager.get().getGroup(0).join(Manager.get().getUsers().get(i));
-        }
-        Manager.get().getGroup(0).createGame();
-        GameContext.get().getGame(0).getPlayers().nextCurrentPlayer(0);
-
-        GameContext.get().getGame(0).setCurrentPlayer(GameContext.get().getGame(0).getPlayers().nextCurrentPlayer(0));
-        GameContext.get().getGame(0).setCurrentPlayer(GameContext.get().getGame(0).getPlayers().nextCurrentPlayer(0));
-        GameContext.get().getGame(0).setCurrentPlayer(GameContext.get().getGame(0).getPlayers().nextCurrentPlayer(0));
-        GameContext.get().getGame(0).setCurrentPlayer(GameContext.get().getGame(0).getPlayers().nextCurrentPlayer(0));
-        GameContext.get().getGame(0).setCurrentPlayer(GameContext.get().getGame(0).getPlayers().nextCurrentPlayer(0));
-    }
 }

@@ -11,14 +11,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-//TODO javadoc
 public class User implements Serializable, Comparable<User> {
 
     private String username;
+    /**
+     * PATTERN OBSERVER
+     */
     private transient List<ModelObserver> updateObservers;
+
     private static int uniqueUserID = 0;
+
     private int userID;
+
     private Player player;
+
     private Character character = Character.NOT_ASSIGNED;
 
     public User(String username) {
@@ -46,10 +52,17 @@ public class User implements Serializable, Comparable<User> {
         return this.userID;
     }
 
+    /**
+     * @param observer adds the observer to this user's observers
+     */
     public void listenToMessages(ModelObserver observer) {
         updateObservers.add(observer);
     }
 
+    /**
+     * Synchronized to avoid the sending of concurrent updates in the wrong order
+     * @param update sends the update directly to this user
+     */
     public synchronized void receiveUpdate(Update update){
         //The user's observers are only his specific SocketClientHandler and ViewClient
         for (ModelObserver observer : updateObservers) {
@@ -80,7 +93,7 @@ public class User implements Serializable, Comparable<User> {
     @Override
     public int compareTo(@NotNull User u) {
         return Integer.compare(this.getUserID(), u.getUserID());
-    } //TODO testing
+    }
 
     public void setPlayer(Player player) {
         this.player = player;
