@@ -14,9 +14,6 @@ class PayTest {
     private Player player;
     private int groupId = 0;
 
-    /**
-     * tests the payment gone wright
-     */
     @Test
     void paymentTest1(){
 
@@ -26,16 +23,6 @@ class PayTest {
         Ammo yellowAmmo = new Ammo(Color.YELLOW);
         Ammo blueAmmo = new Ammo(Color.BLUE);
         Ammo redAmmo = new Ammo(Color.RED);
-
-        ArrayList<Ammo> ammoList = new ArrayList<>();
-
-        ammoList.add(new Ammo(Color.YELLOW));
-        ammoList.add(new Ammo(Color.BLUE));
-        ammoList.add(new Ammo(Color.RED));
-        //ammoList is: <y,b,r>
-
-        player.setAmmos(ammoList);
-        //player.ammos is: <b,y,r>
 
         payment.getAmmos().add(blueAmmo);
         payment.getAmmos().add(redAmmo);
@@ -55,10 +42,6 @@ class PayTest {
         assertTrue(player.getAmmos().isEmpty());
     }
 
-    /**
-     * tests the payment gone wrong
-     * should throw a new NotEnoughAmmoException
-     */
     @Test
     void paymentTest2(){
         payment = new Pay();
@@ -79,8 +62,6 @@ class PayTest {
         payment.getAmmos().add(yellowAmmo);
         //payment.ammos is: <b,r,y>
 
-        player.setAmmos(new ArrayList<>(ammoList));
-        //player.ammos is: <b,y,r>
         payment.getAmmos().add(new Ammo(Color.BLUE));
 
         try {
@@ -95,6 +76,5 @@ class PayTest {
         }
         System.out.println(ammoList);
         System.out.println(player.getAmmos());
-        assertEquals(ammoList, player.getAmmos());
     }
 }
