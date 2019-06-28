@@ -175,6 +175,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             case RELOAD:
+                choosePowerupEnd(view.choosePowerup());
                 chooseReload(view.reloadPhase());
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
@@ -182,6 +183,21 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 break;
         }
     }
+
+    private void chooseReload(Boolean reload)  throws RemoteException{
+        if(reload)
+            client.request(new CardRequest("weaponToReload"));
+        else
+            client.request(new CardRequest("noCard"));
+    }
+
+    private void choosePowerupEnd(Boolean choosePowerup) throws RemoteException{
+        if(choosePowerup)
+            client.request(new CardRequest("powerupToPlay"));
+        else
+            client.request(new CardRequest("noCard"));
+    }
+
     // -------------------------- Response handling
 
     @Override
@@ -244,16 +260,16 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                     //nothing
                 }
                 break;
+            case "choosePowerup":
+                try{
+                    client.request(new SendInput(view.cardChoose(), "powerupToPlay"));
+                }catch (RemoteException e){
+                    //nothing
+                }
+                break;
             default:
                 break;
         }
-    }
-
-    private void chooseReload(Boolean reload)  throws RemoteException{
-        if(reload)
-            client.request(new CardRequest("weaponToReload"));
-        else
-            client.request(new CardRequest("noCard"));
     }
 
     @Override

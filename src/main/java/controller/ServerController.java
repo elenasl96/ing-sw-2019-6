@@ -1,5 +1,6 @@
 package controller;
 
+import model.decks.Powerup;
 import model.decks.Weapon;
 import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
@@ -256,8 +257,18 @@ public class ServerController implements RequestHandler {
                 }
             break;
             case "powerupToPlay":
-                String input=""; //TODO ??
-                GameController.get().playPowerup(currentGroup.getGroupID(), input, user.getPlayer());
+                List<Powerup> powerupsToPlay = GameController.get().getPowerupsToPlay();
+                if(powerupsToPlay.isEmpty()){
+                    user.receiveUpdate(new Update("You haven't powerups to play now",UPDATE_CONSOLE));
+                    GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
+                            .receiveUpdate(new Update(null,"turnbar")); //TODO check this (SCHERO) for GUI
+                    GameController.get().updatePhase(currentGroup.getGroupID());
+                }else{
+                    update = new Update("You can play these powerups: " + powerupsToPlay.toString(),"choosecard");
+                   // update.setData(powerupsToPlay.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
+                    user.receiveUpdate(update);
+                    return new AskInput("choosePowerup");
+                }
             break;
             default:
                 break;
@@ -267,7 +278,7 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SendInput inputResponse) {
-        Player p = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer();
+        Player p = user.getPlayer();
         switch(inputResponse.getInputType()){
             case "weapon chosen":
                 try {
@@ -277,15 +288,15 @@ public class ServerController implements RequestHandler {
                 }catch (IndexOutOfBoundsException e){
                     user.receiveUpdate(new Update("Weapon index out of bounds",UPDATE_CONSOLE));
                     p.setPhaseNotDone(true);
-                    p.getUser().receiveUpdate(new Update(p,true));
+                    user.receiveUpdate(new Update(p,true));
                 }catch(NumberFormatException e){
-                    p.getUser().receiveUpdate(new Update("Not a number",UPDATE_CONSOLE));
+                    user.receiveUpdate(new Update("Not a number",UPDATE_CONSOLE));
                     p.setPhaseNotDone(true);
-                    p.getUser().receiveUpdate(new Update(p,true));
+                    user.receiveUpdate(new Update(p,true));
                 }catch(NotEnoughAmmoException e){
-                    p.getUser().receiveUpdate(new Update("Not enough ammos!",UPDATE_CONSOLE));
+                    user.receiveUpdate(new Update("Not enough ammos!",UPDATE_CONSOLE));
                     p.setPhaseNotDone(true);
-                    p.getUser().receiveUpdate(new Update(p,true));
+                    user.receiveUpdate(new Update(p,true));
                 }
                 break;
             case "weaponGrabbed":
@@ -298,7 +309,7 @@ public class ServerController implements RequestHandler {
                 }catch (NumberFormatException e){
                     user.receiveUpdate(new Update("Not a number",UPDATE_CONSOLE));
                     p.setPhaseNotDone(true);
-                    p.getUser().receiveUpdate(new Update(p,true));
+                    user.receiveUpdate(new Update(p,true));
 
                 }
                 currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
@@ -319,6 +330,19 @@ public class ServerController implements RequestHandler {
                     p.getUser().receiveUpdate(new Update(p,true));
                 }
                 p.setPhaseNotDone(false);
+                break;
+            case "powerupToPlay":
+                try{
+                    GameController.get().playPowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer());
+                }catch (IndexOutOfBoundsException e){
+                    user.receiveUpdate(new Update("Powerup index out of bounds",UPDATE_CONSOLE));
+                    p.setPhaseNotDone(true);
+                    user.receiveUpdate(new Update(p,true));
+                }catch (InvalidMoveException e){
+                    user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
+                    p.setPhaseNotDone(true);
+                    user.receiveUpdate(new Update(p,true));
+                }
                 break;
             default:
                 break;

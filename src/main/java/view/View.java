@@ -39,4 +39,6 @@ public interface View extends ModelObserver {
     void playMusic(String s);
 
     String cardChoose();
+
+    Boolean choosePowerup();
 }

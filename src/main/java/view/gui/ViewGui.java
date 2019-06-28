@@ -203,4 +203,10 @@ public class ViewGui implements View {
     public String cardChoose() {
         return gui.cardChoose();
     }
+
+    @Override
+    public Boolean choosePowerup() {
+        //TODO (SCHERO) choose powerup like reload at the end of turn
+        return null;
+    }
 }

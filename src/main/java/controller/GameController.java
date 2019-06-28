@@ -298,4 +298,9 @@ public class GameController{
         }
         weapon.setStatus(WeaponStatus.LOADED);
     }
+
+    public List<Powerup> getPowerupsToPlay() {
+        //TODO
+        return null;
+    }
 }

@@ -52,6 +52,16 @@ public class ViewClient implements View {
         return userInput();
     }
 
+    @Override
+    public Boolean choosePowerup() {
+        String input;
+        do {
+            displayText("Do you want to use any powerups?");
+            input = userInput();
+        }while(!input.equals("yes") && !input.equals("no"));
+        return (input.equals("yes"));
+    }
+
     public void run() {
         try {
             controller.run();
