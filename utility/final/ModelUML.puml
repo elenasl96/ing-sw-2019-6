@@ -234,20 +234,52 @@ package model{
     }
 
     class Ammo{
-
+        - color: Color
+        __
+        + cloneAmmo(): Ammo
     }
 
     class Board{
-
+        - field: Field
+        - killshotTrack: List<Player>
+        - weaponsLeft: WeaponDeck
+        - ammosLeft: AmmoDeck
+        - powerupsLeft: PowerupDeck
+        __
+        +addKillshot(Player): void
     }
+
+    Board <-- Player
+    Board <-- WeaponDeck
+    Board <-- AmmoDeck
+    Board <-- PowerupDeck
 
     class Game{
-
+        - numberPlayers: int
+        - board: Board
+        - players: PlayerList
+        - currentPlayer: Player
+        - observers: List<ModelObserver>
+        - skullsNumber: int
+        - done: boolean
+        - finalFrenzy: boolean
+        __
+        + setGame(int, int, List<User>): void
+        + sendUpdate(Update): void
     }
+
+    Game <-- ModelObserver
+    Game <-- Player
+    Game <-- PlayerList
 
     class GameContext  << (S,#FF7700) Singleton >> {
-
+        - {static} instance: GameContext
+        - games: List<Game>
+        + {static} get(): GameContext
+        + reset(): void
     }
+
+    GameContext <-- Game
 
     class Player {
 
