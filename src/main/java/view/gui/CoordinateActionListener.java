@@ -11,7 +11,6 @@ public class CoordinateActionListener implements MouseListener {
 
     public CoordinateActionListener(Object lock) {
         this.lock = lock;
-        s = new String("");
     }
 
     public String getS() {

@@ -18,9 +18,6 @@ import java.util.List;
  * @see model.room.Group
  */
 public class Game implements Serializable {
-    /**
-     *
-     */
     private int numberPlayers;
     private Board board;
     private PlayerList players = new PlayerList();

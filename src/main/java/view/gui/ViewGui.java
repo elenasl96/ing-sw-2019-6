@@ -18,7 +18,7 @@ public class ViewGui implements View {
     private ClientController controller;
 
     public ViewGui(){
-        gui = new MainFrame(null);
+        gui = new MainFrame();
         gui.initGUI();
         viewCli = new ViewClient();
     }
@@ -102,11 +102,10 @@ public class ViewGui implements View {
                 case "turnbar":
                     gui.setBackGroundTurn(false);
                     break;
-                case "layouteffect": {
+                case "layouteffect":
                     data = update.getData().split(";");
                     gui.chooseEffectPopUp(data[0], Integer.parseInt(data[1]));
                     break;
-                }
                 case "damages":
                     data = update.getData().split(";");
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
@@ -117,8 +116,8 @@ public class ViewGui implements View {
                     data = update.getData().split(";");
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
                         gui.addMarkerPlayerBoard(Integer.parseInt(data[1]));
-                    break;
-                }
+                    } break;
+
                 default:
                     break;
             }

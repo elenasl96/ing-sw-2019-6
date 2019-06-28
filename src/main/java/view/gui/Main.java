@@ -17,14 +17,14 @@ public class Main {
 
     public Main(ClientController clientController) {
         this.controller = clientController;
-        gui = new MainFrame(null);
+        gui = new MainFrame();
         gui.initGUI();
     }
 
 
     public Main() {
 
-        gui = new MainFrame(null);
+        gui = new MainFrame();
 
         gui.initGUI();
         gui.setVisible(true);
