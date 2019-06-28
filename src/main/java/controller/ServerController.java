@@ -366,9 +366,6 @@ public class ServerController implements RequestHandler {
         } catch (InvalidMoveException e) {
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.getPlayer().setPhaseNotDone(false);
-            /* TODO con l'update phase ad ogni errore nella mossa viene saltata. Va bene?
-            oppure si dovrebbero distiguere i tipi di errori?
-             */
             GameController.get().updatePhase(currentGroup.getGroupID());
             user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
         } catch (NullPointerException e){
