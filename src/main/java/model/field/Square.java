@@ -197,7 +197,7 @@ public class Square extends Target implements Serializable {
             try{
                 ShootController.get().checkMinDistance(target.getMinDistance(), s, groupID);
                 ShootController.get().checkMaxDistance(target.getMaxDistance(), s, groupID);
-                targets.add(s);
+                    targets.add(s);
             }catch(InvalidMoveException e){
                 //next square
             }

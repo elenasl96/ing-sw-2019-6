@@ -1,9 +1,7 @@
 package controller;
 
-import model.decks.CardEffect;
 import model.decks.PowerupDeck;
 import model.enums.*;
-import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.GameContext;
@@ -11,16 +9,12 @@ import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.field.SpawnSquare;
-import model.field.Square;
-import model.moves.Effect;
 import model.moves.Pay;
-import model.moves.Target;
 import model.room.Update;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static model.enums.EffectType.*;
 import static model.enums.Phase.*;
 //TODO Javadoc
 
@@ -64,11 +58,11 @@ public class GameController{
                 case FIRST:
                 case SECOND:
                     return firstSecondMoves(player, content, groupID);
-                case RELOAD:
+               /* case RELOAD:
                     content.append("You can reload:\n").append(player.getWeapons());
                     update = new Update(content.toString(), "choosecard");
                     update.setData(player.getStringIdWeapons().toLowerCase().replaceAll(" ", ""));
-                    return update;
+                    return update;*/
                 default:
                     break;
             }
@@ -101,13 +95,13 @@ public class GameController{
             }
         } else {
             if(player.isFirstPlayer()){
-                content.append("shoot (move up to 2 squares, reload, shoot)\n" +
-                        "grab (move up to 3 squares, grab)");
+                content.append("||shoot || (move up to 2 squares, reload, shoot)\n" +
+                        "||grab|| (move up to 3 squares, grab)");
                 forGui.append(GRAB+";").append("SHOOT;");
             } else {
-                content.append("shoot (move up to 1 squares, reload, shoot)\n" +
-                        "run (move up to 4 squares)\n" +
-                        "grab (move up to 2 squares, grab)");
+                content.append("||shoot|| (move up to 1 squares, reload, shoot)\n" +
+                        "||run|| (move up to 4 squares)\n" +
+                        "||grab|| (move up to 2 squares, grab)");
                 forGui.append("RUN;").append(GRAB+";").append("SHOOT;");
             }
         }
@@ -277,7 +271,8 @@ public class GameController{
     //---------------------------------RELOAD-----------------------------------------------//
     List<Weapon> getWeaponToReload(Player player) {
         return player.getWeapons()
-                .stream().filter(w -> !w.getStatus().equals(WeaponStatus.LOADED))
+                .stream()
+                .filter(w -> !w.getStatus().equals(WeaponStatus.LOADED))
                 .collect(Collectors.toList());
     }
 

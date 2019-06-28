@@ -188,7 +188,11 @@ public class Movement extends Effect{
                            throw new InvalidMoveException("Not enough fields");
                    }
                    else
-                       this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
+                       try {
+                           this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
+                       }catch(NumberFormatException e){
+                           throw new InvalidMoveException("Not valid square");
+                       }
                    index++;
                }
 

@@ -546,7 +546,7 @@ public class Weapon implements Serializable {
                         .add(new Movement(Stream.of(targetBasic), destination, true));
 
                 //Alternative Effect
-                targetAlternative = new Square(ALL, NONE, 1, 1);
+                targetAlternative = new Player(NONE, NONE, 1, 1);
                 weapon.getEffectsList()
                         .add(new CardEffect(ALTERNATIVE, null));
                 weapon.getEffectsList().get(1).getEffects()
@@ -586,21 +586,19 @@ public class Weapon implements Serializable {
 
                 //Alternative Effect
                 targetAlternative = new Player(CARDINAL, NONE, 1,1);
-                destination = new Square(LATEST_SQUARE, NONE, null, null);
+                destination = new Square(CARDINAL, NONE, 1, 1);
                 targetAlternative2 = new Player(CARDINAL, NONE, 2, 2);
-                destination2 = new Square(LATEST_SQUARE, NONE, null,null);
+                destination2 = new Square(CARDINAL, NONE, 2,2);
                 weapon.getEffectsList()
                         .add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.BLUE))));
                 weapon.getEffectsList().get(1).getEffects()
-                        .add(new DamageEffect(Stream.of(targetAlternative), 2, true));
-                weapon.getEffectsList().get(1).getEffects()
-                        .add(new MarkEffect(Stream.of(targetAlternative), 1, true));
-                weapon.getEffectsList().get(1).getEffects()
                         .add(new Movement(Stream.of(me), destination, false));
                 weapon.getEffectsList().get(1).getEffects()
-                        .add(new DamageEffect(Stream.of(targetAlternative2), 2, true));
+                        .add(new DamageEffect(Stream.of(targetAlternative), 2, false));
                 weapon.getEffectsList().get(1).getEffects()
-                        .add(new Movement(Stream.of(me), destination2, true));
+                        .add(new Movement(Stream.of(me), destination2, false));
+                weapon.getEffectsList().get(1).getEffects()
+                        .add(new DamageEffect(Stream.of(targetAlternative2), 2, false));
                break;
 
             case 17:
@@ -693,7 +691,7 @@ public class Weapon implements Serializable {
                 weapon.getEffectsList().get(1).getEffects()
                         .add(new Movement(Stream.of(me),destination, false));
                 //Optional Effect 2
-                targetOptional = new Player(BASIC_DIFFERENT, NONE, 0,0);
+                targetOptional = new Player(BASIC_DIFFERENT, NONE, null,0);
                 weapon.getEffectsList()
                         .add(new CardEffect(OPTIONAL, Stream.of(new Ammo(Color.YELLOW))));
                 weapon.getEffectsList().get(2).getEffects()
@@ -703,7 +701,7 @@ public class Weapon implements Serializable {
             case 20:
                 //SLEDGEHAMMER
                 weapon = new Weapon(
-                        id,"SHOCKWAVE",
+                        id,"SLEDGEHAMMER",
                         "basic mode: Choose up to 3 targets on\n" +
                                 "different squares, each exactly 1 move away.\n" +
                                 "Deal 1 damage to each target.\n" +
@@ -718,7 +716,7 @@ public class Weapon implements Serializable {
 
                 //Alternative Effect
                 targetAlternative = new Player(NONE, NONE, null, 0);
-                destination = new Square(CARDINAL, NONE, 0, 2);
+                destination = new Square(CARDINAL, NONE, null, 2);
                 weapon.getEffectsList()
                         .add(new CardEffect(ALTERNATIVE, Stream.of(new Ammo(Color.RED))));
                 weapon.getEffectsList().get(1).getEffects()

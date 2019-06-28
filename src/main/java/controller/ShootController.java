@@ -89,6 +89,7 @@ public class ShootController {
                     Arrays.equals(sequence, new EffectType[]{BEFORE_AFTER_BASIC, BASIC, OPTIONAL}) ||
                     Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC, OPTIONAL}) ||
                     Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC, OPTIONAL}) ||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC, BEFORE_AFTER_BASIC}) ||
                     Arrays.equals(sequence, new EffectType[]{OPTIONAL, BEFORE_BASIC, BASIC});
         } else return false;
     }

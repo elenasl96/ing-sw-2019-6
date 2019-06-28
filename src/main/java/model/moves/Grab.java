@@ -1,5 +1,6 @@
 package model.moves;
 
+import model.decks.Weapon;
 import model.decks.WeaponTile;
 import model.exception.NothingGrabbableException;
 import model.Player;
@@ -31,12 +32,11 @@ public class Grab implements Move{
             throw new NothingGrabbableException();
         }
         if(p.getCurrentPosition().getGrabbable().getGrabbableType().equals("weapon")) {
-            Update update = new Update("Insert the weapon you want to pick:" + p.getCurrentPosition().getGrabbable().toString(), "choosecard");
+            Update update = new Update("Insert the weapon you want to pick:" + ((WeaponTile) p.getCurrentPosition().getGrabbable()).toString(0), "choosecard");
             update.setData(((WeaponTile) p.getCurrentPosition().getGrabbable()).getStringIdWeapons().toLowerCase().toLowerCase().replaceAll(" ", ""));
             p.receiveUpdate(update);
             return new AskInput("weapon choose");
         }else{
-            System.out.println();
             p.getCurrentPosition().getGrabbable().pickGrabbable(groupID, 0);
             //Remove ammoTile from Field
             p.getCurrentPosition().replaceAmmoTile(groupID);

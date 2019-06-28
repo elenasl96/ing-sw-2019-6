@@ -7,13 +7,13 @@ import model.enums.TargetType;
 import model.field.Square;
 import model.moves.*;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static model.enums.TargetType.ALL;
-import static model.enums.TargetType.NONE;
+import static model.enums.TargetType.*;
 
 //TODO javadoc
 public class PowerupDeck {
@@ -29,23 +29,30 @@ public class PowerupDeck {
         for (int i = 0; i == 0 || i == 12; i = i + 12) {
             this.powerups.add(new Powerup(TARGETING_SCOPE + Color.YELLOW.getAbbr(), new Ammo(Color.YELLOW)));
             this.powerups.get(i).addMove(new Pay());
-            this.powerups.get(i).addMove(new DamageEffect(Stream.of(new Player()), 0, false));
+            this.powerups.get(i).addMove(new DamageEffect(Stream.of(new Player(TARGETING_SCOPE_TARGET, NONE, null, null)), 0, false));
 
             this.powerups.add(new Powerup(TARGETING_SCOPE + Color.BLUE.getAbbr(), new Ammo(Color.BLUE)));
             this.powerups.get(1 + i).addMove(new Pay());
-            this.powerups.get(1 + i).addMove(new DamageEffect(Stream.of(new Player()), 0, false));
+            this.powerups.get(1 + i).addMove(new DamageEffect(Stream.of(new Player(TARGETING_SCOPE_TARGET, NONE, null, null)), 0, false));
 
             this.powerups.add(new Powerup(TARGETING_SCOPE + Color.RED.getAbbr(), new Ammo(Color.RED)));
             this.powerups.get(2 + i).addMove(new Pay());
-            this.powerups.get(2 + i).addMove(new DamageEffect(Stream.of(new Player()), 0, false));
-            //TODO last powerup Elenina abbi pietà di me non ci capisco una sega
+            this.powerups.get(2 + i).addMove(new DamageEffect(Stream.of(new Player(TARGETING_SCOPE_TARGET, NONE, null, null)), 0, false));
+
             this.powerups.add(new Powerup(NEWTON + Color.YELLOW.getAbbr(), new Ammo(Color.YELLOW)));
-            //this.powerups.get(3 + i).addMove(new Movement());
+            this.powerups.get(3+i).addMove(
+                    new Movement(Stream.of(new Player(NONE, NONE, null, null)),
+                            new Square(CARDINAL, NONE, 1, 2), false));
+
             this.powerups.add(new Powerup(NEWTON + Color.BLUE.getAbbr(), new Ammo(Color.BLUE)));
-            //this.powerups.get(4 + i).addMove();
+            this.powerups.get(4+i).addMove(
+                    new Movement(Stream.of(new Player(NONE, NONE, null, null)),
+                            new Square(CARDINAL, NONE, 1, 2), false));
 
             this.powerups.add(new Powerup(NEWTON + Color.RED.getAbbr(), new Ammo(Color.RED)));
-            //this.powerups.get(5 + i).addMove();
+            this.powerups.get(5+i).addMove(
+                    new Movement(Stream.of(new Player(NONE, NONE, null, null)),
+                            new Square(CARDINAL, NONE, 1, 2), false));
 
             this.powerups.add(new Powerup(TAGBACK_GRENADE + Color.YELLOW.getAbbr(), new Ammo(Color.YELLOW)));
             this.powerups.get(6 + i).addMove(new MarkEffect(Stream.of(new Player()), 1, false));

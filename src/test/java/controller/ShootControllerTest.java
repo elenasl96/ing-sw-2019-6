@@ -1,6 +1,5 @@
 package controller;
 
-import model.Game;
 import model.GameContext;
 import model.Player;
 import model.decks.Weapon;
@@ -8,7 +7,6 @@ import model.enums.WeaponStatus;
 import model.exception.InvalidMoveException;
 import model.field.Field;
 import model.field.Square;
-import model.moves.Target;
 import model.room.Group;
 import model.room.User;
 import network.Manager;
@@ -81,7 +79,6 @@ class ShootControllerTest {
     void lockRifleTestWithDuplicateInput(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
-        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
             p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
         }
@@ -135,7 +132,6 @@ class ShootControllerTest {
     void machineGunTestWithHalfBasic(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
-        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
             p.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSpawnSquares().get(0));
         }
@@ -473,7 +469,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void grenadeLauncherTest(){
+    void grenadeLauncherWithEmptyInputInMiddleTest(){
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -519,12 +515,12 @@ class ShootControllerTest {
         Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
         p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
         p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
-        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
+        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
         p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
         p1.getWeapons().add(new Weapon().initializeWeapon(13));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "3 2 0 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -533,7 +529,7 @@ class ShootControllerTest {
         }
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
-        String weaponChosen = "user2";
+        String weaponChosen = "user2;;C 1";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
@@ -542,9 +538,10 @@ class ShootControllerTest {
                 p4.getCurrentPosition().toString()
         );
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
-        assertEquals(2, p2.getPlayerBoard().getDamage().size());
-        assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("C 2", p2.getCurrentPosition().toString());
+        assertEquals(4, p2.getPlayerBoard().getDamage().size());
+        assertEquals(1, p3.getPlayerBoard().getDamage().size());
+        assertEquals(0, p4.getPlayerBoard().getDamage().size());
+        assertEquals("C 1", p1.getCurrentPosition().toString());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
 
@@ -557,11 +554,11 @@ class ShootControllerTest {
         p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
         p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
         p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
-        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
+        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(10));
         p1.getWeapons().add(new Weapon().initializeWeapon(14));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "3 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -570,7 +567,7 @@ class ShootControllerTest {
         }
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
-        String weaponChosen = "user2";
+        String weaponChosen = "user2;user3";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
@@ -579,8 +576,12 @@ class ShootControllerTest {
                 p4.getCurrentPosition().toString()
         );
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
-        assertEquals(1, p2.getPlayerBoard().getDamage().size());
-        assertEquals(2, p2.getPlayerBoard().getMarks().size());
+        assertEquals(0, p2.getPlayerBoard().getDamage().size());
+        assertEquals(1, p2.getPlayerBoard().getMarks().size());
+        assertEquals(0, p3.getPlayerBoard().getDamage().size());
+        assertEquals(1, p3.getPlayerBoard().getMarks().size());
+        assertEquals(0, p4.getPlayerBoard().getDamage().size());
+        assertEquals(0, p4.getPlayerBoard().getMarks().size());
         assertEquals("C 2", p2.getCurrentPosition().toString());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
@@ -592,14 +593,13 @@ class ShootControllerTest {
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
         Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
         p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
-        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
+        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(1));
+        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(3));
+        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(7));
         p1.getWeapons().add(new Weapon().initializeWeapon(15));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
-        assertEquals(0, p4.getPlayerBoard().getMarks().size());
+        String weaponsEffect = "3 1";
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
@@ -607,157 +607,7 @@ class ShootControllerTest {
         }
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
-        String weaponChosen = "user2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
-        System.out.println("Positions: " +
-                p1.getCurrentPosition().toString() +
-                p2.getCurrentPosition().toString() +
-                p3.getCurrentPosition().toString() +
-                p4.getCurrentPosition().toString()
-        );
-        assertEquals(0, p1.getPlayerBoard().getDamage().size());
-        assertEquals(3, p2.getPlayerBoard().getDamage().size());
-        assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("C 3", p2.getCurrentPosition().toString());
-        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
-    }
-
-
-    @Test
-    void powerGloveTest(){
-        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
-        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
-        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
-        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
-        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(3));
-        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
-        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
-        p1.getWeapons().add(new Weapon().initializeWeapon(16));
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
-        assertEquals(0, p4.getPlayerBoard().getMarks().size());
-        try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }
-        System.out.println("marks4: " +
-                p4.getPlayerBoard().getMarks().size());
-        String weaponChosen = "user2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
-        System.out.println("Positions: " +
-                p1.getCurrentPosition().toString() +
-                p2.getCurrentPosition().toString() +
-                p3.getCurrentPosition().toString() +
-                p4.getCurrentPosition().toString()
-        );
-        assertEquals(0, p1.getPlayerBoard().getDamage().size());
-        assertEquals(1, p2.getPlayerBoard().getDamage().size());
-        assertEquals(2, p2.getPlayerBoard().getMarks().size());
-        assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("D 3", p2.getCurrentPosition().toString());
-        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
-    }
-
-    @Test
-    void railgunTest(){
-        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
-        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
-        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
-        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
-        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(3));
-        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
-        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
-        p1.getWeapons().add(new Weapon().initializeWeapon(17));
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
-        assertEquals(0, p4.getPlayerBoard().getMarks().size());
-        try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }
-        System.out.println("marks4: " +
-                p4.getPlayerBoard().getMarks().size());
-        String weaponChosen = "user2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
-        System.out.println("Positions: " +
-                p1.getCurrentPosition().toString() +
-                p2.getCurrentPosition().toString() +
-                p3.getCurrentPosition().toString() +
-                p4.getCurrentPosition().toString()
-        );
-        assertEquals(0, p1.getPlayerBoard().getDamage().size());
-        assertEquals(3, p2.getPlayerBoard().getDamage().size());
-        assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("D 3", p2.getCurrentPosition().toString());
-        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
-    }
-
-    @Test
-    void shockWave(){
-        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
-        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
-        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
-        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
-        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(3));
-        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
-        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
-        p1.getWeapons().add(new Weapon().initializeWeapon(18));
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
-        assertEquals(0, p4.getPlayerBoard().getMarks().size());
-        try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }
-        System.out.println("marks4: " +
-                p4.getPlayerBoard().getMarks().size());
-        String weaponChosen = "user2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
-        System.out.println("Positions: " +
-                p1.getCurrentPosition().toString() +
-                p2.getCurrentPosition().toString() +
-                p3.getCurrentPosition().toString() +
-                p4.getCurrentPosition().toString()
-        );
-        assertEquals(0, p1.getPlayerBoard().getDamage().size());
-        assertEquals(1, p2.getPlayerBoard().getDamage().size());
-        assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("D 3", p2.getCurrentPosition().toString());
-        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
-    }
-
-    @Test
-    void cyberBladeTest(){
-        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
-        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
-        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
-        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
-        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
-        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
-        p1.getWeapons().add(new Weapon().initializeWeapon(19));
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
-        assertEquals(0, p4.getPlayerBoard().getMarks().size());
-        try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }
-        System.out.println("marks4: " +
-                p4.getPlayerBoard().getMarks().size());
-        String weaponChosen = "user2";
+        String weaponChosen = "user2;user3;user4";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
@@ -768,6 +618,149 @@ class ShootControllerTest {
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(2, p2.getPlayerBoard().getDamage().size());
         assertEquals(0, p3.getPlayerBoard().getDamage().size());
+        assertEquals(0, p4.getPlayerBoard().getDamage().size());
+        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
+    }
+
+    @Test
+    void powerGloveTest(){
+        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
+        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
+        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
+        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
+        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
+        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
+        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
+        p1.getWeapons().add(new Weapon().initializeWeapon(16));
+        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(p1.getWeapons().get(0));
+        String weaponsEffect = "3 1";
+        assertEquals(0, p4.getPlayerBoard().getMarks().size());
+        try {
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+        }catch(IndexOutOfBoundsException | InvalidMoveException e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println("marks4: " +
+                p4.getPlayerBoard().getMarks().size());
+        String weaponChosen = "c 2;user2;c 3;user3";
+        GameController.get().playWeapon(p1, weaponChosen, 0);
+        System.out.println("Positions: " +
+                p1.getCurrentPosition().toString() +
+                p2.getCurrentPosition().toString() +
+                p3.getCurrentPosition().toString() +
+                p4.getCurrentPosition().toString()
+        );
+        assertEquals(0, p1.getPlayerBoard().getDamage().size());
+        assertEquals(2, p2.getPlayerBoard().getDamage().size());
+        assertEquals(0, p2.getPlayerBoard().getMarks().size());
+        assertEquals(2, p3.getPlayerBoard().getDamage().size());
+        assertEquals("C 3", p1.getCurrentPosition().toString());
+        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
+    }
+
+    @Test
+    void railgunTest(){
+        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
+        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
+        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
+        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(7));
+        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
+        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
+        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(5));
+        p1.getWeapons().add(new Weapon().initializeWeapon(17));
+        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(p1.getWeapons().get(0));
+        String weaponsEffect = "3 1";
+        try {
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+        }catch(InvalidMoveException e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println("marks4: " +
+                p4.getPlayerBoard().getMarks().size());
+        String weaponChosen = "user2;user3";
+        GameController.get().playWeapon(p1, weaponChosen, 0);
+        System.out.println("Positions: " +
+                p1.getCurrentPosition().toString() +
+                p2.getCurrentPosition().toString() +
+                p3.getCurrentPosition().toString() +
+                p4.getCurrentPosition().toString()
+        );
+        assertEquals(0, p1.getPlayerBoard().getDamage().size());
+        assertEquals(2, p2.getPlayerBoard().getDamage().size());
+        assertEquals(2, p3.getPlayerBoard().getDamage().size());
+        assertEquals("D 2", p1.getCurrentPosition().toString());
+        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
+    }
+
+    @Test
+    void shockWaveWithALL(){
+        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
+        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
+        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
+        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
+        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(5));
+        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
+        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(7));
+        p1.getWeapons().add(new Weapon().initializeWeapon(18));
+        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(p1.getWeapons().get(0));
+        String weaponsEffect = "3 1";
+        try {
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+        }catch(IndexOutOfBoundsException | InvalidMoveException e){
+            System.out.println(e.getMessage());
+        }
+        String weaponChosen = "";
+        GameController.get().playWeapon(p1, weaponChosen, 0);
+        System.out.println("Positions: " +
+                p1.getCurrentPosition().toString() +
+                p2.getCurrentPosition().toString() +
+                p3.getCurrentPosition().toString() +
+                p4.getCurrentPosition().toString()
+        );
+        assertEquals(0, p1.getPlayerBoard().getDamage().size());
+        assertEquals(0, p2.getPlayerBoard().getDamage().size());
+        assertEquals(1, p3.getPlayerBoard().getDamage().size());
+        assertEquals(1, p4.getPlayerBoard().getDamage().size());
+        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
+    }
+
+    @Test
+    void cyberBladeTest(){
+        Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
+        Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
+        Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
+        Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
+        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(1));
+        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
+        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
+        p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
+        p1.getWeapons().add(new Weapon().initializeWeapon(19));
+        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+        System.out.println(p1.getWeapons().get(0));
+        String weaponsEffect = "3 1 0 2";
+        assertEquals(0, p4.getPlayerBoard().getMarks().size());
+        try {
+            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+        }catch(IndexOutOfBoundsException | InvalidMoveException e){
+            System.out.println(e.getMessage());
+        }
+        String weaponChosen = "c 3;user2;user3";
+            GameController.get().playWeapon(p1, weaponChosen, 0);
+        System.out.println("Positions: " +
+                p1.getCurrentPosition().toString() +
+                p2.getCurrentPosition().toString() +
+                p3.getCurrentPosition().toString() +
+                p4.getCurrentPosition().toString()
+        );
+        assertEquals(0, p1.getPlayerBoard().getDamage().size());
+        assertEquals(2, p2.getPlayerBoard().getDamage().size());
+        assertEquals(2, p3.getPlayerBoard().getDamage().size());
         assertEquals("C 3", p2.getCurrentPosition().toString());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
@@ -778,23 +771,21 @@ class ShootControllerTest {
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
         Player p4 = GameContext.get().getGame(0).getPlayers().get(3);
-        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(2));
-        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(8));
+        p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(7));
+        p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(7));
+        p3.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
         p4.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(4));
         p1.getWeapons().add(new Weapon().initializeWeapon(20));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "3 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
-        System.out.println("marks4: " +
-                p4.getPlayerBoard().getMarks().size());
-        String weaponChosen = "user2";
+        String weaponChosen = "user2;C 2";
         GameController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
@@ -803,9 +794,10 @@ class ShootControllerTest {
                 p4.getCurrentPosition().toString()
         );
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
-        assertEquals(2, p2.getPlayerBoard().getDamage().size());
+        assertEquals(3, p2.getPlayerBoard().getDamage().size());
         assertEquals(0, p3.getPlayerBoard().getDamage().size());
-        assertEquals("C 3", p2.getCurrentPosition().toString());
+        assertEquals("D 2", p1.getCurrentPosition().toString());
+        assertEquals("C 2", p2.getCurrentPosition().toString());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
     }
 
