@@ -1,5 +1,6 @@
 package controller;
 
+import model.Player;
 import model.exception.InvalidMoveException;
 import model.Ammo;
 import model.GameContext;
@@ -77,7 +78,7 @@ class GameControllerTest {
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
 //TODO CHECK        GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
-        GameContext.get().getGame(0).getCurrentPlayer().getPowerups().add(new Powerup("dummy", new Ammo(Color.BLUE)));
+        GameContext.get().getGame(0).getCurrentPlayer().getPowerups().add(new Powerup(0,"dummy", new Ammo(Color.BLUE)));
         GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);
         GameContext.get().getGame(0).setFinalFrenzy(true);
         GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
@@ -106,5 +107,13 @@ class GameControllerTest {
         GameController.get().setSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
                 0, 0);
+    }
+
+    @Test
+    void powerupPlayableTest(){
+        Player player = users.get(0).getPlayer();
+        Powerup powerup = new Powerup().initializePowerup(3);
+                player.getPowerups().add(powerup);
+        assertTrue(GameController.get().isPlayable(users.get(0).getPlayer(), powerup));
     }
 }
