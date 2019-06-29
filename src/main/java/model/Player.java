@@ -135,7 +135,7 @@ public class Player extends Target implements Serializable{
     public String getStringIdPowerUp() {
         StringBuilder stringbuilder = new StringBuilder();
         for(Powerup p : powerups) {
-            stringbuilder.append(p.getName()).append(";");
+            stringbuilder.append(p.getName()).append(p.getAmmo().getColor().getAbbr()).append(";");
         }
         return stringbuilder.toString()
                 .substring(0,stringbuilder.toString().length()-1);
