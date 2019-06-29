@@ -9,6 +9,7 @@ import model.enums.TargetType;
 import model.exception.InvalidMoveException;
 import model.moves.Target;
 import model.room.Update;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ import static model.field.Coordinate.fillCoordinate;
 public class Square extends Target implements Serializable {
     private Color color;
     private Coordinate coord;
+    /**
+     * Used in weapons to decide if a player can reach a determined square or not with the attack
+     */
     private List<Square> reachSquares = new ArrayList<>();
 
     public Square(){
@@ -46,18 +50,25 @@ public class Square extends Target implements Serializable {
         this.color = color;
     }
 
+    @Nullable
     public Grabbable getGrabbable(){
         return null;
     }
 
-    public void setGrabbable(Board board){
-        //DO nothing
+    public void setGrabbable(int groupID){
+        //Do nothing
     }
 
     public Coordinate getCoord() {
         return coord;
     }
 
+    /**
+     * @param player    the player attacking
+     * @param groupID   the groupID
+     * @return          true if the square is either the same square, in the same room,
+     *                  in an adjacent room to player's position
+     */
     public boolean canBeSeen(Player player, int groupID) {
         if(player.getCurrentPosition().getColor().equals(this.getColor()))
             return true;
