@@ -25,7 +25,6 @@ import java.util.List;
 import static java.lang.Math.min;
 import static model.enums.TargetType.BASIC_EQUALS;
 
-//TODO javadoc
 public class Player extends Target implements Serializable{
     private static final long serialVersionUID = 3763707889643123775L;
     //Room ID
@@ -243,6 +242,10 @@ public class Player extends Target implements Serializable{
         this.phaseNotDone = b;
     }
 
+    /**
+     * @param ammotile  refills the ammos from a picked ammo tile
+     * @return      the string to send to the client as update
+     */
     public String fillAmmoFromTile(AmmoTile ammotile) {
         StringBuilder ammosFilled = new StringBuilder();
         List<Ammo> refill=ammotile.getAmmos();
@@ -253,13 +256,12 @@ public class Player extends Target implements Serializable{
                 ammosFilled.append(a.toString());
             }
         }
-        if(ammosFilled.toString().isEmpty()) throw new InvalidMoveException("You cannot have more ammos of that color");
-
+        if(ammosFilled.toString().isEmpty())
+            throw new InvalidMoveException("You cannot have more ammos of that color");
         return ammosFilled.toString();
     }
 
     //To string
-
     public String powerupsToString(){
         StringBuilder string = new StringBuilder();
         int nCard = 0;
@@ -330,6 +332,7 @@ public class Player extends Target implements Serializable{
         return super.hashCode();
     }
 
+    //self explanatory
     public void addEffectsToPlay(String[] weaponEffectsSplitted) {
         Weapon weapon = this.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
         for(int i=1; i<weaponEffectsSplitted.length; i++){
@@ -359,11 +362,16 @@ public class Player extends Target implements Serializable{
     }
 
 
+    /**
+     * @param groupID   the group ID
+     * @return          the target of the attack
+     */
     @Override
     public Target fillFields(int groupID) {
         return this.findRealTarget(this.name, groupID);
     }
 
+    //Self explanatory
     @Override
     public void addDamages(Player playerDamaging, int damages, int groupId) {
         Update updateDamages;
@@ -387,6 +395,7 @@ public class Player extends Target implements Serializable{
             this.dead = true;
     }
 
+    //self explanatory
     private void updateAdrenaline() {
         if(this.getPlayerBoard().getDamage().size() >= 3)
             this.adrenalineLevel = 1;
@@ -403,6 +412,11 @@ public class Player extends Target implements Serializable{
         this.name = GameContext.get().getGame(groupID).getCurrentPlayer().getName();
     }
 
+    /**
+     * @param target    the shooting target
+     * @param groupID   the groupID
+     * @return     A list of all the shootable targets
+     */
     @Override
     public List<Target> findAllTargets(Target target, int groupID) {
         List<Target> targets = new ArrayList<>();
@@ -418,6 +432,7 @@ public class Player extends Target implements Serializable{
         return targets;
     }
 
+    //Self explanatory
     @Override
     public void addMarks(Player playerMarking, int groupID, int nMarks) {
         int occurrences = Collections.frequency(this.getPlayerBoard().getMarks(), playerMarking);
