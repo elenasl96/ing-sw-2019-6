@@ -138,7 +138,7 @@ public class GameController{
             powerupDeck.discardCard(player.getPowerups().get(spawn));
             player.getPowerups().remove(spawn);
             Update update = new Update(null,"powerup");
-            update.setData(player.getPowerups().get(0).getName().substring(0,player.getPowerups().get(0).getName().length()-1));
+            update.setData(player.getPowerups().get(0).getName());
             player.receiveUpdate(update);
             updatePhase(groupID);
             //send updates

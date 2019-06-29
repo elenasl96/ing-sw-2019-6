@@ -262,12 +262,14 @@ public class ServerController implements RequestHandler {
                         .getPowerupsToPlay(user.getPlayer());
                 if(powerupsToPlay.isEmpty()){
                     user.receiveUpdate(new Update("You haven't powerups to play now",UPDATE_CONSOLE));
-                    GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
-                            .receiveUpdate(new Update(null,"turnbar")); //TODO check this (SCHERO) for GUI
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }else{
                     update = new Update("You can play these powerups:" + cardsToString(powerupsToPlay, 0),"choosecard");
-                    // update.setData(powerupsToPlay.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
+                    StringBuilder string = new StringBuilder();
+                    for(Powerup p: powerupsToPlay) {
+                        string.append(p.getName()).append(p.getAmmo().getColor().getAbbr()).append(";");
+                    }
+                    update.setData(string.toString().substring(0,string.toString().length()-1).toLowerCase());
                     user.receiveUpdate(update);
                     return new AskInput("choosePowerup");
                 }
