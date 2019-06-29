@@ -82,6 +82,10 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
         this.responses.add(new StartGameResponse());
     }
 
+    /**
+     * Sends update to the clientController
+     * @param update the update
+     */
     @Override
     public synchronized void onUpdate(Update update) {
         System.out.print(">>> I'm RMIClientHandler sending: ");
@@ -105,6 +109,9 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
         return super.hashCode();
     }
 
+    /**
+     * signals if every update is received
+     */
     @Override
     public synchronized void received() {
         if(this.responses.isEmpty()){

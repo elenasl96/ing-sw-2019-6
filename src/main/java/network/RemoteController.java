@@ -19,8 +19,7 @@ public interface RemoteController extends Remote {
     void request(Request request) throws RemoteException;
 
     /**
-     *
-     * @return
+     * @return  the result of the response handling
      * @throws RemoteException if an error in RMI connection occurs
      */
     Response nextResponse() throws RemoteException;
