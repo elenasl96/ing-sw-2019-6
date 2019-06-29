@@ -100,6 +100,10 @@ class AmmoTileWithAmmo extends AmmoTile{
     }
 
     @Override
+    public String toString(){
+        return getAmmos().get(0).getColor() + ", " + getAmmos().get(1).getColor() + ", " + getAmmos().get(2).getColor();
+    }
+    @Override
     public String toStringForGUI() {
         StringBuilder string = new StringBuilder("");
         for(Ammo a: getAmmos()){
