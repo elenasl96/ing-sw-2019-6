@@ -25,6 +25,10 @@ public class SocketClient implements RemoteController {
         this.port = port;
     }
 
+    /**
+     * Initiates the connection
+     * @throws IOException if something goes wrong in the Socket connection
+     */
     @Override
     public void init() throws IOException {
         connection = new Socket(host, port);
@@ -37,6 +41,10 @@ public class SocketClient implements RemoteController {
         //RMI method
     }
 
+    /**
+     * Sets this to the poisonPill socket to shutdown the server locally
+     * @throws IOException if something goes wrong in the Socket connection
+     */
     public void setPoisonous() throws IOException {
         connection = new Socket(host, port,null, 6000);
         System.out.println(connection.getInetAddress());
@@ -51,7 +59,6 @@ public class SocketClient implements RemoteController {
     }
 
     /**
-     *
      * @return the next Response or null if some IOException happens
      */
     @Override
@@ -66,6 +73,9 @@ public class SocketClient implements RemoteController {
         return null;
     }
 
+    /**
+     * @see RemoteController#request(Request)
+     */
     @Override
     public void request(Request request) {
         try {
@@ -74,8 +84,9 @@ public class SocketClient implements RemoteController {
             System.err.println("Exception on network.socket: " + e.getMessage());
         }
     }
+
     @Override
     public void received(){
-        //nothing
+        //RMI method
     }
 }
