@@ -9,7 +9,9 @@ import network.commands.Response;
 
 import static model.enums.Phase.WAIT;
 
-//TODO javadoc
+/**
+ * Second move of the game, made by a movement of one step and a grab
+ */
 public class MoveAndGrab implements Move {
     private Movement movement;
     private Grab grab;
@@ -19,6 +21,12 @@ public class MoveAndGrab implements Move {
         this.grab = new Grab();
     }
 
+    /**
+     * Adds a movement and a grab to the player's current moves
+     * @param p     the player
+     * @param groupID   the group ID
+     * @return null
+     */
     @Override
     public Response execute(Player p, int groupID) {
         int maxSteps;
