@@ -55,6 +55,17 @@ public class WeaponTile implements Grabbable {
     }
 
     @Override
+    public String toStringForGUI() {
+        StringBuilder string = new StringBuilder("");
+        for(Weapon w: weapons){
+            string.append(w.getName()+";");
+        }
+        if(!string.toString().equals("")) return string.toString().toLowerCase()
+                .substring(0,string.toString().length()-1);
+        return "";
+    }
+
+    @Override
     public void pickGrabbable(int groupID, int toPick) {
         Weapon weapon = this.weapons.get(toPick);
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
