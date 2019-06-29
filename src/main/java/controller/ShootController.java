@@ -108,20 +108,7 @@ public class ShootController {
     }
 
     void playWeapon(Player player, String input, int groupID) {
-        //Convert input to matrix
-        String[][] effectsMatrix = generateMatrix(input);
-        //Check if inputs are all different
-        checkDifferentInputs(effectsMatrix);
-        //fill effect fields with player choices
-        fillWithInput(player, effectsMatrix, groupID);
-        //fill effects with real targets
-        fillFields(player.getCurrentCardEffects(), groupID);
-        //execute moves
-        for (CardEffect c : player.getCurrentCardEffects()) {
-            for (Effect e : c.getEffects()) {
-                e.execute(player, groupID);
-            }
-        }
+       playCard(player, input, groupID);
         unloadWeaponInUse(player);
     }
 
@@ -191,7 +178,7 @@ public class ShootController {
         try {
             int powerupIndex = Integer.parseInt(input);
             powerupToPlay = getPowerupsToPlay(player).get(powerupIndex);
-            GameController.get().addMoves(player, powerupToPlay);
+            ShootController.get().addMoves(player, powerupToPlay);
             //Discard powerup
             GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().discardCard(powerupToPlay);
             //Ask player to fill effects
@@ -199,6 +186,34 @@ public class ShootController {
         }catch (NumberFormatException | IndexOutOfBoundsException e){
             throw new InvalidMoveException("Not valid powerup");
         }
+    }
+
+
+    public void addMoves(Player player, Powerup powerupToPlay) {
+        for(CardEffect c: powerupToPlay.getEffects()){
+            player.getCurrentCardEffects().add(c);
+        }
+    }
+
+    void playCard(Player player, String input, int groupID){
+        //Convert input to matrix
+        String[][] effectsMatrix = generateMatrix(input);
+        //Check if inputs are all different
+        checkDifferentInputs(effectsMatrix);
+        //fill effect fields with player choices
+        fillWithInput(player, effectsMatrix, groupID);
+        //fill effects with real targets
+        fillFields(player.getCurrentCardEffects(), groupID);
+        //execute moves
+        for (CardEffect c : player.getCurrentCardEffects()) {
+            for (Effect e : c.getEffects()) {
+                e.execute(player, groupID);
+            }
+        }
+    }
+
+    void playPowerup(Player player, String input, int groupID) {
+        playCard(player, input, groupID);
     }
 
     //---------------------------------GENERAL CHECKS-------------------------------------------//

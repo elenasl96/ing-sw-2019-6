@@ -336,7 +336,7 @@ public class ServerController implements RequestHandler {
             case "powerupToPlay":
                 try{
                     this.user.receiveUpdate(new Update(GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer())));
-                    return new AskInput("fillFields");
+                    return new AskInput("fillPowerup");
                 }catch (IndexOutOfBoundsException e){
                     user.receiveUpdate(new Update("Powerup index out of bounds",UPDATE_CONSOLE));
                     p.setPhaseNotDone(true);
@@ -346,6 +346,22 @@ public class ServerController implements RequestHandler {
                     p.setPhaseNotDone(true);
                     user.receiveUpdate(new Update(p,true));
                 }
+                break;
+            case "powerupFilled":
+                try{
+                    GameController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+                    GameController.get().updatePhase(currentGroup.getGroupID());
+                }catch(NullPointerException | IndexOutOfBoundsException e){
+                    user.receiveUpdate(new Update("Invalid input!",UPDATE_CONSOLE));
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }catch(NumberFormatException e){
+                    user.receiveUpdate(new Update("Invalid Number Format!",UPDATE_CONSOLE));
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }catch(InvalidMoveException e){
+                    user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
+                    p.getUser().receiveUpdate(new Update(p,true));
+                }
+                p.setPhaseNotDone(false);
                 break;
             default:
                 break;
