@@ -90,7 +90,7 @@ class AmmoTileWithAmmo extends AmmoTile{
      * @see Player#fillAmmoFromTile(AmmoTile)
      */
     @Override
-    public void pickGrabbable(int groupID, int toPick){
+    public void pickGrabbable(int groupID, int toPick) {
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         Update update = new Update("You grab these ammos: " + player.fillAmmoFromTile(this), "reload");
         update.setData(player.getAmmos().toString().replace("[", "").replace("]", "")
@@ -101,9 +101,9 @@ class AmmoTileWithAmmo extends AmmoTile{
 
     @Override
     public String toStringForGUI() {
-        StringBuilder string = new StringBuilder("");
+        StringBuilder string = new StringBuilder();
         for(Ammo a: getAmmos()){
-            string.append(a.getColor().getName()+";");
+            string.append(a.getColor().getName()).append(";");
         }
         if(!string.toString().equals("")) return string.toString().toLowerCase()
                 .substring(0,string.toString().length()-1);
