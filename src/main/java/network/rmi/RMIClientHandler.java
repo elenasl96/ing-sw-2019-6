@@ -18,7 +18,10 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-//TODO javadoc
+/**
+ * RMI Client Handler piece of the network:
+ * connects the client to the server and vice versa.
+ */
 public class RMIClientHandler extends UnicastRemoteObject implements RemoteController, ClientHandler {
 
     private transient ServerController controller;
@@ -29,11 +32,17 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
         this.responses = new ArrayList<>();
     }
 
+    /**
+     * @see RemoteController#request(Request)
+     */
     @Override
     public synchronized void request(Request request) {
         this.responses.add(request.handle(controller));
     }
 
+    /**
+     * @see RemoteController#nextResponse()
+     */
     @Override
     public synchronized Response nextResponse() {
         try{

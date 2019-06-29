@@ -25,11 +25,12 @@ import java.util.List;
 import static java.lang.Math.min;
 import static model.enums.TargetType.BASIC_EQUALS;
 
-//TODO javadoc
 public class Player extends Target implements Serializable{
     private static final long serialVersionUID = 3763707889643123775L;
+    //Room ID
     private User user;
     private String name;
+    //Game attributes
     private Character character = Character.NOT_ASSIGNED;
     private Square currentPosition;
     private transient Phase phase;
@@ -38,6 +39,10 @@ public class Player extends Target implements Serializable{
     private List<Weapon> weapons = new ArrayList<>();
     private PlayerBoard playerBoard = new PlayerBoard();
     private int points;
+    /**
+     * True if the character is the firstPlayer
+     * for FinalFrenzy mode
+     */
     private boolean firstPlayer;
     private boolean dead;
     private int deaths;
@@ -78,7 +83,6 @@ public class Player extends Target implements Serializable{
         super();
     }
 
-    //getters and setters
     public User getUser(){
         return this.user;
     }
@@ -91,6 +95,10 @@ public class Player extends Target implements Serializable{
         return name;
     }
 
+    /**
+     * @return the player's current position in the game
+     * @throws InvalidMoveException if the position was null
+     */
     @Override
     public Square getCurrentPosition() {
         if(this.currentPosition == null)
@@ -122,6 +130,9 @@ public class Player extends Target implements Serializable{
         return weapons;
     }
 
+    /**
+     * @return the weapons in a format usable for the GUI
+     */
     public String getStringIdWeapons() {
         StringBuilder stringbuilder = new StringBuilder();
         for(Weapon w: weapons) {
@@ -132,10 +143,13 @@ public class Player extends Target implements Serializable{
                 .substring(0,stringbuilder.toString().length()-1);
     }
 
+    /**
+     * @return the powerups in a format usable for the GUI
+     */
     public String getStringIdPowerUp() {
         StringBuilder stringbuilder = new StringBuilder();
         for(Powerup p : powerups) {
-            stringbuilder.append(p.getName()).append(";");
+            stringbuilder.append(p.getName()).append(p.getAmmo().getColor().getAbbr()).append(";");
         }
         return stringbuilder.toString()
                 .substring(0,stringbuilder.toString().length()-1);
@@ -149,11 +163,17 @@ public class Player extends Target implements Serializable{
         return this.character;
     }
 
+    /**
+     * @see User#receiveUpdate(Update)
+     */
     @Override
     public void receiveUpdate(Update update) {
         user.receiveUpdate(update);
     }
 
+    /**
+     * @return a String asking the user what player he wants to attack
+     */
     @Override
     public String getFieldsToFill() {
         if (this.getName() == null) {
@@ -161,6 +181,12 @@ public class Player extends Target implements Serializable{
         } else return "";
     }
 
+    /**
+     * @param p         the player attacking
+     * @param groupID   the groupID
+     * @return          true if this player is either in the same square, same room,
+     *                  an adjacent room to p's position
+     */
     public boolean canBeSeen(Player p, int groupID) {
         Field field = GameContext.get().getGame(groupID).getBoard().getField();
         if (this.getCurrentPosition().getColor().equals(p.getCurrentPosition().getColor())){
@@ -216,6 +242,10 @@ public class Player extends Target implements Serializable{
         this.phaseNotDone = b;
     }
 
+    /**
+     * @param ammotile  refills the ammos from a picked ammo tile
+     * @return      the string to send to the client as update
+     */
     public String fillAmmoFromTile(AmmoTile ammotile) {
         StringBuilder ammosFilled = new StringBuilder();
         List<Ammo> refill=ammotile.getAmmos();
@@ -226,13 +256,12 @@ public class Player extends Target implements Serializable{
                 ammosFilled.append(a.toString());
             }
         }
-        if(ammosFilled.toString().isEmpty()) throw new InvalidMoveException("You cannot have more ammos of that color");
-
+        if(ammosFilled.toString().isEmpty())
+            throw new InvalidMoveException("You cannot have more ammos of that color");
         return ammosFilled.toString();
     }
 
     //To string
-
     public String powerupsToString(){
         StringBuilder string = new StringBuilder();
         int nCard = 0;
@@ -303,6 +332,7 @@ public class Player extends Target implements Serializable{
         return super.hashCode();
     }
 
+    //self explanatory
     public void addEffectsToPlay(String[] weaponEffectsSplitted) {
         Weapon weapon = this.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
         for(int i=1; i<weaponEffectsSplitted.length; i++){
@@ -332,11 +362,16 @@ public class Player extends Target implements Serializable{
     }
 
 
+    /**
+     * @param groupID   the group ID
+     * @return          the target of the attack
+     */
     @Override
     public Target fillFields(int groupID) {
         return this.findRealTarget(this.name, groupID);
     }
 
+    //Self explanatory
     @Override
     public void addDamages(Player playerDamaging, int damages, int groupId) {
         Update updateDamages;
@@ -360,6 +395,7 @@ public class Player extends Target implements Serializable{
             this.dead = true;
     }
 
+    //self explanatory
     private void updateAdrenaline() {
         if(this.getPlayerBoard().getDamage().size() >= 3)
             this.adrenalineLevel = 1;
@@ -376,6 +412,11 @@ public class Player extends Target implements Serializable{
         this.name = GameContext.get().getGame(groupID).getCurrentPlayer().getName();
     }
 
+    /**
+     * @param target    the shooting target
+     * @param groupID   the groupID
+     * @return     A list of all the shootable targets
+     */
     @Override
     public List<Target> findAllTargets(Target target, int groupID) {
         List<Target> targets = new ArrayList<>();
@@ -391,6 +432,7 @@ public class Player extends Target implements Serializable{
         return targets;
     }
 
+    //Self explanatory
     @Override
     public void addMarks(Player playerMarking, int groupID, int nMarks) {
         int occurrences = Collections.frequency(this.getPlayerBoard().getMarks(), playerMarking);

@@ -66,6 +66,12 @@ public class Room extends Target {
         else return null;
     }
 
+    /**
+     * @param player    the player attacking
+     * @param groupID   the groupID
+     * @return          true if the room is either the same room or
+     *                  an adjacent room to player's position
+     */
     public boolean canBeSeen(Player player, int groupID) {
         if(player.getCurrentPosition().getColor().equals(this.getColor()))
             return true;

@@ -406,14 +406,14 @@ public class MainFrame extends JFrame {
         popUp = new PopUpCards(nameCard, lockChooseCard);
     }
 
-    public void yesNoPopUp() {
+    public void yesNoPopUp(String title) {
         yesNoFrame = new JFrame();
 
         yesNoFrame.setTitle("Yes/No");
         yesNoFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         yesNoFrame.setLayout(new BorderLayout());
-        yesNoFrame.setLocation(500,500);
-        yesNoFrame.add(new JLabel("Do you want to reload?"),BorderLayout.NORTH);
+        yesNoFrame.setLocation(500,400);
+        yesNoFrame.add(new JLabel(title),BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton yes = new JButton("Yes");

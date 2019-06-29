@@ -19,4 +19,5 @@ public interface Grabbable extends Serializable {
 
     String getGrabbableType();
     boolean isGrabbable(Player player);
+    String toStringForGUI();
 }

@@ -98,6 +98,17 @@ class AmmoTileWithAmmo extends AmmoTile{
         replaceAmmoTile(this, groupID);
         player.receiveUpdate(update);
     }
+
+    @Override
+    public String toStringForGUI() {
+        StringBuilder string = new StringBuilder("");
+        for(Ammo a: getAmmos()){
+            string.append(a.getColor().getName()+";");
+        }
+        if(!string.toString().equals("")) return string.toString().toLowerCase()
+                .substring(0,string.toString().length()-1);
+        return "";
+    }
 }
 
 
@@ -129,5 +140,10 @@ class AmmoTileWithPowerup extends AmmoTile{
         update.setData(GameContext.get().getGame(groupID).getCurrentPlayer().getAmmos().toString().replace("[","").replace("]","")
                 .replace(" ","").toLowerCase());
         GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update);
+    }
+
+    @Override
+    public String toStringForGUI() {
+        return "";
     }
 }

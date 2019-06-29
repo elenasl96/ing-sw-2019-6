@@ -56,13 +56,14 @@ public class AmmoSquare extends Square{
     /**
      * Overrides from superclass Square method,
      * resets the grabbable object
-     * @param board the current game board, to pick the card from the ammos leftovers
+     * @param groupID the group ID
      * @see Board
      * @see Square
      * @see Board#getAmmosLeft()
      */
     @Override
-    public void setGrabbable(Board board) {
+    public void setGrabbable(int groupID) {
+        Board board = GameContext.get().getGame(groupID).getBoard();
         ammo = board.getAmmosLeft().pickCard();
     }
 
@@ -73,7 +74,7 @@ public class AmmoSquare extends Square{
      * @param groupID   the current group ID
      * @see Square
      * @see Board
-     * @see this#setGrabbable(Board)
+     * @see this#setGrabbable(int)
      */
     @Override
     public void addGrabbable(Grabbable weapon, int groupID) {

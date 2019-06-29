@@ -208,7 +208,7 @@ public class Group implements Serializable {
         //Fill the squares
         GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares()
                 .forEach(square->
-                    square.setGrabbable(GameContext.get().getGame(this.getGroupID()).getBoard())
+                    square.setGrabbable(this.getGroupID())
         );
         //Triggers onStart in the Listeners
         this.sendStartNotification();
