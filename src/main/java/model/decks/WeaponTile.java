@@ -58,11 +58,11 @@ public class WeaponTile implements Grabbable {
     public String toStringForGUI() {
         StringBuilder string = new StringBuilder("");
         for(Weapon w: weapons){
-            string.append(w.getName()+";");
+            string.append(w.getName().toLowerCase().replace(" ","")+";");
         }
         if(!string.toString().equals("")) return string.toString().toLowerCase()
                 .substring(0,string.toString().length()-1);
-        return "";
+        return null;
     }
 
     @Override

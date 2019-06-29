@@ -117,7 +117,11 @@ public class ViewGui implements View {
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
                         gui.addMarkerPlayerBoard(Integer.parseInt(data[1]));
                     } break;
-
+                case "tileinsquare":
+                    data = update.getData().split(":");
+                    String[] coord = data[1].split(" ");
+                    gui.getMapGrid()[3-Integer.parseInt(coord[1])][coord[0].toUpperCase().charAt(0) - 65]
+                            .setGrabbable(data[0]);
                 default:
                     break;
             }
