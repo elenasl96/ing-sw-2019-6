@@ -3,7 +3,6 @@ package controller;
 import model.decks.CardEffect;
 import model.decks.PowerupDeck;
 import model.enums.*;
-import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.GameContext;
@@ -11,7 +10,6 @@ import model.Player;
 import model.decks.Powerup;
 import model.decks.Weapon;
 import model.field.SpawnSquare;
-import model.moves.Move;
 import model.moves.Pay;
 import model.room.Update;
 
@@ -316,10 +314,7 @@ public class GameController{
         return ShootController.get().preparePowerup(player, input, groupID);
     }
 
-    public void addMoves(Player player, Powerup powerupToPlay) {
-        for(Move m: powerupToPlay.getEffects()){
-            player.getCurrentMoves().add(m);
-        }
+    public void playPowerup(Player player, String input, int groupID) {
+        ShootController.get().playPowerup(player, input, groupID);
     }
-
 }

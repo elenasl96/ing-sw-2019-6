@@ -263,6 +263,13 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                     //nothing
                 }
                 break;
+            case "fillPowerup":
+                try{
+                    client.request((new SendInput(view.userInput(), "powerupFilled")));
+                }catch(RemoteException e){
+                    //nothing
+                }
+                break;
             case "choosePowerup":
                 try{
                     client.request(new SendInput(view.cardChoose(), "powerupToPlay"));
