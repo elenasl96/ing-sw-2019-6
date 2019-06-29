@@ -180,7 +180,7 @@ public class ViewGui implements View {
 
     @Override
     public Boolean reloadPhase() {
-        gui.yesNoPopUp();
+        gui.yesNoPopUp("Do you want to reload?");
         return (gui.yesNoChoose().equals("yes"));
     }
 
@@ -206,7 +206,7 @@ public class ViewGui implements View {
 
     @Override
     public Boolean choosePowerup() {
-        //TODO (SCHERO) choose powerup like reload at the end of turn
-        return null;
+        gui.yesNoPopUp("Do you want to use a powerup?");
+        return (gui.yesNoChoose().equals("yes"));
     }
 }
