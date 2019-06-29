@@ -412,7 +412,7 @@ public class MainFrame extends JFrame {
         yesNoFrame.setTitle("Yes/No");
         yesNoFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         yesNoFrame.setLayout(new BorderLayout());
-        yesNoFrame.setLocation(500,500);
+        yesNoFrame.setLocation(500,400);
         yesNoFrame.add(new JLabel(title),BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
