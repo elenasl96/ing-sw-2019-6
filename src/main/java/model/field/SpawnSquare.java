@@ -1,6 +1,7 @@
 package model.field;
 
 import model.Board;
+import model.GameContext;
 import model.decks.Grabbable;
 import model.decks.Weapon;
 import model.decks.WeaponTile;
@@ -21,7 +22,8 @@ public class SpawnSquare extends Square{
     }
 
     @Override
-    public void setGrabbable(Board board){
+    public void setGrabbable(int groupID){
+        Board board = GameContext.get().getGame(groupID).getBoard();
         for(int i=0; i<3; i++){
             Weapon weapon =  board.getWeaponsLeft().pickCard();
             weapons.addWeapon(weapon);

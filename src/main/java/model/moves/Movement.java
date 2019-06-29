@@ -32,7 +32,6 @@ public class Movement extends Effect{
     private List<Square> reachList = new ArrayList<>();
 
     private int maxSteps;
-    private int maxStepsFrenzy;
 
     public Movement (Stream<Target> target, Target destination, boolean optionality){
         super(target, optionality);
@@ -98,6 +97,9 @@ public class Movement extends Effect{
         this.maxSteps = maxSteps;
     }
 
+    /**
+     * @return  weapon implementation string useful to ask the client which fields he has to fill to attack
+     */
     @Override
     public String getFieldsToFill() {
         String string = super.getFieldsToFill();
@@ -107,6 +109,9 @@ public class Movement extends Effect{
         else return "Movement: " + string;
     }
 
+    /**
+     * weapon implementation method that fills the coordinates chose by the client
+     */
     @Override
     public void fillFields(int groupID) {
         super.fillFields(groupID);
@@ -114,7 +119,13 @@ public class Movement extends Effect{
         this.coordinate = this.destination.getCoord();
     }
 
-    //TODO X ELENINA non voglio toccare niente per non fare casino ma sarebbe carino togliere la cognitive complexity
+    /**
+     *
+     * @param inputMatrix
+     * @param index
+     * @param groupID
+     * @return
+     */
     @Override
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
         if(this.destination.getCoord() == null) {
