@@ -148,7 +148,7 @@ public class Square extends Target implements Serializable {
     public void setFieldsToFill(String input, int groupID) {
         if(input == null && this.getTargetType().equals(TargetType.BASIC_EQUALS)){
             this.coord = GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID).getCurrentPosition().getCoord();
-        }else{
+        } else {
             this.coord = fillCoordinate(input);
         }
     }
