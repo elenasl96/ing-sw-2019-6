@@ -2,6 +2,9 @@ package model.moves;
 
 import model.Player;
 import model.enums.TargetType;
+import model.exception.NotExistingPositionException;
+import model.exception.NotExistingRoomException;
+import model.exception.NotExistingTargetException;
 import model.field.Square;
 import model.room.Update;
 
@@ -44,12 +47,12 @@ public abstract class Target implements Serializable {
     }
 
 
-    public abstract Square getCurrentPosition();
+    public abstract Square getCurrentPosition() throws NotExistingPositionException;
 
-    public abstract Target findRealTarget(String inputName, int groupID);
+    public abstract Target findRealTarget(String inputName, int groupID) throws NotExistingTargetException;
 
     //Checks
-    public abstract boolean canBeSeen(Player player, int groupID);
+    public abstract boolean canBeSeen(Player player, int groupID) throws NotExistingPositionException;
 
     public abstract boolean isFilled();
 
@@ -58,16 +61,16 @@ public abstract class Target implements Serializable {
     //Fill target for shooting
     public abstract String getFieldsToFill();
 
-    public abstract void setFieldsToFill(String input, int groupID);
+    public abstract void setFieldsToFill(String input, int groupID) throws NotExistingTargetException, NotExistingPositionException;
 
-    public abstract Target fillFields(int groupID);
+    public abstract Target fillFields(int groupID) throws NotExistingTargetException;
 
     //Effects of shooting
-    public abstract void addMarks(Player playerMarking, int groupID, int nMarks);
+    public abstract void addMarks(Player playerMarking, int groupID, int nMarks) throws NotExistingPositionException;
 
-    public abstract void addDamages(Player playerDamaging, int damages, int groupId);
+    public abstract void addDamages(Player playerDamaging, int damages, int groupId) throws NotExistingPositionException;
 
-    public abstract void setMine(int groupID);
+    public abstract void setMine(int groupID) throws NotExistingPositionException;
 
     public abstract List<Target> findAllTargets(Target target, int groupID);
 }

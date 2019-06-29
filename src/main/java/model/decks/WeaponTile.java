@@ -4,6 +4,7 @@ import model.Ammo;
 import model.GameContext;
 import model.Player;
 import model.enums.WeaponStatus;
+import model.exception.NotEnoughAmmoException;
 import model.moves.Pay;
 import model.room.Update;
 
@@ -66,7 +67,7 @@ public class WeaponTile implements Grabbable {
     }
 
     @Override
-    public void pickGrabbable(int groupID, int toPick) {
+    public void pickGrabbable(int groupID, int toPick) throws NotEnoughAmmoException {
         Weapon weapon = this.weapons.get(toPick);
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
 

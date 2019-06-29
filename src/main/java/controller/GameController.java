@@ -1,14 +1,14 @@
 package controller;
 
-import model.decks.CardEffect;
 import model.decks.PowerupDeck;
 import model.enums.*;
+import model.exception.InvalidMoveException;
 import model.exception.NotEnoughAmmoException;
 import model.Ammo;
 import model.GameContext;
 import model.Player;
-import model.decks.Powerup;
 import model.decks.Weapon;
+import model.exception.NotExistingPositionException;
 import model.field.SpawnSquare;
 import model.moves.Pay;
 import model.room.Update;
@@ -55,7 +55,7 @@ public class GameController{
     }
 
 
-    synchronized Update possibleMoves(Player player, int groupID) {
+    synchronized Update possibleMoves(Player player, int groupID) throws InvalidMoveException {
         StringBuilder content = new StringBuilder();
         Update update;
         if(GameContext.get().getGame(groupID).getCurrentPlayer().isPhaseNotDone() &&
@@ -81,7 +81,7 @@ public class GameController{
         return null;
     }
 
-    private void playPendingMoves(Player player, int groupID) {
+    private void playPendingMoves(Player player, int groupID) throws InvalidMoveException {
         while(!player.getCurrentMoves().isEmpty()) {
             GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentMoves().get(0)
                     .execute(player, groupID);
@@ -124,7 +124,7 @@ public class GameController{
         return update;
     }
 
-    synchronized void setSpawn(Player player, int spawn, int groupID) {
+    synchronized void setSpawn(Player player, int spawn, int groupID) throws NotExistingPositionException {
         if(isMyTurn(player, groupID) &&
                 player.getPhase().equals(SPAWN) &&
                 spawn >= 0 && spawn < player.getPowerups().size()){
@@ -133,8 +133,7 @@ public class GameController{
                     .findFirst();
             optional.ifPresent(player::setCurrentPosition);
             PowerupDeck powerupDeck = GameContext.get().getGame(groupID).getBoard().getPowerupsLeft();
-            powerupDeck.discardCard(player.getPowerups().get(spawn));
-            player.getPowerups().remove(spawn);
+            powerupDeck.discardCard(player, player.getPowerups().get(spawn));
             Update update = new Update(null,"powerup");
             update.setData(player.getPowerups().get(0).getName());
             player.receiveUpdate(update);
@@ -263,11 +262,11 @@ public class GameController{
     }
 
     //-------------------------------SHOOT:CALLS TO SHOOTCONTROLLER------------------------------//
-    synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) {
+    synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) throws InvalidMoveException {
         return ShootController.get().prepareWeapon(player, weaponEffects, groupID);
     }
 
-    void playWeapon(Player player, String input, int groupID) {
+    void playWeapon(Player player, String input, int groupID) throws InvalidMoveException {
         ShootController.get().playWeapon(player, input, groupID);
     }
 
@@ -310,11 +309,11 @@ public class GameController{
 
     //-------------------------------POWERUPS------------------------------------//
 
-    String preparePowerup(int groupID, String input, Player player){
+    String preparePowerup(int groupID, String input, Player player) throws InvalidMoveException {
         return ShootController.get().preparePowerup(player, input, groupID);
     }
 
-    public void playPowerup(Player player, String input, int groupID) {
+    public void playPowerup(Player player, String input, int groupID) throws InvalidMoveException {
         ShootController.get().playPowerup(player, input, groupID);
     }
 }

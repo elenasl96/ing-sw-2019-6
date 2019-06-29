@@ -1,13 +1,10 @@
 package model.moves;
 
-import model.Game;
 import model.enums.TargetType;
-import model.exception.InvalidMoveException;
-import model.exception.InvalidMovementException;
+import model.exception.*;
 import model.GameContext;
 import model.Player;
 import model.field.Coordinate;
-import model.field.Field;
 import model.field.Square;
 import model.room.Update;
 import network.commands.Response;
@@ -47,10 +44,10 @@ public class Movement extends Effect{
      * Implements the movement. First checks if the coordinate is valid, then moves the player and
      * sends update to every user in the game
      * @param p the player who wants to move
-     * @throws InvalidMovementException if the destination is unreachable for the player
+     * @throws NotValidDestinationException if the destination is unreachable for the player
      */
     @Override
-    public Response execute(Player p, int groupID) {
+    public Response execute(Player p, int groupID) throws NotExistingPositionException, NotValidDestinationException {
         if(this.getTarget() != null && !this.getTarget().isEmpty()){
             p = (Player) this.getTarget().get(0);
         }
@@ -63,7 +60,7 @@ public class Movement extends Effect{
                 break;
             }
         } if(squareDestination == null){
-            throw new InvalidMovementException();
+            throw new NotExistingPositionException(squareDestination);
         } else {
             this.destination = squareDestination;
         }
@@ -72,7 +69,7 @@ public class Movement extends Effect{
         if(reachList.contains(this.destination)){
             p.setCurrentPosition(destination);
         }else {
-            throw new InvalidMovementException();
+            throw new NotValidDestinationException(this.destination);
         }
         Update update = new Update(p.getName()+" moved to "+p.getCurrentPosition());
         update.setMove("movement");
@@ -113,7 +110,7 @@ public class Movement extends Effect{
      * weapon implementation method that fills the coordinates chose by the client
      */
     @Override
-    public void fillFields(int groupID) {
+    public void fillFields(int groupID) throws NotExistingTargetException {
         super.fillFields(groupID);
         this.destination = (Square) this.destination.findRealTarget(this.destination.getCoord().toString(), groupID);
         this.coordinate = this.destination.getCoord();
@@ -127,26 +124,26 @@ public class Movement extends Effect{
      * @return
      */
     @Override
-    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
+    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {
         if(this.destination.getCoord() == null) {
            if(inputMatrix == null) {
                if(this.destination.getTargetType().equals(TargetType.BASIC_EQUALS)){
                    destination = GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID).getCurrentPosition();
                }else if(!this.getOptionality()) {
-                   throw new InvalidMoveException("Not enough fields");
+                   throw new NotEnoughFieldsException();
                }
            } else {
                index += super.setFieldsToFill(inputMatrix,index,groupID);
                if(inputMatrix[index]!=null) {
                    if(inputMatrix[index].equals("")){
                        if(!this.getOptionality())
-                           throw new InvalidMoveException("Not enough fields");
+                           throw new NotEnoughFieldsException();
                    }
                    else
                        try {
                            this.destination.setCoordinate(fillCoordinate(inputMatrix[index]));
                        }catch(NumberFormatException e){
-                           throw new InvalidMoveException("Not valid square");
+                           throw new SquareNotFoundException();
                        }
                    index++;
                }

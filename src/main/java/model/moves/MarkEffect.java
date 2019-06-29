@@ -1,6 +1,9 @@
 package model.moves;
 
 import model.Player;
+import model.exception.NotExistingPositionException;
+import model.exception.SquareNotFoundException;
+import model.exception.TargetsException;
 import network.commands.Response;
 
 import java.util.stream.Stream;
@@ -16,7 +19,7 @@ public class MarkEffect extends Effect implements Move{
         this.nMarks = nMarks;
     }
 
-    public Response execute(Player p, int groupId) {
+    public Response execute(Player p, int groupId) throws NotExistingPositionException {
         for(Target t : this.getTarget()){
             t.addMarks(p, groupId, this.nMarks);
         }
@@ -33,7 +36,7 @@ public class MarkEffect extends Effect implements Move{
     }
 
     @Override
-    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) {
+    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) throws NotExistingPositionException, SquareNotFoundException, TargetsException {
        index += super.setFieldsToFill(inputMatrix,index,groupID);
         return index;
     }

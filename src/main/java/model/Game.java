@@ -1,6 +1,7 @@
 package model;
 
 import model.enums.Phase;
+import model.exception.NotExistingFieldException;
 import model.room.ModelObserver;
 import model.room.Update;
 import model.room.User;
@@ -47,7 +48,7 @@ public class Game implements Serializable {
      * @see Player
      * @see model.room.Group
      */
-    public void setGame(int skullNumber, int fieldNumber, List<User> users) {
+    public void setGame(int skullNumber, int fieldNumber, List<User> users) throws NotExistingFieldException {
         this.skullsNumber = skullNumber;
         this.board = new Board(fieldNumber);
         Collections.sort(users);

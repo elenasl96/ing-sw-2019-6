@@ -1,7 +1,8 @@
 package model.moves;
 
-import model.decks.Weapon;
 import model.decks.WeaponTile;
+import model.exception.NotEnoughAmmoException;
+import model.exception.NotExistingPositionException;
 import model.exception.NothingGrabbableException;
 import model.Player;
 import model.room.Update;
@@ -28,7 +29,7 @@ public class Grab implements Move{
      * @return  new AskInput request
      */
     @Override
-    public Response execute(Player p, int groupID) {
+    public Response execute(Player p, int groupID) throws NotExistingPositionException, NotEnoughAmmoException, NothingGrabbableException {
         if(p.getCurrentPosition().isEmpty() ||
                 !p.getCurrentPosition().getGrabbable().isGrabbable(p)) {
             throw new NothingGrabbableException();

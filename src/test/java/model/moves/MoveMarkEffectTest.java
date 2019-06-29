@@ -1,7 +1,7 @@
 package model.moves;
 
-import model.exception.FullMarksException;
 import model.Player;
+import model.exception.NotExistingPositionException;
 import model.room.User;
 import org.junit.jupiter.api.Test;
 
@@ -14,25 +14,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MoveMarkEffectTest {
 
     @Test
-    void MarkTest() throws FullMarksException {
+    void MarkTest() {
         int groupId = 0;
         Player playerMarking = new Player(new User("goofy"));
         Player playerMarked = new Player(new User("donald"));
         MarkEffect m = new MarkEffect(Stream.of(playerMarked), 2, false);
         /*add 3 marks of playerMarking to playerMarked */
-        m.execute(playerMarking, groupId);
+        try {
+            m.execute(playerMarking, groupId);
+        } catch (NotExistingPositionException e) {
+            e.printStackTrace();
+        }
         assertEquals(2, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
 
         /*add other 3 marks of playermarking to playermarked */
-        m.execute(playerMarking, groupId);
-        assertEquals(3, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
-
-        /*add other 3 marks --> this move will throw fullmarkexception*/
-        try{
+        try {
             m.execute(playerMarking, groupId);
-        } catch (FullMarksException e){
-            System.out.println(e.getMessage());
+        } catch (NotExistingPositionException e) {
+            e.printStackTrace();
         }
+        assertEquals(3, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
 
         assertEquals(3, Collections.frequency(playerMarked.getPlayerBoard().getMarks(), playerMarking));
 

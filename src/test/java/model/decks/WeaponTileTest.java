@@ -2,6 +2,8 @@ package model.decks;
 
 import model.GameContext;
 import model.enums.WeaponStatus;
+import model.exception.NotEnoughAmmoException;
+import model.exception.NotExistingFieldException;
 import model.room.Group;
 import network.Manager;
 import network.exceptions.InvalidUsernameException;
@@ -14,7 +16,7 @@ import java.util.List;
 class WeaponTileTest {
 
     @BeforeEach
-    void init() {
+    void init() throws NotExistingFieldException {
         Manager.get().reset();
         GameContext.get().reset();
         Manager.get().createGroup(5, 1);
@@ -36,7 +38,7 @@ class WeaponTileTest {
     }
 
     @Test
-    void test() {
+    void test() throws NotEnoughAmmoException {
         WeaponTile weaponTile = new WeaponTile();
         List<Weapon> weapon = new ArrayList<>();
         weapon.add(new Weapon(0, "1", "2", WeaponStatus.LOADED));

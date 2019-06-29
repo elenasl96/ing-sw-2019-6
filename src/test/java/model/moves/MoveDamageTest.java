@@ -3,6 +3,7 @@ package model.moves;
 
 import model.Player;
 import model.enums.Character;
+import model.exception.NotExistingPositionException;
 import org.junit.jupiter.api.Disabled;
 
 import java.util.stream.Stream;
@@ -15,7 +16,7 @@ public class MoveDamageTest {
     private DamageEffect damage;
 
     @Disabled
-    public void damageTest(){
+    public void damageTest() throws NotExistingPositionException {
         playerDamaging = new Player();
         playerDamaged = new Player();
         damage = new DamageEffect(Stream.of(playerDamaged), 6, false);

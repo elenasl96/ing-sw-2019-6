@@ -7,6 +7,8 @@ import model.decks.Grabbable;
 import model.enums.Color;
 import model.enums.TargetType;
 import model.exception.InvalidMoveException;
+import model.exception.NotExistingPositionException;
+import model.exception.NotExistingTargetException;
 import model.moves.Target;
 import model.room.Update;
 import org.jetbrains.annotations.Nullable;
@@ -69,7 +71,7 @@ public class Square extends Target implements Serializable {
      * @return          true if the square is either the same square, in the same room,
      *                  in an adjacent room to player's position
      */
-    public boolean canBeSeen(Player player, int groupID) {
+    public boolean canBeSeen(Player player, int groupID) throws NotExistingPositionException {
         if(player.getCurrentPosition().getColor().equals(this.getColor()))
             return true;
         else {
@@ -145,7 +147,7 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
-    public void setFieldsToFill(String input, int groupID) {
+    public void setFieldsToFill(String input, int groupID) throws NotExistingTargetException, NotExistingPositionException {
         if(input == null && this.getTargetType().equals(TargetType.BASIC_EQUALS)){
             this.coord = GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID).getCurrentPosition().getCoord();
         } else {
@@ -154,7 +156,7 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
-    public Target fillFields(int groupID) {
+    public Target fillFields(int groupID) throws NotExistingTargetException {
         return this.findRealTarget(coord.toString(), groupID);
     }
 
@@ -169,12 +171,12 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
-    public Target findRealTarget(String coordinateString, int groupID) {
+    public Target findRealTarget(String coordinateString, int groupID) throws NotExistingTargetException {
         Coordinate coordinate = fillCoordinate(coordinateString);
         for(Square s: GameContext.get().getGame(groupID).getBoard().getField().getSquares()){
             if(s.getCoord().equals(coordinate)) return s;
         }
-        throw new InvalidMoveException("Square " + coordinate + " doesn't exist.");
+        throw new NotExistingTargetException(this.getCoord().toString());
     }
 
     @Override
@@ -189,15 +191,15 @@ public class Square extends Target implements Serializable {
 
     //Effects
     @Override
-    public void addDamages(Player playerDamaging, int damages, int groupId) {
-        GameContext.get().getGame(groupId).getPlayers()
-                .stream()
-                .filter(player -> player.getCurrentPosition().equals(this) && !player.equals(playerDamaging))
-                .forEach(player -> player.addDamages(playerDamaging, damages, groupId));
+    public void addDamages(Player playerDamaging, int damages, int groupId) throws NotExistingPositionException {
+        for(Player player: GameContext.get().getGame(groupId).getPlayers()){
+            if(player.getCurrentPosition().equals(this) && !player.equals(playerDamaging))
+                player.addDamages(playerDamaging, damages, groupId);
+        }
     }
 
     @Override
-    public void setMine(int groupID) {
+    public void setMine(int groupID) throws NotExistingPositionException {
         this.coord = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getCoord();
     }
 
@@ -217,10 +219,11 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
-    public void addMarks(Player playerMarking, int groupID, int nMarks) {
-        GameContext.get().getGame(groupID).getPlayers()
-                .stream()
-                .filter(player -> player.getCurrentPosition().equals(this) && !player.equals(playerMarking))
-                .forEach(player -> player.addMarks(playerMarking, groupID, nMarks));
+    public void addMarks(Player playerMarking, int groupID, int nMarks) throws NotExistingPositionException {
+        for(Player player: GameContext.get().getGame(groupID).getPlayers()){
+            if(player.getCurrentPosition().equals(this) && !player.equals(playerMarking))
+                player.addMarks(playerMarking, groupID, nMarks);
+
+        }
     }
 }

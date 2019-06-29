@@ -7,8 +7,7 @@ import model.decks.Powerup;
 import model.decks.Weapon;
 import model.enums.*;
 import model.enums.Character;
-import model.exception.FullMarksException;
-import model.exception.InvalidMoveException;
+import model.exception.*;
 import model.field.Edge;
 import model.field.Field;
 import model.field.Square;
@@ -97,12 +96,12 @@ public class Player extends Target implements Serializable{
 
     /**
      * @return the player's current position in the game
-     * @throws InvalidMoveException if the position was null
+     * @throws NotExistingPositionException if the position was null
      */
     @Override
-    public Square getCurrentPosition() {
+    public Square getCurrentPosition() throws NotExistingPositionException {
         if(this.currentPosition == null)
-            throw new InvalidMoveException(this.name+" position doesn't exist");
+            throw new NotExistingPositionException(this);
         return currentPosition;
     }
 
@@ -187,7 +186,7 @@ public class Player extends Target implements Serializable{
      * @return          true if this player is either in the same square, same room,
      *                  an adjacent room to p's position
      */
-    public boolean canBeSeen(Player p, int groupID) {
+    public boolean canBeSeen(Player p, int groupID) throws NotExistingPositionException {
         Field field = GameContext.get().getGame(groupID).getBoard().getField();
         if (this.getCurrentPosition().getColor().equals(p.getCurrentPosition().getColor())){
             return true;
@@ -257,7 +256,7 @@ public class Player extends Target implements Serializable{
             }
         }
         if(ammosFilled.toString().isEmpty())
-            throw new InvalidMoveException("You cannot have more ammos of that color");
+            return "You already have 3 ammos of that color";
         return ammosFilled.toString();
     }
 
@@ -348,12 +347,12 @@ public class Player extends Target implements Serializable{
      * @param t the target the current Player wants to shoot to
      * @return true value if the player can see the target, false otherwise
      */
-    boolean canSee(Target t, int groupID){
+    boolean canSee(Target t, int groupID) throws InvalidMoveException {
         return t.canBeSeen(this, groupID);
     }
 
     @Override
-    public void setFieldsToFill(String inputName, int groupID) {
+    public void setFieldsToFill(String inputName, int groupID) throws NotExistingTargetException {
         if(inputName == null && this.getTargetType().equals(BASIC_EQUALS)){
            this.name = ((Player) GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID)).getName();
         } else {
@@ -367,7 +366,7 @@ public class Player extends Target implements Serializable{
      * @return          the target of the attack
      */
     @Override
-    public Target fillFields(int groupID) {
+    public Target fillFields(int groupID) throws NotExistingTargetException {
         return this.findRealTarget(this.name, groupID);
     }
 
@@ -436,15 +435,11 @@ public class Player extends Target implements Serializable{
     @Override
     public void addMarks(Player playerMarking, int groupID, int nMarks) {
         int occurrences = Collections.frequency(this.getPlayerBoard().getMarks(), playerMarking);
-        if(occurrences<3){
-            int marksReceived = this.getPlayerBoard().addMarks(playerMarking, min(3-occurrences, nMarks));
-            Update update = new Update("You received " + marksReceived + " marks " +
-                    "from " + playerMarking.getName(),"markers");
-            update.setData(marksReceived + ";" + playerMarking.getCharacter().getNum());
-            this.receiveUpdate(update);
-        } else{
-            throw new FullMarksException();
-        }
+        int marksReceived = this.getPlayerBoard().addMarks(playerMarking, min(3-occurrences, nMarks));
+        Update update = new Update("You received " + marksReceived + " marks " +
+                "from " + playerMarking.getName(),"markers");
+        update.setData(marksReceived + ";" + playerMarking.getCharacter().getNum());
+        this.receiveUpdate(update);
     }
 
     @Override
@@ -452,30 +447,30 @@ public class Player extends Target implements Serializable{
         return name!=null;
     }
 
-    public void generateVisible(int groupID){
+    public void generateVisible(int groupID) throws NotExistingPositionException {
         for(Player p: GameContext.get().getGame(groupID).getPlayers()){
             if(p.canBeSeen(this, groupID)) this.visible.add(p.getCurrentPosition());
         }
     }
 
-    public Target getBasicTarget(int groupID) {
+    public Target getBasicTarget(int groupID) throws NotExistingTargetException {
         for(CardEffect c: currentCardEffects){
             if(c.getEffectType().equals(EffectType.BASIC)) {
                 return c.getEffects().get(0).getTarget().get(0).findRealTarget(null, groupID);
             }
         }
-        throw new InvalidMoveException("Not only one basic target");
+        throw new NotExistingTargetException("basic target");
     }
 
     @Override
-    public Target findRealTarget(String inputName, int groupID) {
+    public Target findRealTarget(String inputName, int groupID) throws NotExistingTargetException {
         if(inputName == null){
             inputName = this.name;
         }
         for (Player p : GameContext.get().getGame(groupID).getPlayers()) {
             if (p.getName().equals(inputName)) return p;
         }
-        throw new InvalidMoveException("Player "+inputName+" doesn't exist");
+        throw new NotExistingTargetException(this.getName());
     }
 
     @Override

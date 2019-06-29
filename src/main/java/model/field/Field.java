@@ -30,7 +30,7 @@ public class Field implements Serializable {
         return this.rooms;
     }
 
-    public Field(int fieldNumber){
+    public Field(int fieldNumber) throws NotExistingFieldException {
         generateField(fieldNumber);
     }
 
@@ -38,7 +38,7 @@ public class Field implements Serializable {
      * Generates edges and Squares depending on the field number inserted, from 1 to 3
      * @param fieldNumber   the number of the field requested
      */
-    public void generateField(int fieldNumber){
+    public void generateField(int fieldNumber) throws NotExistingFieldException {
         switch (fieldNumber) {
             case(1):
                 /*     A   B   C   D            A   B   C   D

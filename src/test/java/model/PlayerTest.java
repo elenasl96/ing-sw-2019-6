@@ -3,6 +3,8 @@ package model;
 import model.decks.PowerupDeck;
 import model.enums.Color;
 import model.enums.Phase;
+import model.exception.InvalidMoveException;
+import model.exception.NotExistingFieldException;
 import model.field.Coordinate;
 import model.field.SpawnSquare;
 import model.field.Square;
@@ -65,7 +67,7 @@ class PlayerTest {
     }
 
     @Test
-    void canSeeTest(){
+    void canSeeTest() throws InvalidMoveException {
         GameContext.get().reset();
         Manager.get().reset();
         Manager.get().reset();

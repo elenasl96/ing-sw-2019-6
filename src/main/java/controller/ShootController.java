@@ -9,8 +9,7 @@ import model.decks.Weapon;
 import model.enums.EffectType;
 import model.enums.TargetType;
 import model.enums.WeaponStatus;
-import model.exception.InvalidMoveException;
-import model.exception.CardinalTargetNotFoundException;
+import model.exception.*;
 import model.field.Field;
 import model.field.Square;
 import model.moves.Effect;
@@ -34,7 +33,7 @@ public class ShootController {
 
     //-------------------------------------USE WEAPON-------------------------------------//
 
-    synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) {
+    synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) throws InvalidMoveException {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
         Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
         if (!checkWeaponEffects(weapon, weaponEffectsSplitted, groupID))
@@ -46,7 +45,7 @@ public class ShootController {
         return getEffectsToFill(player);
     }
 
-    private synchronized boolean checkWeaponEffects(Weapon weapon, String[] weaponEffectsSplitted, int groupID) {
+    private synchronized boolean checkWeaponEffects(Weapon weapon, String[] weaponEffectsSplitted, int groupID) throws InvalidMoveException {
         //Check if player has the weapon
         int sequenceSize = weaponEffectsSplitted.length - 1;
         EffectType[] sequence = new EffectType[sequenceSize];
@@ -107,12 +106,12 @@ public class ShootController {
         return string.toString();
     }
 
-    void playWeapon(Player player, String input, int groupID) {
+    void playWeapon(Player player, String input, int groupID) throws InvalidMoveException {
        playCard(player, input, groupID);
         unloadWeaponInUse(player);
     }
 
-    public void checkDifferentInputs(String[][] effectsMatrix) {
+    public void checkDifferentInputs(String[][] effectsMatrix) throws InvalidMoveException {
         HashSet<String> set = new HashSet<>();
         for (String[] array : effectsMatrix) {
             for (String s : array) {
@@ -142,7 +141,7 @@ public class ShootController {
      * if it is playable at the moment it is added in the return list
      * @return list of powerups the player can play in that moment
      */
-    public List<Powerup> getPowerupsToPlay(Player player) {
+    List<Powerup> getPowerupsToPlay(Player player) {
         List<Powerup> powerupsToPlay = new ArrayList<>();
         for(Powerup powerup: player.getPowerups()){
             if(isPlayable(player, powerup))
@@ -173,14 +172,15 @@ public class ShootController {
         return false;
     }
 
-    public String preparePowerup(Player player, String input, int groupID) {
+    String preparePowerup(Player player, String input, int groupID) throws InvalidMoveException {
         Powerup powerupToPlay;
         try {
             int powerupIndex = Integer.parseInt(input);
             powerupToPlay = getPowerupsToPlay(player).get(powerupIndex);
             ShootController.get().addMoves(player, powerupToPlay);
-            //Discard powerup
-            GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().discardCard(powerupToPlay);
+            //Put the powerup chosen at the beginning of list in player
+            player.getPowerups().remove(powerupToPlay);
+            player.getPowerups().add(0, powerupToPlay);
             //Ask player to fill effects
             return powerupToPlay.getEffectsDescription();
         }catch (NumberFormatException | IndexOutOfBoundsException e){
@@ -189,13 +189,13 @@ public class ShootController {
     }
 
 
-    public void addMoves(Player player, Powerup powerupToPlay) {
+    void addMoves(Player player, Powerup powerupToPlay) {
         for(CardEffect c: powerupToPlay.getEffects()){
             player.getCurrentCardEffects().add(c);
         }
     }
 
-    void playCard(Player player, String input, int groupID){
+    void playCard(Player player, String input, int groupID) throws InvalidMoveException {
         //Convert input to matrix
         String[][] effectsMatrix = generateMatrix(input);
         //Check if inputs are all different
@@ -212,13 +212,15 @@ public class ShootController {
         }
     }
 
-    void playPowerup(Player player, String input, int groupID) {
+    void playPowerup(Player player, String input, int groupID) throws InvalidMoveException {
+        Powerup powerupToPlay = player.getPowerups().get(0);
         playCard(player, input, groupID);
+        GameContext.get().getGame(groupID).getBoard().getPowerupsLeft().discardCard(player, powerupToPlay);
     }
 
     //---------------------------------GENERAL CHECKS-------------------------------------------//
 
-    private void fillFields(List<CardEffect> currentCardEffects, int groupID) {
+    private void fillFields(List<CardEffect> currentCardEffects, int groupID) throws NotExistingTargetException {
         List<Effect> effectsToRemove = new ArrayList<>();
         for (CardEffect c : currentCardEffects) {
             for (Effect e : c.getEffects()) {
@@ -241,7 +243,7 @@ public class ShootController {
         return inputMatrix;
     }
 
-    private void fillWithInput(Player player, String[][] inputMatrix, int groupID) {
+    private void fillWithInput(Player player, String[][] inputMatrix, int groupID) throws InvalidMoveException {
         int index2 = 0;
         for (int i = 0; i < player.getCurrentCardEffects().size(); i++) {
             for (int j = 0; j < player.getCurrentCardEffects().get(i).getEffects().size(); j++) {
@@ -269,7 +271,7 @@ public class ShootController {
         }
     }
 
-    public void checkTarget(Target target, String inputName, int groupID) {
+    public void checkTarget(Target target, String inputName, int groupID) throws NotExistingTargetException, NotExistingPositionException, InvalidDistanceException, TargetTypeException {
         Target realTarget = target.findRealTarget(inputName, groupID);
         try {
             checkMinDistance(target.getMinDistance(),
@@ -281,57 +283,57 @@ public class ShootController {
         checkTargetType(target, realTarget, groupID);
     }
 
-    public void checkMaxDistance(Integer maxDistance, Square targetPosition, int groupID) {
+    public void checkMaxDistance(Integer maxDistance, Square targetPosition, int groupID) throws NotExistingPositionException, InvalidDistanceException {
         Square firstPosition = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition();
         Field field = GameContext.get().getGame(groupID).getBoard().getField();
         if(maxDistance != null){
             if (maxDistance == 0) {
                 if(!targetPosition.equals(firstPosition)) {
-                    throw new InvalidMoveException("Invalid distance");
+                    throw new InvalidDistanceException();
                 }
             }else {
                 targetPosition.getReachSquares().clear();
                 targetPosition.createReachList(maxDistance, targetPosition.getReachSquares(), field);
                 if (!targetPosition.getReachSquares().contains(firstPosition))
-                    throw new InvalidMoveException("Invalid max distance");
+                    throw new InvalidDistanceException();
             }
         }
     }
 
-    public void checkMinDistance(Integer minDistance, Square targetPosition, int groupID) {
+    public void checkMinDistance(Integer minDistance, Square targetPosition, int groupID) throws InvalidDistanceException, NotExistingPositionException {
         Square firstPosition = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition();
         targetPosition.getReachSquares().clear();
         if(minDistance != null) {
             targetPosition.createReachList(minDistance - 1, targetPosition.getReachSquares(),
                     GameContext.get().getGame(groupID).getBoard().getField());
             if (targetPosition.getReachSquares().contains(firstPosition)) {
-                throw new InvalidMoveException("Invalid distance");
+                throw new InvalidDistanceException();
             }
         }
     }
 
-    private void checkTargetType(Target target, Target realTarget, int groupID) {
+    private void checkTargetType(Target target, Target realTarget, int groupID) throws NotExistingPositionException, NotExistingTargetException, TargetTypeException {
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         switch (target.getTargetType()) {
             case BASIC_VISIBLE:
                 Player basic = (Player) player.getBasicTarget(groupID);
                 basic.generateVisible(groupID);
                 if(!basic.getVisible().contains(realTarget.getCurrentPosition()))
-                    throw new InvalidMoveException("Target is not basic visible");
+                    throw new TargetTypeException(target.getTargetType());
                 break;
             case VISIBLE:
                 if(!realTarget.canBeSeen(player, groupID))
-                    throw new InvalidMoveException("Not visible target");
+                    throw new TargetTypeException(target.getTargetType());
                 break;
             case NOT_VISIBLE:
                 if (realTarget.canBeSeen(player, groupID))
-                    throw new InvalidMoveException("Not not visible target");
+                    throw new TargetTypeException(target.getTargetType());
                 break;
             case MINE:
-                if(!realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You must use yourself");
+                if(!realTarget.sameAsMe(groupID)) throw new TargetTypeException(target.getTargetType());
                 break;
             case NOT_MINE:
-                if(realTarget.sameAsMe(groupID)) throw new InvalidMoveException("You can't use yours");
+                if(realTarget.sameAsMe(groupID)) throw new TargetTypeException(target.getTargetType());
                 break;
             case CARDINAL:
                 areCardinal(target, realTarget, groupID);
@@ -340,10 +342,10 @@ public class ShootController {
                 break;
         }
         if(!target.getTargetType().equals(TargetType.MINE) && realTarget.sameAsMe(groupID))
-            throw new InvalidMoveException("You can't use yourself");
+            throw new TargetTypeException(TargetType.NOT_MINE);
     }
 
-    private void areCardinal(Target target, Target realTarget, int groupID) {
+    private void areCardinal(Target target, Target realTarget, int groupID) throws NotExistingTargetException, NotExistingPositionException, TargetTypeException {
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         List<Target> realTargets = new ArrayList<>();
         List<Target> cardinalTargets = findCardinalTargets(target, groupID);
@@ -356,7 +358,7 @@ public class ShootController {
             if(
                     t.getCurrentPosition().getCoord().getX() != player.getCurrentPosition().getCoord().getX() &&
                     t.getCurrentPosition().getCoord().getY() != player.getCurrentPosition().getCoord().getY()
-            ) throw new InvalidMoveException("Targets are not cardinal");
+            ) throw new TargetTypeException(target.getTargetType());
         }
         for (int i = 1; i < realTargets.size(); i++) {
             if (
@@ -380,11 +382,11 @@ public class ShootController {
                     realTargets.get(i - 1).getCurrentPosition().getCoord().getY() <
                     player.getCurrentPosition().getCoord().getY()
                 )
-                throw new InvalidMoveException("Targets are not cardinal");
+                throw new TargetTypeException(TargetType.CARDINAL);
         }
     }
 
-    private List<Target> findCardinalTargets(Target target, int groupID) {
+    private List<Target> findCardinalTargets(Target target, int groupID) throws TargetTypeException {
         List<Target> targets = new ArrayList<>();
         for(CardEffect c:GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
             for(Effect e: c.getEffects()){
@@ -396,8 +398,8 @@ public class ShootController {
                            }));
             }
         }
-        if(targets != null) return targets;
-        else throw new CardinalTargetNotFoundException();
+        if(!targets.isEmpty()) return targets;
+        else throw new TargetTypeException(TargetType.CARDINAL);
     }
 
 }

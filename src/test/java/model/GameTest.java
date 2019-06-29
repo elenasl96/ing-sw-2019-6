@@ -1,4 +1,5 @@
 package model;
+import model.exception.NotExistingFieldException;
 import model.room.Group;
 import network.exceptions.InvalidUsernameException;
 import network.Manager;
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GameTest {
 
     @BeforeEach
-    void reset(){
+    void reset() throws NotExistingFieldException {
         Manager.get().reset();
         GameContext.get().reset();
         Manager.get().createGroup(5,1);

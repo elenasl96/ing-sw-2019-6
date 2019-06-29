@@ -5,6 +5,9 @@ import model.Player;
 import model.enums.Color;
 import model.enums.TargetType;
 import model.exception.InvalidMoveException;
+import model.exception.NotExistingPositionException;
+import model.exception.NotExistingRoomException;
+import model.exception.NotExistingTargetException;
 import model.moves.Target;
 import model.room.Update;
 import org.jetbrains.annotations.Nullable;
@@ -36,14 +39,14 @@ public class Room extends Target {
     }
 
     @Override
-    public void addDamages(Player playerDamaging, int damages, int groupId) {
+    public void addDamages(Player playerDamaging, int damages, int groupId) throws NotExistingPositionException {
         for(Square s: GameContext.get().getGame(groupId).getBoard().getField().getSquares()){
             if(s.getColor().equalsTo(this.color)) s.addDamages(playerDamaging, damages, groupId);
         }
     }
 
     @Override
-    public void setMine(int groupID) {
+    public void setMine(int groupID) throws NotExistingPositionException {
         this.color = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition().getColor();
     }
 
@@ -72,7 +75,7 @@ public class Room extends Target {
      * @return          true if the room is either the same room or
      *                  an adjacent room to player's position
      */
-    public boolean canBeSeen(Player player, int groupID) {
+    public boolean canBeSeen(Player player, int groupID) throws NotExistingPositionException {
         if(player.getCurrentPosition().getColor().equals(this.getColor()))
             return true;
         else {
@@ -121,12 +124,12 @@ public class Room extends Target {
     }
 
     @Override
-    public Target findRealTarget(String inputName, int groupID) {
+    public Target findRealTarget(String inputName, int groupID) throws NotExistingTargetException {
         for(Room r: GameContext.get().getGame(groupID).getBoard().getField().getRooms()){
             if(r.color.equalsTo(Color.fromName(inputName)))
                 return r;
         }
-        throw new InvalidMoveException("Not existing Room");
+        throw new NotExistingTargetException(this.getColor().toString());
     }
 
     @Override

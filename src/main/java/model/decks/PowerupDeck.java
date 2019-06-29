@@ -39,7 +39,8 @@ public class PowerupDeck {
         return powerupCard;
     }
 
-    public void discardCard(Powerup card) {
+    public void discardCard(Player player, Powerup card) {
+        player.getPowerups().remove(card);
         discard.add(card);
     }
 

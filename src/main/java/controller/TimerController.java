@@ -2,6 +2,7 @@ package controller;
 
 import model.GameContext;
 import model.enums.Phase;
+import model.exception.NotExistingFieldException;
 import model.room.*;
 import network.Manager;
 
@@ -73,7 +74,11 @@ public class TimerController implements ModelObserver {
                     Manager.get().getGroup(groupID).sendUpdate(new Update("Seconds remaining: " + seconds + "..."));
                 } else if (seconds == 0){
                     Manager.get().getGroup(groupID).sendUpdate(new Update("Game starting"));
-                    Manager.get().getGroup(groupID).createGame();
+                    try {
+                        Manager.get().getGroup(groupID).createGame();
+                    } catch (NotExistingFieldException e) {
+                        e.printStackTrace();
+                    }
                     timers.get(groupID).purge();
                 }
                 seconds--;
@@ -138,7 +143,11 @@ public class TimerController implements ModelObserver {
         }
         if(Manager.get().getGroup(groupID).isFull()){
             timers.get(groupID).purge();
-            Manager.get().getGroup(groupID).createGame();
+            try {
+                Manager.get().getGroup(groupID).createGame();
+            } catch (NotExistingFieldException e) {
+                e.printStackTrace();
+            }
         }
     }
 

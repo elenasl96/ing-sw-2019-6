@@ -8,6 +8,7 @@ import model.GameContext;
 import model.Player;
 import model.decks.WeaponTile;
 import model.enums.Phase;
+import model.exception.NotExistingPositionException;
 import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
@@ -201,9 +202,15 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
-        Update update = GameController.get().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
-        if(update == null) return null;
-        return new GameUpdateNotification(update);
+        Update update = null;
+        try {
+            update = GameController.get().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
+            if(update == null) return null;
+            return new GameUpdateNotification(update);
+        } catch (InvalidMoveException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -211,10 +218,18 @@ public class ServerController implements RequestHandler {
         if(spawnRequest.getSpawn()==null) {
             return new GameUpdateNotification(GameController.get().getSpawn(this.user.getPlayer(), currentGroup.getGroupID()));
         }else if(spawnRequest.isFirstTime()) {
-            GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
+            try {
+                GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
+            } catch (NotExistingPositionException e) {
+                e.printStackTrace();
+            }
             return null;
         } else {
-            GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
+            try {
+                GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
+            } catch (InvalidMoveException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }
@@ -262,14 +277,12 @@ public class ServerController implements RequestHandler {
                         .getPowerupsToPlay(user.getPlayer());
                 if(powerupsToPlay.isEmpty()){
                     user.receiveUpdate(new Update("You haven't powerups to play now",UPDATE_CONSOLE));
+                    GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
+                            .receiveUpdate(new Update(null,"turnbar")); //TODO check this (SCHERO) for GUI
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }else{
                     update = new Update("You can play these powerups:" + cardsToString(powerupsToPlay, 0),"choosecard");
-                    StringBuilder string = new StringBuilder();
-                    for(Powerup p: powerupsToPlay) {
-                        string.append(p.getName()).append(p.getAmmo().getColor().getAbbr()).append(";");
-                    }
-                    update.setData(string.toString().substring(0,string.toString().length()-1).toLowerCase());
+                    // update.setData(powerupsToPlay.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
                     user.receiveUpdate(update);
                     return new AskInput("choosePowerup");
                 }
@@ -299,6 +312,10 @@ public class ServerController implements RequestHandler {
                     user.receiveUpdate(new Update(p,true));
                 }catch(NotEnoughAmmoException e){
                     user.receiveUpdate(new Update("Not enough ammos!",UPDATE_CONSOLE));
+                    p.setPhaseNotDone(true);
+                    user.receiveUpdate(new Update(p,true));
+                } catch (NotExistingPositionException e) {
+                    user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
                     p.setPhaseNotDone(true);
                     user.receiveUpdate(new Update(p,true));
                 }

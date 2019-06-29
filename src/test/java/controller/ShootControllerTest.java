@@ -4,7 +4,10 @@ import model.GameContext;
 import model.Player;
 import model.decks.Weapon;
 import model.enums.WeaponStatus;
+import model.exception.InvalidDistanceException;
 import model.exception.InvalidMoveException;
+import model.exception.NotExistingFieldException;
+import model.exception.NotExistingPositionException;
 import model.field.Field;
 import model.field.Square;
 import model.room.Group;
@@ -24,7 +27,7 @@ class ShootControllerTest {
     private ArrayList<User> users;
 
     @BeforeEach
-    void start(){
+    void start() throws NotExistingFieldException {
         Manager.get().reset();
         GameContext.get().reset();
         GameContext.get().createGame(0);
@@ -76,7 +79,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void lockRifleTestWithDuplicateInput(){
+    void lockRifleTestWithDuplicateInput() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
@@ -101,7 +104,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void electroscytheTestWithNoInput(){
+    void electroscytheTestWithNoInput() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -129,7 +132,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void machineGunTestWithHalfBasic(){
+    void machineGunTestWithHalfBasic() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
@@ -156,7 +159,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void tractorBeamTest(){
+    void tractorBeamTest() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(6));
@@ -188,7 +191,7 @@ class ShootControllerTest {
 
 
     @Test
-    void thorTestWithBasicVisible(){
+    void thorTestWithBasicVisible() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(1));
@@ -221,7 +224,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void plasmaGunTestWithMovementMe(){
+    void plasmaGunTestWithMovementMe() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
@@ -247,7 +250,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void whisperTest(){
+    void whisperTest() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         for(Player p: GameContext.get().getGame(0).getPlayers()){
@@ -275,7 +278,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void vortexCannonWithTargetMovement(){
+    void vortexCannonWithTargetMovement() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -308,7 +311,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void furnaceTestWithRoomTarget(){
+    void furnaceTestWithRoomTarget() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -337,7 +340,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void heatSeekerTestWithNOT_VISIBLE(){
+    void heatSeekerTestWithNOT_VISIBLE() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(1));
@@ -360,7 +363,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void hellionTestWithLATEST_SQUARE(){
+    void hellionTestWithLATEST_SQUARE() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -397,7 +400,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void flamethrownerTestWithNotCardinal(){
+    void flamethrownerTestWithNotCardinal() throws NotExistingPositionException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -433,7 +436,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void flamethrownerTestWithCardinalSquare(){
+    void flamethrownerTestWithCardinalSquare() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -469,7 +472,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void grenadeLauncherWithEmptyInputInMiddleTest(){
+    void grenadeLauncherWithEmptyInputInMiddleTest() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -508,7 +511,7 @@ class ShootControllerTest {
 
 
     @Test
-    void rocketLauncherTest(){
+    void rocketLauncherTest() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -546,7 +549,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void zx2Test(){
+    void zx2Test() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -587,7 +590,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void shotgunTest(){
+    void shotgunTest() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -623,7 +626,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void powerGloveTest(){
+    void powerGloveTest() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -661,7 +664,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void railgunTest(){
+    void railgunTest() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -697,7 +700,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void shockWaveWithALL(){
+    void shockWaveWithALL() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -766,7 +769,7 @@ class ShootControllerTest {
     }*/
 
     @Test
-    void sledgeHammerTest(){
+    void sledgeHammerTest() throws InvalidMoveException {
         Player p1 = GameContext.get().getGame(0).getPlayers().get(0);
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         Player p3 = GameContext.get().getGame(0).getPlayers().get(2);
@@ -802,7 +805,7 @@ class ShootControllerTest {
     }
 
     @Test
-    void checkMinDistanceTest(){
+    void checkMinDistanceTest() throws InvalidDistanceException, NotExistingPositionException {
         Player target = new Player(NONE, NONE, 2,2);
         GameContext.get().getGame(0).setCurrentPlayer(target);
         Field field = GameContext.get().getGame(0).getBoard().getField();

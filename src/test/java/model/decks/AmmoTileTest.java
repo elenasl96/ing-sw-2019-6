@@ -2,6 +2,8 @@ package model.decks;
 
 import model.GameContext;
 import model.enums.Color;
+import model.exception.NotEnoughAmmoException;
+import model.exception.NotExistingFieldException;
 import model.room.Group;
 import network.Manager;
 import network.exceptions.InvalidUsernameException;
@@ -11,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class AmmoTileTest {
 
     @BeforeEach
-    void init(){
+    void init() throws NotExistingFieldException {
         Manager.get().reset();
         GameContext.get().reset();
         Manager.get().createGroup(5,1);
@@ -33,7 +35,7 @@ public class AmmoTileTest {
     }
 
     @Test
-    void test(){
+    void test() throws NotEnoughAmmoException {
         AmmoTile wPowerup = new AmmoTileWithPowerup(Color.BLUE, Color.YELLOW);
         AmmoTile wAmmo = new AmmoTileWithAmmo(Color.BLUE, Color.YELLOW, Color.YELLOW);
         wPowerup.pickGrabbable(1,1);

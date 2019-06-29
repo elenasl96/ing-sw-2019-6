@@ -266,7 +266,7 @@ public class ViewClient implements View {
             }
             int groupNumber = controller.createGroup(skullNumber, fieldNumber);
             return controller.chooseGroup(groupNumber);
-        } catch (InvalidGroupNumberException|NumberFormatException| NotExistingFieldException e){
+        } catch (InvalidGroupNumberException|NumberFormatException e){
             displayText("Insert a valid number");
             return null;
         }

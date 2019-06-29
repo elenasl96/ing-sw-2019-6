@@ -3,6 +3,7 @@ package model.room;
 import model.Game;
 import model.GameContext;
 import model.enums.Character;
+import model.exception.NotExistingFieldException;
 import network.Manager;
 import network.exceptions.UserNotInGroupException;
 import network.exceptions.FullGroupException;
@@ -197,7 +198,7 @@ public class Group implements Serializable {
      * Creates a new Game: sets the group full, adds every listener to the games listeners,
      * fills the square with grabbable content, triggers onStart in ModelObservers
      */
-    public void createGame() {
+    public void createGame() throws NotExistingFieldException {
         this.setFull();
         //Makes every listener of this group an Observer of the game
         GameContext.get().createGame(this.groupID);

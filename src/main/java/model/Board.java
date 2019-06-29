@@ -1,6 +1,7 @@
 package model;
 
 import model.decks.*;
+import model.exception.NotExistingFieldException;
 import model.field.*;
 
 import java.io.Serializable;
@@ -45,7 +46,7 @@ public class Board implements Serializable {
      * Constructor
      * @param fieldNumber   the number of field chosen by the group creator
      */
-    public Board(int fieldNumber){
+    public Board(int fieldNumber) throws NotExistingFieldException {
         this.killshotTrack = new ArrayList<>();
         this.weaponsLeft = new WeaponDeck();
         this.ammosLeft = new AmmoDeck();

@@ -1,7 +1,6 @@
 package model;
 
 import model.decks.CardEffect;
-import model.exception.FullMarksException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -71,15 +70,15 @@ public class PlayerBoard implements Serializable {
         if (frequency + numMarks > 3) {
             for (int i = 0; i < 3 - frequency; i++) {
                 this.marks.add(pg);
+                marksSuffered++;
             }
-            throw new FullMarksException();
         } else {
             for (int i = 0; i < numMarks; i++) {
                 this.marks.add(pg);
                 marksSuffered++;
             }
-            return marksSuffered;
         }
+        return marksSuffered;
     }
 
     int getDeaths() {

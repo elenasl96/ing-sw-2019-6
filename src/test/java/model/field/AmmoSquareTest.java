@@ -1,6 +1,7 @@
 package model.field;
 
 import model.GameContext;
+import model.exception.NotExistingFieldException;
 import network.exceptions.InvalidUsernameException;
 import network.Manager;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class AmmoSquareTest {
 
     @Test
-    void test(){
+    void test() throws NotExistingFieldException {
         Manager.get().reset();
         GameContext.get().reset();
         try {

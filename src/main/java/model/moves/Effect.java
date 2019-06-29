@@ -1,14 +1,11 @@
 package model.moves;
 
-import controller.GameController;
 import controller.ShootController;
 import model.GameContext;
 import model.decks.CardEffect;
-import model.enums.TargetType;
-import model.exception.InvalidMoveException;
+import model.exception.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,7 +39,7 @@ public abstract class Effect implements Move {
         return stringBuilder.toString();
     }
 
-    public void fillFields(int groupID){
+    public void fillFields(int groupID) throws NotExistingTargetException {
         List<Target> targetsToRemove = new ArrayList<>();
         List<Target> realTargets = new ArrayList<>();
         for(Target t : targets){
@@ -55,7 +52,7 @@ public abstract class Effect implements Move {
     }
 
 
-    public int setFieldsToFill(String[] inputMatrix, int index, int groupID){
+    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {
         for (int k=0; k<this.getTarget().size(); k++) {
             if(!this.getTarget().get(k).isFilled()) {
                 switch (this.targets.get(k).getTargetType()) {
@@ -75,11 +72,11 @@ public abstract class Effect implements Move {
                         break;
                     default:
                         if ((inputMatrix == null || k >= inputMatrix.length) && !this.optionality)
-                            throw new InvalidMoveException("fields missing");
+                            throw new NotEnoughFieldsException();
                         if (inputMatrix != null && index<inputMatrix.length && !this.targets.get(k).isFilled()){
                                 if(inputMatrix[index].equals("")) {
                                     if (!this.optionality)
-                                        throw new InvalidMoveException("fields missing");
+                                        throw new NotEnoughFieldsException();
                                 }else {
                                     ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
                                     this.getTarget().get(k).setFieldsToFill(inputMatrix[index], groupID);
@@ -94,7 +91,7 @@ public abstract class Effect implements Move {
         return index;
     }
 
-    public Effect getPreviousEffect(int groupID) {
+    public Effect getPreviousEffect(int groupID) throws SquareNotFoundException {
         for(CardEffect c: GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
             for(int i=0; i<c.getEffects().size(); i++){
                 if(c.getEffects().get(i).equals(this) && i>0){
@@ -102,7 +99,7 @@ public abstract class Effect implements Move {
                 }
             }
         }
-        throw new InvalidMoveException("No latest Square found");
+        throw new SquareNotFoundException();
     }
 
     public abstract boolean isFilled();

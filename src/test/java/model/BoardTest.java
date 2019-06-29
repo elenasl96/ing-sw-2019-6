@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class BoardTest {
 
     @Test
-    void Constructor(){
+    void Constructor() throws NotExistingFieldException {
         Board board = new Board(1);
         Field field = new Field(1);
         try{field.generateField(1);}
@@ -22,7 +22,7 @@ class BoardTest {
     }
 
     @Test
-    void killShotTrackTest(){
+    void killShotTrackTest() throws NotExistingFieldException {
         Player p1 = new Player(new User("pippo"));
         Board b1 = new Board(2);
         b1.addKillshot(p1);
