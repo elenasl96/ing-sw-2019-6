@@ -379,12 +379,15 @@ public class ServerController implements RequestHandler {
                         GameController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
                         GameController.get().updatePhase(currentGroup.getGroupID());
                     } catch (NullPointerException | IndexOutOfBoundsException e) {
+                        user.getPlayer().getCurrentCardEffects().clear();
                         user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
                         p.getUser().receiveUpdate(new Update(p, true));
                     } catch (NumberFormatException e) {
+                        user.getPlayer().getCurrentCardEffects().clear();
                         user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
                         p.getUser().receiveUpdate(new Update(p, true));
                     } catch (InvalidMoveException e) {
+                        user.getPlayer().getCurrentCardEffects().clear();
                         user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
                         p.getUser().receiveUpdate(new Update(p, true));
                     }
@@ -402,7 +405,10 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(ShootRequest shootRequest) {
         try {
-            this.user.receiveUpdate(new Update(GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString(), currentGroup.getGroupID())));
+            String fields = GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString(), currentGroup.getGroupID());
+            Update update = new Update(fields,"fillfields");
+            update.setData(fields);
+            this.user.receiveUpdate(update);
             return new AskInput("fillFields");
             }catch(IndexOutOfBoundsException e) {
                 user.receiveUpdate(new Update("Out of bound",UPDATE_CONSOLE));
