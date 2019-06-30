@@ -53,7 +53,7 @@ public enum TargetType {
     /*
     Types for powerups
      */
-    TARGETING_SCOPE_TARGET(14);
+    DAMAGED(14);
 
     TargetType(int number){}
 }
