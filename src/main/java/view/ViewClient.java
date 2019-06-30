@@ -40,6 +40,7 @@ public class ViewClient implements View {
             clip = (Clip) AudioSystem.getLine(info);
             clip.open(stream);
             clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
             displayText("Error!!");
             System.err.println(e.getMessage());
