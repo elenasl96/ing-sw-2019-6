@@ -234,6 +234,24 @@ public class MainFrame extends JFrame {
         JPanel voidPanel = new JPanel();
         playerBoard = new PlayerBoardPanel();
         voidPanel.add(playerBoard);
+        JButton voidButton = new JButton("Void");
+        voidButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                command = command + ";";
+                actionListenerCoordinate.setS("");
+                playerSelected = "";
+                synchronized (lockCharacter) {
+                    lockCharacter.notifyAll();
+                }
+                synchronized (lockCoordinate) {
+                    lockCoordinate.notifyAll();
+                }
+
+
+            }
+        });
+        voidPanel.add(voidButton);
 
         add(centralPanel, BorderLayout.CENTER);
         add(left, BorderLayout.WEST);
@@ -590,7 +608,7 @@ public class MainFrame extends JFrame {
                 }
             }
         }
-        return null;
+        return "";
     }
 
     public void addDropPlayerBoard(int num) {
@@ -619,18 +637,21 @@ public class MainFrame extends JFrame {
 
     public void fillFields(String s) {
         String[] data = s.split(";");
-
-        for(String field: data) {
-            switch(field) {
-                case "player":
-                    command = command + selectPlayer() + ";";
-                    break;
-                case "square":
-                    command = command + getCoordinate() + ";";
-                    break;
-                case "room":
-                    command = command + getColorRoom() + ";";
+        synchronized (lockCommand) {
+            for (String field : data) {
+                switch (field) {
+                    case "player":
+                        command = command + selectPlayer() + ";";
+                        break;
+                    case "square":
+                        command = command + getCoordinate() + ";";
+                        break;
+                    case "room":
+                        command = command + getColorRoom() + ";";
+                }
             }
+
+            lockCommand.notifyAll();
         }
     }
 

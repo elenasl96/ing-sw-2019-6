@@ -63,4 +63,8 @@ public class CoordinateActionListener implements MouseListener {
     public void mouseExited(MouseEvent e) {
         //do nothing
     }
+
+    public void setS(String s) {
+        this.s = s;
+    }
 }
