@@ -3,10 +3,7 @@ package model.moves;
 import model.GameContext;
 import model.Player;
 import model.enums.Phase;
-import model.exception.NotEnoughAmmoException;
-import model.exception.NotExistingPositionException;
-import model.exception.NotValidDestinationException;
-import model.exception.NothingGrabbableException;
+import model.exception.*;
 import model.field.Coordinate;
 import model.room.Update;
 import network.commands.Response;
@@ -32,7 +29,7 @@ public class MoveAndGrab implements Move {
      * @return null
      */
     @Override
-    public Response execute(Player p, int groupID) throws NotValidDestinationException, NotEnoughAmmoException, NotExistingPositionException, NothingGrabbableException {
+    public Response execute(Player p, int groupID) throws NotValidDestinationException, NotEnoughAmmoException, NotExistingPositionException, NothingGrabbableException, PositionNotFound {
         int maxSteps;
         if(p.getCurrentMoves().isEmpty()){
             if(p.getAdrenalineLevel() == 0)

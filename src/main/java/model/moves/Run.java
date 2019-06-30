@@ -4,6 +4,7 @@ import model.GameContext;
 import model.Player;
 import model.exception.NotExistingPositionException;
 import model.exception.NotValidDestinationException;
+import model.exception.PositionNotFound;
 import model.field.Coordinate;
 import model.field.Field;
 import network.commands.Response;
@@ -30,7 +31,7 @@ public class Run implements Move {
      * @see Movement#execute(Player, int)
      */
     @Override
-    public Response execute(Player p, int groupID) throws NotExistingPositionException, NotValidDestinationException {
+    public Response execute(Player p, int groupID) throws NotExistingPositionException, NotValidDestinationException, PositionNotFound {
         if(GameContext.get().getGame(groupID).isFinalFrenzy()
                 && !GameContext.get().getGame(groupID).getCurrentPlayer().isFirstPlayer()){
             this.setMaxSteps(4);

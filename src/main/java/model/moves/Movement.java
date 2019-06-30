@@ -47,7 +47,7 @@ public class Movement extends Effect{
      * @throws NotValidDestinationException if the destination is unreachable for the player
      */
     @Override
-    public Response execute(Player p, int groupID) throws NotExistingPositionException, NotValidDestinationException {
+    public Response execute(Player p, int groupID) throws NotExistingPositionException, NotValidDestinationException, PositionNotFound {
         if(this.getTarget() != null && !this.getTarget().isEmpty()){
             p = (Player) this.getTarget().get(0);
         }
@@ -60,7 +60,7 @@ public class Movement extends Effect{
                 break;
             }
         } if(squareDestination == null){
-            throw new NotExistingPositionException(squareDestination);
+            throw new PositionNotFound();
         } else {
             this.destination = squareDestination;
         }
