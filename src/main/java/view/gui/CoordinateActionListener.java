@@ -1,12 +1,13 @@
 package view.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.sound.sampled.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 
 public class CoordinateActionListener implements MouseListener {
-    private Object lock;
+    private final Object lock;
     private String s;
 
     public CoordinateActionListener(Object lock) {
@@ -20,6 +21,21 @@ public class CoordinateActionListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         synchronized (lock) {
+            Clip clip;
+            try {
+                File yourFile = new File("src/resources/Music/Selezione.wav");
+                AudioInputStream stream;
+                AudioFormat format;
+                DataLine.Info info;
+                stream = AudioSystem.getAudioInputStream(yourFile);
+                format = stream.getFormat();
+                info = new DataLine.Info(Clip.class, format);
+                clip = (Clip) AudioSystem.getLine(info);
+                clip.open(stream);
+                clip.start();
+            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ex) {
+                System.err.println(ex.getMessage());
+            }
             s = ((SquarePanel) e.getSource()).getCoordinate();
             lock.notifyAll();
         }

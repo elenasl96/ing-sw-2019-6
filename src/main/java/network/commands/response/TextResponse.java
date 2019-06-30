@@ -3,7 +3,9 @@ package network.commands.response;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
-//TODO javadoc
+/**
+ * Sent as a message
+ */
 public class TextResponse implements Response {
     private final String content;
 

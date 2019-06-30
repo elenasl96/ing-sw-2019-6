@@ -42,8 +42,17 @@ public class ShootController {
         player.addEffectsToPlay(weaponEffectsSplitted);
         player.setWeaponInUse(weapon.getId());
         //Ask player to fill effects
-        return getEffectsToFill(player);
+        return getEffectsLayout(player.getCurrentCardEffects());
     }
+
+    private String getEffectsLayout(List<CardEffect> currentCardEffects) {
+        StringBuilder effectsLayout = new StringBuilder();
+        for(CardEffect c : currentCardEffects){
+            effectsLayout.append(c.getDescription()).append(";");
+        }
+        return effectsLayout.toString();
+    }
+
 
     private synchronized boolean checkWeaponEffects(Weapon weapon, String[] weaponEffectsSplitted, int groupID) throws InvalidMoveException {
         //Check if player has the weapon
@@ -182,7 +191,7 @@ public class ShootController {
             player.getPowerups().remove(powerupToPlay);
             player.getPowerups().add(0, powerupToPlay);
             //Ask player to fill effects
-            return powerupToPlay.getEffectsDescription();
+            return powerupToPlay.getEffectsLayout();
         }catch (NumberFormatException | IndexOutOfBoundsException e){
             throw new InvalidMoveException("Not valid powerup");
         }

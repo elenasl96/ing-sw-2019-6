@@ -94,10 +94,12 @@ public class PlayerBoard implements Serializable {
      * @return true if the player was damaged in the last turn
      */
     public boolean wasDamaged() {
-        Player lastPlayerDamaging = damage.get(damage.size()-1);
-        for(CardEffect c : lastPlayerDamaging.getCurrentCardEffects()) {
-            if (c.doesDamage())
-                return true;
+        if(!damage.isEmpty()) {
+            Player lastPlayerDamaging = damage.get(damage.size() - 1);
+            for (CardEffect c : lastPlayerDamaging.getCurrentCardEffects()) {
+                if (c.doesDamage())
+                    return true;
+            }
         }
         return false;
     }

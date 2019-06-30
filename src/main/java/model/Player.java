@@ -260,19 +260,6 @@ public class Player extends Target implements Serializable{
         return ammosFilled.toString();
     }
 
-    //To string
-    public String powerupsToString(){
-        StringBuilder string = new StringBuilder();
-        int nCard = 0;
-        string.append("\n========Powerups=========");
-        for(Powerup p : powerups){
-            string.append("\nNumber: ").append(nCard)
-                    .append("\n").append(p);
-            nCard++;
-        }
-        return string.toString();
-    }
-
     public String weaponsToString(int index){
         StringBuilder string = new StringBuilder();
         string.append("\n=========Weapons=========");

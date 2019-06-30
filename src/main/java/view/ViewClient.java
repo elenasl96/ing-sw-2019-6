@@ -291,7 +291,7 @@ public class ViewClient implements View {
 
     @Override
     public void onUpdate(Update update) {
-        if(update.toString()!= null) {
+        if(update.toString()!= null && !update.toString().isEmpty()) {
             displayText("Update: " + update.toString());
         }
     }

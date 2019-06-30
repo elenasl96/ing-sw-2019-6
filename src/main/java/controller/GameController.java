@@ -44,7 +44,7 @@ public class GameController{
     public static String cardsToString(List cards, int index) {
         StringBuilder cardsString = new StringBuilder();
         for(Object c : cards){
-            cardsString.append("\nID: ").append(index).append("\n").append(c.toString());
+            cardsString.append("\nID: ").append(index).append(c.toString());
             index ++;
         }
         return cardsString.toString();
@@ -116,7 +116,7 @@ public class GameController{
             }
         }
         if(!player.getPowerups().isEmpty()) {
-            content.append("\n||POWERUPS||").append(player.powerupsToString());
+            content.append("\n||POWERUPS||").append(cardsToString(player.getPowerups(), 0));
             forGui.append("POWERUPS;");
         }
         update = new Update(content.toString(),"disablebutton");
@@ -139,7 +139,7 @@ public class GameController{
             player.receiveUpdate(update);
             updatePhase(groupID);
             //send updates
-            GameContext.get().getGame(groupID).sendUpdate(new Update("\n>>> Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
+            GameContext.get().getGame(groupID).sendUpdate(new Update("Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
             update = new Update(null,"movement");
             update.setData(player.getCharacter().getNum() + ";" + player.getCurrentPosition().toString().replace("[","").replace("]",""));
             GameContext.get().getGame(groupID).sendUpdate(update);
@@ -161,7 +161,7 @@ public class GameController{
                     .getBoard().getPowerupsLeft().pickCard());
         }
         System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
-        Update update = new Update(" Choose spawn point from:" + player.powerupsToString(),"choosecard");
+        Update update = new Update(" Choose spawn point from: \n========Powerups=========" + cardsToString(player.getPowerups(), 0)  ,"choosecard");
         update.setData(player.getStringIdPowerUp().replaceAll(" ",""));
         return update;
     }

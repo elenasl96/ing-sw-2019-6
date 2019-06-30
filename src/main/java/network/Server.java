@@ -11,11 +11,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-//TODO javadoc
 public class Server {
     private final ServerSocket serverSocket;
     private final ExecutorService pool;
 
+    /**
+     * poison closing
+     */
     private final AtomicBoolean forcedClose;
     private InetAddress localPoisonAddress;
     /**
@@ -41,6 +43,12 @@ public class Server {
         }
     }
 
+    /**
+     * Initiates the SocketServer in the provided port,
+     * @param port      port
+     * @param local     true if you want to allow the possibility of running on local address (same as server)
+     * @throws IOException  if something goes wrong in socket communication
+     */
     private Server(int port, boolean local) throws IOException {
         serverSocket = new ServerSocket(port);
         pool = Executors.newCachedThreadPool();
@@ -52,6 +60,10 @@ public class Server {
         forcedClose = new AtomicBoolean(false);
     }
 
+    /**
+     * Runs the server, making it accept new Socket connections while forcedClose is false.
+     * It closes only if local was true and a new localhost on port 6000 is connected or local was false and a localhost connects
+     */
     public void run() {
         while (!forcedClose.get()) {
             try {

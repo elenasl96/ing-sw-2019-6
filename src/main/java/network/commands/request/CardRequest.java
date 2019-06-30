@@ -6,7 +6,9 @@ import network.commands.Response;
 
 import static java.lang.Integer.parseInt;
 
-//TODO javadoc
+/**
+ * Sent when asking to play a determined card
+ */
 public class CardRequest implements Request {
     private String cardType;
     private int number;

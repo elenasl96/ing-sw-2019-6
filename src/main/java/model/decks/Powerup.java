@@ -27,7 +27,6 @@ public class Powerup implements Serializable {
     private String name;
     private Ammo ammo;
     private int cost;
-    private String effectsDescription;
     private transient List<CardEffect> effects = new ArrayList<>();
 
     private static final String TARGETING_SCOPE = "targeting scope";
@@ -50,31 +49,27 @@ public class Powerup implements Serializable {
         switch (id){
             case 0: case 1: case 2:
                 powerup = new Powerup(id,TARGETING_SCOPE, initializeAmmo(id));
-                powerup.setEffectsDescription("player");
                 powerup.setCost(1);
-                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null));
+                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null, "player"));
                 powerup.getEffects().get(0).getEffects().add(new DamageEffect(Stream.of(
                         new Player(TARGETING_SCOPE_TARGET, NONE, null, null)),
                         0, false));
                 break;
             case 3: case 4: case 5:
                 powerup = new Powerup(id,NEWTON, initializeAmmo(id));
-                powerup.setEffectsDescription("player:square");
-                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null));
+                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null, "player:square"));
                 powerup.getEffects().get(0).getEffects().add(
                         new Movement(Stream.of(new Player(NONE, NONE, null, null)),
                                 new Square(CARDINAL, NONE, 1, 2), false));
                 break;
             case 6: case 7: case 8:
                 powerup = new Powerup(id,TAGBACK_GRENADE, initializeAmmo(id));
-                powerup.setEffectsDescription("none");
-                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null));
+                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null, "none"));
                 powerup.getEffects().get(0).getEffects().add(new MarkEffect(Stream.of(new Player()), 1, false));
                 break;
             case 9: case 10: case 11:
                 powerup = new Powerup(id,TELEPORTER, initializeAmmo(id));
-                powerup.setEffectsDescription("square");
-                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null));
+                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null, "square"));
                 powerup.getEffects().get(0).getEffects().add(
                         new Movement(Stream.of(new Player(TargetType.MINE, NONE, null, null)),
                                 new Square(ALL, NONE, null, null), false));
@@ -100,12 +95,8 @@ public class Powerup implements Serializable {
         }
     }
 
-    public void setEffectsDescription(String effectsDescription) {
-        this.effectsDescription = effectsDescription;
-    }
-
-    public String getEffectsDescription() {
-        return effectsDescription;
+    public String getEffectsLayout() {
+        return this.getEffects().get(0).getDescription();
     }
 
     public void setCost(int cost) {
@@ -122,7 +113,7 @@ public class Powerup implements Serializable {
 
     @Override
     public String toString(){
-        return "Name: " + name + "\nAmmo: " + ammo.getColor().getName() + "\n" +
+        return "\nName: " + name + "\nAmmo: " + ammo.getColor().getName() + "\n" +
                 "=========================";
     }
 
