@@ -258,14 +258,14 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 break;
             case "fillFields":
                 try{
-                    client.request(new SendInput(view.userInput(), "fieldsFilled"));
+                    client.request(new SendInput(view.fillFields(), "fieldsFilled"));
                 }catch (RemoteException e){
                     //nothing
                 }
                 break;
             case "fillPowerup":
                 try{
-                    client.request((new SendInput(view.userInput(), "powerupFilled")));
+                    client.request((new SendInput(view.fillFields(), "powerupFilled")));
                 }catch(RemoteException e){
                     //nothing
                 }

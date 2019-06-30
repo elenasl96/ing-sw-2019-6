@@ -394,7 +394,10 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(ShootRequest shootRequest) {
         try {
-            this.user.receiveUpdate(new Update(GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString(), currentGroup.getGroupID())));
+            String fields = GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString(), currentGroup.getGroupID());
+            Update update = new Update(fields,"fillfields");
+            update.setData(fields);
+            this.user.receiveUpdate(update);
             return new AskInput("fillFields");
             }catch(IndexOutOfBoundsException e) {
                 user.receiveUpdate(new Update("Out of bound",UPDATE_CONSOLE));

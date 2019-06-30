@@ -39,6 +39,7 @@ public class MainFrame extends JFrame {
     private final transient Object lockReload;
     private final transient Object lockEffect;
     private final transient Object lockCharacter;
+    private final transient Object lockCommand;
 
     private transient MoveButtonActionListener actionListenerMovement;
     private transient CoordinateActionListener actionListenerCoordinate;
@@ -53,7 +54,9 @@ public class MainFrame extends JFrame {
     private SquarePanel[][] mapGrid;
     private Character[] charactersCoordinates;
 
+    private String command;
     private String playerSelected;
+    private int typeMap;
 
     public MainFrame() {
         lockInput = new Object();
@@ -63,10 +66,14 @@ public class MainFrame extends JFrame {
         lockReload = new Object();
         lockEffect = new Object();
         lockCharacter = new Object();
+        lockCommand = new Object();
 
         actionListenerMovement = new MoveButtonActionListener(lockMove);
         actionListenerCoordinate = new CoordinateActionListener(lockCoordinate);
         mapGrid = new SquarePanel[3][4];
+        command = "";
+        playerSelected = "";
+        typeMap=1;
 
         charactersCoordinates = new Character[5];
         initCharacters();
@@ -504,14 +511,11 @@ public class MainFrame extends JFrame {
         popUpEffect = new PopUpChooseEffect(weapon, layout);
         effectFrame.add(popUpEffect,BorderLayout.CENTER);
         JButton ok = new JButton("OK");
-        ok.addActionListener(new ActionListener() {
-                                 @Override
-                                 public void actionPerformed(ActionEvent e) {
-                                     synchronized (lockEffect) {
-                                         lockEffect.notifyAll();
-                                     }
-                                 }
-                             }
+        ok.addActionListener(e -> {
+            synchronized (lockEffect) {
+                lockEffect.notifyAll();
+            }
+        }
         );
         effectFrame.add(ok,BorderLayout.SOUTH);
 
@@ -539,6 +543,56 @@ public class MainFrame extends JFrame {
         return s;
     }
 
+    public String selectPlayer() {
+        try {
+            lockCharacter.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return playerSelected;
+    }
+
+    public String getColorRoom (){
+        String[] coord = getCoordinate().split(" ");
+
+        switch(typeMap) {
+            case 1: {
+                switch(Integer.parseInt(coord[1])) {
+                    case 1: {
+                        switch (coord[0]) {
+                            case "B":
+                            case "C":
+                            case "D":
+                                return "yellow";
+                        }
+                    }
+                    case 2: {
+                        switch (coord[0]) {
+                            case "A":
+                            case "B":
+                                return "red";
+                            case "C":
+                            case "D":
+                                return "yellow";
+                            }
+                        }
+                    case 3: {
+                        switch (coord[0]) {
+                            case "A":
+                            case "B":
+                            case "C":
+                                return "blue";
+                            case "D":
+                                return "green";
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public void addDropPlayerBoard(int num) {
         playerBoard.addDrop(num);
     }
@@ -555,5 +609,43 @@ public class MainFrame extends JFrame {
         playerNameLabel.setText(name);
     }
 
+    public int getTypeMap() {
+        return typeMap;
+    }
 
+    public void setTypeMap(int typeMap) {
+        this.typeMap = typeMap;
+    }
+
+    public void fillFields(String s) {
+        String[] data = s.split(";");
+
+        for(String field: data) {
+            switch(field) {
+                case "player":
+                    command = command + selectPlayer() + ";";
+                    break;
+                case "square":
+                    command = command + getCoordinate() + ";";
+                    break;
+                case "room":
+                    command = command + getColorRoom() + ";";
+            }
+        }
+    }
+
+
+    public String getCommand() {
+        synchronized (lockCommand) {
+            try {
+                lockCommand.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String toSend = command;
+        command = "";
+        return toSend.substring(0,toSend.length()-1);
+    }
 }

@@ -122,6 +122,10 @@ public class ViewGui implements View {
                     String[] coord = data[1].split(" ");
                     gui.getMapGrid()[3-Integer.parseInt(coord[1])][coord[0].toUpperCase().charAt(0) - 65]
                             .setGrabbable(data[0]);
+                    break;
+                case "fillfields":
+                    gui.fillFields(update.getData());
+                    break;
                 default:
                     break;
             }
@@ -212,5 +216,10 @@ public class ViewGui implements View {
     public Boolean choosePowerup() {
         gui.yesNoPopUp("Do you want to use a powerup?");
         return (gui.yesNoChoose().equals("yes"));
+    }
+
+    @Override
+    public String fillFields() {
+        return gui.getCommand();
     }
 }
