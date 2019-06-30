@@ -14,10 +14,12 @@ public enum Character implements Serializable {
 
     private String def;
     private int num;
+    private Color color;
 
     Character(String name, Color color, String def, int num){
         this.def = def;
         this.num = num;
+        this.color = color;
     }
 
     /**
@@ -53,4 +55,7 @@ public enum Character implements Serializable {
         return num;
     }
 
+    public char getColor() {
+        return color.getAbbr();
+    }
 }

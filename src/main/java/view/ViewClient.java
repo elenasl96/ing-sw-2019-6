@@ -62,6 +62,11 @@ public class ViewClient implements View {
         return (input.equals("yes"));
     }
 
+    @Override
+    public String fillFields() {
+        return userInput();
+    }
+
     public void run() {
         try {
             controller.run();

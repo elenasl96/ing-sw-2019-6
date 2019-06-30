@@ -213,6 +213,14 @@ public class Group implements Serializable {
         );
         //Triggers onStart in the Listeners
         this.sendStartNotification();
+        for(User u: users){
+            String string = u.getUsername()+";"+u.getCharacter().toString()+";"+u.getCharacter().getColor();
+            for (User u2: users){
+                if(!u2.equals(u)){
+                    u2.receiveUpdate(new Update(string, "charactersMatch"));
+                }
+            }
+        }
     }
 
     /**

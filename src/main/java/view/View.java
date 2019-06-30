@@ -41,4 +41,6 @@ public interface View extends ModelObserver {
     String cardChoose();
 
     Boolean choosePowerup();
+
+    String fillFields();
 }
