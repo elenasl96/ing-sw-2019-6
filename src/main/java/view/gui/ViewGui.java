@@ -124,7 +124,7 @@ public class ViewGui implements View {
                             .setGrabbable(data[0]);
                     break;
                 case "fillfields":
-                    gui.fillFields(update.getData());
+                    gui.setStringFields(update.getData());
                     break;
                 case "charactermatch":
                     data = update.getData().split(";");

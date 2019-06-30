@@ -56,6 +56,7 @@ public class MainFrame extends JFrame {
 
     private String command;
     private String playerSelected;
+    private String stringFields;
     private int typeMap;
 
     public MainFrame() {
@@ -238,10 +239,10 @@ public class MainFrame extends JFrame {
         voidButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                command = command + ";";
-                actionListenerCoordinate.setS("");
-                playerSelected = "";
                 synchronized (lockCharacter) {
+                    command = command + ";";
+                    actionListenerCoordinate.setS("");
+                    playerSelected = "";
                     lockCharacter.notifyAll();
                 }
                 synchronized (lockCoordinate) {
@@ -370,6 +371,9 @@ public class MainFrame extends JFrame {
         mapGrid[3-Integer.parseInt(newCoord[1])][newCoord[0].charAt(0) - 65].repaint();
 
         charactersCoordinates[character].setCoordinate(coordinates);
+
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 
     public void changeAmmoPanel(String s) {
@@ -388,6 +392,9 @@ public class MainFrame extends JFrame {
                 break;
             }
         }
+
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 
     public void clearAmmoPanels() {
@@ -537,7 +544,7 @@ public class MainFrame extends JFrame {
         );
         effectFrame.add(ok,BorderLayout.SOUTH);
 
-        effectFrame.setLocation(400,400);
+        effectFrame.setLocation(500,300);
         effectFrame.setSize(150,300);
         effectFrame.setResizable(false);
         effectFrame.toFront();
@@ -615,14 +622,20 @@ public class MainFrame extends JFrame {
 
     public void addDropPlayerBoard(int num) {
         playerBoard.addDrop(num);
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 
     public void addMarkerPlayerBoard(int num){
         playerBoard.addMarker(num);
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 
     public void addSkullPlayerBoard() {
         playerBoard.addSkull();
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 
     public void setPlayerNameLabel(String name) {
@@ -639,38 +652,36 @@ public class MainFrame extends JFrame {
 
     public void fillFields(String s) {
         String[] data = s.split(";");
-        synchronized (lockCommand) {
             for (String field : data) {
                 switch (field) {
                     case "player":
-                        setConsole("Select a player\n");
+                        setConsole("Select a player");
                         command = command + selectPlayer() + ";";
                         break;
                     case "square":
-                        setConsole("Select a square\n");
+                        setConsole("Select a square");
                         command = command + getCoordinate() + ";";
                         break;
                     case "room":
-                        setConsole("Select a room\n");
+                        setConsole("Select a room");
                         command = command + getColorRoom() + ";";
                         break;
                     default: break;
                 }
             }
-            lockCommand.notifyAll();
-        }
     }
 
+    public String getStringFields() {
+        return stringFields;
+    }
+
+    public void setStringFields(String stringFields) {
+        this.stringFields = stringFields;
+    }
 
     public String getCommand() {
-        synchronized (lockCommand) {
-            try {
-                lockCommand.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
+        fillFields(stringFields);
         String toSend = command;
         command = "";
         return toSend.substring(0,toSend.length()-1);
