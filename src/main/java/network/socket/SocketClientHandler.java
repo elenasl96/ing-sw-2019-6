@@ -14,8 +14,11 @@ import java.net.Socket;
 
 import static model.enums.Phase.DISCONNECTED;
 
-//TODO javadoc
-public class SocketClientHandler implements ClientHandler,Runnable, ModelObserver {
+/**
+ * SERVER SIDE
+ * Socket connection
+ */
+public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver {
     private static final String ERROR = "Errors in closing - ";
 
     private Socket socket;
@@ -36,6 +39,9 @@ public class SocketClientHandler implements ClientHandler,Runnable, ModelObserve
         System.err.println(">>> ERROR@" + socket.getRemoteSocketAddress() + ": " + message);
     }
 
+    /**
+     * @param response sends the response in the socket
+     */
     private void respond(Response response) {
         try {
             out.writeObject(response);
@@ -45,6 +51,9 @@ public class SocketClientHandler implements ClientHandler,Runnable, ModelObserve
         }
     }
 
+    /**
+     * Keeps receiving requests
+     */
     @Override
     public synchronized void run() {
         try {
@@ -94,16 +103,28 @@ public class SocketClientHandler implements ClientHandler,Runnable, ModelObserve
 
     // --- Directly forward notifications to clients
 
+    /**
+     * Triggers onJoin on View
+     * @param user the user Joining
+     */
     @Override
     public void onJoin(User user) {
         respond(new GroupChangeNotification(true, user));
     }
 
+    /**
+     * Triggers onLeave on View
+     * @param user the user Leaving
+     */
     @Override
     public void onLeave(User user) {
         respond(new GroupChangeNotification(false, user));
     }
 
+    /**
+     * @param update sends the update, as in RMI
+     * @see network.rmi.RMIClientHandler#onUpdate(Update)
+     */
     @Override
     public void onUpdate(Update update) {
         System.out.print(">>> I'm SocketClientHandler sending: ");
@@ -117,6 +138,9 @@ public class SocketClientHandler implements ClientHandler,Runnable, ModelObserve
         }
     }
 
+    /**
+     * Sends a new start game response, triggering onStart on View
+     */
     @Override
     public void onStart() {
         respond(new StartGameResponse());

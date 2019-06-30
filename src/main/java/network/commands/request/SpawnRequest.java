@@ -4,7 +4,10 @@ import network.commands.Request;
 import network.commands.RequestHandler;
 import network.commands.Response;
 
-//TODO javadoc
+/**
+ * Sent when a player wants to spawn
+ * If first Time
+ */
 public class SpawnRequest implements Request {
     private boolean firstTime;
     private Integer spawn;
@@ -16,11 +19,6 @@ public class SpawnRequest implements Request {
 
     public Integer getSpawn() {
         return spawn;
-    }
-
-    public SpawnRequest(Integer spawn, boolean isFirstTime){
-        this.firstTime = isFirstTime;
-        this.spawn = spawn;
     }
 
     public boolean isFirstTime(){

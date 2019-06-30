@@ -5,12 +5,10 @@ import model.Player;
 import model.room.Group;
 import model.room.User;
 
-
-//TODO javadoc
 /**
  * SINGLETON (CLIENT SIDE)
  *
- * Context used at any client to record current user and group
+ * Context used at any client to record current user and group, along with current Player
  */
 public class ClientContext {
 
@@ -26,7 +24,6 @@ public class ClientContext {
         if (instance == null) {
             instance = new ClientContext();
         }
-
         return instance;
     }
 
@@ -66,6 +63,9 @@ public class ClientContext {
         return currentPlayer;
     }
 
+    /**
+     * Resets the ClientContext to be used again from scratch in the tests
+     */
     public void reset(){
         if(instance!= null){
             this.currentPlayer = null;
