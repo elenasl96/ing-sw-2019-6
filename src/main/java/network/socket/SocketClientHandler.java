@@ -127,14 +127,18 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
      */
     @Override
     public void onUpdate(Update update) {
-        System.out.print(">>> I'm SocketClientHandler sending: ");
-        if(update.isPlayerChanges()){
-            System.out.print("a MoveUpdateResponse modifying player "+update.getPlayer()+" username "+update.getPlayer().getName()+
-                    " of user "+update.getPlayer().getUser()+" with phaseId "+ update.getPlayer().getPhase().getId()+"\n");
-            respond(new MoveUpdateResponse(update.getPlayer()));
-        } else {
-            System.out.print("a GameUpdateNotification saying string "+ update.toString()+"\n");
-            respond(new GameUpdateNotification(update));
+        try {
+            System.out.print(">>> I'm SocketClientHandler sending: ");
+            if (update.isPlayerChanges()) {
+                System.out.print("a MoveUpdateResponse modifying player " + update.getPlayer() + " username " + update.getPlayer().getName() +
+                        " of user " + update.getPlayer().getUser() + " with phaseId " + update.getPlayer().getPhase().getId() + "\n");
+                respond(new MoveUpdateResponse(update.getPlayer()));
+            } else {
+                System.out.print("a GameUpdateNotification saying string " + update.toString() + "\n");
+                respond(new GameUpdateNotification(update));
+            }
+        }catch (NullPointerException | ClassCastException e){
+            e.printStackTrace();
         }
     }
 

@@ -10,19 +10,22 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A PopUp that opens up when shooting with a weapon to chose the effect
+ */
 public class PopUpChooseEffect extends JPanel {
 
     private String effectSerie;
-    private Image img;
+    private transient Image img;
     private WeaponCard[] effect;
 
-    public PopUpChooseEffect(String weapon, int layout) {
+    PopUpChooseEffect(String weapon, int layout) {
 
         try {
             this.img = (new ImageIcon(ImageIO.read(new File("src/resources/Weapons/" + weapon +".png"))
                     .getScaledInstance(180,240, Image.SCALE_SMOOTH))).getImage();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         effectSerie = "";
@@ -42,22 +45,22 @@ public class PopUpChooseEffect extends JPanel {
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-
+                    //do nothing
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
+                    //do nothing
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-
+                    //do nothing
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-
+                    //do nothing
                 }
             });
         }
@@ -94,7 +97,8 @@ public class PopUpChooseEffect extends JPanel {
                 add(lower);
                 break;
             }
-
+            default:
+                break;
         }
     }
 
@@ -169,8 +173,8 @@ public class PopUpChooseEffect extends JPanel {
         g.drawImage(img, 0, 0, this);
     }
 
-    public String getEffectSerie() {
-        if(effectSerie != "") {
+    String getEffectSerie() {
+        if(!effectSerie.equals("")) {
             return effectSerie.substring(0,effectSerie.length()-1);
         }
         return "";

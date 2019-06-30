@@ -57,7 +57,7 @@ public class Powerup implements Serializable {
                 break;
             case 3: case 4: case 5:
                 powerup = new Powerup(id,NEWTON, initializeAmmo(id));
-                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null, "player:square"));
+                powerup.getEffects().add(new CardEffect(EffectType.BASIC, null, "player,square"));
                 powerup.getEffects().get(0).getEffects().add(
                         new Movement(Stream.of(new Player(NONE, NONE, null, null)),
                                 new Square(CARDINAL, NONE, 1, 2), false));

@@ -6,27 +6,31 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class WeaponCard extends JPanel {
+/**
+ * A class for the weapons and powerups cards
+ * reads them from the resources
+ */
+class WeaponCard extends JPanel {
 
     private int num;
 
-    public WeaponCard(String name, int num) {
+    WeaponCard(String name, int num) {
         try {
             add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/Weapons/" + name + ".png"))
                     .getScaledInstance(110,190, Image.SCALE_SMOOTH))));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         this.num = num;
     }
 
-    public WeaponCard(int num) {
+    WeaponCard(int num) {
         this.num = num;
         setBackground(new Color(0,0,0,0));
     }
 
-    public int getNum() {
+    int getNum() {
         return num;
     }
 }

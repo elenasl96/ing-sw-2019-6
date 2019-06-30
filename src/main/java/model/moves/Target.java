@@ -3,13 +3,11 @@ package model.moves;
 import model.Player;
 import model.enums.TargetType;
 import model.exception.NotExistingPositionException;
-import model.exception.NotExistingRoomException;
 import model.exception.NotExistingTargetException;
 import model.field.Square;
 import model.room.Update;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
