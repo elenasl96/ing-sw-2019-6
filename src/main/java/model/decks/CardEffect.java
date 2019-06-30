@@ -14,6 +14,7 @@ import java.util.stream.Stream;
  * The effect of Weapons and Powerups
  */
 public class CardEffect {
+    private boolean expired;
     private EffectType effectType;
     private List<Effect> effects = new ArrayList<>();
     private List<Ammo> cost = new ArrayList<>();
@@ -24,6 +25,7 @@ public class CardEffect {
             this.setCost(ammos);
         this.effectType = effectType;
         this.description = description;
+        this.expired = false;
     }
 
     public String getDescription() {
@@ -44,6 +46,14 @@ public class CardEffect {
 
     public List<Ammo> getCost() {
         return cost;
+    }
+
+    public boolean isExpired(){
+        return this.expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
     }
 
     /**

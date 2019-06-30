@@ -167,7 +167,7 @@ public class Player extends Target implements Serializable{
      * @see User#receiveUpdate(Update)
      */
     @Override
-    public void receiveUpdate(Update update) {
+    public void receiveUpdate(Update update, int groupID) {
         user.receiveUpdate(update);
     }
 
@@ -342,7 +342,7 @@ public class Player extends Target implements Serializable{
     @Override
     public void setFieldsToFill(String inputName, int groupID) throws NotExistingTargetException {
         if(inputName == null && this.getTargetType().equals(BASIC_EQUALS)){
-           this.name = ((Player) GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID)).getName();
+           this.name = GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID).getName();
         } else {
             this.name = inputName;
         }
@@ -371,13 +371,13 @@ public class Player extends Target implements Serializable{
                 "You received " + damagesReceived + " damages " +
                 "from " + playerDamaging.getName(),"damages");
         updateDamages.setData(damagesReceived + ";" + playerDamaging.getCharacter().getNum());
-        this.receiveUpdate(updateDamages);
+        this.receiveUpdate(updateDamages, groupId);
         //TODO update marksDeleted for GUI (SCHERO)
         if(marksRemoved>0) {
             updateMarks = new Update(
                     "Your " + marksRemoved + " marks from "
                             + playerDamaging.getName() + " are removed");
-            this.receiveUpdate(updateMarks);
+            this.receiveUpdate(updateMarks, groupId);
         }
         this.updateAdrenaline();
         if(this.getPlayerBoard().getDamage().size() == (11 | 12))
@@ -429,7 +429,7 @@ public class Player extends Target implements Serializable{
         Update update = new Update("You received " + marksReceived + " marks " +
                 "from " + playerMarking.getName(),"markers");
         update.setData(marksReceived + ";" + playerMarking.getCharacter().getNum());
-        this.receiveUpdate(update);
+        this.receiveUpdate(update, groupID);
     }
 
     @Override

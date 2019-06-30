@@ -43,7 +43,7 @@ public class Pay implements Move {
         Update update = new Update(null,"reload");
         update.setData(p.getAmmos().toString().replace("[","").replace("]","")
                 .replace(" ","").toLowerCase());
-        p.receiveUpdate(update);
+        p.receiveUpdate(update, groupId);
         return null;
     }
 

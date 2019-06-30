@@ -4,14 +4,13 @@ import model.GameContext;
 import model.Player;
 import model.enums.Color;
 import model.enums.TargetType;
-import model.exception.InvalidMoveException;
 import model.exception.NotExistingPositionException;
-import model.exception.NotExistingRoomException;
 import model.exception.NotExistingTargetException;
 import model.moves.Target;
 import model.room.Update;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //TODO finish javadoc
@@ -53,7 +52,7 @@ public class Room extends Target {
     @Override
     public List<Target> findAllTargets(Target target, int groupID) {
         //TODO forse non serve da implementare
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -62,9 +61,9 @@ public class Room extends Target {
     }
 
     @Override
-    public void receiveUpdate(Update update) {
+    public void receiveUpdate(Update update, int groupID) throws NotExistingPositionException {
         for(Square s: this.squares){
-            s.receiveUpdate(update);
+            s.receiveUpdate(update, groupID);
         }
     }
 
@@ -86,7 +85,7 @@ public class Room extends Target {
         else {
             List<Edge> edges = GameContext.get().getGame(groupID).getBoard().getField().getEdges();
             for (Edge e: edges) {
-                if ((e.getSq1().equals(player.getCurrentPosition()) &&
+                if (this.getColor()!=null && (e.getSq1().equals(player.getCurrentPosition()) &&
                         !e.getSq2().getColor().equals(player.getCurrentPosition().getColor()) &&
                         this.getColor().equals(e.getSq2().getColor()))
                         || (e.getSq2().equals(player.getCurrentPosition()) &&
@@ -134,7 +133,7 @@ public class Room extends Target {
             if(r.color.equalsTo(Color.fromName(inputName)))
                 return r;
         }
-        throw new NotExistingTargetException(this.getColor().toString());
+        throw new NotExistingTargetException(inputName);
     }
 
     @Override

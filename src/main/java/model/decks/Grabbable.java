@@ -1,7 +1,6 @@
 package model.decks;
 
 import model.Player;
-import model.exception.FullAmmoException;
 import model.exception.NotEnoughAmmoException;
 
 import java.io.Serializable;

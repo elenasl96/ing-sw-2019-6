@@ -1,18 +1,10 @@
 package model.decks;
 
-import model.Ammo;
 import model.Player;
-import model.enums.Color;
-import model.enums.TargetType;
-import model.field.Square;
-import model.moves.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
-
-import static model.enums.TargetType.*;
 
 //TODO javadoc
 public class PowerupDeck {

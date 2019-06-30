@@ -102,19 +102,6 @@ public class ShootController {
         } else return false;
     }
 
-    private String getEffectsToFill(Player player) {
-        StringBuilder string = new StringBuilder();
-        int numEffect = 0;
-        for (CardEffect c : player.getCurrentCardEffects()) {
-            for (Effect e : c.getEffects()) {
-                string.append(numEffect).append(" | ").append(e.getFieldsToFill()).append("\n");
-                numEffect++;
-            }
-        }
-
-        return string.toString();
-    }
-
     void playWeapon(Player player, String input, int groupID) throws InvalidMoveException {
        playCard(player, input, groupID);
        unloadWeaponInUse(player);
@@ -181,7 +168,7 @@ public class ShootController {
         return false;
     }
 
-    String preparePowerup(Player player, String input, int groupID) throws InvalidMoveException {
+    String preparePowerup(Player player, String input) throws InvalidMoveException {
         Powerup powerupToPlay;
         try {
             int powerupIndex = Integer.parseInt(input);
@@ -215,8 +202,10 @@ public class ShootController {
         fillFields(player.getCurrentCardEffects(), groupID);
         //execute moves
         for (CardEffect c : player.getCurrentCardEffects()) {
-            for (Effect e : c.getEffects()) {
-                e.execute(player, groupID);
+            if(!c.isExpired()) {
+                for (Effect e : c.getEffects()) {
+                    e.execute(player, groupID);
+                }
             }
         }
     }
@@ -348,7 +337,7 @@ public class ShootController {
                 areCardinal(target, realTarget, groupID);
                 break;
             case DAMAGED:
-                wasDamaged(target, realTarget, groupID);
+                if(!wasDamaged(realTarget, groupID)) throw new TargetTypeException(target.getTargetType());
                 break;
             case NONE: default:
                 break;
@@ -357,20 +346,20 @@ public class ShootController {
             throw new TargetTypeException(TargetType.NOT_MINE);
     }
 
-    private void wasDamaged(Target target, Target realTarget, int groupID) throws TargetTypeException {
+    private boolean wasDamaged(Target realTarget, int groupID){
         for(CardEffect c: GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
             if(c.doesDamage()){
                 for(Effect e: c.getEffects()){
                     if(e.doesDamage()){
                         for(Target t: e.getTarget()){
                             if(t.getName() != null && realTarget.getName().equals(t.getName()))
-                                break;
+                                return true;
                         }
                     }
                 }
             }
         }
-        throw new TargetTypeException(target.getTargetType());
+        return false;
     }
 
     private void areCardinal(Target target, Target realTarget, int groupID) throws NotExistingTargetException, NotExistingPositionException, TargetTypeException {

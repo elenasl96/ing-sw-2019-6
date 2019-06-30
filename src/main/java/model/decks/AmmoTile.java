@@ -104,7 +104,7 @@ class AmmoTileWithAmmo extends AmmoTile{
         update.setData(player.getAmmos().toString().replace("[", "").replace("]", "")
                     .replace(" ", "").toLowerCase());
         replaceAmmoTile(this, groupID);
-        player.receiveUpdate(update);
+        player.receiveUpdate(update, groupID);
     }
 
     @Override
@@ -125,8 +125,7 @@ class AmmoTileWithAmmo extends AmmoTile{
 
 
 class AmmoTileWithPowerup extends AmmoTile{
-
-    Powerup powerup;
+    private Powerup powerup;
 
     AmmoTileWithPowerup(Color color1, Color color2){
         super(color1, color2);
@@ -154,20 +153,20 @@ class AmmoTileWithPowerup extends AmmoTile{
         Update update = new Update("You grab these ammos:" + ammosGrabbed +
                 "You pick a new powerup:" + powerup.toString(),"powerup");
         update.setData(powerup.getName().substring(0,powerup.getName().length()-1));
-        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update);
+        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update, groupID);
         update = new Update(null,"reload");
         update.setData(GameContext.get().getGame(groupID).getCurrentPlayer().getAmmos().toString().replace("[","").replace("]","")
                 .replace(" ","").toLowerCase());
-        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update);
+        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update, groupID);
 
         init(GameContext.get().getGame(groupID).getBoard());
     }
 
     @Override
     public String toStringForGUI() {
-        StringBuilder string = new StringBuilder("");
+        StringBuilder string = new StringBuilder();
         for(Ammo a: getAmmos()){
-            string.append(a.getColor().getName()+";");
+            string.append(a.getColor().getName()).append(";");
         }
         string.append(powerup.getName()).append(powerup.getAmmo().getColor().getAbbr());
         return string.toString().toLowerCase().replace(" ","");

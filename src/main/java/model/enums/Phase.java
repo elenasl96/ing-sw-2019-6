@@ -14,7 +14,8 @@ public enum Phase{
     SPAWN (4),
     POWERUP1(5),
     POWERUP2(6),
-    DISCONNECTED(7);
+    POWERUP3(7),
+    DISCONNECTED(8);
     /**
      * Used for first time spawn: different from the normal spawn because the player
      * can't perform his turn after the spawn.
@@ -52,6 +53,8 @@ public enum Phase{
             case 6:
                 return POWERUP2;
             case 7:
+                return POWERUP3;
+            case 8:
                 return DISCONNECTED;
             default:
                 return null;

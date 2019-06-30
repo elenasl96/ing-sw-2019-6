@@ -92,7 +92,7 @@ public class ServerController implements RequestHandler {
                 List<Player> winners = currentGroup.getGame().getPlayers().findHighest(currentGroup.getGroupID());
                 System.out.println(">>> The winners are: "+winners);
                 for (Player winner : winners) {
-                    winner.receiveUpdate(new Update("Congratulations! You win!"));
+                    winner.receiveUpdate(new Update("Congratulations! You win!"), currentGroup.getGroupID());
                     //TODO GUI update for the win
                 }
             }
@@ -249,8 +249,7 @@ public class ServerController implements RequestHandler {
                     user.receiveUpdate(update);
                     break;
                 case "noCard":
-                    GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
-                            .receiveUpdate(new Update(null, "turnbar"));
+                    user.receiveUpdate(new Update(null, "turnbar"));
                     GameController.get().updatePhase(currentGroup.getGroupID());
                     break;
                 case "weaponToReload":
@@ -258,8 +257,7 @@ public class ServerController implements RequestHandler {
                     weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
                     if (weaponsToReload.getWeapons().isEmpty()) {
                         user.receiveUpdate(new Update("You haven't weapons to reload", UPDATE_CONSOLE));
-                        GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
-                                .receiveUpdate(new Update(null, "turnbar"));
+                        user.receiveUpdate(new Update(null, "turnbar"));
                         GameController.get().updatePhase(currentGroup.getGroupID());
                     } else {
                         update = new Update("You can reload these weapons: " + cardsToString(weaponsToReload.getWeapons(), 0), "choosecard");
@@ -278,8 +276,7 @@ public class ServerController implements RequestHandler {
                             .getPowerupsToPlay(user.getPlayer());
                     if (powerupsToPlay.isEmpty()) {
                         user.receiveUpdate(new Update("You haven't powerups to play now", UPDATE_CONSOLE));
-                        GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
-                                .receiveUpdate(new Update(null, "turnbar")); //TODO check this (SCHERO) for GUI
+                        user.receiveUpdate(new Update(null, "turnbar")); //TODO check this (SCHERO) for GUI
                         GameController.get().updatePhase(currentGroup.getGroupID());
                     } else {
                         update = new Update("You can play these powerups:" + cardsToString(powerupsToPlay, 0), "choosecard");
@@ -300,98 +297,22 @@ public class ServerController implements RequestHandler {
     @Override
     public Response handle(SendInput inputResponse) {
         try {
-            Player p = user.getPlayer();
+            Player player = user.getPlayer();
             switch (inputResponse.getInputType()) {
                 case "weapon chosen":
-                    try {
-                        p.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
-                        //p.setPhaseNotDone(false); senza questo per ora funziona
-                        GameController.get().updatePhase(currentGroup.getGroupID());
-                    } catch (IndexOutOfBoundsException e) {
-                        user.receiveUpdate(new Update("Weapon index out of bounds", UPDATE_CONSOLE));
-                        p.setPhaseNotDone(true);
-                        user.receiveUpdate(new Update(p, true));
-                    } catch (NumberFormatException e) {
-                        user.receiveUpdate(new Update("Not a number", UPDATE_CONSOLE));
-                        p.setPhaseNotDone(true);
-                        user.receiveUpdate(new Update(p, true));
-                    } catch (NotEnoughAmmoException e) {
-                        user.receiveUpdate(new Update("Not enough ammos!", UPDATE_CONSOLE));
-                        p.setPhaseNotDone(true);
-                        user.receiveUpdate(new Update(p, true));
-                    } catch (NotExistingPositionException e) {
-                        user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-                        p.setPhaseNotDone(true);
-                        user.receiveUpdate(new Update(p, true));
-                    }
+                    pickWeapon(player, inputResponse);
                     break;
                 case "weaponGrabbed":
-                    try {
-                        GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
-                    } catch (IndexOutOfBoundsException e) {
-                        p.setPhaseNotDone(true);
-                        user.receiveUpdate(new Update(p, true));
-                        user.receiveUpdate(new Update("Invalid Weapon", UPDATE_CONSOLE));
-                    } catch (NumberFormatException e) {
-                        user.receiveUpdate(new Update("Not a number", UPDATE_CONSOLE));
-                        p.setPhaseNotDone(true);
-                        user.receiveUpdate(new Update(p, true));
-
-                    }
-                    currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
-                    currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
+                    reloadWeapon(player, inputResponse);
                     break;
                 case "fieldsFilled":
-                    try {
-                        GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
-                        GameController.get().updatePhase(currentGroup.getGroupID());
-                    } catch (NullPointerException | IndexOutOfBoundsException e) {
-                        user.getPlayer().getCurrentCardEffects().clear();
-                        user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
-                        p.getUser().receiveUpdate(new Update(p, true));
-                    } catch (NumberFormatException e) {
-                        user.getPlayer().getCurrentCardEffects().clear();
-                        user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
-                        p.getUser().receiveUpdate(new Update(p, true));
-                    } catch (InvalidMoveException e) {
-                        user.getPlayer().getCurrentCardEffects().clear();
-                        user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-                        p.getUser().receiveUpdate(new Update(p, true));
-                    }
-                    p.setPhaseNotDone(false);
+                    playWeapon(player, inputResponse);
                     break;
                 case "powerupToPlay":
-                    try {
-                        this.user.receiveUpdate(new Update(GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer())));
-                        return new AskInput("fillPowerup");
-                    } catch (IndexOutOfBoundsException e) {
-                        user.receiveUpdate(new Update("Powerup index out of bounds", UPDATE_CONSOLE));
-                        p.setPhaseNotDone(true);
-                        user.receiveUpdate(new Update(p, true));
-                    } catch (InvalidMoveException e) {
-                        user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-                        p.setPhaseNotDone(true);
-                        user.receiveUpdate(new Update(p, true));
-                    }
+                    preparePowerup(player, inputResponse);
                     break;
                 case "powerupFilled":
-                    try {
-                        GameController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
-                        GameController.get().updatePhase(currentGroup.getGroupID());
-                    } catch (NullPointerException | IndexOutOfBoundsException e) {
-                        user.getPlayer().getCurrentCardEffects().clear();
-                        user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
-                        p.getUser().receiveUpdate(new Update(p, true));
-                    } catch (NumberFormatException e) {
-                        user.getPlayer().getCurrentCardEffects().clear();
-                        user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
-                        p.getUser().receiveUpdate(new Update(p, true));
-                    } catch (InvalidMoveException e) {
-                        user.getPlayer().getCurrentCardEffects().clear();
-                        user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-                        p.getUser().receiveUpdate(new Update(p, true));
-                    }
-                    p.setPhaseNotDone(false);
+                    playPowerup(player, inputResponse);
                     break;
                 default:
                     break;
@@ -400,6 +321,102 @@ public class ServerController implements RequestHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void playPowerup(Player player, SendInput inputResponse) {
+        try {
+            GameController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+            GameController.get().updatePhase(currentGroup.getGroupID());
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        } catch (NumberFormatException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        } catch (InvalidMoveException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        }
+        player.setPhaseNotDone(false);
+    }
+
+    private Response preparePowerup(Player player, SendInput inputResponse) {
+        try {
+            this.user.receiveUpdate(new Update(GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer())));
+            return new AskInput("fillPowerup");
+        } catch (IndexOutOfBoundsException e) {
+            user.receiveUpdate(new Update("Powerup index out of bounds", UPDATE_CONSOLE));
+            player.setPhaseNotDone(true);
+            user.receiveUpdate(new Update(player, true));
+        } catch (InvalidMoveException e) {
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+            player.setPhaseNotDone(true);
+            user.receiveUpdate(new Update(player, true));
+        }
+        return null;
+    }
+
+    private void playWeapon(Player player, SendInput inputResponse) {
+        try {
+            GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+            GameController.get().updatePhase(currentGroup.getGroupID());
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        } catch (NumberFormatException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        } catch (InvalidMoveException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        }
+        player.setPhaseNotDone(false);
+    }
+
+    private void reloadWeapon(Player player, SendInput inputResponse) {
+        try {
+            GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
+        } catch (IndexOutOfBoundsException e) {
+            player.setPhaseNotDone(true);
+            currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
+            user.receiveUpdate(new Update(player, true));
+            user.receiveUpdate(new Update("Invalid Weapon", UPDATE_CONSOLE));
+        } catch (NumberFormatException e) {
+            player.setPhaseNotDone(true);
+            currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
+            user.receiveUpdate(new Update("Not a number", UPDATE_CONSOLE));
+            user.receiveUpdate(new Update(player, true));
+        }
+    }
+
+    private void pickWeapon(Player player, SendInput inputResponse) {
+        try {
+            player.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
+            //p.setPhaseNotDone(false); senza questo per ora funziona
+            GameController.get().updatePhase(currentGroup.getGroupID());
+        } catch (IndexOutOfBoundsException e) {
+            user.receiveUpdate(new Update("Weapon index out of bounds", UPDATE_CONSOLE));
+            player.setPhaseNotDone(true);
+            user.receiveUpdate(new Update(player, true));
+        } catch (NumberFormatException e) {
+            user.receiveUpdate(new Update("Not a number", UPDATE_CONSOLE));
+            player.setPhaseNotDone(true);
+            user.receiveUpdate(new Update(player, true));
+        } catch (NotEnoughAmmoException e) {
+            user.receiveUpdate(new Update("Not enough ammos!", UPDATE_CONSOLE));
+            player.setPhaseNotDone(true);
+            user.receiveUpdate(new Update(player, true));
+        } catch (NotExistingPositionException e) {
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+            player.setPhaseNotDone(true);
+            user.receiveUpdate(new Update(player, true));
+        }
     }
 
     @Override

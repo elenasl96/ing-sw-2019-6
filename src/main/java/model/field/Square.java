@@ -132,8 +132,11 @@ public class Square extends Target implements Serializable {
         this.addGrabbable(GameContext.get().getGame(groupID).getBoard().getAmmosLeft().pickCard(), groupID);
     }
     @Override
-    public void receiveUpdate(Update update) {
-        //TODO send update to all users in that square
+    public void receiveUpdate(Update update, int groupID) throws NotExistingPositionException {
+        for(Player player : GameContext.get().getGame(groupID).getPlayers()) {
+            if (player.getCurrentPosition().equals(this))
+                player.receiveUpdate(update, groupID);
+        }
     }
 
     @Override
@@ -147,7 +150,7 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
-    public void setFieldsToFill(String input, int groupID) throws NotExistingTargetException, NotExistingPositionException {
+    public void setFieldsToFill(String input, int groupID) throws NotExistingPositionException, NotExistingTargetException {
         if(input == null && this.getTargetType().equals(TargetType.BASIC_EQUALS)){
             this.coord = GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID).getCurrentPosition().getCoord();
         } else {

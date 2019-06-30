@@ -118,10 +118,10 @@ public class Movement extends Effect{
 
     /**
      *
-     * @param inputMatrix
-     * @param index
-     * @param groupID
-     * @return
+     * @param inputMatrix input of one effect
+     * @param index index of element in inputMatrix
+     * @param groupID id of the group
+     * @return the next index if a field was set, the same index if no fields were set
      */
     @Override
     public int setFieldsToFill(String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {

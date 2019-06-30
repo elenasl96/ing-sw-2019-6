@@ -6,7 +6,6 @@ import model.exception.NotExistingPositionException;
 import model.exception.NotValidDestinationException;
 import model.exception.PositionNotFound;
 import model.field.Coordinate;
-import model.field.Field;
 import network.commands.Response;
 
 /**

@@ -57,9 +57,9 @@ public class WeaponTile implements Grabbable {
 
     @Override
     public String toStringForGUI() {
-        StringBuilder string = new StringBuilder("");
+        StringBuilder string = new StringBuilder();
         for(Weapon w: weapons){
-            string.append(w.getName().toLowerCase().replace(" ","")+";");
+            string.append(w.getName().toLowerCase().replace(" ","")).append(";");
         }
         if(!string.toString().equals("")) return string.toString().toLowerCase()
                 .substring(0,string.toString().length()-1);
@@ -95,7 +95,7 @@ public class WeaponTile implements Grabbable {
         update = new Update(GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                 " picked "+weapon.toString(),"weapons");
         update.setData(weapon.getName());
-        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update);
+        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update, groupID);
         GameContext.get().getGame(groupID).sendUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer().getName()+
                 " picked "+weapon.toString(),"updateconsole"));
 

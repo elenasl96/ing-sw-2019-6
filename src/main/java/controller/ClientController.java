@@ -174,7 +174,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 }
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
-            case POWERUP1: case POWERUP2:
+            case POWERUP1: case POWERUP2: case POWERUP3:
                 choosePowerupEnd(view.choosePowerup());
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;

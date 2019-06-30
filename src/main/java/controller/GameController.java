@@ -1,5 +1,6 @@
 package controller;
 
+import model.decks.CardEffect;
 import model.decks.PowerupDeck;
 import model.enums.*;
 import model.exception.InvalidMoveException;
@@ -136,7 +137,7 @@ public class GameController{
             powerupDeck.discardCard(player, player.getPowerups().get(spawn));
             Update update = new Update(null,"powerup");
             update.setData(player.getPowerups().get(0).getName());
-            player.receiveUpdate(update);
+            player.receiveUpdate(update, groupID);
             updatePhase(groupID);
             //send updates
             GameContext.get().getGame(groupID).sendUpdate(new Update("Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
@@ -192,14 +193,19 @@ public class GameController{
                 player.setPhase(FIRST);
                 break;
             case FIRST:
-                player.getCurrentMoves().clear();
-                player.setPhase(Phase.SECOND);
-                break;
-            case SECOND:
-                player.getCurrentMoves().clear();
+                expireCurrentCardEffects(player.getCurrentCardEffects());
                 player.setPhase(POWERUP2);
                 break;
             case POWERUP2:
+                player.getCurrentMoves().clear();
+                player.getCurrentCardEffects().clear();
+                player.setPhase(SECOND);
+                break;
+            case SECOND:
+                expireCurrentCardEffects(player.getCurrentCardEffects());
+                player.setPhase(POWERUP3);
+                break;
+            case POWERUP3:
                 player.getCurrentMoves().clear();
                 player.getCurrentCardEffects().clear();
                 player.setPhase(RELOAD);
@@ -234,6 +240,12 @@ public class GameController{
         player.getUser().receiveUpdate(new Update(player, true));
         //move sent, timer Starting
         TimerController.get().startTurnTimer(groupID);
+    }
+
+    private void expireCurrentCardEffects(List<CardEffect> currentCardEffects) {
+        for(CardEffect c: currentCardEffects){
+            c.setExpired(true);
+        }
     }
 
     private synchronized void updatePoints(int groupID) {
@@ -312,7 +324,7 @@ public class GameController{
     //-------------------------------POWERUPS------------------------------------//
 
     String preparePowerup(int groupID, String input, Player player) throws InvalidMoveException {
-        return ShootController.get().preparePowerup(player, input, groupID);
+        return ShootController.get().preparePowerup(player, input);
     }
 
     public void playPowerup(Player player, String input, int groupID) throws InvalidMoveException {

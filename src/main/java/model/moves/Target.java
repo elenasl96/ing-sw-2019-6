@@ -30,7 +30,7 @@ public abstract class Target implements Serializable {
         this.maxDistance = maxDistance;
     }
 
-    public abstract void receiveUpdate(Update update);
+    public abstract void receiveUpdate(Update update, int groupID) throws NotExistingPositionException;
 
     public TargetType getTargetType() {
         return targetType;
