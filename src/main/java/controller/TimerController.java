@@ -146,7 +146,7 @@ public class TimerController implements ModelObserver {
             try {
                 Manager.get().getGroup(groupID).createGame();
             } catch (NotExistingFieldException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
         }
     }
