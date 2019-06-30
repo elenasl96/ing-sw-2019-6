@@ -341,12 +341,15 @@ public class ServerController implements RequestHandler {
                     GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
                     GameController.get().updatePhase(currentGroup.getGroupID());
                 }catch(NullPointerException | IndexOutOfBoundsException e){
+                    user.getPlayer().getCurrentCardEffects().clear();
                     user.receiveUpdate(new Update("Invalid input!",UPDATE_CONSOLE));
                     p.getUser().receiveUpdate(new Update(p,true));
                 }catch(NumberFormatException e){
+                    user.getPlayer().getCurrentCardEffects().clear();
                     user.receiveUpdate(new Update("Invalid Number Format!",UPDATE_CONSOLE));
                     p.getUser().receiveUpdate(new Update(p,true));
                 }catch(InvalidMoveException e){
+                    user.getPlayer().getCurrentCardEffects().clear();
                     user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
                     p.getUser().receiveUpdate(new Update(p,true));
                 }
