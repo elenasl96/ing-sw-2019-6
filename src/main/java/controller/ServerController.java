@@ -210,9 +210,11 @@ public class ServerController implements RequestHandler {
         try {
             Update update;
             update = GameController.get().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
-            if(update == null) return null;
-            return new GameUpdateNotification(update);
+            user.receiveUpdate(update);
         } catch (NullPointerException | InvalidMoveException e) {
+            user.getPlayer().getCurrentMoves().clear();
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+            user.receiveUpdate(new Update(user.getPlayer(), true));
             e.printStackTrace();
         }
         return null;
@@ -222,7 +224,7 @@ public class ServerController implements RequestHandler {
     public Response handle(SpawnRequest spawnRequest) {
         try {
             if (spawnRequest.getSpawn() == null) {
-                return new GameUpdateNotification(GameController.get().getSpawn(this.user.getPlayer(), currentGroup.getGroupID()));
+                user.receiveUpdate(GameController.get().getSpawn(this.user.getPlayer(), currentGroup.getGroupID()));
             } else if (spawnRequest.isFirstTime()) {
                 GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
             } else {
@@ -460,14 +462,15 @@ public class ServerController implements RequestHandler {
             GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().setPhaseNotDone(false);
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (InvalidMoveException e) {
+            user.getPlayer().getCurrentMoves().clear();
+            user.getPlayer().setPhaseNotDone(false);
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-            user.getPlayer().setPhaseNotDone(true);
-            user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
+            user.receiveUpdate(new Update(user.getPlayer(), true));
         } catch (NullPointerException e){
+            user.getPlayer().getCurrentMoves().clear();
+            user.getPlayer().setPhaseNotDone(false);
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-            user.getPlayer().setPhaseNotDone(true);
-            user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
-
+            user.receiveUpdate(new Update(user.getPlayer(), true));
         }
         return null;
     }
