@@ -6,13 +6,15 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ *
+ */
 public class ChooseCardActionListener implements MouseListener {
     private final Object lock;
     private String s;
 
-    public ChooseCardActionListener(Object lock) {
+    ChooseCardActionListener(Object lock) {
         this.lock = lock;
-        s = new String("");
     }
 
     public String getS() {
@@ -44,21 +46,21 @@ public class ChooseCardActionListener implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        //do nothing
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        //do nothing
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        //do nothing
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        //do nothing
     }
 }
