@@ -563,7 +563,9 @@ public class MainFrame extends JFrame {
 
     public String selectPlayer() {
         try {
-            lockCharacter.wait();
+            synchronized (lockCharacter){
+                lockCharacter.wait();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -641,16 +643,20 @@ public class MainFrame extends JFrame {
             for (String field : data) {
                 switch (field) {
                     case "player":
+                        setConsole("Select a player\n");
                         command = command + selectPlayer() + ";";
                         break;
                     case "square":
+                        setConsole("Select a square\n");
                         command = command + getCoordinate() + ";";
                         break;
                     case "room":
+                        setConsole("Select a room\n");
                         command = command + getColorRoom() + ";";
+                        break;
+                    default: break;
                 }
             }
-
             lockCommand.notifyAll();
         }
     }
@@ -668,5 +674,9 @@ public class MainFrame extends JFrame {
         String toSend = command;
         command = "";
         return toSend.substring(0,toSend.length()-1);
+    }
+
+    public void setCharacterMatch(String name, int num) {
+        charactersCoordinates[num].setName(name);
     }
 }

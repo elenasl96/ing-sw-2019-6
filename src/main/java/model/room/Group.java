@@ -215,7 +215,9 @@ public class Group implements Serializable {
         this.sendStartNotification();
         for(User u: users){
             String string = u.getUsername()+";"+u.getCharacter().getNum();
-            this.sendUpdate(new Update(string, "characterMatch"));
+            Update update = new Update(string, "charactermatch");
+            update.setData(string);
+            this.sendUpdate(update);
         }
     }
 

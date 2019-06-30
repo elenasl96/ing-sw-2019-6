@@ -126,6 +126,9 @@ public class ViewGui implements View {
                 case "fillfields":
                     gui.fillFields(update.getData());
                     break;
+                case "charactermatch":
+                    data = update.getData().split(";");
+                    gui.setCharacterMatch(data[0], Integer.parseInt(data[1]));
                 default:
                     break;
             }

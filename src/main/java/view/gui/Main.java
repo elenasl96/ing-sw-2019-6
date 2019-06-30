@@ -141,6 +141,15 @@ public class Main {
             main.gui.getMapGrid()[2][2].setGrabbable("furnace;mp40;powerglove");
             main.gui.getMapGrid()[2][3].setGrabbable("furnace;mp40;powerglove");
 
+            main.gui.setCharacterMatch("cane",1);
+            main.gui.updateMap(1,"A 2");
+            main.gui.setCharacterMatch("purscel",0);
+            main.gui.updateMap(0,"A 2");
+
+            System.out.println(main.gui.selectPlayer());
+            System.out.println(main.gui.getColorRoom());
+            System.out.println(main.gui.getCoordinate());
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
