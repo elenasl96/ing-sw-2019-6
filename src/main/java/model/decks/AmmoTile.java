@@ -117,7 +117,7 @@ class AmmoTileWithAmmo extends AmmoTile{
         for(Ammo a: getAmmos()){
             string.append(a.getColor().getName()).append(";");
         }
-        if(!string.toString().equals("")) return string.toString().toLowerCase()
+        if(!string.toString().equals("") && string.length() > 0) return string.toString().toLowerCase()
                 .substring(0,string.toString().length()-1);
         return "";
     }
