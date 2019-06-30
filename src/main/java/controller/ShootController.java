@@ -117,7 +117,7 @@ public class ShootController {
 
     void playWeapon(Player player, String input, int groupID) throws InvalidMoveException {
        playCard(player, input, groupID);
-        unloadWeaponInUse(player);
+       unloadWeaponInUse(player);
     }
 
     public void checkDifferentInputs(String[][] effectsMatrix) throws InvalidMoveException {
@@ -347,11 +347,30 @@ public class ShootController {
             case CARDINAL:
                 areCardinal(target, realTarget, groupID);
                 break;
+            case DAMAGED:
+                wasDamaged(target, realTarget, groupID);
+                break;
             case NONE: default:
                 break;
         }
         if(!target.getTargetType().equals(TargetType.MINE) && realTarget.sameAsMe(groupID))
             throw new TargetTypeException(TargetType.NOT_MINE);
+    }
+
+    private void wasDamaged(Target target, Target realTarget, int groupID) throws TargetTypeException {
+        for(CardEffect c: GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
+            if(c.doesDamage()){
+                for(Effect e: c.getEffects()){
+                    if(e.doesDamage()){
+                        for(Target t: e.getTarget()){
+                            if(t.getName() != null && realTarget.getName().equals(t.getName()))
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        throw new TargetTypeException(target.getTargetType());
     }
 
     private void areCardinal(Target target, Target realTarget, int groupID) throws NotExistingTargetException, NotExistingPositionException, TargetTypeException {

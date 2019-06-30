@@ -57,6 +57,11 @@ public class Room extends Target {
     }
 
     @Override
+    public String getName() {
+        return color.getName();
+    }
+
+    @Override
     public void receiveUpdate(Update update) {
         for(Square s: this.squares){
             s.receiveUpdate(update);
