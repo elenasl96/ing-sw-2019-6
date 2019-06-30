@@ -1,5 +1,6 @@
 package model;
 
+import controller.GameController;
 import model.decks.PowerupDeck;
 import model.enums.Color;
 import model.enums.Phase;
@@ -15,6 +16,7 @@ import network.exceptions.InvalidUsernameException;
 import network.Manager;
 import org.junit.jupiter.api.Test;
 
+import static controller.GameController.cardsToString;
 import static org.junit.Assert.*;
 
 class PlayerTest {
@@ -47,7 +49,7 @@ class PlayerTest {
     void powerUpsTest(){
         PowerupDeck d = new PowerupDeck();
         pg.getPowerups().add(d.pickCard());
-        pg.powerupsToString();
+        cardsToString(pg.getPowerups(), 0);
     }
 
     @Test
