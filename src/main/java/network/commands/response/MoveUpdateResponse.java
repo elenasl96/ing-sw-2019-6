@@ -4,7 +4,9 @@ import model.Player;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
-//TODO javadoc
+/**
+ * Response sent for EVERY update sent to the ClientController
+ */
 public class MoveUpdateResponse implements Response {
     private Player player;
     private String phaseId;

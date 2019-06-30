@@ -3,7 +3,9 @@ package network.commands.response;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
-//TODO javadoc
+/**
+ * Response sent as a request to the client asking for specific input
+ */
 public class AskInput implements Response {
     private String inputType;
     private StringBuilder display;

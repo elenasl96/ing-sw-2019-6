@@ -4,7 +4,10 @@ import model.room.Group;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
-//TODO javadoc
+/**
+ * Sent after a ChooseGroupRequest when the user joins a group
+ * @see network.commands.request.ChooseGroupRequest
+ */
 public class JoinGroupResponse implements Response {
     public final Group group;
 

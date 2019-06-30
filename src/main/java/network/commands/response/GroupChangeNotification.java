@@ -7,7 +7,9 @@ import model.room.User;
 import network.commands.Response;
 import network.commands.ResponseHandler;
 
-//TODO javadoc
+/**
+ * Sent when a user joins or leaves a group
+ */
 public class GroupChangeNotification implements Response {
     private final boolean inOut;
     public final User user;
@@ -17,6 +19,7 @@ public class GroupChangeNotification implements Response {
         this.user = user;
     }
 
+    //auto handled
     @Override
     public void handle(ResponseHandler handler) {
         Group currentGroup = ClientContext.get().getCurrentGroup();
