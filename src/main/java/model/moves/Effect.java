@@ -2,6 +2,7 @@ package model.moves;
 
 import controller.ShootController;
 import model.GameContext;
+import model.Player;
 import model.decks.CardEffect;
 import model.exception.*;
 
@@ -52,7 +53,7 @@ public abstract class Effect implements Move {
     }
 
 
-    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {
+    public int setFieldsToFill(Player player, String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {
         for (int k=0; k<this.getTarget().size(); k++) {
             if(!this.getTarget().get(k).isFilled()) {
                 switch (this.targets.get(k).getTargetType()) {
@@ -78,7 +79,7 @@ public abstract class Effect implements Move {
                                     if (!this.optionality)
                                         throw new NotEnoughFieldsException();
                                 }else {
-                                    ShootController.get().checkTarget(this.getTarget().get(k), inputMatrix[index], groupID);
+                                    ShootController.get().checkTarget(player, this.getTarget().get(k), inputMatrix[index], groupID);
                                     this.getTarget().get(k).setFieldsToFill(inputMatrix[index], groupID);
                                 }
                             index++;

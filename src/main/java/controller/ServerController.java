@@ -273,7 +273,7 @@ public class ServerController implements RequestHandler {
                     break;
                 case "powerupToPlay":
                     List<Powerup> powerupsToPlay = ShootController.get()
-                            .getPowerupsToPlay(user.getPlayer());
+                            .getPowerupsToPlay(user.getPlayer(), currentGroup.getGroupID());
                     if (powerupsToPlay.isEmpty()) {
                         user.receiveUpdate(new Update("You haven't powerups to play now", UPDATE_CONSOLE));
                         user.receiveUpdate(new Update(null, "turnbar")); //TODO check this (SCHERO) for GUI

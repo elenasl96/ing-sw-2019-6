@@ -324,7 +324,7 @@ public class GameController{
     //-------------------------------POWERUPS------------------------------------//
 
     String preparePowerup(int groupID, String input, Player player) throws InvalidMoveException {
-        return ShootController.get().preparePowerup(player, input);
+        return ShootController.get().preparePowerup(player, input, groupID);
     }
 
     public void playPowerup(Player player, String input, int groupID) throws InvalidMoveException {

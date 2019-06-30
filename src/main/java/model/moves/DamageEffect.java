@@ -32,8 +32,8 @@ public class DamageEffect extends Effect{
     }
 
     @Override
-    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {
-        index += super.setFieldsToFill(inputMatrix,index,groupID);
+    public int setFieldsToFill(Player player, String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {
+        index += super.setFieldsToFill(player, inputMatrix,index,groupID);
         return index;
     }
 

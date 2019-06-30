@@ -124,7 +124,7 @@ public class Movement extends Effect{
      * @return the next index if a field was set, the same index if no fields were set
      */
     @Override
-    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {
+    public int setFieldsToFill(Player player, String[] inputMatrix, int index, int groupID) throws TargetsException, NotExistingPositionException, SquareNotFoundException {
         if(this.destination.getCoord() == null) {
            if(inputMatrix == null) {
                if(this.destination.getTargetType().equals(TargetType.BASIC_EQUALS)){
@@ -133,7 +133,7 @@ public class Movement extends Effect{
                    throw new NotEnoughFieldsException();
                }
            } else {
-               index += super.setFieldsToFill(inputMatrix,index,groupID);
+               index += super.setFieldsToFill(player, inputMatrix,index,groupID);
                if(inputMatrix[index]!=null) {
                    if(inputMatrix[index].equals("")){
                        if(!this.getOptionality())

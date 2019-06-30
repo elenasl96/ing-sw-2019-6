@@ -36,8 +36,8 @@ public class MarkEffect extends Effect implements Move{
     }
 
     @Override
-    public int setFieldsToFill(String[] inputMatrix, int index, int groupID) throws NotExistingPositionException, SquareNotFoundException, TargetsException {
-       index += super.setFieldsToFill(inputMatrix,index,groupID);
+    public int setFieldsToFill(Player player, String[] inputMatrix, int index, int groupID) throws NotExistingPositionException, SquareNotFoundException, TargetsException {
+       index += super.setFieldsToFill(player, inputMatrix,index,groupID);
         return index;
     }
 

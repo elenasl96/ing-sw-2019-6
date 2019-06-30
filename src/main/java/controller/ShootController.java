@@ -137,29 +137,33 @@ public class ShootController {
      * if it is playable at the moment it is added in the return list
      * @return list of powerups the player can play in that moment
      */
-    List<Powerup> getPowerupsToPlay(Player player) {
+    List<Powerup> getPowerupsToPlay(Player player, int groupID) {
         List<Powerup> powerupsToPlay = new ArrayList<>();
         for(Powerup powerup: player.getPowerups()){
-            if(isPlayable(player, powerup))
+            if(isPlayable(player, powerup, groupID))
                 powerupsToPlay.add(powerup);
         }
         return powerupsToPlay;
     }
 
-    boolean isPlayable(Player player, Powerup powerup) {
+    boolean isPlayable(Player player, Powerup powerup, int groupID) {
         switch (powerup.getName()){
             case "teleporter": case "newton":
-                return true;
+                if(GameController.get().isMyTurn(player, groupID))
+                    return true;
+                break;
             case "targeting scope":
-                if(player.getAmmos().isEmpty())
+                if(GameController.get().isMyTurn(player, groupID) ||
+                        player.getAmmos().isEmpty())
                     return false;
-                for(CardEffect c: player.getCurrentCardEffects()){
+                for(CardEffect c: GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
                     if(c.doesDamage())
                         return true;
                 }
                 break;
             case "tagback grenade":
-                if(player.getPlayerBoard().wasDamaged())
+                if(!GameController.get().isMyTurn(player, groupID) &&
+                        player.getPlayerBoard().wasDamaged())
                     return true;
                 break;
             default:
@@ -168,11 +172,11 @@ public class ShootController {
         return false;
     }
 
-    String preparePowerup(Player player, String input) throws InvalidMoveException {
+    String preparePowerup(Player player, String input, int groupID) throws InvalidMoveException {
         Powerup powerupToPlay;
         try {
             int powerupIndex = Integer.parseInt(input);
-            powerupToPlay = getPowerupsToPlay(player).get(powerupIndex);
+            powerupToPlay = getPowerupsToPlay(player, groupID).get(powerupIndex);
             ShootController.get().addMoves(player, powerupToPlay);
             //Put the powerup chosen at the beginning of list in player
             player.getPowerups().remove(powerupToPlay);
@@ -250,8 +254,8 @@ public class ShootController {
                     int index = 0;
                     if (!e.getFieldsToFill().isEmpty()){
                         if(index2 >= inputMatrix.length)
-                            e.setFieldsToFill(null, index, groupID);
-                        else if(e.setFieldsToFill(inputMatrix[index2], index, groupID) > 0)
+                            e.setFieldsToFill(player,null, index, groupID);
+                        else if(e.setFieldsToFill(player, inputMatrix[index2], index, groupID) > 0)
                             index2++;
                     }
                 } catch (IndexOutOfBoundsException d) {
@@ -269,7 +273,7 @@ public class ShootController {
         }
     }
 
-    public void checkTarget(Target target, String inputName, int groupID) throws NotExistingTargetException, NotExistingPositionException, InvalidDistanceException, TargetTypeException {
+    public void checkTarget(Player player, Target target, String inputName, int groupID) throws NotExistingTargetException, NotExistingPositionException, InvalidDistanceException, TargetTypeException {
         Target realTarget = target.findRealTarget(inputName, groupID);
         try {
             checkMinDistance(target.getMinDistance(),
@@ -278,7 +282,7 @@ public class ShootController {
         }catch (NullPointerException n){
             //It's a room, continue
         }
-        checkTargetType(target, realTarget, groupID);
+        checkTargetType(player, target, realTarget, groupID);
     }
 
     public void checkMaxDistance(Integer maxDistance, Square targetPosition, int groupID) throws NotExistingPositionException, InvalidDistanceException {
@@ -310,8 +314,7 @@ public class ShootController {
         }
     }
 
-    private void checkTargetType(Target target, Target realTarget, int groupID) throws NotExistingPositionException, NotExistingTargetException, TargetTypeException {
-        Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
+    private void checkTargetType(Player player, Target target, Target realTarget, int groupID) throws NotExistingPositionException, NotExistingTargetException, TargetTypeException {
         switch (target.getTargetType()) {
             case BASIC_VISIBLE:
                 Player basic = (Player) player.getBasicTarget(groupID);
@@ -337,8 +340,13 @@ public class ShootController {
                 areCardinal(target, realTarget, groupID);
                 break;
             case DAMAGED:
-                if(!wasDamaged(realTarget, groupID)) throw new TargetTypeException(target.getTargetType());
+                if(!wasDamaged(realTarget, groupID))
+                    throw new TargetTypeException(target.getTargetType());
                 break;
+            case DAMAGING:
+                if(!realTarget.getName().equals(player.getPlayerBoard().getDamage().get(player.getPlayerBoard().getDamage().size()-1).getName()))
+                    throw new TargetTypeException(target.getTargetType());
+                    break;
             case NONE: default:
                 break;
         }

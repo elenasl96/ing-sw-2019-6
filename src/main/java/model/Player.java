@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.min;
+import static model.enums.Phase.POWERUP_WAIT;
 import static model.enums.TargetType.BASIC_EQUALS;
 
 public class Player extends Target implements Serializable{
@@ -382,6 +383,8 @@ public class Player extends Target implements Serializable{
         this.updateAdrenaline();
         if(this.getPlayerBoard().getDamage().size() == (11 | 12))
             this.dead = true;
+        this.setPhase(POWERUP_WAIT);
+        this.receiveUpdate(new Update(this, true), groupId);
     }
 
     //self explanatory
