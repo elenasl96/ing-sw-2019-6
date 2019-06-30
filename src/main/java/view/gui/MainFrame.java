@@ -56,6 +56,7 @@ public class MainFrame extends JFrame {
 
     private String command;
     private String playerSelected;
+    private String stringFields;
     private int typeMap;
 
     public MainFrame() {
@@ -238,10 +239,10 @@ public class MainFrame extends JFrame {
         voidButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                command = command + ";";
-                actionListenerCoordinate.setS("");
-                playerSelected = "";
                 synchronized (lockCharacter) {
+                    command = command + ";";
+                    actionListenerCoordinate.setS("");
+                    playerSelected = "";
                     lockCharacter.notifyAll();
                 }
                 synchronized (lockCoordinate) {
@@ -639,7 +640,6 @@ public class MainFrame extends JFrame {
 
     public void fillFields(String s) {
         String[] data = s.split(";");
-        synchronized (lockCommand) {
             for (String field : data) {
                 switch (field) {
                     case "player":
@@ -657,20 +657,19 @@ public class MainFrame extends JFrame {
                     default: break;
                 }
             }
-            lockCommand.notifyAll();
-        }
     }
 
+    public String getStringFields() {
+        return stringFields;
+    }
+
+    public void setStringFields(String stringFields) {
+        this.stringFields = stringFields;
+    }
 
     public String getCommand() {
-        synchronized (lockCommand) {
-            try {
-                lockCommand.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
+        fillFields(stringFields);
         String toSend = command;
         command = "";
         return toSend.substring(0,toSend.length()-1);

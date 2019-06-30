@@ -146,9 +146,8 @@ public class Main {
             main.gui.setCharacterMatch("purscel",0);
             main.gui.updateMap(0,"A 2");
 
-            System.out.println(main.gui.selectPlayer());
-            System.out.println(main.gui.getColorRoom());
-            System.out.println(main.gui.getCoordinate());
+            main.gui.setStringFields("player;square");
+            System.out.println(main.gui.getCommand());
 
         } catch (InterruptedException e) {
             e.printStackTrace();
