@@ -3,6 +3,8 @@ package view.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -36,6 +38,7 @@ public class MainFrame extends JFrame {
     private final transient Object lockChooseCard;
     private final transient Object lockReload;
     private final transient Object lockEffect;
+    private final transient Object lockCharacter;
 
     private transient MoveButtonActionListener actionListenerMovement;
     private transient CoordinateActionListener actionListenerCoordinate;
@@ -50,6 +53,8 @@ public class MainFrame extends JFrame {
     private SquarePanel[][] mapGrid;
     private Character[] charactersCoordinates;
 
+    private String playerSelected;
+
     public MainFrame() {
         lockInput = new Object();
         lockMove = new Object();
@@ -57,6 +62,7 @@ public class MainFrame extends JFrame {
         lockChooseCard = new Object();
         lockReload = new Object();
         lockEffect = new Object();
+        lockCharacter = new Object();
 
         actionListenerMovement = new MoveButtonActionListener(lockMove);
         actionListenerCoordinate = new CoordinateActionListener(lockCoordinate);
@@ -70,9 +76,38 @@ public class MainFrame extends JFrame {
     private void initCharacters() {
         for(int i=0;i<5;i++) {
             try {
-                charactersCoordinates[i] = new Character(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/Pedine/pg" +
+                charactersCoordinates[i] = new Character(new CharacterLabel(new ImageIcon(ImageIO.read(new File("src/resources/Pedine/pg" +
                         (i + 1)+".png"))
                         .getScaledInstance(WIDTH_PAWN, HEIGHT_PAWN, Image.SCALE_SMOOTH))));
+                charactersCoordinates[i].getIcon().addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        synchronized (lockCharacter) {
+                            playerSelected = ((CharacterLabel) e.getSource()).getPlayer();
+                            lockCharacter.notifyAll();
+                        }
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }

@@ -2,13 +2,16 @@ package view.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Character {
 
     private String coordinate;
-    private JLabel icon;
+    private CharacterLabel icon;
+    private String name;
 
-    public Character(JLabel img) {
+    public Character(CharacterLabel img) {
         icon = img;
     }
 
@@ -24,7 +27,16 @@ public class Character {
         return icon;
     }
 
-    public void setIcon(JLabel icon) {
+    public void setIcon(CharacterLabel icon) {
         this.icon = icon;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        icon.setPlayer(name);
     }
 }
