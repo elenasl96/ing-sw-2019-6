@@ -31,13 +31,13 @@ public class Player extends Target implements Serializable{
     private String name;
     //Game attributes
     private Character character = Character.NOT_ASSIGNED;
-    private Square currentPosition;
+    private transient Square currentPosition;
     private transient Phase phase;
-    private List<Ammo> ammos = new ArrayList<>();
-    private List<Powerup> powerups = new ArrayList<>();
-    private List<Weapon> weapons = new ArrayList<>();
-    private PlayerBoard playerBoard = new PlayerBoard();
-    private int points;
+    private transient List<Ammo> ammos = new ArrayList<>();
+    private transient List<Powerup> powerups = new ArrayList<>();
+    private transient List<Weapon> weapons = new ArrayList<>();
+    private transient PlayerBoard playerBoard = new PlayerBoard();
+    private transient int points;
     /**
      * True if the character is the firstPlayer
      * for FinalFrenzy mode
@@ -372,10 +372,12 @@ public class Player extends Target implements Serializable{
         updateDamages.setData(damagesReceived + ";" + playerDamaging.getCharacter().getNum());
         this.receiveUpdate(updateDamages);
         //TODO update marksDeleted for GUI (SCHERO)
-        updateMarks = new Update(
-                "Your " + marksRemoved + " marks from "
-                        + playerDamaging.getName() + " are removed");
-        this.receiveUpdate(updateMarks);
+        if(marksRemoved>0) {
+            updateMarks = new Update(
+                    "Your " + marksRemoved + " marks from "
+                            + playerDamaging.getName() + " are removed");
+            this.receiveUpdate(updateMarks);
+        }
         this.updateAdrenaline();
         if(this.getPlayerBoard().getDamage().size() == (11 | 12))
             this.dead = true;

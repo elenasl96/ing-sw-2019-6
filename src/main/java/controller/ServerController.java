@@ -116,6 +116,10 @@ public class ServerController implements RequestHandler {
         try {
             user = Manager.get().createUser(request.username);
             System.out.println(">>> Created user: " + user.getUsername());
+            // Listening to messages and sending them
+            user.listenToMessages(clientHandler);
+            System.out.println(">>> Returning new UserCreatedResponse");
+            return new UserCreatedResponse(user);
         } catch (InvalidUsernameException e) {
             user = Manager.get().getUser(request.username);
             System.out.println(">>> Invalid Username");
@@ -126,10 +130,6 @@ public class ServerController implements RequestHandler {
                 return new UserCreatedResponse(user);
             } else return new TextResponse("Invalid Username: already in use, choose another one");
         }
-        // Listening to messages and sending them
-        user.listenToMessages(clientHandler);
-        System.out.println(">>> Returning new UserCreatedResponse");
-        return new UserCreatedResponse(user);
     }
 
     /**
@@ -167,8 +167,13 @@ public class ServerController implements RequestHandler {
      */
     @Override
     public Response handle(SituationViewerRequest situationViewerRequest){
-        Manager.get().updateGroupSituation();
-        return new SituationViewerResponse(Manager.get().getGroupSituation());
+        try {
+            Manager.get().updateGroupSituation();
+            return new SituationViewerResponse(Manager.get().getGroupSituation());
+        }catch (NullPointerException e){
+            e.getStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -202,12 +207,12 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(PossibleMovesRequest possibleMovesRequest) {
-        Update update = null;
         try {
+            Update update;
             update = GameController.get().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
             if(update == null) return null;
             return new GameUpdateNotification(update);
-        } catch (InvalidMoveException e) {
+        } catch (NullPointerException | InvalidMoveException e) {
             e.printStackTrace();
         }
         return null;
@@ -215,178 +220,181 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(SpawnRequest spawnRequest) {
-        if(spawnRequest.getSpawn()==null) {
-            return new GameUpdateNotification(GameController.get().getSpawn(this.user.getPlayer(), currentGroup.getGroupID()));
-        }else if(spawnRequest.isFirstTime()) {
-            try {
+        try {
+            if (spawnRequest.getSpawn() == null) {
+                return new GameUpdateNotification(GameController.get().getSpawn(this.user.getPlayer(), currentGroup.getGroupID()));
+            } else if (spawnRequest.isFirstTime()) {
                 GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
-            } catch (NotExistingPositionException e) {
-                e.printStackTrace();
-            }
-            return null;
-        } else {
-            try {
+            } else {
                 GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
-            } catch (InvalidMoveException e) {
-                e.printStackTrace();
             }
-            return null;
+        }catch (NullPointerException | InvalidMoveException e){
+            e.printStackTrace();
         }
+        return null;
     }
 
     @Override
     public Response handle(CardRequest cardRequest){
-        Update update;
-        switch (cardRequest.getCardType()) {
-            case "weaponLayout":
-                int cardNumber = cardRequest.getNumber()-3;
-                StringBuilder updateString = new StringBuilder();
-                Weapon weapon = this.user.getPlayer().getWeapons().get(cardNumber);
-                updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
-                update = new Update(null, "layouteffect");
-                update.setData(updateString.toString().toLowerCase().replace(" ",""));
-                user.receiveUpdate(update);
-                break;
-            case "noCard":
-                GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
-                        .receiveUpdate(new Update(null,"turnbar"));
-                GameController.get().updatePhase(currentGroup.getGroupID());
-                break;
-            case "weaponToReload":
-                WeaponTile weaponsToReload = new WeaponTile();
-                weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
-                if (weaponsToReload.getWeapons().isEmpty()) {
-                    user.receiveUpdate(new Update("You haven't weapons to reload",UPDATE_CONSOLE));
+        try {
+            Update update;
+            switch (cardRequest.getCardType()) {
+                case "weaponLayout":
+                    int cardNumber = cardRequest.getNumber() - 3;
+                    StringBuilder updateString = new StringBuilder();
+                    Weapon weapon = this.user.getPlayer().getWeapons().get(cardNumber);
+                    updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
+                    update = new Update(null, "layouteffect");
+                    update.setData(updateString.toString().toLowerCase().replace(" ", ""));
+                    user.receiveUpdate(update);
+                    break;
+                case "noCard":
                     GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
-                            .receiveUpdate(new Update(null,"turnbar"));
+                            .receiveUpdate(new Update(null, "turnbar"));
                     GameController.get().updatePhase(currentGroup.getGroupID());
-                } else {
-                    update = new Update("You can reload these weapons: " + cardsToString(weaponsToReload.getWeapons(),0),"choosecard");
-                    update.setData(weaponsToReload.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
-                    user.receiveUpdate(update);
-                    update = new Update("\n You have these ammos: " +
-                            user.getPlayer().getAmmos().toString(),"reload");
-                    update.setData(user.getPlayer().getAmmos().toString().replace("[","").replace("]","")
-                            .replace(" ","").toLowerCase());
-                    user.receiveUpdate(update);
-                    return new AskInput("grabWeapon");
-                }
-            break;
-            case "powerupToPlay":
-                List<Powerup> powerupsToPlay = ShootController.get()
-                        .getPowerupsToPlay(user.getPlayer());
-                if(powerupsToPlay.isEmpty()){
-                    user.receiveUpdate(new Update("You haven't powerups to play now",UPDATE_CONSOLE));
-                    GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
-                            .receiveUpdate(new Update(null,"turnbar")); //TODO check this (SCHERO) for GUI
-                    GameController.get().updatePhase(currentGroup.getGroupID());
-                }else{
-                    update = new Update("You can play these powerups:" + cardsToString(powerupsToPlay, 0),"choosecard");
-                    // update.setData(powerupsToPlay.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
-                    user.receiveUpdate(update);
-                    return new AskInput("choosePowerup");
-                }
-            break;
-            default:
-                break;
+                    break;
+                case "weaponToReload":
+                    WeaponTile weaponsToReload = new WeaponTile();
+                    weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
+                    if (weaponsToReload.getWeapons().isEmpty()) {
+                        user.receiveUpdate(new Update("You haven't weapons to reload", UPDATE_CONSOLE));
+                        GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
+                                .receiveUpdate(new Update(null, "turnbar"));
+                        GameController.get().updatePhase(currentGroup.getGroupID());
+                    } else {
+                        update = new Update("You can reload these weapons: " + cardsToString(weaponsToReload.getWeapons(), 0), "choosecard");
+                        update.setData(weaponsToReload.getStringIdWeapons().toLowerCase().replaceAll(" ", ""));
+                        user.receiveUpdate(update);
+                        update = new Update("\n You have these ammos: " +
+                                user.getPlayer().getAmmos().toString(), "reload");
+                        update.setData(user.getPlayer().getAmmos().toString().replace("[", "").replace("]", "")
+                                .replace(" ", "").toLowerCase());
+                        user.receiveUpdate(update);
+                        return new AskInput("grabWeapon");
+                    }
+                    break;
+                case "powerupToPlay":
+                    List<Powerup> powerupsToPlay = ShootController.get()
+                            .getPowerupsToPlay(user.getPlayer());
+                    if (powerupsToPlay.isEmpty()) {
+                        user.receiveUpdate(new Update("You haven't powerups to play now", UPDATE_CONSOLE));
+                        GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer()
+                                .receiveUpdate(new Update(null, "turnbar")); //TODO check this (SCHERO) for GUI
+                        GameController.get().updatePhase(currentGroup.getGroupID());
+                    } else {
+                        update = new Update("You can play these powerups:" + cardsToString(powerupsToPlay, 0), "choosecard");
+                        // update.setData(powerupsToPlay.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
+                        user.receiveUpdate(update);
+                        return new AskInput("choosePowerup");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
         return null;
     }
 
     @Override
     public Response handle(SendInput inputResponse) {
-        Player p = user.getPlayer();
-        switch(inputResponse.getInputType()){
-            case "weapon chosen":
-                try {
-                    p.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
-                    //p.setPhaseNotDone(false); senza questo per ora funziona
-                    GameController.get().updatePhase(currentGroup.getGroupID());
-                }catch (IndexOutOfBoundsException e){
-                    user.receiveUpdate(new Update("Weapon index out of bounds",UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
-                    user.receiveUpdate(new Update(p,true));
-                }catch(NumberFormatException e){
-                    user.receiveUpdate(new Update("Not a number",UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
-                    user.receiveUpdate(new Update(p,true));
-                }catch(NotEnoughAmmoException e){
-                    user.receiveUpdate(new Update("Not enough ammos!",UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
-                    user.receiveUpdate(new Update(p,true));
-                } catch (NotExistingPositionException e) {
-                    user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
-                    user.receiveUpdate(new Update(p,true));
-                }
-                break;
-            case "weaponGrabbed":
-                try {
-                    GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
-                }catch (IndexOutOfBoundsException e){
-                    p.setPhaseNotDone(true);
-                    user.receiveUpdate(new Update(p,true));
-                    user.receiveUpdate(new Update("Invalid Weapon",UPDATE_CONSOLE));
-                }catch (NumberFormatException e){
-                    user.receiveUpdate(new Update("Not a number",UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
-                    user.receiveUpdate(new Update(p,true));
+        try {
+            Player p = user.getPlayer();
+            switch (inputResponse.getInputType()) {
+                case "weapon chosen":
+                    try {
+                        p.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
+                        //p.setPhaseNotDone(false); senza questo per ora funziona
+                        GameController.get().updatePhase(currentGroup.getGroupID());
+                    } catch (IndexOutOfBoundsException e) {
+                        user.receiveUpdate(new Update("Weapon index out of bounds", UPDATE_CONSOLE));
+                        p.setPhaseNotDone(true);
+                        user.receiveUpdate(new Update(p, true));
+                    } catch (NumberFormatException e) {
+                        user.receiveUpdate(new Update("Not a number", UPDATE_CONSOLE));
+                        p.setPhaseNotDone(true);
+                        user.receiveUpdate(new Update(p, true));
+                    } catch (NotEnoughAmmoException e) {
+                        user.receiveUpdate(new Update("Not enough ammos!", UPDATE_CONSOLE));
+                        p.setPhaseNotDone(true);
+                        user.receiveUpdate(new Update(p, true));
+                    } catch (NotExistingPositionException e) {
+                        user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+                        p.setPhaseNotDone(true);
+                        user.receiveUpdate(new Update(p, true));
+                    }
+                    break;
+                case "weaponGrabbed":
+                    try {
+                        GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
+                    } catch (IndexOutOfBoundsException e) {
+                        p.setPhaseNotDone(true);
+                        user.receiveUpdate(new Update(p, true));
+                        user.receiveUpdate(new Update("Invalid Weapon", UPDATE_CONSOLE));
+                    } catch (NumberFormatException e) {
+                        user.receiveUpdate(new Update("Not a number", UPDATE_CONSOLE));
+                        p.setPhaseNotDone(true);
+                        user.receiveUpdate(new Update(p, true));
 
-                }
-                currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
-                currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
-                break;
-            case "fieldsFilled":
-                try{
-                    GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
-                    GameController.get().updatePhase(currentGroup.getGroupID());
-                }catch(NullPointerException | IndexOutOfBoundsException e){
-                    user.getPlayer().getCurrentCardEffects().clear();
-                    user.receiveUpdate(new Update("Invalid input!",UPDATE_CONSOLE));
-                    p.getUser().receiveUpdate(new Update(p,true));
-                }catch(NumberFormatException e){
-                    user.getPlayer().getCurrentCardEffects().clear();
-                    user.receiveUpdate(new Update("Invalid Number Format!",UPDATE_CONSOLE));
-                    p.getUser().receiveUpdate(new Update(p,true));
-                }catch(InvalidMoveException e){
-                    user.getPlayer().getCurrentCardEffects().clear();
-                    user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
-                    p.getUser().receiveUpdate(new Update(p,true));
-                }
-                p.setPhaseNotDone(false);
-                break;
-            case "powerupToPlay":
-                try{
-                    this.user.receiveUpdate(new Update(GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer())));
-                    return new AskInput("fillPowerup");
-                }catch (IndexOutOfBoundsException e){
-                    user.receiveUpdate(new Update("Powerup index out of bounds",UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
-                    user.receiveUpdate(new Update(p,true));
-                }catch (InvalidMoveException e){
-                    user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
-                    p.setPhaseNotDone(true);
-                    user.receiveUpdate(new Update(p,true));
-                }
-                break;
-            case "powerupFilled":
-                try{
-                    GameController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
-                    GameController.get().updatePhase(currentGroup.getGroupID());
-                }catch(NullPointerException | IndexOutOfBoundsException e){
-                    user.receiveUpdate(new Update("Invalid input!",UPDATE_CONSOLE));
-                    p.getUser().receiveUpdate(new Update(p,true));
-                }catch(NumberFormatException e){
-                    user.receiveUpdate(new Update("Invalid Number Format!",UPDATE_CONSOLE));
-                    p.getUser().receiveUpdate(new Update(p,true));
-                }catch(InvalidMoveException e){
-                    user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
-                    p.getUser().receiveUpdate(new Update(p,true));
-                }
-                p.setPhaseNotDone(false);
-                break;
-            default:
-                break;
+                    }
+                    currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
+                    currentGroup.getGame().getCurrentPlayer().getUser().receiveUpdate(new Update(currentGroup.getGame().getCurrentPlayer(), true));
+                    break;
+                case "fieldsFilled":
+                    try {
+                        GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+                        GameController.get().updatePhase(currentGroup.getGroupID());
+                    } catch (NullPointerException | IndexOutOfBoundsException e) {
+                        user.getPlayer().getCurrentCardEffects().clear();
+                        user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
+                        p.getUser().receiveUpdate(new Update(p, true));
+                    } catch (NumberFormatException e) {
+                        user.getPlayer().getCurrentCardEffects().clear();
+                        user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
+                        p.getUser().receiveUpdate(new Update(p, true));
+                    } catch (InvalidMoveException e) {
+                        user.getPlayer().getCurrentCardEffects().clear();
+                        user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+                        p.getUser().receiveUpdate(new Update(p, true));
+                    }
+                    p.setPhaseNotDone(false);
+                    break;
+                case "powerupToPlay":
+                    try {
+                        this.user.receiveUpdate(new Update(GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer())));
+                        return new AskInput("fillPowerup");
+                    } catch (IndexOutOfBoundsException e) {
+                        user.receiveUpdate(new Update("Powerup index out of bounds", UPDATE_CONSOLE));
+                        p.setPhaseNotDone(true);
+                        user.receiveUpdate(new Update(p, true));
+                    } catch (InvalidMoveException e) {
+                        user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+                        p.setPhaseNotDone(true);
+                        user.receiveUpdate(new Update(p, true));
+                    }
+                    break;
+                case "powerupFilled":
+                    try {
+                        GameController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+                        GameController.get().updatePhase(currentGroup.getGroupID());
+                    } catch (NullPointerException | IndexOutOfBoundsException e) {
+                        user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
+                        p.getUser().receiveUpdate(new Update(p, true));
+                    } catch (NumberFormatException e) {
+                        user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
+                        p.getUser().receiveUpdate(new Update(p, true));
+                    } catch (InvalidMoveException e) {
+                        user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+                        p.getUser().receiveUpdate(new Update(p, true));
+                    }
+                    p.setPhaseNotDone(false);
+                    break;
+                default:
+                    break;
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
         return null;
     }
@@ -412,9 +420,9 @@ public class ServerController implements RequestHandler {
 
     @Override
     public Response handle(MoveRequest moveRequest) {
-        Player currentPlayer = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer();
-        Move move = moveRequest.getMove();
         try {
+            Player currentPlayer = GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer();
+            Move move = moveRequest.getMove();
             if(move == null) {
                 if (currentPlayer.getCurrentMoves().isEmpty())
                     throw new InvalidMoveException("No pending moves");
@@ -430,8 +438,7 @@ public class ServerController implements RequestHandler {
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (InvalidMoveException e) {
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-            user.getPlayer().setPhaseNotDone(false);
-            GameController.get().updatePhase(currentGroup.getGroupID());
+            user.getPlayer().setPhaseNotDone(true);
             user.receiveUpdate(new Update(GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer(), true));
         } catch (NullPointerException e){
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
