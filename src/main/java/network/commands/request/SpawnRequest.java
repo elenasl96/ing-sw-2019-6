@@ -6,7 +6,7 @@ import network.commands.Response;
 
 /**
  * Sent when a player wants to spawn
- * If first Time
+ * If spawn attribute is set to null, it also asks for the possible spawn points
  */
 public class SpawnRequest implements Request {
     private boolean firstTime;

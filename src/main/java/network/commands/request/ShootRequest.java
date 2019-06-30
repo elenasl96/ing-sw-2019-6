@@ -4,7 +4,9 @@ import network.commands.Request;
 import network.commands.RequestHandler;
 import network.commands.Response;
 
-//TODO javadoc
+/**
+ * Sent when a player wants to shoot
+ */
 public class ShootRequest implements Request {
     private String string;
 

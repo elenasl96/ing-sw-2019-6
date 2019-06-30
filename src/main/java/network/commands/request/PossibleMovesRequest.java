@@ -4,7 +4,9 @@ import network.commands.Request;
 import network.commands.RequestHandler;
 import network.commands.Response;
 
-//TODO javadoc
+/**
+ * Sent to ask for the possible moves a player can make
+ */
 public class PossibleMovesRequest implements Request {
     @Override
     public Response handle(RequestHandler handler) {

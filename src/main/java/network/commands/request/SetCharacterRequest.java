@@ -4,7 +4,9 @@ import network.commands.Request;
 import network.commands.RequestHandler;
 import network.commands.Response;
 
-//TODO javadoc
+/**
+ * Sent when choosing the character
+ */
 public class SetCharacterRequest implements Request {
     public final int characterNumber;
 

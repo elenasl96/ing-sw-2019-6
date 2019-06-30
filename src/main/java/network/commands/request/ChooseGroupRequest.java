@@ -4,7 +4,9 @@ import network.commands.Request;
 import network.commands.RequestHandler;
 import network.commands.Response;
 
-//TODO javadoc
+/**
+ * Sent when asking to join a group
+ */
 public class ChooseGroupRequest implements Request {
 
     public final int groupId;
