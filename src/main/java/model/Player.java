@@ -90,6 +90,7 @@ public class Player extends Target implements Serializable{
         return currentMoves;
     }
 
+    @Override
     public String getName() {
         return name;
     }
