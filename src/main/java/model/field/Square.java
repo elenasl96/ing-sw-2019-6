@@ -219,6 +219,11 @@ public class Square extends Target implements Serializable {
     }
 
     @Override
+    public String getName() {
+        return coord.toString();
+    }
+
+    @Override
     public void addMarks(Player playerMarking, int groupID, int nMarks) throws NotExistingPositionException {
         for(Player player: GameContext.get().getGame(groupID).getPlayers()){
             if(player.getCurrentPosition().equals(this) && !player.equals(playerMarking))

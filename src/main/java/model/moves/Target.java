@@ -71,4 +71,6 @@ public abstract class Target implements Serializable {
     public abstract void setMine(int groupID) throws NotExistingPositionException;
 
     public abstract List<Target> findAllTargets(Target target, int groupID);
+
+    public abstract String getName();
 }
