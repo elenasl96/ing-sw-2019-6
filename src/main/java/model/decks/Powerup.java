@@ -44,6 +44,10 @@ public class Powerup implements Serializable {
         this.ammo = ammo;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public Powerup initializePowerup(int id){
         Powerup powerup;
         switch (id){
