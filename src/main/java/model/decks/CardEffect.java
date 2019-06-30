@@ -17,11 +17,17 @@ public class CardEffect {
     private EffectType effectType;
     private List<Effect> effects = new ArrayList<>();
     private List<Ammo> cost = new ArrayList<>();
+    private String description;
 
-    CardEffect(EffectType effectType, Stream<Ammo> ammos){
+    CardEffect(EffectType effectType, Stream<Ammo> ammos, String description){
         if(ammos!=null)
             this.setCost(ammos);
         this.effectType = effectType;
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public List<Effect> getEffects() {
