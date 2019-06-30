@@ -188,6 +188,7 @@ public class GameController{
             break;
             case POWERUP1:
                 player.getCurrentMoves().clear();
+                player.getCurrentCardEffects().clear();
                 player.setPhase(FIRST);
                 break;
             case FIRST:
@@ -200,6 +201,7 @@ public class GameController{
                 break;
             case POWERUP2:
                 player.getCurrentMoves().clear();
+                player.getCurrentCardEffects().clear();
                 player.setPhase(RELOAD);
                 break;
             case RELOAD:
