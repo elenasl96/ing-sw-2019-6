@@ -142,6 +142,10 @@ public class ViewGui implements View {
                             gui.getTimer().stop();
                             break;
                     }
+                    break;
+                case "field":
+                    gui.setTypeMap(Integer.parseInt(update.getData()));
+                    break;
                 default:
                     break;
             }
