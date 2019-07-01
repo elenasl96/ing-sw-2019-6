@@ -691,15 +691,15 @@ public class MainFrame extends JFrame {
             for (String field : serie) {
                 switch (field) {
                     case "player":
-                        setConsole("Select a player");
+                        setConsole("Select a player (press VOID if optional)");
                         command = command + selectPlayer() + ",";
                         break;
                     case "square":
-                        setConsole("Select a square");
+                        setConsole("Select a square (press VOID if optional)");
                         command = command + getCoordinate() + ",";
                         break;
                     case "room":
-                        setConsole("Select a room");
+                        setConsole("Select a room (press VOID if optional)");
                         command = command + getColorRoom() + ",";
                         break;
                     default:
