@@ -685,23 +685,29 @@ public class MainFrame extends JFrame {
 
     public void fillFields(String s) {
         String[] data = s.split(";");
-            for (String field : data) {
+        String[] serie;
+        for (String effect : data) {
+            serie = effect.split(",");
+            for (String field : serie) {
                 switch (field) {
                     case "player":
                         setConsole("Select a player");
-                        command = command + selectPlayer() + ";";
+                        command = command + selectPlayer() + ",";
                         break;
                     case "square":
                         setConsole("Select a square");
-                        command = command + getCoordinate() + ";";
+                        command = command + getCoordinate() + ",";
                         break;
                     case "room":
                         setConsole("Select a room");
-                        command = command + getColorRoom() + ";";
+                        command = command + getColorRoom() + ",";
                         break;
-                    default: break;
+                    default:
+                        break;
                 }
             }
+            command = command.substring(0,command.length()-1) + ";";
+        }
     }
 
     public String getStringFields() {

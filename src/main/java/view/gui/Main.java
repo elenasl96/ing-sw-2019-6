@@ -70,7 +70,7 @@ public class Main {
         try {
             main.gui.addDropPlayerBoard(1);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(2);
+           /* main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
@@ -126,7 +126,7 @@ public class Main {
            Thread.sleep(2000);
            main.gui.addSkullPlayerBoard();
            Thread.sleep(2000);
-           main.gui.addSkullPlayerBoard();
+           main.gui.addSkullPlayerBoard();*/
 
             main.gui.getMapGrid()[0][0].setGrabbable("furnace;mp40;powerglove");
             main.gui.getMapGrid()[0][1].setGrabbable("furnace;mp40;powerglove");
@@ -146,7 +146,7 @@ public class Main {
             main.gui.setCharacterMatch("purscel",0);
             main.gui.updateMap(0,"A 2");
 
-            main.gui.setStringFields("player;square");
+            main.gui.setStringFields("player,square;player");
             System.out.println(main.gui.getCommand());
 
         } catch (InterruptedException e) {
