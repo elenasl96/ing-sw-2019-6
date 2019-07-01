@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
@@ -50,6 +52,7 @@ public class MainFrame extends JFrame {
     private JFrame yesNoFrame;
     private JFrame effectFrame;
     private PlayerBoardPanel playerBoard;
+    private JLabel time;
 
     private SquarePanel[][] mapGrid;
     private Character[] charactersCoordinates;
@@ -58,6 +61,7 @@ public class MainFrame extends JFrame {
     private String playerSelected;
     private String stringFields;
     private int typeMap;
+    private javax.swing.Timer timer;
 
     public MainFrame() {
         lockInput = new Object();
@@ -74,8 +78,7 @@ public class MainFrame extends JFrame {
         mapGrid = new SquarePanel[3][4];
         command = "";
         playerSelected = "";
-        typeMap=1;
-
+        typeMap = 1;
         charactersCoordinates = new Character[5];
         initCharacters();
 
@@ -233,6 +236,8 @@ public class MainFrame extends JFrame {
 
         //Create bottom section of GUI
         JPanel voidPanel = new JPanel();
+        time = new JLabel("120");
+        voidPanel.add(time);
         playerBoard = new PlayerBoardPanel();
         voidPanel.add(playerBoard);
         JButton voidButton = new JButton("Void");
@@ -253,6 +258,14 @@ public class MainFrame extends JFrame {
             }
         });
         voidPanel.add(voidButton);
+
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                time.setText(Integer.parseInt(time.getText())-1+"");
+            }
+        });
+        timer.start();
 
         add(centralPanel, BorderLayout.CENTER);
         add(left, BorderLayout.WEST);
