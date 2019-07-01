@@ -79,7 +79,7 @@ public class MainFrame extends JFrame {
         mapGrid = new SquarePanel[3][4];
         command = "";
         playerSelected = "";
-        typeMap = 1;
+        typeMap = 2;
         charactersCoordinates = new Character[5];
         initCharacters();
 
@@ -229,7 +229,6 @@ public class MainFrame extends JFrame {
         right.add(middleRightContainer);
         right.add(new JScrollPane(console));
 
-
         //Create central section of GUI
         centralPanel = new JPanel(new GridLayout(3, 4));
 
@@ -280,6 +279,7 @@ public class MainFrame extends JFrame {
             }
         });
         timer.start();
+        createField();
 
         add(centralPanel, BorderLayout.CENTER);
         add(left, BorderLayout.WEST);
@@ -355,14 +355,11 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void printField(){
-        try{
+    public void createField(){
             Integer cont = 1;
             for(int i=0;i<3;i++) {
                 for(int j=0;j<4;j++) {
-                    mapGrid[i][j]=new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/Field" + typeMap + "/" +
-                            "image_part_0"+String.format("%02d",cont) +".png"))
-                            .getScaledInstance(140,140, Image.SCALE_SMOOTH)), (char)(j+65)+" "+(3-i));
+                    mapGrid[i][j]=new SquarePanel((char)(j+65)+" "+(3-i));
                     mapGrid[i][j].setLayout(new GridLayout(3,2));
                     mapGrid[i][j].addMouseListener(actionListenerCoordinate);
 
@@ -371,14 +368,32 @@ public class MainFrame extends JFrame {
                     cont++;
                 }
             }
-        }
-        catch(IOException exception)
-        {
-            System.out.println("Error");
-        }
 
         setState(Frame.ICONIFIED);
         setState(Frame.NORMAL);
+    }
+
+    public void printField() {
+
+        Integer cont = 1;
+        for(int i=0;i<3;i++) {
+            for(int j=0;j<4;j++) {
+                try {
+                    mapGrid[i][j].setImg(new ImageIcon(ImageIO.read(new File("src/resources/Field" + typeMap + "/" +
+                            "image_part_0"+String.format("%02d",cont) +".png"))
+                            .getScaledInstance(140,140, Image.SCALE_SMOOTH)));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mapGrid[i][j].setLayout(new GridLayout(3,2));
+                mapGrid[i][j].addMouseListener(actionListenerCoordinate);
+
+                centralPanel.add(mapGrid[i][j]);
+
+                cont++;
+            }
+        }
+
     }
 
     public void updateMap(int character, String coordinates) {

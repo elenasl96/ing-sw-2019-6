@@ -22,8 +22,7 @@ public class SquarePanel extends JPanel {
         this.coordinate = coordinate;
     }
 
-    public SquarePanel(ImageIcon img, String coordinate) {
-        this.img = img.getImage();
+    public SquarePanel(String coordinate) {
         timer = null;
         this.coordinate = coordinate;
         addMouseListener(new MouseListener() {
@@ -111,5 +110,9 @@ public class SquarePanel extends JPanel {
 
     public void setGrabbable(String g) {
         grabbable = g;
+    }
+
+    public void setImg(ImageIcon img) {
+        this.img = img.getImage();
     }
 }

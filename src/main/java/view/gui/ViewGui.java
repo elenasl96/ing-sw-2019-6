@@ -58,7 +58,6 @@ public class ViewGui implements View {
     public void onStart() {
         System.out.println("Gui starting");
         viewCli.onStart();
-        gui.printField();
         gui.setVisible(true);
         System.out.println("Gui started");
         wait = false;
