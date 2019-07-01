@@ -236,7 +236,7 @@ public class MainFrame extends JFrame {
 
         //Create bottom section of GUI
         JPanel voidPanel = new JPanel();
-        time = new JLabel("120");
+        time = new JLabel("02:00");
         voidPanel.add(time);
         playerBoard = new PlayerBoardPanel();
         voidPanel.add(playerBoard);
@@ -260,9 +260,21 @@ public class MainFrame extends JFrame {
         voidPanel.add(voidButton);
 
         timer = new Timer(1000, new ActionListener() {
+            int seconds = 59;
+            int minutes = 1;
             @Override
             public void actionPerformed(ActionEvent e) {
-                time.setText(Integer.parseInt(time.getText())-1+"");
+                if(minutes>=0) {
+                    if (seconds >= 10) {
+                        time.setText("0" + minutes + ":" + seconds);
+                    } else if(seconds == 0){
+                        minutes--;
+                        seconds = 59;
+                    }else {
+                        time.setText("0" + minutes + ":0" + seconds);
+                    }
+                    seconds--;
+                }
             }
         });
         timer.start();
