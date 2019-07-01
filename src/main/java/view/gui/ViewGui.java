@@ -151,7 +151,6 @@ public class ViewGui implements View {
         viewCli.setClientController(controller);
         gui.setPlayerNameLabel(viewCli.chooseUsernamePhase().toUpperCase());
         ClientContext.get().getCurrentUser().listenToMessages(this);
-        System.out.println(ClientContext.get().getCurrentUser().getUpdateObservers());
         return null;
     }
 
