@@ -226,13 +226,7 @@ public class GameController{
                 break;
             case DISCONNECTED:
                 GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
-                player = GameContext.get().getGame(groupID).getCurrentPlayer();
-                if(player.isDead()){
-                    player.setPhase(SPAWN);
-                }
-                else {
-                    player.setPhase(POWERUP1);
-                }
+                updatePhase(groupID);
                 break;
             default:
                 break;

@@ -116,6 +116,7 @@ public class TimerController implements ModelObserver {
                                 "You're lucky you can at least reload.", null));
                     }
                     GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(DISCONNECTED);
+                    System.out.println(">>> Timer expired, disconnecting: "+GameContext.get().getGame(groupID).getCurrentPlayer().getUser().getUsername());
                     GameController.get().updatePhase(groupID);
                     timers.get(groupID).purge();
                 }
