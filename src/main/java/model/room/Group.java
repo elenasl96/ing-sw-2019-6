@@ -218,6 +218,12 @@ public class Group implements Serializable {
             Update update = new Update(null, "charactermatch");
             update.setData(string);
             this.sendUpdate(update);
+            update = new Update(null, "field");
+            update.setData(fieldNumber+"");
+            this.sendUpdate(update);
+            update = new Update(null, "skull");
+            update.setData(skullNumber+"");
+            this.sendUpdate(update);
         }
     }
 
