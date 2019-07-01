@@ -393,10 +393,10 @@ public class ServerController implements RequestHandler {
             currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
             user.receiveUpdate(new Update(player, true));
             user.receiveUpdate(new Update("Invalid Weapon", UPDATE_CONSOLE));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | NotEnoughAmmoException e) {
             player.setPhaseNotDone(true);
             currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
-            user.receiveUpdate(new Update("Not a number", UPDATE_CONSOLE));
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(player, true));
         }
     }

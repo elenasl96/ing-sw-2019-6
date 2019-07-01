@@ -289,7 +289,7 @@ public class GameController{
                 .collect(Collectors.toList());
     }
 
-    void reloadWeapon (int number, int groupID) {
+    void reloadWeapon (int number, int groupID) throws NotEnoughAmmoException {
         //Check if the player has the necessary ammos
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         Weapon weapon = player.getWeapons().get(number);
@@ -304,17 +304,12 @@ public class GameController{
 
         //check if the player has enough ammos to reload the weapon
         Pay pay = new Pay(ammosToPay);
-        try{
             pay.execute(player, groupID);
             Update update = new Update("Weapon reloaded!\nYou have these ammos: "
                     + player.getAmmos().toString(),"reload");
             update.setData(player.getAmmos().toString().replace("[","").replace("]","")
                     .replace(" ","").toLowerCase());
             player.getUser().receiveUpdate(update);
-        }catch (NotEnoughAmmoException e){
-            e.getMessage();
-            player.getUser().receiveUpdate(new Update(e.getMessage(), UPDATECONSOLE));
-        }
         weapon.setStatus(WeaponStatus.LOADED);
     }
 
