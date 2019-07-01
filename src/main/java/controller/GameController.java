@@ -116,10 +116,6 @@ public class GameController{
                 forGui.append("RUN;").append(GRAB+";").append("SHOOT;");
             }
         }
-        if(!player.getPowerups().isEmpty()) {
-            content.append("\n||POWERUPS||").append(cardsToString(player.getPowerups(), 0));
-            forGui.append("POWERUPS;");
-        }
         update = new Update(content.toString(),"disablebutton");
         update.setData(forGui.toString().substring(0,forGui.toString().length()-1));
         return update;
