@@ -214,8 +214,8 @@ public class Group implements Serializable {
         //Triggers onStart in the Listeners
         this.sendStartNotification();
         for(User u: users){
-            String string = u.getUsername()+";"+u.getCharacter().getNum();
-            Update update = new Update(string, "charactermatch");
+            String string = u.getUsername()+";"+(u.getCharacter().getNum()-1);
+            Update update = new Update(null, "charactermatch");
             update.setData(string);
             this.sendUpdate(update);
         }
