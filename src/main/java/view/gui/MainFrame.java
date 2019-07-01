@@ -723,4 +723,12 @@ public class MainFrame extends JFrame {
     public void setCharacterMatch(String name, int num) {
         charactersCoordinates[num].setName(name);
     }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTime(String time) {
+        this.time.setText(time);
+    }
 }
