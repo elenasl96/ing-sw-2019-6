@@ -56,6 +56,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
+        main.gui.printField();
         //System.out.println(main.gui.getMove());
         //System.out.println(main.gui.getMove());
         //System.out.println(main.gui.getJLabelText());

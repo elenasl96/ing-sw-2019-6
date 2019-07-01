@@ -46,6 +46,7 @@ public class MainFrame extends JFrame {
     private transient MoveButtonActionListener actionListenerMovement;
     private transient CoordinateActionListener actionListenerCoordinate;
     private JPanel turnLight;
+    private JPanel centralPanel;
     private JComboBox weapon;
     private JComboBox powerUp;
     private String yesnochoice;
@@ -230,9 +231,7 @@ public class MainFrame extends JFrame {
 
 
         //Create central section of GUI
-        JPanel centralPanel = new JPanel(new GridLayout(3, 4));
-
-        printField(centralPanel);
+        centralPanel = new JPanel(new GridLayout(3, 4));
 
         //Create bottom section of GUI
         JPanel voidPanel = new JPanel();
@@ -356,13 +355,12 @@ public class MainFrame extends JFrame {
         }
     }
 
-    private void printField(JPanel centralPanel){
+    public void printField(){
         try{
-            
             Integer cont = 1;
             for(int i=0;i<3;i++) {
                 for(int j=0;j<4;j++) {
-                    mapGrid[i][j]=new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/Field2/" +
+                    mapGrid[i][j]=new SquarePanel(new ImageIcon(ImageIO.read(new File("src/resources/Field" + typeMap + "/" +
                             "image_part_0"+String.format("%02d",cont) +".png"))
                             .getScaledInstance(140,140, Image.SCALE_SMOOTH)), (char)(j+65)+" "+(3-i));
                     mapGrid[i][j].setLayout(new GridLayout(3,2));
@@ -378,6 +376,9 @@ public class MainFrame extends JFrame {
         {
             System.out.println("Error");
         }
+
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 
     public void updateMap(int character, String coordinates) {
