@@ -236,6 +236,12 @@ public class MainFrame extends JFrame {
 
         //Create bottom section of GUI
         JPanel voidPanel = new JPanel();
+        try {
+            voidPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/clessidra.gif"))
+                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         time = new JLabel("120");
         voidPanel.add(time);
         playerBoard = new PlayerBoardPanel();

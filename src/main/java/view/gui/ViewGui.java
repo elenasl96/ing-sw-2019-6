@@ -129,6 +129,7 @@ public class ViewGui implements View {
                 case "charactermatch":
                     data = update.getData().split(";");
                     gui.setCharacterMatch(data[0], Integer.parseInt(data[1]));
+                    break;
                 default:
                     break;
             }
