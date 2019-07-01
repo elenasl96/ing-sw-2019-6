@@ -102,7 +102,7 @@ public class TimerController implements ModelObserver {
         this.timers.add(groupID, new Timer());
         this.timers.get(groupID).purge();
         TimerTask timerTask2 = new TimerTask(){
-            int seconds = 120;
+            int seconds = 121;
             @Override
             public void run() {
                 Update update;
@@ -110,6 +110,7 @@ public class TimerController implements ModelObserver {
                     update = new Update(null, "timer");
                     update.setData("start");
                     GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(update);
+                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Timer Started!"));
                 }
                 if (seconds == 5) {
                     GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "...", null));

@@ -8,22 +8,22 @@ import network.commands.ResponseHandler;
  * Response sent for EVERY update sent to the ClientController
  */
 public class MoveUpdateResponse implements Response {
-    private Player player;
     private String phaseId;
+    private String username;
     private int phaseNotDone;
 
     public MoveUpdateResponse(Player player){
-        this.player = player;
+        this.username = player.getName();
         this.phaseId = Integer.toString(player.getPhase().getId());
-        if(this.player.isPhaseNotDone()){
+        if(player.isPhaseNotDone()){
             this.phaseNotDone = 1;
         } else {
             this.phaseNotDone = 0;
         }
     }
 
-    public Player getPlayer(){
-        return this.player;
+    public String getUsername(){
+        return this.username;
     }
 
     public String getPhaseId() {

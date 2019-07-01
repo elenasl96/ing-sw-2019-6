@@ -85,7 +85,7 @@ public class Group implements Serializable {
      * Sends update to all the observers
      * @param update    an Update object containing text or a player
      */
-    public void sendUpdate(Update update){
+    public synchronized void sendUpdate(Update update){
         for(User user: users) {
             user.receiveUpdate(update);
         }

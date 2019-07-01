@@ -233,8 +233,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     }
 
     @Override
-    public void handle(MoveUpdateResponse moveUpdateResponse) {
-        ClientContext.get().setPlayer(moveUpdateResponse.getPlayer());
+    public synchronized void handle(MoveUpdateResponse moveUpdateResponse) {
         ClientContext.get().getCurrentPlayer().setPhase(fromInteger(Integer.parseInt(moveUpdateResponse.getPhaseId())));
         ClientContext.get().getCurrentPlayer().setPhaseNotDone(moveUpdateResponse.getPhaseNotDone() == 1);
         view.setWait(ClientContext.get().getCurrentPlayer().getPhase().equalsTo(Phase.WAIT));

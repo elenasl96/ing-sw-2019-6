@@ -130,8 +130,7 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
         try {
             System.out.print(">>> I'm SocketClientHandler sending: ");
             if (update.isPlayerChanges()) {
-                System.out.print("a MoveUpdateResponse modifying player " + update.getPlayer() + " username " + update.getPlayer().getName() +
-                        " of user " + update.getPlayer().getUser() + " with phaseId " + update.getPlayer().getPhase().getId() + "\n");
+                System.out.print("a MoveUpdateResponse\n");
                 respond(new MoveUpdateResponse(update.getPlayer()));
             } else {
                 System.out.print("a GameUpdateNotification saying string " + update.toString() + "\n");
