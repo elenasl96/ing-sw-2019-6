@@ -81,6 +81,8 @@ public class ShootController {
                     Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL1}) ||
                     Arrays.equals(sequence, new EffectType[]{BASIC, BEFORE_AFTER_BASIC}) ||
                     Arrays.equals(sequence, new EffectType[]{BASIC, EVERY_TIME}) ||
+                    Arrays.equals(sequence, new EffectType[]{EVERY_TIME, BASIC}) ||
+                    Arrays.equals(sequence, new EffectType[]{BEFORE_AFTER_BASIC, BASIC}) ||
                     Arrays.equals(sequence, new EffectType[]{BASIC, OPTIONAL_VORTEX}) ||
                     Arrays.equals(sequence, new EffectType[]{BEFORE_BASIC, BASIC});
         } else if (sequenceSize == 3) {

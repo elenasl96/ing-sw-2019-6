@@ -231,7 +231,7 @@ public class GameController{
                     player.setPhase(SPAWN);
                 }
                 else {
-                    player.setPhase(FIRST);
+                    player.setPhase(POWERUP1);
                 }
                 break;
             default:
