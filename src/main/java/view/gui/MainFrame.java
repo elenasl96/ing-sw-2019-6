@@ -237,7 +237,7 @@ public class MainFrame extends JFrame {
         //Create bottom section of GUI
         JPanel voidPanel = new JPanel();
         ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource(
-                    "clessidra.gif")).getImage().getScaledInstance(30, 40, Image.SCALE_DEFAULT));
+                    "clessidra.gif")).getImage());
         time = new JLabel("02:00");
         time.setIcon(imageIcon);
         voidPanel.add(time);
