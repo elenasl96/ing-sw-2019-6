@@ -22,4 +22,6 @@ public interface ResponseHandler {
     void handle(MoveUpdateResponse moveUpdateResponse);
 
     void handle(AskInput askInput);
+
+    void handle(RejoiningResponse rejoiningResponse);
 }

@@ -17,6 +17,7 @@ public class ClientContext {
     private Group currentGroup;
     private String currentSituation;
     private Player currentPlayer;
+    private boolean rejoining;
     private ClientContext() {
     }
 
@@ -63,6 +64,14 @@ public class ClientContext {
         return currentPlayer;
     }
 
+    public boolean isRejoining() {
+        return rejoining;
+    }
+
+    public void setRejoining(boolean rejoining) {
+        this.rejoining = rejoining;
+    }
+
     /**
      * Resets the ClientContext to be used again from scratch in the tests
      */
@@ -72,6 +81,7 @@ public class ClientContext {
             this.currentGroup = null;
             this.currentSituation = null;
             this.currentUser = null;
+            this.rejoining = false;
         }
     }
 }

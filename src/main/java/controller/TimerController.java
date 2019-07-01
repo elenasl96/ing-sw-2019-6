@@ -63,7 +63,7 @@ public class TimerController implements ModelObserver {
         this.timers.remove(groupID);
         this.timers.add(groupID, new Timer());
         TimerTask timerTask = new TimerTask(){
-            int seconds = 2;
+            int seconds = 15;
             @Override
             public void run() {
                 if(seconds == 60){
@@ -116,6 +116,7 @@ public class TimerController implements ModelObserver {
                                 "You're lucky you can at least reload.", null));
                     }
                     GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(DISCONNECTED);
+                    System.out.println(">>> Timer expired, disconnecting: "+GameContext.get().getGame(groupID).getCurrentPlayer().getUser().getUsername());
                     GameController.get().updatePhase(groupID);
                     timers.get(groupID).purge();
                 }
