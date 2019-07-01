@@ -327,8 +327,7 @@ public class MainFrame extends JFrame {
             switch(actionListenerMovement.getS()) {
                 case "run": run.setBorder(BorderFactory.createLoweredBevelBorder()); break;
                 case "grab": grab.setBorder(BorderFactory.createLoweredBevelBorder()); break;
-                case "0": case "1": case "2": powerup.setBorder(BorderFactory.createLoweredBevelBorder()); break;
-                case "3": case "4": case "5": shoot.setBorder(BorderFactory.createLoweredBevelBorder()); break;
+                case "0": case "1": case "2": shoot.setBorder(BorderFactory.createLoweredBevelBorder()); break;
                 default: break;
             }
 
@@ -359,6 +358,7 @@ public class MainFrame extends JFrame {
 
     private void printField(JPanel centralPanel){
         try{
+            
             Integer cont = 1;
             for(int i=0;i<3;i++) {
                 for(int j=0;j<4;j++) {
