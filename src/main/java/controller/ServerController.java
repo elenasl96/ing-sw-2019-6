@@ -9,6 +9,7 @@ import model.Player;
 import model.decks.WeaponTile;
 import model.enums.Phase;
 import model.exception.NotExistingPositionException;
+import model.exception.NothingGrabbableException;
 import model.moves.Move;
 import model.room.*;
 import model.enums.Character;
@@ -399,10 +400,11 @@ public class ServerController implements RequestHandler {
 
     private void pickWeapon(Player player, SendInput inputResponse) {
         try {
-            player.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
+            int weaponNumber = Integer.parseInt(inputResponse.getInput());
+            player.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), weaponNumber);
             //p.setPhaseNotDone(false); senza questo per ora funziona
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (IndexOutOfBoundsException | NumberFormatException | NotExistingPositionException | NotEnoughAmmoException e) {
+        } catch (NullPointerException | IndexOutOfBoundsException | NumberFormatException | NotExistingPositionException | NotEnoughAmmoException | NothingGrabbableException e) {
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(user.getPlayer(), true));
@@ -452,12 +454,7 @@ public class ServerController implements RequestHandler {
             //go to next player and set phase
             GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().setPhaseNotDone(false);
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (InvalidMoveException e) {
-            user.getPlayer().getCurrentMoves().clear();
-            user.getPlayer().setPhaseNotDone(false);
-            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-            user.receiveUpdate(new Update(user.getPlayer(), true));
-        } catch (NullPointerException e){
+        } catch (InvalidMoveException | NullPointerException e){
             user.getPlayer().getCurrentMoves().clear();
             user.getPlayer().setPhaseNotDone(false);
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
