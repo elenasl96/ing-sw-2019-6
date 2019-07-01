@@ -327,7 +327,7 @@ public class ServerController implements RequestHandler {
 
     private void playPowerup(Player player, SendInput inputResponse) {
         try {
-            GameController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+            ShootController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             user.getPlayer().getCurrentCardEffects().clear();
@@ -402,22 +402,10 @@ public class ServerController implements RequestHandler {
             player.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), Integer.parseInt(inputResponse.getInput()));
             //p.setPhaseNotDone(false); senza questo per ora funziona
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (IndexOutOfBoundsException e) {
-            user.receiveUpdate(new Update("Weapon index out of bounds", UPDATE_CONSOLE));
-            player.setPhaseNotDone(true);
-            user.receiveUpdate(new Update(player, true));
-        } catch (NumberFormatException e) {
-            user.receiveUpdate(new Update("Not a number", UPDATE_CONSOLE));
-            player.setPhaseNotDone(true);
-            user.receiveUpdate(new Update(player, true));
-        } catch (NotEnoughAmmoException e) {
-            user.receiveUpdate(new Update("Not enough ammos!", UPDATE_CONSOLE));
-            player.setPhaseNotDone(true);
-            user.receiveUpdate(new Update(player, true));
-        } catch (NotExistingPositionException e) {
+        } catch (IndexOutOfBoundsException | NumberFormatException | NotExistingPositionException | NotEnoughAmmoException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
-            player.setPhaseNotDone(true);
-            user.receiveUpdate(new Update(player, true));
+            user.receiveUpdate(new Update(user.getPlayer(), true));
         }
     }
 
@@ -429,16 +417,19 @@ public class ServerController implements RequestHandler {
             update.setData(fields);
             this.user.receiveUpdate(update);
             return new AskInput("fillFields");
-            }catch(IndexOutOfBoundsException e) {
-                user.receiveUpdate(new Update("Out of bound",UPDATE_CONSOLE));
-            } catch(InvalidMoveException e){
-                user.receiveUpdate(new Update(e.getMessage(),UPDATE_CONSOLE));
-                user.getPlayer().setPhaseNotDone(true);
-                //user.receiveUpdate(new Update(user.getPlayer(),true)); <-socket null exception
-            }catch(NumberFormatException e){
-                user.receiveUpdate(new Update("Not valid number",UPDATE_CONSOLE));
+                }catch(IndexOutOfBoundsException | InvalidMoveException e){
+                user.getPlayer().getCurrentCardEffects().clear();
+                user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
+                user.receiveUpdate(new Update(user.getPlayer(), true));
+            //user.receiveUpdate(new Update(user.getPlayer(),true)); <-socket null exception
+                }catch(NumberFormatException e){
+                user.getPlayer().getCurrentCardEffects().clear();
+                user.receiveUpdate(new Update("Not Valid Number", UPDATE_CONSOLE));
+                user.receiveUpdate(new Update(user.getPlayer(), true));
             }catch(NullPointerException e){
-                user.receiveUpdate(new Update("Not valid effects",UPDATE_CONSOLE));
+                user.getPlayer().getCurrentCardEffects().clear();
+                user.receiveUpdate(new Update("Not Valid effects", UPDATE_CONSOLE));
+                user.receiveUpdate(new Update(user.getPlayer(), true));
         }
         return null;
     }
