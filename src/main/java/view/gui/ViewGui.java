@@ -130,6 +130,17 @@ public class ViewGui implements View {
                     data = update.getData().split(";");
                     gui.setCharacterMatch(data[0], Integer.parseInt(data[1]));
                     break;
+                case "timer":
+                    switch(update.getData()) {
+                        case "start":
+                            gui.setTime("02:00");
+                            gui.getTimer().start();
+                            break;
+                        case "stop":
+                            gui.setTime("00:00");
+                            gui.getTimer().stop();
+                            break;
+                    }
                 default:
                     break;
             }

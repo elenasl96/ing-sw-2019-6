@@ -105,10 +105,18 @@ public class TimerController implements ModelObserver {
             int seconds = 120;
             @Override
             public void run() {
+                Update update;
+                if(seconds == 120) {
+                    update = new Update(null, "timer");
+                    update.setData("start");
+                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(update);
+                }
                 if (seconds == 5) {
                     GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "...", null));
                 } else if (seconds == 0){
-                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Move lost! No more time.", null));
+                    update = new Update("Move lost! No more time.", "timer");
+                    update.setData("stop");
+                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(update);
                     if(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase().equalsTo(SPAWN)){
                         GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(Phase.SECOND);
                         GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("You didn't spawn and lost the turn. " +
