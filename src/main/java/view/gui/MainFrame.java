@@ -393,7 +393,8 @@ public class MainFrame extends JFrame {
                 cont++;
             }
         }
-
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 
     public void updateMap(int character, String coordinates) {
