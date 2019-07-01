@@ -205,6 +205,14 @@ public class Group implements Serializable {
         for(ModelObserver listener : listeners){
             GameContext.get().getGame(this.getGroupID()).addObserverGame(listener);
         }
+        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, users);
+        //Fill the squares
+        GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares()
+                .forEach(square->
+                    square.setGrabbable(this.getGroupID())
+        );
+        //Triggers onStart in the Listeners
+        this.sendStartNotification();
         for(User u: users){
             String string = u.getUsername()+";"+(u.getCharacter().getNum()-1);
             Update update = new Update(null, "charactermatch");
@@ -217,14 +225,6 @@ public class Group implements Serializable {
             update.setData(skullNumber+"");
             this.sendUpdate(update);
         }
-        GameContext.get().getGame(this.groupID).setGame(skullNumber, fieldNumber, users);
-        //Fill the squares
-        GameContext.get().getGame(this.getGroupID()).getBoard().getField().getSquares()
-                .forEach(square->
-                    square.setGrabbable(this.getGroupID())
-        );
-        //Triggers onStart in the Listeners
-        this.sendStartNotification();
     }
 
     /**
