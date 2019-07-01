@@ -4,6 +4,7 @@ import model.GameContext;
 import model.enums.WeaponStatus;
 import model.exception.NotEnoughAmmoException;
 import model.exception.NotExistingFieldException;
+import model.exception.NothingGrabbableException;
 import model.room.Group;
 import network.Manager;
 import network.exceptions.InvalidUsernameException;
@@ -38,7 +39,7 @@ class WeaponTileTest {
     }
 
     @Test
-    void test() throws NotEnoughAmmoException {
+    void test() throws NotEnoughAmmoException, NothingGrabbableException {
         WeaponTile weaponTile = new WeaponTile();
         List<Weapon> weapon = new ArrayList<>();
         weapon.add(new Weapon(0, "1", "2", WeaponStatus.LOADED));

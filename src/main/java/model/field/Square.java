@@ -9,6 +9,7 @@ import model.enums.TargetType;
 import model.exception.InvalidMoveException;
 import model.exception.NotExistingPositionException;
 import model.exception.NotExistingTargetException;
+import model.exception.NothingGrabbableException;
 import model.moves.Target;
 import model.room.Update;
 import org.jetbrains.annotations.Nullable;
@@ -53,7 +54,7 @@ public class Square extends Target implements Serializable {
     }
 
     @Nullable
-    public Grabbable getGrabbable(){
+    public Grabbable getGrabbable() {
         return null;
     }
 
@@ -88,7 +89,7 @@ public class Square extends Target implements Serializable {
         } return false;
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty() throws NothingGrabbableException {
         return this.getGrabbable()==null;
     }
 
@@ -127,7 +128,7 @@ public class Square extends Target implements Serializable {
         this.coord = fillCoordinate;
     }
 
-    public void replaceAmmoTile(int groupID) {
+    public void replaceAmmoTile(int groupID){
         GameContext.get().getGame(groupID).getBoard().getAmmosLeft().discardCard((AmmoTile) this.getGrabbable());
         this.addGrabbable(GameContext.get().getGame(groupID).getBoard().getAmmosLeft().pickCard(), groupID);
     }
@@ -151,8 +152,9 @@ public class Square extends Target implements Serializable {
 
     @Override
     public void setFieldsToFill(String input, int groupID) throws NotExistingPositionException, NotExistingTargetException {
-        if(input == null && this.getTargetType().equals(TargetType.BASIC_EQUALS)){
-            this.coord = GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID).getCurrentPosition().getCoord();
+        if(input == null){
+            if(this.getTargetType().equals(TargetType.BASIC_EQUALS))
+                this.coord = GameContext.get().getGame(groupID).getCurrentPlayer().getBasicTarget(groupID).getCurrentPosition().getCoord();
         } else {
             this.coord = fillCoordinate(input);
         }

@@ -2,6 +2,7 @@ package model.decks;
 
 import model.Player;
 import model.exception.NotEnoughAmmoException;
+import model.exception.NothingGrabbableException;
 
 import java.io.Serializable;
 
@@ -16,7 +17,7 @@ public interface Grabbable extends Serializable {
      * @param groupID   the groupID number
      * @param toPick    the number, in case of weapons, indicates the weapon to pick, from 0 to 2
      */
-    void pickGrabbable(int groupID, int toPick) throws NotEnoughAmmoException;
+    void pickGrabbable(int groupID, int toPick) throws NotEnoughAmmoException, NothingGrabbableException;
 
     String getGrabbableType();
     boolean isGrabbable(Player player);

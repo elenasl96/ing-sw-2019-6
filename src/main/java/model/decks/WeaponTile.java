@@ -5,6 +5,7 @@ import model.GameContext;
 import model.Player;
 import model.enums.WeaponStatus;
 import model.exception.NotEnoughAmmoException;
+import model.exception.NothingGrabbableException;
 import model.moves.Pay;
 import model.room.Update;
 
@@ -67,13 +68,16 @@ public class WeaponTile implements Grabbable {
     }
 
     @Override
-    public void pickGrabbable(int groupID, int toPick) throws NotEnoughAmmoException {
+    public void pickGrabbable(int groupID, int toPick) throws NotEnoughAmmoException, NothingGrabbableException {
+        if(toPick < 0 || toPick >= weapons.size())
+            throw new NothingGrabbableException();
         Weapon weapon = this.weapons.get(toPick);
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
 
         //Try to pay the weapon
         if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED)) {
-            if (weapon.getEffectsList().get(0).getCost().size() <= 1) {
+            if (weapon.getEffectsList().get(0).getCost() != null &&
+                    weapon.getEffectsList().get(0).getCost().size() <= 1) {
                 weapon.setStatus(WeaponStatus.LOADED);
             } else {
                 for (int i = 1; i < weapon.getEffectsList().get(0).getCost().size(); i++) {
