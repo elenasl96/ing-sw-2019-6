@@ -128,10 +128,9 @@ public class ServerController implements RequestHandler {
             System.out.println(">>> Invalid Username");
             System.out.println(user.getPlayer());
             if(user.getPlayer().getPhase().equals(DISCONNECTED)){
-
                 user.getPlayer().setPhase(WAIT);
                 System.out.println(">>> "+ user.getPlayer()+" rejoining");
-                return new RejoiningResponse();
+                return new RejoiningResponse(user.getPlayer(), user);
             } else return new TextResponse("Invalid Username: already in use, choose another one");
         }
     }

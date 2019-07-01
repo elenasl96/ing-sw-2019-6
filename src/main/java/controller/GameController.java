@@ -228,6 +228,9 @@ public class GameController{
                 GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
                 updatePhase(groupID);
                 break;
+            case WAIT:
+                player.setPhase(POWERUP1);
+                break;
             default:
                 break;
         }

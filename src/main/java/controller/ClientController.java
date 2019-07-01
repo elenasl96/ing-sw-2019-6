@@ -287,6 +287,9 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     @Override
     public void handle(RejoiningResponse rejoiningResponse) {
         ClientContext.get().setRejoining(true);
+        ClientContext.get().setPlayer(rejoiningResponse.getPlayer());
+        ClientContext.get().setCurrentUser(rejoiningResponse.getUser());
+        view.displayText("Welcome back");
     }
 
     @Override
