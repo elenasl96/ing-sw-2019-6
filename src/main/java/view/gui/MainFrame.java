@@ -236,15 +236,10 @@ public class MainFrame extends JFrame {
 
         //Create bottom section of GUI
         JPanel voidPanel = new JPanel();
-
-        try {
-            voidPanel.add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/clessidra.gif"))
-                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource(
+                    "clessidra.gif")).getImage().getScaledInstance(30, 40, Image.SCALE_DEFAULT));
         time = new JLabel("02:00");
-
+        time.setIcon(imageIcon);
         voidPanel.add(time);
         playerBoard = new PlayerBoardPanel();
         voidPanel.add(playerBoard);
