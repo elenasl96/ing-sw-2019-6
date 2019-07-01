@@ -144,8 +144,10 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     public void run() throws RemoteException{
         view.chooseUsernamePhase();
-        view.chooseGroupPhase();
-        view.chooseCharacterPhase();
+        if(!ClientContext.get().isRejoining()) {
+            view.chooseGroupPhase();
+            view.chooseCharacterPhase();
+        }
         ClientContext.get().createPlayer();
         ClientContext.get().getCurrentPlayer().setPhase(WAIT);
         while(gameNotDone) {
@@ -280,6 +282,11 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             default:
                 break;
         }
+    }
+
+    @Override
+    public void handle(RejoiningResponse rejoiningResponse) {
+        ClientContext.get().setRejoining(true);
     }
 
     @Override

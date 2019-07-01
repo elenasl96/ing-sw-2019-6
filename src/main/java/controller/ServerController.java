@@ -95,8 +95,11 @@ public class ServerController implements RequestHandler {
                     winner.receiveUpdate(new Update("Congratulations! You win!"), currentGroup.getGroupID());
                     //TODO GUI update for the win
                 }
+            } else {
+                GameController.get().updatePhase(currentGroup.getGroupID());
             }
         }
+
     }
 
     // ------ Request handling
@@ -125,9 +128,10 @@ public class ServerController implements RequestHandler {
             System.out.println(">>> Invalid Username");
             System.out.println(user.getPlayer());
             if(user.getPlayer().getPhase().equals(DISCONNECTED)){
+
                 user.getPlayer().setPhase(WAIT);
-                System.out.println(user.getPlayer());
-                return new UserCreatedResponse(user);
+                System.out.println(">>> "+ user.getPlayer()+" rejoining");
+                return new RejoiningResponse();
             } else return new TextResponse("Invalid Username: already in use, choose another one");
         }
     }
