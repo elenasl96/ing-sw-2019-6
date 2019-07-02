@@ -27,16 +27,17 @@ public class ViewGui implements View {
         this.controller = controller;
     }
 
+    @Override
+    public String userInput() {
+        return null;
+    }
+
     public void run() {
         try {
             controller.run();
         } catch(RemoteException e){
             //nothing
         }
-    }
-
-    public String userInput() {
-        return gui.getJLabelText();
     }
 
     @Override
