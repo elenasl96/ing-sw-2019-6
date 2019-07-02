@@ -307,6 +307,7 @@ public class GameController{
                     .replace(" ","").toLowerCase());
             player.getUser().receiveUpdate(update);
         weapon.setStatus(WeaponStatus.LOADED);
+        updatePhase(groupID);
     }
 
     //-------------------------------POWERUPS------------------------------------//
