@@ -26,11 +26,10 @@ public class CoordinateActionListener implements MouseListener {
         synchronized (lock) {
             Clip clip;
             try {
-                File yourFile = new File("src/resources/Music/Selezione.wav");
                 AudioInputStream stream;
                 AudioFormat format;
                 DataLine.Info info;
-                stream = AudioSystem.getAudioInputStream(yourFile);
+                stream = AudioSystem.getAudioInputStream(this.getClass().getResource("Selezione.wav"));
                 format = stream.getFormat();
                 info = new DataLine.Info(Clip.class, format);
                 clip = (Clip) AudioSystem.getLine(info);
