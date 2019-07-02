@@ -20,16 +20,12 @@ public class PlayerBoardPanel extends JPanel {
     private int numSkull = 0;
 
     public PlayerBoardPanel() {
-        try {
-            this.img = (new ImageIcon(ImageIO.read(new File("src/resources/playerboard.png"))
-                    .getScaledInstance(700,130, Image.SCALE_SMOOTH))).getImage();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        setSize(700,130);
-        setPreferredSize(new Dimension(700,130));
-        setMaximumSize(new Dimension(700,130));
-        setMinimumSize(new Dimension(700,130));
+        this.img = (new ImageIcon(new ImageIcon(this.getClass().getResource("playerBoard.png")).getImage()
+            .getScaledInstance(540,130, Image.SCALE_SMOOTH))).getImage();
+        setSize(540,130);
+        setPreferredSize(new Dimension(540,130));
+        setMaximumSize(new Dimension(540,130));
+        setMinimumSize(new Dimension(540,130));
 
         setLayout(new GridLayout(3,1));
         JPanel topPanel = new JPanel(new GridLayout(1,3));
