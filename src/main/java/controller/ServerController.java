@@ -215,7 +215,7 @@ public class ServerController implements RequestHandler {
             Update update;
             update = GameController.get().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
             user.receiveUpdate(update);
-        } catch (NullPointerException | InvalidMoveException e) {
+        } catch ( InvalidMoveException | RuntimeException e) {
             user.getPlayer().getCurrentMoves().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(user.getPlayer(), true));
@@ -229,12 +229,10 @@ public class ServerController implements RequestHandler {
         try {
             if (spawnRequest.getSpawn() == null) {
                 user.receiveUpdate(GameController.get().getSpawn(this.user.getPlayer(), currentGroup.getGroupID()));
-            } else if (spawnRequest.isFirstTime()) {
-                GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
             } else {
                 GameController.get().setSpawn(this.user.getPlayer(), spawnRequest.getSpawn(), currentGroup.getGroupID());
             }
-        }catch (NullPointerException | InvalidMoveException e){
+        }catch (RuntimeException | InvalidMoveException e){
             e.printStackTrace();
         }
         return null;
@@ -295,7 +293,7 @@ public class ServerController implements RequestHandler {
                 default:
                     break;
             }
-        }catch (NullPointerException e){
+        }catch (RuntimeException e){
             e.printStackTrace();
         }
         return null;
@@ -329,7 +327,7 @@ public class ServerController implements RequestHandler {
                 default:
                     break;
             }
-        }catch (NullPointerException | InvalidMoveException e){
+        }catch (RuntimeException | InvalidMoveException e){
             e.printStackTrace();
         }
         return null;
@@ -344,15 +342,7 @@ public class ServerController implements RequestHandler {
         try {
             ShootController.get().playPowerup(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            user.getPlayer().getCurrentCardEffects().clear();
-            user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
-            player.getUser().receiveUpdate(new Update(player, true));
-        } catch (NumberFormatException e) {
-            user.getPlayer().getCurrentCardEffects().clear();
-            user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
-            player.getUser().receiveUpdate(new Update(player, true));
-        } catch (InvalidMoveException e) {
+        } catch (RuntimeException | InvalidMoveException e) {
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             player.getUser().receiveUpdate(new Update(player, true));
@@ -364,7 +354,7 @@ public class ServerController implements RequestHandler {
         try {
             this.user.receiveUpdate(new Update(GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer())));
             return new AskInput("fillPowerup");
-        } catch (IndexOutOfBoundsException e) {
+        } catch (RuntimeException e) {
             user.receiveUpdate(new Update("Powerup index out of bounds", UPDATE_CONSOLE));
             player.setPhaseNotDone(true);
             user.receiveUpdate(new Update(player, true));
@@ -380,15 +370,7 @@ public class ServerController implements RequestHandler {
         try {
             GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (NullPointerException | IndexOutOfBoundsException e) {
-            user.getPlayer().getCurrentCardEffects().clear();
-            user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
-            player.getUser().receiveUpdate(new Update(player, true));
-        } catch (NumberFormatException e) {
-            user.getPlayer().getCurrentCardEffects().clear();
-            user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
-            player.getUser().receiveUpdate(new Update(player, true));
-        } catch (InvalidMoveException e) {
+        } catch (RuntimeException | InvalidMoveException e) {
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             player.getUser().receiveUpdate(new Update(player, true));
@@ -404,15 +386,7 @@ public class ServerController implements RequestHandler {
             player.setPhaseNotDone(false);
             this.user.receiveUpdate(update);
             return new AskInput("fillFields");
-       } catch (NullPointerException | IndexOutOfBoundsException e) {
-            user.getPlayer().getCurrentCardEffects().clear();
-            user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
-            player.getUser().receiveUpdate(new Update(player, true));
-        } catch (NumberFormatException e) {
-            user.getPlayer().getCurrentCardEffects().clear();
-            user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
-            player.getUser().receiveUpdate(new Update(player, true));
-        } catch (InvalidMoveException e) {
+       } catch (RuntimeException | InvalidMoveException e) {
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             player.getUser().receiveUpdate(new Update(player, true));
@@ -423,12 +397,7 @@ public class ServerController implements RequestHandler {
     private void reloadWeapon(Player player, SendInput inputResponse) {
         try {
             GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
-        } catch (IndexOutOfBoundsException e) {
-            player.setPhaseNotDone(true);
-            currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
-            user.receiveUpdate(new Update(player, true));
-            user.receiveUpdate(new Update("Invalid Weapon", UPDATE_CONSOLE));
-        } catch (NumberFormatException | NotEnoughAmmoException e) {
+        } catch (RuntimeException | NotEnoughAmmoException e) {
             player.setPhaseNotDone(true);
             currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
@@ -442,7 +411,7 @@ public class ServerController implements RequestHandler {
             player.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), weaponNumber);
             //p.setPhaseNotDone(false); senza questo per ora funziona
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (NullPointerException | IndexOutOfBoundsException | NumberFormatException | NotExistingPositionException | NotEnoughAmmoException | NothingGrabbableException e) {
+        } catch (RuntimeException | NotExistingPositionException | NotEnoughAmmoException | NothingGrabbableException e) {
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(user.getPlayer(), true));
@@ -488,7 +457,7 @@ public class ServerController implements RequestHandler {
             //go to next player and set phase
             GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().setPhaseNotDone(false);
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (InvalidMoveException | NullPointerException e){
+        } catch (InvalidMoveException | RuntimeException e){
             user.getPlayer().getCurrentMoves().clear();
             user.getPlayer().setPhaseNotDone(false);
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));

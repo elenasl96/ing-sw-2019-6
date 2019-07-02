@@ -71,7 +71,7 @@ public class Player extends Target implements Serializable{
         this.name = user.getUsername();
         this.character = user.getCharacter();
         this.phase = Phase.WAIT;
-        this.setDead(false);
+        this.setDead(true);
         this.deaths = 0;
         this.phaseNotDone = false;
         this.ammos.add(new Ammo(Color.YELLOW));

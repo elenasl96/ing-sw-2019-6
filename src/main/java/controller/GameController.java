@@ -134,13 +134,12 @@ public class GameController{
             Update update = new Update(null,"powerup");
             update.setData(player.getPowerups().get(0).getName());
             player.receiveUpdate(update, groupID);
-            updatePhase(groupID);
             //send updates
             GameContext.get().getGame(groupID).sendUpdate(new Update("Player " + player.getName() + " spawn in " + player.getCurrentPosition().toString()));
             update = new Update(null,"movement");
             update.setData(player.getCharacter().getNum() + ";" + player.getCurrentPosition().toString().replace("[","").replace("]",""));
             GameContext.get().getGame(groupID).sendUpdate(update);
-            GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer(), true));
+            updatePhase(groupID);
         } else {
             player.getUser().receiveUpdate(new Update(player, true));
             player.getUser().receiveUpdate(new Update(
@@ -149,14 +148,8 @@ public class GameController{
     }
 
     synchronized Update getSpawn(Player player, int groupID) {
-        if(player.getPowerups().isEmpty()){
-            if (!player.isDead()) {
-                player.getPowerups().add(GameContext.get().getGame(groupID)
-                        .getBoard().getPowerupsLeft().pickCard());
-            }
-            player.getPowerups().add(GameContext.get().getGame(groupID)
-                    .getBoard().getPowerupsLeft().pickCard());
-        }
+        player.getPowerups().add(GameContext.get().getGame(groupID)
+            .getBoard().getPowerupsLeft().pickCard());
         System.out.println(">>> Powerups picked up: "+player.getPowerups().toString());
         Update update = new Update(" Choose spawn point from: \n========Powerups=========" + cardsToString(player.getPowerups(), 0)  ,"choosecard");
         update.setData(player.getStringIdPowerUp().replaceAll(" ",""));
@@ -172,19 +165,11 @@ public class GameController{
         switch(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase()) {
             case SPAWN:
                 //set phase wait to current player and send update
-                if(player.isDead()){
+                if(player.isDead()) {
                     player.setDead(false);
-                    player.setPhase(POWERUP1);
-                } else {
-                    player.setPhase(WAIT);
                 }
+                player.setPhase(POWERUP1);
                 player.getUser().receiveUpdate(new Update(player, true));
-                //go to next player and set phase
-                GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
-                System.out.println("CURRENT PLAYER" + GameContext.get().getGame(groupID).getCurrentPlayer());
-                if(GameContext.get().getGame(groupID).getCurrentPlayer().equals(GameContext.get().getGame(groupID).getPlayers().get(0)))
-                    GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(POWERUP1);
-                else GameContext.get().getGame(groupID).getCurrentPlayer().setPhase(SPAWN);
             break;
             case POWERUP1:
                 player.getCurrentMoves().clear();
@@ -215,6 +200,7 @@ public class GameController{
                 this.updatePoints(groupID);
                 GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
                 player = GameContext.get().getGame(groupID).getCurrentPlayer();
+                GameContext.get().getGame(groupID).sendUpdate(new Update("It's "+player.getName()+"'s turn"));
                 if(player.isDead()){
                     player.setPhase(SPAWN);
                     player.setCurrentPosition(null); //TODO Check
@@ -246,7 +232,7 @@ public class GameController{
 
     private synchronized void updatePoints(int groupID) {
         for(Player p: GameContext.get().getGame(groupID).getPlayers()){
-            if(p.isDead()){
+            if(p.isDead() && p.getPlayerBoard()!= null && !p.getPlayerBoard().getDamage().isEmpty() ){
                 //add the player dead on the killshotTrack
                 GameContext.get().getGame(groupID).getBoard().addKillshot(p);
                 //overkill: readd the same player and mark the overkiller

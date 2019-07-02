@@ -55,6 +55,7 @@ public class Game implements Serializable {
         for (User u: users){
             //adds a new player for user u to the list
             Player player = new Player(u);
+            player.getPowerups().add(this.board.getPowerupsLeft().pickCard());
             this.players.add(player);
             u.setPlayer(player);
             //sends it to the ClientContext

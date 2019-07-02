@@ -110,7 +110,6 @@ public class TimerController implements ModelObserver {
                     update = new Update(null, "timer");
                     update.setData("start");
                     GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(update);
-                    GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Timer Started!"));
                 }
                 if (seconds == 5) {
                     GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update("Seconds remaining: " + seconds + "...", null));
