@@ -36,14 +36,19 @@ public class MoveAndShoot implements Move {
     @Override
     public Response execute(Player p, int groupID) throws InvalidMoveException {
         if (p.getCurrentMoves().isEmpty() && coordinate == null){
-            return new AskInput("coordinate");
+            movement.setMaxSteps(setMaxSteps(p, groupID));
+            if(movement.getMaxSteps() > 0)
+                return new AskInput("coordinate");
+            else
+                p.getCurrentMoves().add(shoot);
+
         }
 
         if (p.getCurrentMoves().isEmpty() && coordinate != null){
-            if(movement.getMaxSteps() == -1)
-                movement.setMaxSteps(setMaxSteps(p, groupID));
-            movement.setCoordinate(coordinate);
-            p.getCurrentMoves().add(movement);
+            if(movement.getMaxSteps() > 0){
+                p.getCurrentMoves().add(movement);
+                movement.setCoordinate(coordinate);
+            }
             p.getCurrentMoves().add(shoot);
         }
 
