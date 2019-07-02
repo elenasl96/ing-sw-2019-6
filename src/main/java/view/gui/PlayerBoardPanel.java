@@ -14,7 +14,7 @@ public class PlayerBoardPanel extends JPanel {
     private JPanel bottomPanel;
     private int[] serieDamage;
     private int[] serieMarker;
-    private int sizeSerie = 0;
+    private int sizeSerie;
     private final int numDrops = 12;
     private int numMarker = 0;
     private int numSkull = 0;
