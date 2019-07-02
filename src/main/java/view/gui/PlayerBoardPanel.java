@@ -100,7 +100,7 @@ public class PlayerBoardPanel extends JPanel {
         for(int i=0;i<numMarker;i++) {
             markerPanel.add(new JLabel(new ImageIcon(new ImageIcon(
                     this.getClass().getResource("marker" + serieMarker[i] + ".png"))
-                    .getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH))));
+                    .getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
         }
 
         for(int i=numMarker;i<12;i++) {
@@ -139,7 +139,7 @@ public class PlayerBoardPanel extends JPanel {
 
         for(i=2;i<(sizeSerie>5?5:sizeSerie);i++) {
             dropPanel.add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
-                        .getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                        .getScaledInstance(30, 30, Image.SCALE_SMOOTH)))));
         }
 
         voidPanel = new JPanel();
@@ -148,7 +148,7 @@ public class PlayerBoardPanel extends JPanel {
 
         for(i=5;i<(sizeSerie>10?10:sizeSerie);i++) {
             dropPanel.add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
-                .getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                .getScaledInstance(30, 30, Image.SCALE_SMOOTH)))));
         }
 
         voidPanel = new JPanel();
@@ -157,7 +157,7 @@ public class PlayerBoardPanel extends JPanel {
 
         for(i=10;i<(sizeSerie);i++) {
             dropPanel.add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
-                    .getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
+                    .getScaledInstance(30, 30, Image.SCALE_SMOOTH)))));
         }
 
         for(i=sizeSerie;i<numDrops;i++) {
