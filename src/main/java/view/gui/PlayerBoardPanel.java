@@ -72,8 +72,9 @@ public class PlayerBoardPanel extends JPanel {
 
         for(int i=4;i<numSkull+4;i++) {
             try {
-                bottomPanel.add(new JLabel((new ImageIcon(ImageIO.read(new File("src/resources/xmas.jpg"))
-                        .getScaledInstance(60, 60, Image.SCALE_SMOOTH)))));
+                bottomPanel.add(new JLabel(
+                        new ImageIcon(ImageIO.read(new File("src/resources/xmas.jpg"))
+                        .getScaledInstance(60, 60, Image.SCALE_SMOOTH))));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -97,12 +98,9 @@ public class PlayerBoardPanel extends JPanel {
         numMarker++;
 
         for(int i=0;i<numMarker;i++) {
-            try {
-                markerPanel.add(new JLabel((new ImageIcon(ImageIO.read(new File("src/resources/Drops/marker" + serieMarker[i] + ".png"))
-                        .getScaledInstance(50, 50, Image.SCALE_SMOOTH)))));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            markerPanel.add(new JLabel(new ImageIcon(new ImageIcon(
+                    this.getClass().getResource("marker" + serieMarker[i] + ".png"))
+                    .getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH))));
         }
 
         for(int i=numMarker;i<12;i++) {
