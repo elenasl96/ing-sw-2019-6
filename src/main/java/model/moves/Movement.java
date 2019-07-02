@@ -30,6 +30,10 @@ public class Movement extends Effect{
 
     private int maxSteps;
 
+    public Movement(){
+        this.maxSteps = -1;
+    }
+
     public Movement (Stream<Target> target, Target destination, boolean optionality){
         super(target, optionality);
         this.destination = (Square) destination;
@@ -88,6 +92,10 @@ public class Movement extends Effect{
 
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
+    }
+
+    public int getMaxSteps() {
+        return maxSteps;
     }
 
     void setMaxSteps(int maxSteps) {

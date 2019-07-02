@@ -11,6 +11,14 @@ import network.commands.Response;
 public class MoveRequest implements Request {
     private Move move;
 
+    public MoveRequest(){
+
+    }
+
+    public MoveRequest(Move move){
+        this.move = move;
+    }
+
     public void addMove(Move move){
         this.move = move;
     }

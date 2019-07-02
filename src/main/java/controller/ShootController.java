@@ -33,9 +33,9 @@ public class ShootController {
 
     //-------------------------------------USE WEAPON-------------------------------------//
 
-    synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) throws InvalidMoveException {
+    public synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) throws InvalidMoveException {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
-        Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]) - 3);
+        Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]));
         if (!checkWeaponEffects(weapon, weaponEffectsSplitted, groupID))
             throw new InvalidMoveException("Not valid sequence");
         //Add effects to player

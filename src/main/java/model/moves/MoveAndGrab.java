@@ -29,7 +29,7 @@ public class MoveAndGrab implements Move {
      * @return null
      */
     @Override
-    public Response execute(Player p, int groupID) throws NotValidDestinationException, NotEnoughAmmoException, NotExistingPositionException, NothingGrabbableException, PositionNotFound {
+    public Response execute(Player p, int groupID) throws InvalidMoveException {
         int maxSteps;
         if(p.getCurrentMoves().isEmpty()){
             if(p.getAdrenalineLevel() == 0)

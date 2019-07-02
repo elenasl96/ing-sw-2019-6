@@ -4,7 +4,9 @@ import model.Player;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
+import model.moves.Move;
 import model.moves.MoveAndGrab;
+import model.moves.MoveAndShoot;
 import model.moves.Run;
 import network.RemoteController;
 import network.ClientContext;
@@ -118,13 +120,12 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     private void sendCommand(String content)  throws RemoteException{
         MoveRequest moveRequest = new MoveRequest();
         switch (content){
-            case "0": case "1": case "2":
-                client.request(new CardRequest("powerupToPlay", content));
-                break;
-            case "3": case "4": case "5":
-                client.request(new CardRequest("weaponLayout", content));
-                String string = content + " " + view.askEffects();
-                client.request(new ShootRequest(string));
+            case "shoot":
+                moveRequest.addMove(new MoveAndShoot(null, -1));
+                client.request(moveRequest);
+                //client.request(new CardRequest("weaponLayout", content));
+                //String string = content + " " + view.askEffects();
+                //client.request(new ShootRequest(string));
                 break;
             case "run":
                 Coordinate coordinate = view.getCoordinate();
@@ -242,6 +243,13 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     @Override
     public void handle(AskInput askInput) {
         switch(askInput.getInputType()){
+            case "coordinate":
+                try{
+                    client.request(new MoveRequest(new MoveAndShoot(view.getCoordinate(), -1)));
+                } catch (RemoteException e){
+                    //nothing
+                }
+                break;
             case "damage":
             case "weapon choose":
                 try{
@@ -275,6 +283,16 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 try{
                     client.request(new SendInput(view.cardChoose(), "powerupToPlay"));
                 }catch (RemoteException e){
+                    //nothing
+                }
+                break;
+            case "weaponToPlay":
+                try{
+                    String content = view.cardChoose();
+                    client.request(new CardRequest("weaponLayout", content));
+                    String string = content + " " + view.askEffects();
+                    client.request(new SendInput(string, "weaponToPlay"));
+                } catch (RemoteException e){
                     //nothing
                 }
                 break;
