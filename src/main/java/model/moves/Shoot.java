@@ -32,9 +32,11 @@ public class Shoot implements Move{
     @Override
     public Response execute(Player p, int groupID) throws InvalidMoveException {
         if(weapon == -1){
+            WeaponTile weaponTile = new WeaponTile();
+            weaponTile.getWeapons().addAll(p.getWeapons());
         Update update = new Update("Insert the weapon you want to use:" +
                 cardsToString(p.getWeapons(), 0), "choosecard");
-            //update.setData(  p.getWeapons().getStringIdWeapons().toLowerCase().toLowerCase().replaceAll(" ", ""));
+            update.setData(weaponTile.getStringIdWeapons().toLowerCase().toLowerCase().replaceAll(" ", ""));
             p.receiveUpdate(update, groupID);
             return new AskInput("weaponToPlay");
         }else{
