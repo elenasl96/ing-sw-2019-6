@@ -64,7 +64,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      * @see ClientContext#getCurrentUser()
      */
     public User createUser(String username) throws RemoteException{
-        view.playMusic("src/resources/Music/WaitingRoom.wav");
+        view.playMusic("WaitingRoom.wav");
         client.request(new CreateUserRequest(username));
         client.nextResponse().handle(this);
         return ClientContext.get().getCurrentUser();

@@ -29,12 +29,11 @@ public class ViewClient implements View {
     }
 
     public void playMusic(String string){
-        try {
-            File yourFile = new File(string);
+            try {
             AudioInputStream stream;
             AudioFormat format;
             DataLine.Info info;
-            stream = AudioSystem.getAudioInputStream(yourFile);
+            stream = AudioSystem.getAudioInputStream(this.getClass().getResource(string));
             format = stream.getFormat();
             info = new DataLine.Info(Clip.class, format);
             clip = (Clip) AudioSystem.getLine(info);
@@ -307,7 +306,7 @@ public class ViewClient implements View {
         wait = false;
         if(this.clip.isRunning()){
             this.clip.stop();
-            this.playMusic("src/resources/Music/Intro.wav");
+            this.playMusic("Intro.wav");
         }
 
     }
