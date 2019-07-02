@@ -87,42 +87,39 @@ public class MainFrame extends JFrame {
 
     private void initCharacters() {
         for(int i=0;i<5;i++) {
-            try {
-                charactersCoordinates[i] = new Character(new CharacterLabel(new ImageIcon(ImageIO.read(new File("src/resources/Pedine/pg" +
-                        (i + 1)+".png"))
-                        .getScaledInstance(WIDTH_PAWN, HEIGHT_PAWN, Image.SCALE_SMOOTH))));
-                charactersCoordinates[i].getIcon().addMouseListener(new MouseListener() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        synchronized (lockCharacter) {
-                            playerSelected = ((CharacterLabel) e.getSource()).getPlayer();
-                            lockCharacter.notifyAll();
-                        }
+            charactersCoordinates[i] = new Character(new CharacterLabel(
+                    new ImageIcon(new ImageIcon(this.getClass().getResource("Pedine/pg" +
+                    (i + 1)+".png")).getImage()
+                    .getScaledInstance(WIDTH_PAWN, HEIGHT_PAWN, Image.SCALE_SMOOTH))));
+            charactersCoordinates[i].getIcon().addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    synchronized (lockCharacter) {
+                        playerSelected = ((CharacterLabel) e.getSource()).getPlayer();
+                        lockCharacter.notifyAll();
                     }
+                }
 
-                    @Override
-                    public void mousePressed(MouseEvent e) {
+                @Override
+                public void mousePressed(MouseEvent e) {
 
-                    }
+                }
 
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
+                @Override
+                public void mouseReleased(MouseEvent e) {
 
-                    }
+                }
 
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
+                @Override
+                public void mouseEntered(MouseEvent e) {
 
-                    }
+                }
 
-                    @Override
-                    public void mouseExited(MouseEvent e) {
+                @Override
+                public void mouseExited(MouseEvent e) {
 
-                    }
-                });
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
+                }
+            });
         }
     }
 
@@ -147,17 +144,16 @@ public class MainFrame extends JFrame {
         writesPanel.add(playerNameLabel);
         writesPanel.add(new JLabel("AMMO",SwingConstants.CENTER));
         JPanel ammos = new JPanel(new GridLayout(3,1));
-        try {
-            ammoRed = new AmmoPanel(1, new ImageIcon(ImageIO.read(new File("src/resources/Weapons/red.png"))
-                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-            ammoBlue = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/Weapons/blue.png"))
-                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-            ammoYellow = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/Weapons/yellow.png"))
-                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
 
+        ammoRed = new AmmoPanel(1, new ImageIcon(new ImageIcon(
+                this.getClass().getResource("Weapons/red.png"))
+                .getImage().getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
+        ammoBlue = new AmmoPanel(1,new ImageIcon(new ImageIcon(
+                this.getClass().getResource("Weapons/blue.png"))
+                .getImage().getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
+        ammoYellow = new AmmoPanel(1,new ImageIcon(new ImageIcon(
+                this.getClass().getResource("Weapons/yellow.png"))
+                .getImage().getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
         ammos.add(ammoRed);
         ammos.add(ammoBlue);
         ammos.add(ammoYellow);
@@ -374,17 +370,12 @@ public class MainFrame extends JFrame {
     }
 
     public void printField() {
-
         Integer cont = 1;
         for(int i=0;i<3;i++) {
             for(int j=0;j<4;j++) {
-                try {
-                    mapGrid[i][j].setImg(new ImageIcon(ImageIO.read(new File("src/resources/Field" + typeMap + "/" +
-                            "image_part_0"+String.format("%02d",cont) +".png"))
-                            .getScaledInstance(140,140, Image.SCALE_SMOOTH)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                mapGrid[i][j].setImg(new ImageIcon(new ImageIcon(this.getClass().getResource("Field" + typeMap + "/" +
+                        "image_part_0"+String.format("%02d",cont) +".png")).getImage()
+                        .getScaledInstance(140,140, Image.SCALE_SMOOTH)));
                 mapGrid[i][j].setLayout(new GridLayout(3,2));
                 mapGrid[i][j].addMouseListener(actionListenerCoordinate);
 

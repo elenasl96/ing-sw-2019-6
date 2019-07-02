@@ -21,12 +21,8 @@ public class PopUpChooseEffect extends JPanel {
 
     PopUpChooseEffect(String weapon, int layout) {
 
-        try {
-            this.img = (new ImageIcon(ImageIO.read(new File("src/resources/Weapons/" + weapon +".png"))
-                    .getScaledInstance(180,240, Image.SCALE_SMOOTH))).getImage();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
+        this.img = (new ImageIcon(new ImageIcon(this.getClass().getResource("Weapons/" + weapon +".png")).getImage()
+            .getScaledInstance(180,240, Image.SCALE_SMOOTH))).getImage();
 
         effectSerie = "";
         effect = new WeaponCard[3];
