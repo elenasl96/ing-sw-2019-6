@@ -27,14 +27,12 @@ public class MainFrame extends JFrame {
     private MoveButton shoot;
     private JLabel playerNameLabel;
 
-    private final transient Object lockInput;
     private final transient Object lockMove;
     private final transient Object lockCoordinate;
     private final transient Object lockChooseCard;
     private final transient Object lockReload;
     private final transient Object lockEffect;
     private final transient Object lockCharacter;
-    private final transient Object lockCommand;
 
     private transient MoveButtonActionListener actionListenerMovement;
     private transient CoordinateActionListener actionListenerCoordinate;
@@ -60,14 +58,12 @@ public class MainFrame extends JFrame {
     private javax.swing.Timer timer;
 
     public MainFrame() {
-        lockInput = new Object();
         lockMove = new Object();
         lockCoordinate = new Object();
         lockChooseCard = new Object();
         lockReload = new Object();
         lockEffect = new Object();
         lockCharacter = new Object();
-        lockCommand = new Object();
 
         actionListenerMovement = new MoveButtonActionListener(lockMove);
         actionListenerCoordinate = new CoordinateActionListener(lockCoordinate);
@@ -584,7 +580,7 @@ public class MainFrame extends JFrame {
         String[] coord = getCoordinate().split(" ");
 
         switch(typeMap) {
-            case 1: {
+            case 2: {
                 switch(Integer.parseInt(coord[1])) {
                     case 1: {
                         switch (coord[0]) {
@@ -711,5 +707,11 @@ public class MainFrame extends JFrame {
 
     public void setTime(String time) {
         this.time.setText(time);
+    }
+
+    public void addSkullTrackShot() {
+        killshotTrack.addSkull();
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 }
