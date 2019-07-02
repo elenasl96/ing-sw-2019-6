@@ -2,15 +2,15 @@ package controller;
 
 import model.decks.Powerup;
 import model.decks.Weapon;
-import model.exception.InvalidMoveException;
-import model.exception.NotEnoughAmmoException;
+import model.exception.*;
 import model.GameContext;
 import model.Player;
 import model.decks.WeaponTile;
 import model.enums.Phase;
-import model.exception.NotExistingPositionException;
-import model.exception.NothingGrabbableException;
 import model.moves.Move;
+import model.moves.MoveAndGrab;
+import model.moves.MoveAndShoot;
+import model.moves.Shoot;
 import model.room.*;
 import model.enums.Character;
 import network.ClientHandler;
@@ -246,7 +246,7 @@ public class ServerController implements RequestHandler {
             Update update;
             switch (cardRequest.getCardType()) {
                 case "weaponLayout":
-                    int cardNumber = cardRequest.getNumber() - 3;
+                    int cardNumber = cardRequest.getNumber();
                     StringBuilder updateString = new StringBuilder();
                     Weapon weapon = this.user.getPlayer().getWeapons().get(cardNumber);
                     updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
@@ -305,6 +305,9 @@ public class ServerController implements RequestHandler {
         try {
             Player player = user.getPlayer();
             switch (inputResponse.getInputType()) {
+                case "coordinate":
+                    user.getPlayer().getCurrentMoves().get(0).execute(user.getPlayer(), currentGroup.getGroupID());
+                    break;
                 case "weapon chosen":
                     pickWeapon(player, inputResponse);
                     break;
@@ -320,12 +323,19 @@ public class ServerController implements RequestHandler {
                 case "powerupFilled":
                     playPowerup(player, inputResponse);
                     break;
+                case "weaponToPlay":
+                    return prepareWeapon(player, inputResponse);
                 default:
                     break;
             }
-        }catch (NullPointerException e){
+        }catch (NullPointerException | InvalidMoveException e){
             e.printStackTrace();
         }
+        return null;
+    }
+
+    @Override
+    public Response handle(ShootRequest shootRequest) {
         return null;
     }
 
@@ -385,6 +395,30 @@ public class ServerController implements RequestHandler {
         player.setPhaseNotDone(false);
     }
 
+    private Response prepareWeapon(Player player, SendInput inputResponse) {
+        try {
+            String fields = GameController.get().prepareWeapon(user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+            Update update = new Update(fields,"fillfields");
+            update.setData(fields);
+            player.setPhaseNotDone(false);
+            this.user.receiveUpdate(update);
+            return new AskInput("fillFields");
+       } catch (NullPointerException | IndexOutOfBoundsException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        } catch (NumberFormatException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update("Invalid Number Format!", UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        } catch (InvalidMoveException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
+            user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
+            player.getUser().receiveUpdate(new Update(player, true));
+        }
+        return null;
+    }
+
     private void reloadWeapon(Player player, SendInput inputResponse) {
         try {
             GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
@@ -414,14 +448,10 @@ public class ServerController implements RequestHandler {
         }
     }
 
-    @Override
+  /*  @Override
     public Response handle(ShootRequest shootRequest) {
         try {
-            String fields = GameController.get().prepareWeapon(user.getPlayer(), shootRequest.getString(), currentGroup.getGroupID());
-            Update update = new Update(fields,"fillfields");
-            update.setData(fields);
-            this.user.receiveUpdate(update);
-            return new AskInput("fillFields");
+                new MoveAndShoot();
                 }catch(IndexOutOfBoundsException | InvalidMoveException e){
                 user.getPlayer().getCurrentCardEffects().clear();
                 user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
@@ -438,7 +468,7 @@ public class ServerController implements RequestHandler {
         }
         return null;
     }
-
+*/
     @Override
     public Response handle(MoveRequest moveRequest) {
         try {

@@ -10,6 +10,7 @@ import model.exception.NotExistingFieldException;
 import model.exception.NotExistingPositionException;
 import model.field.Field;
 import model.field.Square;
+import model.moves.Shoot;
 import model.room.Group;
 import model.room.User;
 import network.Manager;
@@ -71,7 +72,7 @@ class ShootControllerTest {
         // Choose a non existing player
         final String weaponChosen = "elena,elena";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
             GameController.get().playWeapon(p1, weaponChosen, 0);
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
@@ -89,7 +90,7 @@ class ShootControllerTest {
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0) + p1.getAmmos().toString());
         String weaponsEffect = "3 0 1";
-        System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+        System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         //A:B:C;D:E   -> first effect 3 fields, second effect 2 fields
         //test effects on lock rifle
         final String weaponChosen = "user2;user2";
@@ -117,7 +118,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -144,7 +145,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -172,7 +173,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -207,7 +208,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 0 1 2";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -236,7 +237,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 0 1 2";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -264,7 +265,7 @@ class ShootControllerTest {
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 0";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -295,7 +296,7 @@ class ShootControllerTest {
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 0 1";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -326,7 +327,7 @@ class ShootControllerTest {
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 0";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -351,7 +352,7 @@ class ShootControllerTest {
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 0";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -378,7 +379,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 0";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -415,7 +416,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 0";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -451,7 +452,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -486,7 +487,7 @@ class ShootControllerTest {
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 0 1";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -526,7 +527,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 2 0 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -564,7 +565,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -604,7 +605,7 @@ class ShootControllerTest {
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 1";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -641,7 +642,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -678,7 +679,7 @@ class ShootControllerTest {
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 1";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -714,7 +715,7 @@ class ShootControllerTest {
         System.out.println(p1.getWeapons().get(0));
         String weaponsEffect = "3 1";
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -784,7 +785,7 @@ class ShootControllerTest {
         String weaponsEffect = "3 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }

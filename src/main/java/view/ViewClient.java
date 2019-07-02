@@ -48,7 +48,12 @@ public class ViewClient implements View {
 
     @Override
     public String cardChoose() {
-        return userInput();
+        String input = userInput();
+        while(!input.equals("0") &&
+                !input.equals("1") &&
+                !input.equals("2"))
+            input = userInput();
+        return input;
     }
 
     @Override
@@ -214,12 +219,7 @@ public class ViewClient implements View {
         String input = userInput();
         while(!input.equals("grab") &&
                 !input.equals("run") &&
-                !input.equals("0") &&
-                !input.equals("1") &&
-                !input.equals("2") &&
-                !input.equals("3") &&
-                !input.equals("4") &&
-                !input.equals("5"))
+                !input.equals("shoot"))
             input = userInput();
         return input;
     }
