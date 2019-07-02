@@ -243,6 +243,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     @Override
     public void handle(AskInput askInput) {
+        String content = "";
         switch(askInput.getInputType()){
             case "coordinate":
                 try{
@@ -288,16 +289,19 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 }
                 break;
             case "weaponToPlay":
-                try{
-                    String content = view.cardChoose();
+                try {
+                    content = view.cardChoose();
                     client.request(new CardRequest("weaponLayout", content));
-                    Thread.sleep(1000);
+                } catch (RemoteException e) {
+                    //nothing
+                }
+                break;
+            case "effectsToPlay":
+                try {
                     String string = content + " " + view.askEffects();
                     client.request(new SendInput(string, "weaponToPlay"));
-                } catch (RemoteException e){
+                } catch (RemoteException e) {
                     //nothing
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
                 break;
             default:
