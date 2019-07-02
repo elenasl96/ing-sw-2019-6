@@ -232,7 +232,7 @@ public class GameController{
 
     private synchronized void updatePoints(int groupID) {
         for(Player p: GameContext.get().getGame(groupID).getPlayers()){
-            if(p.isDead()){
+            if(p.isDead() && p.getPlayerBoard()!= null && !p.getPlayerBoard().getDamage().isEmpty() ){
                 //add the player dead on the killshotTrack
                 GameContext.get().getGame(groupID).getBoard().addKillshot(p);
                 //overkill: readd the same player and mark the overkiller
