@@ -172,12 +172,10 @@ public class GameController{
         switch(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase()) {
             case SPAWN:
                 //set phase wait to current player and send update
-                if(player.isDead()){
+                if(player.isDead()) {
                     player.setDead(false);
-                    player.setPhase(POWERUP1);
-                } else {
-                    player.setPhase(WAIT);
                 }
+                player.setPhase(POWERUP1);
                 player.getUser().receiveUpdate(new Update(player, true));
                 //go to next player and set phase
                 GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
