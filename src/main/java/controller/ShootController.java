@@ -35,7 +35,8 @@ public class ShootController {
 
     public synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) throws InvalidMoveException {
         String[] weaponEffectsSplitted = weaponEffects.split(" ");
-        Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]));
+        try {
+            Weapon weapon = player.getWeapons().get(Integer.parseInt(weaponEffectsSplitted[0]));
         if (!checkWeaponEffects(weapon, weaponEffectsSplitted, groupID))
             throw new InvalidMoveException("Not valid sequence");
         //Add effects to player
@@ -43,6 +44,9 @@ public class ShootController {
         player.setWeaponInUse(weapon.getId());
         //Ask player to fill effects
         return getEffectsLayout(player.getCurrentCardEffects());
+        }catch (IndexOutOfBoundsException e){
+            throw new InvalidInputException();
+        }
     }
 
     private String getEffectsLayout(List<CardEffect> currentCardEffects) {

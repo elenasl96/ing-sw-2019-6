@@ -4,7 +4,6 @@ import model.Player;
 import model.enums.Character;
 import model.enums.Phase;
 import model.field.Coordinate;
-import model.moves.Move;
 import model.moves.MoveAndGrab;
 import model.moves.MoveAndShoot;
 import model.moves.Run;
@@ -243,7 +242,6 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     @Override
     public void handle(AskInput askInput) {
-        String content = "";
         switch(askInput.getInputType()){
             case "coordinate":
                 try{
@@ -290,15 +288,15 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 break;
             case "weaponToPlay":
                 try {
-                    content = view.cardChoose();
-                    client.request(new CardRequest("weaponLayout", content));
+                    ClientContext.get().getCurrentPlayer().setWeaponInUse(Integer.parseInt(view.cardChoose()));
+                    client.request(new CardRequest("weaponLayout", ClientContext.get().getCurrentPlayer().getWeaponInUse()+""));
                 } catch (RemoteException e) {
                     //nothing
                 }
                 break;
             case "effectsToPlay":
                 try {
-                    String string = content + " " + view.askEffects();
+                    String string = ClientContext.get().getCurrentPlayer().getWeaponInUse() + " " + view.askEffects();
                     client.request(new SendInput(string, "weaponToPlay"));
                 } catch (RemoteException e) {
                     //nothing
