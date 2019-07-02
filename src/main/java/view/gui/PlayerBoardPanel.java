@@ -156,12 +156,8 @@ public class PlayerBoardPanel extends JPanel {
         dropPanel.add(voidPanel);
 
         for(i=10;i<(sizeSerie);i++) {
-            try {
-                dropPanel.add(new JLabel((new ImageIcon(ImageIO.read(new File("src/resources/Drops/drop" + serieDamage[i] +".png"))
-                        .getScaledInstance(60, 60, Image.SCALE_SMOOTH)))));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            dropPanel.add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
+                    .getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         }
 
         for(i=sizeSerie;i<numDrops;i++) {
