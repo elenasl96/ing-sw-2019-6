@@ -100,7 +100,7 @@ public class PlayerBoardPanel extends JPanel {
         for(int i=0;i<numMarker;i++) {
             markerPanel.add(new JLabel(new ImageIcon(new ImageIcon(
                     this.getClass().getResource("marker" + serieMarker[i] + ".png"))
-                    .getImage().getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+                    .getImage().getScaledInstance(17, 17, Image.SCALE_SMOOTH))));
         }
 
         for(int i=numMarker;i<12;i++) {
