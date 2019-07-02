@@ -139,7 +139,6 @@ public class GameController{
             update = new Update(null,"movement");
             update.setData(player.getCharacter().getNum() + ";" + player.getCurrentPosition().toString().replace("[","").replace("]",""));
             GameContext.get().getGame(groupID).sendUpdate(update);
-            GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(new Update(GameContext.get().getGame(groupID).getCurrentPlayer(), true));
             updatePhase(groupID);
         } else {
             player.getUser().receiveUpdate(new Update(player, true));
@@ -201,6 +200,7 @@ public class GameController{
                 this.updatePoints(groupID);
                 GameContext.get().getGame(groupID).setCurrentPlayer(GameContext.get().getGame(groupID).getPlayers().next());
                 player = GameContext.get().getGame(groupID).getCurrentPlayer();
+                GameContext.get().getGame(groupID).sendUpdate(new Update("It's "+player.getName()+"'s turn"));
                 if(player.isDead()){
                     player.setPhase(SPAWN);
                     player.setCurrentPosition(null); //TODO Check
