@@ -105,6 +105,7 @@ public class ViewGui implements View {
                     gui.setBackGroundTurn(false);
                     break;
                 case "layouteffect":
+                    System.out.println(update.getData());
                     data = update.getData().split(";");
                     gui.chooseEffectPopUp(data[0], Integer.parseInt(data[1]));
                     break;

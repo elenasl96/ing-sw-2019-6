@@ -249,6 +249,7 @@ public class ServerController implements RequestHandler {
                     int cardNumber = cardRequest.getNumber();
                     StringBuilder updateString = new StringBuilder();
                     Weapon weapon = this.user.getPlayer().getWeapons().get(cardNumber);
+                    System.out.println("aaaaaaaaaaaaaaa " + cardNumber + " " + weapon.getName());
                     updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
                     update = new Update(null, "layouteffect");
                     update.setData(updateString.toString().toLowerCase().replace(" ", ""));

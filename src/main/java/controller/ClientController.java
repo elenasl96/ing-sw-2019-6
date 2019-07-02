@@ -290,10 +290,13 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 try{
                     String content = view.cardChoose();
                     client.request(new CardRequest("weaponLayout", content));
+                    Thread.sleep(1000);
                     String string = content + " " + view.askEffects();
                     client.request(new SendInput(string, "weaponToPlay"));
                 } catch (RemoteException e){
                     //nothing
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 break;
             default:

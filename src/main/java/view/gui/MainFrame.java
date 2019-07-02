@@ -461,8 +461,9 @@ public class MainFrame extends JFrame {
                 System.err.println(e.getMessage());
             }
         }
-
-        return popUp.close();
+        String aaa = popUp.close();
+        System.out.println(aaa);
+        return aaa;
     }
 
     public void createPopUp(String[] nameCard) {

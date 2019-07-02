@@ -36,7 +36,7 @@ public class Shoot implements Move{
             weaponTile.getWeapons().addAll(p.getWeapons());
         Update update = new Update("Insert the weapon you want to use:" +
                 cardsToString(p.getWeapons(), 0), "choosecard");
-            update.setData(weaponTile.getStringIdWeapons().toLowerCase().toLowerCase().replaceAll(" ", ""));
+            update.setData(weaponTile.toStringForGUI());
             p.receiveUpdate(update, groupID);
             return new AskInput("weaponToPlay");
         }else{
