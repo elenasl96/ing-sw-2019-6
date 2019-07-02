@@ -78,7 +78,7 @@ class GameControllerTest {
     @Test
     void possibleMovesTest() throws InvalidMoveException {
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.RELOAD);
-//TODO CHECK        GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
+        //TODO CHECK        GameController.get().possibleMoves(GameContext.get().getGame(0).getCurrentPlayer(), 0);
         GameContext.get().getGame(0).getCurrentPlayer().setPhase(Phase.FIRST);
         GameContext.get().getGame(0).getCurrentPlayer().getPowerups().add(new Powerup(0,"dummy", new Ammo(Color.BLUE)));
         GameController.get().possibleMoves(GameContext.get().getGame(0). getCurrentPlayer(), 0);

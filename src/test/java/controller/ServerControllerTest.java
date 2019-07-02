@@ -56,12 +56,15 @@ class ServerControllerTest {
 
     @Test
     void userCreatedTest(){
+        //Testing method serverController.handle(CreateUserRequest)
+
         assertEquals(user1, serverController1.getUser());
         assertEquals("1", userResp1.user.getUsername());
     }
 
     @Test
     void createGroupTest() {
+        //Testing method serverController.handle(CreateGroupRequest)
 
         //Create group
         JoinGroupResponse createResp = (JoinGroupResponse)
@@ -72,6 +75,8 @@ class ServerControllerTest {
 
     @Test
     void chooseGroupTest(){
+        //Testing method serverController.handle(ChooseGroupRequest)
+
         serverController1.handle(new CreateGroupRequest(5, 2));
 
         //Choose Group
@@ -110,6 +115,8 @@ class ServerControllerTest {
 
     @Test
     void setCharacterTest(){
+        //Testing method serverController.handle(SetCharacterRequest)
+
         serverController1.handle(new CreateGroupRequest(5, 2));
         serverController1.handle(new ChooseGroupRequest(1));
         serverController2.handle(new ChooseGroupRequest(1));
@@ -132,17 +139,5 @@ class ServerControllerTest {
         assertEquals("PG1", serverController1.getUser().getCharacter().name());
         assertEquals("PG2", serverController2.getUser().getCharacter().name());
         assertEquals("PG3", serverController3.getUser().getCharacter().name());
-    }
-
-    @Test
-    void handleRequests(){
-        chooseGroupTest();
-        GameContext.get().createGame(0);
-
-        SituationViewerRequest situationViewerRequest = new SituationViewerRequest();
-        situationViewerRequest.handle(serverController1);
-
-        CreateUserRequest createUserRequest = new CreateUserRequest("2");
-        createUserRequest.handle(serverController1);
     }
 }
