@@ -15,13 +15,8 @@ class WeaponCard extends JPanel {
     private int num;
 
     WeaponCard(String name, int num) {
-        try {
-            add(new JLabel(new ImageIcon(ImageIO.read(new File("src/resources/Weapons/" + name + ".png"))
-                    .getScaledInstance(110,190, Image.SCALE_SMOOTH))));
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-
+        add(new JLabel(new ImageIcon(new ImageIcon(this.getClass().getResource("Weapons/" + name + ".png")).getImage()
+            .getScaledInstance(110,190, Image.SCALE_SMOOTH))));
         this.num = num;
     }
 
