@@ -165,6 +165,9 @@ public class GameController{
 
     void updatePhase(int groupID){
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
+        Update update = new Update(null, "timer");
+        update.setData("stop");
+        player.getUser().receiveUpdate(update);
         //go to next player and set phase
         switch(GameContext.get().getGame(groupID).getCurrentPlayer().getPhase()) {
             case SPAWN:

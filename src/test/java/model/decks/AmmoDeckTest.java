@@ -1,19 +1,26 @@
 package model.decks;
 
-import model.decks.AmmoDeck;
-import model.decks.AmmoTile;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class AmmoDeckTest {
 
     private AmmoDeck ammoDeck = new AmmoDeck();
 
     @Test
-    void DeckTest(){
+    void pickTest() {
+        //Testing method pickCard
+        AmmoTile picked = ammoDeck.pickCard();
+        assertNotNull(picked);
+    }
 
-        for(int i = 1; i <= 50; i++){
-            AmmoTile picked = ammoDeck.pickCard();
-            ammoDeck.discardCard(picked);
+    @Test
+    void discardTest() {
+        //Testing method discardCard
+        for(int i = 1; i <= 50 ; i++){
+            assertDoesNotThrow(() -> ammoDeck.discardCard(ammoDeck.pickCard()));
         }
     }
 }

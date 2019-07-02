@@ -168,7 +168,7 @@ class AmmoTileWithPowerup extends AmmoTile{
         for(Ammo a: getAmmos()){
             string.append(a.getColor().getName()).append(";");
         }
-        string.append(powerup.getName()).append(powerup.getAmmo().getColor().getAbbr());
+        string.append("retro");
         return string.toString().toLowerCase().replace(" ","");
     }
 }

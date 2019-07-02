@@ -224,6 +224,9 @@ public class Group implements Serializable {
             update = new Update(null, "skull");
             update.setData(skullNumber+"");
             this.sendUpdate(update);
+            update = new Update(null, "timer");
+            update.setData("stop");
+            this.sendUpdate(update);
         }
     }
 

@@ -1,4 +1,4 @@
-package model;
+package model.enums;
 
 import model.enums.Character;
 import model.enums.Phase;

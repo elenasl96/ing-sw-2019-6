@@ -5,11 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
@@ -27,11 +22,9 @@ public class MainFrame extends JFrame {
     private AmmoPanel ammoYellow;
 
     private JTextArea console;
-    private JTextField commandLine;
     private MoveButton grab;
     private MoveButton run;
     private MoveButton shoot;
-    private MoveButton powerup;
     private JLabel playerNameLabel;
 
     private final transient Object lockInput;
@@ -54,6 +47,7 @@ public class MainFrame extends JFrame {
     private JFrame effectFrame;
     private PlayerBoardPanel playerBoard;
     private JLabel time;
+    private KillshotTrackPanel killshotTrack;
 
     private SquarePanel[][] mapGrid;
     private Character[] charactersCoordinates;
@@ -62,6 +56,7 @@ public class MainFrame extends JFrame {
     private String playerSelected;
     private String stringFields;
     private int typeMap;
+    private int nSkull;
     private javax.swing.Timer timer;
 
     public MainFrame() {
@@ -80,6 +75,7 @@ public class MainFrame extends JFrame {
         command = "";
         playerSelected = "";
         typeMap = 2;
+        nSkull = 8;
         charactersCoordinates = new Character[5];
         initCharacters();
 
@@ -87,42 +83,39 @@ public class MainFrame extends JFrame {
 
     private void initCharacters() {
         for(int i=0;i<5;i++) {
-            try {
-                charactersCoordinates[i] = new Character(new CharacterLabel(new ImageIcon(ImageIO.read(new File("src/resources/Pedine/pg" +
-                        (i + 1)+".png"))
-                        .getScaledInstance(WIDTH_PAWN, HEIGHT_PAWN, Image.SCALE_SMOOTH))));
-                charactersCoordinates[i].getIcon().addMouseListener(new MouseListener() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        synchronized (lockCharacter) {
-                            playerSelected = ((CharacterLabel) e.getSource()).getPlayer();
-                            lockCharacter.notifyAll();
-                        }
+            charactersCoordinates[i] = new Character(new CharacterLabel(
+                    new ImageIcon(new ImageIcon(this.getClass().getResource("Pedine/pg" +
+                    (i + 1)+".png")).getImage()
+                    .getScaledInstance(WIDTH_PAWN, HEIGHT_PAWN, Image.SCALE_SMOOTH))));
+            charactersCoordinates[i].getIcon().addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    synchronized (lockCharacter) {
+                        playerSelected = ((CharacterLabel) e.getSource()).getPlayer();
+                        lockCharacter.notifyAll();
                     }
+                }
 
-                    @Override
-                    public void mousePressed(MouseEvent e) {
+                @Override
+                public void mousePressed(MouseEvent e) {
 
-                    }
+                }
 
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
+                @Override
+                public void mouseReleased(MouseEvent e) {
 
-                    }
+                }
 
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
+                @Override
+                public void mouseEntered(MouseEvent e) {
 
-                    }
+                }
 
-                    @Override
-                    public void mouseExited(MouseEvent e) {
+                @Override
+                public void mouseExited(MouseEvent e) {
 
-                    }
-                });
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
+                }
+            });
         }
     }
 
@@ -147,17 +140,16 @@ public class MainFrame extends JFrame {
         writesPanel.add(playerNameLabel);
         writesPanel.add(new JLabel("AMMO",SwingConstants.CENTER));
         JPanel ammos = new JPanel(new GridLayout(3,1));
-        try {
-            ammoRed = new AmmoPanel(1, new ImageIcon(ImageIO.read(new File("src/resources/Weapons/red.png"))
-                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-            ammoBlue = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/Weapons/blue.png"))
-                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-            ammoYellow = new AmmoPanel(1,new ImageIcon(ImageIO.read(new File("src/resources/Weapons/yellow.png"))
-                    .getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
 
+        ammoRed = new AmmoPanel(1, new ImageIcon(new ImageIcon(
+                this.getClass().getResource("Weapons/red.png"))
+                .getImage().getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
+        ammoBlue = new AmmoPanel(1,new ImageIcon(new ImageIcon(
+                this.getClass().getResource("Weapons/blue.png"))
+                .getImage().getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
+        ammoYellow = new AmmoPanel(1,new ImageIcon(new ImageIcon(
+                this.getClass().getResource("Weapons/yellow.png"))
+                .getImage().getScaledInstance(DIM_AMMO_IMAGE, DIM_AMMO_IMAGE, Image.SCALE_SMOOTH)));
         ammos.add(ammoRed);
         ammos.add(ammoBlue);
         ammos.add(ammoYellow);
@@ -182,63 +174,55 @@ public class MainFrame extends JFrame {
         DefaultCaret caret = (DefaultCaret)console.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
-        commandLine = new JTextField(20);
-        JButton ok = new JButton("OK");
-        ok.addActionListener(e -> {
-            synchronized (lockInput) {
-                lockInput.notifyAll();
-            }
-        });
-
         turnLight = new JPanel();
         turnLight.setBackground(Color.RED);
 
-        JPanel commandLineBar = new JPanel(new FlowLayout());
-        commandLineBar.add(commandLine);
-        commandLineBar.add(ok);
-
         grab = new MoveButton("Grab", "grab");
         run = new MoveButton("Run", "run");
-        shoot = new MoveButton("Shoot", "3");
-        powerup = new MoveButton("Power Up", "0");
+        shoot = new MoveButton("Shoot", "shoot");
         grab.addActionListener(actionListenerMovement);
         run.addActionListener(actionListenerMovement);
         shoot.addActionListener(actionListenerMovement);
-        powerup.addActionListener(actionListenerMovement);
         grab.setEnabled(false);
         run.setEnabled(false);
         shoot.setEnabled(false);
-        powerup.setEnabled(false);
 
         JPanel buttonContainer = new JPanel(new GridLayout(5, 1));
         buttonContainer.add(new JLabel("Actions"));
         buttonContainer.add(run);
         buttonContainer.add(grab);
         buttonContainer.add(shoot);
-        buttonContainer.add(powerup);
+        buttonContainer.add(new JLabel("Your turn"));
 
-        JPanel middleRightContainer = new JPanel(new GridLayout(5, 1));
-        middleRightContainer.add(new JLabel("Your turn"));
-        middleRightContainer.add(turnLight);
-        middleRightContainer.add(new JLabel("Insertion bar"));
-        middleRightContainer.add(commandLineBar);
-        middleRightContainer.add(new JLabel("Updates"));
+        JPanel middleRightContainer = new JPanel(new GridLayout(2, 1));
+        JPanel middletop = new JPanel(new GridLayout(2,1));
+        middletop.add(turnLight);
+        JPanel timerPanel = new JPanel();
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource(
+                "clessidra.gif")).getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT));
+        time = new JLabel("02:00");
+        time.setIcon(imageIcon);
+        timerPanel.add(time);
+        middletop.add(timerPanel);
+        killshotTrack = new KillshotTrackPanel(nSkull);
+
+        middleRightContainer.add(middletop);
+        middleRightContainer.add(killshotTrack);
 
         JPanel right = new JPanel(new GridLayout(3, 1));
         right.add(buttonContainer);
         right.add(middleRightContainer);
         right.add(new JScrollPane(console));
+        right.setSize(270,500);
+        right.setPreferredSize(new Dimension(270,500));
+        right.setMaximumSize(new Dimension(270,500));
+        right.setMinimumSize(new Dimension(270,500));
 
         //Create central section of GUI
         centralPanel = new JPanel(new GridLayout(3, 4));
 
         //Create bottom section of GUI
         JPanel voidPanel = new JPanel();
-        ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource(
-                    "clessidra.gif")).getImage());
-        time = new JLabel("02:00");
-        time.setIcon(imageIcon);
-        voidPanel.add(time);
         playerBoard = new PlayerBoardPanel();
         voidPanel.add(playerBoard);
         JButton voidButton = new JButton("Void");
@@ -254,8 +238,6 @@ public class MainFrame extends JFrame {
                 synchronized (lockCoordinate) {
                     lockCoordinate.notifyAll();
                 }
-
-
             }
         });
         voidPanel.add(voidButton);
@@ -289,29 +271,10 @@ public class MainFrame extends JFrame {
         setSize(1150, 590);
         setResizable(false);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        weapon.addActionListener(e -> shoot.setMove((weapon.getSelectedIndex()+3)+""));
-        powerup.addActionListener(e -> powerup.setMove((powerUp.getSelectedIndex())+""));
     }
 
     public void setConsole(String message) {
         console.append(message + "\n");
-    }
-
-    public String getJLabelText() {
-        String string;
-        synchronized (lockInput) {
-            try {
-                lockInput.wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.out.println(e.getMessage());
-            }
-
-            string = commandLine.getText();
-            commandLine.setText("");
-        }
-        return string;
     }
 
     public String getMove() {
@@ -374,17 +337,12 @@ public class MainFrame extends JFrame {
     }
 
     public void printField() {
-
         Integer cont = 1;
         for(int i=0;i<3;i++) {
             for(int j=0;j<4;j++) {
-                try {
-                    mapGrid[i][j].setImg(new ImageIcon(ImageIO.read(new File("src/resources/Field" + typeMap + "/" +
-                            "image_part_0"+String.format("%02d",cont) +".png"))
-                            .getScaledInstance(140,140, Image.SCALE_SMOOTH)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                mapGrid[i][j].setImg(new ImageIcon(new ImageIcon(this.getClass().getResource("Field" + typeMap + "/" +
+                        "image_part_0"+String.format("%02d",cont) +".png")).getImage()
+                        .getScaledInstance(140,140, Image.SCALE_SMOOTH)));
                 mapGrid[i][j].setLayout(new GridLayout(3,2));
                 mapGrid[i][j].addMouseListener(actionListenerCoordinate);
 
@@ -482,19 +440,16 @@ public class MainFrame extends JFrame {
         grab.setEnabled(false);
         run.setEnabled(false);
         shoot.setEnabled(false);
-        powerup.setEnabled(false);
 
         grab.setBorder(UIManager.getBorder("Button.border"));
         run.setBorder(UIManager.getBorder("Button.border"));
         shoot.setBorder(UIManager.getBorder("Button.border"));
-        powerup.setBorder(UIManager.getBorder("Button.border"));
 
         for(String s: data) {
             switch(s) {
                 case "RUN": run.setEnabled(true); break;
                 case "GRAB": grab.setEnabled(true); break;
                 case "SHOOT": shoot.setEnabled(true); break;
-                case "POWERUPS": powerup.setEnabled(true); break;
                 default: break;
             }
         }
@@ -693,6 +648,14 @@ public class MainFrame extends JFrame {
 
     public void setTypeMap(int typeMap) {
         this.typeMap = typeMap;
+    }
+
+    public int getnSkull() {
+        return nSkull;
+    }
+
+    public void setnSkull(int nSkull) {
+        this.nSkull = nSkull;
     }
 
     public void fillFields(String s) {
