@@ -71,7 +71,7 @@ public class Main {
         try {
             main.gui.addDropPlayerBoard(1);
             Thread.sleep(2000);
-            main.gui.addDropPlayerBoard(2);
+            /*main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
             main.gui.addDropPlayerBoard(2);
             Thread.sleep(2000);
@@ -148,7 +148,22 @@ public class Main {
             main.gui.updateMap(0,"A 2");
 
             main.gui.setStringFields("player,square;player");
-            System.out.println(main.gui.getCommand());
+            System.out.println(main.gui.getCommand());*/
+
+            main.gui.addSkullTrackShot();
+            Thread.sleep(2000);
+            main.gui.addSkullTrackShot();
+            Thread.sleep(2000);
+            main.gui.addSkullTrackShot();
+            Thread.sleep(2000);
+            main.gui.addSkullTrackShot();
+            Thread.sleep(2000);
+            main.gui.addSkullTrackShot();
+            Thread.sleep(2000);
+            main.gui.addSkullTrackShot();
+            Thread.sleep(2000);
+
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();
