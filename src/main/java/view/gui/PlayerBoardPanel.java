@@ -137,7 +137,7 @@ public class PlayerBoardPanel extends JPanel {
         voidPanel.setBackground(new Color(0,0,0,0));
         dropPanel.add(voidPanel);
 
-        for(i=0;i<(sizeSerie>5?5:sizeSerie);i++) {
+        for(i=2;i<(sizeSerie>5?5:sizeSerie);i++) {
             dropPanel.add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
                         .getScaledInstance(40, 40, Image.SCALE_SMOOTH)))));
         }
