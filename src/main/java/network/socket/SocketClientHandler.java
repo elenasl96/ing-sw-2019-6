@@ -1,5 +1,6 @@
 package network.socket;
 
+import controller.GameController;
 import controller.ServerController;
 import model.room.*;
 import network.ClientHandler;
@@ -46,7 +47,9 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
         try {
             out.writeObject(response);
         } catch (IOException e) {
+            e.printStackTrace();
             controller.getUser().getPlayer().setPhase(DISCONNECTED);
+            controller.getUser().receiveUpdate(new Update(controller.getUser().getPlayer(), true));
             printError("IO - " + e.getMessage());
         }
     }
@@ -56,18 +59,23 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
      */
     @Override
     public synchronized void run() {
-        try {
+        Response response;
             do {
-                Response response = ((Request) in.readObject()).handle(controller);
-                if (response != null) {
-                    respond(response);
+                try{
+                    response = ((Request) in.readObject()).handle(controller);
+                    if (response != null) {
+                        respond(response);
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                    controller.getUser().getPlayer().setPhase(DISCONNECTED);
+                    controller.getUser().receiveUpdate(new Update(controller.getUser().getPlayer(), true));
+                    printError(e.getClass().getSimpleName() + "IO - " + e.getMessage());
+                  /*  e.printStackTrace();
+                    printError(e.getClass().getSimpleName() + " - " + e.getMessage());
+                    controller.connectionLost();*/
                 }
             } while (!stop);
-        } catch (Exception e) {
-            printError(e.getClass().getSimpleName() + " - " + e.getMessage());
-            controller.connectionLost();
-        }
-
         close();
     }
 

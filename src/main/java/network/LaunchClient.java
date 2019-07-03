@@ -55,7 +55,7 @@ public class LaunchClient {
         cliOrGui();
         try {
             clientController.run();
-        } catch (RemoteException e) {
+        } catch (IOException e) {
             System.out.println(ERROR);
         }
 

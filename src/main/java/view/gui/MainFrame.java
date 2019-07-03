@@ -704,4 +704,10 @@ public class MainFrame extends JFrame {
         setState(Frame.ICONIFIED);
         setState(Frame.NORMAL);
     }
+
+    void popUpVictory() {
+        setVisible(false);
+        new PopUpVictory();
+        dispose();
+    }
 }

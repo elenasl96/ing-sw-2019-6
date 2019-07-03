@@ -4,8 +4,6 @@ import model.Player;
 import model.enums.Character;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +15,7 @@ public class User implements Serializable, Comparable<User> {
     /**
      * PATTERN OBSERVER
      */
-    private transient List<ModelObserver> updateObservers;
+    private transient List<ModelObserver> updateObservers = new LinkedList<>();
 
     private static int uniqueUserID = 0;
 
@@ -56,6 +54,8 @@ public class User implements Serializable, Comparable<User> {
      * @param observer adds the observer to this user's observers
      */
     public void listenToMessages(ModelObserver observer) {
+        if(this.updateObservers == null)
+            this.updateObservers = new LinkedList<>();
         updateObservers.add(observer);
     }
 
@@ -107,10 +107,13 @@ public class User implements Serializable, Comparable<User> {
         return updateObservers;
     }
 
+    /*
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         // upon deserialization, observers are reset
         updateObservers = new LinkedList<>();
     }
+
+     */
 
 }
