@@ -185,6 +185,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             case RELOAD:
                 chooseReload(view.reloadPhase());
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
+                break;
             case DISCONNECTED:
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
