@@ -316,8 +316,7 @@ public class ServerController implements RequestHandler {
                     playWeapon(player, inputResponse);
                     break;
                 case "powerupToPlay":
-                    preparePowerup(player, inputResponse);
-                    break;
+                    return preparePowerup(player, inputResponse);
                 case "powerupFilled":
                     playPowerup(player, inputResponse);
                     break;
