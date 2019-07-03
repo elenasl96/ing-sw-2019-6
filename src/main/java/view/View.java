@@ -4,6 +4,7 @@ import controller.ClientController;
 import model.field.Coordinate;
 import model.room.ModelObserver;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 //TODO javadoc
@@ -12,11 +13,11 @@ public interface View extends ModelObserver {
 
     void displayText(String insertAValidMove);
 
-    String chooseUsernamePhase() throws RemoteException;
+    String chooseUsernamePhase() throws IOException;
 
-    void chooseGroupPhase() throws RemoteException;
+    void chooseGroupPhase() throws IOException;
 
-    void chooseCharacterPhase() throws RemoteException;
+    void chooseCharacterPhase() throws IOException;
 
     void setWait(boolean equalsTo);
 

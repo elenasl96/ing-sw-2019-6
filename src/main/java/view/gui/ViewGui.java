@@ -8,6 +8,7 @@ import network.ClientContext;
 import view.ViewClient;
 import view.View;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class ViewGui implements View {
@@ -32,7 +33,7 @@ public class ViewGui implements View {
         return null;
     }
 
-    public void run() {
+    public void run() throws IOException {
         try {
             controller.run();
         } catch(RemoteException e){
@@ -168,7 +169,7 @@ public class ViewGui implements View {
     }
 
     @Override
-    public String chooseUsernamePhase() throws RemoteException{
+    public String chooseUsernamePhase() throws IOException {
         viewCli.setClientController(controller);
         gui.setPlayerNameLabel(viewCli.chooseUsernamePhase().toUpperCase());
         ClientContext.get().getCurrentUser().listenToMessages(this);
@@ -176,12 +177,12 @@ public class ViewGui implements View {
     }
 
     @Override
-    public void chooseGroupPhase() throws RemoteException{
+    public void chooseGroupPhase() throws IOException {
         viewCli.chooseGroupPhase();
     }
 
     @Override
-    public void chooseCharacterPhase() throws RemoteException{
+    public void chooseCharacterPhase() throws IOException {
         viewCli.chooseCharacterPhase();
         ClientContext.get().getCurrentGroup().observe(this);
     }
