@@ -73,7 +73,7 @@ class ShootControllerTest {
         final String weaponChosen = "elena,elena";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
-            GameController.get().playWeapon(p1, weaponChosen, 0);
+            ShootController.get().playWeapon(p1, weaponChosen, 0);
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
@@ -94,10 +94,10 @@ class ShootControllerTest {
         //A:B:C;D:E   -> first effect 3 fields, second effect 2 fields
         //test effects on lock rifle
         final String weaponChosen = "user2;user2";
-        assertThrows(InvalidMoveException.class, ()-> GameController.get().playWeapon(p1, weaponChosen, 0));
+        assertThrows(InvalidMoveException.class, ()-> ShootController.get().playWeapon(p1, weaponChosen, 0));
 
         final String weaponChosen2 = "user2";
-        GameController.get().playWeapon(p1, weaponChosen2, 0);
+        ShootController.get().playWeapon(p1, weaponChosen2, 0);
         assertEquals(2, p2.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getMarks().size());
         assertThrows(InvalidMoveException.class, () -> p1.getWeapons().get(0).getEffectsList().get(0).getEffects().get(1).getTarget().get(0).getCurrentPosition());
@@ -125,7 +125,7 @@ class ShootControllerTest {
 
         //test effects on lockrifle
         String weaponChosen = "";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getDamage().size());
         assertEquals(1, p3.getPlayerBoard().getDamage().size());
@@ -152,7 +152,7 @@ class ShootControllerTest {
 
         //test effects on machine gun with basic effect working
         String weaponChosen = "user2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getDamage().size());
         //assertEquals(1, p3.getPlayerBoard().getDamage().size());
@@ -182,7 +182,7 @@ class ShootControllerTest {
         // If destination is different from C 3, returns "You can't move there"
         //test effects on tractor beam
         String weaponChosen = "user2,C 3";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getDamage().size());
         // assertEquals(1, p3.getPlayerBoard().getDamage().size());
@@ -216,7 +216,7 @@ class ShootControllerTest {
         //test effects on thor with basic and alternative effect working
         //TODO why it also accepts players not basic_visible?
         String weaponChosen = "user2;user3;user4";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(2, p2.getPlayerBoard().getDamage().size());
         assertEquals(1, p3.getPlayerBoard().getDamage().size());
@@ -243,7 +243,7 @@ class ShootControllerTest {
         }
 
         String weaponChosen = "user2;C 2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals("C 2", p1.getCurrentPosition().toString());
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(3, p2.getPlayerBoard().getDamage().size());
@@ -271,7 +271,7 @@ class ShootControllerTest {
         }
 
         String weaponChosen = "user2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(3, p2.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getMarks().size());
@@ -302,7 +302,7 @@ class ShootControllerTest {
         }
         //TODO more tests with other positions
         String weaponChosen = "user2,b 3;user3;user4";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals("B 3", p2.getCurrentPosition().toString());
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(2, p2.getPlayerBoard().getDamage().size());
@@ -332,7 +332,7 @@ class ShootControllerTest {
             System.out.println(e.getMessage());
         }
         String weaponChosen = "blue";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getDamage().size());
         assertEquals(1, p3.getPlayerBoard().getDamage().size());
@@ -357,7 +357,7 @@ class ShootControllerTest {
             System.out.println(e.getMessage());
         }
         String weaponChosen = "user2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         assertEquals(0, p1.getPlayerBoard().getDamage().size());
         assertEquals(3, p2.getPlayerBoard().getDamage().size());
         assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
@@ -386,7 +386,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "user2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -423,7 +423,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "user2;user3;user4";
-        assertThrows(InvalidMoveException.class, () ->  GameController.get().playWeapon(p1, weaponChosen, 0));
+        assertThrows(InvalidMoveException.class, () ->  ShootController.get().playWeapon(p1, weaponChosen, 0));
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -459,7 +459,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "c 2;c 1";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -494,7 +494,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "user2;;c 2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -534,7 +534,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "user2;;C 1";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -572,7 +572,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "user2;user3";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -612,7 +612,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "user2;user3;user4";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -649,7 +649,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "c 2;user2;c 3;user3";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -686,7 +686,7 @@ class ShootControllerTest {
         System.out.println("marks4: " +
                 p4.getPlayerBoard().getMarks().size());
         String weaponChosen = "user2;user3";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -720,7 +720,7 @@ class ShootControllerTest {
             System.out.println(e.getMessage());
         }
         String weaponChosen = "";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -750,12 +750,12 @@ class ShootControllerTest {
         String weaponsEffect = "3 1 0 2";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
-            System.out.println(GameController.get().prepareWeapon(p1, weaponsEffect, 0));
+            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
             System.out.println(e.getMessage());
         }
         String weaponChosen = "c 3;user2;user3";
-            GameController.get().playWeapon(p1, weaponChosen, 0);
+            ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +
@@ -790,7 +790,7 @@ class ShootControllerTest {
             System.out.println(e.getMessage());
         }
         String weaponChosen = "user2;C 2";
-        GameController.get().playWeapon(p1, weaponChosen, 0);
+        ShootController.get().playWeapon(p1, weaponChosen, 0);
         System.out.println("Positions: " +
                 p1.getCurrentPosition().toString() +
                 p2.getCurrentPosition().toString() +

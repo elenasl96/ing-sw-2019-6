@@ -354,7 +354,7 @@ public class ServerController implements RequestHandler {
 
     private Response preparePowerup(Player player, SendInput inputResponse) {
         try {
-            String fields = GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer());
+            String fields = ShootController.get().preparePowerup(user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             Update update = new Update(fields,"fillfields");
             update.setData(fields);
             this.user.receiveUpdate(update);
@@ -373,7 +373,7 @@ public class ServerController implements RequestHandler {
 
     private void playWeapon(Player player, SendInput inputResponse) {
         try {
-            GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+            ShootController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (RuntimeException | InvalidMoveException e) {
             user.getPlayer().getCurrentMoves().clear();
@@ -385,7 +385,7 @@ public class ServerController implements RequestHandler {
 
     private Response prepareWeapon(Player player, SendInput inputResponse) {
         try {
-            String fields = GameController.get().prepareWeapon(user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
+            String fields = ShootController.get().prepareWeapon(user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             Update update = new Update(fields,"fillfields");
             update.setData(fields);
             player.setPhaseNotDone(false);
@@ -402,7 +402,7 @@ public class ServerController implements RequestHandler {
 
     private void reloadWeapon(Player player, SendInput inputResponse) {
         try {
-            GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
+            GameController.get().reloadWeapon(user.getPlayer(), Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
         } catch (RuntimeException | NotEnoughAmmoException e) {
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(player, true));
