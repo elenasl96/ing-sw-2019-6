@@ -150,7 +150,7 @@ public class Main {
             main.gui.setStringFields("player,square;player");
             System.out.println(main.gui.getCommand());*/
 
-            main.gui.addSkullTrackShot();
+          /*  main.gui.addSkullTrackShot();
             Thread.sleep(2000);
             main.gui.addSkullTrackShot();
             Thread.sleep(2000);
@@ -161,7 +161,7 @@ public class Main {
             main.gui.addSkullTrackShot();
             Thread.sleep(2000);
             main.gui.addSkullTrackShot();
-            Thread.sleep(2000);
+            Thread.sleep(2000);*/
 
 
 
@@ -171,6 +171,7 @@ public class Main {
 
         //main.gui.yesNoPopUp();
         //System.out.println(main.gui.yesNoChoose());
+        main.gui.popUpVictory();
     }
 }
 

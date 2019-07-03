@@ -95,8 +95,8 @@ public class ServerController implements RequestHandler {
                 List<Player> winners = currentGroup.getGame().getPlayers().findHighest(currentGroup.getGroupID());
                 System.out.println(">>> The winners are: "+winners);
                 for (Player winner : winners) {
-                    winner.receiveUpdate(new Update("Congratulations! You win!"), currentGroup.getGroupID());
-                    //TODO GUI update for the win
+                    Update update = new Update("Congratulations! You win!", "victory");
+                    winner.receiveUpdate(update, currentGroup.getGroupID());
                 }
                 currentGroup.sendEndNotification();
             } else {

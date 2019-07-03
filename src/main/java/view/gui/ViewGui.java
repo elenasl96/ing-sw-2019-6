@@ -145,6 +145,9 @@ public class ViewGui implements View {
                 case "field":
                     gui.setTypeMap(Integer.parseInt(update.getData()));
                     break;
+                case "victory":
+                    gui.popUpVictory();
+                    break;
                 default:
                     break;
             }
