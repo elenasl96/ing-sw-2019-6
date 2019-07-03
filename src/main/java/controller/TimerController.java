@@ -73,7 +73,7 @@ public class TimerController implements ModelObserver {
                 } else if (seconds <= 5 && seconds > 0) {
                     Manager.get().getGroup(groupID).sendUpdate(new Update("Seconds remaining: " + seconds + "..."));
                 } else if (seconds == 0){
-                    Manager.get().getGroup(groupID).sendUpdate(new Update("Game starting"));
+                    Manager.get().getGroup(groupID).sendUpdate(new Update("Game starting -- Get ready for A D R E N A L I N E"));
                     try {
                         Manager.get().getGroup(groupID).createGame();
                     } catch (NotExistingFieldException e) {
@@ -186,6 +186,11 @@ public class TimerController implements ModelObserver {
     @Override
     public void onUpdate(Update update) {
         //Does nothing
+    }
+
+    @Override
+    public void onEndGame() {
+        //TODO end game
     }
 
     @Override

@@ -24,4 +24,6 @@ public interface ResponseHandler {
     void handle(AskInput askInput);
 
     void handle(RejoiningResponse rejoiningResponse);
+
+    void handle(EndGameNotification endGameNotification);
 }

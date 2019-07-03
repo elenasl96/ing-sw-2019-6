@@ -141,6 +141,11 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
         }
     }
 
+    @Override
+    public void onEndGame() {
+        respond(new EndGameNotification());
+    }
+
     /**
      * Sends a new start game response, triggering onStart on View
      */

@@ -64,7 +64,7 @@ public class ShootController {
         EffectType[] sequence = new EffectType[sequenceSize];
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
         if (!weapon.isLoaded())
-            throw new InvalidMoveException("Weapon is not loaded");
+            throw new UnloadedWeaponException();
         //check if the player has enough ammos to pay for effects
         for (int i = 1; i < weaponEffectsSplitted.length; i++) {
             int index = 0;

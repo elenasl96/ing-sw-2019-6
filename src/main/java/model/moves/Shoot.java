@@ -1,11 +1,9 @@
 package model.moves;
 
 import controller.ShootController;
+import model.decks.Weapon;
 import model.decks.WeaponTile;
-import model.exception.InvalidMoveException;
-import model.exception.NotEnoughAmmoException;
-import model.exception.NotExistingPositionException;
-import model.exception.NothingGrabbableException;
+import model.exception.*;
 import model.Player;
 import model.room.Update;
 import network.commands.Response;
@@ -33,8 +31,13 @@ public class Shoot implements Move{
     public Response execute(Player p, int groupID) throws InvalidMoveException {
         if(weapon == -1){
             WeaponTile weaponTile = new WeaponTile();
-            weaponTile.getWeapons().addAll(p.getWeapons());
-        Update update = new Update("Insert the weapon you want to use:" +
+            for(Weapon w : p.getWeapons()) {
+                if (w.isLoaded())
+                    weaponTile.addWeapon(w);
+            }
+            if(weaponTile.getWeapons().isEmpty())
+                throw new UnloadedWeaponException();
+            Update update = new Update("Insert the weapon you want to use:" +
                 cardsToString(p.getWeapons(), 0), "choosecard");
             update.setData(weaponTile.toStringForGUI());
             p.receiveUpdate(update, groupID);

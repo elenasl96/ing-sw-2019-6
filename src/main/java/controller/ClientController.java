@@ -122,9 +122,6 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             case "shoot":
                 moveRequest.addMove(new MoveAndShoot(null, -1));
                 client.request(moveRequest);
-                //client.request(new CardRequest("weaponLayout", content));
-                //String string = content + " " + view.askEffects();
-                //client.request(new ShootRequest(string));
                 break;
             case "run":
                 Coordinate coordinate = view.getCoordinate();
@@ -313,6 +310,12 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         ClientContext.get().setPlayer(rejoiningResponse.getPlayer());
         ClientContext.get().setCurrentUser(rejoiningResponse.getUser());
         view.displayText("Welcome back");
+    }
+
+    @Override
+    public void handle(EndGameNotification endGameNotification) {
+       this.gameNotDone = false;
+        ClientContext.get().getCurrentGroup().sendEndNotification();
     }
 
     @Override

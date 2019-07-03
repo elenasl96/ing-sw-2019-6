@@ -7,10 +7,7 @@ import network.ClientHandler;
 import network.RemoteController;
 import network.commands.Request;
 import network.commands.Response;
-import network.commands.response.GameUpdateNotification;
-import network.commands.response.GroupChangeNotification;
-import network.commands.response.MoveUpdateResponse;
-import network.commands.response.StartGameResponse;
+import network.commands.response.*;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -97,6 +94,11 @@ public class RMIClientHandler extends UnicastRemoteObject implements RemoteContr
             System.out.print("a GameUpdateNotification saying string "+ update.toString()+"\n");
             this.responses.add(new GameUpdateNotification(update));
         }
+    }
+
+    @Override
+    public void onEndGame() {
+        this.responses.add(new EndGameNotification());
     }
 
     @Override

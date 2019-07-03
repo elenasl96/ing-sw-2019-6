@@ -9,4 +9,6 @@ public interface ModelObserver {
     void onLeave(User u);
     void onStart();
     void onUpdate(Update update);
+
+    void onEndGame();
 }

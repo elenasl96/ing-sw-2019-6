@@ -155,6 +155,11 @@ public class ViewGui implements View {
     }
 
     @Override
+    public void onEndGame() {
+        //TODO end game
+    }
+
+    @Override
     public Coordinate getCoordinate() {
         String[] alphabetCoordinate = gui.getCoordinate().split(" ");
         return new Coordinate(alphabetCoordinate[0].toUpperCase().charAt(0), Integer.parseInt(alphabetCoordinate[1]));

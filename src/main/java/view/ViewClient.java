@@ -71,6 +71,19 @@ public class ViewClient implements View {
         return userInput();
     }
 
+    @Override
+    public void onEndGame() {
+        displayText("\n" +
+                "''''''''''''''''''''''''''''''\n" +
+                "|     T  H  E    E  N  D     |\n" +
+                "''''''''''''''''''''''''''''''\n" +
+                "\n" +
+                "   >> Thanks for playing <<\n" +
+                "   - Quarantelli Martina\n" +
+                "   - Scherini Giuseppe\n" +
+                "   - Schinelli Elena R.\n");
+    }
+
     public void run() {
         try {
             controller.run();
@@ -302,7 +315,6 @@ public class ViewClient implements View {
 
     @Override
     public void onStart() {
-        displayText("Get ready for A D R E N A L I N E");
         wait = false;
         if(this.clip.isRunning()){
             this.clip.stop();
