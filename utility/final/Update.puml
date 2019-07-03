@@ -1,0 +1,20 @@
+@startuml
+View --> ResponseHandler: request
+ResponseHandler -> Client : request(Request)
+Client --> ClientHandler: socket
+ClientHandler -> Request: request.handle(RequestHandler)
+Request -> RequestHandler: RequestHandler.handle(Request)
+
+RequestHandler -> Group: Group.sendUpdate(Update)
+Group -> User: User.receiveUpdate(Update)
+User -> MessageReceivedObserver: Observer.onUpdate(Update)
+
+MessageReceivedObserver -> ClientHandler
+ClientHandler --> Client: respond(new GameUpdateNotification)
+ResponseHandler -> Client: nextResponse()
+ResponseHandler -> GameUpdateNotification: GameUpdateNotification.handle(ResponseHandler)
+GameUpdateNotification -> ClientContext: get().getCurrentUser().receiveUpdate(Update)
+ClientContext -> User: receiveUpdate(Update)
+User -> View: display
+
+@enduml
