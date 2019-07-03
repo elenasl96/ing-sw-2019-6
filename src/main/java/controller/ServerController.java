@@ -27,6 +27,7 @@ import network.exceptions.InvalidGroupNumberException;
 import java.util.List;
 
 import static controller.GameController.cardsToString;
+import static controller.GameController.powerupToStringForGUI;
 import static model.enums.Phase.DISCONNECTED;
 import static model.enums.Phase.WAIT;
 
@@ -284,7 +285,7 @@ public class ServerController implements RequestHandler {
                         GameController.get().updatePhase(currentGroup.getGroupID());
                     } else {
                         update = new Update("You can play these powerups:" + cardsToString(powerupsToPlay, 0), "choosecard");
-                        // update.setData(powerupsToPlay.getStringIdWeapons().toLowerCase().replaceAll(" ",""));
+                        update.setData(powerupToStringForGUI(powerupsToPlay));
                         user.receiveUpdate(update);
                         return new AskInput("choosePowerup");
                     }
@@ -350,7 +351,10 @@ public class ServerController implements RequestHandler {
 
     private Response preparePowerup(Player player, SendInput inputResponse) {
         try {
-            this.user.receiveUpdate(new Update(GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer())));
+            String fields = GameController.get().preparePowerup(currentGroup.getGroupID(), inputResponse.getInput(), user.getPlayer());
+            Update update = new Update(fields,"fillfields");
+            update.setData(fields);
+            this.user.receiveUpdate(update);
             return new AskInput("fillPowerup");
         } catch (RuntimeException e) {
             user.receiveUpdate(new Update("Powerup index out of bounds", UPDATE_CONSOLE));
