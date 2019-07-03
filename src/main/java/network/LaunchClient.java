@@ -78,20 +78,20 @@ public class LaunchClient {
                 try {
                     registry = LocateRegistry.getRegistry();
                     for (String name : registry.list()) {
-                        System.out.println("Registry bindings: " + name);
+                        System.out.println(">>> Registry bindings: " + name);
                     }
-                    System.out.println("\n");
-
                     // gets a reference for the remote controller
                     clientHandler = (RemoteController) registry.lookup("controller");
                     clientHandler.bound();
                 } catch (RemoteException | NotBoundException e) {
-                    System.out.println("An error occurred");
+                    System.out.println(">>> An error occurred");
                 }
             }
         } else {
             while(clientHandler == null) {
-                clientHandler = new SocketClient("", 8234);
+                System.out.println(">>> Insert host, port = 8234, default localhost");
+                String host = input.nextLine();
+                clientHandler = new SocketClient(host, 8234);
 
                 try {
                     clientHandler.init();
