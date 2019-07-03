@@ -66,78 +66,59 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      * @see #handle(UserCreatedResponse)
      * @see ClientContext#getCurrentUser()
      */
-    public User createUser(String username) throws RemoteException{
-        try {
+    public User createUser(String username) throws IOException {
             view.playMusic("WaitingRoom.wav");
             client.request(new CreateUserRequest(username));
             client.nextResponse().handle(this);
-        }catch (IOException e){
-
-        }
         return ClientContext.get().getCurrentUser();
     }
 
-    public Group chooseGroup(int groupNumber) throws RemoteException{
-        try {
+    public Group chooseGroup(int groupNumber) throws IOException {
             client.request(new ChooseGroupRequest(groupNumber));
             client.nextResponse().handle(this);
-        }catch (IOException e){
-
-        }
         return ClientContext.get().getCurrentGroup();
     }
 
-    public String getSituation() throws RemoteException{
-        try {
+    public String getSituation() throws IOException {
             client.request(new SituationViewerRequest());
             client.nextResponse().handle(this);
-        }catch (IOException e){
-
-        }
         return ClientContext.get().getCurrentSituation();
     }
 
-    public int createGroup(int skullNumber, int fieldNumber) throws RemoteException{
-        try {
+    public int createGroup(int skullNumber, int fieldNumber) throws IOException {
             client.request(new CreateGroupRequest(skullNumber, fieldNumber));
             client.nextResponse().handle(this);
-        }catch(IOException e){
-
-        }
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
-    public synchronized Character setCharacter(int characterNumber) throws RemoteException{
+    public synchronized Character setCharacter(int characterNumber) throws IOException {
         client.request(new SetCharacterRequest(characterNumber));
-        try {
             client.nextResponse().handle(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         client.received();
         return ClientContext.get().getCurrentUser().getCharacter();
     }
 
     public synchronized void startReceiverThread() {
-        Thread receiver = new Thread(
-                ()  -> {
-                    while (gameNotDone) {
-                        Response response;
-                        try {
-                            response = client.nextResponse();
-                            if (response != null) {
-                                response.handle(this);
-                                client.received();
+            Thread receiver = new Thread(
+                    () -> {
+                        while (gameNotDone) {
+                            Response response;
+                            try {
+                                response = client.nextResponse();
+                                if (response != null) {
+                                    response.handle(this);
+                                    client.received();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                System.err.println(">>> An error occurred:" + e.getMessage());
+                                gameNotDone = false;
                             }
-                        } catch (IOException e){
-                            System.err.println(">>> An error occurred:" + e.getMessage());
-                            gameNotDone = false;
                         }
                     }
-                }
 
-        );
-        receiver.start();
+            );
+            receiver.start();
     }
 
     private void sendCommand(String content)  throws RemoteException{
@@ -163,7 +144,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         }
     }
 
-    public void run() throws RemoteException{
+    public void run() throws IOException {
         view.chooseUsernamePhase();
         if(!ClientContext.get().isRejoining()) {
             view.chooseGroupPhase();
@@ -180,13 +161,11 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 //nothing
             }
         }
-        System.out.println("AAAA");
     }
 
     private void gamingPhase() throws RemoteException{
         switch(ClientContext.get().getCurrentPlayer().getPhase()){
             case SPAWN:
-                System.out.println("Sending spawnRequest");
                 client.request(new SpawnRequest(null));
                 client.request(new SpawnRequest(view.spawnPhase()));
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
@@ -205,6 +184,8 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 break;
             case RELOAD:
                 chooseReload(view.reloadPhase());
+                ClientContext.get().getCurrentPlayer().setPhase(WAIT);
+            case DISCONNECTED:
                 ClientContext.get().getCurrentPlayer().setPhase(WAIT);
                 break;
             default:
