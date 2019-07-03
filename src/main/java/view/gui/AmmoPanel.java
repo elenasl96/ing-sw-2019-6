@@ -5,9 +5,9 @@ import java.awt.*;
 
 public class AmmoPanel extends JPanel {
 
-    ImageIcon img;
+    private ImageIcon img;
 
-    public AmmoPanel (int nAmmo, ImageIcon img){
+    AmmoPanel (int nAmmo, ImageIcon img){
         super(new FlowLayout());
         this.img = img;
         setAmmo(nAmmo);
@@ -23,7 +23,7 @@ public class AmmoPanel extends JPanel {
         repaint();
     }
 
-    public void addAmmo() {
+    void addAmmo() {
         add(new JLabel(img));
     }
 }

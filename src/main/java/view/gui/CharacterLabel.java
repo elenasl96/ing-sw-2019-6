@@ -6,7 +6,7 @@ public class CharacterLabel extends JLabel {
 
     private String player;
 
-    public CharacterLabel(ImageIcon img){
+    CharacterLabel(ImageIcon img){
         super(img);
     }
 

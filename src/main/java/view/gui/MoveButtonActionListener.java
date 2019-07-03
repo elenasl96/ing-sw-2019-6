@@ -6,12 +6,11 @@ import java.awt.event.ActionListener;
 
 public class MoveButtonActionListener implements ActionListener {
 
-    private Object lock;
+    private final Object lock;
     private String s;
 
-    public MoveButtonActionListener(Object lock) {
+    MoveButtonActionListener(Object lock) {
         this.lock = lock;
-        s = new String("");
     }
 
     @Override

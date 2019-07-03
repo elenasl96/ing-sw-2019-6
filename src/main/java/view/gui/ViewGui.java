@@ -134,15 +134,12 @@ public class ViewGui implements View {
                     gui.setCharacterMatch(data[0], Integer.parseInt(data[1]));
                     break;
                 case "timer":
-                    switch(update.getData()) {
-                        case "start":
-                            gui.setTime("02:00");
-                            gui.getTimer().start();
-                            break;
-                        case "stop":
-                            gui.setTime("00:00");
-                            gui.getTimer().stop();
-                            break;
+                    if(update.getData().equals("start")) {
+                        gui.setTime("02:00");
+                        gui.getTimer().start();
+                    } else {
+                        gui.setTime("00:00");
+                        gui.getTimer().stop();
                     }
                     break;
                 case "field":

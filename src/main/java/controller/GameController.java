@@ -1,6 +1,7 @@
 package controller;
 
 import model.decks.CardEffect;
+import model.decks.Powerup;
 import model.decks.PowerupDeck;
 import model.enums.*;
 import model.exception.InvalidMoveException;
@@ -49,6 +50,15 @@ public class GameController{
             index ++;
         }
         return cardsString.toString();
+    }
+
+    public static String powerupToStringForGUI(List<Powerup> cards) {
+        StringBuilder cardsString = new StringBuilder();
+        for(Powerup c : cards){
+            cardsString.append(c.getName()).append(c.getAmmo().getColor().getAbbr()).append(";");
+        }
+        return cardsString.toString().substring(0,cardsString.toString().length()-1)
+                .toLowerCase().replace(" ","");
     }
 
     boolean isMyTurn (Player player, int groupID){

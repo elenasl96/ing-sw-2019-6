@@ -1,10 +1,7 @@
 package view.gui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * A class for the weapons and powerups cards

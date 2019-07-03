@@ -8,18 +8,18 @@ import java.io.IOException;
 
 public class PlayerBoardPanel extends JPanel {
 
-    private Image img;
+    private transient Image img;
     private JPanel dropPanel;
     private JPanel markerPanel;
     private JPanel bottomPanel;
     private int[] serieDamage;
     private int[] serieMarker;
     private int sizeSerie;
-    private final int numDrops = 12;
+    private static final int NUMBER_DROPS = 12;
     private int numMarker = 0;
     private int numSkull = 0;
 
-    public PlayerBoardPanel() {
+    PlayerBoardPanel() {
         this.img = (new ImageIcon(new ImageIcon(this.getClass().getResource("playerBoard.png")).getImage()
             .getScaledInstance(540,130, Image.SCALE_SMOOTH))).getImage();
         setSize(540,130);
@@ -44,7 +44,7 @@ public class PlayerBoardPanel extends JPanel {
         add(topPanel,0);
 
         dropPanel = new JPanel();
-        dropPanel.setLayout(new GridLayout(1,numDrops));
+        dropPanel.setLayout(new GridLayout(1, NUMBER_DROPS));
         dropPanel.setBackground(new Color(0,0,0,0));
 
         add(dropPanel,1);
@@ -58,7 +58,7 @@ public class PlayerBoardPanel extends JPanel {
 
     }
 
-    public void addSkull() {
+    void addSkull() {
         JPanel voidPanel;
 
         bottomPanel.removeAll();
@@ -76,7 +76,7 @@ public class PlayerBoardPanel extends JPanel {
                         new ImageIcon(ImageIO.read(new File("src/resources/xmas.jpg"))
                         .getScaledInstance(60, 60, Image.SCALE_SMOOTH))));
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
         }
 
@@ -90,7 +90,7 @@ public class PlayerBoardPanel extends JPanel {
         markerPanel.repaint();
     }
 
-    public void addMarker(int num) {
+    void addMarker(int num) {
         JPanel voidPanel;
 
         markerPanel.removeAll();
@@ -113,7 +113,7 @@ public class PlayerBoardPanel extends JPanel {
         markerPanel.repaint();
     }
 
-    public void addDrop(int num) {
+    void addDrop(int num) {
 
         dropPanel.removeAll();
 
@@ -126,8 +126,7 @@ public class PlayerBoardPanel extends JPanel {
         voidPanel.setBackground(new Color(0,0,0,0));
         dropPanel.add(voidPanel);
 
-        int  i=0;
-        for(i=0;i<(sizeSerie>2?2:sizeSerie);i++){
+        for(int i = 0;i<(sizeSerie>2?2:sizeSerie);i++){
             dropPanel.add(new JLabel(new ImageIcon(new ImageIcon(
                 this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
                 .getScaledInstance(30, 30, Image.SCALE_SMOOTH))));
@@ -137,7 +136,7 @@ public class PlayerBoardPanel extends JPanel {
         voidPanel.setBackground(new Color(0,0,0,0));
         dropPanel.add(voidPanel);
 
-        for(i=2;i<(sizeSerie>5?5:sizeSerie);i++) {
+        for(int i = 2;i<(sizeSerie>5?5:sizeSerie);i++) {
             dropPanel.add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
                         .getScaledInstance(30, 30, Image.SCALE_SMOOTH)))));
         }
@@ -146,7 +145,7 @@ public class PlayerBoardPanel extends JPanel {
         voidPanel.setBackground(new Color(0,0,0,0));
         dropPanel.add(voidPanel);
 
-        for(i=5;i<(sizeSerie>10?10:sizeSerie);i++) {
+        for(int i = 5;i<(sizeSerie>10?10:sizeSerie);i++) {
             dropPanel.add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
                 .getScaledInstance(30, 30, Image.SCALE_SMOOTH)))));
         }
@@ -155,12 +154,12 @@ public class PlayerBoardPanel extends JPanel {
         voidPanel.setBackground(new Color(0,0,0,0));
         dropPanel.add(voidPanel);
 
-        for(i=10;i<(sizeSerie);i++) {
+        for(int i = 10;i<(sizeSerie);i++) {
             dropPanel.add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
                     .getScaledInstance(30, 30, Image.SCALE_SMOOTH)))));
         }
 
-        for(i=sizeSerie;i<numDrops;i++) {
+        for(int i = sizeSerie; i< NUMBER_DROPS; i++) {
             voidPanel = new JPanel();
             voidPanel.setBackground(new Color(0,0,0,0));
             dropPanel.add(voidPanel);

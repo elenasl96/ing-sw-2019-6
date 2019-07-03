@@ -11,10 +11,10 @@ import java.util.TimerTask;
 
 public class SquarePanel extends JPanel {
 
-    private Image img;
+    private transient Image img;
     private String coordinate;
     private String grabbable;
-    private Timer timer;
+    private transient Timer timer;
     private JFrame grabbableFrame;
 
     public SquarePanel(String url, String coordinate) {
@@ -22,23 +22,23 @@ public class SquarePanel extends JPanel {
         this.coordinate = coordinate;
     }
 
-    public SquarePanel(String coordinate) {
+    SquarePanel(String coordinate) {
         timer = null;
         this.coordinate = coordinate;
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                //do nothing
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-
+                //do nothing
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                //do nothing
             }
 
             @Override
@@ -55,8 +55,8 @@ public class SquarePanel extends JPanel {
                         grabbableFrame.setLayout(new BorderLayout());
                         grabbableFrame.add(new JLabel("In this square"),BorderLayout.NORTH);
 
-                        if(coordinate.split(" ")[0].toUpperCase().equals("C") ||
-                                coordinate.split(" ")[0].toUpperCase().equals("D")) {
+                        if(coordinate.split(" ")[0].equalsIgnoreCase("C") ||
+                                coordinate.split(" ")[0].equalsIgnoreCase("D")) {
                             grabbableFrame.setLocation(100,150);
                         }
                         else {
@@ -112,7 +112,7 @@ public class SquarePanel extends JPanel {
         grabbable = g;
     }
 
-    public void setImg(ImageIcon img) {
+    void setImg(ImageIcon img) {
         this.img = img.getImage();
     }
 }

@@ -1,14 +1,9 @@
 package view.gui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * A PopUp that opens up when shooting with a weapon to chose the effect
@@ -17,7 +12,6 @@ public class PopUpChooseEffect extends JPanel {
 
     private String effectSerie;
     private transient Image img;
-    private WeaponCard[] effect;
 
     PopUpChooseEffect(String weapon, int layout) {
 
@@ -25,7 +19,7 @@ public class PopUpChooseEffect extends JPanel {
             .getScaledInstance(180,240, Image.SCALE_SMOOTH))).getImage();
 
         effectSerie = "";
-        effect = new WeaponCard[3];
+        WeaponCard[] effect = new WeaponCard[3];
 
         for(int i=0;i<layout;i++) {
             effect[i] = new WeaponCard(i);
@@ -61,28 +55,23 @@ public class PopUpChooseEffect extends JPanel {
             });
         }
 
-
+        JPanel first = new JPanel();
         switch(layout) {
-            case 1: {
+            case 1:
                 setLayout(new GridLayout(2,1));
-                JPanel first = new JPanel();
                 first.setBackground(new Color(0,0,0,0));
                 add(first);
                 add(effect[0]);
                 break;
-            }
-            case 2: {
+            case 2:
                 setLayout(new GridLayout(3,1));
-                JPanel first = new JPanel();
                 first.setBackground(new Color(0,0,0,0));
                 add(first);
                 add(effect[0]);
                 add(effect[1]);
                 break;
-            }
-            case 3: {
+            case 3:
                 setLayout(new GridLayout(3,1));
-                JPanel first = new JPanel();
                 first.setBackground(new Color(0,0,0,0));
                 add(first);
                 add(effect[0]);
@@ -92,7 +81,6 @@ public class PopUpChooseEffect extends JPanel {
                 lower.add(effect[2]);
                 add(lower);
                 break;
-            }
             default:
                 break;
         }
@@ -109,12 +97,5 @@ public class PopUpChooseEffect extends JPanel {
             return effectSerie.substring(0,effectSerie.length()-1);
         }
         return "";
-    }
-
-    public void refresh() {
-        for(WeaponCard w: effect) {
-            w.revalidate();
-            w.repaint();
-        }
     }
 }
