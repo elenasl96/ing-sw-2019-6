@@ -1,26 +1,63 @@
 @startuml
 class Weapon{
-    List<Effect> Effects
+    - id: int
+    - name: String
+    - effectsDescription: String
+    - status: WeaponStatus
+    - cardEffectList: List<CardEffect>
+    __
+    + initializeWeapon(int): Weapon
 }
 
+Weapon <- WeaponStatus
+Weapon <-- CardEffect
+
 enum EffectType{
-    Basic
-    Optional
-    Alternative
-    BeforeAfterBasic
+    BASIC
+    OPTIONAL
+    OPTIONAL1
+    OPTIONAL2
+    ALTERNATIVE
+    BEFORE_AFTER_BASIC
+    OPTIONAL_VORTEX
+    BEFORE_BASIC
+    EVERY_TIME
+}
+
+enum WeaponStatus{
+    UNLOADED
+    PARTIALLY_LOADED
+    LOADED
 }
 interface Move{
 __
 void execute()
 }
-abstract Effect{
-    effectType: EffectType
-    target: Target
-    optionality: Boolean
-    optionalTarget: Boolean
-    cascade: Boolean
+
+class CardEffect{
+    - expired: boolean
+    - effectType: EffectType
+    - effects: List<Effect>
+    - cost: List<Ammo>
+    - description: String
     __
-    void askForInput()
+    + doesDamage: boolean
+}
+
+CardEffect <- EffectType
+CardEffect <-- Ammo
+CardEffect <-- Effect
+abstract Effect{
+    - targets: List<Target>
+    - optionality: Boolean
+    __
+    + askForInput(): void
+    + getFieldsToFill(): String
+    + setFieldsToFill(Player, String[], int, int): int
+    + fillFields(int): void
+    - getPreviousEffect(int): Effect
+    + isFilled(): boolean
+    + doesDamage(): boolean
 }
 
 class DamageEffect{
@@ -30,13 +67,15 @@ class MarkEffect{
     marks: int
 }
 class MovementEffect{
-    Square Destination
-    movement: Movement
+    - destination: Square
+    - coordinate: Coordinate
+    - reachList: List<Square>
+    - maxSteps: int
+    __
+
 }
 
 Move <..Effect
-EffectType -> Effect
-Weapon "1...n" *-- Effect
 Effect <.. DamageEffect
 Effect <.. MovementEffect
 Effect <.. MarkEffect

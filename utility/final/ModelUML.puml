@@ -281,16 +281,63 @@ package model{
 
     GameContext <-- Game
 
-    class Player {
+    class Player extends Target{
+        - serialVersionUID: long
+        - user: User
+        - name: String
+        - character: Character
+        - currentPosition: Square
+        - ammos: List<Ammo>
+        - powerups: List<Powerup>
+        - weapons: List<Weapon>
+        - playerBoard: PlayerBoard
+        - points: int
+        - firstPlayer: boolean
+        - dead: boolean
+        - deaths: int
+        - adrenalineLevel: int
+        - visible: List<Square>
+        - currentCardEffects: List<CardEffect>
+        - currentMoves: List<Move>
+        - weaponInUse: int
+        __
+        + getStringIdWeapons(): String
+        + getStringIdPowerUp(): String
+        + fillAmmoFromTile(AmmoTile): String
+        + weaponsToString(int): String
+        + canSee(): boolean
+        + updateAdrenaline(): void
 
     }
+
+    Player <-- User
+    Player <-- Square
+    Player <-- Ammo
+    Player <-- Powerup
+    Player <-- Weapon
+    Player <-- PlayerBoard
+    Player <-- CardEffect
+    Player <-- Move
+
 
     class PlayerBoard{
-
+        - damage: List<Player>
+        - marks: List<Player>
+        - deaths: int
+        __
+        + addDamage(Player, int): int
+        + deleteMarks(Player): int
+        + addMarks(Player, int): int
+        + wasDamaged(): boolean
     }
 
-    class PlayerList {
+    PlayerBoard <-- Player
 
+    class PlayerList {
+        - counter: int
+        __
+        + next(): Player
+        + findHighest(int): List<Player>
     }
 
     CardEffect "1...n" *-- Effect
