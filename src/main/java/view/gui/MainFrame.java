@@ -200,7 +200,7 @@ public class MainFrame extends JFrame {
         time.setIcon(imageIcon);
         timerPanel.add(time);
         middletop.add(timerPanel);
-        killshotTrack = new KillshotTrackPanel(nSkull);
+        killshotTrack = new KillshotTrackPanel();
 
         middleRightContainer.add(middletop);
         middleRightContainer.add(killshotTrack);
@@ -344,6 +344,10 @@ public class MainFrame extends JFrame {
                 cont++;
             }
         }
+
+        killshotTrack.setnSkull(nSkull);
+        killshotTrack.revalidate();
+        killshotTrack.repaint();
         setState(Frame.ICONIFIED);
         setState(Frame.NORMAL);
     }
@@ -571,12 +575,53 @@ public class MainFrame extends JFrame {
         String[] coord = getCoordinate().split(" ");
 
         switch(typeMap) {
+            case 1:
+                switch(Integer.parseInt(coord[1])) {
+                case 1:
+                    switch (coord[0]) {
+                        case "B":
+                        case "C":
+                        case "D":
+                            return "yellow";
+                        default:
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (coord[0]) {
+                        case "A":
+                        case "B":
+                            return "red";
+                        case "C":
+                        case "D":
+                            return "yellow";
+                        default:
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (coord[0]) {
+                        case "A":
+                        case "B":
+                        case "C":
+                            return "blue";
+                        case "D":
+                            return "green";
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+                break;
             case 2:
                 switch(Integer.parseInt(coord[1])) {
                     case 1:
                         switch (coord[0]) {
                             case "B":
                             case "C":
+                                return "grey";
                             case "D":
                                 return "yellow";
                             default:
@@ -589,6 +634,7 @@ public class MainFrame extends JFrame {
                             case "B":
                                 return "red";
                             case "C":
+                                return "purple";
                             case "D":
                                 return "yellow";
                             default:
@@ -601,8 +647,6 @@ public class MainFrame extends JFrame {
                             case "B":
                             case "C":
                                 return "blue";
-                            case "D":
-                                return "green";
                             default:
                                 break;
                         }
@@ -611,9 +655,49 @@ public class MainFrame extends JFrame {
                         break;
                 }
                 break;
-            case 1:
-                break;
             case 3:
+                switch(Integer.parseInt(coord[1])) {
+                case 1:
+                    switch (coord[0]) {
+                        case "A":
+                        case "B":
+                            return "grey";
+                        case "C":
+                        case "D":
+                            return "yellow";
+                        default:
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (coord[0]) {
+                        case "A":
+                            return "red";
+                        case "B":
+                            return "purple";
+                        case "C":
+                        case "D":
+                            return "yellow";
+                        default:
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (coord[0]) {
+                        case "A":
+                            return "red";
+                        case "B":
+                        case "C":
+                            return "blue";
+                        case "D":
+                            return "green";
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
                 break;
             default:
                 break;
@@ -647,6 +731,10 @@ public class MainFrame extends JFrame {
         this.typeMap = typeMap;
     }
 
+    public void setnSkull(int nSkull) {
+        this.nSkull = nSkull;
+    }
+
     public void fillFields(String s) {
         String[] data = s.split(";");
         String[] serie;
@@ -671,7 +759,10 @@ public class MainFrame extends JFrame {
                         break;
                 }
             }
-            command = commandBuild.substring(0,commandBuild.length()-1) + ";";
+            if(!command.equals("")) {
+                command = commandBuild.substring(0,commandBuild.length()-1);
+            }
+             command = command + ";";
         }
     }
 

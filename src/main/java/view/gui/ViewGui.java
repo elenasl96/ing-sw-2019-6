@@ -146,6 +146,8 @@ public class ViewGui implements View {
                 case "field":
                     gui.setTypeMap(Integer.parseInt(update.getData()));
                     break;
+                case "skull":
+                    gui.setnSkull(Integer.parseInt(update.getData()));
                 case "victory":
                     gui.popUpVictory();
                     break;
