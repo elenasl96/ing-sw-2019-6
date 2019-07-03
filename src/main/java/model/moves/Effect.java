@@ -92,7 +92,7 @@ public abstract class Effect implements Move {
         return index;
     }
 
-    public Effect getPreviousEffect(int groupID) throws SquareNotFoundException {
+    private Effect getPreviousEffect(int groupID) throws SquareNotFoundException {
         for(CardEffect c: GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
             for(int i=0; i<c.getEffects().size(); i++){
                 if(c.getEffects().get(i).equals(this) && i>0){

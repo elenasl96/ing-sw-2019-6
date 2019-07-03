@@ -261,8 +261,10 @@ public class ServerController implements RequestHandler {
                     user.receiveUpdate(update);
                     return new AskInput("effectsToPlay");
                 case "noCard":
-                    user.receiveUpdate(new Update(null, "turnbar"));
-                    GameController.get().updatePhase(currentGroup.getGroupID());
+                    if(GameController.get().isMyTurn(user.getPlayer(), currentGroup.getGroupID())) {
+                        user.receiveUpdate(new Update(null, "turnbar"));
+                        GameController.get().updatePhase(currentGroup.getGroupID());
+                    }
                     break;
                 case "weaponToReload":
                     WeaponTile weaponsToReload = new WeaponTile();

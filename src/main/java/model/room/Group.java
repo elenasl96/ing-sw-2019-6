@@ -5,7 +5,6 @@ import model.GameContext;
 import model.enums.Character;
 import model.exception.NotExistingFieldException;
 import network.Manager;
-import network.commands.response.EndGameNotification;
 import network.exceptions.UserNotInGroupException;
 import network.exceptions.FullGroupException;
 
@@ -130,7 +129,9 @@ public class Group implements Serializable {
      * @param listener the modelObserver of the user joining the group
      */
     public void observe(ModelObserver listener) {
-        listeners.add(listener);
+        if(this.listeners == null)
+            this.listeners = new LinkedList<>();
+        this.listeners.add(listener);
     }
 
     private void checkUserInGroup(User user){
@@ -271,11 +272,11 @@ public class Group implements Serializable {
     public List<User> getUsers(){
         return this.users;
     }
-
+/*
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         // upon deserialization, observers are reset
         listeners = new LinkedList<>();
-    }
+    }*/
 
 }

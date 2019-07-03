@@ -84,12 +84,8 @@ public class ViewClient implements View {
                 "   - Schinelli Elena R.\n");
     }
 
-    public void run() {
-        try {
+    public void run() throws IOException {
             controller.run();
-        } catch(RemoteException e){
-            //nothing
-        }
     }
 
     public String userInput() {
@@ -148,7 +144,7 @@ public class ViewClient implements View {
         }
     }
 
-    public String chooseUsernamePhase()  throws RemoteException {
+    public String chooseUsernamePhase() throws IOException {
         User user;
         do {
             displayText("Provide username:");
@@ -160,7 +156,7 @@ public class ViewClient implements View {
         return user.getUsername();
     }
 
-    public void chooseGroupPhase()  throws RemoteException{
+    public void chooseGroupPhase() throws IOException {
         Group group;
         do {
             displayText("These are the groups at the moment:");
@@ -187,7 +183,7 @@ public class ViewClient implements View {
         displayText("Welcome to " + group.getName());
     }
 
-    public void chooseCharacterPhase() throws RemoteException{
+    public void chooseCharacterPhase() throws IOException {
         displayText("Which character do you want to be?");
         displayText("Insert 1 for :D-STRUCT-OR");
         displayText("Insert 2 for BANSHEE");
@@ -267,7 +263,7 @@ public class ViewClient implements View {
         return coordinate;
     }
 
-    private Group yesCreateGame() throws RemoteException{
+    private Group yesCreateGame() throws IOException {
         try {
             displayText("How many number of Skulls do you want to use?");
             int skullNumber = Integer.parseInt(userInput());

@@ -19,8 +19,7 @@ import java.util.stream.Stream;
 
 import static model.enums.EffectType.*;
 import static model.enums.TargetType.*;
-
-//TODO javadoc
+//TODO Javadoc
 public class Weapon implements Serializable {
     private int id;
     private String name;

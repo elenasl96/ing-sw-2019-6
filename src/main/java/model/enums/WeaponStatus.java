@@ -6,10 +6,8 @@ public enum WeaponStatus {
     LOADED("fully loaded", 'l');
 
     private String status;
-    private char abbr;
 
     WeaponStatus(String status, char abbr){
-        this.abbr = abbr;
         this.status = status;
     }
 

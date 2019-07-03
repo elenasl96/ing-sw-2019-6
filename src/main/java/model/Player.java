@@ -188,6 +188,7 @@ public class Player extends Target implements Serializable{
      * @return          true if this player is either in the same square, same room,
      *                  an adjacent room to p's position
      */
+    @Override
     public boolean canBeSeen(Player p, int groupID) throws NotExistingPositionException {
         Field field = GameContext.get().getGame(groupID).getBoard().getField();
         if (this.getCurrentPosition().getColor().equals(p.getCurrentPosition().getColor())){
