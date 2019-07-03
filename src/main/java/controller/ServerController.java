@@ -350,7 +350,6 @@ public class ServerController implements RequestHandler {
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             player.getUser().receiveUpdate(new Update(player, true));
         }
-        player.setPhaseNotDone(false);
     }
 
     private Response preparePowerup(Player player, SendInput inputResponse) {
@@ -382,7 +381,6 @@ public class ServerController implements RequestHandler {
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             player.getUser().receiveUpdate(new Update(player, true));
         }
-        player.setPhaseNotDone(false);
     }
 
     private Response prepareWeapon(Player player, SendInput inputResponse) {
@@ -406,8 +404,6 @@ public class ServerController implements RequestHandler {
         try {
             GameController.get().reloadWeapon(Integer.parseInt(inputResponse.getInput()), currentGroup.getGroupID());
         } catch (RuntimeException | NotEnoughAmmoException e) {
-            player.setPhaseNotDone(true);
-            currentGroup.getGame().getCurrentPlayer().setPhase(Phase.RELOAD);
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(player, true));
         }
@@ -419,7 +415,7 @@ public class ServerController implements RequestHandler {
             player.getCurrentPosition().getGrabbable().pickGrabbable(currentGroup.getGroupID(), weaponNumber);
             //p.setPhaseNotDone(false); senza questo per ora funziona
             GameController.get().updatePhase(currentGroup.getGroupID());
-        } catch (RuntimeException | NotExistingPositionException | NotEnoughAmmoException | NothingGrabbableException e) {
+        } catch (RuntimeException | InvalidMoveException e) {
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(user.getPlayer(), true));
@@ -466,6 +462,7 @@ public class ServerController implements RequestHandler {
             GameContext.get().getGame(currentGroup.getGroupID()).getCurrentPlayer().setPhaseNotDone(false);
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (InvalidMoveException | RuntimeException e){
+            e.printStackTrace();
             user.getPlayer().getCurrentMoves().clear();
             user.getPlayer().setPhaseNotDone(false);
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));

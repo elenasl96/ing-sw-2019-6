@@ -33,7 +33,6 @@ import static model.enums.Phase.*;
  */
 
 public class ClientController extends UnicastRemoteObject implements ResponseHandler, Remote {
-    private static final String ENDGAME = "endgame";
     /**
      * reference to networking layer
      */
