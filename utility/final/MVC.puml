@@ -1,0 +1,52 @@
+@startuml
+skinparam classAttributeIconSize 0
+package model{
+    interface ModelObserver <<Interface>>{
+         + onJoin(User): void
+         + onLeave(User): void
+         + onStart(): void
+         + onUpdate(Update): void
+    }
+}
+package view{
+     interface View extends ModelObserver
+     class ViewClient implements View
+     class ViewGui implements View
+}
+
+package network{
+    interface ClientHandler extends ModelObserver
+    class SocketClientHandler implements ClientHandler
+    class SocketClient implements RemoteController
+    class RMIClientHandler implements ClientHandler, RemoteController
+
+    package commands{
+        interface RequestHandler
+        interface ResponseHandler
+        interface Request
+        interface Response
+    }
+    interface RemoteController
+
+    Request --> RequestHandler
+    Response <-- RequestHandler
+    Response --> ResponseHandler
+
+}
+
+package controller{
+    class TimerController implements ModelObserver
+    class ServerController implements RequestHandler
+    class GameController << (S,#FF7700) Singleton >>
+    class ClientController implements ResponseHandler
+    class ShootController << (S,#FF7700) Singleton >>
+}
+
+RemoteController --> ClientController
+ClientController <-- View
+
+ClientHandler <--> ServerController
+
+RemoteController <-> ClientHandler: Socket
+
+@enduml
