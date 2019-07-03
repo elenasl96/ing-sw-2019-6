@@ -256,7 +256,7 @@ public class MainFrame extends JFrame {
                 }
             }
         });
-        timer.start();
+
         createField();
 
         add(centralPanel, BorderLayout.CENTER);
@@ -266,6 +266,7 @@ public class MainFrame extends JFrame {
 
         setSize(1150, 590);
         setResizable(false);
+        timer.start();
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
