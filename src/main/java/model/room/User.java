@@ -66,7 +66,8 @@ public class User implements Serializable, Comparable<User> {
     public synchronized void receiveUpdate(Update update){
         //The user's observers are only his specific SocketClientHandler and ViewClient
         for (ModelObserver observer : updateObservers) {
-            observer.onUpdate(update);
+            if(observer != null)
+                observer.onUpdate(update);
         }
     }
 
