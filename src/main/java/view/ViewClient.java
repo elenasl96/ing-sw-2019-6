@@ -228,8 +228,10 @@ public class ViewClient implements View {
         String input = userInput();
         while(!input.equals("grab") &&
                 !input.equals("run") &&
-                !input.equals("shoot"))
+                !input.equals("shoot")) {
+            displayText("Insert valid move");
             input = userInput();
+        }
         return input;
     }
 
