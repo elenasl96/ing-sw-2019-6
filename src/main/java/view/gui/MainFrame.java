@@ -48,7 +48,7 @@ public class MainFrame extends JFrame {
     private KillshotTrackPanel killshotTrack;
 
     private SquarePanel[][] mapGrid;
-    private Character[] charactersCoordinates;
+    private transient Character[] charactersCoordinates;
 
     private String command;
     private String playerSelected;
@@ -57,7 +57,7 @@ public class MainFrame extends JFrame {
     private int nSkull;
     private javax.swing.Timer timer;
 
-    public MainFrame() {
+    MainFrame() {
         lockMove = new Object();
         lockCoordinate = new Object();
         lockChooseCard = new Object();
@@ -94,22 +94,22 @@ public class MainFrame extends JFrame {
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-
+                    //do nothing
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
+                    //do nothing
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-
+                    //do nothing
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-
+                    //do nothing
                 }
             });
         }
@@ -222,18 +222,15 @@ public class MainFrame extends JFrame {
         playerBoard = new PlayerBoardPanel();
         voidPanel.add(playerBoard);
         JButton voidButton = new JButton("Void");
-        voidButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                synchronized (lockCharacter) {
-                    command = command + ";";
-                    actionListenerCoordinate.setS("");
-                    playerSelected = "";
-                    lockCharacter.notifyAll();
-                }
-                synchronized (lockCoordinate) {
-                    lockCoordinate.notifyAll();
-                }
+        voidButton.addActionListener(e -> {
+            synchronized (lockCharacter) {
+                command = command + ";";
+                actionListenerCoordinate.setS("");
+                playerSelected = "";
+                lockCharacter.notifyAll();
+            }
+            synchronized (lockCoordinate) {
+                lockCoordinate.notifyAll();
             }
         });
         voidPanel.add(voidButton);
@@ -263,14 +260,13 @@ public class MainFrame extends JFrame {
         add(left, BorderLayout.WEST);
         add(right, BorderLayout.EAST);
         add(voidPanel, BorderLayout.SOUTH);
-
         setSize(1150, 590);
         setResizable(false);
         timer.start();
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
-    public void setConsole(String message) {
+    void setConsole(String message) {
         console.append(message + "\n");
     }
 
@@ -307,7 +303,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void setBackGroundTurn(boolean val) {
+    void setBackGroundTurn(boolean val) {
         if (val) {
             turnLight.setBackground(Color.GREEN);
         } else {
@@ -315,8 +311,8 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public void createField(){
-            Integer cont = 1;
+    private void createField(){
+            int cont = 1;
             for(int i=0;i<3;i++) {
                 for(int j=0;j<4;j++) {
                     mapGrid[i][j]=new SquarePanel((char)(j+65)+" "+(3-i));
@@ -333,7 +329,7 @@ public class MainFrame extends JFrame {
         setState(Frame.NORMAL);
     }
 
-    public void printField() {
+    void printField() {
         Integer cont = 1;
         for(int i=0;i<3;i++) {
             for(int j=0;j<4;j++) {
@@ -412,7 +408,7 @@ public class MainFrame extends JFrame {
         ammoRed.repaint();
     }
 
-    public SquarePanel[][] getMapGrid() {
+    SquarePanel[][] getMapGrid() {
         return mapGrid;
     }
 
@@ -424,23 +420,23 @@ public class MainFrame extends JFrame {
         powerUp.removeAllItems();
     }
 
-    public void addWeaponBox(String s) {
+    void addWeaponBox(String s) {
         weapon.addItem(s);
     }
 
-    public void addPuBox(String s) {
+    void addPuBox(String s) {
         powerUp.addItem(s);
     }
 
-    public void disableButtons(String[] data) {
+    void disableButtons(String[] data) {
 
         grab.setEnabled(false);
         run.setEnabled(false);
         shoot.setEnabled(false);
-
-        grab.setBorder(UIManager.getBorder("Button.border"));
-        run.setBorder(UIManager.getBorder("Button.border"));
-        shoot.setBorder(UIManager.getBorder("Button.border"));
+        String buttonBorder = "Button.border";
+        grab.setBorder(UIManager.getBorder(buttonBorder));
+        run.setBorder(UIManager.getBorder(buttonBorder));
+        shoot.setBorder(UIManager.getBorder(buttonBorder));
 
         for(String s: data) {
             switch(s) {
@@ -452,7 +448,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    public String cardChoose() {
+    String cardChoose() {
 
         synchronized (lockChooseCard) {
             try {
@@ -467,11 +463,11 @@ public class MainFrame extends JFrame {
         return aaa;
     }
 
-    public void createPopUp(String[] nameCard) {
+    void createPopUp(String[] nameCard) {
         popUp = new PopUpCards(nameCard, lockChooseCard);
     }
 
-    public void yesNoPopUp(String title) {
+    void yesNoPopUp(String title) {
         yesNoFrame = new JFrame();
 
         yesNoFrame.setTitle("Yes/No");
@@ -483,22 +479,16 @@ public class MainFrame extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton yes = new JButton("Yes");
         JButton no = new JButton("No");
-        yes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                synchronized (lockReload) {
-                    yesnochoice = ((JButton) e.getSource()).getText().toLowerCase();
-                    lockReload.notifyAll();
-                }
+        yes.addActionListener(e -> {
+            synchronized (lockReload) {
+                yesnochoice = ((JButton) e.getSource()).getText().toLowerCase();
+                lockReload.notifyAll();
             }
         });
-        no.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                synchronized (lockReload) {
-                    yesnochoice = ((JButton) e.getSource()).getText().toLowerCase();
-                    lockReload.notifyAll();
-                }
+        no.addActionListener(e -> {
+            synchronized (lockReload) {
+                yesnochoice = ((JButton) e.getSource()).getText().toLowerCase();
+                lockReload.notifyAll();
             }
         });
 
@@ -512,7 +502,7 @@ public class MainFrame extends JFrame {
 
     }
 
-    public String yesNoChoose() {
+    String yesNoChoose() {
 
         synchronized (lockReload) {
             try {
@@ -528,7 +518,7 @@ public class MainFrame extends JFrame {
         return yesnochoice;
     }
 
-    public void chooseEffectPopUp(String weapon, int layout) {
+    void chooseEffectPopUp(String weapon, int layout) {
         effectFrame = new JFrame();
         effectFrame.setLayout(new BorderLayout());
         popUpEffect = new PopUpChooseEffect(weapon, layout);
@@ -550,7 +540,7 @@ public class MainFrame extends JFrame {
         //effectFrame.pack();
     }
 
-    public String askEffects() {
+    String askEffects() {
         synchronized (lockEffect) {
             try {
                 lockEffect.wait();
@@ -566,33 +556,36 @@ public class MainFrame extends JFrame {
         return s;
     }
 
-    public String selectPlayer() {
+    private String selectPlayer() {
         try {
             synchronized (lockCharacter){
                 lockCharacter.wait();
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            System.err.println(e.getMessage());
         }
 
         return playerSelected;
     }
 
-    public String getColorRoom (){
+    private String getColorRoom (){
         String[] coord = getCoordinate().split(" ");
 
         switch(typeMap) {
-            case 2: {
+            case 2:
                 switch(Integer.parseInt(coord[1])) {
-                    case 1: {
+                    case 1:
                         switch (coord[0]) {
                             case "B":
                             case "C":
                             case "D":
                                 return "yellow";
+                            default:
+                                break;
                         }
-                    }
-                    case 2: {
+                        break;
+                    case 2:
                         switch (coord[0]) {
                             case "A":
                             case "B":
@@ -600,9 +593,11 @@ public class MainFrame extends JFrame {
                             case "C":
                             case "D":
                                 return "yellow";
-                            }
+                            default:
+                                break;
                         }
-                    case 3: {
+                        break;
+                    case 3:
                         switch (coord[0]) {
                             case "A":
                             case "B":
@@ -610,21 +605,31 @@ public class MainFrame extends JFrame {
                                 return "blue";
                             case "D":
                                 return "green";
+                            default:
+                                break;
                         }
-                    }
+                        break;
+                    default:
+                        break;
                 }
-            }
+                break;
+            case 1:
+                break;
+            case 3:
+                break;
+            default:
+                break;
         }
         return "";
     }
 
-    public void addDropPlayerBoard(int num) {
+    void addDropPlayerBoard(int num) {
         playerBoard.addDrop(num);
         setState(Frame.ICONIFIED);
         setState(Frame.NORMAL);
     }
 
-    public void addMarkerPlayerBoard(int num){
+    void addMarkerPlayerBoard(int num){
         playerBoard.addMarker(num);
         setState(Frame.ICONIFIED);
         setState(Frame.NORMAL);
@@ -636,62 +641,47 @@ public class MainFrame extends JFrame {
         setState(Frame.NORMAL);
     }
 
-    public void setPlayerNameLabel(String name) {
+    void setPlayerNameLabel(String name) {
         playerNameLabel.setText(name);
     }
 
-    public int getTypeMap() {
-        return typeMap;
-    }
-
-    public void setTypeMap(int typeMap) {
+    void setTypeMap(int typeMap) {
         this.typeMap = typeMap;
     }
-
-    public int getnSkull() {
-        return nSkull;
-    }
-
-    public void setnSkull(int nSkull) {
-        this.nSkull = nSkull;
-    }
-
+    
     public void fillFields(String s) {
         String[] data = s.split(";");
         String[] serie;
+        StringBuilder commandBuild = new StringBuilder();
         for (String effect : data) {
             serie = effect.split(",");
             for (String field : serie) {
                 switch (field) {
                     case "player":
                         setConsole("Select a player (press VOID if optional)");
-                        command = command + selectPlayer() + ",";
+                        commandBuild.append(selectPlayer()).append(",");
                         break;
                     case "square":
                         setConsole("Select a square (press VOID if optional)");
-                        command = command + getCoordinate() + ",";
+                        commandBuild.append(getCoordinate()).append(",");
                         break;
                     case "room":
                         setConsole("Select a room (press VOID if optional)");
-                        command = command + getColorRoom() + ",";
+                        commandBuild.append(getColorRoom()).append(",");
                         break;
                     default:
                         break;
                 }
             }
-            command = command.substring(0,command.length()-1) + ";";
+            command = commandBuild.substring(0,commandBuild.length()-1) + ";";
         }
     }
 
-    public String getStringFields() {
-        return stringFields;
-    }
-
-    public void setStringFields(String stringFields) {
+    void setStringFields(String stringFields) {
         this.stringFields = stringFields;
     }
 
-    public String getCommand() {
+    String getCommand() {
 
         fillFields(stringFields);
         String toSend = command;
@@ -699,19 +689,19 @@ public class MainFrame extends JFrame {
         return toSend.substring(0,toSend.length()-1);
     }
 
-    public void setCharacterMatch(String name, int num) {
+    void setCharacterMatch(String name, int num) {
         charactersCoordinates[num].setName(name);
     }
 
-    public Timer getTimer() {
+    Timer getTimer() {
         return timer;
     }
 
-    public void setTime(String time) {
+    void setTime(String time) {
         this.time.setText(time);
     }
 
-    public void addSkullTrackShot() {
+    void addSkullTrackShot() {
         killshotTrack.addSkull();
         setState(Frame.ICONIFIED);
         setState(Frame.NORMAL);
