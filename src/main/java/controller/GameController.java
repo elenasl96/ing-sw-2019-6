@@ -19,7 +19,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static model.enums.Phase.*;
-//TODO Javadoc
 
 /**
  * SINGLETON (SERVER SIDE)
@@ -42,6 +41,13 @@ public class GameController{
         }
         return instance;
     }
+
+    /**
+     *
+     * @param cards a list of card (weapons or powerups)
+     * @param index id number of first card
+     * @return a string of cards ordered by id
+     */
 
     public static String cardsToString(List cards, int index) {
         StringBuilder cardsString = new StringBuilder();
@@ -66,12 +72,16 @@ public class GameController{
     }
 
 
+    /**
+     * @param player the player who is asking for moves in first and second phase
+     * @param groupID the id of his group
+     * @return an update which describes the moves he can play (RUN, GRAB OR SHOOT)
+     * @throws InvalidMoveException
+     */
     synchronized Update possibleMoves(Player player, int groupID) throws InvalidMoveException {
         StringBuilder content = new StringBuilder();
-        Update update;
         if(GameContext.get().getGame(groupID).getCurrentPlayer().isPhaseNotDone() &&
             !player.getCurrentMoves().isEmpty()){
-            System.out.println("Phase not done yet");
             playPendingMoves(player, groupID);
         }
         else {
@@ -79,11 +89,6 @@ public class GameController{
                 case FIRST:
                 case SECOND:
                     return firstSecondMoves(player, content, groupID);
-               /* case RELOAD:
-                    content.append("You can reload:\n").append(player.getWeapons());
-                    update = new Update(content.toString(), "choosecard");
-                    update.setData(player.getStringIdWeapons().toLowerCase().replaceAll(" ", ""));
-                    return update;*/
                 default:
                     break;
             }
@@ -157,6 +162,13 @@ public class GameController{
         }
     }
 
+    /**
+     * get player's powerups to choose the spawn point
+     * @param player the player who's asking for spawn
+     * @param groupID the id of the player's group
+     * @return an update
+     */
+
     synchronized Update getSpawn(Player player, int groupID) {
         player.getPowerups().add(GameContext.get().getGame(groupID)
             .getBoard().getPowerupsLeft().pickCard());
@@ -166,6 +178,12 @@ public class GameController{
         return update;
     }
 
+    /**
+     * The method is called every time a phase is changing
+     * It changes the current player and
+     * send an update to the new current player to change his phase locally
+     * @param groupID id of the group
+     */
     void updatePhase(int groupID){
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         Update update = new Update(null, "timer");
@@ -213,7 +231,7 @@ public class GameController{
                 GameContext.get().getGame(groupID).sendUpdate(new Update("It's "+player.getName()+"'s turn"));
                 if(player.isDead()){
                     player.setPhase(SPAWN);
-                    player.setCurrentPosition(null); //TODO Check
+                    player.setCurrentPosition(null);
                 }
                 else {
                     player.setPhase(POWERUP1);
@@ -243,6 +261,12 @@ public class GameController{
         }
     }
 
+    /**
+     * The method is called at the end of every players' reload phase;
+     * it takes only dead players' boards and count the presence of all players
+     * adding points depending on the position on the player board
+     * @param groupID id of the group
+     */
     private synchronized void updatePoints(int groupID) {
         for(Player p: GameContext.get().getGame(groupID).getPlayers()){
             if(p.isDead() && p.getPlayerBoard()!= null && !p.getPlayerBoard().getDamage().isEmpty() ){
@@ -270,27 +294,34 @@ public class GameController{
         }
     }
 
-    //-------------------------------SHOOT:CALLS TO SHOOTCONTROLLER------------------------------//
-    synchronized String prepareWeapon(Player player, String weaponEffects, int groupID) throws InvalidMoveException {
-        return ShootController.get().prepareWeapon(player, weaponEffects, groupID);
-    }
-
-    void playWeapon(Player player, String input, int groupID) throws InvalidMoveException {
-        ShootController.get().playWeapon(player, input, groupID);
-    }
 
     //---------------------------------RELOAD-----------------------------------------------//
+
+    /**
+     * the method takes all player's weapons and filter them by the WeaponStatus : LOADED
+     * @param player the player who asks for reload
+     * @return list of weapons to reload
+     */
     List<Weapon> getWeaponToReload(Player player) {
-        return player.getWeapons()
-                .stream()
-                .filter(w -> !w.getStatus().equals(WeaponStatus.LOADED))
-                .collect(Collectors.toList());
+        List<Weapon> weaponsToReload = new ArrayList<>();
+        for(Weapon weapon : player.getWeapons()){
+            if(weapon.getStatus().equals(WeaponStatus.UNLOADED))
+                weaponsToReload.add(weapon);
+        }
+        return weaponsToReload;
     }
 
-    void reloadWeapon (int number, int groupID) throws NotEnoughAmmoException {
+    /**
+     * the method takes from the list of the weapons to reload of the player
+     * the weapon with index = number
+     * @param player player who asked for reload
+     * @param number the id number he chose
+     * @param groupID id of the player's group
+     * @throws NotEnoughAmmoException if the player has not ammos to reload the weapon chosen
+     */
+    void reloadWeapon (Player player, int number, int groupID) throws NotEnoughAmmoException {
         //Check if the player has the necessary ammos
-        Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
-        Weapon weapon = player.getWeapons().get(number);
+        Weapon weapon = this.getWeaponToReload(player).get(number);
         List<Ammo> ammosToPay = new ArrayList<>();
         int i=0;
         if(weapon.getStatus().equals(WeaponStatus.PARTIALLY_LOADED)) {
@@ -312,9 +343,4 @@ public class GameController{
         updatePhase(groupID);
     }
 
-    //-------------------------------POWERUPS------------------------------------//
-
-    String preparePowerup(int groupID, String input, Player player) throws InvalidMoveException {
-        return ShootController.get().preparePowerup(player, input, groupID);
-    }
 }
