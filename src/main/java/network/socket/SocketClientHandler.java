@@ -129,7 +129,7 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
     public void onUpdate(Update update) {
         try {
             System.out.print(">>> I'm SocketClientHandler sending: ");
-            if (update.isPlayerChanges()) {
+         if (update.isPlayerChanges()) {
                 System.out.print("a MoveUpdateResponse\n");
                 respond(new MoveUpdateResponse(update.getPlayer()));
             } else {
@@ -139,6 +139,11 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
         }catch (NullPointerException | ClassCastException e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onEndGame() {
+        respond(new EndGameNotification());
     }
 
     /**

@@ -5,6 +5,7 @@ import model.GameContext;
 import model.enums.Character;
 import model.exception.NotExistingFieldException;
 import network.Manager;
+import network.commands.response.EndGameNotification;
 import network.exceptions.UserNotInGroupException;
 import network.exceptions.FullGroupException;
 
@@ -254,6 +255,12 @@ public class Group implements Serializable {
         }
         for (ModelObserver listener : listeners) {
             listener.onStart();
+        }
+    }
+
+    public void sendEndNotification(){
+        for(ModelObserver listener : listeners){
+            listener.onEndGame();
         }
     }
 

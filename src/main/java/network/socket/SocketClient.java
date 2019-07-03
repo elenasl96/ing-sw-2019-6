@@ -65,15 +65,12 @@ public class SocketClient implements RemoteController {
      * @return the next Response or null if some IOException happens
      */
     @Override
-    public synchronized Response nextResponse() {
+    public synchronized Response nextResponse() throws IOException {
         try {
             return ((Response) in.readObject());
-        } catch (IOException e) {
-            System.err.println("Exception on network.socket: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             throw new WrongDeserializationException("Wrong deserialization: " + e.getMessage());
         }
-        return null;
     }
 
     /**

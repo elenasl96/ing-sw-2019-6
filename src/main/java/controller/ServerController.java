@@ -47,6 +47,7 @@ import static model.enums.Phase.WAIT;
  */
 
 public class ServerController implements RequestHandler {
+    private static final String ENDGAME = "endgame";
     /**
      * reference to the networking layer
      */
@@ -97,6 +98,7 @@ public class ServerController implements RequestHandler {
                     winner.receiveUpdate(new Update("Congratulations! You win!"), currentGroup.getGroupID());
                     //TODO GUI update for the win
                 }
+                currentGroup.sendEndNotification();
             } else {
                 GameController.get().updatePhase(currentGroup.getGroupID());
             }
@@ -217,6 +219,7 @@ public class ServerController implements RequestHandler {
             update = GameController.get().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
             user.receiveUpdate(update);
         } catch ( InvalidMoveException | RuntimeException e) {
+            user.getPlayer().getCurrentCardEffects().clear();
             user.getPlayer().getCurrentMoves().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(user.getPlayer(), true));
@@ -245,9 +248,13 @@ public class ServerController implements RequestHandler {
             Update update;
             switch (cardRequest.getCardType()) {
                 case "weaponLayout":
+                    Weapon weapon;
                     int cardNumber = cardRequest.getNumber();
                     StringBuilder updateString = new StringBuilder();
-                    Weapon weapon = this.user.getPlayer().getWeapons().get(cardNumber);
+                    if(cardNumber>= 0 && cardNumber<user.getPlayer().getWeapons().size())
+                        weapon = this.user.getPlayer().getWeapons().get(cardNumber);
+                    else
+                        throw new InvalidInputException();
                     updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());
                     update = new Update(null, "layouteffect");
                     update.setData(updateString.toString().toLowerCase().replace(" ", ""));
@@ -293,7 +300,7 @@ public class ServerController implements RequestHandler {
                 default:
                     break;
             }
-        }catch (RuntimeException e){
+        }catch (RuntimeException | InvalidInputException e){
             e.printStackTrace();
         }
         return null;
@@ -373,6 +380,7 @@ public class ServerController implements RequestHandler {
             GameController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (RuntimeException | InvalidMoveException e) {
+            user.getPlayer().getCurrentMoves().clear();
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             player.getUser().receiveUpdate(new Update(player, true));
@@ -389,6 +397,7 @@ public class ServerController implements RequestHandler {
             this.user.receiveUpdate(update);
             return new AskInput("fillFields");
        } catch (RuntimeException | InvalidMoveException e) {
+            user.getPlayer().getCurrentMoves().clear();
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             player.getUser().receiveUpdate(new Update(player, true));

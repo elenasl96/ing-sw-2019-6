@@ -59,6 +59,7 @@ public class LaunchClient {
             System.out.println(ERROR);
         }
 
+        System.exit(0);
         //Via
     }
 

@@ -17,6 +17,7 @@ import model.room.Group;
 import model.room.User;
 import view.View;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -32,6 +33,7 @@ import static model.enums.Phase.*;
  */
 
 public class ClientController extends UnicastRemoteObject implements ResponseHandler, Remote {
+    private static final String ENDGAME = "endgame";
     /**
      * reference to networking layer
      */
@@ -65,33 +67,53 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      * @see ClientContext#getCurrentUser()
      */
     public User createUser(String username) throws RemoteException{
-        view.playMusic("WaitingRoom.wav");
-        client.request(new CreateUserRequest(username));
-        client.nextResponse().handle(this);
+        try {
+            view.playMusic("WaitingRoom.wav");
+            client.request(new CreateUserRequest(username));
+            client.nextResponse().handle(this);
+        }catch (IOException e){
+
+        }
         return ClientContext.get().getCurrentUser();
     }
 
     public Group chooseGroup(int groupNumber) throws RemoteException{
-        client.request(new ChooseGroupRequest(groupNumber));
-        client.nextResponse().handle(this);
+        try {
+            client.request(new ChooseGroupRequest(groupNumber));
+            client.nextResponse().handle(this);
+        }catch (IOException e){
+
+        }
         return ClientContext.get().getCurrentGroup();
     }
 
     public String getSituation() throws RemoteException{
-        client.request(new SituationViewerRequest());
-        client.nextResponse().handle(this);
+        try {
+            client.request(new SituationViewerRequest());
+            client.nextResponse().handle(this);
+        }catch (IOException e){
+
+        }
         return ClientContext.get().getCurrentSituation();
     }
 
     public int createGroup(int skullNumber, int fieldNumber) throws RemoteException{
-        client.request(new CreateGroupRequest(skullNumber, fieldNumber));
-        client.nextResponse().handle(this);
+        try {
+            client.request(new CreateGroupRequest(skullNumber, fieldNumber));
+            client.nextResponse().handle(this);
+        }catch(IOException e){
+
+        }
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 
     public synchronized Character setCharacter(int characterNumber) throws RemoteException{
         client.request(new SetCharacterRequest(characterNumber));
-        client.nextResponse().handle(this);
+        try {
+            client.nextResponse().handle(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         client.received();
         return ClientContext.get().getCurrentUser().getCharacter();
     }
@@ -107,11 +129,13 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                                 response.handle(this);
                                 client.received();
                             }
-                        } catch (RemoteException e){
-                            System.err.println(">>> An error occurred");
+                        } catch (IOException e){
+                            System.err.println(">>> An error occurred:" + e.getMessage());
+                            gameNotDone = false;
                         }
                     }
                 }
+
         );
         receiver.start();
     }
@@ -122,9 +146,6 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
             case "shoot":
                 moveRequest.addMove(new MoveAndShoot(null, -1));
                 client.request(moveRequest);
-                //client.request(new CardRequest("weaponLayout", content));
-                //String string = content + " " + view.askEffects();
-                //client.request(new ShootRequest(string));
                 break;
             case "run":
                 Coordinate coordinate = view.getCoordinate();
@@ -159,6 +180,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 //nothing
             }
         }
+        System.out.println("AAAA");
     }
 
     private void gamingPhase() throws RemoteException{
@@ -313,6 +335,12 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
         ClientContext.get().setPlayer(rejoiningResponse.getPlayer());
         ClientContext.get().setCurrentUser(rejoiningResponse.getUser());
         view.displayText("Welcome back");
+    }
+
+    @Override
+    public void handle(EndGameNotification endGameNotification) {
+       this.gameNotDone = false;
+        ClientContext.get().getCurrentGroup().sendEndNotification();
     }
 
     @Override
