@@ -214,7 +214,10 @@ public class GameController{
                 updatePhase(groupID);
                 break;
             case WAIT:
-                player.setPhase(POWERUP1);
+                if(player.isDead())
+                    player.setPhase(SPAWN);
+                else
+                    player.setPhase(POWERUP1);
                 break;
             default:
                 break;
