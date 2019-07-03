@@ -22,7 +22,7 @@ public interface RemoteController extends Remote {
      * @return  the result of the response handling
      * @throws RemoteException if an error in RMI connection occurs
      */
-    Response nextResponse() throws RemoteException;
+    Response nextResponse() throws IOException;
 
     /**
      *
