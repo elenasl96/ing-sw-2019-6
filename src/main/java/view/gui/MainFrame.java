@@ -56,6 +56,7 @@ public class MainFrame extends JFrame {
     private int typeMap;
     private int nSkull;
     private javax.swing.Timer timer;
+    private Timer refresh;
 
     MainFrame() {
         lockMove = new Object();
@@ -262,7 +263,7 @@ public class MainFrame extends JFrame {
         add(voidPanel, BorderLayout.SOUTH);
         setSize(1150, 590);
         setResizable(false);
-        timer.start();
+        //timer.start();
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
@@ -523,6 +524,7 @@ public class MainFrame extends JFrame {
     void chooseEffectPopUp(String weapon, int layout) {
         effectFrame = new JFrame();
         effectFrame.setLayout(new BorderLayout());
+        effectFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         popUpEffect = new PopUpChooseEffect(weapon, layout);
         effectFrame.add(popUpEffect,BorderLayout.CENTER);
         JButton ok = new JButton("OK");
@@ -540,6 +542,15 @@ public class MainFrame extends JFrame {
         effectFrame.toFront();
         effectFrame.setVisible(true);
         //effectFrame.pack();
+
+        refresh = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                effectFrame.setState(Frame.ICONIFIED);
+                effectFrame.setState(Frame.NORMAL);
+            }
+        });
+        refresh.start();
     }
 
     String askEffects() {
@@ -551,6 +562,16 @@ public class MainFrame extends JFrame {
                 System.err.println(e.getMessage());
             }
         }
+
+        Timer refresh = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                effectFrame.setState(Frame.ICONIFIED);
+                effectFrame.setState(Frame.NORMAL);
+            }
+        });
+
+        refresh.stop();
 
         String s = popUpEffect.getEffectSerie();
         effectFrame.setVisible(false);

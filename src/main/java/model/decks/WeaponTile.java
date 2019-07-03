@@ -5,6 +5,7 @@ import model.GameContext;
 import model.Player;
 import model.enums.WeaponStatus;
 import model.exception.NotEnoughAmmoException;
+import model.exception.NotExistingPositionException;
 import model.exception.NothingGrabbableException;
 import model.moves.Pay;
 import model.room.Update;
@@ -110,7 +111,14 @@ public class WeaponTile implements Grabbable {
     private void refillWeapon(int groupID) {
         Weapon newWeapon = GameContext.get().getGame(groupID).getBoard().getWeaponsLeft().pickCard();
         this.weapons.add(newWeapon);
-        GameContext.get().getGame(groupID).sendUpdate(new Update(
-                "Weapon replaced by "+ newWeapon.toString(), "updateconsole"));
+        Update update = new Update(
+                "Weapon replaced by "+ newWeapon.toString(), "tileinsquare");
+        try {
+            update.setData(toStringForGUI()+":"+GameContext.get().getGame(groupID).getCurrentPlayer()
+                    .getCurrentPosition().getCoord().toString());
+        } catch (NotExistingPositionException e) {
+            e.printStackTrace();
+        }
+        GameContext.get().getGame(groupID).sendUpdate(update);
     }
 }
