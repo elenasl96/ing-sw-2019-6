@@ -1,0 +1,11 @@
+@startuml
+Client --> ClientController: creating user
+ClientController -> RemoteController: CreateUserRequest
+RemoteController --> ClientHandler: <Socket> CreateUserRequest
+ClientHandler -> ServerController: CreateUserRequest
+
+ServerController -> ClientHandler: UserCreatedResponse
+ClientHandler --> RemoteController: <Socket> UserCreatedResponse
+RemoteController -> ClientController: UserCreatedResponse
+ClientController --> Client: user created!
+@enduml
