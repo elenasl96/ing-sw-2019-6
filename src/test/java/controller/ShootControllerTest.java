@@ -67,7 +67,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(0));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0) + p1.getAmmos().toString());
-        String weaponsEffect = "3 0 1";
+        String weaponsEffect = "0 0 1";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         // Choose a non existing player
         final String weaponChosen = "elena,elena";
@@ -89,14 +89,14 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(0));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0) + p1.getAmmos().toString());
-        String weaponsEffect = "3 0 1";
+        String weaponsEffect = "0 0";
         System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         //A:B:C;D:E   -> first effect 3 fields, second effect 2 fields
         //test effects on lock rifle
         final String weaponChosen = "user2;user2";
         assertThrows(InvalidMoveException.class, ()-> GameController.get().playWeapon(p1, weaponChosen, 0));
 
-        final String weaponChosen2 = "user2;user3";
+        final String weaponChosen2 = "user2";
         GameController.get().playWeapon(p1, weaponChosen2, 0);
         assertEquals(2, p2.getPlayerBoard().getDamage().size());
         assertEquals(1, p2.getPlayerBoard().getMarks().size());
@@ -115,7 +115,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(1));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "0 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -142,7 +142,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(2));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "0 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -170,7 +170,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(3));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "0 0";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -205,7 +205,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(4));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0 1 2";
+        String weaponsEffect = "0 0 1 2";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -234,7 +234,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(5));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0 1 2";
+        String weaponsEffect = "0 0 1 2";
         System.out.println(GameContext.get().getGame(0).getPlayers().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -263,7 +263,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(6));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "0 0";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
@@ -294,7 +294,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(7));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0 1";
+        String weaponsEffect = "0 0 1";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
@@ -325,7 +325,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(8));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "0 0";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
@@ -350,7 +350,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(9));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "0 0";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
@@ -376,7 +376,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(10));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "0 0";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -413,7 +413,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(11));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0";
+        String weaponsEffect = "0 0";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -449,7 +449,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(11));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 1";
+        String weaponsEffect = "0 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -485,7 +485,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(12));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 0 1";
+        String weaponsEffect = "0 0 1";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
@@ -524,7 +524,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(13));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 2 0 1";
+        String weaponsEffect = "0 2 0 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -562,7 +562,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(14));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 1";
+        String weaponsEffect = "0 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -603,7 +603,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(15));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 1";
+        String weaponsEffect = "0 1";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
@@ -639,7 +639,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(16));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 1";
+        String weaponsEffect = "0 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
@@ -677,7 +677,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(17));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 1";
+        String weaponsEffect = "0 1";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(InvalidMoveException e){
@@ -713,7 +713,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(18));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 1";
+        String weaponsEffect = "0 1";
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
         }catch(IndexOutOfBoundsException | InvalidMoveException e){
@@ -782,7 +782,7 @@ class ShootControllerTest {
         p1.getWeapons().add(new Weapon().initializeWeapon(20));
         p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
         System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "3 1";
+        String weaponsEffect = "0 1";
         assertEquals(0, p4.getPlayerBoard().getMarks().size());
         try {
             System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
