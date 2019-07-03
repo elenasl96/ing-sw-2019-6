@@ -372,34 +372,32 @@ public class MainFrame extends JFrame {
         setState(Frame.NORMAL);
     }
 
-    public void changeAmmoPanel(String s) {
-        switch(s)
-        {
-            case "red": {
+    void changeAmmoPanel(String s) {
+        switch(s) {
+            case "red":
                 ammoRed.addAmmo();
                 break;
-            }
-            case "blue": {
+            case "blue":
                 ammoBlue.addAmmo();
                 break;
-            }
-            case "yellow": {
+            case "yellow":
                 ammoYellow.addAmmo();
                 break;
-            }
+            default:
+                break;
         }
 
         setState(Frame.ICONIFIED);
         setState(Frame.NORMAL);
     }
 
-    public void clearAmmoPanels() {
+    void clearAmmoPanels() {
         ammoYellow.removeAll();
         ammoBlue.removeAll();
         ammoRed.removeAll();
     }
 
-    public void updateAmmoPanels() {
+    void updateAmmoPanels() {
         ammoYellow.revalidate();
         ammoYellow.repaint();
         ammoBlue.revalidate();
@@ -648,7 +646,7 @@ public class MainFrame extends JFrame {
     void setTypeMap(int typeMap) {
         this.typeMap = typeMap;
     }
-    
+
     public void fillFields(String s) {
         String[] data = s.split(";");
         String[] serie;
