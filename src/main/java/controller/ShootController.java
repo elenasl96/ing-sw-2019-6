@@ -58,6 +58,18 @@ public class ShootController {
     }
 
 
+    /**
+     * checks if the weapon is not unloaded
+     * checks if the player can pay for the effects selected
+     * makes an array of int from the input of the player
+     * and compares it with the possible combinations of effect
+     * @param weapon the weapon of the player who is shooting
+     * @param weaponEffectsSplitted input of the player splitted number by number
+     * @param groupID the id of the group of the player
+     * @return true if the effects selected are correct, false otherwise
+     * @throws InvalidMoveException if the weapon is not loaded
+     * or the player can't pay for the effects
+     */
     private synchronized boolean checkWeaponEffects(Weapon weapon, String[] weaponEffectsSplitted, int groupID) throws InvalidMoveException {
         //Check if player has the weapon
         int sequenceSize = weaponEffectsSplitted.length - 1;
@@ -124,6 +136,10 @@ public class ShootController {
         }
     }
 
+    /**
+     * unload the weapon the player is using for shooting
+     * @param player the player who is shooting
+     */
     private void unloadWeaponInUse(Player player) {
         for (int i = 0; i < player.getWeapons().size(); i++) {
             if (player.getWeapons().get(i).getId() == player.getWeaponInUse()) {
@@ -152,6 +168,13 @@ public class ShootController {
         return powerupsToPlay;
     }
 
+    /**
+     *
+     * @param player the player who asked for a powerup
+     * @param powerup the powerup chosen
+     * @param groupID the id of the player's group
+     * @return true if the powerup can be used in that moment, false otherwise
+     */
     boolean isPlayable(Player player, Powerup powerup, int groupID) {
         switch (powerup.getName()){
             case "teleporter": case "newton":
@@ -178,6 +201,14 @@ public class ShootController {
         return false;
     }
 
+    /**
+     * Add the moves of the powerup in the currentMoves of the player
+     * @param player the player who asked for the powerup
+     * @param input the index in the poweruplist of the player
+     * @param groupID the id of the player's group
+     * @return a string representing the input requested by the powerup
+     * @throws InvalidInputException if the index inserted is not correct
+     */
     String preparePowerup(Player player, String input, int groupID) throws InvalidMoveException {
         Powerup powerupToPlay;
         try {
@@ -190,10 +221,9 @@ public class ShootController {
             //Ask player to fill effects
             return powerupToPlay.getEffectsLayout();
         }catch (NumberFormatException | IndexOutOfBoundsException e){
-            throw new InvalidMoveException("Not valid powerup");
+            throw new InvalidInputException();
         }
     }
-
 
     void addMoves(Player player, Powerup powerupToPlay) {
         for(CardEffect c: powerupToPlay.getEffects()){
@@ -201,6 +231,14 @@ public class ShootController {
         }
     }
 
+    /**
+     * general scheme to play a card ( weapon o powerup )
+     * @param player the player who asked for playing a card
+     * @param input the string input representing the choices of the player:
+     *              players, squares or room to be damaged
+     * @param groupID the id of the player's group
+     * @throws InvalidMoveException if the card can't be played
+     */
     void playCard(Player player, String input, int groupID) throws InvalidMoveException {
         //Convert input to matrix
         String[][] effectsMatrix = generateMatrix(input);
@@ -242,6 +280,12 @@ public class ShootController {
         }
     }
 
+    /**
+     *
+     * @param input the input of the player containing the target chosen
+     * @return a matrix ready to analyze to play the card;
+     *          every row contains the targets of every effect of the card
+     */
     String[][] generateMatrix(String input) {
         String[] inputSplitted = input.split(";");
         String[][] inputMatrix = new String[inputSplitted.length][];
@@ -251,6 +295,13 @@ public class ShootController {
         return inputMatrix;
     }
 
+    /**
+     * fill the names of the targets in the card with the player's choice
+     * @param player the player who play the card
+     * @param inputMatrix the matrix with targets chosen by the player
+     * @param groupID the id of the player's group
+     * @throws InvalidMoveException if the targets are less then the requested or incorrect
+     */
     private void fillWithInput(Player player, String[][] inputMatrix, int groupID) throws InvalidMoveException {
         int index2 = 0;
         for (int i = 0; i < player.getCurrentCardEffects().size(); i++) {
@@ -266,9 +317,9 @@ public class ShootController {
                     }
                 } catch (IndexOutOfBoundsException d) {
                     if(i < player.getCurrentCardEffects().size() - 1)
-                        throw new InvalidMoveException("Not enough inputs");
+                        throw new NotEnoughFieldsException();
                     if(!player.getCurrentCardEffects().get(i).getEffects().get(j).getOptionality())
-                        throw new InvalidMoveException("Not enough inputs");
+                        throw new NotEnoughFieldsException();
                     for(int k=j; k<player.getCurrentCardEffects().get(i).getEffects().size(); k++){
                         player.getCurrentCardEffects().get(i).getEffects().remove(k);
                         //  if(!player.getCurrentCardEffects().get(i).getEffects().get(i).getOptionality()) throw d;
@@ -279,6 +330,17 @@ public class ShootController {
         }
     }
 
+    /**
+     * check if the conditions of the target's attributes are satisfied
+     * @param player the player who play the card
+     * @param target the target chosen by the player only with his name filled
+     * @param inputName the name of the target
+     * @param groupID the id of the player's group
+     * @throws NotExistingTargetException if the name chosen by the player doesn't exist
+     * @throws NotExistingPositionException if the target doesn't exist in the board
+     * @throws InvalidDistanceException if the target is at a wrong distance
+     * @throws TargetTypeException if the target doesn't respect the targetType
+     */
     public void checkTarget(Player player, Target target, String inputName, int groupID) throws NotExistingTargetException, NotExistingPositionException, InvalidDistanceException, TargetTypeException {
         Target realTarget = target.findRealTarget(inputName, groupID);
         try {
@@ -320,6 +382,7 @@ public class ShootController {
         }
     }
 
+
     private void checkTargetType(Player player, Target target, Target realTarget, int groupID) throws NotExistingPositionException, NotExistingTargetException, TargetTypeException {
         switch (target.getTargetType()) {
             case BASIC_VISIBLE:
@@ -360,6 +423,11 @@ public class ShootController {
             throw new TargetTypeException(TargetType.NOT_MINE);
     }
 
+    /**
+     * @param realTarget the player chosen by the player who is using a powerup
+     * @param groupID the id of the player's groupd
+     * @return true if the realTarget was damages in the previous move, false otherwise
+     */
     private boolean wasDamaged(Target realTarget, int groupID){
         for(CardEffect c: GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
             if(c.doesDamage()){
@@ -376,6 +444,9 @@ public class ShootController {
         return false;
     }
 
+    /**
+     * Checks recursively if a target is cardinal from the previous target chosen
+     */
     private void areCardinal(Target target, Target realTarget, int groupID) throws NotExistingTargetException, NotExistingPositionException, TargetTypeException {
         Player player = GameContext.get().getGame(groupID).getCurrentPlayer();
         List<Target> realTargets = new ArrayList<>();
