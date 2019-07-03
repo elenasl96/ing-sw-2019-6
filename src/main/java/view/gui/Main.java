@@ -27,6 +27,7 @@ public class Main {
         gui = new MainFrame();
 
         gui.initGUI();
+        gui.setTypeMap(3);
         gui.setVisible(true);
     }
 
@@ -171,7 +172,7 @@ public class Main {
 
         //main.gui.yesNoPopUp();
         //System.out.println(main.gui.yesNoChoose());
-        main.gui.popUpVictory();
+        //main.gui.popUpVictory();
     }
 }
 
