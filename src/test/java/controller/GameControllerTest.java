@@ -97,7 +97,7 @@ class GameControllerTest {
                 GameContext.get().getGame(0).getCurrentPlayer(), 0);
         assertFalse(possibleMovesUpdate.isPlayerChanges());
         assertFalse(GameContext.get().getGame(0).getCurrentPlayer().getPowerups().isEmpty());
-        assertFalse(GameContext.get().getGame(0).getCurrentPlayer().isDead());
+        assertTrue(GameContext.get().getGame(0).getCurrentPlayer().isDead());
        //Not working Spawn
         GameController.get().setSpawn(
                 GameContext.get().getGame(0).getCurrentPlayer(),
