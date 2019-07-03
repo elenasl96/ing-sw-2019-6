@@ -29,6 +29,4 @@ public interface RequestHandler {
     Response handle(CardRequest cardRequest);
 
     Response handle(SendInput sendInput);
-
-    Response handle(ShootRequest shootRequest);
 }

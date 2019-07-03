@@ -219,11 +219,11 @@ public class ServerController implements RequestHandler {
             update = GameController.get().possibleMoves(user.getPlayer(), currentGroup.getGroupID());
             user.receiveUpdate(update);
         } catch ( InvalidMoveException | RuntimeException e) {
+            e.printStackTrace();
             user.getPlayer().getCurrentCardEffects().clear();
             user.getPlayer().getCurrentMoves().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
             user.receiveUpdate(new Update(user.getPlayer(), true));
-            e.printStackTrace();
         }
         return null;
     }
@@ -338,11 +338,6 @@ public class ServerController implements RequestHandler {
         }catch (RuntimeException | InvalidMoveException e){
             e.printStackTrace();
         }
-        return null;
-    }
-
-    @Override
-    public Response handle(ShootRequest shootRequest) {
         return null;
     }
 
