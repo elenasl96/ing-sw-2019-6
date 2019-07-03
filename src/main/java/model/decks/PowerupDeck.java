@@ -14,20 +14,19 @@ public class PowerupDeck {
     public PowerupDeck() {
         for (int i = 0; i < 12; i++){
             powerups.add(new Powerup().initializePowerup(i));
+            powerups.add(new Powerup().initializePowerup(i));
         }
         shuffleDeck();
     }
 
     public Powerup pickCard() {
-
-        Powerup powerupCard = powerups.get(0);
-        powerups.remove(0);
-
         if (powerups.isEmpty()) {
             powerups = discard;
             discard = new ArrayList<>();
             shuffleDeck();
         }
+        Powerup powerupCard = powerups.get(0);
+        powerups.remove(0);
         return powerupCard;
     }
 
@@ -47,7 +46,7 @@ public class PowerupDeck {
     @Override
     public String toString(){
         StringBuilder toString = new StringBuilder();
-        for(int i = 1; i <= powerups.size(); i++) {
+        for(int i = 0; i < powerups.size(); i++) {
             toString.append(i).append(".\t").append(this.powerups.get(i).toString()).append("\n");
         }
         return toString.toString();

@@ -80,8 +80,8 @@ public class AmmoSquare extends Square{
      * @see this#setGrabbable(int)
      */
     @Override
-    public void addGrabbable(Grabbable weapon, int groupID) {
-        this.ammo = GameContext.get().getGame(groupID).getBoard().getAmmosLeft().pickCard();
+    public void addGrabbable(Grabbable ammoTile, int groupID) {
+        this.ammo = (AmmoTile) ammoTile;
         ammo.init(GameContext.get().getGame(groupID).getBoard());
         updateContentGUI(groupID);
     }
