@@ -2,15 +2,12 @@ package view.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 
-public class PopUpCards extends JFrame {
+class PopUpCards extends JFrame {
 
-    private ChooseCardActionListener actionListenerClick;
-    private Object lock;
+    private transient ChooseCardActionListener actionListenerClick;
 
-    public PopUpCards(String[] cardNames, Object lock) {
-        this.lock = lock;
+    PopUpCards(String[] cardNames, Object lock) {
         actionListenerClick = new ChooseCardActionListener(lock);
 
         setTitle("Cards");
@@ -36,7 +33,7 @@ public class PopUpCards extends JFrame {
         setVisible(true);
     }
 
-    public String close() {
+    String close() {
         setVisible(false);
         dispose();
         return actionListenerClick.getS();
