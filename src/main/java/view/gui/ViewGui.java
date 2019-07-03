@@ -148,6 +148,7 @@ public class ViewGui implements View {
                     break;
                 case "skull":
                     gui.setnSkull(Integer.parseInt(update.getData()));
+                    break;
                 case "victory":
                     gui.popUpVictory();
                     break;
