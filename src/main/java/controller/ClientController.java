@@ -111,7 +111,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                             } catch (IOException e) {
                                 e.printStackTrace();
                                 System.err.println(">>> An error occurred:" + e.getMessage());
-                                gameNotDone = false;
+                                gameNotDone = true;
                             }
                         }
                     }
