@@ -114,6 +114,15 @@ public class GameController{
 
     private Update firstSecondMoves(Player player, StringBuilder content, int groupID) {
         Update update;
+        try {
+            content.append("\nYou are in: ").append(player.getCurrentPosition().toString());
+        }catch(NotExistingPositionException e){
+            content.append("You are not in the field ");
+        }
+        content.append("\nYou have these ammos: ").append(player.getAmmos().toString());
+        content.append("\nYou have ")
+                .append(player.getPlayerBoard().getDamage().size()).append(" damages and ")
+                .append(player.getPlayerBoard().getMarks().size()).append(" marks");
         content.append("\nThese are the moves you can choose");
         StringBuilder forGui = new StringBuilder();
         if(!GameContext.get().getGame(groupID).isFinalFrenzy()){
@@ -305,6 +314,8 @@ public class GameController{
                     if(pointsToAdd<=2) pointsToAdd=1;
                     else pointsToAdd -= 2;
                 }
+                p.getPlayerBoard().getDamage().clear();
+                p.getPlayerBoard().getMarks().clear();
             }
         }
     }
