@@ -1,11 +1,11 @@
-# Prova Finale di Ingegneria del Software - anno 2018/2019
+# Prova Finale di Ingegneria del Software - 2018/2019
 Autori: Martina Quarantelli, Giuseppe Scherini, Elena Rosalba Schinelli.
 
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [Developed requirements](#developedrequirements)
-3. [How to launch](#howtolaunch)
+2. [Developed requirements](#developed-requirements)
+3. [How to launch](#how-to-launch)
 
 ## Introduction
 
