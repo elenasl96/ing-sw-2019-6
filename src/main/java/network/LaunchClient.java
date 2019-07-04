@@ -71,12 +71,13 @@ public class LaunchClient {
         System.out.println(">>> Do you want to use RMI? [yes]\n>>> Default Socket");
         Scanner input = new Scanner(System.in);
         String rmi = input.nextLine();
-
+        System.out.println(">>> Insert host, port = 8234, default localhost");
+        String host = input.nextLine();
         if(rmi.equals("yes")){
             while(clientHandler == null){
                 Registry registry;
                 try {
-                    registry = LocateRegistry.getRegistry();
+                    registry = LocateRegistry.getRegistry(host);
                     for (String name : registry.list()) {
                         System.out.println(">>> Registry bindings: " + name);
                     }
@@ -89,8 +90,6 @@ public class LaunchClient {
             }
         } else {
             while(clientHandler == null) {
-                System.out.println(">>> Insert host, port = 8234, default localhost");
-                String host = input.nextLine();
                 clientHandler = new SocketClient(host, 8234);
 
                 try {
