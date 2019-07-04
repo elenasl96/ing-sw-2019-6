@@ -182,8 +182,7 @@ public class ShootController {
                     return true;
                 break;
             case "targeting scope":
-                if(GameController.get().isMyTurn(player, groupID) ||
-                        player.getAmmos().isEmpty())
+                if(!GameController.get().isMyTurn(player, groupID))
                     return false;
                 for(CardEffect c: GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentCardEffects()){
                     if(c.doesDamage())

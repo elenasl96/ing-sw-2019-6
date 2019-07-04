@@ -26,7 +26,6 @@ public class Powerup implements Serializable {
     private int id;
     private String name;
     private Ammo ammo;
-    private int cost;
     private transient List<CardEffect> effects = new ArrayList<>();
 
     private static final String TARGETING_SCOPE = "targeting scope";
@@ -53,7 +52,6 @@ public class Powerup implements Serializable {
         switch (id){
             case 0: case 1: case 2:
                 powerup = new Powerup(id,TARGETING_SCOPE, initializeAmmo(id));
-                powerup.setCost(1);
                 powerup.getEffects().add(new CardEffect(EffectType.BASIC, null, "player"));
                 powerup.getEffects().get(0).getEffects().add(new DamageEffect(Stream.of(
                         new Player(DAMAGED, NONE, null, null)),
@@ -101,10 +99,6 @@ public class Powerup implements Serializable {
 
     public String getEffectsLayout() {
         return this.getEffects().get(0).getDescription();
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public void setAmmo(Ammo ammo) {
