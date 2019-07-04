@@ -149,8 +149,12 @@ public class ViewGui implements View {
                 case "skull":
                     gui.setnSkull(Integer.parseInt(update.getData()));
                     break;
+                case "deathplayerboard":
+                    gui.deathPlayerBoard();
+                    break;
                 case "victory":
                     gui.popUpVictory();
+                    viewCli.stopMusic();
                     break;
                 default:
                     break;

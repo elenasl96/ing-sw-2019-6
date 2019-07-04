@@ -822,4 +822,9 @@ public class MainFrame extends JFrame {
         new PopUpVictory();
         dispose();
     }
+
+    void deathPlayerBoard() {
+        playerBoard.resetPlayerBoard();
+        playerBoard.addSkull();
+    }
 }
