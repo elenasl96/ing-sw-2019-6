@@ -39,7 +39,9 @@ public class Pay implements Move {
                     Collections.frequency(this.ammos, this.ammos.get(i)))
                 throw new NotEnoughAmmoException();
         }
-        p.getAmmos().removeAll(this.ammos);
+        for (Ammo a: ammos){
+            p.getAmmos().remove(a);
+        }
         Update update = new Update(null,"reload");
         update.setData(p.getAmmos().toString().replace("[","").replace("]","")
                 .replace(" ","").toLowerCase());

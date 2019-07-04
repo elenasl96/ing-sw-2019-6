@@ -91,7 +91,6 @@ package controller {
         - prepareWeapon(Player, SendInput): Response
         - reloadWeapon(Player, SendInput): void
         - pickWeapon(Player, SendInput): void
-
     }
 
     GameController <-- ServerController
