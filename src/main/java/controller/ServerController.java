@@ -95,13 +95,16 @@ public class ServerController implements RequestHandler {
                     Update update = new Update("Congratulations! You win!", "victory");
                     winner.receiveUpdate(update, currentGroup.getGroupID());
                 }
-                currentGroup.sendEndNotification();
+                for(Player player: GameContext.get().getGame(currentGroup.getGroupID()).getPlayers()) {
+                    if(!player.getPhase().equalsTo(DISCONNECTED))
+                        player.getUser().sendEndNotification();
+                }
+                }
+               // currentGroup.sendEndNotification();
             } else {
                 GameController.get().updatePhase(currentGroup.getGroupID());
             }
         }
-
-    }
 
     // ------ Request handling
 

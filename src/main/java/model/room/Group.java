@@ -259,12 +259,6 @@ public class Group implements Serializable {
         }
     }
 
-    public void sendEndNotification(){
-        for(ModelObserver listener : listeners){
-            listener.onEndGame();
-        }
-    }
-
     public Game getGame(){
         return GameContext.get().getGame(this.getGroupID());
     }

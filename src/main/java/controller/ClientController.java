@@ -406,12 +406,12 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
 
     /**
      * @param endGameNotification ends the game, closes everything
-     * @see Group#sendEndNotification()
+     * @see User#sendEndNotification()
      */
     @Override
     public void handle(EndGameNotification endGameNotification) {
        this.gameNotDone = false;
-        ClientContext.get().getCurrentGroup().sendEndNotification();
+        ClientContext.get().getCurrentUser().sendEndNotification();
     }
 
     @Override
