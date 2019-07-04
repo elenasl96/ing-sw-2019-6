@@ -169,6 +169,15 @@ public class PlayerBoardPanel extends JPanel {
         dropPanel.repaint();
     }
 
+    void resetPlayerBoard() {
+        dropPanel.removeAll();
+        markerPanel.removeAll();
+        serieDamage = new int[12];
+        serieMarker = new int[12];
+        numMarker = 0;
+        sizeSerie = 0;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

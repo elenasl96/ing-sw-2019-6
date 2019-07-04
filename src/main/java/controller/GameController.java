@@ -195,6 +195,7 @@ public class GameController{
                 //set phase wait to current player and send update
                 if(player.isDead()) {
                     player.setDead(false);
+                    player.getUser().receiveUpdate(new Update(null,"deathplayerboard"));
                 }
                 player.setPhase(POWERUP1);
                 player.getUser().receiveUpdate(new Update(player, true));

@@ -92,8 +92,7 @@ public class ViewClient implements View {
         if(fromKeyBoard.hasNextLine()){
             String input = fromKeyBoard.nextLine();
             if(input.equals(":mute")){
-                if(this.clip.isRunning())
-                    this.clip.stop();
+                stopMusic();
                 return userInput();
             } else {
                 return input;
@@ -103,10 +102,16 @@ public class ViewClient implements View {
         return "";
     }
 
+    public void stopMusic() {
+        if(this.clip.isRunning())
+            this.clip.stop();
+    }
+
     @Override
     public String askEffects() {
+        String input;
         displayText("Insert effects numbers in format '0 1 2'");
-        String input = userInput();
+        input = userInput();
         boolean done = false;
         while(!done){
             String[] inputSplitted = input.split(" ");
@@ -120,8 +125,10 @@ public class ViewClient implements View {
                 done = true;
             } catch (NumberFormatException e){
                 displayText("Not a valid format! Examples\n0 1 2\n2 1\n0");
+                input = userInput();
             } catch (IndexOutOfBoundsException e ){
                 displayText("Index out");
+                input = userInput();
             }
         }
         return input;

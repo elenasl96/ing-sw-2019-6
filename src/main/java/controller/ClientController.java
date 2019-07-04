@@ -38,7 +38,7 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
     private final transient RemoteController client;
     private final transient View view;
     private boolean gameNotDone;
-
+    private int weaponInUse;
     /**
      * Sets this clientController to the view, gameNotDone to true
      * @param socketClient  the RemoteController, communicating with the server
@@ -347,14 +347,18 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 break;
             case "fillFields":
                 try{
-                    client.request(new SendInput(view.fillFields(), "fieldsFilled"));
+                    String string = view.fillFields();
+                    System.out.println("FILLFIELDSW" + string);
+                    client.request(new SendInput(string, "fieldsFilled"));
                 }catch (RemoteException e){
                     //nothing
                 }
                 break;
             case "fillPowerup":
                 try{
-                    client.request((new SendInput(view.fillFields(), "powerupFilled")));
+                    String string = view.fillFields();
+                    System.out.println("FILL P" + string);
+                    client.request((new SendInput(string, "powerupFilled")));
                 }catch(RemoteException e){
                     //nothing
                 }
@@ -368,15 +372,16 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
                 break;
             case "weaponToPlay":
                 try {
-                    ClientContext.get().getCurrentPlayer().setWeaponInUse(Integer.parseInt(view.cardChoose()));
-                    client.request(new CardRequest("weaponLayout", ClientContext.get().getCurrentPlayer().getWeaponInUse()+""));
+                    weaponInUse = Integer.parseInt(view.cardChoose());
+                    client.request(new CardRequest("weaponLayout", weaponInUse+""));
                 } catch (RemoteException e) {
                     //nothing
                 }
                 break;
             case "effectsToPlay":
                 try {
-                    String string = ClientContext.get().getCurrentPlayer().getWeaponInUse() + " " + view.askEffects();
+                    String string = weaponInUse + " " + view.askEffects();
+                    System.out.println("W + EFFECTS:" + string);
                     client.request(new SendInput(string, "weaponToPlay"));
                 } catch (RemoteException e) {
                     //nothing
