@@ -92,8 +92,7 @@ public class ViewClient implements View {
         if(fromKeyBoard.hasNextLine()){
             String input = fromKeyBoard.nextLine();
             if(input.equals(":mute")){
-                if(this.clip.isRunning())
-                    this.clip.stop();
+                stopMusic();
                 return userInput();
             } else {
                 return input;
@@ -101,6 +100,11 @@ public class ViewClient implements View {
 
         }
         return "";
+    }
+
+    public void stopMusic() {
+        if(this.clip.isRunning())
+            this.clip.stop();
     }
 
     @Override
