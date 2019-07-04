@@ -8,9 +8,6 @@ import model.Player;
 import model.decks.WeaponTile;
 import model.enums.Phase;
 import model.moves.Move;
-import model.moves.MoveAndGrab;
-import model.moves.MoveAndShoot;
-import model.moves.Shoot;
 import model.room.*;
 import model.enums.Character;
 import network.ClientHandler;
@@ -79,7 +76,7 @@ public class ServerController implements RequestHandler {
     public void connectionLost(){
         System.out.println(">>> Disconnection!");
         user.getPlayer().setPhase(DISCONNECTED);
-        currentGroup.leave(user);
+        //currentGroup.leave(user);
         if(currentGroup.getGame()!=null){
             int count = 0;
             for(Player p: currentGroup.getGame().getPlayers()){
@@ -379,6 +376,7 @@ public class ServerController implements RequestHandler {
             ShootController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (RuntimeException | InvalidMoveException e) {
+            ShootController.get().maintainWeaponInUse(user.getPlayer());
             user.getPlayer().getCurrentMoves().clear();
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));

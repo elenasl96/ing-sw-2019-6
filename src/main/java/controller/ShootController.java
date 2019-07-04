@@ -150,11 +150,22 @@ public class ShootController {
             if (player.getWeapons().get(i).getId() == player.getWeaponInUse()) {
                 player.getWeapons().remove(i);
                 player.getWeapons().add(new Weapon().initializeWeapon(player.getWeaponInUse()));
-                player.getWeapons().get(i).setStatus(WeaponStatus.UNLOADED);
+                player.getWeapons().get(player.getWeapons().size()-1).setStatus(WeaponStatus.UNLOADED);
                 break;
             }
         }
         System.out.println(player.getWeapons().get(0).getStatus() + player.getWeapons().get(0).getName());
+    }
+
+    public void maintainWeaponInUse(Player player){
+        for (int i = 0; i < player.getWeapons().size(); i++) {
+            if (player.getWeapons().get(i).getId() == player.getWeaponInUse()) {
+                player.getWeapons().remove(i);
+                player.getWeapons().add(new Weapon().initializeWeapon(player.getWeaponInUse()));
+                player.getWeapons().get(player.getWeapons().size()-1).setStatus(WeaponStatus.LOADED);
+                break;
+            }
+        }
     }
 
     //---------------------------------USE POWERUPS-------------------------------------------//
