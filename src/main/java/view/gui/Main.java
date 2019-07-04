@@ -70,15 +70,15 @@ public class Main {
         //System.out.println(main.gui.askEffects());
 
         try {
-           /* main.gui.addDropPlayerBoard(1);
+           main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
-            main.gui.addDropPlayerBoard(2);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
-            main.gui.addDropPlayerBoard(2);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
-            main.gui.addDropPlayerBoard(2);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
-            main.gui.addDropPlayerBoard(4);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
 
            main.gui.addMarkerPlayerBoard(1);
@@ -115,7 +115,7 @@ public class Main {
             main.gui.getMapGrid()[2][0].setGrabbable("furnace;mp40;powerglove");
             main.gui.getMapGrid()[2][1].setGrabbable("furnace;mp40;powerglove");
             main.gui.getMapGrid()[2][2].setGrabbable("furnace;mp40;powerglove");
-            main.gui.getMapGrid()[2][3].setGrabbable("furnace;mp40;powerglove");*/
+            main.gui.getMapGrid()[2][3].setGrabbable("furnace;mp40;powerglove");
 
             main.gui.setCharacterMatch("cane",1);
             main.gui.updateMap(1,"A 2");
