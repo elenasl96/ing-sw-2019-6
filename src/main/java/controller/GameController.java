@@ -202,6 +202,9 @@ public class GameController{
             case POWERUP1:
                 player.getCurrentMoves().clear();
                 player.getCurrentCardEffects().clear();
+                update = new Update(null,"turnbar");
+                update.setData("true");
+                player.getUser().receiveUpdate(update);
                 player.setPhase(FIRST);
                 break;
             case FIRST:
