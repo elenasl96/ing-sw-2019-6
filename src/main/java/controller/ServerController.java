@@ -248,8 +248,8 @@ public class ServerController implements RequestHandler {
                     Weapon weapon;
                     int cardNumber = cardRequest.getNumber();
                     StringBuilder updateString = new StringBuilder();
-                    if(cardNumber>= 0 && cardNumber<user.getPlayer().getWeapons().size())
-                        weapon = this.user.getPlayer().getWeapons().get(cardNumber);
+                    if(cardNumber>= 0 && cardNumber< GameController.get().getWeaponsToShoot(user.getPlayer()).size())
+                        weapon = GameController.get().getWeaponsToShoot(user.getPlayer()).get(cardNumber);
                     else
                         throw new InvalidInputException();
                     updateString.append(weapon.getName()).append(";").append(weapon.getEffectsList().size());

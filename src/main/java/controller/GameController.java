@@ -344,4 +344,12 @@ public class GameController{
         updatePhase(groupID);
     }
 
+    public List<Weapon> getWeaponsToShoot(Player player) {
+        List<Weapon> weaponsToShoot = new ArrayList<>();
+        for(Weapon weapon : player.getWeapons()){
+            if(weapon.isLoaded())
+                weaponsToShoot.add(weapon);
+        }
+        return weaponsToShoot;
+    }
 }
