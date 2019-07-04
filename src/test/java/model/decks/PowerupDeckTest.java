@@ -22,7 +22,7 @@ public class PowerupDeckTest {
         powerupDeck.discardCard(player, player.getPowerups().get(2));
 
         player.getPowerups().add(powerupDeck.pickCard());
-        assertEquals(2, powerupDeck.getPowerups().size() );
+        assertEquals(11, powerupDeck.getPowerups().size() );
 
 
     }
