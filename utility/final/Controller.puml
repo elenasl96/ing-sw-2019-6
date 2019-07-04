@@ -68,6 +68,35 @@ package controller {
         - checkWeaponEffects(Weapon, String[], int): boolean
         - GetEffectsLayout(List<CardEffect>): String
     }
+
+    class TimerController << (S,#FF7700) Singleton >> implements ModelObserver{
+        - timers: List<Timer>
+        - {static} instance: TimerController
+        __
+        + {static} get(): TimerController
+        + aggGroup(Group): void
+        + startTimer(int): void
+        + startTurnTimer(int): void
+    }
+
+    class ServerController{
+        - clientHandler: ClientHandler
+        - user: User
+        - currentGroup: Group
+        __
+        + connectionLost(): void
+        - playPowerup(Player, SendInput): void
+        - preparePowerup(Player, SendInput): Response
+        - playWeapon(Player, SendInput): void
+        - prepareWeapon(Player, SendInput): Response
+        - reloadWeapon(Player, SendInput): void
+        - pickWeapon(Player, SendInput): void
+
+    }
+
+    GameController <-- ServerController
+    GameController -> ShootController
+    TimerController <- GameController
 }
 package network{
     interface RemoteController
@@ -95,13 +124,23 @@ package network{
     + handle(CardRequest): void
     + handle(SendInput): void
     }
+
+    interface ClientHandler{
+    }
 }
 package view{
     interface View
 }
 
+interface ModelObserver{
+    + onJoin(User): void
+    + onLeave(User): void
+    + onStart(): void
+    + onUpdate(Update): void
+}
 ClientController <-- View
 ClientController <- RemoteController
 ClientController ..|> ResponseHandler
 ServerController ..|> RequestHandler
+ServerController --> ClientHandler
 @enduml
