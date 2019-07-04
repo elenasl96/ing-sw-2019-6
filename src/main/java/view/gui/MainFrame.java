@@ -197,7 +197,7 @@ public class MainFrame extends JFrame {
         JPanel timerPanel = new JPanel();
         ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource(
                 "clessidra.gif")).getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT));
-        time = new JLabel("02:00");
+        time = new JLabel("05:00");
         time.setIcon(imageIcon);
         timerPanel.add(time);
         middletop.add(timerPanel);
@@ -237,7 +237,7 @@ public class MainFrame extends JFrame {
 
         timer = new Timer(1000, new ActionListener() {
             int seconds = 59;
-            int minutes = 1;
+            int minutes = 4;
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(minutes>=0) {
@@ -262,7 +262,7 @@ public class MainFrame extends JFrame {
         add(voidPanel, BorderLayout.SOUTH);
         setSize(1150, 590);
         setResizable(false);
-        //timer.start();
+        timer.start();
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
@@ -338,7 +338,40 @@ public class MainFrame extends JFrame {
                         .getScaledInstance(140,140, Image.SCALE_SMOOTH)));
                 mapGrid[i][j].setLayout(new GridLayout(3,2));
                 mapGrid[i][j].addMouseListener(actionListenerCoordinate);
+                JPanel voidPanel = new JPanel();
+                voidPanel.setName(mapGrid[i][j].getCoordinate());
+                voidPanel.setBackground(new Color(0,0,0,0));
+                voidPanel.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        synchronized(lockCoordinate) {
+                            actionListenerCoordinate.setS(((JPanel) e.getSource()).getName());
+                            lockCoordinate.notifyAll();
+                        }
+                    }
 
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
+
+                mapGrid[i][j].add(voidPanel);
                 centralPanel.add(mapGrid[i][j]);
 
                 cont++;

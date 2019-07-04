@@ -102,11 +102,11 @@ public class TimerController implements ModelObserver {
         this.timers.add(groupID, new Timer());
         this.timers.get(groupID).purge();
         TimerTask timerTask2 = new TimerTask(){
-            int seconds = 121;
+            int seconds = 301;
             @Override
             public void run() {
                 Update update;
-                if(seconds == 120) {
+                if(seconds == 300) {
                     update = new Update(null, "timer");
                     update.setData("start");
                     GameContext.get().getGame(groupID).getCurrentPlayer().getUser().receiveUpdate(update);

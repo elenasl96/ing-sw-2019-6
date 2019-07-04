@@ -70,15 +70,15 @@ public class Main {
         //System.out.println(main.gui.askEffects());
 
         try {
+           main.gui.addDropPlayerBoard(1);
+            Thread.sleep(1000);
             main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
-            main.gui.addDropPlayerBoard(2);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
-            main.gui.addDropPlayerBoard(2);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
-            main.gui.addDropPlayerBoard(2);
-            Thread.sleep(1000);
-            main.gui.addDropPlayerBoard(4);
+            main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
 
            main.gui.addMarkerPlayerBoard(1);
@@ -139,8 +139,9 @@ public class Main {
             Thread.sleep(2000);
             main.gui.addSkullTrackShot();
             Thread.sleep(2000);
-            main.gui.addSkullTrackShot();
-            Thread.sleep(2000);*/
+            main.gui.addSkullTrackShot();*/
+            Thread.sleep(2000);
+            System.out.println(main.gui.getCoordinate());
 
 
 
