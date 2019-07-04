@@ -382,11 +382,13 @@ public class Player extends Target implements Serializable{
             this.receiveUpdate(updateMarks, groupId);
         }
         this.updateAdrenaline();
-        if(this.getPlayerBoard().getDamage().size() == (11 | 12))
+        if(this.getPlayerBoard().getDamage().size() == (11 | 12)) {
             this.dead = true;
+            this.getUser().receiveUpdate(new Update(null,"deathplayerboard"));
+            GameContext.get().getGame(groupId).sendUpdate(new Update(null,"killshottrack"));
+        }
         this.setPhase(POWERUP_WAIT);
         this.receiveUpdate(new Update(this, true), groupId);
-        this.getUser().receiveUpdate(new Update(null,"deathplayerboard"));
     }
 
     //self explanatory
