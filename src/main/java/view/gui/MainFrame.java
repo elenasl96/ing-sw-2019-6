@@ -338,7 +338,40 @@ public class MainFrame extends JFrame {
                         .getScaledInstance(140,140, Image.SCALE_SMOOTH)));
                 mapGrid[i][j].setLayout(new GridLayout(3,2));
                 mapGrid[i][j].addMouseListener(actionListenerCoordinate);
+                JPanel voidPanel = new JPanel();
+                voidPanel.setName(mapGrid[i][j].getCoordinate());
+                voidPanel.setBackground(new Color(0,0,0,0));
+                voidPanel.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        synchronized(lockCoordinate) {
+                            actionListenerCoordinate.setS(((JPanel) e.getSource()).getName());
+                            lockCoordinate.notifyAll();
+                        }
+                    }
 
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
+
+                mapGrid[i][j].add(voidPanel);
                 centralPanel.add(mapGrid[i][j]);
 
                 cont++;

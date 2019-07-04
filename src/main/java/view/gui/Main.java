@@ -70,7 +70,7 @@ public class Main {
         //System.out.println(main.gui.askEffects());
 
         try {
-            main.gui.addDropPlayerBoard(1);
+           /* main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
             main.gui.addDropPlayerBoard(2);
             Thread.sleep(1000);
@@ -115,7 +115,7 @@ public class Main {
             main.gui.getMapGrid()[2][0].setGrabbable("furnace;mp40;powerglove");
             main.gui.getMapGrid()[2][1].setGrabbable("furnace;mp40;powerglove");
             main.gui.getMapGrid()[2][2].setGrabbable("furnace;mp40;powerglove");
-            main.gui.getMapGrid()[2][3].setGrabbable("furnace;mp40;powerglove");
+            main.gui.getMapGrid()[2][3].setGrabbable("furnace;mp40;powerglove");*/
 
             main.gui.setCharacterMatch("cane",1);
             main.gui.updateMap(1,"A 2");
@@ -139,8 +139,9 @@ public class Main {
             Thread.sleep(2000);
             main.gui.addSkullTrackShot();
             Thread.sleep(2000);
-            main.gui.addSkullTrackShot();
-            Thread.sleep(2000);*/
+            main.gui.addSkullTrackShot();*/
+            Thread.sleep(2000);
+            System.out.println(main.gui.getCoordinate());
 
 
 
