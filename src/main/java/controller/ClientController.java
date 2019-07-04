@@ -100,13 +100,13 @@ public class ClientController extends UnicastRemoteObject implements ResponseHan
      * handles the next response(expected to be a GroupCreatedResponse)
      * @param skullNumber
      * @param fieldNumber
-     * @return the joined, created group or null in case of failure
+     * @return the created group number or null in case of failure
      * @see ChooseGroupRequest
      * @see #handle(JoinGroupResponse)
      */
     public int createGroup(int skullNumber, int fieldNumber) throws IOException {
-            client.request(new CreateGroupRequest(skullNumber, fieldNumber));
-            client.nextResponse().handle(this);
+        client.request(new CreateGroupRequest(skullNumber, fieldNumber));
+        client.nextResponse().handle(this);
         return ClientContext.get().getCurrentGroup().getGroupID();
     }
 

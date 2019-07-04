@@ -15,22 +15,22 @@ package view{
 }
 
 package network{
-    interface ClientHandler extends ModelObserver
-    class SocketClientHandler implements ClientHandler
-    class SocketClient implements RemoteController
-    class RMIClientHandler implements ClientHandler, RemoteController
 
     package commands{
-        interface RequestHandler
-        interface ResponseHandler
-        interface Request
-        interface Response
-    }
+            interface RequestHandler
+            interface ResponseHandler
+            interface Request
+            interface Response
+        }
     interface RemoteController
 
     Request --> RequestHandler
     Response <-- RequestHandler
     Response --> ResponseHandler
+    interface ClientHandler extends ModelObserver
+    class SocketClientHandler implements ClientHandler
+    class SocketClient implements RemoteController
+    class RMIClientHandler implements ClientHandler, RemoteController
 
 }
 

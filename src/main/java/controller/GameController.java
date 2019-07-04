@@ -43,12 +43,10 @@ public class GameController{
     }
 
     /**
-     *
      * @param cards a list of card (weapons or powerups)
      * @param index id number of first card
      * @return a string of cards ordered by id
      */
-
     public static String cardsToString(List cards, int index) {
         StringBuilder cardsString = new StringBuilder();
         for(Object c : cards){
@@ -58,6 +56,10 @@ public class GameController{
         return cardsString.toString();
     }
 
+    /**
+     * @param cards input cards
+     * @return the input cards in a String compatible with the GUI
+     */
     static String powerupToStringForGUI(List<Powerup> cards) {
         StringBuilder cardsString = new StringBuilder();
         for(Powerup c : cards){
@@ -67,6 +69,11 @@ public class GameController{
                 .toLowerCase().replace(" ","");
     }
 
+    /**
+     * @param player    the player
+     * @param groupID   the group ID
+     * @return  true if it's the player's turn
+     */
     boolean isMyTurn (Player player, int groupID){
         return player.equals(GameContext.get().getGame(groupID).getCurrentPlayer());
     }
@@ -76,7 +83,7 @@ public class GameController{
      * @param player the player who is asking for moves in first and second phase
      * @param groupID the id of his group
      * @return an update which describes the moves he can play (RUN, GRAB OR SHOOT)
-     * @throws InvalidMoveException
+     * @throws InvalidMoveException if the move is not correct
      */
     synchronized Update possibleMoves(Player player, int groupID) throws InvalidMoveException {
         StringBuilder content = new StringBuilder();
@@ -136,6 +143,12 @@ public class GameController{
         return update;
     }
 
+    /**
+     * @param player    the player spawning
+     * @param spawn     the number of the selected card
+     * @param groupID   the group ID
+     * @throws NotExistingPositionException if the SpawnSquare selected doesn't exist
+     */
     synchronized void setSpawn(Player player, int spawn, int groupID) throws NotExistingPositionException {
         if(isMyTurn(player, groupID) &&
                 player.getPhase().equals(SPAWN) &&
@@ -168,7 +181,6 @@ public class GameController{
      * @param groupID the id of the player's group
      * @return an update
      */
-
     synchronized Update getSpawn(Player player, int groupID) {
         player.getPowerups().add(GameContext.get().getGame(groupID)
             .getBoard().getPowerupsLeft().pickCard());
@@ -346,7 +358,11 @@ public class GameController{
         updatePhase(groupID);
     }
 
-    public List<Weapon> getWeaponsToShoot(Player player) {
+    /**
+     * @param player    the player
+     * @return          adds the weapons that are actually loaded to a list that is returned
+     */
+    List<Weapon> getWeaponsToShoot(Player player) {
         List<Weapon> weaponsToShoot = new ArrayList<>();
         for(Weapon weapon : player.getWeapons()){
             if(weapon.isLoaded())

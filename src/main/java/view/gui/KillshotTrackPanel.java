@@ -17,7 +17,7 @@ public class KillshotTrackPanel extends JPanel {
         count++;
         int i=0;
         for(i=0;i<count;i++) {
-            add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("xmas.jpg")).getImage()
+            add(new JLabel((new ImageIcon(new ImageIcon(this.getClass().getResource("skull.png")).getImage()
                     .getScaledInstance(30,30, Image.SCALE_SMOOTH)))));
         }
         for(;i<9;i++)

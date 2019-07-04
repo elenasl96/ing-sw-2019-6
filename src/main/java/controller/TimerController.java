@@ -190,7 +190,7 @@ public class TimerController implements ModelObserver {
 
     @Override
     public void onEndGame() {
-        //TODO end game
+        //Does nothing
     }
 
     @Override

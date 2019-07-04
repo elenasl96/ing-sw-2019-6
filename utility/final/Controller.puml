@@ -1,5 +1,107 @@
 @startuml
 
-class ClientController
+package controller {
+    class ClientController{
+        - client: RemoteController
+        - view: View
+        - gameNotDone: boolean
+        - weaponInUse: int
+        __
+        + ClientController(RemoteController, View)
+        + createUser(String): User
+        + chooseGroup(int): Group
+        + getSituation(): String
+        + createGroup(int, int): int
+        + setCharacter(int): Character
+        + startReceiverThread(): void
+        + sendCommand(String): void
+        + run(): void
+        - gamingPhase(): void
+        - chooseReload(Boolean): void
+        - choosePowerupEnd(Boolean): void
+    }
 
+    class GameController << (S,#FF7700) Singleton >>{
+        - {static} instance: GameController
+        __
+        + {static} get(): GameController
+        + {static} cardsToString(List, int): String
+        + powerupsToStingForGUI(List<Powerup): String
+        + isMyTurn(Player, int): boolean
+        + possibleMoves(Player, int): Update
+        + setSpawn(Player, int, int): void
+        + getSpawn(Player, int): Update
+        + updatePhase(int): void
+        + getWeaponsToReload(Player): List<Weapon>
+        + reloadWeapon(Player, int, int): void
+        + getWeaponsToShoot(Player): List<Weapon>
+        - updatePoints(int): void
+        - playPendingMoves(Player, int): void
+        - firstSecondMoves(Player, StringBuilder, int): Update
+        - expiredCurrentCardEffects(List<CardEffect>): void
+    }
+
+    class ShootController << (S,#FF7700) Singleton >> {
+        - {static} instance: ShootController
+        __
+        + {static} get(): ShootController
+        + prepareWeapon(Player, String, int): String
+        + playWeapon(Player, String, int): void
+        + checkDifferentInputs(String[][]): void
+        + getPowerupsToPlay(Player, int): List<Powerup>
+        + isPlayable(Player, Powerup, int): boolean
+        + preparePowerup(Player, String, int): String
+        + playPowerup(Player, String, int): void
+        + generateMatrix(String): String[][]
+        + checkTarget(Player, Target, String, int): void
+        + checkMaxDistance(Integer, Square, int): void
+        + checkMinDistance(Integer, Square, int): void
+        - findCardinalTargets(Target, int): List<Target>
+        - areCardinal(Target, Target, int): void
+        - wasDamaged(Target, int): boolean
+        - checkTargetType(Player, Target, Target, int
+        - fillWithInput(Player, String[][], int): void
+        - fillFields(List<CardEffect>, int): void
+        - addMoves(Player, Powerup): void
+        - playCard(Player, String, int): void
+        - unloadWeaponInUse(Player): void
+        - checkWeaponEffects(Weapon, String[], int): boolean
+        - GetEffectsLayout(List<CardEffect>): String
+    }
+}
+package network{
+    interface RemoteController
+    interface ResponseHandler{
+        + handle(TextResponse): void
+        + handle(JoinGroupResponse): void
+        + handle(UserCreatedResponse): void
+        + handle(SituationViewerResponse): void
+        + handle(SetCharacterResponse): void
+        + handle(MoveUpdateResponse): void
+        + handle(AskInput): void
+        + handle(RejoiningResponse): void
+        + handle(EndGameNotification): void
+    }
+    interface RequestHandler{
+
+    + handle(CreateUserRequest): void
+    + handle(ChooseGroupRequest): void
+    + handle(SituationViewerRequest): void
+    + handle(CreateGroupRequest): void
+    + handle(SetCharacterRequest): void
+    + handle(PossibleMovesRequest): void
+    + handle(MoveRequest): void
+    + handle(SpawnRequest): void
+    + handle(CardRequest): void
+    + handle(SendInput): void
+    }
+}
+package view{
+    interface View
+}
+
+ClientController <-- View
+ClientController <- RemoteController
+ClientController ..|> ResponseHandler
+ServerController ..|> RequestHandler
 @enduml

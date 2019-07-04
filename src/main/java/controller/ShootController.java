@@ -120,12 +120,17 @@ public class ShootController {
         } else return false;
     }
 
+    /**
+     * Plays the card and unloads the weapon
+     * @see this#playCard(Player, String, int)
+     * @see this#unloadWeaponInUse(Player)
+     */
     void playWeapon(Player player, String input, int groupID) throws InvalidMoveException {
        playCard(player, input, groupID);
        unloadWeaponInUse(player);
     }
 
-    public void checkDifferentInputs(String[][] effectsMatrix) throws InvalidMoveException {
+    void checkDifferentInputs(String[][] effectsMatrix) throws InvalidMoveException {
         HashSet<String> set = new HashSet<>();
         for (String[] array : effectsMatrix) {
             for (String s : array) {
@@ -203,7 +208,7 @@ public class ShootController {
     /**
      * Add the moves of the powerup in the currentMoves of the player
      * @param player the player who asked for the powerup
-     * @param input the index in the poweruplist of the player
+     * @param input the index in the powerup list of the player
      * @param groupID the id of the player's group
      * @return a string representing the input requested by the powerup
      * @throws InvalidInputException if the index inserted is not correct
@@ -224,7 +229,7 @@ public class ShootController {
         }
     }
 
-    void addMoves(Player player, Powerup powerupToPlay) {
+    private void addMoves(Player player, Powerup powerupToPlay) {
         for(CardEffect c: powerupToPlay.getEffects()){
             player.getCurrentCardEffects().add(c);
         }
@@ -238,7 +243,7 @@ public class ShootController {
      * @param groupID the id of the player's group
      * @throws InvalidMoveException if the card can't be played
      */
-    void playCard(Player player, String input, int groupID) throws InvalidMoveException {
+    private void playCard(Player player, String input, int groupID) throws InvalidMoveException {
         //Convert input to matrix
         String[][] effectsMatrix = generateMatrix(input);
         //Check if inputs are all different
@@ -257,6 +262,9 @@ public class ShootController {
         }
     }
 
+    /**
+     * @see this#playCard(Player, String, int)
+     */
     void playPowerup(Player player, String input, int groupID) throws InvalidMoveException {
         Powerup powerupToPlay = player.getPowerups().get(0);
         playCard(player, input, groupID);
@@ -321,7 +329,6 @@ public class ShootController {
                         throw new NotEnoughFieldsException();
                     for(int k=j; k<player.getCurrentCardEffects().get(i).getEffects().size(); k++){
                         player.getCurrentCardEffects().get(i).getEffects().remove(k);
-                        //  if(!player.getCurrentCardEffects().get(i).getEffects().get(i).getOptionality()) throw d;
                     }
             }
 
@@ -352,6 +359,13 @@ public class ShootController {
         checkTargetType(player, target, realTarget, groupID);
     }
 
+    /**
+     * @param maxDistance       the max distance in steps
+     * @param targetPosition    the target position
+     * @param groupID           the group ID
+     * @throws NotExistingPositionException if the position is invalid
+     * @throws InvalidDistanceException if the distance check was negative
+     */
     public void checkMaxDistance(Integer maxDistance, Square targetPosition, int groupID) throws NotExistingPositionException, InvalidDistanceException {
         Square firstPosition = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition();
         Field field = GameContext.get().getGame(groupID).getBoard().getField();
@@ -369,6 +383,13 @@ public class ShootController {
         }
     }
 
+    /**
+     * @param minDistance       the min distance in steps
+     * @param targetPosition    the target position
+     * @param groupID           the group ID
+     * @throws NotExistingPositionException if the position is invalid
+     * @throws InvalidDistanceException if the distance check was negative
+     */
     public void checkMinDistance(Integer minDistance, Square targetPosition, int groupID) throws InvalidDistanceException, NotExistingPositionException {
         Square firstPosition = GameContext.get().getGame(groupID).getCurrentPlayer().getCurrentPosition();
         targetPosition.getReachSquares().clear();
@@ -380,7 +401,6 @@ public class ShootController {
             }
         }
     }
-
 
     private void checkTargetType(Player player, Target target, Target realTarget, int groupID) throws NotExistingPositionException, NotExistingTargetException, TargetTypeException {
         switch (target.getTargetType()) {

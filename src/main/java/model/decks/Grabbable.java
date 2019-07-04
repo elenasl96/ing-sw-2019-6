@@ -19,7 +19,15 @@ public interface Grabbable extends Serializable {
      */
     void pickGrabbable(int groupID, int toPick) throws NotEnoughAmmoException, NothingGrabbableException;
 
+    /**
+     * @return a specific String containing the type of the grabbable object in the Square
+     */
     String getGrabbableType();
+
+    /**
+     * @param player the player that wants to grab
+     * @return  true if the square can be grabbed into
+     */
     boolean isGrabbable(Player player);
     String toStringForGUI();
 }

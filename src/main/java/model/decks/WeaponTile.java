@@ -14,10 +14,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//TODO javadoc
+/**
+ * A tile containing 3 weapons, as in the weapon tile in the original game, one per Spawn Square
+ */
 public class WeaponTile implements Grabbable {
     private List<Weapon> weapons;
 
+    /**
+     * Only initialize its arrayList of weapons
+     */
     public WeaponTile() {
         weapons = new ArrayList<>();
     }
@@ -25,11 +30,12 @@ public class WeaponTile implements Grabbable {
     public void addWeapon(Weapon weapon) {
         weapons.add(weapon);
     }
-
     public void setWeapons(List<Weapon> weapons) { this.weapons = weapons; }
-
     public List<Weapon> getWeapons() { return weapons; }
 
+    /**
+     * @return a String containg each weapon id for each weapon in the tile
+     */
     public String getStringIdWeapons() {
         StringBuilder stringbuilder = new StringBuilder();
         for(Weapon w: weapons) {
@@ -44,6 +50,7 @@ public class WeaponTile implements Grabbable {
 
     @Override
     public boolean isGrabbable(Player p) {
+
         if(!weapons.isEmpty()) {
             int k=1;
             for (Weapon w : weapons) {

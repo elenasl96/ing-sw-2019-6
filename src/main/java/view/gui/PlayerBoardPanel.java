@@ -73,7 +73,7 @@ public class PlayerBoardPanel extends JPanel {
         for(int i=4;i<numSkull+4;i++) {
             try {
                 bottomPanel.add(new JLabel(new ImageIcon(new ImageIcon(
-                        this.getClass().getResource("xmas.jpg"))
+                        this.getClass().getResource("skull.png"))
                         .getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
             } catch (Exception e) {
                 System.err.println(e.getMessage());
