@@ -197,7 +197,7 @@ public class MainFrame extends JFrame {
         JPanel timerPanel = new JPanel();
         ImageIcon imageIcon = new ImageIcon(new ImageIcon(this.getClass().getResource(
                 "clessidra.gif")).getImage().getScaledInstance(20,20,Image.SCALE_DEFAULT));
-        time = new JLabel("02:00");
+        time = new JLabel("05:00");
         time.setIcon(imageIcon);
         timerPanel.add(time);
         middletop.add(timerPanel);
