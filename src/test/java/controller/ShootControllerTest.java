@@ -821,86 +821,25 @@ class ShootControllerTest {
         Player p2 = GameContext.get().getGame(0).getPlayers().get(1);
         p1.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(7));
         p2.setCurrentPosition(GameContext.get().getGame(0).getBoard().getField().getSquares().get(7));
-        p1.getWeapons().add(new Weapon().initializeWeapon(14));
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        String weaponsEffect = "0 0";
-        try {
-            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
+
+        for (int i = 0; i < 5; i++) {
+            p1.getWeapons().add(new Weapon().initializeWeapon(14));
+            p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
+            System.out.println(p1.getWeapons().get(0));
+            String weaponsEffect = "0 0";
+            try {
+                System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
+            } catch (IndexOutOfBoundsException | InvalidMoveException e) {
+                System.out.println(e.getMessage());
+            }
+            String weaponChosen = "user2";
+            ShootController.get().playWeapon(p1, weaponChosen, 0);
+            p1.getCurrentCardEffects().clear();
         }
-        String weaponChosen = "user2";
-        ShootController.get().playWeapon(p1, weaponChosen, 0);
-        p1.getCurrentCardEffects().clear();
-
-
-        //second damage
-        assertEquals(1, p2.getPlayerBoard().getDamage().size());
-        assertEquals(2, p2.getPlayerBoard().getMarks().size());
-        assertEquals(WeaponStatus.UNLOADED,p1.getWeapons().get(0).getStatus());
-
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        weaponsEffect = "0 0";
-        try {
-            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }
-        weaponChosen = "user2";
-        ShootController.get().playWeapon(p1, weaponChosen, 0);
-        p1.getCurrentCardEffects().clear();
-
-        assertEquals(4, p2.getPlayerBoard().getDamage().size());
-        assertEquals(2, p2.getPlayerBoard().getMarks().size());
-
-        //fourth
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        weaponsEffect = "0 0";
-        try {
-            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }
-        weaponChosen = "user2";
-        ShootController.get().playWeapon(p1, weaponChosen, 0);
-
-        assertEquals(7, p2.getPlayerBoard().getDamage().size());
-        assertEquals(2, p2.getPlayerBoard().getMarks().size());
-        p1.getCurrentCardEffects().clear();
-
-        //third
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        weaponsEffect = "0 0";
-        try {
-            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }
-        weaponChosen = "user2";
-        ShootController.get().playWeapon(p1, weaponChosen, 0);
-
-        assertEquals(10, p2.getPlayerBoard().getDamage().size());
-        assertEquals(2, p2.getPlayerBoard().getMarks().size());
-        p1.getCurrentCardEffects().clear();
-
-        //fifth
-        p1.getWeapons().get(0).setStatus(WeaponStatus.LOADED);
-        System.out.println(p1.getWeapons().get(0));
-        weaponsEffect = "0 0";
-        try {
-            System.out.println(ShootController.get().prepareWeapon(p1, weaponsEffect, 0));
-        }catch(IndexOutOfBoundsException | InvalidMoveException e){
-            System.out.println(e.getMessage());
-        }
-        weaponChosen = "user2";
-        ShootController.get().playWeapon(p1, weaponChosen, 0);
 
         assertEquals(12, p2.getPlayerBoard().getDamage().size());
         assertEquals(2, p2.getPlayerBoard().getMarks().size());
+        assertTrue(p2.isDead());
 
     }
 
