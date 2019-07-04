@@ -140,10 +140,11 @@ public class ViewGui implements View {
                 case "timer":
                     if(update.getData().equals("start")) {
                         gui.setTime("05:00");
-                        gui.getTimer().restart();
+                        gui.getTimer().start();
                     } else {
                         gui.setTime("00:00");
                         gui.getTimer().stop();
+
                     }
                     break;
                 case "field":
@@ -154,9 +155,6 @@ public class ViewGui implements View {
                     break;
                 case "deathplayerboard":
                     gui.deathPlayerBoard();
-                    break;
-                case "killshottrack":
-                    gui.addSkullTrackShot();
                     break;
                 case "victory":
                     gui.popUpVictory();
