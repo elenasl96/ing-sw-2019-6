@@ -58,7 +58,7 @@ public class GameController{
         return cardsString.toString();
     }
 
-    public static String powerupToStringForGUI(List<Powerup> cards) {
+    static String powerupToStringForGUI(List<Powerup> cards) {
         StringBuilder cardsString = new StringBuilder();
         for(Powerup c : cards){
             cardsString.append(c.getName()).append(c.getAmmo().getColor().getAbbr()).append(";");

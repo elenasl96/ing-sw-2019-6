@@ -3,6 +3,9 @@ package view.gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * LeftPanel indicating the ammos of a single color possessed by the current player
+ */
 public class AmmoPanel extends JPanel {
 
     private ImageIcon img;
@@ -13,6 +16,9 @@ public class AmmoPanel extends JPanel {
         setAmmo(nAmmo);
     }
 
+    /**
+     * @param n adds n Ammo to the player
+     */
     public void setAmmo(int n) {
         removeAll();
 

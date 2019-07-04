@@ -31,8 +31,6 @@ import static controller.GameController.powerupToStringForGUI;
 import static model.enums.Phase.DISCONNECTED;
 import static model.enums.Phase.WAIT;
 
-//TODO Javadoc
-
 /**
  * Handles the Requests coming from the SocketClientHandler via Socket
  * chain ViewClient -> ClientController -> SocketClient --network.socket--> SocketClientHandler -> ServerController
@@ -47,7 +45,6 @@ import static model.enums.Phase.WAIT;
  */
 
 public class ServerController implements RequestHandler {
-    private static final String ENDGAME = "endgame";
     /**
      * reference to the networking layer
      */
@@ -426,27 +423,6 @@ public class ServerController implements RequestHandler {
         }
     }
 
-  /*  @Override
-    public Response handle(ShootRequest shootRequest) {
-        try {
-                new MoveAndShoot();
-                }catch(IndexOutOfBoundsException | InvalidMoveException e){
-                user.getPlayer().getCurrentCardEffects().clear();
-                user.receiveUpdate(new Update("Invalid input!", UPDATE_CONSOLE));
-                user.receiveUpdate(new Update(user.getPlayer(), true));
-            //user.receiveUpdate(new Update(user.getPlayer(),true)); <-socket null exception
-                }catch(NumberFormatException e){
-                user.getPlayer().getCurrentCardEffects().clear();
-                user.receiveUpdate(new Update("Not Valid Number", UPDATE_CONSOLE));
-                user.receiveUpdate(new Update(user.getPlayer(), true));
-            }catch(NullPointerException e){
-                user.getPlayer().getCurrentCardEffects().clear();
-                user.receiveUpdate(new Update("Not Valid effects", UPDATE_CONSOLE));
-                user.receiveUpdate(new Update(user.getPlayer(), true));
-        }
-        return null;
-    }
-*/
     @Override
     public Response handle(MoveRequest moveRequest) {
         try {

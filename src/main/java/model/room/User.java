@@ -108,13 +108,4 @@ public class User implements Serializable, Comparable<User> {
         return updateObservers;
     }
 
-    /*
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-        // upon deserialization, observers are reset
-        updateObservers = new LinkedList<>();
-    }
-
-     */
-
 }

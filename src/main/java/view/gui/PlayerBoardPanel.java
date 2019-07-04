@@ -102,7 +102,7 @@ public class PlayerBoardPanel extends JPanel {
 
         for(int i=0;i<numMarker;i++) {
             markerPanel.add(new JLabel(new ImageIcon(new ImageIcon(
-                    this.getClass().getResource("marker" + serieMarker[i] + ".png"))
+                    this.getClass().getResource("marker" + serieMarker[i] + ".PNG"))
                     .getImage().getScaledInstance(17, 17, Image.SCALE_SMOOTH))));
         }
 
@@ -131,7 +131,7 @@ public class PlayerBoardPanel extends JPanel {
 
         for(int i = 0;i<(sizeSerie>2?2:sizeSerie);i++){
             dropPanel.add(new JLabel(new ImageIcon(new ImageIcon(
-                this.getClass().getResource("drop" + serieDamage[i] +".png")).getImage()
+                this.getClass().getResource("drop" + serieDamage[i] +".PNG")).getImage()
                 .getScaledInstance(30, 30, Image.SCALE_SMOOTH))));
         }
 

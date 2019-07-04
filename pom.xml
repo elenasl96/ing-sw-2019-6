@@ -126,7 +126,7 @@
                         <descriptorRefs>
                             <descriptorRef>jar-with-dependencies</descriptorRef>
                         </descriptorRefs>
-                        <finalName>${project.artifactId}</finalName>
+                        <finalName>${project.artifactId}-client</finalName>
                     </configuration>
                     <phase>package</phase>
                     <goals>
@@ -145,7 +145,7 @@
                         <descriptorRefs>
                             <descriptorRef>jar-with-dependencies</descriptorRef>
                         </descriptorRefs>
-                        <finalName>${project.artifactId}-logReader</finalName>
+                        <finalName>${project.artifactId}-server</finalName>
                     </configuration>
                     <phase>package</phase>
                     <goals>
@@ -155,6 +155,11 @@
             </executions>
         </plugin>
     </plugins>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+    </resources>
 </build>
 
 </project>

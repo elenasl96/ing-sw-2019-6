@@ -82,7 +82,7 @@ public class MainFrame extends JFrame {
         for(int i=0;i<5;i++) {
             charactersCoordinates[i] = new Character(new CharacterLabel(
                     new ImageIcon(new ImageIcon(this.getClass().getResource("Pedine/pg" +
-                    (i + 1)+".png")).getImage()
+                    (i + 1)+".PNG")).getImage()
                     .getScaledInstance(WIDTH_PAWN, HEIGHT_PAWN, Image.SCALE_SMOOTH))));
             charactersCoordinates[i].getIcon().addMouseListener(new MouseListener() {
                 @Override

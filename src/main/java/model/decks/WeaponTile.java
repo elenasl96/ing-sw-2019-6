@@ -44,14 +44,20 @@ public class WeaponTile implements Grabbable {
 
     @Override
     public boolean isGrabbable(Player p) {
-        for(Weapon w: weapons){
-            int costSize = w.getEffectsList().get(0).getCost().size();
-            for(int i=1; i<costSize; i++){
-                if(Collections.frequency(
-                        p.getAmmos(), w.getEffectsList().get(0).getCost().get(i))>=
-                        Collections.frequency(w.getEffectsList().get(0).getCost().subList(1, costSize),
-                                w.getEffectsList().get(0).getCost().get(i)))
+        if(!weapons.isEmpty()) {
+            int k=1;
+            for (Weapon w : weapons) {
+                int costSize = w.getEffectsList().get(0).getCost().size();
+                for (int i = 1; i < costSize; i++) {
+                    if (Collections.frequency(
+                            p.getAmmos(), w.getEffectsList().get(0).getCost().get(i)) >=
+                            Collections.frequency(w.getEffectsList().get(0).getCost().subList(1, costSize),
+                                    w.getEffectsList().get(0).getCost().get(i)))
+                        k++;
+                }
+                if(k>=costSize)
                     return true;
+                k = 1;
             }
         }
         return false;
@@ -70,7 +76,8 @@ public class WeaponTile implements Grabbable {
 
     @Override
     public void pickGrabbable(int groupID, int toPick) throws NotEnoughAmmoException, NothingGrabbableException {
-        if(toPick < 0 || toPick >= weapons.size())
+        Player currentPlayer = GameContext.get().getGame(groupID).getCurrentPlayer();
+        if(toPick < 0 || toPick >= weapons.size() || currentPlayer.getWeapons().size() >= 3)
             throw new NothingGrabbableException();
         Weapon weapon = this.weapons.get(toPick);
         ArrayList<Ammo> ammosToPay = new ArrayList<>();
