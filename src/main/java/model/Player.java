@@ -382,9 +382,9 @@ public class Player extends Target implements Serializable{
             this.receiveUpdate(updateMarks, groupId);
         }
         this.updateAdrenaline();
-        if(this.getPlayerBoard().getDamage().size() == (11 | 12)) {
+        if(this.getPlayerBoard().getDamage().size() >= 11) {
             this.dead = true;
-            this.getUser().receiveUpdate(new Update(null,"deathplayerboard"));
+            this.getUser().receiveUpdate(new Update("You are dead! Wait for spawn","deathplayerboard"));
             GameContext.get().getGame(groupId).sendUpdate(new Update(null,"killshottrack"));
         }
         this.setPhase(POWERUP_WAIT);

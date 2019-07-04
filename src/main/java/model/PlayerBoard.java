@@ -28,7 +28,8 @@ public class PlayerBoard implements Serializable {
      */
     int addDamage(Player pg, int numDamage) {
         int damagesSuffered = 0;
-        for(int i=0; i<min(numDamage, this.getNumDamageLeft()); i++){
+        int damagesLeft = this.getNumDamageLeft();
+        for(int i=0; i<min(numDamage, damagesLeft); i++){
             this.damage.add(pg);
             damagesSuffered ++;
         }
