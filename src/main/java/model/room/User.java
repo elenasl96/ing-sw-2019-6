@@ -2,6 +2,7 @@ package model.room;
 
 import model.Player;
 import model.enums.Character;
+import model.enums.Phase;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class User implements Serializable, Comparable<User> {
-
+    private Phase status = Phase.WAIT;
     private String username;
     /**
      * PATTERN OBSERVER
@@ -46,6 +47,10 @@ public class User implements Serializable, Comparable<User> {
         return username;
     }
 
+    public void setStatus(Phase status) {
+        this.status = status;
+    }
+
     public int getUserID(){
         return this.userID;
     }
@@ -64,10 +69,12 @@ public class User implements Serializable, Comparable<User> {
      * @param update sends the update directly to this user
      */
     public synchronized void receiveUpdate(Update update){
-        //The user's observers are only his specific SocketClientHandler and ViewClient
-        for (ModelObserver observer : updateObservers) {
-            if(observer != null)
-                observer.onUpdate(update);
+        if(!this.status.equalsTo(Phase.DISCONNECTED)) {
+            //The user's observers are only his specific SocketClientHandler and ViewClient
+            for (ModelObserver observer : updateObservers) {
+                if (observer != null)
+                    observer.onUpdate(update);
+            }
         }
     }
 

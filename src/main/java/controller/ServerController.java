@@ -73,35 +73,35 @@ public class ServerController implements RequestHandler {
      * in case of connectionLost, the ServerController notifies the leaving of the user
      * @see SocketClientHandler#run()  for usage
      */
-    public void connectionLost(){
+    public void connectionLost() {
         System.out.println(">>> Disconnection!");
         user.getPlayer().setPhase(DISCONNECTED);
+        user.setStatus(DISCONNECTED);
         //currentGroup.leave(user);
-        if(currentGroup.getGame()!=null){
+        if (currentGroup.getGame() != null) {
             int count = 0;
-            for(Player p: currentGroup.getGame().getPlayers()){
-                if(p.getPhase()!= Phase.DISCONNECTED){
+            for (Player p : currentGroup.getGame().getPlayers()) {
+                if (p.getPhase() != Phase.DISCONNECTED) {
                     count++;
                 }
             }
-            System.out.println(">>> Players remaining: "+ count);
-            if(count<3) {
+            System.out.println(">>> Players remaining: " + count);
+            if (count < 3) {
                 List<Player> winners = currentGroup.getGame().getPlayers().findHighest(currentGroup.getGroupID());
-                System.out.println(">>> The winners are: "+winners);
+                System.out.println(">>> The winners are: " + winners);
                 for (Player winner : winners) {
                     Update update = new Update("Congratulations! You win!", "victory");
                     winner.receiveUpdate(update, currentGroup.getGroupID());
                 }
-                for(Player player: GameContext.get().getGame(currentGroup.getGroupID()).getPlayers()) {
-                    if(!player.getPhase().equalsTo(DISCONNECTED))
+                for (Player player : GameContext.get().getGame(currentGroup.getGroupID()).getPlayers()) {
+                    if (!player.getPhase().equalsTo(DISCONNECTED))
                         player.getUser().sendEndNotification();
                 }
-                }
-               // currentGroup.sendEndNotification();
             } else {
                 GameController.get().updatePhase(currentGroup.getGroupID());
             }
         }
+    }
 
     // ------ Request handling
 
