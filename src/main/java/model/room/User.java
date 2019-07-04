@@ -71,6 +71,13 @@ public class User implements Serializable, Comparable<User> {
         }
     }
 
+    public void sendEndNotification(){
+        for (ModelObserver observer : updateObservers) {
+            if(observer != null)
+                observer.onEndGame();
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -76,7 +76,7 @@ public class ServerController implements RequestHandler {
     public void connectionLost(){
         System.out.println(">>> Disconnection!");
         user.getPlayer().setPhase(DISCONNECTED);
-        currentGroup.leave(user);
+        //currentGroup.leave(user);
         if(currentGroup.getGame()!=null){
             int count = 0;
             for(Player p: currentGroup.getGame().getPlayers()){
@@ -92,13 +92,16 @@ public class ServerController implements RequestHandler {
                     Update update = new Update("Congratulations! You win!", "victory");
                     winner.receiveUpdate(update, currentGroup.getGroupID());
                 }
-                currentGroup.sendEndNotification();
+                for(Player player: GameContext.get().getGame(currentGroup.getGroupID()).getPlayers()) {
+                    if(!player.getPhase().equalsTo(DISCONNECTED))
+                        player.getUser().sendEndNotification();
+                }
+                }
+               // currentGroup.sendEndNotification();
             } else {
                 GameController.get().updatePhase(currentGroup.getGroupID());
             }
         }
-
-    }
 
     // ------ Request handling
 
@@ -373,6 +376,7 @@ public class ServerController implements RequestHandler {
             ShootController.get().playWeapon(this.user.getPlayer(), inputResponse.getInput(), currentGroup.getGroupID());
             GameController.get().updatePhase(currentGroup.getGroupID());
         } catch (RuntimeException | InvalidMoveException e) {
+            ShootController.get().maintainWeaponInUse(user.getPlayer());
             user.getPlayer().getCurrentMoves().clear();
             user.getPlayer().getCurrentCardEffects().clear();
             user.receiveUpdate(new Update(e.getMessage(), UPDATE_CONSOLE));
