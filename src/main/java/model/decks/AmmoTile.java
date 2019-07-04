@@ -146,18 +146,29 @@ class AmmoTileWithPowerup extends AmmoTile{
      */
     @Override
     public void pickGrabbable(int groupID, int toPick) {
-        String ammosGrabbed = GameContext.get().getGame(groupID).getCurrentPlayer()
-                .fillAmmoFromTile(this);
-        GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups()
-                .add(powerup);
-        Update update = new Update("You grab these ammos:" + ammosGrabbed +
-                "You pick a new powerup:" + powerup.toString(),"powerup");
-        update.setData(powerup.getName().substring(0,powerup.getName().length()-1));
-        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update, groupID);
-        update = new Update(null,"reload");
-        update.setData(GameContext.get().getGame(groupID).getCurrentPlayer().getAmmos().toString().replace("[","").replace("]","")
+        Player currentPlayer = GameContext.get().getGame(groupID).getCurrentPlayer();
+        StringBuilder updateMessage = new StringBuilder();
+        Update update;
+
+        //Grab ammos
+        String ammosGrabbed = currentPlayer.fillAmmoFromTile(this);
+        updateMessage.append("You grab these ammos:").append(ammosGrabbed);
+
+        //Grab powerup
+        if(GameContext.get().getGame(groupID).getCurrentPlayer().getPowerups().size()<3) {
+            updateMessage.append("You pick a new powerup:").append(powerup.toString());
+            currentPlayer.getPowerups().add(powerup);
+            //Send updates
+             update = new Update(updateMessage.toString(), "powerup");
+            update.setData(powerup.getName().substring(0, powerup.getName().length() - 1));
+            currentPlayer.receiveUpdate(update, groupID);
+        }
+
+        //Send updates
+        update = new Update(null, "reload");
+        update.setData(currentPlayer.getAmmos().toString().replace("[","").replace("]","")
                 .replace(" ","").toLowerCase());
-        GameContext.get().getGame(groupID).getCurrentPlayer().receiveUpdate(update, groupID);
+        currentPlayer.receiveUpdate(update, groupID);
 
         init(GameContext.get().getGame(groupID).getBoard());
     }
