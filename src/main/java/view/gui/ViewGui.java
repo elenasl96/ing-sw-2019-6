@@ -139,7 +139,7 @@ public class ViewGui implements View {
                     break;
                 case "timer":
                     if(update.getData().equals("start")) {
-                        gui.setTime("02:00");
+                        gui.setTime("05:00");
                         gui.getTimer().restart();
                     } else {
                         gui.setTime("00:00");
