@@ -170,7 +170,7 @@ public class ViewGui implements View {
 
     @Override
     public void onEndGame() {
-        //TODO end game
+        gui.setConsole("THE GAME ENDED");
     }
 
     @Override
