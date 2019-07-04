@@ -72,10 +72,10 @@ public class PlayerBoardPanel extends JPanel {
 
         for(int i=4;i<numSkull+4;i++) {
             try {
-                bottomPanel.add(new JLabel(
-                        new ImageIcon(ImageIO.read(new File("src/resources/xmas.jpg"))
-                        .getScaledInstance(60, 60, Image.SCALE_SMOOTH))));
-            } catch (IOException e) {
+                bottomPanel.add(new JLabel(new ImageIcon(new ImageIcon(
+                        this.getClass().getResource("xmas.jpg"))
+                        .getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))));
+            } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
         }
@@ -94,8 +94,11 @@ public class PlayerBoardPanel extends JPanel {
         JPanel voidPanel;
 
         markerPanel.removeAll();
-        serieMarker[numMarker] = num;
-        numMarker++;
+
+        if(num!=-1) {
+            serieMarker[numMarker] = num;
+            numMarker++;
+        }
 
         for(int i=0;i<numMarker;i++) {
             markerPanel.add(new JLabel(new ImageIcon(new ImageIcon(
@@ -176,6 +179,32 @@ public class PlayerBoardPanel extends JPanel {
         serieMarker = new int[12];
         numMarker = 0;
         sizeSerie = 0;
+
+        dropPanel.revalidate();
+        dropPanel.repaint();
+        markerPanel.revalidate();
+        markerPanel.repaint();
+    }
+
+    void removeMarker(int num) {
+        int count = 0;
+
+        for(int i=0;i<numMarker;i++)
+        {
+            if(serieMarker[i] == num) {
+                for(int j=i;j<numMarker-1;j++){
+                    serieMarker[j] = serieMarker[j+1];
+                }
+                count++;
+                numMarker--;
+                i--;
+            }
+        }
+
+        for(int i=0;i<count;i++) {
+            addDrop(num);
+        }
+        addMarker(-1);
     }
 
     @Override

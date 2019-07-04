@@ -121,6 +121,9 @@ public class ViewGui implements View {
                     for(int i=0;i<Integer.parseInt(data[0]);i++) {
                         gui.addMarkerPlayerBoard(Integer.parseInt(data[1]));
                     } break;
+                case "removemark":
+                    gui.removeMarks(Integer.parseInt(update.getData()));
+                    break;
                 case "tileinsquare":
                     data = update.getData().split(":");
                     String[] coord = data[1].split(" ");

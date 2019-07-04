@@ -374,11 +374,11 @@ public class Player extends Target implements Serializable{
                 "from " + playerDamaging.getName(),"damages");
         updateDamages.setData(damagesReceived + ";" + playerDamaging.getCharacter().getNum());
         this.receiveUpdate(updateDamages, groupId);
-        //TODO update marksDeleted for GUI (SCHERO)
         if(marksRemoved>0) {
             updateMarks = new Update(
                     "Your " + marksRemoved + " marks from "
-                            + playerDamaging.getName() + " are removed");
+                            + playerDamaging.getName() + " are removed", "removemark");
+            updateMarks.setData(playerDamaging.getCharacter().getNum()+"");
             this.receiveUpdate(updateMarks, groupId);
         }
         this.updateAdrenaline();
