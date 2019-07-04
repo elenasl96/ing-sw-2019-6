@@ -155,6 +155,9 @@ public class ViewGui implements View {
                 case "deathplayerboard":
                     gui.deathPlayerBoard();
                     break;
+                case "killshottrack":
+                    gui.addSkullTrackShot();
+                    break;
                 case "victory":
                     gui.popUpVictory();
                     viewCli.stopMusic();
