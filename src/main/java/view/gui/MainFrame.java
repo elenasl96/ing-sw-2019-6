@@ -237,7 +237,7 @@ public class MainFrame extends JFrame {
 
         timer = new Timer(1000, new ActionListener() {
             int seconds = 59;
-            int minutes = 1;
+            int minutes = 4;
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(minutes>=0) {
@@ -262,7 +262,7 @@ public class MainFrame extends JFrame {
         add(voidPanel, BorderLayout.SOUTH);
         setSize(1150, 590);
         setResizable(false);
-        //timer.start();
+        timer.start();
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
