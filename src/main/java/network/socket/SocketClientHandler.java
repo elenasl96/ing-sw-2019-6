@@ -70,6 +70,7 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
                     e.printStackTrace();
                     controller.getUser().getPlayer().setPhase(DISCONNECTED);
                    printError(e.getClass().getSimpleName() + "IO - " + e.getMessage());
+                   stop = true;
                   /*  e.printStackTrace();
                     printError(e.getClass().getSimpleName() + " - " + e.getMessage());
                     controller.connectionLost();*/
