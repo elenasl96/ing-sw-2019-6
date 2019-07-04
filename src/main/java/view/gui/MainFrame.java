@@ -826,5 +826,14 @@ public class MainFrame extends JFrame {
     void deathPlayerBoard() {
         playerBoard.resetPlayerBoard();
         playerBoard.addSkull();
+
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
+    }
+
+    public void removeMarks(int num) {
+        playerBoard.removeMarker(num);
+        setState(Frame.ICONIFIED);
+        setState(Frame.NORMAL);
     }
 }
