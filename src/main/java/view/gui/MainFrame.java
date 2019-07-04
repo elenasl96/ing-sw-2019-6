@@ -225,7 +225,6 @@ public class MainFrame extends JFrame {
         JButton voidButton = new JButton("Void");
         voidButton.addActionListener(e -> {
             synchronized (lockCharacter) {
-                command = command + ";";
                 actionListenerCoordinate.setS("");
                 playerSelected = "";
                 lockCharacter.notifyAll();
@@ -588,7 +587,6 @@ public class MainFrame extends JFrame {
             Thread.currentThread().interrupt();
             System.err.println(e.getMessage());
         }
-
         return playerSelected;
     }
 
@@ -757,11 +755,13 @@ public class MainFrame extends JFrame {
     }
 
     public void fillFields(String s) {
+        command = "";
         String[] data = s.split(";");
         String[] serie;
-        StringBuilder commandBuild = new StringBuilder();
+        StringBuilder commandBuild;
         for (String effect : data) {
             serie = effect.split(",");
+            commandBuild = new StringBuilder();
             for (String field : serie) {
                 switch (field) {
                     case "player":
@@ -780,11 +780,13 @@ public class MainFrame extends JFrame {
                         break;
                 }
             }
-            if(!command.equals("")) {
-                command = commandBuild.substring(0,commandBuild.length()-1);
+            if(!commandBuild.toString().equals("")) {
+                command = command + commandBuild.toString().substring(0,commandBuild.length()-1);
             }
              command = command + ";";
         }
+
+        System.out.println(command);
     }
 
     void setStringFields(String stringFields) {
@@ -794,9 +796,7 @@ public class MainFrame extends JFrame {
     String getCommand() {
 
         fillFields(stringFields);
-        String toSend = command;
-        command = "";
-        return toSend.substring(0,toSend.length()-1);
+        return command.substring(0,command.length()-1);
     }
 
     void setCharacterMatch(String name, int num) {

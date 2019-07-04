@@ -23,7 +23,7 @@ public class Character {
         this.coordinate = coordinate;
     }
 
-    JLabel getIcon() {
+    CharacterLabel getIcon() {
         return icon;
     }
 

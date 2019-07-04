@@ -262,7 +262,9 @@ public class ServerController implements RequestHandler {
                     return new AskInput("effectsToPlay");
                 case "noCard":
                     if(GameController.get().isMyTurn(user.getPlayer(), currentGroup.getGroupID())) {
-                        user.receiveUpdate(new Update(null, "turnbar"));
+                        update = new Update(null,"turnbar");
+                        update.setData("false");
+                        user.receiveUpdate(update);
                         GameController.get().updatePhase(currentGroup.getGroupID());
                     }
                     break;
@@ -271,7 +273,9 @@ public class ServerController implements RequestHandler {
                     weaponsToReload.setWeapons(GameController.get().getWeaponToReload(user.getPlayer()));
                     if (weaponsToReload.getWeapons().isEmpty()) {
                         user.receiveUpdate(new Update("You haven't weapons to reload", UPDATE_CONSOLE));
-                        user.receiveUpdate(new Update(null, "turnbar"));
+                        update = new Update(null,"turnbar");
+                        update.setData("false");
+                        user.receiveUpdate(update);
                         GameController.get().updatePhase(currentGroup.getGroupID());
                     } else {
                         update = new Update("You can reload these weapons: " + cardsToString(weaponsToReload.getWeapons(), 0), "choosecard");

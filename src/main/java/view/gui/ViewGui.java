@@ -103,7 +103,7 @@ public class ViewGui implements View {
                     gui.createPopUp(data);
                     break;
                 case "turnbar":
-                    gui.setBackGroundTurn(false);
+                    gui.setBackGroundTurn(Boolean.parseBoolean(update.getData()));
                     break;
                 case "layouteffect":
                     System.out.println(update.getData());
@@ -244,6 +244,7 @@ public class ViewGui implements View {
 
     @Override
     public Boolean choosePowerup() {
+        gui.setBackGroundTurn(true);
         gui.yesNoPopUp("Do you want to use a powerup?");
         return (gui.yesNoChoose().equals("yes"));
     }
