@@ -386,6 +386,7 @@ public class Player extends Target implements Serializable{
             this.dead = true;
         this.setPhase(POWERUP_WAIT);
         this.receiveUpdate(new Update(this, true), groupId);
+        this.getUser().receiveUpdate(new Update(null,"deathplayerboard"));
     }
 
     //self explanatory
