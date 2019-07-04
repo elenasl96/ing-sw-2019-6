@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 import static model.enums.Phase.DISCONNECTED;
 
@@ -49,8 +50,7 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
         } catch (IOException e) {
             e.printStackTrace();
             controller.getUser().getPlayer().setPhase(DISCONNECTED);
-            controller.getUser().receiveUpdate(new Update(controller.getUser().getPlayer(), true));
-            printError("IO - " + e.getMessage());
+          printError("IO - " + e.getMessage());
         }
     }
 
@@ -69,8 +69,7 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                     controller.getUser().getPlayer().setPhase(DISCONNECTED);
-                    controller.getUser().receiveUpdate(new Update(controller.getUser().getPlayer(), true));
-                    printError(e.getClass().getSimpleName() + "IO - " + e.getMessage());
+                   printError(e.getClass().getSimpleName() + "IO - " + e.getMessage());
                   /*  e.printStackTrace();
                     printError(e.getClass().getSimpleName() + " - " + e.getMessage());
                     controller.connectionLost();*/
