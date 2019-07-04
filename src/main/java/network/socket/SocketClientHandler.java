@@ -50,7 +50,8 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
         } catch (IOException e) {
             e.printStackTrace();
             controller.getUser().getPlayer().setPhase(DISCONNECTED);
-          printError("IO - " + e.getMessage());
+            printError("IO - " + e.getMessage());
+            controller.connectionLost();
         }
     }
 
@@ -69,11 +70,9 @@ public class SocketClientHandler implements ClientHandler,Runnable,ModelObserver
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                     controller.getUser().getPlayer().setPhase(DISCONNECTED);
-                   printError(e.getClass().getSimpleName() + "IO - " + e.getMessage());
-                   stop = true;
-                  /*  e.printStackTrace();
-                    printError(e.getClass().getSimpleName() + " - " + e.getMessage());
-                    controller.connectionLost();*/
+                    printError(e.getClass().getSimpleName() + "IO - " + e.getMessage());
+                    stop = true;
+                    controller.connectionLost();
                 }
             } while (!stop);
         close();

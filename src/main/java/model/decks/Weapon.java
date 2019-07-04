@@ -43,6 +43,10 @@ public class Weapon implements Serializable {
         this. status = status;
     }
 
+    /**
+     * @param id constructs the selected weapon by the id with it characteristics
+     * @return  the weapon constructed
+     */
     public Weapon initializeWeapon(int id){
         Weapon weapon;
         Target     me = new Player(MINE, TargetType.NONE, 0,0);
