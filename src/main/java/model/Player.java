@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.min;
+import static model.enums.Phase.DISCONNECTED;
 import static model.enums.Phase.POWERUP_WAIT;
 import static model.enums.TargetType.BASIC_EQUALS;
 
@@ -383,7 +384,7 @@ public class Player extends Target implements Serializable{
         }
         this.updateAdrenaline();
         if(this.getPlayerBoard().getDamage().size() >= 11) {
-            this.dead = true;
+            setDead(true);
             this.getUser().receiveUpdate(new Update("You are dead! Wait for spawn","deathplayerboard"));
             GameContext.get().getGame(groupId).sendUpdate(new Update(null,"killshottrack"));
         }
