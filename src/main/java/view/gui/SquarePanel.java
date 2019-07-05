@@ -51,7 +51,7 @@ public class SquarePanel extends JPanel {
                     public void run() {
                         grabbableFrame = new JFrame();
                         grabbableFrame.setTitle("Grabbable");
-                        grabbableFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                        grabbableFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
                         grabbableFrame.setLayout(new BorderLayout());
                         grabbableFrame.add(new JLabel("In this square"),BorderLayout.NORTH);
 

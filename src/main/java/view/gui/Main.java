@@ -58,7 +58,7 @@ public class Main {
         }
 
         main.gui.printField();
-        main.gui.popUpVictory();
+
         //System.out.println(main.gui.getMove());
         //System.out.println(main.gui.getMove());
         //System.out.println(main.gui.getJLabelText());
@@ -71,6 +71,11 @@ public class Main {
         //System.out.println(main.gui.askEffects());
 
         try {
+            main.gui.deathPlayerBoard();
+            Thread.sleep(1000);
+            main.gui.deathPlayerBoard();
+            Thread.sleep(1000);
+            main.gui.addSkullTrackShot();
            main.gui.addDropPlayerBoard(1);
             Thread.sleep(1000);
             main.gui.addDropPlayerBoard(1);
