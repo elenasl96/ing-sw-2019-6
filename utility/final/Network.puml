@@ -1,5 +1,93 @@
 @startuml
 
-class RMIClientHandler
+class ClientContext << (S,#FF7700) Singleton >> {
+    - {static} instance: ClientContext
+    - currentUser: User
+    - currentGroup: Group
+    - currentSituation: String
+    - currentPlayer: Player
+    - rejoining: boolean
+    __
+    + {static} get(): ClientContext
+    + createPlayer(): void
+    + reset(): void
+}
+ClientContext <-- User
+ClientContext <-- Group
+ClientContext <-- Player
+interface ClientHandler
 
+class LaunchClient{
+    - {static} clientHandler: RemoteController
+    - {static} clientController: ClientController
+    __
+    + {static} main(String[] args): void
+    - {static} socketOrRMI(): void
+    - {static} cliOrGUI(): void
+}
+LaunchClient <-- RemoteController
+LaunchClient <-- ClientController
+
+class Manager << (S,#FF7700) Singleton >> {
+    - {static} instance: Manager
+    - groups: List<Group>
+    - users: List<User>
+    - groupSituation: String
+    __
+    + {static} get(): Manager
+    + getGroup(int): Group
+    + createGroup(int, int): Group
+    + createUser(String): User
+    + updateGroupSituation(): void
+    + reset(): void
+    + getUser(String): User
+}
+
+interface RemoteController extends Remote {
+    + request(Request): void
+    + nextResponse(): Response
+    + received(): void
+    + init(): void
+    + bound(): void
+}
+
+class Server {
+    - serverSocket: ServerSocket
+    - pool: ExecutorService
+    - forcedClose: AtomicBoolean
+    - localPoisonAddress: InetAddress
+    - local: boolean
+    __
+    + {static} main(String[] args): void
+    - Server(int, boolean)
+    + run(): void
+    - close(): void
+}
+
+class SocketClient implements RemoteController {
+    - host: String
+    - port: int
+    - connection: Socket
+    - in: ObjectInputStream
+    - out: ObjectOutputStream
+    + setPoisonous(): void
+    + close(): void
+}
+
+class SocketClientHandler implements ClientHandler, Runnable, ModelObserver {
+    - socket: Socket
+    - in: ObjectInputStream
+    - out: ObjectOutputStream
+    - stop: boolean
+    - controller: ServerController
+    __
+    - printError(String): void
+    - respond(Response): void
+}
+SocketClientHandler <-- ServerController
+class RMIClientHandler extends UnicastRemoteObject implements RemoteController, ClientHandler{
+    - controller: ServerController
+    - response: ArrayList<Response>
+}
+RMIClientHandler <-- ServerController
 @enduml
