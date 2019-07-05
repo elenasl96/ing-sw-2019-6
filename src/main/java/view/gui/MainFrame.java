@@ -234,25 +234,7 @@ public class MainFrame extends JFrame {
             }
         });
         voidPanel.add(voidButton);
-
-        timer = new Timer(1000, new ActionListener() {
-            int seconds = 59;
-            int minutes = 4;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(minutes>=0) {
-                    if (seconds >= 10) {
-                        time.setText("0" + minutes + ":" + seconds);
-                    } else if(seconds == 0){
-                        minutes--;
-                        seconds = 59;
-                    }else {
-                        time.setText("0" + minutes + ":0" + seconds);
-                    }
-                    seconds--;
-                }
-            }
-        });
+        newTimer();
 
         createField();
 
@@ -840,8 +822,25 @@ public class MainFrame extends JFrame {
         return timer;
     }
 
-    public void setTimer(Timer timer) {
-        this.timer = timer;
+    public void newTimer() {
+        timer = new Timer(1000, new ActionListener() {
+            int seconds = 59;
+            int minutes = 4;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(minutes>=0) {
+                    if (seconds >= 10) {
+                        time.setText("0" + minutes + ":" + seconds);
+                    } else if(seconds == 0){
+                        minutes--;
+                        seconds = 59;
+                    }else {
+                        time.setText("0" + minutes + ":0" + seconds);
+                    }
+                    seconds--;
+                }
+            }
+        });
     }
 
     void setTime(String time) {

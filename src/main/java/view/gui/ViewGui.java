@@ -139,6 +139,7 @@ public class ViewGui implements View {
                     break;
                 case "timer":
                     if(update.getData().equals("start")) {
+                        gui.newTimer();
                         gui.getTimer().start();
                         gui.setTime("05:00");
                     } else {
@@ -228,6 +229,7 @@ public class ViewGui implements View {
 
     @Override
     public Boolean reloadPhase() {
+        gui.setBackGroundTurn(true);
         gui.yesNoPopUp("Do you want to reload?");
         return (gui.yesNoChoose().equals("yes"));
     }
