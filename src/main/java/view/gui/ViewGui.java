@@ -218,7 +218,6 @@ public class ViewGui implements View {
     public Integer spawnPhase() {
         gui.setBackGroundTurn(true);
         int val = Integer.parseInt(gui.cardChoose());
-        gui.setBackGroundTurn(false);
         return val;
     }
 
