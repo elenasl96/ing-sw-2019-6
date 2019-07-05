@@ -150,7 +150,7 @@ public class MainFrame extends JFrame {
         ammos.add(ammoRed);
         ammos.add(ammoBlue);
         ammos.add(ammoYellow);
-        JLabel cardLabel = new JLabel("CARTE IN POSSESSO");
+        JLabel cardLabel = new JLabel("YOUR CARDS");
         cardLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel left = new JPanel(new GridLayout(4, 1));
@@ -840,6 +840,10 @@ public class MainFrame extends JFrame {
         return timer;
     }
 
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
     void setTime(String time) {
         this.time.setText(time);
     }
@@ -869,4 +873,6 @@ public class MainFrame extends JFrame {
         setState(Frame.ICONIFIED);
         setState(Frame.NORMAL);
     }
+
+
 }
