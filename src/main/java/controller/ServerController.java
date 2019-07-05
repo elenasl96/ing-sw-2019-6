@@ -122,7 +122,6 @@ public class ServerController implements RequestHandler {
             System.out.println(">>> Created user: " + user.getUsername());
             // Listening to messages and sending them
             user.listenToMessages(clientHandler);
-            System.out.println(">>> Returning new UserCreatedResponse");
             return new UserCreatedResponse(user);
         } catch (InvalidUsernameException e) {
             user = Manager.get().getUser(request.username);
@@ -153,7 +152,6 @@ public class ServerController implements RequestHandler {
             currentGroup = Manager.get().getGroup(chooseGroupRequest.groupId);
             currentGroup.join(user);
             System.out.println(">>> " + currentGroup.getName() + " updated: " + currentGroup.users());
-            System.out.println(">>> Returning new JoinGroupResponse");
             return new JoinGroupResponse(currentGroup);
         } catch(FullGroupException | InvalidGroupNumberException e){
             return new TextResponse("ERROR: " + e.getMessage());
@@ -433,7 +431,6 @@ public class ServerController implements RequestHandler {
                     throw new InvalidMoveException("No pending moves");
                 move = currentPlayer.getCurrentMoves().get(0);
             }
-            System.out.println(move);
             Response response = move.execute(currentGroup.getGame().getCurrentPlayer(), currentGroup.getGroupID());
             if(response != null){
                return response;
