@@ -20,7 +20,7 @@ Software Engineering Applications project by
 ## Developed requirements
 
   * Rules: complete
-  * Networs: Socket + RMI
+  * Network: Socket + RMI
   * Graphics: CLI + GUI
   * 1 advanced functionality: multiple matches
 
