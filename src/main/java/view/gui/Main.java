@@ -147,6 +147,7 @@ public class Main {
 
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         //main.gui.yesNoPopUp();

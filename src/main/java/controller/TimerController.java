@@ -63,7 +63,7 @@ public class TimerController implements ModelObserver {
         this.timers.remove(groupID);
         this.timers.add(groupID, new Timer());
         TimerTask timerTask = new TimerTask(){
-            int seconds = 2;
+            int seconds = 10;
             @Override
             public void run() {
                 if(seconds == 60){
