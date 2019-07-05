@@ -58,6 +58,7 @@ public class Main {
         }
 
         main.gui.printField();
+        main.gui.popUpVictory();
         //System.out.println(main.gui.getMove());
         //System.out.println(main.gui.getMove());
         //System.out.println(main.gui.getJLabelText());

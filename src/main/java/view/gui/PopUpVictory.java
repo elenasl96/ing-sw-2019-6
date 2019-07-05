@@ -12,7 +12,7 @@ public class PopUpVictory extends JFrame {
         setTitle("Victory");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocation(300,50);
-        setSize(480,400);
+        setSize(520,400);
         playMusic("vittoria.wav");
         setLayout(new BorderLayout());
         JLabel title = new JLabel("Congratulations, you win!");
@@ -20,7 +20,7 @@ public class PopUpVictory extends JFrame {
         title.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel flag = new JLabel(new ImageIcon(new ImageIcon(
                 this.getClass().getResource("tricolore.gif"))
-                .getImage().getScaledInstance(420, 320, Image.SCALE_DEFAULT)));
+                .getImage().getScaledInstance(480, 320, Image.SCALE_DEFAULT)));
         add(title,BorderLayout.NORTH);
         add(flag, BorderLayout.CENTER);
         setResizable(false);
